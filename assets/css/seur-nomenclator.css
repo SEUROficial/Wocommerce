@@ -1,0 +1,13 @@
+.wp-filter{
+	height: 54px;
+	text-align: center;
+	margin: 0 auto;
+	padding-top: 7px;
+}
+input.wp-filter-search{
+	height: 35px;
+}
+input#submit.button.button-primary{
+	height: 35px;
+	width: 120px;
+}

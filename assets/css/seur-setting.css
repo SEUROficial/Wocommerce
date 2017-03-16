@@ -1,0 +1,14 @@
+.ui-tooltip {
+    background: black;
+    border: 1px solid white;
+  }
+  .ui-tooltip {
+    padding: 10px 20px;
+    color: white;
+    border-radius: 5px;
+    font: bold 14px "Helvetica Neue", Sans-Serif;
+    text-transform: none;
+    box-shadow: 0 0 7px black;
+    width: 250px;
+    height: auto;
+  }

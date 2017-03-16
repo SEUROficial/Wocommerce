@@ -1,0 +1,16 @@
+/*
+	#wpbody-content #adminmenuback, #wpbody-content #adminmenuwrap, #wpbody-content #adminmenumain {
+	display:none !important;
+	visibility: hidden !important;
+	width: 0px !important;
+}
+*/
+
+#wpbody-content #adminmenuwrap, #wpbody-content #adminmenuback, #wpbody-content #wpadminbar {display:none!important; visibility: hidden !important; width: 0px;}
+#wpbody-content #wpcontent, #wpbody-content #wpfooter{
+	margin-left: 0;
+}
+
+#wpbody-content #wpfooter{
+	display:none!important; visibility: hidden !important;
+}

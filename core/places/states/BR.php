@@ -1,0 +1,31 @@
+<?php if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
+
+return array(
+	'AC' => __( 'Acre', SEUR_TEXTDOMAIN ),
+	'AL' => __( 'Alagoas', SEUR_TEXTDOMAIN ),
+	'AP' => __( 'Amap&aacute;', SEUR_TEXTDOMAIN ),
+	'AM' => __( 'Amazonas', SEUR_TEXTDOMAIN ),
+	'BA' => __( 'Bahia', SEUR_TEXTDOMAIN ),
+	'CE' => __( 'Cear&aacute;', SEUR_TEXTDOMAIN ),
+	'DF' => __( 'Distrito Federal', SEUR_TEXTDOMAIN ),
+	'ES' => __( 'Esp&iacute;rito Santo', SEUR_TEXTDOMAIN ),
+	'GO' => __( 'Goi&aacute;s', SEUR_TEXTDOMAIN ),
+	'MA' => __( 'Maranh&atilde;o', SEUR_TEXTDOMAIN ),
+	'MT' => __( 'Mato Grosso', SEUR_TEXTDOMAIN ),
+	'MS' => __( 'Mato Grosso do Sul', SEUR_TEXTDOMAIN ),
+	'MG' => __( 'Minas Gerais', SEUR_TEXTDOMAIN ),
+	'PA' => __( 'Par&aacute;', SEUR_TEXTDOMAIN ),
+	'PB' => __( 'Para&iacute;ba', SEUR_TEXTDOMAIN ),
+	'PR' => __( 'Paran&aacute;', SEUR_TEXTDOMAIN ),
+	'PE' => __( 'Pernambuco', SEUR_TEXTDOMAIN ),
+	'PI' => __( 'Piau&iacute;', SEUR_TEXTDOMAIN ),
+	'RJ' => __( 'Rio de Janeiro', SEUR_TEXTDOMAIN ),
+	'RN' => __( 'Rio Grande do Norte', SEUR_TEXTDOMAIN ),
+	'RS' => __( 'Rio Grande do Sul', SEUR_TEXTDOMAIN ),
+	'RO' => __( 'Rond&ocirc;nia', SEUR_TEXTDOMAIN ),
+	'RR' => __( 'Roraima', SEUR_TEXTDOMAIN ),
+	'SC' => __( 'Santa Catarina', SEUR_TEXTDOMAIN ),
+	'SP' => __( 'S&atilde;o Paulo', SEUR_TEXTDOMAIN ),
+	'SE' => __( 'Sergipe', SEUR_TEXTDOMAIN ),
+	'TO' => __( 'Tocantins', SEUR_TEXTDOMAIN )
+);

@@ -1,0 +1,42 @@
+form#emp-SaveForm{
+	margin-top: 25px;
+}
+.select {
+	width: 275px;
+}
+input {
+
+min-height: 35px;
+height: 1%;
+width: 275px;
+margin: 0;
+padding: 2px 5px 0 5px;
+position: relative;
+border: 1px solid #aaa;
+cursor: text;
+overflow: hidden;
+background-color: #fff;
+background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, color-stop(1%, #eee), color-stop(15%, #fff));
+background-image: -webkit-linear-gradient(top, #eee 1%, #fff 15%);
+background-image: -moz-linear-gradient(top, #eee 1%, #fff 15%);
+background-image: linear-gradient(#eee 1%, #fff 15%);
+}
+button#btn-save.button.button-primary.btn.btn-primary{
+	margin-top: 30px;
+}
+
+input.calculate-rates{
+	width: 120px;
+	/*padding-top: 10px;*/
+}
+
+form#calculate-rates input#submit.button.button-primary {
+	width: 170px;
+}
+.wp-filter{
+	min-height: 54px;
+	text-align: center;
+	margin: 0 auto;
+	padding-top: 7px;
+	margin-top: 15px;
+}

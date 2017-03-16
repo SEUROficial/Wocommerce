@@ -1,0 +1,30 @@
+<?php if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
+
+return array(
+	'CAL' => __( 'El Callao', SEUR_TEXTDOMAIN ),
+	'LMA' => __( 'Municipalidad Metropolitana de Lima', SEUR_TEXTDOMAIN ),
+	'AMA' => __( 'Amazonas', SEUR_TEXTDOMAIN ),
+	'ANC' => __( 'Ancash', SEUR_TEXTDOMAIN ),
+	'APU' => __( 'Apur&iacute;mac', SEUR_TEXTDOMAIN ),
+	'ARE' => __( 'Arequipa', SEUR_TEXTDOMAIN ),
+	'AYA' => __( 'Ayacucho', SEUR_TEXTDOMAIN ),
+	'CAJ' => __( 'Cajamarca', SEUR_TEXTDOMAIN ),
+	'CUS' => __( 'Cusco', SEUR_TEXTDOMAIN ),
+	'HUV' => __( 'Huancavelica', SEUR_TEXTDOMAIN ),
+	'HUC' => __( 'Hu&aacute;nuco', SEUR_TEXTDOMAIN ),
+	'ICA' => __( 'Ica', SEUR_TEXTDOMAIN ),
+	'JUN' => __( 'Jun&iacute;n', SEUR_TEXTDOMAIN ),
+	'LAL' => __( 'La Libertad', SEUR_TEXTDOMAIN ),
+	'LAM' => __( 'Lambayeque', SEUR_TEXTDOMAIN ),
+	'LIM' => __( 'Lima', SEUR_TEXTDOMAIN ),
+	'LOR' => __( 'Loreto', SEUR_TEXTDOMAIN ),
+	'MDD' => __( 'Madre de Dios', SEUR_TEXTDOMAIN ),
+	'MOQ' => __( 'Moquegua', SEUR_TEXTDOMAIN ),
+	'PAS' => __( 'Pasco', SEUR_TEXTDOMAIN ),
+	'PIU' => __( 'Piura', SEUR_TEXTDOMAIN ),
+	'PUN' => __( 'Puno', SEUR_TEXTDOMAIN ),
+	'SAM' => __( 'San Mart&iacute;n', SEUR_TEXTDOMAIN ),
+	'TAC' => __( 'Tacna', SEUR_TEXTDOMAIN ),
+	'TUM' => __( 'Tumbes', SEUR_TEXTDOMAIN ),
+	'UCA' => __( 'Ucayali', SEUR_TEXTDOMAIN )
+);
