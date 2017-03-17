@@ -7,7 +7,7 @@ function seur_after_get_label(){
 	$return = 'seur-shipment';
 
 	} else {
-		$return = 'complete';
+		$return = 'completed';
 	}
 
 	return $return;
