@@ -946,7 +946,6 @@ function seur_get_label( $order_id, $numpackages = '1', $weight = '1' ) {
     $descripcion             = $advanced_data[0]['descripcion'];
     $preaviso_notificar      = $advanced_data[0]['preaviso_notificar'];
     if( $preaviso_notificar  == '1') { $preaviso_notificar = 'S'; } else { $preaviso_notificar = 'N'; }
-    $preaviso_email          = $advanced_data[0]['preaviso_email'];
     $reparto_notificar       = $advanced_data[0]['reparto_notificar'];
     if ( $reparto_notificar  == '1' ) { $reparto_notificar = 'S'; } else { $reparto_notificar = 'N'; }
     $tipo_aviso              = $advanced_data[0]['tipo_notificacion'];
@@ -974,9 +973,6 @@ function seur_get_label( $order_id, $numpackages = '1', $weight = '1' ) {
     } else {
         $reparto_email = 'N';
     }
-
-
-    $reparto_email           = $advanced_data[0]['reparto_email'];
     $tipo_etiqueta           = $advanced_data[0]['tipo_etiqueta'];
 
     // Customer/Order Data
