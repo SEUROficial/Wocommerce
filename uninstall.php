@@ -45,7 +45,16 @@ $options = array(
     'seur_ccc_field',
     'seur_franquicia_field',
     'seur_seurcom_usuario_field',
-    'seur_seurcom_contra_field'
+    'seur_seurcom_contra_field',
+    'seur-official-version',
+    'seur_db_version',
+    'seur_table_version',
+    'seur_uploads_dir',
+    'seur_uploads_url',
+    'seur_uploads_dir_labels',
+    'seur_uploads_dir_manifest',
+    'seur_uploads_url_labels',
+    'seur_uploads_url_manifest',
     );
 
 foreach ( $options as $option ){
