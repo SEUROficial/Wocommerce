@@ -945,13 +945,37 @@ function seur_get_label( $order_id, $numpackages = '1', $weight = '1' ) {
     $id_mercancia            = $advanced_data[0]['id_mercancia'];
     $descripcion             = $advanced_data[0]['descripcion'];
     $preaviso_notificar      = $advanced_data[0]['preaviso_notificar'];
-    if( $preaviso_notificar  = '1') $preaviso_notificar = 'S';
-    $preaviso_sms            = $advanced_data[0]['preaviso_sms'];
+    if( $preaviso_notificar  == '1') { $preaviso_notificar = 'S'; } else { $preaviso_notificar = 'N'; }
     $preaviso_email          = $advanced_data[0]['preaviso_email'];
     $reparto_notificar       = $advanced_data[0]['reparto_notificar'];
-    if ( $reparto_notificar  = '1' ) $reparto_notificar = 'S';
-    $tipo_aviso				 = $advanced_data[0]['tipo_notificacion'];
-    $reparto_sms             = $advanced_data[0]['reparto_sms'];
+    if ( $reparto_notificar  == '1' ) { $reparto_notificar = 'S'; } else { $reparto_notificar = 'N'; }
+    $tipo_aviso              = $advanced_data[0]['tipo_notificacion'];
+
+    if ( $tipo_aviso == 'SMS' && $preaviso_notificar == 'S' ) {
+        $preaviso_sms = 'S';
+    } else {
+        $preaviso_sms = 'N';
+    }
+
+    if ( $tipo_aviso == 'SMS' && $reparto_notificar == 'S' ) {
+        $reparto_sms = 'S';
+    } else {
+        $reparto_sms = 'N';
+    }
+
+    if ( $tipo_aviso == 'EMAIL' && $preaviso_notificar == 'S' ){
+        $preaviso_email = 'S';
+    } else {
+        $preaviso_email = 'N';
+    }
+
+    if ( $tipo_aviso == 'EMAIL' && $reparto_notificar == 'S' ) {
+        $reparto_email = 'S';
+    } else {
+        $reparto_email = 'N';
+    }
+
+
     $reparto_email           = $advanced_data[0]['reparto_email'];
     $tipo_etiqueta           = $advanced_data[0]['tipo_etiqueta'];
 
@@ -1223,8 +1247,8 @@ function seur_get_label( $order_id, $numpackages = '1', $weight = '1' ) {
                                     'ping_status'    => 'closed',
                                     'comment_status' => 'closed',
                                     'tax_input'      => array(
-	                                    'labels-product' => $seur_shipping_method,
-	                                    ),
+                                        'labels-product' => $seur_shipping_method,
+                                        ),
                                     )
                             );
 
@@ -1237,7 +1261,7 @@ function seur_get_label( $order_id, $numpackages = '1', $weight = '1' ) {
                 add_post_meta( $labelid, '_seur_shipping_order_label_path_name',   $upload_path,                                     true );
                 add_post_meta( $labelid, '_seur_shipping_order_label_url_name',    $url_to_label,                                    true );
                 add_post_meta( $labelid, '_seur_label_customer_name',              $customer_first_name . ' ' . $customer_last_name, true );
-                add_post_meta( $labelid, '_seur_label_type',       				   $seur_label_type,								 true );
+                add_post_meta( $labelid, '_seur_label_type',                       $seur_label_type,                                 true );
 
                 if ( $labelid ) {
 
