@@ -1,5 +1,17 @@
 <?php if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 
+function seur_after_get_label_field(){
+	$seur_do = get_option('seur_after_get_label_field');
+
+	if ( $seur_do == 'shipping' ) {
+	$return = 'seur-shipment';
+
+	} else {
+		$return = 'complete';
+	}
+
+	return $return;
+}
 // Store cart weight in the database
 add_action('woocommerce_checkout_update_order_meta', 'seur_add_cart_weight');
 function seur_add_cart_weight( $order_id ) {
@@ -65,10 +77,6 @@ function seur_add_awaiting_shipment_status( $wc_statuses_arr ) {
     }
 
     return $new_statuses_arr;
-
-    // if order status order doesn't matter for you you can remove lines 21-32 and uncomment the following 35-36
-    // $wc_statuses_arr['wc-seur-shipment'] = 'Awaiting shipment';
-    // return $wc_statuses_arr;
 
 }
 add_filter( 'wc_order_statuses', 'seur_add_awaiting_shipment_status' );
@@ -180,7 +188,7 @@ function seur_woo_bulk_action() {
     case 'seur-createlabel':
 
 
-      $new_status = 'seur-shipment';
+      $new_status = seur_after_get_label_field();
       $exported = 0;
 
       foreach( $post_ids as $post_id ) {
@@ -274,8 +282,8 @@ function seur_get_label_ajax() {
 
             if ( current_user_can( 'edit_shop_orders' ) && check_admin_referer( 'woocommerce-mark-order-status' ) ) {
 
-                $label_id = seur_get_label( $order_id, '1' );
-                $new_status = 'seur-shipment';
+                $label_id   = seur_get_label( $order_id, '1' );
+                $new_status = seur_after_get_label_field();
 
                  if ( $label_id ) {
 	                $order = wc_get_order( $order_id );

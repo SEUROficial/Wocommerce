@@ -38,7 +38,7 @@ function seur_settings(){ ?>
         <script type="text/javascript">
 
 	  var preavisonotificar = document.querySelector('.js-switch-preavisonotificar');
-      var switchery = new Switchery(preavisonotificar, { size: 'small' });
+      var switchery = new Switchery(preavisonotificar, { size: 'medium' });
 
       var repartonotificar = document.querySelector('.js-switch-repartonotificar');
       var switchery = new Switchery(repartonotificar, { size: 'small' });
