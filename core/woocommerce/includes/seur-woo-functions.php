@@ -1,6 +1,6 @@
 <?php if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 
-function seur_after_get_label_field(){
+function seur_after_get_label(){
 	$seur_do = get_option('seur_after_get_label_field');
 
 	if ( $seur_do == 'shipping' ) {
@@ -188,7 +188,7 @@ function seur_woo_bulk_action() {
     case 'seur-createlabel':
 
 
-      $new_status = seur_after_get_label_field();
+      $new_status = seur_after_get_label();
       $exported = 0;
 
       foreach( $post_ids as $post_id ) {
@@ -283,7 +283,7 @@ function seur_get_label_ajax() {
             if ( current_user_can( 'edit_shop_orders' ) && check_admin_referer( 'woocommerce-mark-order-status' ) ) {
 
                 $label_id   = seur_get_label( $order_id, '1' );
-                $new_status = seur_after_get_label_field();
+                $new_status = seur_after_get_label();
 
                  if ( $label_id ) {
 	                $order = wc_get_order( $order_id );
