@@ -68,8 +68,8 @@ function seur_menu() {
 		add_action("admin_print_scripts-$seuraddform",			'seur_select2_load_js'          );
 		add_action("admin_print_scripts-$seuraddform",			'seur_select2_custom_load_js'   );
 		add_action("admin_print_scripts-$seurmanifest",			'seur_datepicker_js'			);
-
 		add_action("admin_print_scripts-$seureditcustomrate",	'seur_auto_country_state_js'	);
+		add_action("admin_print_scripts-$seurconfig",			'seur_settings_load_js'			);
 		add_action("admin_print_scripts-$seurconfig",			'seur_settings_load_js'			);
 	} else {
 		$seurconfig				= add_submenu_page( $menu_slug, __( 'Settings', SEUR_TEXTDOMAIN ), __( 'Settings', SEUR_TEXTDOMAIN ), 'manage_options', $menu_slug );

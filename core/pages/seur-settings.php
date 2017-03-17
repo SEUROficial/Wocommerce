@@ -2,6 +2,7 @@
 if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 
 function seur_settings(){ ?>
+
     <div class="wrap">
         <h1><?php echo __( 'SEUR Settings', SEUR_TEXTDOMAIN ) ?></h1>
                 <?php
@@ -34,16 +35,28 @@ function seur_settings(){ ?>
             submit_button();
             ?>
         </form>
-    </div>
-    <?php }
+        <script type="text/javascript">
 
+	  var preavisonotificar = document.querySelector('.js-switch-preavisonotificar');
+      var switchery = new Switchery(preavisonotificar, { size: 'small' });
+
+      var repartonotificar = document.querySelector('.js-switch-repartonotificar');
+      var switchery = new Switchery(repartonotificar, { size: 'small' });
+
+</script>
+    </div>
+    <?php } ?>
+
+<?php
 function seur_settings_load_css( $hook ){
     global $seurconfig;
     if( $seurconfig != $hook ) {
         return;
     } else {
-        wp_register_style(  'seur_ownstylesettings_css', SEUR_PLUGIN_URL . '/assets/css/rowstylesettings.css', array(), SEUR_OFFICIAL_VERSION  );
-        wp_enqueue_style(   'seur_ownstylesettings_css');
+        //wp_register_style(  'seur_ownstylesettings_css', SEUR_PLUGIN_URL . '/assets/css/rowstylesettings.css', array(), SEUR_OFFICIAL_VERSION  );
+        wp_register_style(  'seur_switchery_css', SEUR_PLUGIN_URL . '/assets/css/switchery.css', array(), SEUR_OFFICIAL_VERSION  );
+        wp_enqueue_style(   'seur_switchery_css');
+        //wp_enqueue_style(   'seur_ownstylesettings_css');
     }
 }
 add_action( 'admin_enqueue_scripts', 'seur_settings_load_css' );

@@ -138,6 +138,7 @@ function seur_select2_load_js(){
 
 function seur_settings_load_js(){
     wp_enqueue_script( 'seur-tooltip', SEUR_PLUGIN_URL . 'assets/js/tooltip.js', array('jquery-ui-tooltip'), SEUR_OFFICIAL_VERSION );
+    wp_enqueue_script( 'seur-switchery',  SEUR_PLUGIN_URL . '/assets/js/switchery.min.js',  array(), SEUR_OFFICIAL_VERSION );
 }
 
 function seur_select2_custom_load_js(){
@@ -637,18 +638,9 @@ function seur_get_advanced_settings() {
 
     $seur_advanced_settings = array();
 
-    if ( get_option( 'seur_nal_servicio_field' ) )           { $seur_nal_servicio_field           = get_option( 'seur_nal_servicio_field'           ); } else { $seur_nal_servicio_field           = ''; }
-    if ( get_option( 'seur_nal_producto_field' ) )           { $seur_nal_producto_field           = get_option( 'seur_nal_producto_field'           ); } else { $seur_nal_producto_field           = ''; }
-    if ( get_option( 'seur_canarias_servicio_field' ) )      { $seur_canarias_servicio_field      = get_option( 'seur_canarias_servicio_field'      ); } else { $seur_canarias_servicio_field      = ''; }
-    if ( get_option( 'seur_canarias_producto_field' ) )      { $seur_canarias_producto_field      = get_option( 'seur_canarias_producto_field'      ); } else { $seur_canarias_producto_field      = ''; }
-    if ( get_option( 'seur_internacional_servicio_field' ) ) { $seur_internacional_servicio_field = get_option( 'seur_internacional_servicio_field' ); } else { $seur_internacional_servicio_field = ''; }
-    if ( get_option( 'seur_internacional_producto_field' ) ) { $seur_internacional_producto_field = get_option( 'seur_internacional_producto_field' ); } else { $seur_internacional_producto_field = ''; }
     if ( get_option( 'seur_preaviso_notificar_field' ) )     { $seur_preaviso_notificar_field     = get_option( 'seur_preaviso_notificar_field'     ); } else { $seur_preaviso_notificar_field     = ''; }
-    if ( get_option( 'seur_preaviso_sms_field' ) )           { $seur_preaviso_sms_field           = get_option( 'seur_preaviso_sms_field'           ); } else { $seur_preaviso_sms_field           = ''; }
-    if ( get_option( 'seur_preaviso_email_field' ) )         { $seur_preaviso_email_field         = get_option( 'seur_preaviso_email_field'         ); } else { $seur_preaviso_email_field         = ''; }
     if ( get_option( 'seur_reparto_notificar_field' ) )      { $seur_reparto_notificar_field      = get_option( 'seur_reparto_notificar_field'      ); } else { $seur_reparto_notificar_field      = ''; }
-    if ( get_option( 'seur_reparto_sms_field' ) )            { $seur_reparto_sms_field            = get_option( 'seur_reparto_sms_field'            ); } else { $seur_reparto_sms_field            = ''; }
-    if ( get_option( 'seur_reparto_email_field' ) )          { $seur_reparto_email_field          = get_option( 'seur_reparto_email_field'          ); } else { $seur_reparto_email_field          = ''; }
+    if ( get_option( 'seur_tipo_notificacion_field' ) )      { $seur_tipo_notificacion_field      = get_option( 'seur_tipo_notificacion_field'      ); } else { $seur_tipo_notificacion_field      = ''; }
     if ( get_option( 'seur_manana_desde_field' ) )           { $seur_manana_desde_field           = get_option( 'seur_manana_desde_field'           ); } else { $seur_manana_desde_field           = ''; }
     if ( get_option( 'seur_manana_hasta_field' ) )           { $seur_manana_hasta_field           = get_option( 'seur_manana_hasta_field'           ); } else { $seur_manana_hasta_field           = ''; }
     if ( get_option( 'seur_tarde_desde_field' ) )            { $seur_tarde_desde_field            = get_option( 'seur_tarde_desde_field'            ); } else { $seur_tarde_desde_field            = ''; }
@@ -662,18 +654,9 @@ function seur_get_advanced_settings() {
     if ( get_option( 'seur_descripcion_field' ) )            { $seur_descripcion_field            = get_option( 'seur_descripcion_field'            ); } else { $seur_descripcion_field            = ''; }
 
     $option = array(
-                'nal_servicio',
-                'nal_producto',
-                'canarias_servicio',
-                'canarias_producto',
-                'internacional_servicio',
-                'internacional_producto',
                 'preaviso_notificar',
-                'preaviso_sms',
-                'preaviso_email',
                 'reparto_notificar',
-                'reparto_sms',
-                'reparto_email',
+                'tipo_notificacion',
                 'manana_desde',
                 'manana_hasta',
                 'tarde_desde',
@@ -688,18 +671,9 @@ function seur_get_advanced_settings() {
                 );
 
     $value = array(
-                $seur_nal_servicio_field,
-                $seur_nal_producto_field,
-                $seur_canarias_servicio_field,
-                $seur_canarias_producto_field,
-                $seur_internacional_servicio_field,
-                $seur_internacional_producto_field,
                 $seur_preaviso_notificar_field,
-                $seur_preaviso_sms_field,
-                $seur_preaviso_email_field,
                 $seur_reparto_notificar_field,
-                $seur_reparto_sms_field,
-                $seur_reparto_email_field,
+                $seur_tipo_notificacion_field,
                 $seur_manana_desde_field,
                 $seur_manana_hasta_field,
                 $seur_tarde_desde_field,
@@ -964,22 +938,19 @@ function seur_get_label( $order_id, $numpackages = '1', $weight = '1' ) {
 
     // Advanced User Settings
 
-    $nal_producto            = $advanced_data[0]['nal_producto'];
-    $nal_servicio            = $advanced_data[0]['nal_servicio'];
     $aduana_origen           = $advanced_data[0]['aduana_origen'];
     $aduana_destino          = $advanced_data[0]['aduana_destino'];
     $valor_declarado         = str_replace (",", ".", $advanced_data[0]['valor_declarado'] );
-    $canarias_producto       = $advanced_data[0]['canarias_producto'];
-    $canarias_servicio       = $advanced_data[0]['canarias_servicio'];
     $tipo_mercancia          = $advanced_data[0]['tipo_mercancia'];
-    $internacional_producto  = $advanced_data[0]['internacional_producto'];
-    $internacional_servicio  = $advanced_data[0]['internacional_servicio'];
     $id_mercancia            = $advanced_data[0]['id_mercancia'];
     $descripcion             = $advanced_data[0]['descripcion'];
     $preaviso_notificar      = $advanced_data[0]['preaviso_notificar'];
+    if( $preaviso_notificar  = '1') $preaviso_notificar = 'S';
     $preaviso_sms            = $advanced_data[0]['preaviso_sms'];
     $preaviso_email          = $advanced_data[0]['preaviso_email'];
     $reparto_notificar       = $advanced_data[0]['reparto_notificar'];
+    if ( $reparto_notificar  = '1' ) $reparto_notificar = 'S';
+    $tipo_aviso				 = $advanced_data[0]['tipo_notificacion'];
     $reparto_sms             = $advanced_data[0]['reparto_sms'];
     $reparto_email           = $advanced_data[0]['reparto_email'];
     $tipo_etiqueta           = $advanced_data[0]['tipo_etiqueta'];

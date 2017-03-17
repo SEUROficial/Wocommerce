@@ -1,51 +1,33 @@
 <?php if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
-function seur_nal_servicio_field(){ ?>
-    <input title="<?php _e('SEUR field description', SEUR_TEXTDOMAIN ); ?>" type="text" name="seur_nal_servicio_field" value="<?php echo get_option('seur_nal_servicio_field'); ?>" size="40" />
-    <?php }
 
-function seur_nal_producto_field(){ ?>
-    <input title="<?php _e('SEUR field description', SEUR_TEXTDOMAIN ); ?>" type="text" name="seur_nal_producto_field" value="<?php echo get_option('seur_nal_producto_field'); ?>" size="40" />
-    <?php }
-
-function seur_canarias_servicio_field(){ ?>
-    <input title="<?php _e('SEUR field description', SEUR_TEXTDOMAIN ); ?>" type="text" name="seur_canarias_servicio_field" value="<?php echo get_option('seur_canarias_servicio_field'); ?>" size="40" />
-    <?php }
-
-function seur_canarias_producto_field(){ ?>
-    <input title="<?php _e('SEUR field description', SEUR_TEXTDOMAIN ); ?>" type="text" name="seur_canarias_producto_field" value="<?php echo get_option('seur_canarias_producto_field'); ?>" size="40" />
-    <?php }
-
-function seur_internacional_servicio_field(){ ?>
-    <input title="<?php _e('SEUR field description', SEUR_TEXTDOMAIN ); ?>" type="text" name="seur_internacional_servicio_field" value="<?php echo get_option('seur_internacional_servicio_field'); ?>" size="40" />
-    <?php }
-
-function seur_internacional_producto_field(){ ?>
-    <input title="<?php _e('SEUR field description', SEUR_TEXTDOMAIN ); ?>" type="text" name="seur_internacional_producto_field" value="<?php echo get_option('seur_internacional_producto_field'); ?>" size="40" />
-    <?php }
+function seur_after_get_label_field(){
+   $option = get_option( 'seur_after_get_label_field' );
+   ?>
+   <select id="notification_type" name="seur_after_get_label_field">
+       <option value="default"> <?php _e( "Select what to do", SEUR_TEXTDOMAIN ); ?> </option>
+       <option value="shipping" <?php if ( $option == 'shipping') echo ' selected'; ?>><?php _e('Mark as Shipping', SEUR_TEXTDOMAIN ); ?></option>
+       <option value="complete" <?php if ( $option == 'complete') echo ' selected'; ?>><?php _e('Mark as Complete', SEUR_TEXTDOMAIN ); ?></option>
+    </select>
+<?php   }
 
 function seur_preaviso_notificar_field(){ ?>
-    <input title="<?php _e('SEUR field description', SEUR_TEXTDOMAIN ); ?>" type="text" name="seur_preaviso_notificar_field" value="<?php echo get_option('seur_preaviso_notificar_field'); ?>" size="40" />
-    <?php }
 
-function seur_preaviso_sms_field(){ ?>
-    <input title="<?php _e('SEUR field description', SEUR_TEXTDOMAIN ); ?>" type="text" name="seur_preaviso_sms_field" value="<?php echo get_option('seur_preaviso_sms_field'); ?>" size="40" />
-    <?php }
-
-function seur_preaviso_email_field(){ ?>
-    <input title="<?php _e('SEUR field description', SEUR_TEXTDOMAIN ); ?>" type="text" name="seur_preaviso_email_field" value="<?php echo get_option('seur_preaviso_email_field'); ?>" size="40" />
+     <input type="checkbox" class="js-switch-preavisonotificar" title="<?php _e('SEUR field description', SEUR_TEXTDOMAIN ); ?>" name="seur_preaviso_notificar_field" value="1" <?php checked(1, get_option('seur_preaviso_notificar_field'), true); ?>/>
     <?php }
 
 function seur_reparto_notificar_field(){ ?>
-    <input title="<?php _e('SEUR field description', SEUR_TEXTDOMAIN ); ?>" type="text" name="seur_reparto_notificar_field" value="<?php echo get_option('seur_reparto_notificar_field'); ?>" size="40" />
-    <?php }
+    <input type="checkbox" class="js-switch-repartonotificar" title="<?php _e('SEUR field description', SEUR_TEXTDOMAIN ); ?>" name="seur_reparto_notificar_field" value="1" <?php checked(1, get_option('seur_reparto_notificar_field'), true); ?>/>
+<?php }
 
-function seur_reparto_sms_field(){ ?>
-    <input title="<?php _e('SEUR field description', SEUR_TEXTDOMAIN ); ?>" type="text" name="seur_reparto_sms_field" value="<?php echo get_option('seur_reparto_sms_field'); ?>" size="40" />
-    <?php }
-
-function seur_reparto_email_field(){ ?>
-    <input title="<?php _e('SEUR field description', SEUR_TEXTDOMAIN ); ?>" type="text" name="seur_reparto_email_field" value="<?php echo get_option('seur_reparto_email_field'); ?>" size="40" />
-    <?php }
+function seur_tipo_notificacion_field(){
+   $option = get_option( 'seur_tipo_notificacion_field' );
+   ?>
+   <select id="notification_type" name="seur_tipo_notificacion_field">
+       <option value="default"> <?php _e( "Select notification Type", SEUR_TEXTDOMAIN ); ?> </option>
+       <option value="SMS" <?php if ( $option == 'SMS') echo ' selected'; ?>>SMS</option>
+       <option value="EMAIL" <?php if ( $option == 'EMAIL') echo ' selected'; ?>>email</option>
+    </select>
+<?php   }
 
 function seur_manana_desde_field(){ ?>
     <input title="<?php _e('SEUR field description', SEUR_TEXTDOMAIN ); ?>" type="text" name="seur_manana_desde_field" value="<?php echo get_option('seur_manana_desde_field'); ?>" size="40" />
@@ -63,9 +45,15 @@ function seur_tarde_hasta_field(){ ?>
     <input title="<?php _e('SEUR field description', SEUR_TEXTDOMAIN ); ?>" type="text" name="seur_tarde_hasta_field" value="<?php echo get_option('seur_tarde_hasta_field'); ?>" size="40" />
     <?php }
 
-function seur_tipo_etiqueta_field(){ ?>
-    <input title="<?php _e('SEUR field description', SEUR_TEXTDOMAIN ); ?>" type="text" name="seur_tipo_etiqueta_field" value="<?php echo get_option('seur_tipo_etiqueta_field'); ?>" size="40" />
-    <?php }
+function seur_tipo_etiqueta_field(){
+   $option = get_option( 'seur_tipo_etiqueta_field' );
+   ?>
+   <select id="label_type" name="seur_tipo_etiqueta_field">
+       <option value="default"> <?php _e( "Select Label Type", SEUR_TEXTDOMAIN ); ?> </option>
+       <option value="PDF" <?php if ( $option == 'PDF') echo ' selected'; ?>>PDF</option>
+       <option value="TERMICA" <?php if ( $option == 'TERMICA') echo ' selected'; ?>>TERMICA</option>
+    </select>
+<?php   }
 
 function seur_aduana_origen_field(){ ?>
     <input title="<?php _e('SEUR field description', SEUR_TEXTDOMAIN ); ?>" type="text" name="seur_aduana_origen_field" value="<?php echo get_option('seur_aduana_origen_field'); ?>" size="40" />
@@ -95,18 +83,10 @@ function display_seur_advanced_settings_panel_fields(){
 
     add_settings_section( 'seur-advanced-settings-section', NULL, NULL, 'seur-advanced-settings-options' );
 
-    add_settings_field( 'seur_nal_servicio_field',          __('NAL Servicio',              SEUR_TEXTDOMAIN), 'seur_nal_servicio_field',            'seur-advanced-settings-options', 'seur-advanced-settings-section' );
-    add_settings_field( 'seur_nal_producto_field',          __('NAL Producto',              SEUR_TEXTDOMAIN), 'seur_nal_producto_field',            'seur-advanced-settings-options', 'seur-advanced-settings-section' );
-    add_settings_field( 'seur_canarias_servicio_field',     __('Servicio Canarias',         SEUR_TEXTDOMAIN), 'seur_canarias_servicio_field',       'seur-advanced-settings-options', 'seur-advanced-settings-section' );
-    add_settings_field( 'seur_canarias_producto_field',     __('Producto Canarias',         SEUR_TEXTDOMAIN), 'seur_canarias_producto_field',       'seur-advanced-settings-options', 'seur-advanced-settings-section' );
-    add_settings_field( 'seur_internacional_servicio_field',__('Servicio internacinal',     SEUR_TEXTDOMAIN), 'seur_internacional_servicio_field',  'seur-advanced-settings-options', 'seur-advanced-settings-section' );
-    add_settings_field( 'seur_internacional_producto_field',__('Producto internacional',    SEUR_TEXTDOMAIN), 'seur_internacional_producto_field',  'seur-advanced-settings-options', 'seur-advanced-settings-section' );
-    add_settings_field( 'seur_preaviso_notificar_field',    __('Notificar preaviso',        SEUR_TEXTDOMAIN), 'seur_preaviso_notificar_field',      'seur-advanced-settings-options', 'seur-advanced-settings-section' );
-    add_settings_field( 'seur_preaviso_sms_field',          __('Preaviso SMS',              SEUR_TEXTDOMAIN), 'seur_preaviso_sms_field',            'seur-advanced-settings-options', 'seur-advanced-settings-section' );
-    add_settings_field( 'seur_preaviso_email_field',        __('Preaviso email',            SEUR_TEXTDOMAIN), 'seur_preaviso_email_field',          'seur-advanced-settings-options', 'seur-advanced-settings-section' );
-    add_settings_field( 'seur_reparto_notificar_field',     __('Notificar reparto',         SEUR_TEXTDOMAIN), 'seur_reparto_notificar_field',       'seur-advanced-settings-options', 'seur-advanced-settings-section' );
-    add_settings_field( 'seur_reparto_sms_field',           __('Reparto SMS',               SEUR_TEXTDOMAIN), 'seur_reparto_sms_field',             'seur-advanced-settings-options', 'seur-advanced-settings-section' );
-    add_settings_field( 'seur_reparto_email_field',         __('Reparto email',             SEUR_TEXTDOMAIN), 'seur_reparto_email_field',           'seur-advanced-settings-options', 'seur-advanced-settings-section' );
+    add_settings_field( 'seur_after_get_label_field',    __('What to do after get order label',        SEUR_TEXTDOMAIN), 'seur_after_get_label_field',      'seur-advanced-settings-options', 'seur-advanced-settings-section' );
+    add_settings_field( 'seur_preaviso_notificar_field',    __('Notificar recogida',        SEUR_TEXTDOMAIN), 'seur_preaviso_notificar_field',      'seur-advanced-settings-options', 'seur-advanced-settings-section' );
+     add_settings_field( 'seur_reparto_notificar_field',     __('Notificar reparto',         SEUR_TEXTDOMAIN), 'seur_reparto_notificar_field',       'seur-advanced-settings-options', 'seur-advanced-settings-section' );
+    add_settings_field( 'seur_tipo_notificacion_field',    __('Notification by SMS or Email',        SEUR_TEXTDOMAIN), 'seur_tipo_notificacion_field',      'seur-advanced-settings-options', 'seur-advanced-settings-section' );
     add_settings_field( 'seur_manana_desde_field',          __('Mañana desde',              SEUR_TEXTDOMAIN), 'seur_manana_desde_field',            'seur-advanced-settings-options', 'seur-advanced-settings-section' );
     add_settings_field( 'seur_manana_hasta_field',          __('Mañana hasta',              SEUR_TEXTDOMAIN), 'seur_manana_hasta_field',            'seur-advanced-settings-options', 'seur-advanced-settings-section' );
     add_settings_field( 'seur_tarde_desde_field',           __('Tarde desde',               SEUR_TEXTDOMAIN), 'seur_tarde_desde_field',             'seur-advanced-settings-options', 'seur-advanced-settings-section' );
@@ -121,19 +101,10 @@ function display_seur_advanced_settings_panel_fields(){
 
     // register all setings
 
-
-    register_setting('seur-advanced-settings-section', 'seur_nal_servicio_field'            );
-    register_setting('seur-advanced-settings-section', 'seur_nal_producto_field'            );
-    register_setting('seur-advanced-settings-section', 'seur_canarias_servicio_field'       );
-    register_setting('seur-advanced-settings-section', 'seur_canarias_producto_field'       );
-    register_setting('seur-advanced-settings-section', 'seur_internacional_servicio_field'  );
-    register_setting('seur-advanced-settings-section', 'seur_internacional_producto_field'  );
+    register_setting('seur-advanced-settings-section', 'seur_after_get_label_field'         );
     register_setting('seur-advanced-settings-section', 'seur_preaviso_notificar_field'      );
-    register_setting('seur-advanced-settings-section', 'seur_preaviso_sms_field'            );
-    register_setting('seur-advanced-settings-section', 'seur_preaviso_email_field'          );
     register_setting('seur-advanced-settings-section', 'seur_reparto_notificar_field'       );
-    register_setting('seur-advanced-settings-section', 'seur_reparto_sms_field'             );
-    register_setting('seur-advanced-settings-section', 'seur_reparto_email_field'           );
+    register_setting('seur-advanced-settings-section', 'seur_tipo_notificacion_field'       );
     register_setting('seur-advanced-settings-section', 'seur_manana_desde_field'            );
     register_setting('seur-advanced-settings-section', 'seur_manana_hasta_field'            );
     register_setting('seur-advanced-settings-section', 'seur_tarde_desde_field'             );
