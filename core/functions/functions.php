@@ -1153,8 +1153,8 @@ function seur_get_label( $order_id, $numpackages = '1', $weight = '1' ) {
                         <ci>' . $cit_pass . '</ci>
                         <nif>' . $nif . '</nif>
                         <ccc>' . $ccc . '</ccc>
-                        <servicio>' . $envio_servicio . '</servicio>
-                        <producto>' . $envio_producto . '</producto>
+                        <servicio>' . $seur_service . '</servicio>
+                        <producto>' . $seur_product . '</producto>
                         <total_bultos>' . $numpackages . '</total_bultos>
                         <total_kilos>' . $customer_weight . '</total_kilos>
                         <pesoBulto>' . $seur_weight_by_label . '</pesoBulto>
