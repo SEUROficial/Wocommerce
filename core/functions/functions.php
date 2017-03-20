@@ -1025,7 +1025,7 @@ function seur_get_label( $order_id, $numpackages = '1', $weight = '1' ) {
     /**** Temp data maybe changed in the next release ****/
     /*****************************************************/
 
-    $seur_weight_by_label    = ( $customer_weight / $numpackages );
+    $seur_weight_by_label = ( $customer_weight / $numpackages );
 
     /*if ( $seur_weight_by_label < 1)//1kg
             {
