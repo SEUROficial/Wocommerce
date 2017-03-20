@@ -194,28 +194,28 @@ function seur_add_data_to_tables_hook(){
         $wpdb->insert(
             $table_name,
             array(
-                'country' 	=> 'ES',
-                'state' 	=> '*',
-                'postcode' 	=> '*',
+                'country'   => 'ES',
+                'state'     => '*',
+                'postcode'  => '*',
                 'minprice'  => '0',
-                'maxprice' 	=> '60',
+                'maxprice'  => '60',
                 'minweight' => '0',
                 'maxweight' => '1000',
-                'rate' 		=> 'PARTICULARES 24H ESTANDAR',
+                'rate'      => 'PARTICULARES 24H ESTANDAR',
                 'rateprice' => '10'
                 )
         );
         $wpdb->insert(
             $table_name,
             array(
-                'country' 	=> 'ES',
-                'state' 	=> '*',
-                'postcode' 	=> '*',
+                'country'   => 'ES',
+                'state'     => '*',
+                'postcode'  => '*',
                 'minprice'  => '60',
-                'maxprice' 	=> '9999999',
+                'maxprice'  => '9999999',
                 'minweight' => '0',
                 'maxweight' => '1000',
-                'rate' 		=> 'PARTICULARES 24H ESTANDAR',
+                'rate'      => 'PARTICULARES 24H ESTANDAR',
                 'rateprice' => '0'
                 )
         );
@@ -271,24 +271,24 @@ function seur_create_upload_folder_hook(){
 
 function seur_add_avanced_settings_preset(){
 
-	$seur_add = get_option( 'seur_add_advanced_settings_field_pre' );
+    $seur_add = get_option( 'seur_add_advanced_settings_field_pre' );
 
-	if ( $seur_add != '1' ) {
-		update_option( 'seur_after_get_label_field',			'shipping' 				);
-	    update_option( 'seur_preaviso_notificar_field', 		'1' 					);
-	    update_option( 'seur_reparto_notificar_field', 			'1' 					);
-	    update_option( 'seur_tipo_notificacion_field', 			'EMAIL' 				);
-	    update_option( 'seur_manana_desde_field', 				'09:00' 				);
-	    update_option( 'seur_manana_hasta_field', 				'14:00' 				);
-	    update_option( 'seur_tarde_desde_field', 				'16:00' 				);
-	    update_option( 'seur_tarde_hasta_field', 				'19:00' 				);
-	    update_option( 'seur_tipo_etiqueta_field', 				'PDF' 					);
-	    update_option( 'seur_aduana_origen_field', 				'D' 					);
-	    update_option( 'seur_aduana_destino_field',				'D' 					);
-	    update_option( 'seur_tipo_mercancia_field', 			'C' 					);
-	    update_option( 'seur_valor_declarado_field', 			'50' 					);
-	    update_option( 'seur_id_mercancia_field', 				'400' 					);
-	    update_option( 'seur_descripcion_field', 				'MANUFACTURAS DIVERSAS' );
-	    update_option( 'seur_add_advanced_settings_field_pre', 	'1' 					);
-	}
+    if ( $seur_add != '1' ) {
+        update_option( 'seur_after_get_label_field',            'shipping'              );
+        update_option( 'seur_preaviso_notificar_field',         '1'                     );
+        update_option( 'seur_reparto_notificar_field',          '1'                     );
+        update_option( 'seur_tipo_notificacion_field',          'EMAIL'                 );
+        update_option( 'seur_manana_desde_field',               '09:00'                 );
+        update_option( 'seur_manana_hasta_field',               '14:00'                 );
+        update_option( 'seur_tarde_desde_field',                '16:00'                 );
+        update_option( 'seur_tarde_hasta_field',                '19:00'                 );
+        update_option( 'seur_tipo_etiqueta_field',              'PDF'                   );
+        update_option( 'seur_aduana_origen_field',              'D'                     );
+        update_option( 'seur_aduana_destino_field',             'D'                     );
+        update_option( 'seur_tipo_mercancia_field',             'C'                     );
+        update_option( 'seur_valor_declarado_field',            '50'                    );
+        update_option( 'seur_id_mercancia_field',               '400'                   );
+        update_option( 'seur_descripcion_field',                'MANUFACTURAS DIVERSAS' );
+        update_option( 'seur_add_advanced_settings_field_pre',  '1'                     );
+    }
 }
