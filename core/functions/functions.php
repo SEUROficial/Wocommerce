@@ -1248,7 +1248,7 @@ function seur_get_label( $order_id, $numpackages = '1', $weight = '1' ) {
 
                 $labelid = wp_insert_post(
                                 array(
-                                    'post_title'     => 'Label Order ID ' . $order_id . ' date ' . $date,
+                                    'post_title'     => 'Label Order ID ' . $order_id,
                                     'post_type'      => 'seur_labels',
                                     'post_status'    => 'publish',
                                     'ping_status'    => 'closed',
