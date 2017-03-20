@@ -19,21 +19,21 @@ function seur_metabox_callback( $post ) {
     $has_label = '';
     $labelID   = '';
 
-    $weight    = get_post_meta( $post->ID, '_seur_cart_weight', true );
     $has_label = get_post_meta( $post->ID, '_seur_shipping_order_label_downloaded', true );
     $labelID   = get_post_meta( $post->ID, '_seur_shipping_label_id', true );
 
     ?> <div id="seur_content_metabox"> <?php
 
     if( ! $has_label ) {
-    ?>
-            <label><?php _e( 'Packages Weight', SEUR_TEXTDOMAIN); ?></label><br />
-            <input title="<?php _e('Weight', SEUR_TEXTDOMAIN ); ?>" type='text' name='seur-weight' class='form-control' placeholder='<?php _e( 'EX: 0.300', SEUR_TEXTDOMAIN ); ?>' value='<?php if ( $weight ) echo $weight; ?>' required=''><br />
-            <label><?php _e( 'Number of Packages', SEUR_TEXTDOMAIN); ?></label><br />
-            <input title="<?php _e('Number of Packages', SEUR_TEXTDOMAIN ); ?>" type='text' name='seur-number-packages' class='form-control' placeholder='<?php _e( 'EX: 2', SEUR_TEXTDOMAIN ); ?>' value='' required=""><br />
-            <?php wp_nonce_field( 'seur_get_label_metabox_action', 'seur_get_label_metabox_nonce_field' ); ?>
-            <!-- <input type="submit" class="seur_label_submit button button-primary" value="<?php _e( 'Get labels', SEUR_TEXTDOMAIN ); ?>" /> -->
-<?php } else {
+
+           $url = esc_url( admin_url( add_query_arg( array( 'page' => 'seur_get_labels_from_order' ), 'admin.php' ) ) );
+           $arrayUrl = array ('order_id' => $post->ID, '?TB_iframe' => 'true', 'width' => '900', 'height' => '550' );
+           $final_get_label_url = esc_url( add_query_arg(  $arrayUrl , $url ) );
+           add_thickbox(); ?>
+           <a class='thickbox' title='<?php _e( 'Get Label',SEUR_TEXTDOMAIN ); ?>' alt='<?php _e( 'Get Label',SEUR_TEXTDOMAIN ); ?>' href='<?php echo $final_get_label_url; ?>'><?php _e( 'Get Label',SEUR_TEXTDOMAIN ); ?></a>
+           <?php
+
+	} else {
 
     echo $labelID;
 } ?>
@@ -63,8 +63,6 @@ function seur_save_meta_box( $post_id ) {
     if ( ! isset( $_POST['seur_get_label_metabox_nonce_field'] )  || ! wp_verify_nonce( $_POST['seur_get_label_metabox_nonce_field'], 'seur_get_label_metabox_action' ) ) {
 	    return $post_id;
 	    }
-
-	//sleep(10);
     $numpackages = $_POST['seur-number-packages'];
     $weight      = $_POST['seur-weight'];
     $new_status  = 'seur-shipment';
