@@ -55,6 +55,7 @@ $options = array(
     'seur_uploads_dir_manifest',
     'seur_uploads_url_labels',
     'seur_uploads_url_manifest',
+    'seur_add_advanced_settings_field_pre'
     );
 
 foreach ( $options as $option ){
