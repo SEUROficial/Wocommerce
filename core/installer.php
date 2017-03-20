@@ -275,8 +275,8 @@ function seur_add_avanced_settings_preset(){
 
     if ( $seur_add != '1' ) {
         update_option( 'seur_after_get_label_field',            'shipping'              );
-        update_option( 'seur_preaviso_notificar_field',         '1'                     );
-        update_option( 'seur_reparto_notificar_field',          '1'                     );
+        update_option( 'seur_preaviso_notificar_field',         NULL                    );
+        update_option( 'seur_reparto_notificar_field',          NULL                    );
         update_option( 'seur_tipo_notificacion_field',          'EMAIL'                 );
         update_option( 'seur_manana_desde_field',               '09:00'                 );
         update_option( 'seur_manana_hasta_field',               '14:00'                 );
