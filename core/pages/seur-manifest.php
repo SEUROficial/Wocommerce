@@ -102,16 +102,13 @@ function seur_donwload_data( $post ) {
 				<span class="screen-reader-text"><?php _e( 'From Date', SEUR_TEXTDOMAIN ); ?></span>
 				<input id="datepicker" type='text' name='fechadesde' class="wp-filter-search" placeholder="<?php _e( 'From Date', SEUR_TEXTDOMAIN ); ?>" value=''>
 			</label>
-			<label>
-				<span class="screen-reader-text"><?php _e( 'From Hour', SEUR_TEXTDOMAIN ); ?></span>
-				<input type='text' name='horadesde' class="wp-filter-search" placeholder="<?php _e( 'From Hour', SEUR_TEXTDOMAIN ); ?>" value='' size="12">
-			</label>
+			<input type='hidden' name='horadesde' value='000000'>
 			<?php wp_nonce_field( 'seur_manifest_action', 'seur_manifest_nonce_field' ); ?>
 			<label>
 				<input type="submit" name="submit" id="submit" class="button button-primary" value="<?php _e('Submit', SEUR_TEXTDOMAIN ); ?>">
 			</label>
 		</div>
-		<p class="description">Si no tiene envíos creados de otros días, no es necesario introducir valores, en otro caso, indique fecha en formato DDMMAAAA y ponga 6 ceros en la hora.</p>
+		<p class="description"><?php _e("If you don't have shipments created other days, you don't need to enter a date", SEUR_TEXTDOMAIN ); ?></p>
  <?php } ?>
 </div>
 <?php	}
