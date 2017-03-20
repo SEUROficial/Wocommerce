@@ -84,6 +84,7 @@ function seur_set_custom_label_columns( $columns ) {
 add_action( 'manage_seur_labels_posts_custom_column' , 'seur_custom_label_column_data', 10, 2 );
 
 function seur_custom_label_column_data( $column, $post_id ) {
+	global $woocommerce;
 
 	$seur_shipping_method = get_post_meta( $post_id, '_seur_shipping_method',   				true );
     $weight		   		  = get_post_meta( $post_id, '_seur_shipping_weight',   				true );
@@ -95,6 +96,15 @@ function seur_custom_label_column_data( $column, $post_id ) {
     $label_path 		  = get_post_meta( $post_id, '_seur_shipping_order_label_path_name',    true );
     $label_url 			  = get_post_meta( $post_id, '_seur_shipping_order_label_url_name',   	true );
 
+    $order        = new WC_Order( $order_id );
+	$product_list = '';
+    $order_item   = $order->get_items();
+    foreach( $order_item as $product ) {
+                $product_name[] = '<li>' . $product['name']." x ".$product['qty'] . '</li>';
+
+            }
+    $product_list = implode( '', $product_name );
+
 
     switch ( $column ) {
 
@@ -103,7 +113,9 @@ function seur_custom_label_column_data( $column, $post_id ) {
             echo '<a href="' . $link . '" target="_blank">' . $order_id . '</a>';
             break;
         case 'product' :
-        	echo 'Product';
+        	echo '<ul>';
+        	echo $product_list;
+        	echo '</ul>';
         	break;
         case 'customer_name' :
         	echo $customer_name;
@@ -119,7 +131,7 @@ function seur_custom_label_column_data( $column, $post_id ) {
 		case 'print' :
         	//echo '<a href="' . $label_url . '" onClick="window.print();return false">​​​​​​​​​​​​​​​​​print pdf</a>';
 
-        	echo '<a href="' . $label_url . '" class="seur-download" target="_blank">' . __( ' Open ', SEUR_TEXTDOMAIN ) . $label_file_name . '</a>';
+        	echo '<a href="' . $label_url . '" class="button" target="_blank">' . __( ' Open ', SEUR_TEXTDOMAIN ) . '</a>';
         	break;
     }
 }
