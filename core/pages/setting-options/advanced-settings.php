@@ -24,7 +24,7 @@ function seur_tipo_notificacion_field(){
    ?>
    <select id="notification_type" name="seur_tipo_notificacion_field">
        <option value="default"> <?php _e( "Select notification Type", SEUR_TEXTDOMAIN ); ?> </option>
-       <option value="SMS" <?php if ( $option == 'SMS') echo ' selected'; ?>>SMS</option>
+       <option value="SMS" <?php if ( $option == 'SMS') echo ' selected'; ?>><?php _e('SMS (this option has an extra cost)', SEUR_TEXTDOMAIN); ?></option>
        <option value="EMAIL" <?php if ( $option == 'EMAIL') echo ' selected'; ?>>Email</option>
     </select>
 <?php   }
