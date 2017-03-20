@@ -9,6 +9,7 @@ include_once( SEUR_PLUGIN_PATH . 'core/pages/seur-rates.php'				);
 include_once( SEUR_PLUGIN_PATH . 'core/pages/seur-products-services.php'	);
 include_once( SEUR_PLUGIN_PATH . 'core/pages/seur-manifest.php'		        );
 include_once( SEUR_PLUGIN_PATH . 'core/pages/seur-pickup.php'		        );
+include_once( SEUR_PLUGIN_PATH . 'core/pages/seur-get-labels.php'		    );
 include_once( SEUR_PLUGIN_PATH . 'core/pages/rates/seur-add-form.php'		);
 include_once( SEUR_PLUGIN_PATH . 'core/pages/rates/seur-create-rate.php'	);
 include_once( SEUR_PLUGIN_PATH . 'core/pages/rates/seur-delete.php'			);
@@ -58,6 +59,7 @@ function seur_menu() {
 		}
 		$seurlabelslist 		= add_submenu_page( $menu_slug, __( 'Labels', SEUR_TEXTDOMAIN ), __( 'Labels',	SEUR_TEXTDOMAIN ), 'edit_posts', 'edit.php?post_type=seur_labels');
 		$seur_pickup	    	= add_submenu_page( $menu_slug, __( 'Pickup', 			 	SEUR_TEXTDOMAIN ), __( 'Pickup', 					SEUR_TEXTDOMAIN ), $capability, 'seur_pickup', 	  'seur_pickup' );
+		$seur_get_labels	    = add_submenu_page( $menu_slug, __( 'Get labels from order', SEUR_TEXTDOMAIN ), __( 'Get labels from order', 	SEUR_TEXTDOMAIN ), $capability, 'seur_get_labels_from_order', 	  'seur_get_labels_from_order' );
 
 		//add_action for add scripts to different screens
 
