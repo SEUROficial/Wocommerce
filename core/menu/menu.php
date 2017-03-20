@@ -29,7 +29,7 @@ add_action( 'admin_enqueue_scripts', 'seur_load_custom_icon_styles' );
 	// Adding custom menu for WordPress
 
 function seur_menu() {
-	global $seurrates, $seurmanifest, $seurnomenclator, $seurproductsservices, $seurconfig, $seurabout, $seuraddform, $seurcreaterate, $seurdeleterate, $seurupdatecustomrate, $seureditcustomrate, $seuraddlabelwoocommerce;
+	global $seurrates, $seurmanifest, $seurnomenclator, $seurproductsservices, $seurconfig, $seurabout, $seuraddform, $seurcreaterate, $seurdeleterate, $seurupdatecustomrate, $seureditcustomrate, $seuraddlabelwoocommerce, $seur_get_labels;
 
 	$nif				= get_option( 'seur_nif_field' );
 	$page_title			=	__( 'SEUR', SEUR_TEXTDOMAIN);
