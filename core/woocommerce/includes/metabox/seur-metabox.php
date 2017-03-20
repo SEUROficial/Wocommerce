@@ -34,8 +34,10 @@ function seur_metabox_callback( $post ) {
            <?php
 
 	} else {
-
-    echo $labelID;
+		$labelURL = get_post_meta( $post->ID, '_seur_shipping_order_label_url_name', true );
+		?>
+		<a class='button' title='<?php _e( 'See Label',SEUR_TEXTDOMAIN ); ?>' alt='<?php _e( 'See Label',SEUR_TEXTDOMAIN ); ?>' href='<?php echo $labelURL; ?>' target='_blank'><?php _e( 'See Label',SEUR_TEXTDOMAIN ); ?></a>
+		<?php
 } ?>
 </div>
 <?php
