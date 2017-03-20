@@ -30,7 +30,7 @@ function seur_metabox_callback( $post ) {
            $arrayUrl = array ('order_id' => $post->ID, '?TB_iframe' => 'true', 'width' => '400', 'height' => '300' );
            $final_get_label_url = esc_url( add_query_arg(  $arrayUrl , $url ) );
            add_thickbox(); ?>
-           <a class='thickbox' title='<?php _e( 'Get Label',SEUR_TEXTDOMAIN ); ?>' alt='<?php _e( 'Get Label',SEUR_TEXTDOMAIN ); ?>' href='<?php echo $final_get_label_url; ?>'><?php _e( 'Get Label',SEUR_TEXTDOMAIN ); ?></a>
+           <a class='thickbox button' title='<?php _e( 'Get Label',SEUR_TEXTDOMAIN ); ?>' alt='<?php _e( 'Get Label',SEUR_TEXTDOMAIN ); ?>' href='<?php echo $final_get_label_url; ?>'><?php _e( 'Get Label',SEUR_TEXTDOMAIN ); ?></a>
            <?php
 
 	} else {
