@@ -233,6 +233,17 @@ function seur_auto_state_country_styles_css($hook){
 }
 add_action( 'admin_enqueue_scripts', 'seur_auto_state_country_styles_css' );
 
+function seur_get_labels_page_styles_css($hook){
+    global $seur_get_labels;
+
+    if( $seur_get_labels != $hook ) {
+        return; } else {
+        wp_register_style( 'seurGetLabelsCSS', SEUR_PLUGIN_URL . 'assets/css/get-labels.css', array(), SEUR_OFFICIAL_VERSION );
+        wp_enqueue_style( 'seurGetLabelsCSS' );
+    }
+}
+add_action( 'admin_enqueue_scripts', 'seur_get_labels_page_styles_css' );
+
 function seur_nomenclator_styles_css( $hook ){
     global $seurnomenclator, $seurmanifest;
 
