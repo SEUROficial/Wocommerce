@@ -3,7 +3,13 @@
 //if uninstall not called from WordPress exit
 if ( ! defined( 'WP_UNINSTALL_PLUGIN' ) || ! current_user_can( 'activate_plugins' ) ) exit();
 
-global $wpdb;
+global $wpdb, $wp_filesystem;
+
+// Removing SEUR folders
+
+$seur_uploads = get_option( 'seur_uploads_dir' );
+$wp_filesystem->rmdir( $seur_uploads, true );
+
 
 // remove options added by SEUR Plugin
 
@@ -63,4 +69,26 @@ foreach ( $options as $option ){
     delete_option( $option );
 
 }
+
+// Drop tables
+$wpdb->query( "DROP TABLE IF EXISTS {$wpdb->prefix}seur_reco" );
+$wpdb->query( "DROP TABLE IF EXISTS {$wpdb->prefix}seur_ecb" );
+$wpdb->query( "DROP TABLE IF EXISTS {$wpdb->prefix}seur_svpr" );
+$wpdb->query( "DROP TABLE IF EXISTS {$wpdb->prefix}seur_custom_rates" );
+
+//remove seur_labels post type
+$wpdb->query( "DELETE FROM {$wpdb->posts} WHERE post_type IN ('seur_labels');" );
+$wpdb->query( "DELETE meta FROM {$wpdb->postmeta} meta LEFT JOIN {$wpdb->posts} posts ON posts.ID = meta.post_id WHERE posts.ID IS NULL;" );
+$wpdb->delete( $wpdb->term_taxonomy, array( 'taxonomy' => 'labels-product' ) );
+// Delete orphan relationships
+$wpdb->query( "DELETE tr FROM {$wpdb->term_relationships} tr LEFT JOIN {$wpdb->posts} posts ON posts.ID = tr.object_id WHERE posts.ID IS NULL;" );
+
+// Delete orphan terms
+$wpdb->query( "DELETE t FROM {$wpdb->terms} t LEFT JOIN {$wpdb->term_taxonomy} tt ON t.term_id = tt.term_id WHERE tt.term_id IS NULL;" );
+
+// Delete orphan term meta
+if ( ! empty( $wpdb->termmeta ) ) {
+	$wpdb->query( "DELETE tm FROM {$wpdb->termmeta} tm LEFT JOIN {$wpdb->term_taxonomy} tt ON tm.term_id = tt.term_id WHERE tt.term_id IS NULL;" );
+}
+
 
