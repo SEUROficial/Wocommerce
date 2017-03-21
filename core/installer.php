@@ -37,7 +37,7 @@ function seur_create_tables_hook(){
         $table_name = $wpdb->base_prefix . "seur_svpr";
 
         $sql = "CREATE TABLE " . $table_name . " (
-            ID bigint(20) unsigned NOT NULL auto_increment
+            ID bigint(20) unsigned NOT NULL auto_increment,
             ser varchar(3) NOT NULL,
             pro varchar(3) NOT NULL,
             descripcion varchar(50) NOT NULL,
@@ -59,21 +59,6 @@ function seur_create_tables_hook(){
             maxweight bigint(20) unsigned NOT NULL default '0',
             rate varchar(200) NOT NULL default '',
             rateprice bigint(20) unsigned NOT NULL default '0',
-            PRIMARY KEY (ID)
-        ) $charset_collate;";
-
-        dbDelta($sql);
-
-        $table_name = $wpdb->base_prefix . "seur_labels";
-
-        $sql = "CREATE TABLE " . $table_name . " (
-            ID bigint(20) unsigned NOT NULL auto_increment,
-            order_id varchar(30) NOT NULL default '',
-            customer_name varchar(40) NOT NULL default '',
-            weight varchar(40) NOT NULL default '0',
-            label varchar(200) NULL DEFAULT NULL,
-            label_date datetime NOT NULL default '0000-00-00 00:00:00',
-            state varchar(13) NOT NULL default 'without-label';
             PRIMARY KEY (ID)
         ) $charset_collate;";
 
