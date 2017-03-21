@@ -9,6 +9,8 @@ global $wpdb, $wp_filesystem;
 
 $seur_uploads = get_option( 'seur_uploads_dir' );
 $wp_filesystem->rmdir( $seur_uploads, true );
+$seur_download_file = get_option( 'seur_download_file_path' );
+wp_delete_file( $seur_download_file );
 
 
 // remove options added by SEUR Plugin
@@ -61,7 +63,10 @@ $options = array(
     'seur_uploads_dir_manifest',
     'seur_uploads_url_labels',
     'seur_uploads_url_manifest',
-    'seur_add_advanced_settings_field_pre'
+    'seur_add_advanced_settings_field_pre',
+    'seur_download_file_url',
+    'seur_download_file_path',
+    'seur_pass_for_download'
     );
 
 foreach ( $options as $option ){
