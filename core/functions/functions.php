@@ -368,7 +368,7 @@ function seur_search_allowed_rates_by_country( $allowedcountry ) {
         $country = $rate->country;
         $rateid  = $rate->ID;
 
-        if ( $allowedcountry == $country || $country == '*' ) {
+        if ( $allowedcountry == $country ) {
 
             $columns    = array(
                             'ID',
@@ -400,7 +400,51 @@ function seur_search_allowed_rates_by_country( $allowedcountry ) {
 
         }
     }
-    return $filtered_rates_by_country;
+    if ( $filtered_rates_by_country ) {
+
+    	return $filtered_rates_by_country;
+
+    	} else {
+
+	    	foreach ( $getrates as $rate ) {
+
+		        $country = $rate->country;
+		        $rateid  = $rate->ID;
+
+		        if ( $country == '*' ) {
+
+		            $columns    = array(
+		                            'ID',
+		                            'country',
+		                            'state',
+		                            'postcode',
+		                            'minprice',
+		                            'maxprice',
+		                            'minweight',
+		                            'maxweight',
+		                            'rate',
+		                            'rateprice'
+		                        );
+
+		            $valors     = array(
+		                            $rate->ID,
+		                            $rate->country,
+		                            $rate->state,
+		                            $rate->postcode,
+		                            $rate->minprice,
+		                            $rate->maxprice,
+		                            $rate->minweight,
+		                            $rate->maxweight,
+		                            $rate->rate,
+		                            $rate->rateprice
+		                        );
+
+		            $filtered_rates_by_country[] = array_combine( $columns, $valors );
+
+		        }
+    		}
+    	}
+    	return $filtered_rates_by_country;
 }
 
 function seur_seach_allowed_states_filtered_by_countries( $allowedstate, $filtered_rates_by_country ){
@@ -412,7 +456,7 @@ function seur_seach_allowed_states_filtered_by_countries( $allowedstate, $filter
             $state  = $allowedrate['state'];
             $rateid = $allowedrate['ID'];
 
-            if ( $allowedstate == $state || $state == '*' ) {
+            if ( $allowedstate == $state ) {
 
                 $columns    = array(
                                 'ID',
@@ -443,7 +487,50 @@ function seur_seach_allowed_states_filtered_by_countries( $allowedstate, $filter
 
                 }
         }
-    return $filtered_rates_by_state;
+        if ( $filtered_rates_by_state ) {
+
+			return $filtered_rates_by_state;
+
+			} else {
+
+				foreach ( $filtered_rates_by_country as $allowedrate ) {
+
+		            $state  = $allowedrate['state'];
+		            $rateid = $allowedrate['ID'];
+
+		            if ( $state == '*' ) {
+
+		                $columns    = array(
+		                                'ID',
+		                                'country',
+		                                'state',
+		                                'postcode',
+		                                'minprice',
+		                                'maxprice',
+		                                'minweight',
+		                                'maxweight',
+		                                'rate',
+		                                'rateprice' );
+
+		                $valors     = array(
+		                                $allowedrate['ID'],
+		                                $allowedrate['country'],
+		                                $allowedrate['state'],
+		                                $allowedrate['postcode'],
+		                                $allowedrate['minprice'],
+		                                $allowedrate['maxprice'],
+		                                $allowedrate['minweight'],
+		                                $allowedrate['maxweight'],
+		                                $allowedrate['rate'],
+		                                $allowedrate['rateprice']
+		                            );
+
+		                $filtered_rates_by_state[] = array_combine( $columns, $valors );
+
+		            }
+        		}
+			}
+			return $filtered_rates_by_state;
 }
 
 function seur_seach_allowed_postcodes_filtered_by_states( $allowedpostcode, $filtered_rates_by_state ){
@@ -455,7 +542,7 @@ function seur_seach_allowed_postcodes_filtered_by_states( $allowedpostcode, $fil
             $postcode   = $allowedrate['postcode'];
             $rateid     = $allowedrate['ID'];
 
-            if ( $allowedpostcode == $postcode || $postcode == '*' ) {
+            if ( $allowedpostcode == $postcode ) {
 
                 $columns    = array(
                                 'ID',
@@ -487,7 +574,52 @@ function seur_seach_allowed_postcodes_filtered_by_states( $allowedpostcode, $fil
 
                 }
         }
-    return $filtered_rates_by_postcode;
+        if ( $filtered_rates_by_postcode ) {
+
+			return $filtered_rates_by_postcode;
+
+			} else {
+
+				foreach ( $filtered_rates_by_state as $allowedrate ) {
+
+		            $postcode   = $allowedrate['postcode'];
+		            $rateid     = $allowedrate['ID'];
+
+		            if ( $postcode == '*' ) {
+
+		                $columns    = array(
+		                                'ID',
+		                                'country',
+		                                'state',
+		                                'postcode',
+		                                'minprice',
+		                                'maxprice',
+		                                'minweight',
+		                                'maxweight',
+		                                'rate',
+		                                'rateprice'
+		                            );
+
+		                $valors     = array(
+		                                $allowedrate['ID'],
+		                                $allowedrate['country'],
+		                                $allowedrate['state'],
+		                                $allowedrate['postcode'],
+		                                $allowedrate['minprice'],
+		                                $allowedrate['maxprice'],
+		                                $allowedrate['minweight'],
+		                                $allowedrate['maxweight'],
+		                                $allowedrate['rate'],
+		                                $allowedrate['rateprice']
+		                            );
+
+		                $filtered_rates_by_postcode[] = array_combine( $columns, $valors );
+
+		                }
+		        }
+
+			}
+			return $filtered_rates_by_postcode;
 }
 
 function seur_seach_allowed_prices_filtered_by_postcode( $allowedprice, $filtered_rates_by_postcode ){
@@ -1290,6 +1422,12 @@ function seur_get_label( $order_id, $numpackages = '1', $weight = '1' ) {
                                     )
                             );
 
+                $update_post = array(
+					      		   'ID'           => $labelid,
+					               'post_title'   => 'Label ID ' . $labelid,
+								);
+				wp_update_post( $update_post );
+
                 add_post_meta( $labelid, '_seur_shipping_method',                  $seur_shipping_method,                            true );
                 add_post_meta( $labelid, '_seur_shipping_weight',                  $customer_weight,                                 true );
                 add_post_meta( $labelid, '_seur_shipping_packages',                $numpackages,                                     true );
@@ -1365,6 +1503,11 @@ function seur_get_label( $order_id, $numpackages = '1', $weight = '1' ) {
                                         ),
                                     )
                             );
+                    $update_post = array(
+						             'ID'           => $labelid,
+						             'post_title'   => 'Label ID #' . $labelid,
+						          );
+					wp_update_post( $update_post );
 
                     add_post_meta( $labelid, '_seur_shipping_method',                  $seur_shipping_method,                            true );
                     add_post_meta( $labelid, '_seur_shipping_weight',                  $customer_weight,                                 true );
