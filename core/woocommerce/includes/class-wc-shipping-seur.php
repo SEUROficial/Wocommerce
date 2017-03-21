@@ -382,11 +382,6 @@ class WC_Shipping_SEUR extends WC_Shipping_Method {
     private function environment_check() {
         $error_message = '';
 
-        // Check for SEUR User ID
-        if ( ( ! $this->user_id || ! $this->password || ! $this->access_key || ! $this->shipper_number ) ) {
-            $error_message .= '<p>' . __( 'SEUR is enabled, but you have not entered all of your SEUR details!', SEUR_TEXTDOMAIN ) . '</p>';
-        }
-
         // Check environment only on shipping instance page.
         if ( 0 < $this->instance_id ) {
             // If user has selected to pack into boxes,
