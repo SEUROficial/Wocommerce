@@ -254,6 +254,67 @@ function seur_create_upload_folder_hook(){
     }
 }
 
+function seur_create_content_for_download(){
+
+	$create_password = seur_create_random_string();
+	$content = '<?php ';
+	$content .= '$file = $_GET["label"];';
+	$content .= '$name = $_GET["label_name"];';
+	$content .= '$password = $_GET["pass"];';
+
+	$content .= 'if( $password == ' . $create_password . ' ) {';
+		$content .= 'if ( file_exists( $file ) ) {';
+
+			$content .= 'header("Content-Type: text/csv; charset=ISO-8859-1");';
+			$content .= 'Header("Content-Disposition: attachment; filename=" . $name . "");';
+			$content .= 'header("Expires: 0");';
+			$content .= 'header("Cache-Control: must-revalidate");';
+			$content .= 'header("Pragma: public");';
+			$content .= 'header("Content-Length: " . filesize( $file ) );';
+
+			$content .= 'readfile( $file );';
+
+			$content .= 'exit;';
+		$content .= '}';
+	$content .= '} else {';
+		$content .= 'exit;';
+	$content .= '}';
+
+	update_option( 'seur_pass_for_download', $create_password );
+
+	return $content;
+}
+
+function seur_create_download_files(){
+	global $wp_filesystem;
+
+	if ( empty( $wp_filesystem ) ) {
+	    require_once (ABSPATH . '/wp-admin/includes/file.php');
+	    WP_Filesystem();
+	}
+
+	$seur_download_file_url  = get_option('seur_download_file_url');
+	$seur_download_file_path = get_option('seur_download_file_path');
+
+	$content_url    = content_url();
+	$random_string  = seur_create_random_string();
+	$file_prefix    = 'seur-downloader-';
+	$full_name      = $file_prefix . $random_string . '.php';
+	$full_url_file  = $content_url . '/' . $full_name;
+	$full_path_file = WP_CONTENT_DIR . '/' . $full_name;
+	$content_add    = seur_create_content_for_download();
+
+	$wp_filesystem->put_contents(
+	  $full_path_file,
+	  $content_add,
+	  FS_CHMOD_FILE // predefined mode settings for WP files
+	);
+
+	update_option( 'seur_download_file_url', $full_url_file );
+	update_option( 'seur_download_file_path', $full_path_file );
+
+}
+
 function seur_add_avanced_settings_preset(){
 
     $seur_add = get_option( 'seur_add_advanced_settings_field_pre' );
