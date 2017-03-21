@@ -5,7 +5,7 @@ if ( ! defined( 'WP_UNINSTALL_PLUGIN' ) || ! current_user_can( 'activate_plugins
 
 global $wpdb, $wp_filesystem;
 
-// Removing SEUR folders
+// Removing SEUR folders and downloader file
 
 $seur_uploads = get_option( 'seur_uploads_dir' );
 $wp_filesystem->rmdir( $seur_uploads, true );
