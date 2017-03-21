@@ -261,12 +261,18 @@ function seur_create_content_for_download(){
 	$content .= '$file = $_GET["label"];';
 	$content .= '$name = $_GET["label_name"];';
 	$content .= '$password = $_GET["pass"];';
+	$content .= '$file_type = $_GET["pass"];';
+	$content .= 'if ( $file_type == "pdf" ){';
+		$content .= '$headercontent = "application/pdf";';
+	$content .= '} else {';
+		$content .= '$headercontent = "text/plain";';
+	$content .= '}';
 
-	$content .= 'if( $password == ' . $create_password . ' ) {';
+	$content .= 'if( $password == "' . $create_password . '" ) {';
 		$content .= 'if ( file_exists( $file ) ) {';
 
-			$content .= 'header("Content-Type: text/csv; charset=ISO-8859-1");';
 			$content .= 'Header("Content-Disposition: attachment; filename=" . $name . "");';
+			$content .= 'header("Content-type: ' . $headerconten . '");';
 			$content .= 'header("Expires: 0");';
 			$content .= 'header("Cache-Control: must-revalidate");';
 			$content .= 'header("Pragma: public");';
@@ -292,9 +298,12 @@ function seur_create_download_files(){
 	    require_once (ABSPATH . '/wp-admin/includes/file.php');
 	    WP_Filesystem();
 	}
-
-	$seur_download_file_url  = get_option('seur_download_file_url');
-	$seur_download_file_path = get_option('seur_download_file_path');
+	$seur_download_file = get_option( 'seur_download_file_path' );
+	if( $seur_download_file ) {
+		wp_delete_file( $seur_download_file );
+		}
+	delete_option('seur_download_file_url');
+	delete_option('seur_download_file_path');
 
 	$content_url    = content_url();
 	$random_string  = seur_create_random_string();
