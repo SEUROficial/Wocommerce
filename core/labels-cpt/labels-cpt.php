@@ -2,60 +2,60 @@
 // Register Custom Post Type
 function seur_cpt_labels() {
 
-	$labels = array(
-		'name'                  => _x( 'Labels', 'Post Type General Name', SEUR_TEXTDOMAIN ),
-		'singular_name'         => _x( 'Label', 'Post Type Singular Name', SEUR_TEXTDOMAIN ),
-		'menu_name'             => __( 'Labels', SEUR_TEXTDOMAIN ),
-		'name_admin_bar'        => __( 'Labels', SEUR_TEXTDOMAIN ),
-		'archives'              => __( 'Labels', SEUR_TEXTDOMAIN ),
-		'attributes'            => __( 'Labels Atributte', SEUR_TEXTDOMAIN ),
-		'parent_item_colon'     => __( 'Parent Item:', SEUR_TEXTDOMAIN ),
-		'all_items'             => __( 'All Labels', SEUR_TEXTDOMAIN ),
-		'add_new_item'          => __( 'Add New Label', SEUR_TEXTDOMAIN ),
-		'add_new'               => __( 'Add New', SEUR_TEXTDOMAIN ),
-		'new_item'              => __( 'New Label', SEUR_TEXTDOMAIN ),
-		'edit_item'             => __( 'Edit Labels', SEUR_TEXTDOMAIN ),
-		'update_item'           => __( 'Update Label', SEUR_TEXTDOMAIN ),
-		'view_item'             => __( 'View Label', SEUR_TEXTDOMAIN ),
-		'view_items'            => __( 'View Labels', SEUR_TEXTDOMAIN ),
-		'search_items'          => __( 'Search Label', SEUR_TEXTDOMAIN ),
-		'not_found'             => __( 'Not found', SEUR_TEXTDOMAIN ),
-		'not_found_in_trash'    => __( 'Not found in Trash', SEUR_TEXTDOMAIN ),
-		'featured_image'        => __( 'Featured Image', SEUR_TEXTDOMAIN ),
-		'set_featured_image'    => __( 'Set featured image', SEUR_TEXTDOMAIN ),
-		'remove_featured_image' => __( 'Remove featured image', SEUR_TEXTDOMAIN ),
-		'use_featured_image'    => __( 'Use as featured image', SEUR_TEXTDOMAIN ),
-		'insert_into_item'      => __( 'Insert into Label', SEUR_TEXTDOMAIN ),
-		'uploaded_to_this_item' => __( 'Uploaded to this Label', SEUR_TEXTDOMAIN ),
-		'items_list'            => __( 'Labels list', SEUR_TEXTDOMAIN ),
-		'items_list_navigation' => __( 'Labels list navigation', SEUR_TEXTDOMAIN ),
-		'filter_items_list'     => __( 'Filter Labels list', SEUR_TEXTDOMAIN ),
-	);
-	$args = array(
-		'label'                 => __( 'Label', SEUR_TEXTDOMAIN ),
-		'description'           => __( 'Seur Labels', SEUR_TEXTDOMAIN ),
-		'labels'                => $labels,
-		'supports'              => false,
-		'taxonomies'            => array( 'labels-product' ),
-		'hierarchical'          => false,
-		'public'                => false,
-		'show_ui'               => true,
-		'show_in_menu'          => false,
-		'menu_position'         => 10,
-		'show_in_admin_bar'     => false,
-		'show_in_nav_menus'     => false,
-		'can_export'            => true,
-		'has_archive'           => false,
-		'exclude_from_search'   => true,
-		'publicly_queryable'    => false,
-		'rewrite'               => false,
-		'capability_type'       => 'post',
-		'capabilities' => array(
-						'create_posts' => false, // Removes support for the "Add New" function ( use 'do_not_allow' instead of false for multisite set ups )
-						),
-		'map_meta_cap' => true,
-	);
-	register_post_type( 'seur_labels', $args );
+    $labels = array(
+        'name'                  => _x( 'Labels', 'Post Type General Name',  SEUR_TEXTDOMAIN ),
+        'singular_name'         => _x( 'Label', 'Post Type Singular Name',  SEUR_TEXTDOMAIN ),
+        'menu_name'             => __( 'Labels',                            SEUR_TEXTDOMAIN ),
+        'name_admin_bar'        => __( 'Labels',                            SEUR_TEXTDOMAIN ),
+        'archives'              => __( 'Labels',                            SEUR_TEXTDOMAIN ),
+        'attributes'            => __( 'Labels Atributte',                  SEUR_TEXTDOMAIN ),
+        'parent_item_colon'     => __( 'Parent Item:',                      SEUR_TEXTDOMAIN ),
+        'all_items'             => __( 'All Labels',                        SEUR_TEXTDOMAIN ),
+        'add_new_item'          => __( 'Add New Label',                     SEUR_TEXTDOMAIN ),
+        'add_new'               => __( 'Add New',                           SEUR_TEXTDOMAIN ),
+        'new_item'              => __( 'New Label',                         SEUR_TEXTDOMAIN ),
+        'edit_item'             => __( 'Edit Labels',                       SEUR_TEXTDOMAIN ),
+        'update_item'           => __( 'Update Label',                      SEUR_TEXTDOMAIN ),
+        'view_item'             => __( 'View Label',                        SEUR_TEXTDOMAIN ),
+        'view_items'            => __( 'View Labels',                       SEUR_TEXTDOMAIN ),
+        'search_items'          => __( 'Search Label',                      SEUR_TEXTDOMAIN ),
+        'not_found'             => __( 'Not found',                         SEUR_TEXTDOMAIN ),
+        'not_found_in_trash'    => __( 'Not found in Trash',                SEUR_TEXTDOMAIN ),
+        'featured_image'        => __( 'Featured Image',                    SEUR_TEXTDOMAIN ),
+        'set_featured_image'    => __( 'Set featured image',                SEUR_TEXTDOMAIN ),
+        'remove_featured_image' => __( 'Remove featured image',             SEUR_TEXTDOMAIN ),
+        'use_featured_image'    => __( 'Use as featured image',             SEUR_TEXTDOMAIN ),
+        'insert_into_item'      => __( 'Insert into Label',                 SEUR_TEXTDOMAIN ),
+        'uploaded_to_this_item' => __( 'Uploaded to this Label',            SEUR_TEXTDOMAIN ),
+        'items_list'            => __( 'Labels list',                       SEUR_TEXTDOMAIN ),
+        'items_list_navigation' => __( 'Labels list navigation',            SEUR_TEXTDOMAIN ),
+        'filter_items_list'     => __( 'Filter Labels list',                SEUR_TEXTDOMAIN ),
+    );
+    $args = array(
+        'label'                 => __( 'Label',         SEUR_TEXTDOMAIN ),
+        'description'           => __( 'Seur Labels',   SEUR_TEXTDOMAIN ),
+        'labels'                => $labels,
+        'supports'              => false,
+        'taxonomies'            => array( 'labels-product' ),
+        'hierarchical'          => false,
+        'public'                => false,
+        'show_ui'               => true,
+        'show_in_menu'          => false,
+        'menu_position'         => 10,
+        'show_in_admin_bar'     => false,
+        'show_in_nav_menus'     => false,
+        'can_export'            => true,
+        'has_archive'           => false,
+        'exclude_from_search'   => true,
+        'publicly_queryable'    => false,
+        'rewrite'               => false,
+        'capability_type'       => 'post',
+        'capabilities' => array(
+                        'create_posts' => false, // Removes support for the "Add New" function ( use 'do_not_allow' instead of false for multisite set ups )
+                        ),
+        'map_meta_cap' => true,
+    );
+    register_post_type( 'seur_labels', $args );
 
 }
 add_action( 'init', 'seur_cpt_labels', 0 );
@@ -68,15 +68,15 @@ function seur_set_custom_label_columns( $columns ) {
     unset( $columns['title'] );
     unset( $columns['date'] );
     unset( $columns['taxonomy-labels-product']);
-    $columns['title']			  	 = __( 'Label ID', SEUR_TEXTDOMAIN );
-    $columns['order_id'] 		  	 = __( 'Order ID', SEUR_TEXTDOMAIN );
-    $columns['product'] 		  	 = __( 'Product', SEUR_TEXTDOMAIN );
-	$columns['customer_name'] 	  	 = __( 'Customer Name', SEUR_TEXTDOMAIN );
-	$columns['customer_comments'] 	 = __( 'Customer Comments', SEUR_TEXTDOMAIN );
-	$columns['weight'] 			     = __( 'Weight', SEUR_TEXTDOMAIN );
-	$columns['taxonomy-labels-product'] = __( 'Service/Product', SEUR_TEXTDOMAIN );
-	$columns['print'] 			  	 = __( 'Print/Download', SEUR_TEXTDOMAIN );
-	$columns['date'] 			  	 = __( 'Label Date', SEUR_TEXTDOMAIN );
+    $columns['title']                   = __( 'Label ID',            SEUR_TEXTDOMAIN );
+    $columns['order_id']                = __( 'Order ID',            SEUR_TEXTDOMAIN );
+    $columns['product']                 = __( 'Product',             SEUR_TEXTDOMAIN );
+    $columns['customer_name']           = __( 'Customer Name',       SEUR_TEXTDOMAIN );
+    $columns['customer_comments']       = __( 'Customer Comments',   SEUR_TEXTDOMAIN );
+    $columns['weight']                  = __( 'Weight',              SEUR_TEXTDOMAIN );
+    $columns['taxonomy-labels-product'] = __( 'Service/Product',     SEUR_TEXTDOMAIN );
+    $columns['print']                   = __( 'Print/Download',      SEUR_TEXTDOMAIN );
+    $columns['date']                    = __( 'Label Date',          SEUR_TEXTDOMAIN );
 
     return $columns;
 }
@@ -84,20 +84,24 @@ function seur_set_custom_label_columns( $columns ) {
 add_action( 'manage_seur_labels_posts_custom_column' , 'seur_custom_label_column_data', 10, 2 );
 
 function seur_custom_label_column_data( $column, $post_id ) {
-	global $woocommerce;
+    global $woocommerce;
 
-	$seur_shipping_method = get_post_meta( $post_id, '_seur_shipping_method',   				true );
-    $weight		   		  = get_post_meta( $post_id, '_seur_shipping_weight',   				true );
-    $num_packages 		  = get_post_meta( $post_id, '_seur_shipping_packages',   				true );
-    $order_id	   		  = get_post_meta( $post_id, '_seur_shipping_order_id',   				true );
-    $customer_name 		  = get_post_meta( $post_id, '_seur_label_customer_name', 				true );
-    $order_comments 	  = get_post_meta( $post_id, '_seur_shipping_order_customer_comments',	true );
-    $label_file_name 	  = get_post_meta( $post_id, '_seur_shipping_order_label_file_name',    true );
-    $label_path 		  = get_post_meta( $post_id, '_seur_shipping_order_label_path_name',    true );
-    $label_url 			  = get_post_meta( $post_id, '_seur_shipping_order_label_url_name',   	true );
+    $seur_shipping_method = get_post_meta( $post_id, '_seur_shipping_method',                   true );
+    $weight               = get_post_meta( $post_id, '_seur_shipping_weight',                   true );
+    $num_packages         = get_post_meta( $post_id, '_seur_shipping_packages',                 true );
+    $order_id             = get_post_meta( $post_id, '_seur_shipping_order_id',                 true );
+    $customer_name        = get_post_meta( $post_id, '_seur_label_customer_name',               true );
+    $order_comments       = get_post_meta( $post_id, '_seur_shipping_order_customer_comments',  true );
+    $label_file_name      = get_post_meta( $post_id, '_seur_shipping_order_label_file_name',    true );
+    $label_path           = get_post_meta( $post_id, '_seur_shipping_order_label_path_name',    true );
+    $label_url            = get_post_meta( $post_id, '_seur_shipping_order_label_url_name',     true );
+    $url_to_file_down     = get_option('seur_download_file_url');
+    $file_downlo_pass     = get_option('seur_pass_for_download');
+    $label_path           = str_replace("\\", "/", $label_path );
+    $file_type            = get_post_meta( $post_id, '_seur_label_type',                        true );
 
     $order        = new WC_Order( $order_id );
-	$product_list = '';
+    $product_list = '';
     $order_item   = $order->get_items();
     foreach( $order_item as $product ) {
                 $product_name[] = '<li>' . $product['name']." x ".$product['qty'] . '</li>';
@@ -113,65 +117,65 @@ function seur_custom_label_column_data( $column, $post_id ) {
             echo '<a href="' . $link . '" target="_blank">' . $order_id . '</a>';
             break;
         case 'product' :
-        	echo '<ul>';
-        	echo $product_list;
-        	echo '</ul>';
-        	break;
+            echo '<ul>';
+            echo $product_list;
+            echo '</ul>';
+            break;
         case 'customer_name' :
-        	echo $customer_name;
-        	break;
+            echo $customer_name;
+            break;
         case 'customer_comments' :
-        	echo $order_comments;
-        	break;
+            echo $order_comments;
+            break;
 
-		case 'weight' :
-        	echo $weight;
-        	break;
+        case 'weight' :
+            echo $weight;
+            break;
 
-		case 'print' :
-        	//echo '<a href="' . $label_url . '" onClick="window.print();return false">​​​​​​​​​​​​​​​​​print pdf</a>';
+        case 'print' :
+            //echo '<a href="' . $label_url . '" onClick="window.print();return false">​​​​​​​​​​​​​​​​​print pdf</a>';
 
-        	echo '<a href="' . $label_url . '" class="button" target="_blank">' . __( ' Open ', SEUR_TEXTDOMAIN ) . '</a>';
-        	break;
+            echo '<a href="' . $url_to_file_down . '?label=' . $label_path . '&label_name=' . $label_file_name . '&pass=' . $file_downlo_pass . '&file_type=' . $file_type . '" class="button" target="_blank">' . __( ' Open ', SEUR_TEXTDOMAIN ) . '</a>';
+            break;
     }
 }
 
 // Register Custom Taxonomy
 function seur_add_label_taxonomy() {
 
-	$labels = array(
-		'name'                       => _x( 'Products', 'Taxonomy General Name', 'seur-official' ),
-		'singular_name'              => _x( 'Product', 'Taxonomy Singular Name', 'seur-official' ),
-		'menu_name'                  => __( 'Product', 'seur-official' ),
-		'all_items'                  => __( 'All products', 'seur-official' ),
-		'parent_item'                => __( 'Parent Item', 'seur-official' ),
-		'parent_item_colon'          => __( 'Parent Item:', 'seur-official' ),
-		'new_item_name'              => __( 'New Product', 'seur-official' ),
-		'add_new_item'               => __( 'Add new product', 'seur-official' ),
-		'edit_item'                  => __( 'Edit Product', 'seur-official' ),
-		'update_item'                => __( 'Update Product', 'seur-official' ),
-		'view_item'                  => __( 'View Product', 'seur-official' ),
-		'separate_items_with_commas' => __( 'Separate Products with commas', 'seur-official' ),
-		'add_or_remove_items'        => __( 'Add or remove Products', 'seur-official' ),
-		'choose_from_most_used'      => __( 'Choose from the most used', 'seur-official' ),
-		'popular_items'              => __( 'Popular Products', 'seur-official' ),
-		'search_items'               => __( 'Search Products', 'seur-official' ),
-		'not_found'                  => __( 'Not Found', 'seur-official' ),
-		'no_terms'                   => __( 'No Products', 'seur-official' ),
-		'items_list'                 => __( 'Product list', 'seur-official' ),
-		'items_list_navigation'      => __( 'Products list navigation', 'seur-official' ),
-	);
-	$args = array(
-		'labels'                     => $labels,
-		'hierarchical'               => false,
-		'public'                     => false,
-		'show_ui'                    => true,
-		'show_admin_column'          => true,
-		'show_in_nav_menus'          => false,
-		'show_tagcloud'              => false,
-		'rewrite'                    => false,
-	);
-	register_taxonomy( 'labels-product', array( 'seur_labels' ), $args );
+    $labels = array(
+        'name'                       => _x( 'Products', 'Taxonomy General Name', SEUR_TEXTDOMAIN ),
+        'singular_name'              => _x( 'Product', 'Taxonomy Singular Name', SEUR_TEXTDOMAIN ),
+        'menu_name'                  => __( 'Product',                           SEUR_TEXTDOMAIN ),
+        'all_items'                  => __( 'All products',                      SEUR_TEXTDOMAIN ),
+        'parent_item'                => __( 'Parent Item',                       SEUR_TEXTDOMAIN ),
+        'parent_item_colon'          => __( 'Parent Item:',                      SEUR_TEXTDOMAIN ),
+        'new_item_name'              => __( 'New Product',                       SEUR_TEXTDOMAIN ),
+        'add_new_item'               => __( 'Add new product',                   SEUR_TEXTDOMAIN ),
+        'edit_item'                  => __( 'Edit Product',                      SEUR_TEXTDOMAIN ),
+        'update_item'                => __( 'Update Product',                    SEUR_TEXTDOMAIN ),
+        'view_item'                  => __( 'View Product',                      SEUR_TEXTDOMAIN ),
+        'separate_items_with_commas' => __( 'Separate Products with commas',     SEUR_TEXTDOMAIN ),
+        'add_or_remove_items'        => __( 'Add or remove Products',            SEUR_TEXTDOMAIN ),
+        'choose_from_most_used'      => __( 'Choose from the most used',         SEUR_TEXTDOMAIN ),
+        'popular_items'              => __( 'Popular Products',                  SEUR_TEXTDOMAIN ),
+        'search_items'               => __( 'Search Products',                   SEUR_TEXTDOMAIN ),
+        'not_found'                  => __( 'Not Found',                         SEUR_TEXTDOMAIN ),
+        'no_terms'                   => __( 'No Products',                       SEUR_TEXTDOMAIN ),
+        'items_list'                 => __( 'Product list',                      SEUR_TEXTDOMAIN ),
+        'items_list_navigation'      => __( 'Products list navigation',          SEUR_TEXTDOMAIN ),
+    );
+    $args = array(
+        'labels'                     => $labels,
+        'hierarchical'               => false,
+        'public'                     => false,
+        'show_ui'                    => true,
+        'show_admin_column'          => true,
+        'show_in_nav_menus'          => false,
+        'show_tagcloud'              => false,
+        'rewrite'                    => false,
+    );
+    register_taxonomy( 'labels-product', array( 'seur_labels' ), $args );
 
 }
 add_action( 'init', 'seur_add_label_taxonomy', 0 );
@@ -196,21 +200,21 @@ add_action( 'add_meta_boxes', 'seur_label_register_meta_box' );
 function seur_metabox_label_callback( $post ) {
 
 
-	$weight		   = get_post_meta( $post->ID, '_seur_shipping_weight',   true );
-	$order_id	   = get_post_meta( $post->ID, '_order_id',           true );
-	$product	   = get_post_meta( $post->ID, '_seur_product',       true );
-	$customer_name = get_post_meta( $post->ID, '_seur_customer_name', true );
+    $weight        = get_post_meta( $post->ID, '_seur_shipping_weight',   true );
+    $order_id      = get_post_meta( $post->ID, '_order_id',           true );
+    $product       = get_post_meta( $post->ID, '_seur_product',       true );
+    $customer_name = get_post_meta( $post->ID, '_seur_customer_name', true );
 
    // Display code/markup goes here. Don't forget to include nonces!
-	?>
-	<div id="seur_content_metabox">
+    ?>
+    <div id="seur_content_metabox">
 
 
-			<label><?php _e( 'Packages Weight', SEUR_TEXTDOMAIN); ?></label><br />
-			<input title="<?php _e('Weight', SEUR_TEXTDOMAIN ); ?>" type='text' name='weight' class='form-control' placeholder='<?php _e( 'EX: 0.300', SEUR_TEXTDOMAIN ); ?>' value='<?php if ( $weight ) echo $weight; ?>' required=''><br />
-			<label><?php _e( 'Number of Packages', SEUR_TEXTDOMAIN); ?></label><br />
-			<input title="<?php _e('Number of Packages', SEUR_TEXTDOMAIN ); ?>" type='text' name='number-packages' class='form-control' placeholder='<?php _e( 'EX: 2', SEUR_TEXTDOMAIN ); ?>' required=""><br />
-			<input type="button" class="button getlabel" value="<?php _e( 'Get labels', SEUR_TEXTDOMAIN ); ?>">
+            <label><?php _e( 'Packages Weight', SEUR_TEXTDOMAIN); ?></label><br />
+            <input title="<?php _e('Weight', SEUR_TEXTDOMAIN ); ?>" type='text' name='weight' class='form-control' placeholder='<?php _e( 'EX: 0.300', SEUR_TEXTDOMAIN ); ?>' value='<?php if ( $weight ) echo $weight; ?>' required=''><br />
+            <label><?php _e( 'Number of Packages', SEUR_TEXTDOMAIN); ?></label><br />
+            <input title="<?php _e('Number of Packages', SEUR_TEXTDOMAIN ); ?>" type='text' name='number-packages' class='form-control' placeholder='<?php _e( 'EX: 2', SEUR_TEXTDOMAIN ); ?>' required=""><br />
+            <input type="button" class="button getlabel" value="<?php _e( 'Get labels', SEUR_TEXTDOMAIN ); ?>">
     </div>
 <?php }
 
