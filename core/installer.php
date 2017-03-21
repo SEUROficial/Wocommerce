@@ -41,6 +41,7 @@ function seur_create_tables_hook(){
             ser varchar(3) NOT NULL,
             pro varchar(3) NOT NULL,
             descripcion varchar(50) NOT NULL,
+            tipo varchar(50) NOT NULL,
             PRIMARY KEY (ID)
         ) $charset_collate;";
 
@@ -75,22 +76,34 @@ function seur_add_data_to_tables_hook(){
     $seur_table_version_saved = get_option('seur_table_version');
 
     if ( !$seur_table_version_saved || ( version_compare( SEUR_TABLE_VERSION, $seur_table_version_saved, '>' ) ) ) {
+
         $table_name = $wpdb->prefix . 'seur_svpr';
 
         $wpdb->insert(
             $table_name,
             array(
-                'ser' => '1',
+                'ser' => '31',
                 'pro' => '2',
-                'descripcion' => 'SEUR 24H ESTANDAR',
+                'descripcion' => 'PARTICULARES 24H ESTANDAR',
+                'tipo' => 'ESTANDAR',
             )
         );
         $wpdb->insert(
             $table_name,
             array(
                 'ser' => '3',
-                'pro' => '4',
-                'descripcion' => 'SEUR 10 ESTANDAR',
+                'pro' => '2',
+                'descripcion' => 'SEUR 10',
+                'tipo' => 'ESTANDAR',
+            )
+        );
+        $wpdb->insert(
+            $table_name,
+            array(
+                'ser' => '3',
+                'pro' => '18',
+                'descripcion' => 'SEUR 10 FRIO',
+                'tipo' => 'FRIO',
             )
         );
         $wpdb->insert(
@@ -99,30 +112,16 @@ function seur_add_data_to_tables_hook(){
                 'ser' => '9',
                 'pro' => '2',
                 'descripcion' => 'SEUR 13:30 ESTANDAR',
+                'tipo' => 'ESTANDAR',
             )
         );
         $wpdb->insert(
             $table_name,
             array(
-                'ser' => '83',
-                'pro' => '2',
-                'descripcion' => 'SEUR 8:30 ESTANDAR',
-            )
-        );
-        $wpdb->insert(
-            $table_name,
-            array(
-                'ser' => '31',
-                'pro' => '2',
-                'descripcion' => 'PARTICULARES 24H ESTANDAR',
-            )
-        );
-        $wpdb->insert(
-            $table_name,
-            array(
-                'ser' => '13',
-                'pro' => '2',
-                'descripcion' => 'SEUR 72H ESTANDAR',
+                'ser' => '9',
+                'pro' => '18',
+                'descripcion' => 'SEUR 13:30 FRIO',
+                'tipo' => 'FRIO',
             )
         );
         $wpdb->insert(
@@ -130,7 +129,17 @@ function seur_add_data_to_tables_hook(){
             array(
                 'ser' => '15',
                 'pro' => '2',
-                'descripcion' => 'SEUR 48H ESTANDAR',
+                'descripcion' => 'SEUR 48 ESTANDAR',
+                'tipo' => 'ESTANDAR',
+            )
+        );
+        $wpdb->insert(
+            $table_name,
+            array(
+                'ser' => '13',
+                'pro' => '2',
+                'descripcion' => 'SEUR 72 ESTANDAR',
+                'tipo' => 'ESTANDAR',
             )
         );
         $wpdb->insert(
@@ -138,7 +147,8 @@ function seur_add_data_to_tables_hook(){
             array(
                 'ser' => '17',
                 'pro' => '2',
-                'descripcion' => 'SEUR MARITIMO ESTANDAR',
+                'descripcion' => 'MARITIMO ESTANDAR',
+                'tipo' => 'ESTANDAR',
             )
         );
         $wpdb->insert(
@@ -146,31 +156,8 @@ function seur_add_data_to_tables_hook(){
             array(
                 'ser' => '77',
                 'pro' => '70',
-                'descripcion' => 'CLASSIC INT TERRESTRE',
-            )
-        );
-        $wpdb->insert(
-            $table_name,
-            array(
-                'ser' => '19',
-                'pro' => '70',
-                'descripcion' => 'NETEXPRESS INT TERRESTRE',
-            )
-        );
-        $wpdb->insert(
-            $table_name,
-            array(
-                'ser' => '7',
-                'pro' => '54',
-                'descripcion' => 'COURIER INT AEREO DOCUMENTOS',
-            )
-        );
-        $wpdb->insert(
-            $table_name,
-            array(
-                'ser' => '7',
-                'pro' => '108',
-                'descripcion' => 'COURIER INT AEREO PAQUETERIA',
+                'descripcion' => 'CLASSIC INTERTNACIONAL ESTANDAR',
+                'tipo' => 'ESTANDAR',
             )
         );
 
@@ -204,7 +191,62 @@ function seur_add_data_to_tables_hook(){
                 'rateprice' => '0'
                 )
         );
-
+        $wpdb->insert(
+            $table_name,
+            array(
+                'country'   => 'ES',
+                'state'     => 'PM',
+                'postcode'  => '*',
+                'minprice'  => '0',
+                'maxprice'  => '100',
+                'minweight' => '0',
+                'maxweight' => '1000',
+                'rate'      => 'SEUR 48 ESTANDAR',
+                'rateprice' => '15'
+                )
+        );
+        $wpdb->insert(
+            $table_name,
+            array(
+                'country'   => 'ES',
+                'state'     => 'PM',
+                'postcode'  => '*',
+                'minprice'  => '100',
+                'maxprice'  => '9999999',
+                'minweight' => '0',
+                'maxweight' => '1000',
+                'rate'      => 'SEUR 48 ESTANDAR',
+                'rateprice' => '0'
+                )
+        );
+        $wpdb->insert(
+            $table_name,
+            array(
+                'country'   => 'ES',
+                'state'     => 'GC',
+                'postcode'  => '*',
+                'minprice'  => '0',
+                'maxprice'  => '200',
+                'minweight' => '0',
+                'maxweight' => '1000',
+                'rate'      => 'SEUR 72 ESTANDAR',
+                'rateprice' => '35'
+                )
+        );
+        $wpdb->insert(
+            $table_name,
+            array(
+                'country'   => 'ES',
+                'state'     => 'GC',
+                'postcode'  => '*',
+                'minprice'  => '200',
+                'maxprice'  => '9999999',
+                'minweight' => '0',
+                'maxweight' => '1000',
+                'rate'      => 'SEUR 72 ESTANDAR',
+                'rateprice' => '0'
+                )
+        );
         update_option('seur_table_version', SEUR_TABLE_VERSION );
     }
 }
@@ -258,33 +300,34 @@ function seur_create_content_for_download(){
 
     $create_password = seur_create_random_string();
     $content = '<?php' . PHP_EOL;
-    $content .= '$file = $_GET["label"];' . PHP_EOL;
-    $content .= '$name = $_GET["label_name"];' . PHP_EOL;
-    $content .= '$password = $_GET["pass"];' . PHP_EOL;
-    $content .= '$file_type = $_GET["pass"];' . PHP_EOL;
-    $content .= 'if ( $file_type == "pdf" ){' . PHP_EOL;
-        $content .= '$headercontent = "application/pdf";' . PHP_EOL;
-    $content .= '} else {' . PHP_EOL;
-        $content .= '$headercontent = "text/plain";' . PHP_EOL;
-    $content .= '}' . PHP_EOL;
-
-    $content .= 'if( $password == "' . $create_password . '" ) {' . PHP_EOL;
-        $content .= 'if ( file_exists( $file ) ) {' . PHP_EOL;
-
-            $content .= 'Header("Content-Disposition: attachment; filename=" . $name . "");' . PHP_EOL;
-            $content .= 'header("Content-type: ' . $headerconten . '");' . PHP_EOL;
-            $content .= 'header("Expires: 0");' . PHP_EOL;
-            $content .= 'header("Cache-Control: must-revalidate");' . PHP_EOL;
-            $content .= 'header("Pragma: public");' . PHP_EOL;
-            $content .= 'header("Content-Length: " . filesize( $file ) );' . PHP_EOL;
-
-            $content .= 'readfile( $file );' . PHP_EOL;
-
-            $content .= 'exit;' . PHP_EOL;
-        $content .= '}' . PHP_EOL;
-    $content .= '} else {' . PHP_EOL;
-        $content .= 'exit;' . PHP_EOL;
-    $content .= '}';
+    $content .= '   $file      = $_GET["label"];' . PHP_EOL;
+    $content .= '   $name      = $_GET["label_name"];' . PHP_EOL;
+    $content .= '   $password  = $_GET["pass"];' . PHP_EOL;
+    $content .= '   $file_type = $_GET["file_type"];' . PHP_EOL;
+    $content .= '' . PHP_EOL;
+    $content .= '   if ( $file_type == "pdf" ){' . PHP_EOL;
+    $content .= '        $headercontent = "application/pdf";' . PHP_EOL;
+    $content .= '   } else {' . PHP_EOL;
+    $content .= '        $headercontent = "text/plain";' . PHP_EOL;
+    $content .= '   }' . PHP_EOL;
+	$content .= '' . PHP_EOL;
+    $content .= '   if( $password == "' . $create_password . '" ) {' . PHP_EOL;
+    $content .= '          if ( file_exists( $file ) ) {' . PHP_EOL;
+	$content .= '' . PHP_EOL;
+    $content .= '                header("Content-Disposition: attachment; filename=" . $name . "");' . PHP_EOL;
+    $content .= '                header("Content-type: ' . $headerconten . '");' . PHP_EOL;
+    $content .= '                header("Expires: 0");' . PHP_EOL;
+    $content .= '                header("Cache-Control: must-revalidate");' . PHP_EOL;
+    $content .= '                header("Pragma: public");' . PHP_EOL;
+    $content .= '                header("Content-Length: " . filesize( $file ) );' . PHP_EOL;
+	$content .= '' . PHP_EOL;
+    $content .= '                readfile( $file );' . PHP_EOL;
+	$content .= '' . PHP_EOL;
+    $content .= '                exit;' . PHP_EOL;
+    $content .= '           }' . PHP_EOL;
+    $content .= '   } else {' . PHP_EOL;
+    $content .= '       exit;' . PHP_EOL;
+    $content .= '     }';
 
     update_option( 'seur_pass_for_download', $create_password );
 
