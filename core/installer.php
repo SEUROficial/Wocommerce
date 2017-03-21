@@ -256,71 +256,71 @@ function seur_create_upload_folder_hook(){
 
 function seur_create_content_for_download(){
 
-	$create_password = seur_create_random_string();
-	$content = '<?php ';
-	$content .= '$file = $_GET["label"];';
-	$content .= '$name = $_GET["label_name"];';
-	$content .= '$password = $_GET["pass"];';
-	$content .= '$file_type = $_GET["pass"];';
-	$content .= 'if ( $file_type == "pdf" ){';
-		$content .= '$headercontent = "application/pdf";';
-	$content .= '} else {';
-		$content .= '$headercontent = "text/plain";';
-	$content .= '}';
+    $create_password = seur_create_random_string();
+    $content = '<?php' . PHP_EOL;
+    $content .= '$file = $_GET["label"];' . PHP_EOL;
+    $content .= '$name = $_GET["label_name"];' . PHP_EOL;
+    $content .= '$password = $_GET["pass"];' . PHP_EOL;
+    $content .= '$file_type = $_GET["pass"];' . PHP_EOL;
+    $content .= 'if ( $file_type == "pdf" ){' . PHP_EOL;
+        $content .= '$headercontent = "application/pdf";' . PHP_EOL;
+    $content .= '} else {' . PHP_EOL;
+        $content .= '$headercontent = "text/plain";' . PHP_EOL;
+    $content .= '}' . PHP_EOL;
 
-	$content .= 'if( $password == "' . $create_password . '" ) {';
-		$content .= 'if ( file_exists( $file ) ) {';
+    $content .= 'if( $password == "' . $create_password . '" ) {' . PHP_EOL;
+        $content .= 'if ( file_exists( $file ) ) {' . PHP_EOL;
 
-			$content .= 'Header("Content-Disposition: attachment; filename=" . $name . "");';
-			$content .= 'header("Content-type: ' . $headerconten . '");';
-			$content .= 'header("Expires: 0");';
-			$content .= 'header("Cache-Control: must-revalidate");';
-			$content .= 'header("Pragma: public");';
-			$content .= 'header("Content-Length: " . filesize( $file ) );';
+            $content .= 'Header("Content-Disposition: attachment; filename=" . $name . "");' . PHP_EOL;
+            $content .= 'header("Content-type: ' . $headerconten . '");' . PHP_EOL;
+            $content .= 'header("Expires: 0");' . PHP_EOL;
+            $content .= 'header("Cache-Control: must-revalidate");' . PHP_EOL;
+            $content .= 'header("Pragma: public");' . PHP_EOL;
+            $content .= 'header("Content-Length: " . filesize( $file ) );' . PHP_EOL;
 
-			$content .= 'readfile( $file );';
+            $content .= 'readfile( $file );' . PHP_EOL;
 
-			$content .= 'exit;';
-		$content .= '}';
-	$content .= '} else {';
-		$content .= 'exit;';
-	$content .= '}';
+            $content .= 'exit;' . PHP_EOL;
+        $content .= '}' . PHP_EOL;
+    $content .= '} else {' . PHP_EOL;
+        $content .= 'exit;' . PHP_EOL;
+    $content .= '}';
 
-	update_option( 'seur_pass_for_download', $create_password );
+    update_option( 'seur_pass_for_download', $create_password );
 
-	return $content;
+    return $content;
 }
 
 function seur_create_download_files(){
-	global $wp_filesystem;
+    global $wp_filesystem;
 
-	if ( empty( $wp_filesystem ) ) {
-	    require_once (ABSPATH . '/wp-admin/includes/file.php');
-	    WP_Filesystem();
-	}
-	$seur_download_file = get_option( 'seur_download_file_path' );
-	if( $seur_download_file ) {
-		wp_delete_file( $seur_download_file );
-		}
-	delete_option('seur_download_file_url');
-	delete_option('seur_download_file_path');
+    if ( empty( $wp_filesystem ) ) {
+        require_once ( ABSPATH . '/wp-admin/includes/file.php' );
+        WP_Filesystem();
+    }
+    $seur_download_file = get_option( 'seur_download_file_path' );
+    if( $seur_download_file ) {
+        wp_delete_file( $seur_download_file );
+        }
+    delete_option('seur_download_file_url');
+    delete_option('seur_download_file_path');
 
-	$content_url    = content_url();
-	$random_string  = seur_create_random_string();
-	$file_prefix    = 'seur-downloader-';
-	$full_name      = $file_prefix . $random_string . '.php';
-	$full_url_file  = $content_url . '/' . $full_name;
-	$full_path_file = WP_CONTENT_DIR . '/' . $full_name;
-	$content_add    = seur_create_content_for_download();
+    $content_url    = content_url();
+    $random_string  = seur_create_random_string();
+    $file_prefix    = 'seur-downloader-';
+    $full_name      = $file_prefix . $random_string . '.php';
+    $full_url_file  = $content_url . '/' . $full_name;
+    $full_path_file = WP_CONTENT_DIR . '/' . $full_name;
+    $content_add    = seur_create_content_for_download();
 
-	$wp_filesystem->put_contents(
-	  $full_path_file,
-	  $content_add,
-	  FS_CHMOD_FILE // predefined mode settings for WP files
-	);
+    $wp_filesystem->put_contents(
+      $full_path_file,
+      $content_add,
+      FS_CHMOD_FILE // predefined mode settings for WP files
+    );
 
-	update_option( 'seur_download_file_url', $full_url_file );
-	update_option( 'seur_download_file_path', $full_path_file );
+    update_option( 'seur_download_file_url',  $full_url_file  );
+    update_option( 'seur_download_file_path', $full_path_file );
 
 }
 
