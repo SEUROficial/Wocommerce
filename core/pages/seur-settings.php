@@ -45,9 +45,8 @@ function seur_settings(){ ?>
 
 </script>
     </div>
-    <?php } ?>
+<?php }
 
-<?php
 function seur_settings_load_css( $hook ){
     global $seurconfig;
     if( $seurconfig != $hook ) {
