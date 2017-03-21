@@ -33,3 +33,4 @@ register_activation_hook( __FILE__, 'seur_create_tables_hook'           );
 register_activation_hook( __FILE__, 'seur_add_data_to_tables_hook'      );
 register_activation_hook( __FILE__, 'seur_create_upload_folder_hook'    );
 register_activation_hook( __FILE__, 'seur_add_avanced_settings_preset'  );
+register_activation_hook( __FILE__, 'seur_create_download_files'        );
