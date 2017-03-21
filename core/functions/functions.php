@@ -1371,7 +1371,7 @@ function seur_get_label( $order_id, $numpackages = '1', $weight = '1' ) {
                     add_post_meta( $labelid, '_seur_shipping_packages',                $numpackages,                                     true );
                     add_post_meta( $labelid, '_seur_shipping_order_id',                $order_id,                                        true );
                     add_post_meta( $labelid, '_seur_shipping_order_customer_comments', $customer_order_notes,                            true );
-                    add_post_meta( $labelid, '_seur_shipping_order_label_file_name',   $seur_pdf_label,                                  true );
+                    add_post_meta( $labelid, '_seur_shipping_order_label_file_name',   $seur_txt_label,                                  true );
                     add_post_meta( $labelid, '_seur_shipping_order_label_path_name',   $upload_path,                                     true );
                     add_post_meta( $labelid, '_seur_shipping_order_label_url_name',    $url_to_label,                                    true );
                     add_post_meta( $order_id,'_seur_shipping_order_label_url_name',    $url_to_label,                                    true );
