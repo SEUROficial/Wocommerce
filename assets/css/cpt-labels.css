@@ -1,0 +1,43 @@
+div{
+	outline: 0;
+	display: block;
+}
+div#postbox-container-2.postbox-container{
+	margin-top: -19px;
+}
+
+#order_data h2{
+	color: #333;
+	margin: 1.33em 0 0;
+	font-size: 1.5em;
+	padding: 0px 0px;
+}
+#order_data .order_data_column {
+	width: 48%;
+	padding: 0 2% 0 0;
+	float: left;
+}
+#order_data h3, #order_data h4{
+	color: #333;
+	margin: 1.33em 0 0
+}
+p{
+	display: block;
+	-webkit-margin-before: 1em;
+	-webkit-margin-after: 1em;
+	-webkit-margin-start: 0px;
+	-webkit-margin-end: 0px;
+	margin: 1em 0;
+	font-size: 13px;
+	line-height: 1.5
+}
+#order_data p{
+	color: #777;
+}
+#order_data .order_data_column:last-child{
+	padding-right: 0;
+}
+div#submitdiv.postbox {
+	visibility: hidden;
+	display: none;
+}
