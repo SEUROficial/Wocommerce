@@ -7,8 +7,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * WC_Shipping_SEUR class.
  *
- * @version 3.2.0
- * @since 3.2.0
+ * @version 1.0.0
+ * @since 1.0.0
  * @extends WC_Shipping_Method
  */
 class WC_Shipping_SEUR extends WC_Shipping_Method {
