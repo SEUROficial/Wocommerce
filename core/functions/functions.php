@@ -203,13 +203,22 @@ add_action( 'admin_enqueue_scripts', 'seur_datepicker_css' );
 function seur_css_pdf_viewer(){
     global $post_type;
      if( 'shop_order' == $post_type ){
-          //wp_register_style( 'seurpdfviewrCSS', SEUR_PLUGIN_URL . 'assets/css/viewer.css',  array(), SEUR_OFFICIAL_VERSION );
           wp_register_style( 'seurfontswo', SEUR_PLUGIN_URL . 'assets/css/seur-woo.css',       array(), SEUR_OFFICIAL_VERSION );
           wp_enqueue_style( 'seurfontswo' );
          }
 
 }
 add_action( 'admin_enqueue_scripts', 'seur_css_pdf_viewer' );
+
+function seur_css_cpt_label_view(){
+    global $post_type;
+     if( 'seur_labels' == $post_type ){
+          wp_register_style( 'seurcptlabelsview', SEUR_PLUGIN_URL . 'assets/css/cpt-labels.css',  array(), SEUR_OFFICIAL_VERSION );
+          wp_enqueue_style( 'seurcptlabelsview' );
+         }
+
+}
+add_action( 'admin_enqueue_scripts', 'seur_css_cpt_label_view' );
 
 function seur_settings_styles_css($hook){
     global $seurconfig, $seuraddform, $seurrates;
