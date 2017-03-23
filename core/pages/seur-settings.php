@@ -37,13 +37,17 @@ function seur_settings(){ ?>
         </form>
         <script type="text/javascript">
 
-      var preavisonotificar = document.querySelector('.js-switch-preavisonotificar');
-      var switchery = new Switchery(preavisonotificar, { size: 'small' });
+		      var preavisonotificar = document.querySelector('.js-switch-preavisonotificar');
+		      if ( preavisonotificar ) {
+			      var switchery = new Switchery(preavisonotificar, { size: 'small' });
+			      }
 
-      var repartonotificar = document.querySelector('.js-switch-repartonotificar');
-      var switchery = new Switchery(repartonotificar, { size: 'small' });
+		      var repartonotificar = document.querySelector('.js-switch-repartonotificar');
+		      if ( repartonotificar ) {
+		      	var switchery = new Switchery(repartonotificar, { size: 'small' });
+		      	}
 
-</script>
+		</script>
     </div>
 <?php }
 
@@ -52,10 +56,8 @@ function seur_settings_load_css( $hook ){
     if( $seurconfig != $hook ) {
         return;
     } else {
-        //wp_register_style(  'seur_ownstylesettings_css', SEUR_PLUGIN_URL . '/assets/css/rowstylesettings.css', array(), SEUR_OFFICIAL_VERSION  );
         wp_register_style(  'seur_switchery_css', SEUR_PLUGIN_URL . '/assets/css/switchery.css', array(), SEUR_OFFICIAL_VERSION  );
         wp_enqueue_style(   'seur_switchery_css');
-        //wp_enqueue_style(   'seur_ownstylesettings_css');
     }
 }
 add_action( 'admin_enqueue_scripts', 'seur_settings_load_css' );
