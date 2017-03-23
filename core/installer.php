@@ -156,7 +156,7 @@ function seur_add_data_to_tables_hook(){
             array(
                 'ser' => '77',
                 'pro' => '70',
-                'descripcion' => 'CLASSIC INTERTNACIONAL ESTANDAR',
+                'descripcion' => 'CLASSIC INTERNACIONAL ESTANDAR',
                 'tipo' => 'ESTANDAR',
             )
         );
@@ -247,6 +247,77 @@ function seur_add_data_to_tables_hook(){
                 'rateprice' => '0'
                 )
         );
+        $wpdb->insert(
+            $table_name,
+            array(
+                'country'   => 'ES',
+                'state'     => 'CE',
+                'postcode'  => '*',
+                'minprice'  => '0',
+                'maxprice'  => '300',
+                'minweight' => '0',
+                'maxweight' => '1000',
+                'rate'      => 'SEUR 72 ESTANDAR',
+                'rateprice' => '40'
+                )
+        );
+        $wpdb->insert(
+            $table_name,
+            array(
+                'country'   => 'ES',
+                'state'     => 'CE',
+                'postcode'  => '*',
+                'minprice'  => '300',
+                'maxprice'  => '9999999',
+                'minweight' => '0',
+                'maxweight' => '1000',
+                'rate'      => 'SEUR 72 ESTANDAR',
+                'rateprice' => '0'
+                )
+        );
+        $wpdb->insert(
+            $table_name,
+            array(
+                'country'   => 'ES',
+                'state'     => 'ML',
+                'postcode'  => '*',
+                'minprice'  => '0',
+                'maxprice'  => '300',
+                'minweight' => '0',
+                'maxweight' => '1000',
+                'rate'      => 'SEUR 72 ESTANDAR',
+                'rateprice' => '40'
+                )
+        );
+        $wpdb->insert(
+            $table_name,
+            array(
+                'country'   => 'ES',
+                'state'     => 'ML',
+                'postcode'  => '*',
+                'minprice'  => '300',
+                'maxprice'  => '9999999',
+                'minweight' => '0',
+                'maxweight' => '1000',
+                'rate'      => 'SEUR 72 ESTANDAR',
+                'rateprice' => '0'
+                )
+        );
+        $wpdb->insert(
+            $table_name,
+            array(
+                'country'   => '*',
+                'state'     => '*',
+                'postcode'  => '*',
+                'minprice'  => '0',
+                'maxprice'  => '9999999',
+                'minweight' => '0',
+                'maxweight' => '1000',
+                'rate'      => 'CLASSIC INTERNACIONAL ESTANDAR',
+                'rateprice' => '15'
+                )
+        );
+
         update_option('seur_table_version', SEUR_TABLE_VERSION );
     }
 }
