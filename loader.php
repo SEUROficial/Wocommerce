@@ -3,7 +3,7 @@
 Plugin Name: SEUR Official
 Plugin URI: http://www.seur.com/
 Description: SEUR Official
-Version: 1.0.0-Beta3
+Version: 1.0.0-Beta4
 Author: José Conti
 Author URI: https://www.joseconti.com/
 Tested up to: 4.7
@@ -13,7 +13,7 @@ License: GNU General Public License v3.0
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 */
 
-define( 'SEUR_OFFICIAL_VERSION',    '1.0.0-Beta3'               );
+define( 'SEUR_OFFICIAL_VERSION',    '1.0.0-Beta4'               );
 define( 'SEUR_DB_VERSION',          '1.0.0'                     );
 define( 'SEUR_TABLE_VERSION',       '1.0.0'                     );
 define( 'SEUR_PLUGIN_PATH',         plugin_dir_path( __FILE__ ) );
