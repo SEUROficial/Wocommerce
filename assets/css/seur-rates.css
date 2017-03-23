@@ -14,13 +14,10 @@
   font-family: 'seur-font' !important;
   speak: none;
   font-style: normal;
-  font-weight: normal;
   font-variant: normal;
   text-transform: none;
   line-height: 1;
   font-weight: 400;
-  font-variant: normal;
-  text-transform: none;
   padding-left: 10px;
   margin: 0;
   text-indent: 0;
@@ -45,13 +42,6 @@
 }
 
 .icon-pencil:before {
-  content: "\e905";
-}
-.icon-cross:before {
-  content: "\ea0f";
-}
-
-.icon-pencil:before{
   content: "\e905";
 }
 .icon-cross:before {
