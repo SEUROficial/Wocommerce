@@ -34,7 +34,24 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+[class^="icon-"]:hover, [class*=" icon-"]:hover {
+  /* use !important to prevent issues with browser extensions that change fonts */
+  font-family: 'seur-font' !important;
+  color: #464646;
+
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
 .icon-pencil:before {
+  content: "\e905";
+}
+.icon-cross:before {
+  content: "\ea0f";
+}
+
+.icon-pencil:before{
   content: "\e905";
 }
 .icon-cross:before {

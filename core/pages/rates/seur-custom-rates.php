@@ -85,9 +85,9 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 
 			                    <td><?php echo $rateprice; ?></td>
 
-			                    <td><a id="<?php echo $getrate->ID; ?>" class="edit-link icon-pencil" href="#" title="Edit"></a></td>
+			                    <td><a id="<?php echo $getrate->ID; ?>" class="edit-link icon-pencil" href="#"></a></td>
 
-			                    <td><a id="<?php echo $getrate->ID; ?>" class="delete-link icon-cross" href="#" title="Delete"></a></td>
+			                    <td><a id="<?php echo $getrate->ID; ?>" class="delete-link icon-cross" href="#"></a></td>
 			                </tr>
 							<?php }
 							}
