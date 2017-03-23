@@ -188,6 +188,18 @@ function seur_styles_css($hook){
 }
 add_action( 'admin_enqueue_scripts', 'seur_styles_css' );
 
+function seur_rates_css($hook){
+    global $seurrates;
+
+    if( $seurrates != $hook ) {
+        return;
+        } else {
+            wp_register_style( 'seurratescss',           SEUR_PLUGIN_URL . 'assets/css/seur-rates.css',  array(), SEUR_OFFICIAL_VERSION );
+            wp_enqueue_style( 'seurratescss' );
+    }
+}
+add_action( 'admin_enqueue_scripts', 'seur_rates_css' );
+
 function seur_datepicker_css($hook){
     global $seurmanifest;
 
