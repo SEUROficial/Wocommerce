@@ -85,9 +85,9 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 
 			                    <td><?php echo $rateprice; ?></td>
 
-			                    <td><a id="<?php echo $getrate->ID; ?>" class="edit-link" href="#" title="Edit"><img src="<?php echo SEUR_PLUGIN_URL ?>assets/images/edit.png" width="20px"></a></td>
+			                    <td><a id="<?php echo $getrate->ID; ?>" class="edit-link icon-pencil" href="#" title="Edit"></a></td>
 
-			                    <td><a id="<?php echo $getrate->ID; ?>" class="delete-link" href="#" title="Delete"><img src="<?php echo SEUR_PLUGIN_URL ?>assets/images/delete.png" width="20px"></a></td>
+			                    <td><a id="<?php echo $getrate->ID; ?>" class="delete-link icon-cross" href="#" title="Delete"></a></td>
 			                </tr>
 							<?php }
 							}
