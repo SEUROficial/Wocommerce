@@ -385,8 +385,8 @@ function seur_create_content_for_download(){
     $content .= '   if( $password == "' . $create_password . '" ) {'                                    . PHP_EOL;
     $content .= '          if ( file_exists( $file ) ) {'                                               . PHP_EOL;
     $content .= ''                                                                                      . PHP_EOL;
-    $content .= '                header("Content-Disposition: attachment; filename=" . $name . "");'    . PHP_EOL;
-    $content .= '                header("Content-type: $headerconten ");'                               . PHP_EOL;
+    $content .= '                header("Content-Disposition: attachment; filename=" . $name );'        . PHP_EOL;
+    $content .= '                header("Content-type: " . $headerconten );'                            . PHP_EOL;
     $content .= '                header("Expires: 0");'                                                 . PHP_EOL;
     $content .= '                header("Cache-Control: must-revalidate");'                             . PHP_EOL;
     $content .= '                header("Pragma: public");'                                             . PHP_EOL;
