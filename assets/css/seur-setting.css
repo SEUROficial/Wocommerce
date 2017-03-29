@@ -2,7 +2,7 @@
     background: black;
     border: 1px solid white;
   }
-  .ui-tooltip {
+ .ui-tooltip {
     padding: 10px 20px;
     color: white;
     border-radius: 5px;
@@ -12,26 +12,24 @@
     width: 250px;
     height: auto;
   }
-
 .wp-filter {
-
-	display: inline-block;
-	position: relative;
-	-webkit-box-sizing: border-box;
-	-moz-box-sizing: border-box;
-	box-sizing: border-box;
-	margin: 12px 0 25px;
-	padding: 0 10px;
-	width: 100%;
-	-webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.04);
-	box-shadow: 0 1px 1px rgba(0, 0, 0, 0.04);
-	border: 1px solid #e5e5e5;
-	background: #fff;
-	color: #555;
-	font-size: 13px;
-	height: 54px;
-	text-align: center;
-	margin: 0 auto;
-	margin-top: 15px;
-	padding-top: 13px;
+    display: inline-block;
+    position: relative;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    margin: 12px 0 25px;
+    padding: 0 10px;
+    width: 100%;
+    -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.04);
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.04);
+    border: 1px solid #e5e5e5;
+    background: #fff;
+    color: #555;
+    font-size: 13px;
+    height: 54px;
+    text-align: center;
+    margin: 0 auto;
+    margin-top: 15px;
+    padding-top: 13px;
   }
