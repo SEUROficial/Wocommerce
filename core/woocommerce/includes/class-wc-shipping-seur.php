@@ -645,10 +645,11 @@ class WC_Shipping_SEUR extends WC_Shipping_Method {
                 'title'           => __( 'Offer Rates', SEUR_TEXTDOMAIN ),
                 'type'            => 'select',
                 'description'     => '',
-                'default'         => 'all',
+                'default'         => 'expensive',
                 'options'         => array(
                     'all'         => __( 'Offer the customer all returned rates', SEUR_TEXTDOMAIN ),
                     'cheapest'    => __( 'Offer the customer the cheapest rate only', SEUR_TEXTDOMAIN ),
+                    'expensive'   => __( 'Offer the customer the expensive rate only', SEUR_TEXTDOMAIN )
                 ),
             ),
         );
@@ -775,7 +776,7 @@ class WC_Shipping_SEUR extends WC_Shipping_Method {
                     $this->add_rate( $rate );
                 }
 
-            } else {
+            } elseif ( $this->offer_rates == 'cheapest' ) {
 
                 $cheapest_rate = '';
 
@@ -789,6 +790,19 @@ class WC_Shipping_SEUR extends WC_Shipping_Method {
 
                 $this->add_rate( $cheapest_rate );
 
+            } else {
+
+	            $expensive_rate = '';
+
+                foreach ( $rates as $key => $rate ) {
+                    if ( ! $expensive_rate || $expensive_rate['cost'] < $rate['cost'] ) {
+                        $expensive_rate = $rate;
+                    }
+                }
+
+                $expensive_rate['label'] = $this->title;
+
+                $this->add_rate( $expensive_rate );
             }
         // Fallback
         } elseif ( $this->fallback ) {
