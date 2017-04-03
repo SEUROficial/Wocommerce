@@ -22,7 +22,7 @@ function seur_create_custom_rate() {
 
 			if ( empty( $seur_city ) )		$seur_city		= '*';
 			if ( empty( $seur_minprice ) )	$seur_minprice	= '0';
-			if ( empty( $seur_postcode ) )	$seur_postcode	= '*';
+			if ( empty( $seur_postcode ) || $seur_postcode == '00000' || $seur_postcode == '0000' || $seur_postcode == '*' )	$seur_postcode	= '*';
 			if ( empty( $seur_rateprice ) )	$seur_rateprice	= '0';
 			if ( empty( $seur_state ) )		$seur_state		= '0';
 			if ( empty( $seur_country ) )	$seur_country	= '0';
