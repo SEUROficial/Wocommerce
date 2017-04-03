@@ -1,5 +1,5 @@
 === Plugin Name ===
-Contributors: j.conti,
+Contributors: j.conti, S0p0rteintegracion
 Tags: woocommerce, shipping, seur
 Requires at least: 4.0
 Tested up to: 4.7
