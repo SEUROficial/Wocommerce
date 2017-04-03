@@ -284,14 +284,14 @@ function seur_remove_menu_items(){
     if ( isset( $submenu['seur'] ) ) {
         // Remove 'Seur' submenu items
         //unset( $submenu['seur'][0]  ); // SEUR submenu (same as SEUR settings)
-        unset( $submenu['seur'][6]  );
-        unset( $submenu['seur'][7]  ); // Add Form
-        unset( $submenu['seur'][8]  ); // Create Rate
-        unset( $submenu['seur'][9]  ); // Delete Rate
-        unset( $submenu['seur'][10] ); // Update Rate
-        unset( $submenu['seur'][11] ); // Edit Rate
-        unset( $submenu['seur'][12] ); // Process countries state
-        //unset( $submenu['seur'][13] ); // Process countries state
+        unset( $submenu['seur'][6]  ); // Add Form
+        unset( $submenu['seur'][7]  ); // Create Rate
+        unset( $submenu['seur'][8]  ); // Delete Rate
+        unset( $submenu['seur'][9]  ); // Update Rate
+        unset( $submenu['seur'][10] ); // Edit Rate
+        unset( $submenu['seur'][11] ); // Process Country State
+        unset( $submenu['seur'][12] ); // Get Label
+        unset( $submenu['seur'][15] ); // Get labels from order
     }
 }
 add_action( 'admin_head', 'seur_remove_menu_items' );
