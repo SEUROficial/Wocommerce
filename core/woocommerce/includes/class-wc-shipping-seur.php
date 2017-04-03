@@ -786,8 +786,6 @@ class WC_Shipping_SEUR extends WC_Shipping_Method {
                     }
                 }
 
-                $cheapest_rate['label'] = $this->title;
-
                 $this->add_rate( $cheapest_rate );
 
             } else {
@@ -799,8 +797,6 @@ class WC_Shipping_SEUR extends WC_Shipping_Method {
                         $expensive_rate = $rate;
                     }
                 }
-
-                $expensive_rate['label'] = $this->title;
 
                 $this->add_rate( $expensive_rate );
             }
