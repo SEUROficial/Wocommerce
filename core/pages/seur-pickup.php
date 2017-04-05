@@ -5,7 +5,8 @@ function seur_pickup( $post ) {
 	// Declarando $wpdb global y usarlo para ejecutar una sentencia de consulta SQL
 	global $wpdb;
 
-	$fecha 		   = date("y"). date("m") .date("d"); //yy/mm/dd
+	//$fecha 		   = date("y"). date("m") .date("d"); //yy/mm/dd
+	$fecha 		   = '2018' . date("m") .date("d"); //yy/mm/dd
 	$bloquear	   = '';
 	$bultos 	   = '';
 	$kilos 		   = '';
@@ -233,10 +234,10 @@ if( !isset($_POST["bultos"]) )
 		"<recogida>".
 		"<usuario>" .$_POST["usuario"]. "</usuario>" .
 		"<password>" .$_POST["contra"] ."</password>" .
-		"<razonSocial>" . Depurar($_POST["empresa"]) . "</razonSocial>" .
-		"<nombreEmpresa>" .Depurar($_POST["empresa"]) ."</nombreEmpresa>" .
-		"<nombreContactoOrdenante>" . Depurar($_POST["contacton"]) . "</nombreContactoOrdenante>" .
-		"<apellidosContactoOrdenante>" .Depurar($_POST["contactoa"]). "</apellidosContactoOrdenante>" .
+		"<razonSocial>" . seur_clean_data($_POST["empresa"]) . "</razonSocial>" .
+		"<nombreEmpresa>" .seur_clean_data($_POST["empresa"]) ."</nombreEmpresa>" .
+		"<nombreContactoOrdenante>" . seur_clean_data($_POST["contacton"]) . "</nombreContactoOrdenante>" .
+		"<apellidosContactoOrdenante>" .seur_clean_data($_POST["contactoa"]). "</apellidosContactoOrdenante>" .
 		"<prefijoTelefonoOrdenante>34</prefijoTelefonoOrdenante>".
 		"<telefonoOrdenante>" . $_POST["telefono"] . "</telefonoOrdenante>" .
 		"<prefijoFaxOrdenante />".
@@ -245,15 +246,15 @@ if( !isset($_POST["bultos"]) )
 		"<paisNifOrdenante>ES</paisNifOrdenante>".
 		"<mailOrdenante>" .$_POST["email"] . "</mailOrdenante>".
 		"<tipoViaOrdenante>" . $_POST["viatip"] . "</tipoViaOrdenante>".
-		"<calleOrdenante>" . Depurar($_POST["vianom"]) . "</calleOrdenante>".
+		"<calleOrdenante>" . seur_clean_data($_POST["vianom"]) . "</calleOrdenante>".
 		"<tipoNumeroOrdenante>N.</tipoNumeroOrdenante>".
 		"<numeroOrdenante>" . $_POST["vianum"] . "</numeroOrdenante>".
 		"<escaleraOrdenante>". $_POST["escalera"]. "</escaleraOrdenante>" .
 		"<pisoOrdenante>" . $_POST["piso"]."</pisoOrdenante>" .
 		"<puertaOrdenante>" . $_POST["puerta"] . "</puertaOrdenante>".
 		"<codigoPostalOrdenante>" . $_POST["postal"] . "</codigoPostalOrdenante>".
-		"<poblacionOrdenante>" . Depurar($_POST["poblacion"]) . "</poblacionOrdenante>".
-		"<provinciaOrdenante>" . Depurar($_POST["provincia"]) . "</provinciaOrdenante>".
+		"<poblacionOrdenante>" . seur_clean_data($_POST["poblacion"]) . "</poblacionOrdenante>".
+		"<provinciaOrdenante>" . seur_clean_data($_POST["provincia"]) . "</provinciaOrdenante>".
 		"<paisOrdenante>ES</paisOrdenante>" .
 
 
@@ -274,37 +275,37 @@ if( !isset($_POST["bultos"]) )
 		"<idiomaContactoOrdenante>ES</idiomaContactoOrdenante>".
 
 
-		"<razonSocialDestino>" . Depurar($_POST["empresa"]) . "</razonSocialDestino>".
-		"<nombreContactoDestino>" . Depurar($_POST["contacton"]) . "</nombreContactoDestino>".
-		"<apellidosContactoDestino>" . Depurar($_POST["contactoa"]) . "</apellidosContactoDestino>".
+		"<razonSocialDestino>" . seur_clean_data($_POST["empresa"]) . "</razonSocialDestino>".
+		"<nombreContactoDestino>" . seur_clean_data($_POST["contacton"]) . "</nombreContactoDestino>".
+		"<apellidosContactoDestino>" . seur_clean_data($_POST["contactoa"]) . "</apellidosContactoDestino>".
 		"<telefonoDestino>" . $_POST["telefono"] . "</telefonoDestino>".
 		"<tipoViaDestino>" . $_POST["viatip"]. "</tipoViaDestino>".
-		"<calleDestino>" . Depurar($_POST["vianom"]) . "</calleDestino>".
+		"<calleDestino>" . seur_clean_data($_POST["vianom"]) . "</calleDestino>".
 		"<tipoNumeroDestino>N.</tipoNumeroDestino>".
 		"<numeroDestino>" . $_POST["vianum"]. "</numeroDestino>".
 		"<escaleraDestino>". $_POST["escalera"] . "</escaleraDestino>" .
 		"<pisoDestino>".$_POST["piso"] ."</pisoDestino>".
 		"<puertaDestino>".$_POST["puerta"] . "</puertaDestino>".
 		"<codigoPostalDestino>" . $_POST["postal"] . "</codigoPostalDestino>".
-		"<poblacionDestino>" . Depurar($_POST["poblacion"]) . "</poblacionDestino>".
-		"<provinciaDestino>" . Depurar($_POST["provincia"]) . "</provinciaDestino>".
+		"<poblacionDestino>" . seur_clean_data($_POST["poblacion"]) . "</poblacionDestino>".
+		"<provinciaDestino>" . seur_clean_data($_POST["provincia"]) . "</provinciaDestino>".
 		"<paisDestino>ES</paisDestino>".
 		"<prefijoTelefonoDestino>34</prefijoTelefonoDestino>".
 
-		"<razonSocialOrigen>" . Depurar($_POST["empresa"]) . "</razonSocialOrigen>".
-		"<nombreContactoOrigen>" . Depurar($_POST["contacton"]) . "</nombreContactoOrigen>".
-		"<apellidosContactoOrigen>" .Depurar($_POST["contactoa"]) . "</apellidosContactoOrigen>".
+		"<razonSocialOrigen>" . seur_clean_data($_POST["empresa"]) . "</razonSocialOrigen>".
+		"<nombreContactoOrigen>" . seur_clean_data($_POST["contacton"]) . "</nombreContactoOrigen>".
+		"<apellidosContactoOrigen>" .seur_clean_data($_POST["contactoa"]) . "</apellidosContactoOrigen>".
 		"<telefonoRecogidaOrigen>" . $_POST["telefono"] . "</telefonoRecogidaOrigen>".
 		"<tipoViaOrigen>" . $_POST["viatip"]. "</tipoViaOrigen>".
-		"<calleOrigen>" .Depurar($_POST["vianom"]) . "</calleOrigen>".
+		"<calleOrigen>" .seur_clean_data($_POST["vianom"]) . "</calleOrigen>".
 		"<tipoNumeroOrigen>N.</tipoNumeroOrigen>".
 		"<numeroOrigen>" . $_POST["vianum"]. "</numeroOrigen>".
 		"<escaleraOrigen>". $_POST["escalera"] . "</escaleraOrigen>" .
 		"<pisoOrigen>".$_POST["piso"] . "</pisoOrigen>".
 		"<puertaOrigen>".$_POST["puerta"]."</puertaOrigen>".
 		"<codigoPostalOrigen>" . $_POST["postal"] . "</codigoPostalOrigen>".
-		"<poblacionOrigen>" . Depurar($_POST["poblacion"]) . "</poblacionOrigen>".
-		"<provinciaOrigen>" . Depurar($_POST["provincia"]) . "</provinciaOrigen>".
+		"<poblacionOrigen>" . seur_clean_data($_POST["poblacion"]) . "</poblacionOrigen>".
+		"<provinciaOrigen>" . seur_clean_data($_POST["provincia"]) . "</provinciaOrigen>".
 		"<paisOrigen>ES</paisOrigen>".
 		"<prefijoTelefonoOrigen>34</prefijoTelefonoOrigen>".
 
