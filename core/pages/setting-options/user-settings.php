@@ -78,11 +78,11 @@ function seur_cit_contra_field(){ ?>
     <?php }
 
 function seur_ccc_field(){ ?>
-    <input title="<?php _e('SEUR field description', SEUR_TEXTDOMAIN ); ?>" type="text" name="seur_ccc_field" value="<?php echo get_option('seur_ccc_field'); ?>" size="40" />
+    <input title="<?php _e('SEUR field description', SEUR_TEXTDOMAIN ); ?>" type="text" name="seur_ccc_field" value="<?php echo get_option('seur_ccc_field'); ?>" size="40" maxlength="5" />
     <?php }
 
 function seur_franquicia_field(){ ?>
-    <input title="<?php _e('SEUR field description', SEUR_TEXTDOMAIN ); ?>" type="text" name="seur_franquicia_field" value="<?php echo get_option('seur_franquicia_field'); ?>" size="40" />
+    <input title="<?php _e('SEUR field description', SEUR_TEXTDOMAIN ); ?>" type="text" name="seur_franquicia_field" value="<?php echo get_option('seur_franquicia_field'); ?>" size="40" maxlength="2" />
     <?php }
 
 function seur_seurcom_usuario_field(){ ?>
