@@ -369,7 +369,14 @@ function seur_create_upload_folder_hook(){
 
 function seur_create_content_for_download(){
 
-    $create_password = seur_create_random_string();
+    $create_password = get_option( 'seur_pass_for_download' );
+
+    if ( ! empty( $create_password ) ){
+	    $create_password = $create_password;
+    } else {
+	    $create_password = seur_create_random_string();
+    }
+
     $content = '<?php'                                                                                  . PHP_EOL;
     $content .= '   $file      = $_GET["label"];'                                                       . PHP_EOL;
     $content .= '   $name      = $_GET["label_name"];'                                                  . PHP_EOL;
