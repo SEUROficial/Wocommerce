@@ -161,8 +161,8 @@ function seur_custom_bulk_admin_footer() {
         jQuery('<option>').val('mark_seur-shipment').text('<?php _e('Mark Awaiting SEUR Shipment', SEUR_TEXTDOMAIN )?>').appendTo("select[name='action']");
         jQuery('<option>').val('mark_seur-label').text('<?php _e('Mark Awaiting SEUR Label', SEUR_TEXTDOMAIN )?>').appendTo("select[name='action2']");
         jQuery('<option>').val('mark_seur-shipment').text('<?php _e('Mark Awaiting SEUR Shipment', SEUR_TEXTDOMAIN )?>').appendTo("select[name='action2']");
-        jQuery('<option>').val('seur-createlabel').text('<?php _e('Create SEUR Label', SEUR_TEXTDOMAIN )?>').appendTo("select[name='action']");
-        jQuery('<option>').val('seur-createlabel').text('<?php _e('Create SEUR Label', SEUR_TEXTDOMAIN )?>').appendTo("select[name='action2']");
+        jQuery('<option>').val('seur-createlabel').text('<?php _e('Create SEUR Label (Only 1 label per order)', SEUR_TEXTDOMAIN )?>').appendTo("select[name='action']");
+        jQuery('<option>').val('seur-createlabel').text('<?php _e('Create SEUR Label (Only 1 label per order)', SEUR_TEXTDOMAIN )?>').appendTo("select[name='action2']");
       });
     </script>
     <?php
@@ -242,7 +242,7 @@ function seur_add_label_order_actions_button( $actions, $the_order ) {
     if ( $has_label != 'yes' ) { // if order has not label
         $actions['cancel'] = array(
             'url'       => wp_nonce_url( admin_url( 'admin-ajax.php?action=seur_get_label&order_id=' . $the_order->id ), 'woocommerce-mark-order-status' ),
-            'name'      => __( 'Get Label', SEUR_TEXTDOMAIN ),
+            'name'      => __( 'Get SEUR Label (Only 1 label per order)', SEUR_TEXTDOMAIN ),
             'action'    => "view label", // setting "view" for proper button CSS
         );
     }
