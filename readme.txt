@@ -7,7 +7,7 @@ Stable tag: 1.0.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 WC requires at least: 2.5
-WC tested up to: 2.6
+WC tested up to: 3.0
 
 Add a SEUR shipping method to WooCommerce.
 
