@@ -1219,45 +1219,6 @@ function seur_get_label( $order_id, $numpackages = '1', $weight = '1' ) {
     /** END Temp data maybe changed in the next release **/
     /*****************************************************/
 
-    if ( ! $fran ) {
-
-        $INTERNACIONALSW = "<id_mercancia>". $id_mercancia . "</id_mercancia>
-                            <descripcion_mercancia>" . $descripcion . "</descripcion_mercancia>
-                            <codigo_pais_destino>" . $customer_country . "</codigo_pais_destino>";
-        /********** lo dejo de momento como referencia para el siguiente código **/
-        /**** $envio_producto = $_POST["internacional_producto_sw"]; ********/
-        /**** $envio_servicio = $_POST["internacional_servicio_sw"];  *********/
-        } else {
-
-            // 74-CEUTA 77-ANDORRA 56-MELILLA
-            if ( $fran == '74' || $fran == '77'  || $fran == '56' || $fran == '35' || $fran == '38' || $fran == '52' || $fran == '60' || $fran == '70' ) {
-
-                        $ADUANASSW =    "<tipo_mercancia>" . $tipo_mercancia . "</tipo_mercancia>
-                                        <valor_declarado>" . $valor_declarado . "</valor_declarado>
-                                        <aduana_origen>" . $aduana_origen . "</aduana_origen>
-                                        <aduana_destino>" . $aduana_destino . "</aduana_destino>";
-
-                        if ( $fran == '74' || $fran == '77'|| $fran == '56' ) {
-
-                            $envio_producto = $nal_producto;
-                            $envio_servicio = $nal_servicio;
-
-                        } else {
-
-                            $envio_producto = $canarias_producto;
-                            $envio_servicio = $canarias_servicio;
-
-                            }
-
-                } else {
-
-                    $envio_producto = $nal_producto;
-                    $envio_servicio = $nal_servicio;
-                }
-
-
-        }
-
         if ( $tipo_aviso == 'SMS' && $preaviso_notificar == 'S' ) {
         $preaviso_sms = 'S';
         } else {
@@ -1350,13 +1311,17 @@ function seur_get_label( $order_id, $numpackages = '1', $weight = '1' ) {
                         <observaciones>' . $customer_order_notes . '</observaciones>
                         <referencia_expedicion>' . $order_id . '</referencia_expedicion>
                         <clavePortes>' . $portes . '</clavePortes>
-                        <clavePod></clavePod>' .
-                        $ADUANASSW .
-                        // Clave y Valor de Reembolso
-                        '<claveReembolso>' . $gastosR . '</claveReembolso>"
-                        <valorReembolso>' . $valorreembolso . '</valorReembolso>' .
-                        $INTERNACIONALSW .
-                        '<libroControl></libroControl>
+                        <clavePod></clavePod>
+                        <tipo_mercancia>' . $tipo_mercancia . '</tipo_mercancia>
+                        <valor_declarado>' . $customer_order_total . '</valor_declarado>
+                        <aduana_origen>' . $aduana_origen . '</aduana_origen>
+                        <aduana_destino>' . $aduana_destino . '</aduana_destino>
+                        <claveReembolso>' . $gastosR . '</claveReembolso>
+                        <valorReembolso>' . $valorreembolso . '</valorReembolso>
+                        <id_mercancia>' . $id_mercancia . '</id_mercancia>
+                        <descripcion_mercancia>' . $descripcion . '</descripcion_mercancia>
+                        <codigo_pais_destino>' . $customer_country . '</codigo_pais_destino>
+                        <libroControl></libroControl>
                         <nombre_consignatario>' . $customer_first_name . ' ' . $customer_last_name . '</nombre_consignatario>";
                         <direccion_consignatario>' . $customer_address_1 . ' ' . $customer_address_2 . '</direccion_consignatario>
                         <tipoVia_consignatario>CL</tipoVia_consignatario>
