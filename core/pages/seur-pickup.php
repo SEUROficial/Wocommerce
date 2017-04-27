@@ -5,8 +5,7 @@ function seur_pickup( $post ) {
 	// Declarando $wpdb global y usarlo para ejecutar una sentencia de consulta SQL
 	global $wpdb;
 
-	//$fecha 		   = date("y"). date("m") .date("d"); //yy/mm/dd
-	$fecha 		   = '2018' . date("m") .date("d"); //yy/mm/dd
+	$date 		   = date("y"). date("m") .date("d"); //yy/mm/dd
 	$bloquear	   = '';
 	$bultos 	   = '';
 	$kilos 		   = '';
@@ -99,9 +98,17 @@ function seur_pickup( $post ) {
 	echo "<input type='hidden' name='contactoa' value='" . $contacto_apellidos . "'>";
 	echo "<input type='hidden' name='usuario' value='" . $usercom . "'>";
 	echo "<input type='hidden' name='contra' value='" . $passcom. "'>";
+	wp_nonce_field( 'seur_pickup_action', 'seur_pickup_nonce_field' );
 
 
 } else {
+
+	if ( ! isset( $_POST['seur_pickup_nonce_field'] ) || ! wp_verify_nonce( $_POST['seur_pickup_nonce_field'], 'seur_pickup_action' ) ) {
+
+   print 'Sorry, your nonce did not verify.';
+   exit;
+
+	} else {
 
 		$bultos				= $_POST["bultos"];
 		$kilos				= $_POST["kilos"];
@@ -114,6 +121,7 @@ function seur_pickup( $post ) {
 		$contrasenaseurcom	= $_POST["contrasenaseurcom"];
 
 	}
+}
 
 
 
@@ -121,13 +129,16 @@ function seur_pickup( $post ) {
 // Comprobar si tiene una recogida para hoy y mostrar sus situaciones
 //*************************************************************************
 
+ 	$last_date 	= get_option( 'seur-date-localizador' );
+ 	$now 		= date("y"). date("m") .date("d");
+
  /*$sqlRECO= "SELECT id FROM $tablaRECO WHERE fecha='".$fecha. "'";
  $datos = $wpdb->get_results($sqlRECO);
  foreach ($datos as $valor )
  $identificador=$valor->id;*/
 
- if ( $identificador != "" )
-	{
+ if ( $last_date < $now ) {
+
 	echo "<div style='color:#e53920;font-weight:bold; font-size:12px;'>";
 	echo "YA TIENE UNA RECOGIDA PARA HOY<br>IDENTIFICADOR: " . $identificador ."</div>";
 	// situaciones de la recogida
@@ -240,8 +251,8 @@ if( !isset($_POST["bultos"]) )
 		"<apellidosContactoOrdenante>" .seur_clean_data($_POST["contactoa"]). "</apellidosContactoOrdenante>" .
 		"<prefijoTelefonoOrdenante>34</prefijoTelefonoOrdenante>".
 		"<telefonoOrdenante>" . $_POST["telefono"] . "</telefonoOrdenante>" .
-		"<prefijoFaxOrdenante />".
-		"<faxOrdenante />".
+		"<prefijoFaxOrdenante></prefijoFaxOrdenante>".
+		"<faxOrdenante></faxOrdenante>".
 		"<nifOrdenante>" . $_POST["nif"] . "</nifOrdenante>".
 		"<paisNifOrdenante>ES</paisNifOrdenante>".
 		"<mailOrdenante>" .$_POST["email"] . "</mailOrdenante>".
@@ -261,7 +272,8 @@ if( !isset($_POST["bultos"]) )
 
 		"<diaRecogida>" . date("d") . "</diaRecogida>".
 		"<mesRecogida>" . date("m") . "</mesRecogida>".
-		"<anioRecogida>" . date("Y") . "</anioRecogida>".
+		//"<anioRecogida>" . date("Y") . "</anioRecogida>".
+		"<anioRecogida>2018</anioRecogida>".
 		"<servicio>1</servicio>".
 		"<horaMananaDe>" . $_POST["Md"] ."</horaMananaDe>".
 		"<horaMananaA>" . $_POST["Mh"] ."</horaMananaA>".
@@ -320,15 +332,14 @@ if( !isset($_POST["bultos"]) )
 		"<listaBultos>". $TRAMA_KILOS."/</listaBultos>".
 		"<cccOrdenante>". $_POST["ccc"] . "-" . $_POST["franquicia"]. "</cccOrdenante>".
 		"<numeroReferencia></numeroReferencia>".
-		"<ultimaRecogidaDia />".
+		"<ultimaRecogidaDia></ultimaRecogidaDia>".
 		"<nifOrigen></nifOrigen>".
 		"<paisNifOrigen></paisNifOrigen>".
 		"<aviso>N</aviso>".
-		"<cccDonde />".
+		"<cccDonde></cccDonde>".
 		"<cccAdonde></cccAdonde>".
 		"<tipoRecogida></tipoRecogida>".
 		"</recogida>";
-
 
 		$sc_options = array(
 				'connection_timeout' => 30
@@ -340,28 +351,36 @@ if( !isset($_POST["bultos"]) )
 		$xml = simplexml_load_string($respuesta->out);
 		$codigo="";
 		$codigo=$xml->CODIGO;
+
 		if (strlen($codigo)>1 )
 		{
-			echo errores();
 			echo "SE HA PRODUCIDO UN ERROR</div>";
 			echo $xml->DESCRIPCION;
 			echo "<hr><a href='javascript:javascript:history.go(-1)'>";
 			echo "<img src='". SEUR_IMAGENES. "/volver.jpg" . "'></img>";
 			echo "</a>";
+			?>
+        <textarea rows="20" cols="40" style="border:none;">
+        <?php
+        echo $DatosRecogida;
+        ?>
+        </textarea>
+        <?php
 			return;
 		}
 		else
 		{
-		echo ok();
-		echo "Se ha creado la recogida.<br>Localizador: " . $xml->LOCALIZADOR . "</div>";
+		$locali_num = (string)$xml->LOCALIZADOR;
+		echo "Se ha creado la recogida.<br>Localizador: " . $locali_num . "</div>";
 
 		// Destruirmos la variable para que no pueda crear mas recogidas en esta vista actual
 		 unset($_POST["bultos"]);
 		// Grabamos que se ha creado la recogida para accesos del día muestre situaciones
-		 $sql = "INSERT INTO $tablaRECO (fecha,id) VALUES ($fecha,$xml->LOCALIZADOR)";
-		 $resultado=$wpdb->query($sql);
+		 update_option( 'seur-date-localizador', $date );
+		 update_option( 'seur-num-localizador', $locali_num );
+		 //$resultado=$wpdb->query($sql);
 		 if ($resultado!=1)
-				echo errores()."</div>";
+				echo "</div>";
 		return;
 		}
 
