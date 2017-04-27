@@ -20,8 +20,9 @@ display:none;
         <tr>
             <td><?php _e('Rate', SEUR_TEXTDOMAIN ); ?></td>
 
-	        <td><div id="ui-widget">
-	            <select class="select" id="rates"  title="<?php _e('Select Rate to apply', SEUR_TEXTDOMAIN ); ?>" name="rate">
+	        <td>
+	            <select class="select rate" id="rate"  title="<?php _e('Select Rate to apply', SEUR_TEXTDOMAIN ); ?>" name="rate">
+		            <option value="Select"><?php _e('Select a Country', SEUR_TEXTDOMAIN ) ?></option>
 				    <?php
 					    $tabla	= $wpdb->prefix . SEUR_PLUGIN_SVPR;
 	                    $sql	= "SELECT * FROM $tabla";
@@ -33,24 +34,17 @@ display:none;
 							}
 					?>
 				</select>
-	        </div>
             </td>
         </tr>
 
         <tr>
             <td><?php _e('Country', SEUR_TEXTDOMAIN ); ?></td>
 
-            <td>
+            <td id="countryid">
 	            <select class="select country" id="country" title="<?php _e('Select Country', SEUR_TEXTDOMAIN ); ?>" name="country">
 				    <?php
 						echo '<option value="Select">' . __('Select a Country', SEUR_TEXTDOMAIN ) . '</option>';
-						echo '<option value="*">' . __( 'All Countries', SEUR_TEXTDOMAIN ) . '</option>';
-	                    $countries = seur_get_countries();
-						foreach ($countries as $countrie => $value )
-							{
-								echo '<option value="' . $countrie  . '">' . $value . '</option>';
-							}
-						echo '<option value="REST">' . __( 'Rest of the World', SEUR_TEXTDOMAIN ) . '</option>';
+						echo '<option value="ES">' . __('Spain', SEUR_TEXTDOMAIN ) . '</option>';
 					?>
 				</select>
             </td>
