@@ -2,95 +2,95 @@
 if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 
 function seur_nif_field(){ ?>
-    <input title="<?php _e('SEUR field description', SEUR_TEXTDOMAIN ); ?>" type="text" name="seur_nif_field" value="<?php echo get_option('seur_nif_field'); ?>" size="40" />
+    <input title="<?php _e('NIF- NIF de la empresa', SEUR_TEXTDOMAIN ); ?>" type="text" name="seur_nif_field" value="<?php echo get_option('seur_nif_field'); ?>" size="40" />
     <?php }
 
 function seur_empresa_field(){ ?>
-    <input title="<?php _e('SEUR field description', SEUR_TEXTDOMAIN ); ?>" type="text" name="seur_empresa_field" value="<?php echo get_option('seur_empresa_field'); ?>" size="40" />
+    <input title="<?php _e('Empresa', SEUR_TEXTDOMAIN ); ?>" type="text" name="seur_empresa_field" value="<?php echo get_option('seur_empresa_field'); ?>" size="40" />
     <?php }
 
 function seur_viatipo_field(){ ?>
-    <input title="<?php _e('SEUR field description', SEUR_TEXTDOMAIN ); ?>" type="text" name="seur_viatipo_field" value="<?php echo get_option('seur_viatipo_field'); ?>" size="40" />
+    <input title="<?php _e('CL para calle, Av para Avenida, PZA para Plaza', SEUR_TEXTDOMAIN ); ?>" type="text" name="seur_viatipo_field" value="<?php echo get_option('seur_viatipo_field'); ?>" size="40" />
     <?php }
 
 function seur_vianombre_field(){ ?>
-    <input title="<?php _e('SEUR field description', SEUR_TEXTDOMAIN ); ?>" type="text" name="seur_vianombre_field" value="<?php echo get_option('seur_vianombre_field'); ?>" size="40" />
+    <input title="<?php _e('Dirección donde vamos a recoger', SEUR_TEXTDOMAIN ); ?>" type="text" name="seur_vianombre_field" value="<?php echo get_option('seur_vianombre_field'); ?>" size="40" />
     <?php }
 
 function seur_vianumero_field(){ ?>
-    <input title="<?php _e('SEUR field description', SEUR_TEXTDOMAIN ); ?>" type="text" name="seur_vianumero_field" value="<?php echo get_option('seur_vianumero_field'); ?>" size="40" />
+    <input title="<?php _e('Dirección donde vamos a recoger', SEUR_TEXTDOMAIN ); ?>" type="text" name="seur_vianumero_field" value="<?php echo get_option('seur_vianumero_field'); ?>" size="40" />
     <?php }
 
 function seur_escalera_field(){ ?>
-    <input title="<?php _e('SEUR field description', SEUR_TEXTDOMAIN ); ?>" type="text" name="seur_escalera_field" value="<?php echo get_option('seur_escalera_field'); ?>" size="40" />
+    <input title="<?php _e('Dirección donde vamos a recoger', SEUR_TEXTDOMAIN ); ?>" type="text" name="seur_escalera_field" value="<?php echo get_option('seur_escalera_field'); ?>" size="40" />
     <?php }
 
 function seur_piso_field(){ ?>
-    <input title="<?php _e('SEUR field description', SEUR_TEXTDOMAIN ); ?>" type="text" name="seur_piso_field" value="<?php echo get_option('seur_piso_field'); ?>" size="40" />
+    <input title="<?php _e('Dirección donde vamos a recoger', SEUR_TEXTDOMAIN ); ?>" type="text" name="seur_piso_field" value="<?php echo get_option('seur_piso_field'); ?>" size="40" />
     <?php }
 
 function seur_puerta_field(){ ?>
-    <input title="<?php _e('SEUR field description', SEUR_TEXTDOMAIN ); ?>" type="text" name="seur_puerta_field" value="<?php echo get_option('seur_puerta_field'); ?>" size="40" />
+    <input title="<?php _e('Dirección donde vamos a recoger', SEUR_TEXTDOMAIN ); ?>" type="text" name="seur_puerta_field" value="<?php echo get_option('seur_puerta_field'); ?>" size="40" />
     <?php }
 
 function seur_postal_field(){ ?>
-    <input title="<?php _e('SEUR field description', SEUR_TEXTDOMAIN ); ?>" type="text" name="seur_postal_field" value="<?php echo get_option('seur_postal_field'); ?>" size="40" />
+    <input title="<?php _e('Para España 5 dígitos, para Portugal 4 dígitos', SEUR_TEXTDOMAIN ); ?>" type="text" name="seur_postal_field" value="<?php echo get_option('seur_postal_field'); ?>" size="40" />
     <?php }
 
 function seur_poblacion_field(){ ?>
-    <input title="<?php _e('SEUR field description', SEUR_TEXTDOMAIN ); ?>" type="text" name="seur_poblacion_field" value="<?php echo get_option('seur_poblacion_field'); ?>" size="40" />
+    <input title="<?php _e('Población donde vamos a recoger', SEUR_TEXTDOMAIN ); ?>" type="text" name="seur_poblacion_field" value="<?php echo get_option('seur_poblacion_field'); ?>" size="40" />
     <?php }
 
 function seur_provincia_field(){ ?>
-    <input title="<?php _e('SEUR field description', SEUR_TEXTDOMAIN ); ?>" type="text" name="seur_provincia_field" value="<?php echo get_option('seur_provincia_field'); ?>" size="40" />
+    <input title="<?php _e('Provincia donde vamos a recoger', SEUR_TEXTDOMAIN ); ?>" type="text" name="seur_provincia_field" value="<?php echo get_option('seur_provincia_field'); ?>" size="40" />
     <?php }
 
 function seur_pais_field(){ ?>
-    <input title="<?php _e('SEUR field description', SEUR_TEXTDOMAIN ); ?>" type="text" name="seur_pais_field" value="<?php echo get_option('seur_pais_field'); ?>" size="40" />
+    <input title="<?php _e('País donde vamos a recoger', SEUR_TEXTDOMAIN ); ?>" type="text" name="seur_pais_field" value="<?php echo get_option('seur_pais_field'); ?>" size="40" />
     <?php }
 
 function seur_telefono_field(){ ?>
-    <input title="<?php _e('SEUR field description', SEUR_TEXTDOMAIN ); ?>" type="text" name="seur_telefono_field" value="<?php echo get_option('seur_telefono_field'); ?>" size="40" />
+    <input title="<?php _e('Teléfono de contacto', SEUR_TEXTDOMAIN ); ?>" type="text" name="seur_telefono_field" value="<?php echo get_option('seur_telefono_field'); ?>" size="40" />
     <?php }
 
 function seur_email_field(){ ?>
-    <input title="<?php _e('SEUR field description', SEUR_TEXTDOMAIN ); ?>" type="text" name="seur_email_field" value="<?php echo get_option('seur_email_field'); ?>" size="40" />
+    <input title="<?php _e('Email de contacto', SEUR_TEXTDOMAIN ); ?>" type="text" name="seur_email_field" value="<?php echo get_option('seur_email_field'); ?>" size="40" />
     <?php }
 
 function seur_contacto_nombre_field(){ ?>
-    <input title="<?php _e('SEUR field description', SEUR_TEXTDOMAIN ); ?>" type="text" name="seur_contacto_nombre_field" value="<?php echo get_option('seur_contacto_nombre_field'); ?>" size="40" />
+    <input title="<?php _e('Persona de contacto', SEUR_TEXTDOMAIN ); ?>" type="text" name="seur_contacto_nombre_field" value="<?php echo get_option('seur_contacto_nombre_field'); ?>" size="40" />
     <?php }
 
 function seur_contacto_apellidos_field(){ ?>
-    <input title="<?php _e('SEUR field description', SEUR_TEXTDOMAIN ); ?>" type="text" name="seur_contacto_apellidos_field" value="<?php echo get_option('seur_contacto_apellidos_field'); ?>" size="40" />
+    <input title="<?php _e('Persona de contacto', SEUR_TEXTDOMAIN ); ?>" type="text" name="seur_contacto_apellidos_field" value="<?php echo get_option('seur_contacto_apellidos_field'); ?>" size="40" />
     <?php }
 
 function seur_cit_codigo_field(){ ?>
-    <input title="<?php _e('SEUR field description', SEUR_TEXTDOMAIN ); ?>" type="text" name="seur_cit_codigo_field" value="<?php echo get_option('seur_cit_codigo_field'); ?>" size="40" />
+    <input title="<?php _e('Código de cliente integrado', SEUR_TEXTDOMAIN ); ?>" type="text" name="seur_cit_codigo_field" value="<?php echo get_option('seur_cit_codigo_field'); ?>" size="40" />
     <?php }
 
 function seur_cit_usuario_field(){ ?>
-    <input title="<?php _e('SEUR field description', SEUR_TEXTDOMAIN ); ?>" type="text" name="seur_cit_usuario_field" value="<?php echo get_option('seur_cit_usuario_field'); ?>" size="40" />
+    <input title="<?php _e('Usuario para generar las etiquetas', SEUR_TEXTDOMAIN ); ?>" type="text" name="seur_cit_usuario_field" value="<?php echo get_option('seur_cit_usuario_field'); ?>" size="40" />
     <?php }
 
 function seur_cit_contra_field(){ ?>
-    <input title="<?php _e('SEUR field description', SEUR_TEXTDOMAIN ); ?>" type="text" name="seur_cit_contra_field" value="<?php echo get_option('seur_cit_contra_field'); ?>" size="40" />
+    <input title="<?php _e('Contraseña para generar las etiquetas', SEUR_TEXTDOMAIN ); ?>" type="text" name="seur_cit_contra_field" value="<?php echo get_option('seur_cit_contra_field'); ?>" size="40" />
     <?php }
 
 function seur_ccc_field(){ ?>
-    <input title="<?php _e('SEUR field description', SEUR_TEXTDOMAIN ); ?>" type="text" name="seur_ccc_field" value="<?php echo get_option('seur_ccc_field'); ?>" size="40" maxlength="5" />
+    <input title="<?php _e('Código de Cuenta con SEUR', SEUR_TEXTDOMAIN ); ?>" type="text" name="seur_ccc_field" value="<?php echo get_option('seur_ccc_field'); ?>" size="40" maxlength="5" />
     <?php }
 
 function seur_franquicia_field(){ ?>
-    <input title="<?php _e('SEUR field description', SEUR_TEXTDOMAIN ); ?>" type="text" name="seur_franquicia_field" value="<?php echo get_option('seur_franquicia_field'); ?>" size="40" maxlength="2" />
+    <input title="<?php _e('Código numérico de dos dígitos', SEUR_TEXTDOMAIN ); ?>" type="text" name="seur_franquicia_field" value="<?php echo get_option('seur_franquicia_field'); ?>" size="40" maxlength="2" />
     <?php }
 
 function seur_seurcom_usuario_field(){ ?>
-    <input title="<?php _e('SEUR field description', SEUR_TEXTDOMAIN ); ?>" type="text" name="seur_seurcom_usuario_field" value="<?php echo get_option('seur_seurcom_usuario_field'); ?>" size="40" />
+    <input title="<?php _e('Usuario de acceso a seur.com', SEUR_TEXTDOMAIN ); ?>" type="text" name="seur_seurcom_usuario_field" value="<?php echo get_option('seur_seurcom_usuario_field'); ?>" size="40" />
     <?php }
 
 function seur_seurcom_contra_field(){ ?>
-    <input title="<?php _e('SEUR field description', SEUR_TEXTDOMAIN ); ?>" type="text" name="seur_seurcom_contra_field" value="<?php echo get_option('seur_seurcom_contra_field'); ?>" size="40" />
+    <input title="<?php _e('Contraseña de acceso seur.com', SEUR_TEXTDOMAIN ); ?>" type="text" name="seur_seurcom_contra_field" value="<?php echo get_option('seur_seurcom_contra_field'); ?>" size="40" />
     <?php }
 
 
