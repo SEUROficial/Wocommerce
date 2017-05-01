@@ -53,7 +53,7 @@ function seur_register_awaiting_shipment_status() {
         'label'     => 'Awaiting shipment',
         'public'    => true,
         'show_in_admin_status_list' => true, // show count All (12) , Completed (9) , Awaiting shipment (2) ...
-        'label_count'   => _n_noop( __('Awaiting shipment <span class="count">(%s)</span>', ''), __('Awaiting shipment <span class="count">(%s)</span>', '') )
+        'label_count'   => _n_noop( __('Awaiting SEUR shipment <span class="count">(%s)</span>', ''), __('Awaiting SEUR shipment <span class="count">(%s)</span>', '') )
     ) );
 
 }
@@ -87,7 +87,7 @@ function seur_register_awaiting_labels_status() {
         'label'     => 'Awaiting Labels',
         'public'    => true,
         'show_in_admin_status_list' => true, // show count All (12) , Completed (9) , Awaiting shipment (2) ...
-        'label_count'   => _n_noop( __('Awaiting Label <span class="count">(%s)</span>', SEUR_TEXTDOMAIN ), __('Awaiting Label <span class="count">(%s)</span>', SEUR_TEXTDOMAIN ) )
+        'label_count'   => _n_noop( __('Awaiting SEUR Label <span class="count">(%s)</span>', SEUR_TEXTDOMAIN ), __('Awaiting SEUR Label <span class="count">(%s)</span>', SEUR_TEXTDOMAIN ) )
     ) );
 
 }
