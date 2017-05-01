@@ -15,12 +15,17 @@ add_action( 'add_meta_boxes_shop_order', 'seur_register_meta_boxes', 999 );
  */
 function seur_metabox_callback( $post ) {
 
-    $weight    = '';
-    $has_label = '';
-    $labelID   = '';
-
-    $has_label = get_post_meta( $post->ID, '_seur_shipping_order_label_downloaded', true );
-    $labelID   = get_post_meta( $post->ID, '_seur_shipping_label_id', true );
+    $weight   			  = '';
+    $has_label 			  = '';
+    $labelID   			  = '';
+    $has_label 			  = get_post_meta( $post->ID, '_seur_shipping_order_label_downloaded',	true );
+    $labelID   			  = get_post_meta( $post->ID, '_seur_shipping_label_id',				true );
+    $url_to_file_down     = get_option( 'seur_download_file_url' );
+    $label_path           = get_post_meta( $labelID, '_seur_shipping_order_label_path_name',	true );
+    $label_path           = str_replace( "\\", "/", $label_path );
+    $label_file_name      = get_post_meta( $labelID, '_seur_shipping_order_label_file_name',	true );
+    $file_downlo_pass     = get_option( 'seur_pass_for_download' );
+    $file_type            = get_post_meta( $labelID, '_seur_label_type',						true );
 
     ?> <div id="seur_content_metabox"> <?php
 
@@ -30,14 +35,13 @@ function seur_metabox_callback( $post ) {
            $arrayUrl = array ('order_id' => $post->ID, '?TB_iframe' => 'true', 'width' => '400', 'height' => '300' );
            $final_get_label_url = esc_url( add_query_arg(  $arrayUrl , $url ) );
            add_thickbox(); ?>
-           <a class='thickbox button' title='<?php _e( 'Get Label',SEUR_TEXTDOMAIN ); ?>' alt='<?php _e( 'Get Label',SEUR_TEXTDOMAIN ); ?>' href='<?php echo $final_get_label_url; ?>'><?php _e( 'Get Label',SEUR_TEXTDOMAIN ); ?></a>
+           <a class='thickbox button' title='<?php _e( 'Get SEUR Label',SEUR_TEXTDOMAIN ); ?>' alt='<?php _e( 'Get SEUR Label',SEUR_TEXTDOMAIN ); ?>' href='<?php echo $final_get_label_url; ?>'><?php _e( 'Get SEUR Label',SEUR_TEXTDOMAIN ); ?></a>
            <?php
 
 	} else {
-		$labelURL = get_post_meta( $post->ID, '_seur_shipping_order_label_url_name', true );
-		?>
-		<a class='button' title='<?php _e( 'See Label',SEUR_TEXTDOMAIN ); ?>' alt='<?php _e( 'See Label',SEUR_TEXTDOMAIN ); ?>' href='<?php echo $labelURL; ?>' target='_blank'><?php _e( 'See Label',SEUR_TEXTDOMAIN ); ?></a>
-		<?php
+
+		 echo '<a href="' . $url_to_file_down . '?label=' . $label_path . '&label_name=' . $label_file_name . '&pass=' . $file_downlo_pass . '&file_type=' . $file_type . '" class="button" target="_blank">' . __( ' See SEUR Label ', SEUR_TEXTDOMAIN ) . '</a>';
+
 } ?>
 </div>
 <?php
