@@ -28,7 +28,6 @@ $options = array(
     'seur_aduana_origen_field',
     'seur_aduana_destino_field',
     'seur_tipo_mercancia_field',
-    'seur_valor_declarado_field',
     'seur_id_mercancia_field',
     'seur_descripcion_field',
     'seur_nif_field',
@@ -66,7 +65,9 @@ $options = array(
     'seur_add_advanced_settings_field_pre',
     'seur_download_file_url',
     'seur_download_file_path',
-    'seur_pass_for_download'
+    'seur_pass_for_download',
+    'seur_date_localizador',
+    'seur_num_localizador'
     );
 
 foreach ( $options as $option ){
