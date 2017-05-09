@@ -49,6 +49,18 @@ if ( defined( 'SEUR_DEBUG' ) && SEUR_DEBUG == true ) {
     add_action( 'admin_notices', 'seur_debug_mode_notice' );
 }
 
+add_action( 'admin_notices', 'seur_admin_notices' );
+
+function seur_admin_notices() {
+    $message = get_transient( get_current_user_id() . '_seur_woo_bulk_action_pending_notice' );
+
+    if ( $message ) {
+        delete_transient( get_current_user_id() . '_seur_woo_bulk_action_pending_notice' );
+
+        printf( '<div class="%1$s"><p>%2$s</p></div>', 'notice notice-error is-dismissible seur_woo_bulk_action_pending_notice', $message );
+    }
+}
+
 // Function for check URL's
 
 function seur_check_url_exists( $seururl ) {
@@ -121,11 +133,6 @@ function SeurCheckCity( $datos ){
         return "ERROR";
     else
      return $xml->REG1->COD_UNIDAD_ADMIN;
-
-
-
-
-
 }
 
 function seur_custom_rates_load_js(){
