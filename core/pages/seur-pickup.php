@@ -129,12 +129,12 @@ function seur_pickup( $post ) {
 // Comprobar si tiene una recogida para hoy y mostrar sus situaciones
 //*************************************************************************
 
-    $last_date      = get_option( 'seur-date-localizador' );
+    $last_date      = get_option( 'seur_date_localizador' );
     $now            = date("y"). date("m") . date("d");
-    $identificador  = get_option( 'seur-num-localizador' );
+    $identificador  = get_option( 'seur_num_localizador' );
 
 
- if ( $last_date < $now ) {
+ if ( $last_date == $now ) {
 
     echo "<div style='color:#e53920;font-weight:bold; font-size:12px;'>";
     echo "YA TIENE UNA RECOGIDA PARA HOY<br>IDENTIFICADOR: " . $identificador ."</div>";
@@ -377,8 +377,8 @@ if( !isset($_POST["bultos"]) )
         // Destruirmos la variable para que no pueda crear mas recogidas en esta vista actual
          unset($_POST["bultos"]);
         // Grabamos que se ha creado la recogida para accesos del día muestre situaciones
-         update_option( 'seur-date-localizador', $date );
-         update_option( 'seur-num-localizador', $locali_num );
+         update_option( 'seur_date_localizador', $date );
+         update_option( 'seur_num_localizador', $locali_num );
          //$resultado=$wpdb->query($sql);
          if ($resultado!=1)
                 echo "</div>";
