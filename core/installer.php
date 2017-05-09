@@ -84,7 +84,7 @@ function seur_add_data_to_tables_hook(){
             array(
                 'ser' => '31',
                 'pro' => '2',
-                'descripcion' => 'PARTICULARES 24H ESTANDAR',
+                'descripcion' => 'B2C Estándar',
                 'tipo' => 'ESTANDAR',
             )
         );
@@ -93,7 +93,7 @@ function seur_add_data_to_tables_hook(){
             array(
                 'ser' => '3',
                 'pro' => '2',
-                'descripcion' => 'SEUR 10',
+                'descripcion' => 'SEUR 10 Estándar',
                 'tipo' => 'ESTANDAR',
             )
         );
@@ -102,7 +102,7 @@ function seur_add_data_to_tables_hook(){
             array(
                 'ser' => '3',
                 'pro' => '18',
-                'descripcion' => 'SEUR 10 FRIO',
+                'descripcion' => 'SEUR 10 Frío',
                 'tipo' => 'FRIO',
             )
         );
@@ -111,7 +111,7 @@ function seur_add_data_to_tables_hook(){
             array(
                 'ser' => '9',
                 'pro' => '2',
-                'descripcion' => 'SEUR 13:30 ESTANDAR',
+                'descripcion' => 'SEUR 13:30 Estándar',
                 'tipo' => 'ESTANDAR',
             )
         );
@@ -120,7 +120,7 @@ function seur_add_data_to_tables_hook(){
             array(
                 'ser' => '9',
                 'pro' => '18',
-                'descripcion' => 'SEUR 13:30 FRIO',
+                'descripcion' => 'SEUR 13:30 Frío',
                 'tipo' => 'FRIO',
             )
         );
@@ -129,7 +129,7 @@ function seur_add_data_to_tables_hook(){
             array(
                 'ser' => '15',
                 'pro' => '2',
-                'descripcion' => 'SEUR 48 ESTANDAR',
+                'descripcion' => 'SEUR 48H Estándar',
                 'tipo' => 'ESTANDAR',
             )
         );
@@ -138,16 +138,7 @@ function seur_add_data_to_tables_hook(){
             array(
                 'ser' => '13',
                 'pro' => '2',
-                'descripcion' => 'SEUR 72 ESTANDAR',
-                'tipo' => 'ESTANDAR',
-            )
-        );
-        $wpdb->insert(
-            $table_name,
-            array(
-                'ser' => '17',
-                'pro' => '2',
-                'descripcion' => 'MARITIMO ESTANDAR',
+                'descripcion' => 'SEUR 72H Estándar',
                 'tipo' => 'ESTANDAR',
             )
         );
@@ -156,7 +147,7 @@ function seur_add_data_to_tables_hook(){
             array(
                 'ser' => '77',
                 'pro' => '70',
-                'descripcion' => 'CLASSIC INTERNACIONAL ESTANDAR',
+                'descripcion' => 'Classic Internacional Terrestre',
                 'tipo' => 'ESTANDAR',
             )
         );
@@ -173,7 +164,7 @@ function seur_add_data_to_tables_hook(){
                 'maxprice'  => '60',
                 'minweight' => '0',
                 'maxweight' => '1000',
-                'rate'      => 'PARTICULARES 24H ESTANDAR',
+                'rate'      => 'B2C Estándar',
                 'rateprice' => '10'
                 )
         );
@@ -187,7 +178,63 @@ function seur_add_data_to_tables_hook(){
                 'maxprice'  => '9999999',
                 'minweight' => '0',
                 'maxweight' => '1000',
-                'rate'      => 'PARTICULARES 24H ESTANDAR',
+                'rate'      => 'B2C Estándar',
+                'rateprice' => '0'
+                )
+        );
+        $wpdb->insert(
+            $table_name,
+            array(
+                'country'   => 'PT',
+                'state'     => '*',
+                'postcode'  => '*',
+                'minprice'  => '0',
+                'maxprice'  => '60',
+                'minweight' => '0',
+                'maxweight' => '1000',
+                'rate'      => 'B2C Estándar',
+                'rateprice' => '10'
+                )
+        );
+        $wpdb->insert(
+            $table_name,
+            array(
+                'country'   => 'PT',
+                'state'     => '*',
+                'postcode'  => '*',
+                'minprice'  => '60',
+                'maxprice'  => '9999999',
+                'minweight' => '0',
+                'maxweight' => '1000',
+                'rate'      => 'B2C Estándar',
+                'rateprice' => '0'
+                )
+        );
+        $wpdb->insert(
+            $table_name,
+            array(
+                'country'   => 'AD',
+                'state'     => '*',
+                'postcode'  => '*',
+                'minprice'  => '0',
+                'maxprice'  => '60',
+                'minweight' => '0',
+                'maxweight' => '1000',
+                'rate'      => 'B2C Estándar',
+                'rateprice' => '10'
+                )
+        );
+        $wpdb->insert(
+            $table_name,
+            array(
+                'country'   => 'AD',
+                'state'     => '*',
+                'postcode'  => '*',
+                'minprice'  => '60',
+                'maxprice'  => '9999999',
+                'minweight' => '0',
+                'maxweight' => '1000',
+                'rate'      => 'B2C Estándar',
                 'rateprice' => '0'
                 )
         );
@@ -201,7 +248,7 @@ function seur_add_data_to_tables_hook(){
                 'maxprice'  => '100',
                 'minweight' => '0',
                 'maxweight' => '1000',
-                'rate'      => 'SEUR 48 ESTANDAR',
+                'rate'      => 'B2C Estándar',
                 'rateprice' => '15'
                 )
         );
@@ -215,7 +262,7 @@ function seur_add_data_to_tables_hook(){
                 'maxprice'  => '9999999',
                 'minweight' => '0',
                 'maxweight' => '1000',
-                'rate'      => 'SEUR 48 ESTANDAR',
+                'rate'      => 'B2C Estándar',
                 'rateprice' => '0'
                 )
         );
@@ -229,7 +276,7 @@ function seur_add_data_to_tables_hook(){
                 'maxprice'  => '200',
                 'minweight' => '0',
                 'maxweight' => '1000',
-                'rate'      => 'SEUR 72 ESTANDAR',
+                'rate'      => 'B2C Estándar',
                 'rateprice' => '35'
                 )
         );
@@ -243,7 +290,7 @@ function seur_add_data_to_tables_hook(){
                 'maxprice'  => '9999999',
                 'minweight' => '0',
                 'maxweight' => '1000',
-                'rate'      => 'SEUR 72 ESTANDAR',
+                'rate'      => 'B2C Estándar',
                 'rateprice' => '0'
                 )
         );
@@ -257,7 +304,7 @@ function seur_add_data_to_tables_hook(){
                 'maxprice'  => '300',
                 'minweight' => '0',
                 'maxweight' => '1000',
-                'rate'      => 'SEUR 72 ESTANDAR',
+                'rate'      => 'B2C Estándar',
                 'rateprice' => '40'
                 )
         );
@@ -271,7 +318,7 @@ function seur_add_data_to_tables_hook(){
                 'maxprice'  => '9999999',
                 'minweight' => '0',
                 'maxweight' => '1000',
-                'rate'      => 'SEUR 72 ESTANDAR',
+                'rate'      => 'B2C Estándar',
                 'rateprice' => '0'
                 )
         );
@@ -285,7 +332,7 @@ function seur_add_data_to_tables_hook(){
                 'maxprice'  => '300',
                 'minweight' => '0',
                 'maxweight' => '1000',
-                'rate'      => 'SEUR 72 ESTANDAR',
+                'rate'      => 'B2C Estándar',
                 'rateprice' => '40'
                 )
         );
@@ -299,7 +346,7 @@ function seur_add_data_to_tables_hook(){
                 'maxprice'  => '9999999',
                 'minweight' => '0',
                 'maxweight' => '1000',
-                'rate'      => 'SEUR 72 ESTANDAR',
+                'rate'      => 'B2C Estándar',
                 'rateprice' => '0'
                 )
         );
@@ -313,7 +360,7 @@ function seur_add_data_to_tables_hook(){
                 'maxprice'  => '9999999',
                 'minweight' => '0',
                 'maxweight' => '1000',
-                'rate'      => 'CLASSIC INTERNACIONAL ESTANDAR',
+                'rate'      => 'Classic Internacional Terrestre',
                 'rateprice' => '15'
                 )
         );
@@ -462,7 +509,6 @@ function seur_add_avanced_settings_preset(){
         update_option( 'seur_aduana_origen_field',              'D'                     );
         update_option( 'seur_aduana_destino_field',             'D'                     );
         update_option( 'seur_tipo_mercancia_field',             'C'                     );
-        update_option( 'seur_valor_declarado_field',            '50'                    );
         update_option( 'seur_id_mercancia_field',               '400'                   );
         update_option( 'seur_descripcion_field',                'MANUFACTURAS DIVERSAS' );
         update_option( 'seur_add_advanced_settings_field_pre',  '1'                     );
