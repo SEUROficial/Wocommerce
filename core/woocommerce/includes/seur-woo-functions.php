@@ -197,8 +197,13 @@ function seur_woo_bulk_action() {
 
             if ( $has_label != 'yes' ) {
 
-                $label_id = seur_get_label( $post_id, '1' );
-                if( $label_id ){
+                $label  = seur_get_label( $post_id, '1' );
+
+                $label_result  = $label[0]['result'];
+                $labelID       = $label[0]['labelID'];
+                $label_message = $label[0]['message'];
+
+                if( $label_result ){
 
                     $order = wc_get_order( $post_id );
                     $order->update_status( $new_status, __( 'Label have been created:', SEUR_TEXTDOMAIN ), true );
@@ -206,6 +211,10 @@ function seur_woo_bulk_action() {
                     add_post_meta( $post_id,'_seur_shipping_label_id',  $label_id, true );
                     $order->add_order_note( 'The Label for Order #' . $order_id . ' have been downloaded', 0, true);
                     //do_action( 'woocommerce_order_edit_status', $post_id, $new_status );
+
+                    } else {
+                    
+                        set_transient( get_current_user_id() . '_seur_woo_bulk_action_pending_notice', 'The order ID ' . $post_id . ' has an Error: ' . $label_message );
 
                     }
 
@@ -232,8 +241,20 @@ function seur_woo_bulk_action() {
 }
 add_action( 'load-edit.php', 'seur_woo_bulk_action' );
 
+add_action( 'admin_notices', 'seur_admin_notices' );
+
+function seur_admin_notices() {
+    $message = get_transient( get_current_user_id() . '_seur_woo_bulk_action_pending_notice' );
+
+    if ( $message ) {
+        delete_transient( get_current_user_id() . '_seur_woo_bulk_action_pending_notice' );
+
+        printf( '<div class="%1$s"><p>%2$s</p></div>', 'notice notice-success is-dismissible seur_woo_bulk_action_pending_notice', $message ); 
+    }
+}
+
 /**
- * This snippet will add gat label to orders screen.
+ * This snippet will add get label to orders screen.
  */
 add_filter( 'woocommerce_admin_order_actions', 'seur_add_label_order_actions_button', PHP_INT_MAX, 2 );
 function seur_add_label_order_actions_button( $actions, $the_order ) {
@@ -272,8 +293,7 @@ function seur_add_label_order_actions_button_css() {
 }
 
 function seur_get_label_ajax() {
-
-
+         
          $order_id = absint( $_GET['order_id'] );
 
          $has_label = get_post_meta( $order_id, '_seur_shipping_order_label_downloaded', true );
@@ -282,16 +302,24 @@ function seur_get_label_ajax() {
 
             if ( current_user_can( 'edit_shop_orders' ) && check_admin_referer( 'woocommerce-mark-order-status' ) ) {
 
-                $label_id   = seur_get_label( $order_id, '1' );
+                $label  = seur_get_label( $order_id, '1' );
+
+                $label_result  = $label[0]['result'];
+                $labelID       = $label[0]['labelID'];
+                $label_message = $label[0]['message'];
+
                 $new_status = seur_after_get_label();
 
-                 if ( $label_id ) {
+                 if ( $label_result ) {
 	                $order = wc_get_order( $order_id );
 	                $order->update_status( $new_status, __( 'Label have been created:', SEUR_TEXTDOMAIN ), true );
 	                add_post_meta( $order_id,'_seur_shipping_order_label_downloaded',  'yes', true );
 	                add_post_meta( $order_id,'_seur_shipping_label_id',  $label_id, true );
 	                $order->add_order_note( 'The Label for Order #' . $order_id . ' have been downloaded', 0, true);
 	                //add_action( 'woocommerce_order_edit_status', $order_id, $new_status );
+
+	                } else {
+                    set_transient( get_current_user_id() . '_seur_woo_bulk_action_pending_notice', 'The order ID ' . $order_id . ' has an Error: ' . $label_message );
 	                }
             }
         }
