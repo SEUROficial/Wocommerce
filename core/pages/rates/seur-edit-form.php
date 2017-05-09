@@ -38,8 +38,8 @@ function seur_edit_rate(){
 	            <select title="<?php _e('Select Rate to apply', SEUR_TEXTDOMAIN ); ?>" name="rate">
 				    <?php
 						$tabla = $wpdb->prefix . SEUR_PLUGIN_SVPR;
-						$sql = "SELECT * FROM $tabla";
-						$regs = $wpdb->get_results( $sql );
+						$sql   = "SELECT * FROM $tabla";
+						$regs  = $wpdb->get_results( $sql );
 
 						foreach ( $regs as $valor ) {
 
@@ -95,7 +95,7 @@ function seur_edit_rate(){
 
 					if( $states && $states != '*') {
 
-						echo '<select value="Select" title="' . __('Select State', SEUR_TEXTDOMAIN ) . '" name="country">';
+						echo '<select value="Select" title="' . __('Select State', SEUR_TEXTDOMAIN ) . '" name="state">';
 						echo '<option value="*">' . __( 'All States', SEUR_TEXTDOMAIN ) . '</option>';
 						$currentstate = $getrate->state;
 						// Display city dropdown based on country name
