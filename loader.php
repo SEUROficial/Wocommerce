@@ -1,13 +1,13 @@
 <?php
 /*
-Plugin Name: SEUR Official
+Plugin Name: SEUR Oficial
 Plugin URI: http://www.seur.com/
-Description: SEUR Official
+Description: SEUR Oficial
 Version: 1.0.0-Beta4
 Author: José Conti
 Author URI: https://www.joseconti.com/
 Tested up to: 4.7
-Text Domain: seur-official
+Text Domain: seur-oficial
 Domain Path: /languages/
 License: GNU General Public License v3.0
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
