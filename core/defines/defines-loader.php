@@ -9,7 +9,7 @@
     $seur_uploads_url__manifest = get_option( 'seur_uploads_url_manifest' );
 
 
-    define( 'SEUR_TEXTDOMAIN',              'seur-official'                     );
+    define( 'SEUR_TEXTDOMAIN',              'seur-oficial'                     );
     define( 'SEUR_UPLOADS_PATH',            $seur_uploads_dir                   );
     define( 'SEUR_UPLOADS_URL',             $seur_uploads_url                   );
     define( 'SEUR_UPLOADS_LABELS_PATH',     $seur_uploads_dir_labels            );
