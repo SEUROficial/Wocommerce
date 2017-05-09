@@ -5,23 +5,22 @@ function seur_country_state_process() {
 
 		$rate = $_POST[ "rate" ];
 
-		if ( $rate == 'PARTICULARES 24H ESTANDAR' ){
+		if ( $rate == 'B2C Estándar' || $rate == 'SEUR 13:30 Estándar' || $rate == 'SEUR 10 Estándar' || $rate == 'SEUR 10 Frío' || $rate == 'SEUR 13:30 Frío' ){
 			echo '<select class="select country" id="country" title="' . __('Select Country', SEUR_TEXTDOMAIN ) . '" name="country">';
-			echo '<option value="Select">' . __('Select a Country', SEUR_TEXTDOMAIN ) . '</option>';
-			echo '<option value="ES">Spain</option>';
+			echo '<option value="AD">' . __('Andorra', SEUR_TEXTDOMAIN ) . '</option>';
+			echo '<option value="PT">' . __('Portugal', SEUR_TEXTDOMAIN ) . '</option>';
+			echo '<option value="ES">' . __('Spain', SEUR_TEXTDOMAIN ) . '</option>';
 			echo '</select>';
 
 			} else { ?>
 				<select class="select country" id="country" title="<?php _e('Select Country', SEUR_TEXTDOMAIN ); ?>" name="country">
 				    <?php
-						echo '<option value="Select">' . __('Select a Country', SEUR_TEXTDOMAIN ) . '</option>';
 						echo '<option value="*">' . __( 'All Countries', SEUR_TEXTDOMAIN ) . '</option>';
 	                    $countries = seur_get_countries();
 						foreach ($countries as $countrie => $value )
 							{
 								echo '<option value="' . $countrie  . '">' . $value . '</option>';
 							}
-						echo '<option value="REST">' . __( 'Rest of the World', SEUR_TEXTDOMAIN ) . '</option>';
 					?>
 				</select>
 				<?php
@@ -29,24 +28,6 @@ function seur_country_state_process() {
 			}
 
 		}
-
-
-	/*
-
-	<select class="select country" id="country" title="<?php _e('Select Country', SEUR_TEXTDOMAIN ); ?>" name="country">
-				    <?php
-						echo '<option value="Select">' . __('Select a Country', SEUR_TEXTDOMAIN ) . '</option>';
-						echo '<option value="*">' . __( 'All Countries', SEUR_TEXTDOMAIN ) . '</option>';
-	                    $countries = seur_get_countries();
-						foreach ($countries as $countrie => $value )
-							{
-								echo '<option value="' . $countrie  . '">' . $value . '</option>';
-							}
-						echo '<option value="REST">' . __( 'Rest of the World', SEUR_TEXTDOMAIN ) . '</option>';
-					?>
-				</select>
-
-	*/
 
 	if( isset( $_POST[ "country" ] ) ) {
 	    // Capture selected country
