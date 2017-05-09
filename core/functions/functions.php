@@ -53,21 +53,27 @@ if ( defined( 'SEUR_DEBUG' ) && SEUR_DEBUG == true ) {
 
 function seur_check_url_exists( $seururl ) {
 
-    $url = $seururl;
-    $ch  = curl_init( $url );
-    curl_setopt( $ch, CURLOPT_HEADER,   true );    // we want headers
-    curl_setopt( $ch, CURLOPT_NOBODY,   true );    // we don't need body
-    curl_setopt( $ch, CURLOPT_RETURNTRANSFER, 1  );
-    curl_setopt( $ch, CURLOPT_TIMEOUT,   10  );
-    curl_setopt( $ch, CURLOPT_SSL_VERIFYPEER, false );
-    $output  = curl_exec( $ch );
-    $httpcode = curl_getinfo( $ch, CURLINFO_HTTP_CODE );
-    if ( ( $httpcode == 200 ) || ( $httpcode == 302 ) ) {
-        return true;
-    } else {
-        return $httpcode;
-    }
-    curl_close( $ch );
+   //check, if a valid url is provided
+   if( ! filter_var( $seururl, FILTER_VALIDATE_URL ) ) {
+           return false;
+   }
+
+   //initialize curl
+
+   $curlInit = curl_init( $seururl );
+   curl_setopt( $curlInit, CURLOPT_CONNECTTIMEOUT, 10);
+   curl_setopt( $curlInit, CURLOPT_HEADER, true);
+   curl_setopt( $curlInit, CURLOPT_NOBODY, true);
+   curl_setopt( $curlInit, CURLOPT_RETURNTRANSFER, true);
+
+   //get answer
+   $response = curl_exec( $curlInit );
+
+   curl_close( $curlInit );
+
+   if ( $response ) return true;
+
+   return false;
 }
 
 function seur_search_number_message_result( $howmany ){
@@ -423,49 +429,49 @@ function seur_search_allowed_rates_by_country( $allowedcountry ) {
     }
     if ( $filtered_rates_by_country ) {
 
-    	return $filtered_rates_by_country;
+        return $filtered_rates_by_country;
 
-    	} else {
+        } else {
 
-	    	foreach ( $getrates as $rate ) {
+            foreach ( $getrates as $rate ) {
 
-		        $country = $rate->country;
-		        $rateid  = $rate->ID;
+                $country = $rate->country;
+                $rateid  = $rate->ID;
 
-		        if ( $country == '*' ) {
+                if ( $country == '*' ) {
 
-		            $columns    = array(
-		                            'ID',
-		                            'country',
-		                            'state',
-		                            'postcode',
-		                            'minprice',
-		                            'maxprice',
-		                            'minweight',
-		                            'maxweight',
-		                            'rate',
-		                            'rateprice'
-		                        );
+                    $columns    = array(
+                                    'ID',
+                                    'country',
+                                    'state',
+                                    'postcode',
+                                    'minprice',
+                                    'maxprice',
+                                    'minweight',
+                                    'maxweight',
+                                    'rate',
+                                    'rateprice'
+                                );
 
-		            $valors     = array(
-		                            $rate->ID,
-		                            $rate->country,
-		                            $rate->state,
-		                            $rate->postcode,
-		                            $rate->minprice,
-		                            $rate->maxprice,
-		                            $rate->minweight,
-		                            $rate->maxweight,
-		                            $rate->rate,
-		                            $rate->rateprice
-		                        );
+                    $valors     = array(
+                                    $rate->ID,
+                                    $rate->country,
+                                    $rate->state,
+                                    $rate->postcode,
+                                    $rate->minprice,
+                                    $rate->maxprice,
+                                    $rate->minweight,
+                                    $rate->maxweight,
+                                    $rate->rate,
+                                    $rate->rateprice
+                                );
 
-		            $filtered_rates_by_country[] = array_combine( $columns, $valors );
+                    $filtered_rates_by_country[] = array_combine( $columns, $valors );
 
-		        }
-    		}
-    	}
-    	return $filtered_rates_by_country;
+                }
+            }
+        }
+        return $filtered_rates_by_country;
 }
 
 function seur_seach_allowed_states_filtered_by_countries( $allowedstate, $filtered_rates_by_country ){
@@ -510,48 +516,48 @@ function seur_seach_allowed_states_filtered_by_countries( $allowedstate, $filter
         }
         if ( $filtered_rates_by_state ) {
 
-			return $filtered_rates_by_state;
+            return $filtered_rates_by_state;
 
-			} else {
+            } else {
 
-				foreach ( $filtered_rates_by_country as $allowedrate ) {
+                foreach ( $filtered_rates_by_country as $allowedrate ) {
 
-		            $state  = $allowedrate['state'];
-		            $rateid = $allowedrate['ID'];
+                    $state  = $allowedrate['state'];
+                    $rateid = $allowedrate['ID'];
 
-		            if ( $state == '*' ) {
+                    if ( $state == '*' ) {
 
-		                $columns    = array(
-		                                'ID',
-		                                'country',
-		                                'state',
-		                                'postcode',
-		                                'minprice',
-		                                'maxprice',
-		                                'minweight',
-		                                'maxweight',
-		                                'rate',
-		                                'rateprice' );
+                        $columns    = array(
+                                        'ID',
+                                        'country',
+                                        'state',
+                                        'postcode',
+                                        'minprice',
+                                        'maxprice',
+                                        'minweight',
+                                        'maxweight',
+                                        'rate',
+                                        'rateprice' );
 
-		                $valors     = array(
-		                                $allowedrate['ID'],
-		                                $allowedrate['country'],
-		                                $allowedrate['state'],
-		                                $allowedrate['postcode'],
-		                                $allowedrate['minprice'],
-		                                $allowedrate['maxprice'],
-		                                $allowedrate['minweight'],
-		                                $allowedrate['maxweight'],
-		                                $allowedrate['rate'],
-		                                $allowedrate['rateprice']
-		                            );
+                        $valors     = array(
+                                        $allowedrate['ID'],
+                                        $allowedrate['country'],
+                                        $allowedrate['state'],
+                                        $allowedrate['postcode'],
+                                        $allowedrate['minprice'],
+                                        $allowedrate['maxprice'],
+                                        $allowedrate['minweight'],
+                                        $allowedrate['maxweight'],
+                                        $allowedrate['rate'],
+                                        $allowedrate['rateprice']
+                                    );
 
-		                $filtered_rates_by_state[] = array_combine( $columns, $valors );
+                        $filtered_rates_by_state[] = array_combine( $columns, $valors );
 
-		            }
-        		}
-			}
-			return $filtered_rates_by_state;
+                    }
+                }
+            }
+            return $filtered_rates_by_state;
 }
 
 function seur_seach_allowed_postcodes_filtered_by_states( $allowedpostcode, $filtered_rates_by_state ){
@@ -597,50 +603,50 @@ function seur_seach_allowed_postcodes_filtered_by_states( $allowedpostcode, $fil
         }
         if ( $filtered_rates_by_postcode ) {
 
-			return $filtered_rates_by_postcode;
+            return $filtered_rates_by_postcode;
 
-			} else {
+            } else {
 
-				foreach ( $filtered_rates_by_state as $allowedrate ) {
+                foreach ( $filtered_rates_by_state as $allowedrate ) {
 
-		            $postcode   = $allowedrate['postcode'];
-		            $rateid     = $allowedrate['ID'];
+                    $postcode   = $allowedrate['postcode'];
+                    $rateid     = $allowedrate['ID'];
 
-		            if ( $postcode == '*' ) {
+                    if ( $postcode == '*' ) {
 
-		                $columns    = array(
-		                                'ID',
-		                                'country',
-		                                'state',
-		                                'postcode',
-		                                'minprice',
-		                                'maxprice',
-		                                'minweight',
-		                                'maxweight',
-		                                'rate',
-		                                'rateprice'
-		                            );
+                        $columns    = array(
+                                        'ID',
+                                        'country',
+                                        'state',
+                                        'postcode',
+                                        'minprice',
+                                        'maxprice',
+                                        'minweight',
+                                        'maxweight',
+                                        'rate',
+                                        'rateprice'
+                                    );
 
-		                $valors     = array(
-		                                $allowedrate['ID'],
-		                                $allowedrate['country'],
-		                                $allowedrate['state'],
-		                                $allowedrate['postcode'],
-		                                $allowedrate['minprice'],
-		                                $allowedrate['maxprice'],
-		                                $allowedrate['minweight'],
-		                                $allowedrate['maxweight'],
-		                                $allowedrate['rate'],
-		                                $allowedrate['rateprice']
-		                            );
+                        $valors     = array(
+                                        $allowedrate['ID'],
+                                        $allowedrate['country'],
+                                        $allowedrate['state'],
+                                        $allowedrate['postcode'],
+                                        $allowedrate['minprice'],
+                                        $allowedrate['maxprice'],
+                                        $allowedrate['minweight'],
+                                        $allowedrate['maxweight'],
+                                        $allowedrate['rate'],
+                                        $allowedrate['rateprice']
+                                    );
 
-		                $filtered_rates_by_postcode[] = array_combine( $columns, $valors );
+                        $filtered_rates_by_postcode[] = array_combine( $columns, $valors );
 
-		                }
-		        }
+                        }
+                }
 
-			}
-			return $filtered_rates_by_postcode;
+            }
+            return $filtered_rates_by_postcode;
 }
 
 function seur_seach_allowed_prices_filtered_by_postcode( $allowedprice, $filtered_rates_by_postcode ){
@@ -813,7 +819,6 @@ function seur_get_advanced_settings() {
     if ( get_option( 'seur_aduana_origen_field' ) )          { $seur_aduana_origen_field          = get_option( 'seur_aduana_origen_field'          ); } else { $seur_aduana_origen_field          = ''; }
     if ( get_option( 'seur_aduana_destino_field' ) )         { $seur_aduana_destino_field         = get_option( 'seur_aduana_destino_field'         ); } else { $seur_aduana_destino_field         = ''; }
     if ( get_option( 'seur_tipo_mercancia_field' ) )         { $seur_tipo_mercancia_field         = get_option( 'seur_tipo_mercancia_field'         ); } else { $seur_tipo_mercancia_field         = ''; }
-    if ( get_option( 'seur_valor_declarado_field' ) )        { $seur_valor_declarado_field        = get_option( 'seur_valor_declarado_field'        ); } else { $seur_valor_declarado_field        = ''; }
     if ( get_option( 'seur_id_mercancia_field' ) )           { $seur_id_mercancia_field           = get_option( 'seur_id_mercancia_field'           ); } else { $seur_id_mercancia_field           = ''; }
     if ( get_option( 'seur_descripcion_field' ) )            { $seur_descripcion_field            = get_option( 'seur_descripcion_field'            ); } else { $seur_descripcion_field            = ''; }
 
@@ -829,7 +834,6 @@ function seur_get_advanced_settings() {
                 'aduana_origen',
                 'aduana_destino',
                 'tipo_mercancia',
-                'valor_declarado',
                 'id_mercancia',
                 'descripcion'
                 );
@@ -846,7 +850,6 @@ function seur_get_advanced_settings() {
                 $seur_aduana_origen_field,
                 $seur_aduana_destino_field,
                 $seur_tipo_mercancia_field,
-                $seur_valor_declarado_field,
                 $seur_id_mercancia_field,
                 $seur_descripcion_field
             );
@@ -1061,6 +1064,7 @@ function seur_clean_data( $out ){
 }
 
 function seur_get_label( $order_id, $numpackages = '1', $weight = '1' ) {
+    global $error;
 
     $seur_pdf_label          = '';
     $TotalBultos             = '';
@@ -1104,7 +1108,6 @@ function seur_get_label( $order_id, $numpackages = '1', $weight = '1' ) {
 
     $aduana_origen           = $advanced_data[0]['aduana_origen'];
     $aduana_destino          = $advanced_data[0]['aduana_destino'];
-    $valor_declarado         = str_replace (",", ".", $advanced_data[0]['valor_declarado'] );
     $tipo_mercancia          = $advanced_data[0]['tipo_mercancia'];
     $id_mercancia            = $advanced_data[0]['id_mercancia'];
     $descripcion             = $advanced_data[0]['descripcion'];
@@ -1156,7 +1159,7 @@ function seur_get_label( $order_id, $numpackages = '1', $weight = '1' ) {
     $customer_email          = seur_clean_data( $order_data[0]['email'] );
     $customer_phone          = $order_data[0]['phone'];
     $customer_order_notes    = seur_clean_data( $order_data[0]['order_notes'] );
-    $customer_order_total    = $order_data[0]['order_total'];
+    $customer_order_total    = str_replace (",", ".", $order_data[0]['order_total'] );
 
     // SEUR service and Product
 
@@ -1409,10 +1412,10 @@ function seur_get_label( $order_id, $numpackages = '1', $weight = '1' ) {
                             );
 
                 $update_post = array(
-					      		   'ID'           => $labelid,
-					               'post_title'   => 'Label ID ' . $labelid,
-								);
-				wp_update_post( $update_post );
+                                   'ID'           => $labelid,
+                                   'post_title'   => 'Label ID ' . $labelid,
+                                );
+                wp_update_post( $update_post );
 
                 add_post_meta( $labelid, '_seur_shipping_method',                  $seur_shipping_method,                            true );
                 add_post_meta( $labelid, '_seur_shipping_weight',                  $customer_weight,                                 true );
@@ -1428,7 +1431,22 @@ function seur_get_label( $order_id, $numpackages = '1', $weight = '1' ) {
 
                 if ( $labelid ) {
 
-                    return $labelid;
+                    $result = true;
+                    $message = 'OK';
+                    $label = array(
+                            'result',
+                            'labelID',
+                            'message'
+                    );
+                    $has_label = array(
+                            $result,
+                            $labelid,
+                            $message
+                    );
+
+                    $seur_label[] = array_combine( $label, $has_label );
+
+                    return $seur_label;
 
                     } else {
 
@@ -1439,9 +1457,23 @@ function seur_get_label( $order_id, $numpackages = '1', $weight = '1' ) {
 
 
             } else {
+                $message = $response->out->mensaje;
+                $result  = false;
+                $labelid = false;
+                $label   = array(
+                        'result',
+                        'labelID',
+                        'message'
+                );
+                $has_label = array(
+                        $result,
+                        $labelid,
+                        $message
+                );
 
-                return false;
+                $seur_label[] = array_combine( $label, $has_label );
 
+                return $seur_label;
                 }
             } else {
 
@@ -1490,10 +1522,10 @@ function seur_get_label( $order_id, $numpackages = '1', $weight = '1' ) {
                                     )
                             );
                     $update_post = array(
-						             'ID'           => $labelid,
-						             'post_title'   => 'Label ID #' . $labelid,
-						          );
-					wp_update_post( $update_post );
+                                     'ID'           => $labelid,
+                                     'post_title'   => 'Label ID #' . $labelid,
+                                  );
+                    wp_update_post( $update_post );
 
                     add_post_meta( $labelid, '_seur_shipping_method',                  $seur_shipping_method,                            true );
                     add_post_meta( $labelid, '_seur_shipping_weight',                  $customer_weight,                                 true );
@@ -1518,7 +1550,8 @@ function seur_get_label( $order_id, $numpackages = '1', $weight = '1' ) {
                     }
                 } else {
 
-                    return false;
+                    $message = $respuesta->out->mensaje;
+                    echo '<div class="notice notice notice-error">' . $message . '</div>';
 
                 }
             }
