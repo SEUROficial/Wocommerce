@@ -9,8 +9,15 @@ function seur_empresa_field(){ ?>
     <input title="<?php _e('Empresa', SEUR_TEXTDOMAIN ); ?>" type="text" name="seur_empresa_field" value="<?php echo get_option('seur_empresa_field'); ?>" size="40" />
     <?php }
 
-function seur_viatipo_field(){ ?>
-    <input title="<?php _e('CL para calle, Av para Avenida, PZA para Plaza', SEUR_TEXTDOMAIN ); ?>" type="text" name="seur_viatipo_field" value="<?php echo get_option('seur_viatipo_field'); ?>" size="40" />
+function seur_viatipo_field(){
+	$option = get_option( 'seur_viatipo_field' );
+?>
+
+    <select id="street_type" name="seur_viatipo_field">
+       <option value="AVD"  <?php if ( $option == 'AVD') echo ' selected'; ?>><?php _e('Avenida', SEUR_TEXTDOMAIN ); ?></option>
+       <option value="PZA"  <?php if ( $option == 'PZA') echo ' selected'; ?>><?php _e('Plaza', SEUR_TEXTDOMAIN ); ?></option>
+       <option value="CL"  <?php if ( $option == 'CL') echo ' selected'; ?>><?php _e('Calle', SEUR_TEXTDOMAIN ); ?></option>
+    </select>
     <?php }
 
 function seur_vianombre_field(){ ?>
@@ -66,31 +73,31 @@ function seur_contacto_apellidos_field(){ ?>
     <?php }
 
 function seur_cit_codigo_field(){ ?>
-    <input title="<?php _e('Código de cliente integrado', SEUR_TEXTDOMAIN ); ?>" type="text" name="seur_cit_codigo_field" value="<?php echo get_option('seur_cit_codigo_field'); ?>" size="40" />
+    <input title="<?php _e('Código de cliente integrado (facilitado por SEUR)', SEUR_TEXTDOMAIN ); ?>" type="text" name="seur_cit_codigo_field" value="<?php echo get_option('seur_cit_codigo_field'); ?>" size="40" />
     <?php }
 
 function seur_cit_usuario_field(){ ?>
-    <input title="<?php _e('Usuario para generar las etiquetas', SEUR_TEXTDOMAIN ); ?>" type="text" name="seur_cit_usuario_field" value="<?php echo get_option('seur_cit_usuario_field'); ?>" size="40" />
+    <input title="<?php _e('Usuario para generar las etiquetas (facilitado por SEUR)', SEUR_TEXTDOMAIN ); ?>" type="text" name="seur_cit_usuario_field" value="<?php echo get_option('seur_cit_usuario_field'); ?>" size="40" />
     <?php }
 
 function seur_cit_contra_field(){ ?>
-    <input title="<?php _e('Contraseña para generar las etiquetas', SEUR_TEXTDOMAIN ); ?>" type="text" name="seur_cit_contra_field" value="<?php echo get_option('seur_cit_contra_field'); ?>" size="40" />
+    <input title="<?php _e('Contraseña para generar las etiquetas (facilitado por SEUR)', SEUR_TEXTDOMAIN ); ?>" type="text" name="seur_cit_contra_field" value="<?php echo get_option('seur_cit_contra_field'); ?>" size="40" />
     <?php }
 
 function seur_ccc_field(){ ?>
-    <input title="<?php _e('Código de Cuenta con SEUR', SEUR_TEXTDOMAIN ); ?>" type="text" name="seur_ccc_field" value="<?php echo get_option('seur_ccc_field'); ?>" size="40" maxlength="5" />
+    <input title="<?php _e('Código de Cuenta con SEUR (facilitado por SEUR)', SEUR_TEXTDOMAIN ); ?>" type="text" name="seur_ccc_field" value="<?php echo get_option('seur_ccc_field'); ?>" size="40" maxlength="5" />
     <?php }
 
 function seur_franquicia_field(){ ?>
-    <input title="<?php _e('Código numérico de dos dígitos', SEUR_TEXTDOMAIN ); ?>" type="text" name="seur_franquicia_field" value="<?php echo get_option('seur_franquicia_field'); ?>" size="40" maxlength="2" />
+    <input title="<?php _e('Código numérico de dos dígitos (facilitado por SEUR)', SEUR_TEXTDOMAIN ); ?>" type="text" name="seur_franquicia_field" value="<?php echo get_option('seur_franquicia_field'); ?>" size="40" maxlength="2" />
     <?php }
 
 function seur_seurcom_usuario_field(){ ?>
-    <input title="<?php _e('Usuario de acceso a seur.com', SEUR_TEXTDOMAIN ); ?>" type="text" name="seur_seurcom_usuario_field" value="<?php echo get_option('seur_seurcom_usuario_field'); ?>" size="40" />
+    <input title="<?php _e('Usuario de acceso a seur.com (facilitado por SEUR)', SEUR_TEXTDOMAIN ); ?>" type="text" name="seur_seurcom_usuario_field" value="<?php echo get_option('seur_seurcom_usuario_field'); ?>" size="40" />
     <?php }
 
 function seur_seurcom_contra_field(){ ?>
-    <input title="<?php _e('Contraseña de acceso seur.com', SEUR_TEXTDOMAIN ); ?>" type="text" name="seur_seurcom_contra_field" value="<?php echo get_option('seur_seurcom_contra_field'); ?>" size="40" />
+    <input title="<?php _e('Contraseña de acceso seur.com (facilitado por SEUR)', SEUR_TEXTDOMAIN ); ?>" type="text" name="seur_seurcom_contra_field" value="<?php echo get_option('seur_seurcom_contra_field'); ?>" size="40" />
     <?php }
 
 
@@ -113,13 +120,13 @@ function display_seur_user_sittings_panel_fields(){
     add_settings_field( 'seur_email_field',                 __('e-mail',                    SEUR_TEXTDOMAIN), 'seur_email_field',                   'seur-user-settings-options', 'seur-user-settings-section' );
     add_settings_field( 'seur_contacto_nombre_field',       __('Nombre',                    SEUR_TEXTDOMAIN), 'seur_contacto_nombre_field',         'seur-user-settings-options', 'seur-user-settings-section' );
     add_settings_field( 'seur_contacto_apellidos_field',    __('Apellidos',                 SEUR_TEXTDOMAIN), 'seur_contacto_apellidos_field',      'seur-user-settings-options', 'seur-user-settings-section' );
-    add_settings_field( 'seur_cit_codigo_field',            __('CIT Código',                SEUR_TEXTDOMAIN), 'seur_cit_codigo_field',              'seur-user-settings-options', 'seur-user-settings-section' );
-    add_settings_field( 'seur_cit_usuario_field',           __('CIT Usuario',               SEUR_TEXTDOMAIN), 'seur_cit_usuario_field',             'seur-user-settings-options', 'seur-user-settings-section' );
-    add_settings_field( 'seur_cit_contra_field',            __('CIT Contraseña',            SEUR_TEXTDOMAIN), 'seur_cit_contra_field',              'seur-user-settings-options', 'seur-user-settings-section' );
-    add_settings_field( 'seur_ccc_field',                   __('CCC',                       SEUR_TEXTDOMAIN), 'seur_ccc_field',                     'seur-user-settings-options', 'seur-user-settings-section' );
-    add_settings_field( 'seur_franquicia_field',            __('Franquicia',                SEUR_TEXTDOMAIN), 'seur_franquicia_field',              'seur-user-settings-options', 'seur-user-settings-section' );
-    add_settings_field( 'seur_seurcom_usuario_field',       __('Usuario seur.com',          SEUR_TEXTDOMAIN), 'seur_seurcom_usuario_field',         'seur-user-settings-options', 'seur-user-settings-section' );
-    add_settings_field( 'seur_seurcom_contra_field',        __('Contraseña Seur.com',       SEUR_TEXTDOMAIN), 'seur_seurcom_contra_field',          'seur-user-settings-options', 'seur-user-settings-section' );
+    add_settings_field( 'seur_cit_codigo_field',            __('CIT Código<sup>*</sup>',                SEUR_TEXTDOMAIN), 'seur_cit_codigo_field',              'seur-user-settings-options', 'seur-user-settings-section' );
+    add_settings_field( 'seur_cit_usuario_field',           __('CIT Usuario<sup>*</sup>',               SEUR_TEXTDOMAIN), 'seur_cit_usuario_field',             'seur-user-settings-options', 'seur-user-settings-section' );
+    add_settings_field( 'seur_cit_contra_field',            __('CIT Contraseña<sup>*</sup>',            SEUR_TEXTDOMAIN), 'seur_cit_contra_field',              'seur-user-settings-options', 'seur-user-settings-section' );
+    add_settings_field( 'seur_ccc_field',                   __('CCC<sup>*</sup>',                       SEUR_TEXTDOMAIN), 'seur_ccc_field',                     'seur-user-settings-options', 'seur-user-settings-section' );
+    add_settings_field( 'seur_franquicia_field',            __('Franquicia<sup>*</sup>',                SEUR_TEXTDOMAIN), 'seur_franquicia_field',              'seur-user-settings-options', 'seur-user-settings-section' );
+    add_settings_field( 'seur_seurcom_usuario_field',       __('Usuario seur.com<sup>*</sup>',          SEUR_TEXTDOMAIN), 'seur_seurcom_usuario_field',         'seur-user-settings-options', 'seur-user-settings-section' );
+    add_settings_field( 'seur_seurcom_contra_field',        __('Contraseña Seur.com<sup>*</sup>',       SEUR_TEXTDOMAIN), 'seur_seurcom_contra_field',          'seur-user-settings-options', 'seur-user-settings-section' );
 
 
     // register all setings
