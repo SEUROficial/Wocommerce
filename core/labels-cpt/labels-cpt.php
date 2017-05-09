@@ -348,7 +348,7 @@ function seur_custom_bulk_admin_footer_labels() {
 }
 
 function seur_labels_bulk_action() {
-    $changed = '';
+    $added = '';
 
   // 1. get the action
   $wp_list_table = _get_list_table('WP_Posts_List_Table');
@@ -371,7 +371,7 @@ function seur_labels_bulk_action() {
             $has_label  = get_post_meta( $post_id, '_seur_shipping_order_label_downloaded', true );
             $label_type = get_post_meta( $post_id, '_seur_label_type', true );
 
-            if ( $has_label == 'yes' && $label_type ==  'termica' ) {
+            if ( $has_label == 'yes' && $label_type == 'termica' ) {
 
               // TODO Action
 
@@ -381,7 +381,7 @@ function seur_labels_bulk_action() {
       }
 
       // build the redirect url
-      $sendback = add_query_arg( array( 'post_type' => 'seur_labels', $report_action => true, 'changed' => $changed, 'ids' => join( ',', $post_ids ) ), '' );
+      $sendback = add_query_arg( array( 'post_type' => 'seur_labels', $report_action => true, 'changed' => $added, 'ids' => join( ',', $post_ids ) ), '' );
 
     break;
     default: return;
