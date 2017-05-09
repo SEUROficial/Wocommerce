@@ -76,9 +76,13 @@ function seur_save_meta_box( $post_id ) {
 
     if ( $has_label != 'yes' ) {
 
-        $label_id = seur_get_label( $post_id, $numpackages, $weight );
+        $label  = seur_get_label( $post_id, $numpackages, $weight );
 
-        if( $label_id ){
+        $label_result  = $label[0]['result'];
+        $labelID       = $label[0]['labelID'];
+        $label_message = $label[0]['message'];
+
+        if( $label_result ){
 
             $order = wc_get_order( $post_id );
             $order->update_status( $new_status, __( 'Label have been created:', SEUR_TEXTDOMAIN ), true );
@@ -86,6 +90,9 @@ function seur_save_meta_box( $post_id ) {
             add_post_meta( $post_id,'_seur_shipping_label_id',  $label_id, true );
             $order->add_order_note( 'The Label for Order #' . $post_id . ' have been downloaded', 0, true);
 
+        } else {
+
+	        // error
         }
     }
 }
