@@ -28,6 +28,7 @@ function seur_settings(){ ?>
                 <?php
                 settings_fields( "seur-user-settings-section");
                 do_settings_sections( "seur-user-settings-options" );
+                _e('(<sup>*</sup>) This data is provided by SEUR', SEUR_TEXTDOMAIN );
             } else {
                 settings_fields( "seur-advanced-settings-section");
                 do_settings_sections( "seur-advanced-settings-options" );
