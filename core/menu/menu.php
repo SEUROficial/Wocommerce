@@ -16,6 +16,7 @@ include_once( SEUR_PLUGIN_PATH . 'core/pages/rates/seur-delete.php'			);
 include_once( SEUR_PLUGIN_PATH . 'core/pages/rates/seur-update.php'			);
 include_once( SEUR_PLUGIN_PATH . 'core/pages/rates/seur-edit-form.php'		);
 include_once( SEUR_PLUGIN_PATH . 'core/pages/rates/seur-country-state-process.php'	);
+include_once( SEUR_PLUGIN_PATH . 'core/help/seur-help-tabs.php'	);
 if ( defined( 'SEUR_WOOCOMMERCE_PART' ) ) {
 	include_once( SEUR_PLUGIN_PATH . 'core/woocommerce/includes/pages/seur-process-label.php');
 	}
@@ -79,11 +80,26 @@ function seur_menu() {
 		add_action("admin_print_scripts-$seurmanifest",			'seur_datepicker_js'			);
 		add_action("admin_print_scripts-$seureditcustomrate",	'seur_auto_country_state_js'	);
 		add_action("admin_print_scripts-$seurconfig",			'seur_settings_load_js'			);
-		add_action("admin_print_scripts-$seurconfig",			'seur_settings_load_js'			);
+		add_action("admin_print_scripts-$seurproductsservices",			'seur_settings_load_js'			);
+
+		// admin help tabs
+
+		add_action( 'load-' . $seurconfig, 'seur_settings_add_help_tab');
+		add_action( 'load-' . $seurrates, 'seur_rates_add_help_tab');
+		add_action( 'load-' . $seurmanifest, 'seur_manifests_add_help_tab');
+		add_action( 'load-' . $seurnomenclator, 'seur_nomenclator_add_help_tab');
+		add_action( 'load-' . $seurproductsservices, 'seur_product_service_add_help_tab');
+		add_action( 'load-' . $seur_pickup, 'seur_pickup_add_help_tab');
+
+
 	} else {
 		$seurconfig				= add_submenu_page( $menu_slug, __( 'Settings', SEUR_TEXTDOMAIN ), __( 'Settings', SEUR_TEXTDOMAIN ), 'manage_options', $menu_slug );
 		add_action("admin_print_scripts-$seurconfig", 'seur_settings_load_js');
 		$seurabout				= add_submenu_page( $menu_slug, __( 'About', SEUR_TEXTDOMAIN ), __( 'About', SEUR_TEXTDOMAIN ), 'manage_options', 'seur_about_page', 'seur_about_page' );
+
+		// admin help tabs
+
+		add_action( 'load-' . $seurconfig, 'seur_settings_add_help_tab');
 	}
 }
 add_action('admin_menu', 'seur_menu');
