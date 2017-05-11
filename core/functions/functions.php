@@ -63,29 +63,28 @@ function seur_admin_notices() {
 
 // Function for check URL's
 
-function seur_check_url_exists( $seururl ) {
+function seur_check_url_exists( $url ) {
 
    //check, if a valid url is provided
-   if( ! filter_var( $seururl, FILTER_VALIDATE_URL ) ) {
-           return false;
-   }
+  $timeout = 10;
+  $ch      = curl_init();
 
-   //initialize curl
+  curl_setopt ( $ch, CURLOPT_URL, $url );
+  curl_setopt ( $ch, CURLOPT_RETURNTRANSFER, 1 );
+  curl_setopt ( $ch, CURLOPT_TIMEOUT, $timeout );
 
-   $curlInit = curl_init( $seururl );
-   curl_setopt( $curlInit, CURLOPT_CONNECTTIMEOUT, 10);
-   curl_setopt( $curlInit, CURLOPT_HEADER, true);
-   curl_setopt( $curlInit, CURLOPT_NOBODY, true);
-   curl_setopt( $curlInit, CURLOPT_RETURNTRANSFER, true);
+  $http_respond = curl_exec($ch);
+  $http_respond = trim( strip_tags( $http_respond ) );
+  $http_code    = curl_getinfo( $ch, CURLINFO_HTTP_CODE );
 
-   //get answer
-   $response = curl_exec( $curlInit );
-
-   curl_close( $curlInit );
-
-   if ( $response ) return true;
-
-   return false;
+  if ( ( $http_code == "200" ) || ( $http_code == "302" ) ) {
+    curl_close( $ch );
+    return true;
+  } else {
+    // return $http_code;, possible too
+    curl_close( $ch );
+    return false;
+  }
 }
 
 function seur_search_number_message_result( $howmany ){
@@ -321,21 +320,55 @@ function seur_screen_menu_submenus_array() {
 function seur_look_url(){
     global $menu;
 
-foreach ( $menu as $item ) {
+	foreach ( $menu as $item ) {
 
-    // Get name of menu item
-    $name = $item[0];
+	    // Get name of menu item
+	    $name = $item[0];
 
-    // Get dashboard item file
-    $file = $item[2];
+	    // Get dashboard item file
+	    $file = $item[2];
 
-    // Get URL for item
-    $url = get_admin_menu_item_url( $file );
+	    // Get URL for item
+	    $url = get_admin_menu_item_url( $file );
 
-    echo "$name: $url<br />";
+	    echo "$name: $url<br />";
 
+	}
 }
+
+// Add notices
+function seur_check_curl_admin_notice__success() {
+    ?>
+    <div class="notice notice-error">
+        <p><?php _e( 'CURL is needed by SEUR Plugin, please ask for CURL to your hosting provider', SEUR_TEXTDOMAIN ); ?></p>
+    </div>
+    <?php
 }
+if ( function_exists('curl_version') ) {
+	add_action( 'admin_notices', 'seur_check_curl_admin_notice__success' );
+	}
+
+function seur_check_soap_admin_notice__success() {
+    ?>
+    <div class="notice notice-error">
+        <p><?php _e( 'SOAP is needed by SEUR Plugin, please ask for SOAP to your hosting provider', SEUR_TEXTDOMAIN ); ?></p>
+    </div>
+    <?php
+}
+if ( class_exists( 'SoapClient') ) {
+	add_action( 'admin_notices', 'seur_check_soap_admin_notice__success' );
+	}
+
+function seur_check_xml_admin_notice__success() {
+    ?>
+    <div class="notice notice-error">
+        <p><?php _e( 'XML is needed by SEUR Plugin, please ask for XML to your hosting provider', SEUR_TEXTDOMAIN ); ?></p>
+    </div>
+    <?php
+}
+if ( function_exists ( 'simplexml_load_string' ) ) {
+	add_action( 'admin_notices', 'seur_check_xml_admin_notice__success' );
+	}
 
 function seur_sanitize_postcode( $postcode ) {
         $unsafe_zipcode = $postcode;
