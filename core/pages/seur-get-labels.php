@@ -18,9 +18,11 @@
 		<h1 class="wp-heading-inline"><?php _e( 'Get Labels', SEUR_TEXTDOMAIN ); ?></h1>
 		<hr class="wp-header-end">
 		<?php
+
 		$url = 'https://ws.seur.com/WSEcatalogoPublicos/servlet/XFireServlet/WSServiciosWebPublicos?wsdl';
-		if ( seur_check_url_exists( $url ) )
+		if ( ! seur_check_url_exists( $url ) )
 		    die('API dont work in this moment');
+
 		if( $orderID &&  ! $order_id ){ ?>
 
 				<form method="post" name="getlabels">
