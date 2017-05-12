@@ -337,37 +337,37 @@ function seur_look_url(){
 }
 
 // Add notices
-function seur_check_curl_admin_notice__success() {
+function seur_check_curl_admin_notice__error() {
     ?>
     <div class="notice notice-error">
         <p><?php _e( 'CURL is needed by SEUR Plugin, please ask for CURL to your hosting provider', SEUR_TEXTDOMAIN ); ?></p>
     </div>
     <?php
 }
-if ( function_exists('curl_version') ) {
-	add_action( 'admin_notices', 'seur_check_curl_admin_notice__success' );
+if ( ! function_exists('curl_version') ) {
+	add_action( 'admin_notices', 'seur_check_curl_admin_notice__error' );
 	}
 
-function seur_check_soap_admin_notice__success() {
+function seur_check_soap_admin_notice__error() {
     ?>
     <div class="notice notice-error">
         <p><?php _e( 'SOAP is needed by SEUR Plugin, please ask for SOAP to your hosting provider', SEUR_TEXTDOMAIN ); ?></p>
     </div>
     <?php
 }
-if ( class_exists( 'SoapClient') ) {
-	add_action( 'admin_notices', 'seur_check_soap_admin_notice__success' );
+if ( ! class_exists( 'SoapClient') ) {
+	add_action( 'admin_notices', 'seur_check_soap_admin_notice__error' );
 	}
 
-function seur_check_xml_admin_notice__success() {
+function seur_check_xml_admin_notice__error() {
     ?>
     <div class="notice notice-error">
-        <p><?php _e( 'XML is needed by SEUR Plugin, please ask for XML to your hosting provider', SEUR_TEXTDOMAIN ); ?></p>
+        <p><?php _e( 'XML (simplexml_load_string) is needed by SEUR Plugin, please ask for XML to your hosting provider', SEUR_TEXTDOMAIN ); ?></p>
     </div>
     <?php
 }
-if ( function_exists ( 'simplexml_load_string' ) ) {
-	add_action( 'admin_notices', 'seur_check_xml_admin_notice__success' );
+if ( ! function_exists ( 'simplexml_load_string' ) ) {
+	add_action( 'admin_notices', 'seur_check_xml_admin_notice__error' );
 	}
 
 function seur_sanitize_postcode( $postcode ) {
