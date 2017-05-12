@@ -35,11 +35,12 @@ function seur_metabox_callback( $post ) {
            $arrayUrl = array ('order_id' => $post->ID, '?TB_iframe' => 'true', 'width' => '400', 'height' => '300' );
            $final_get_label_url = esc_url( add_query_arg(  $arrayUrl , $url ) );
            add_thickbox(); ?>
-           <a class='thickbox button' title='<?php _e( 'Get SEUR Label',SEUR_TEXTDOMAIN ); ?>' alt='<?php _e( 'Get SEUR Label',SEUR_TEXTDOMAIN ); ?>' href='<?php echo $final_get_label_url; ?>'><?php _e( 'Get SEUR Label',SEUR_TEXTDOMAIN ); ?></a>
+           <img src="<?php echo SEUR_PLUGIN_URL; ?>assets/img/icon-96x37.png" alt="SEUR Image" width="96" height="37" /><a class='thickbox button' title='<?php _e( 'Get SEUR Label',SEUR_TEXTDOMAIN ); ?>' alt='<?php _e( 'Get SEUR Label',SEUR_TEXTDOMAIN ); ?>' href='<?php echo $final_get_label_url; ?>'><?php _e( 'Get SEUR Label',SEUR_TEXTDOMAIN ); ?></a>
            <?php
 
 	} else {
 
+		 ?><img src="<?php echo SEUR_PLUGIN_URL; ?>assets/img/icon-96x37.png" alt="SEUR Image" width="96" height="37" /><?php
 		 echo '<a href="' . $url_to_file_down . '?label=' . $label_path . '&label_name=' . $label_file_name . '&pass=' . $file_downlo_pass . '&file_type=' . $file_type . '" class="button" target="_blank">' . __( ' See SEUR Label ', SEUR_TEXTDOMAIN ) . '</a>';
 
 } ?>
