@@ -243,8 +243,6 @@ function seur_metabox_label_callback( $post ) {
 	    $customer_order_notes = __( "There aren't comments for this order", SEUR_TEXTDOMAIN );
     }
 
-
-   // Display code/markup goes here. Don't forget to include nonces!
     ?>
     <div id="seur_content_metabox">
 
@@ -399,4 +397,4 @@ function seur_labels_bulk_action() {
 
   exit();
 }
-add_action( 'load-edit.php', 'seur_labels_bulk_action' );
+// Deactivated in 1.0, activate in future version // add_action( 'load-edit.php', 'seur_labels_bulk_action' );
