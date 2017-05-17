@@ -35,7 +35,7 @@ function seur_edit_rate(){
             <td><?php _e('Rate', SEUR_TEXTDOMAIN ); ?></td>
 
 	        <td>
-	            <select title="<?php _e('Select Rate to apply', SEUR_TEXTDOMAIN ); ?>" name="rate">
+	            <select class="select rate" id="rate" title="<?php _e('Select Rate to apply', SEUR_TEXTDOMAIN ); ?>" name="rate">
 				    <?php
 						$tabla = $wpdb->prefix . SEUR_PLUGIN_SVPR;
 						$sql   = "SELECT * FROM $tabla";
@@ -59,8 +59,8 @@ function seur_edit_rate(){
         <tr>
             <td><?php _e('Country', SEUR_TEXTDOMAIN ); ?></td>
 
-            <td>
-	            <select class="country" value="Select" title="<?php _e('Select Country', SEUR_TEXTDOMAIN ); ?>" name="country">
+            <td id="countryid">
+	            <select class="select country" value="Select" id="country" title="<?php _e('Select Country', SEUR_TEXTDOMAIN ); ?>" name="country">
 				    <?php
 						echo '<option value="*">' . __( 'All Countries', SEUR_TEXTDOMAIN ) . '</option>';
 						$countries = seur_get_countries();
@@ -74,9 +74,9 @@ function seur_edit_rate(){
 							}
 							echo '<option value="' . $country  . '"' . $selected . '>' . $value . '</option>';
 						}
-						echo '<option value="REST">' . __( 'Rest of the World', SEUR_TEXTDOMAIN ) . '</option>';
 					?>
 				</select>
+            </td>
         </tr>
 
         <tr>
