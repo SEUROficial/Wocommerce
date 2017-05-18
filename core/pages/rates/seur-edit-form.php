@@ -10,8 +10,15 @@ function seur_edit_rate(){
 
 		$table = $wpdb->base_prefix . 'seur_custom_rates';
 
-		//$getrate = $wpdb->get_results("SELECT * FROM tbl_employees WHERE emp_id=$id");
 		$getrate = $wpdb->get_row( "SELECT * FROM " . $table . " WHERE ID = " . $id );
+
+		$max_price = $getrate->maxprice;
+
+		if ( $max_price == '9999999' ) {
+			 $max_price = '*';
+		} else {
+			$max_price = $max_price;
+		}
 
 	}
 
@@ -62,17 +69,38 @@ function seur_edit_rate(){
             <td id="countryid">
 	            <select class="select country" value="Select" id="country" title="<?php _e('Select Country', SEUR_TEXTDOMAIN ); ?>" name="country">
 				    <?php
-						echo '<option value="*">' . __( 'All Countries', SEUR_TEXTDOMAIN ) . '</option>';
-						$countries = seur_get_countries();
-						foreach ($countries as $country => $value )
-						{
 
-							if ( $getrate->country == $country ){
-								$selected = ' selected="selected"';
-							} else {
-								$selected = '';
+					    $countries = seur_get_countries();
+					    if ( $getrate->country == 'ES' || $getrate->country == 'PT' || $getrate->country == 'AD' ) {
+
+						    if ( $getrate->country == 'ES' ){
+									echo '<option value="ES" selected="selected">' . __('Spain', SEUR_TEXTDOMAIN ) . '</option>';
+								} else {
+									echo '<option value="ES">' . __('Spain', SEUR_TEXTDOMAIN ) . '</option>';
+									}
+							if ( $getrate->country == 'PT' ){
+									echo '<option value="PT" selected="selected">' . __('Portugal', SEUR_TEXTDOMAIN ) . '</option>';
+								} else {
+									echo '<option value="PT">' . __('Portugal', SEUR_TEXTDOMAIN ) . '</option>';
+									}
+							if ( $getrate->country == 'AD' ){
+									echo '<option value="AD" selected="selected">' . __('Andorra', SEUR_TEXTDOMAIN ) . '</option>';
+								} else {
+									echo '<option value="AD">' . __('Andorra', SEUR_TEXTDOMAIN ) . '</option>';
+									}
+
+						    } else {
+								echo '<option value="*">' . __( 'All Countries', SEUR_TEXTDOMAIN ) . '</option>';
+								$countries = seur_get_countries();
+								foreach ($countries as $country => $value ) {
+
+									if ( $getrate->country == $country ){
+										$selected = ' selected="selected"';
+									} else {
+										$selected = '';
+									}
+								echo '<option value="' . $country  . '"' . $selected . '>' . $value . '</option>';
 							}
-							echo '<option value="' . $country  . '"' . $selected . '>' . $value . '</option>';
 						}
 					?>
 				</select>
@@ -134,7 +162,7 @@ function seur_edit_rate(){
         <tr>
             <td><?php _e('Max Price', SEUR_TEXTDOMAIN ); ?></td>
 
-            <td><input title="<?php _e('SEUR field description', SEUR_TEXTDOMAIN ); ?>" type='text' name='maxprice' value='<?php echo $getrate->maxprice ?>' class='form-control' placeholder='EX : 100' required=""></td>
+            <td><input title="<?php _e('SEUR field description', SEUR_TEXTDOMAIN ); ?>" type='text' name='maxprice' value='<?php echo $max_price ?>' class='form-control' placeholder='EX : 100' required=""></td>
         </tr>
 
         <tr>
