@@ -22,7 +22,7 @@ display:none;
 
 	        <td>
 	            <select class="select rate" id="rate"  title="<?php _e('Select Rate to apply', SEUR_TEXTDOMAIN ); ?>" name="rate">
-		            <option value="Select"><?php _e('Select a Country', SEUR_TEXTDOMAIN ) ?></option>
+		            <option value="Select"><?php _e('Select a Rate', SEUR_TEXTDOMAIN ) ?></option>
 				    <?php
 					    $tabla	= $wpdb->prefix . SEUR_PLUGIN_SVPR;
 	                    $sql	= "SELECT * FROM $tabla";
@@ -54,7 +54,7 @@ display:none;
             <td><?php _e('State', SEUR_TEXTDOMAIN ); ?></td>
 
             <td id="states">
-	            <input title="<?php _e( 'Select a Country, you can select \'All Countries\'', SEUR_TEXTDOMAIN ); ?>" type="text" name="" class="form-control" placeholder="<?php _e( 'Select a Country', SEUR_TEXTDOMAIN ); ?>" value="" readonly>
+	            <input title="<?php _e( 'Select a Country', SEUR_TEXTDOMAIN ); ?>" type="text" name="" class="form-control" placeholder="<?php _e( 'Select a Country', SEUR_TEXTDOMAIN ); ?>" value="" readonly>
             </td>
         </tr>
 
