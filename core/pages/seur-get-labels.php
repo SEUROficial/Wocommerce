@@ -76,7 +76,7 @@
 				            $order = wc_get_order( $order_id );
 				            $order->update_status( $new_status, __( 'Label have been created:', SEUR_TEXTDOMAIN ), true );
 				            add_post_meta( $order_id,'_seur_shipping_order_label_downloaded',  'yes', true );
-				            add_post_meta( $order_id,'_seur_shipping_label_id',  $label_id, true );
+				            add_post_meta( $order_id,'_seur_shipping_label_id',  $labelID, true );
 				            $order->add_order_note( 'The Label for Order #' . $post_id . ' have been downloaded', 0, true);
 				            echo __('Label dowloaded, the Label ID is ', SEUR_TEXTDOMAIN ) . $labelID; ?>
 				            <br />
