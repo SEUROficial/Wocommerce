@@ -15,14 +15,15 @@ display:none;
 </div>
 
 <form method='post' id='emp-SaveForm' action="#">
+	<?php _e('Incluya las tarifas de las opciones de transporte que podrán elegir sus clientes', 'seur-oficial'); ?>
     <table class='table table-bordered'>
 
         <tr>
-            <td><?php _e('Rate', SEUR_TEXTDOMAIN ); ?></td>
+            <td><?php _e('Rate', 'seur-oficial' ); ?></td>
 
 	        <td>
-	            <select class="select rate" id="rate"  title="<?php _e('Select Rate to apply', SEUR_TEXTDOMAIN ); ?>" name="rate">
-		            <option value="Select"><?php _e('Select a Rate', SEUR_TEXTDOMAIN ) ?></option>
+	            <select class="select rate" id="rate"  title="<?php _e('Select Rate to apply', 'seur-oficial' ); ?>" name="rate">
+		            <option value="Select"><?php _e('Select a Rate', 'seur-oficial' ) ?></option>
 				    <?php
 					    $tabla	= $wpdb->prefix . SEUR_PLUGIN_SVPR;
 	                    $sql	= "SELECT * FROM $tabla";
@@ -38,48 +39,48 @@ display:none;
         </tr>
 
         <tr>
-            <td><?php _e('Country', SEUR_TEXTDOMAIN ); ?></td>
+            <td><?php _e('Country', 'seur-oficial' ); ?></td>
 
             <td id="countryid">
-	            <select class="select country" id="country" title="<?php _e('Select Country', SEUR_TEXTDOMAIN ); ?>" name="country">
+	            <select class="select country" id="country" title="<?php _e('Select Country', 'seur-oficial' ); ?>" name="country">
 				    <?php
-						echo '<option value="Select">' . __('Select a Country', SEUR_TEXTDOMAIN ) . '</option>';
-						echo '<option value="ES">' . __('Spain', SEUR_TEXTDOMAIN ) . '</option>';
+						echo '<option value="Select">' . __('Select a Country', 'seur-oficial' ) . '</option>';
+						echo '<option value="ES">' . __('Spain', 'seur-oficial' ) . '</option>';
 					?>
 				</select>
             </td>
         </tr>
 
         <tr>
-            <td><?php _e('State', SEUR_TEXTDOMAIN ); ?></td>
+            <td><?php _e('State', 'seur-oficial' ); ?></td>
 
             <td id="states">
-	            <input title="<?php _e( 'Select a Country', SEUR_TEXTDOMAIN ); ?>" type="text" name="" class="form-control" placeholder="<?php _e( 'Select a Country', SEUR_TEXTDOMAIN ); ?>" value="" readonly>
+	            <input title="<?php _e( 'Select a Country', 'seur-oficial' ); ?>" type="text" name="" class="form-control" placeholder="<?php _e( 'Select a Country', 'seur-oficial' ); ?>" value="" readonly>
             </td>
         </tr>
 
         <tr>
-            <td id="postcode"><?php _e('Postcode', SEUR_TEXTDOMAIN ); ?></td>
+            <td id="postcode"><?php _e('Postcode', 'seur-oficial' ); ?></td>
 
-            <td><input title="<?php _e('Type a Postcode', SEUR_TEXTDOMAIN ); ?>" type='text' name='postcode' class='form-control' placeholder='EX : 08023' required=""></td>
+            <td><input title="<?php _e('Type a Postcode', 'seur-oficial' ); ?>" type='text' name='postcode' class='form-control' placeholder='EX : 08023' required=""></td>
         </tr>
 
         <tr>
-            <td><?php _e('Min Price (=)', SEUR_TEXTDOMAIN ); ?></td>
+            <td><?php _e('Min Price (=)', 'seur-oficial' ); ?></td>
 
-            <td><input title="<?php _e('The product price is equal or mayor of this field', SEUR_TEXTDOMAIN ); ?>" type='text' name='minprice' class='form-control' placeholder='EX : 0' required=""></td>
+            <td><input title="<?php _e('The product price is equal or mayor of this field', 'seur-oficial' ); ?>" type='text' name='minprice' class='form-control' placeholder='EX : 0' required=""></td>
         </tr>
 
         <tr>
-            <td><?php _e('Max Price (<)', SEUR_TEXTDOMAIN ); ?></td>
+            <td><?php _e('Max Price (<)', 'seur-oficial' ); ?></td>
 
-            <td><input title="<?php _e('The product price is minor of this field', SEUR_TEXTDOMAIN ); ?>" type='text' name='maxprice' class='form-control' placeholder='EX : 100' required=""></td>
+            <td><input title="<?php _e('The product price is minor of this field', 'seur-oficial' ); ?>" type='text' name='maxprice' class='form-control' placeholder='EX : 100' required=""></td>
         </tr>
 
         <tr>
-            <td><?php _e('Rate Price', SEUR_TEXTDOMAIN ); ?></td>
+            <td><?php _e('Rate Price', 'seur-oficial' ); ?></td>
 
-            <td><input title="<?php _e('Apply this price to the rate', SEUR_TEXTDOMAIN ); ?>" type='text' name='rateprice' class='form-control' placeholder='EX : 5' required=""></td>
+            <td><input title="<?php _e('Apply this price to the rate', 'seur-oficial' ); ?>" type='text' name='rateprice' class='form-control' placeholder='EX : 5' required=""></td>
         </tr>
 
         <?php wp_nonce_field( 'add_new_seur_rate', 'new_seur_rate_nonce_field' ); ?>

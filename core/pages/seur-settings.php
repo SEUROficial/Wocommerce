@@ -4,7 +4,7 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 function seur_settings(){ ?>
 
     <div class="wrap">
-        <h1><?php echo __( 'SEUR Settings', SEUR_TEXTDOMAIN ) ?></h1>
+        <h1><?php echo __( 'SEUR Settings', 'seur-oficial' ) ?></h1>
                 <?php
         if( isset( $_GET[ 'tab' ] ) ) {
             $active_tab = $_GET[ 'tab' ];
@@ -13,8 +13,8 @@ function seur_settings(){ ?>
         }
         ?>
         <h2 class="nav-tab-wrapper">
-            <a href="admin.php?page=seur&tab=user_settings" class="nav-tab <?php echo $active_tab == 'user_settings' ? 'nav-tab-active' : ''; ?>"><?php _e( 'User Settings', SEUR_TEXTDOMAIN ); ?></a>
-            <a href="admin.php?page=seur&&tab=advanced_settings" class="nav-tab <?php echo $active_tab == 'advanced_settings' ? 'nav-tab-active' : ''; ?>"><?php _e( 'Advanced Settings', SEUR_TEXTDOMAIN ); ?></a>
+            <a href="admin.php?page=seur&tab=user_settings" class="nav-tab <?php echo $active_tab == 'user_settings' ? 'nav-tab-active' : ''; ?>"><?php _e( 'User Settings', 'seur-oficial' ); ?></a>
+            <a href="admin.php?page=seur&&tab=advanced_settings" class="nav-tab <?php echo $active_tab == 'advanced_settings' ? 'nav-tab-active' : ''; ?>"><?php _e( 'Advanced Settings', 'seur-oficial' ); ?></a>
         </h2>
         <form method="post" action="options.php">
             <?php
@@ -23,13 +23,16 @@ function seur_settings(){ ?>
 
             ?>
             <div class="wp-filter">
-                <p class="description" id="text-seur-rates"><?php _e('If you have a SEUR settings file, you can upload it through this ', SEUR_TEXTDOMAIN ); ?><a href="<?php echo $link; ?>"><?php  _e( 'Link', SEUR_TEXTDOMAIN ); ?> </a></p>
+                <p class="description" id="text-seur-rates"><?php _e('If you have a SEUR settings file, you can upload it through this ', 'seur-oficial' ); ?><a href="<?php echo $link; ?>"><?php  _e( 'Link', 'seur-oficial' ); ?> </a></p>
                 </div>
-                <?php
+                <p><?php
+	            _e('Datos de configuración. Contacte con SEUR si no dispone de ellos.', 'seur-oficial' ); ?></p><?php
                 settings_fields( "seur-user-settings-section");
                 do_settings_sections( "seur-user-settings-options" );
-                _e('(<sup>*</sup>) This data is provided by SEUR', SEUR_TEXTDOMAIN );
-            } else {
+                _e('(<sup>*</sup>) This data is provided by SEUR', 'seur-oficial' );
+            } else { ?>
+	            <p><?php
+	            _e('Especifique por favor si desea Notificaciones, horario para las recogidas, tipo de etiquetas generada e información aduanera.', 'seur-oficial' ); ?></p><?php
                 settings_fields( "seur-advanced-settings-section");
                 do_settings_sections( "seur-advanced-settings-options" );
                 }

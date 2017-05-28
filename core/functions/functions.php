@@ -4,7 +4,7 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 // SEUR Localization
 
 function seur_official_init() {
-    load_plugin_textdomain( SEUR_TEXTDOMAIN, false, dirname( plugin_basename( __FILE__ ) ) . '/languages' );
+    load_plugin_textdomain( 'seur-oficial', false, dirname( plugin_basename( __FILE__ ) ) . '/languages' );
 }
 add_action('init', 'seur_official_init');
 
@@ -37,7 +37,7 @@ add_action( 'admin_init', 'seur_welcome_splash', 1 );
 
 function seur_debug_mode_notice() {
     $class   = 'notice notice-warning';
-    $message = __( 'SEUR_DEBUG is set to TRUE, please set it to false.', SEUR_TEXTDOMAIN );
+    $message = __( 'SEUR_DEBUG is set to TRUE, please set it to false.', 'seur-oficial' );
 
     printf( '<div class="%1$s"><p>%2$s</p></div>', $class, $message );
 }
@@ -91,15 +91,15 @@ function seur_search_number_message_result( $howmany ){
 
     if ( $howmany <= 0 ) {
 
-        $message = _e( 'No Matches Found', SEUR_TEXTDOMAIN );
+        $message = _e( 'No Matches Found', 'seur-oficial' );
         return $message;
     }
     if ( $howmany == 1 ) {
-        $message =  _e( '1 Result Found', SEUR_TEXTDOMAIN );
+        $message =  _e( '1 Result Found', 'seur-oficial' );
         return $message;
     }
     if( $howmany > 1 ) {
-        $message = printf( esc_html__( 'Found %s Results.', SEUR_TEXTDOMAIN ), $howmany );
+        $message = printf( esc_html__( 'Found %s Results.', 'seur-oficial' ), $howmany );
         return $message;
     }
 }
@@ -340,7 +340,7 @@ function seur_look_url(){
 function seur_check_curl_admin_notice__error() {
     ?>
     <div class="notice notice-error">
-        <p><?php _e( 'CURL is needed by SEUR Plugin, please ask for CURL to your hosting provider', SEUR_TEXTDOMAIN ); ?></p>
+        <p><?php _e( 'CURL is needed by SEUR Plugin, please ask for CURL to your hosting provider', 'seur-oficial' ); ?></p>
     </div>
     <?php
 }
@@ -351,7 +351,7 @@ if ( ! function_exists('curl_version') ) {
 function seur_check_soap_admin_notice__error() {
     ?>
     <div class="notice notice-error">
-        <p><?php _e( 'SOAP is needed by SEUR Plugin, please ask for SOAP to your hosting provider', SEUR_TEXTDOMAIN ); ?></p>
+        <p><?php _e( 'SOAP is needed by SEUR Plugin, please ask for SOAP to your hosting provider', 'seur-oficial' ); ?></p>
     </div>
     <?php
 }
@@ -362,7 +362,7 @@ if ( ! class_exists( 'SoapClient') ) {
 function seur_check_xml_admin_notice__error() {
     ?>
     <div class="notice notice-error">
-        <p><?php _e( 'XML (simplexml_load_string) is needed by SEUR Plugin, please ask for XML to your hosting provider', SEUR_TEXTDOMAIN ); ?></p>
+        <p><?php _e( 'XML (simplexml_load_string) is needed by SEUR Plugin, please ask for XML to your hosting provider', 'seur-oficial' ); ?></p>
     </div>
     <?php
 }
@@ -1179,6 +1179,20 @@ function seur_get_label( $order_id, $numpackages = '1', $weight = '1' ) {
         $reparto_email = 'S';
     } else {
         $reparto_email = 'N';
+    }
+    if ( $tipo_aviso == 'both' && $preaviso_notificar == 'S' ){
+        $preaviso_email = 'S';
+        $preaviso_sms = 'S';
+    } else {
+        $preaviso_email = 'N';
+        $preaviso_sms = 'N';
+    }
+    if ( $tipo_aviso == 'both' && $reparto_notificar == 'S' ){
+        $reparto_email = 'S';
+        $reparto_sms = 'S';
+    } else {
+        $reparto_email = 'N';
+        $reparto_sms = 'N';
     }
     $tipo_etiqueta           = $advanced_data[0]['tipo_etiqueta'];
 

@@ -50,12 +50,12 @@ function seur_process_label_woocommerce() {
 				)
 			);
 			if ( $wpdb->insert_id ) {
-				echo '<div class="notice notice-success">' . __('New rate successfully added', SEUR_TEXTDOMAIN ) . '</div>';
+				echo '<div class="notice notice-success">' . __('New rate successfully added', 'seur-oficial' ) . '</div>';
 			} else {
-				echo '<div class="notice notice notice-error">' . __('There was and error adding the new rate, please try again', SEUR_TEXTDOMAIN ) . '</div>';
+				echo '<div class="notice notice notice-error">' . __('There was and error adding the new rate, please try again', 'seur-oficial' ) . '</div>';
 			}
 		} else {
-			_e("Sorry, you didn't post data.", SEUR_TEXTDOMAIN );
+			_e("Sorry, you didn't post data.", 'seur-oficial' );
 			exit;
 		}
 	//}

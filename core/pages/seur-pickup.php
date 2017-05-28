@@ -5,7 +5,7 @@ function seur_pickup( $post ) {
     // Declarando $wpdb global y usarlo para ejecutar una sentencia de consulta SQL
     global $wpdb;
 
-    $date          = date("y"). date("m") .date("d"); //yy/mm/dd
+    $date          = date("y") . date("m") . date("d"); //yy/mm/dd
     $bloquear      = '';
     $bultos        = '';
     $kilos         = '';
@@ -13,8 +13,9 @@ function seur_pickup( $post ) {
 
 ?>
 <div class="wrap">
-    <h1 class="wp-heading-inline"><?php _e( 'Pickup', SEUR_TEXTDOMAIN ) ?></h1>
+    <h1 class="wp-heading-inline"><?php _e( 'Pickup', 'seur-oficial' ) ?></h1>
     <hr class="wp-header-end">
+    <?php _e('Genere una solicitud para que pasemos a recoger su mercancía. ', 'seur-oficial' ); ?>
     <form method="post"  name="formulario" width="100%">
 <?php
 
@@ -109,13 +110,14 @@ function seur_pickup( $post ) {
    exit;
 
     } else {
+		$advanced_data          = seur_get_advanced_settings();
 
         $bultos             = $_POST["bultos"];
         $kilos              = $_POST["kilos"];
-        $Md                 = $_POST["Md"];
-        $Mh                 = $_POST["Mh"];
-        $Td                 = $_POST["Td"];
-        $Th                 = $_POST["Th"];
+        $Md                 = $advanced_data[0]['manana_desde'];
+        $Mh                 = $advanced_data[0]['manana_hasta'];
+        $Td                 = $advanced_data[0]['tarde_desde'];
+        $Th                 = $advanced_data[0]['tarde_hasta'];
         $bloquear           = "readonly";
         $usuarioseurcom     = $_POST["usuarioseurcom"];
         $contrasenaseurcom  = $_POST["contrasenaseurcom"];
@@ -204,23 +206,6 @@ function seur_pickup( $post ) {
     <input style=text-align:right type=text name=kilos value="<?php echo $kilos;?>" size=1 maxlength=4   <?php echo $bloquear; ?>>
     </td>
     </tr>
-    <tr><td colslpan=2><br><Introduzca un horario para la Recogida, formato HH:MM<BR>El margen minimo entre cada horario es de 2 horas.</div></td></tr>
-    <tr>
-    <td>Mañana Desde:&nbsp;&nbsp;&nbsp;
-    <input type='text' name='Md' value="<?php echo $Md;?>" size=4  <?php echo $bloquear; ?>>
-    &nbsp;&nbsp;&nbsp;
-    Hasta&nbsp;&nbsp;&nbsp;
-    <input type='text' name='Mh' value="<?php echo $Mh;?>" size=4 <?php echo $bloquear; ?>>
-    </td></tr><tr>
-    <td>Tarde Desde:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    <input type='text' name='Td' value="<?php echo $Td;?>" size=4 <?php echo $bloquear; ?>>
-    &nbsp;&nbsp;&nbsp;
-    Hasta&nbsp;&nbsp;&nbsp;
-    <input type='text' name='Th' value="<?php echo $Th;?>" size=4 <?php echo $bloquear; ?>>
-    </td>
-    </tr>
-    <tr><td colslpan=2><br>Si el horario es sólo de Mañanas deje vacios los horarios de Tarde.<br>Si el horario es sólo de Tardes deje vacios los horarios de Mañana.</div></td></tr>
-
     </tr>
 
     </table>
@@ -273,8 +258,7 @@ if( !isset($_POST["bultos"]) )
 
         "<diaRecogida>" . date("d") . "</diaRecogida>".
         "<mesRecogida>" . date("m") . "</mesRecogida>".
-        //"<anioRecogida>" . date("Y") . "</anioRecogida>".
-        "<anioRecogida>2018</anioRecogida>".
+        "<anioRecogida>" . date("Y") . "</anioRecogida>".
         "<servicio>1</servicio>".
         "<horaMananaDe>" . $_POST["Md"] ."</horaMananaDe>".
         "<horaMananaA>" . $_POST["Mh"] ."</horaMananaA>".

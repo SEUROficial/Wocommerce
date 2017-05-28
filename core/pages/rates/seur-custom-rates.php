@@ -3,8 +3,8 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 ?>
 <div class="container">
 	<br />
-    <button class="button" type="button" id="btn-add"><?php _e('Add Custom Rate', SEUR_TEXTDOMAIN ); ?></button>
-    <button class="button" type="button" id="btn-view"><?php _e('View Custom Rates', SEUR_TEXTDOMAIN ); ?></button>
+    <button class="button" type="button" id="btn-add"><?php _e('Add Custom Rate', 'seur-oficial' ); ?></button>
+    <button class="button" type="button" id="btn-view"><?php _e('View Custom Rates', 'seur-oficial' ); ?></button>
 	<hr>
     <div class="content-loader">
         <table class="wp-list-table widefat fixed striped pages">
@@ -12,23 +12,23 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
                 <tr>
                     <!-- <th class="manage-column">ID</th> -->
 
-                    <th class="manage-column"><?php _e('Rate', 		 SEUR_TEXTDOMAIN ); ?></th>
+                    <th class="manage-column"><?php _e('Rate', 		 'seur-oficial' ); ?></th>
 
-                    <th class="manage-column"><?php _e('Country', 	 SEUR_TEXTDOMAIN ); ?></th>
+                    <th class="manage-column"><?php _e('Country', 	 'seur-oficial' ); ?></th>
 
-                    <th class="manage-column"><?php _e('State', 	 SEUR_TEXTDOMAIN ); ?></th>
+                    <th class="manage-column"><?php _e('State', 	 'seur-oficial' ); ?></th>
 
-                    <th class="manage-column"><?php _e('Postcode', 	 SEUR_TEXTDOMAIN ); ?></th>
+                    <th class="manage-column"><?php _e('Postcode', 	 'seur-oficial' ); ?></th>
 
-                    <th class="manage-column"><?php _e('Min Price',  SEUR_TEXTDOMAIN ); ?></th>
+                    <th class="manage-column"><?php _e('Min Price',  'seur-oficial' ); ?></th>
 
-                    <th class="manage-column"><?php _e('Max Price',  SEUR_TEXTDOMAIN ); ?></th>
+                    <th class="manage-column"><?php _e('Max Price',  'seur-oficial' ); ?></th>
 
-                    <th class="manage-column"><?php _e('Rate Price', SEUR_TEXTDOMAIN ); ?></th>
+                    <th class="manage-column"><?php _e('Rate Price', 'seur-oficial' ); ?></th>
 
-                    <th class="manage-column"><?php _e('edit', 		 SEUR_TEXTDOMAIN ); ?></th>
+                    <th class="manage-column"><?php _e('edit', 		 'seur-oficial' ); ?></th>
 
-                    <th class="manage-column"><?php _e('delete', 	 SEUR_TEXTDOMAIN ); ?></th>
+                    <th class="manage-column"><?php _e('delete', 	 'seur-oficial' ); ?></th>
                 </tr>
             </thead>
 
@@ -39,7 +39,7 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 
 					 if ( ! $getrates ) {
 
-					 	echo '<tr class="no-items"><td class="colspanchange" colspan="9"><br /><center><b>' . __('No custom rates found, please add your Custom Rates', SEUR_TEXTDOMAIN ) . '</b></center><br /></td></tr>';
+					 	echo '<tr class="no-items"><td class="colspanchange" colspan="9"><br /><center><b>' . __('No custom rates found, please add your Custom Rates', 'seur-oficial' ) . '</b></center><br /></td></tr>';
 
 						} else {
 
@@ -49,23 +49,23 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 							<tr>
 							<?php
 								if ( $getrate->country == 'ALL' ) {
-									$country = __( 'ALL', SEUR_TEXTDOMAIN );
+									$country = __( 'ALL', 'seur-oficial' );
 								} else {
 									$country = $getrate->country;
 								}
 								if ( $getrate->country == 'REST' ) {
-									$country = __( 'REST', SEUR_TEXTDOMAIN );
+									$country = __( 'REST', 'seur-oficial' );
 								} else {
 									$country = $getrate->country;
 								}
 
 								if ( $getrate->rateprice == '0' ) {
-									$rateprice = __( 'FREE', SEUR_TEXTDOMAIN );
+									$rateprice = __( 'FREE', 'seur-oficial' );
 								} else {
 									$rateprice = $getrate->rateprice;
 								}
 								if ( $getrate->maxprice == '9999999' ) {
-									$maxrateprice = __( 'No limit', SEUR_TEXTDOMAIN );
+									$maxrateprice = __( 'No limit', 'seur-oficial' );
 								} else {
 									$maxrateprice = $getrate->maxprice;
 								} ?>
@@ -96,23 +96,23 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
                 <tr>
                     <!-- <th class="manage-column">ID</th> -->
 
-                    <th class="manage-column"><?php _e('Rate', 		 SEUR_TEXTDOMAIN ); ?></th>
+                    <th class="manage-column"><?php _e('Rate', 		 'seur-oficial' ); ?></th>
 
-                    <th class="manage-column"><?php _e('Country', 	 SEUR_TEXTDOMAIN ); ?></th>
+                    <th class="manage-column"><?php _e('Country', 	 'seur-oficial' ); ?></th>
 
-                    <th class="manage-column"><?php _e('State', 	 SEUR_TEXTDOMAIN ); ?></th>
+                    <th class="manage-column"><?php _e('State', 	 'seur-oficial' ); ?></th>
 
-                    <th class="manage-column"><?php _e('Postcode',   SEUR_TEXTDOMAIN ); ?></th>
+                    <th class="manage-column"><?php _e('Postcode',   'seur-oficial' ); ?></th>
 
-                    <th class="manage-column"><?php _e('Min Price',  SEUR_TEXTDOMAIN ); ?></th>
+                    <th class="manage-column"><?php _e('Min Price',  'seur-oficial' ); ?></th>
 
-                    <th class="manage-column"><?php _e('Max Price',	 SEUR_TEXTDOMAIN ); ?></th>
+                    <th class="manage-column"><?php _e('Max Price',	 'seur-oficial' ); ?></th>
 
-                    <th class="manage-column"><?php _e('Rate Price', SEUR_TEXTDOMAIN ); ?></th>
+                    <th class="manage-column"><?php _e('Rate Price', 'seur-oficial' ); ?></th>
 
-                    <th class="manage-column"><?php _e('edit', 		 SEUR_TEXTDOMAIN ); ?></th>
+                    <th class="manage-column"><?php _e('edit', 		 'seur-oficial' ); ?></th>
 
-                    <th class="manage-column"><?php _e('delete', 	 SEUR_TEXTDOMAIN ); ?></th>
+                    <th class="manage-column"><?php _e('delete', 	 'seur-oficial' ); ?></th>
                 </tr>
             </thead>
 

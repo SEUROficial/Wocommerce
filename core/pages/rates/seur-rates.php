@@ -49,30 +49,31 @@ if( isset( $_POST['postal'] ) )
 ?>
 
     <div class="wp-filter">
+	    <?php _e('Calcule la tarifa que le aplicará SEUR para una Población o CP concreto.', 'seur-oficial'); ?>
 
         <label>
-            <span class="screen-reader-text"><?php _e( 'Postalcode', SEUR_TEXTDOMAIN ) ?></span>
-            <input type='text' name='postal' class="calculate-rates" placeholder="<?php _e( 'Postalcode', SEUR_TEXTDOMAIN ) ?>" value='<?php if( isset( $postal ) ) echo $postal; ?>'>
+            <span class="screen-reader-text"><?php _e( 'Postalcode', 'seur-oficial' ) ?></span>
+            <input type='text' name='postal' class="calculate-rates" placeholder="<?php _e( 'Postalcode', 'seur-oficial' ) ?>" value='<?php if( isset( $postal ) ) echo $postal; ?>'>
         </label>
         <label>
-            <span class="screen-reader-text"><?php _e( 'City', SEUR_TEXTDOMAIN ) ?></span>
-            <input type='text' name='poblacion' class="calculate-rates" placeholder="<?php _e( 'City', SEUR_TEXTDOMAIN ) ?>" value='<?php if( isset( $poblacion ) ) echo $poblacion; ?>' size="12">
+            <span class="screen-reader-text"><?php _e( 'City', 'seur-oficial' ) ?></span>
+            <input type='text' name='poblacion' class="calculate-rates" placeholder="<?php _e( 'City', 'seur-oficial' ) ?>" value='<?php if( isset( $poblacion ) ) echo $poblacion; ?>' size="12">
         </label>
         <label>
-            <span class="screen-reader-text"><?php _e( 'Country', SEUR_TEXTDOMAIN ) ?></span>
-            <input type='text' name='pais' class="calculate-rates" placeholder="<?php _e( 'Country', SEUR_TEXTDOMAIN ) ?>" value='<?php if( isset( $pais ) ) echo $pais; ?>' size="12">
+            <span class="screen-reader-text"><?php _e( 'Country', 'seur-oficial' ) ?></span>
+            <input type='text' name='pais' class="calculate-rates" placeholder="<?php _e( 'Country', 'seur-oficial' ) ?>" value='<?php if( isset( $pais ) ) echo $pais; ?>' size="12">
         </label>
         <label>
-            <span class="screen-reader-text"><?php _e( 'Packages', SEUR_TEXTDOMAIN ) ?></span>
-            <input type='text' name='bultos' class="calculate-rates" placeholder="<?php _e( 'Packages', SEUR_TEXTDOMAIN ) ?>" value='<?php if( isset( $bultos ) ) echo $bultos; ?>' size="12">
+            <span class="screen-reader-text"><?php _e( 'Packages', 'seur-oficial' ) ?></span>
+            <input type='text' name='bultos' class="calculate-rates" placeholder="<?php _e( 'Packages', 'seur-oficial' ) ?>" value='<?php if( isset( $bultos ) ) echo $bultos; ?>' size="12">
         </label>
         <label>
-            <span class="screen-reader-text"><?php _e( 'Weight', SEUR_TEXTDOMAIN ) ?></span>
-            <input type='text' name='kilos' class="calculate-rates" placeholder="<?php _e( 'Weight', SEUR_TEXTDOMAIN ) ?>" value='<?php if( isset( $kilos ) ) echo $kilos; ?>' size="12">
+            <span class="screen-reader-text"><?php _e( 'Weight', 'seur-oficial' ) ?></span>
+            <input type='text' name='kilos' class="calculate-rates" placeholder="<?php _e( 'Weight', 'seur-oficial' ) ?>" value='<?php if( isset( $kilos ) ) echo $kilos; ?>' size="12">
         </label>
         <label>
-            <span class="screen-reader-text"><?php _e( 'Reimbursement Value', SEUR_TEXTDOMAIN ) ?></span>
-            <input type='text' name='reembolso' class="calculate-rates" placeholder="<?php _e( 'Reimbursement Value', SEUR_TEXTDOMAIN ) ?>" value='<?php if( isset( $reembolso ) ) echo $reembolso; ?>' size="12">
+            <span class="screen-reader-text"><?php _e( 'Reimbursement Value', 'seur-oficial' ) ?></span>
+            <input type='text' name='reembolso' class="calculate-rates" placeholder="<?php _e( 'Reimbursement Value', 'seur-oficial' ) ?>" value='<?php if( isset( $reembolso ) ) echo $reembolso; ?>' size="12">
         </label>
         <?php if( ! isset( $_POST["postal"] ) ) { ?>
         <label>
@@ -81,7 +82,7 @@ if( isset( $_POST['postal'] ) )
         <?php } ?>
         <?php if( isset( $_POST["postal"] ) ) { ?>
         <label>
-            <a href="admin.php?page=seur_rates_prices&tab=calculate_rates" class="page-title-action"><?php _e('New Search', SEUR_TEXTDOMAIN); ?> </a>
+            <a href="admin.php?page=seur_rates_prices&tab=calculate_rates" class="page-title-action"><?php _e('New Search', 'seur-oficial'); ?> </a>
         </label>
         <?php } ?>
 
@@ -101,7 +102,7 @@ if( isset( $_POST['postal'] ) )
 
         <p class="description" id="text-seur-rates"><?php _e('El tipo de servicio producto considerado sera el establecido en los datos de la configuracion y segun el destino.<br>
             Si el envio es contrarrembolso, introduzca el valor SOLO si desea considerar que los gastos de gestión de reembolso son a cargo del remitente.<br>
-            Si el envío es a Canarias, se considerarán las Aduanas y tipo de envio conforme a los datos de configuración establecidos, lo mismo para envíos a Andorra, Ceuta y Melilla.<br>', SEUR_TEXTDOMAIN ); ?></p>
+            Si el envío es a Canarias, se considerarán las Aduanas y tipo de envio conforme a los datos de configuración establecidos, lo mismo para envíos a Andorra, Ceuta y Melilla.<br>', 'seur-oficial' ); ?></p>
 
                 <?php
 
@@ -286,7 +287,7 @@ $respuesta = $cliente->tarificacionPrivadaStr( $parametros );
 if ( empty( $respuesta->out ) || ( isset( $respuesta->error ) && !empty( $respuesta->error ) ) ) {
 
     echo "<hr>";
-    echo __('La tasación no se ha realizado por algún error', SEUR_TEXTDOMAIN );
+    echo __('La tasación no se ha realizado por algún error', 'seur-oficial' );
     echo "</div>";
     echo "<hr><a href='javascript:javascript:history.go(-1)'>";
     echo 'RETURN';

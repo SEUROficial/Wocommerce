@@ -5,7 +5,8 @@ function seur_donwload_data( $post ) {
     global $wpdb;
 ?>
 <div class="wrap">
-    <h1 class="wp-heading-inline"><?php _e('SEUR Manifest', SEUR_TEXTDOMAIN ); ?></h1>
+    <h1 class="wp-heading-inline"><?php _e('SEUR Manifest', 'seur-oficial' ); ?></h1>
+    <?php _e( 'Genere el manifiesto de carga de sus envíos e imprima dos copias para el transportista.', 'seur-oficial' ); ?>
     <form method='post'  name='formulario' width='100%'>
 
 <?php
@@ -90,21 +91,21 @@ function seur_donwload_data( $post ) {
             file_put_contents( $path, $pdf );
 
             $download_file = SEUR_UPLOADS_MANIFEST_URL . '/' . $file_name;
-            echo '<a href="' . $download_file . '" target="_blank" class="button">' . __(' Open Manifest ', SEUR_TEXTDOMAIN ) . '</a>';
+            echo '<a href="' . $download_file . '" target="_blank" class="button">' . __(' Open Manifest ', 'seur-oficial' ) . '</a>';
         } else {
 ?>
         <div class="wp-filter">
             <label>
-                <span class="screen-reader-text"><?php _e( 'From Date', SEUR_TEXTDOMAIN ); ?></span>
-                <input id="datepicker" type='text' name='fechadesde' class="wp-filter-search" placeholder="<?php _e( 'From Date', SEUR_TEXTDOMAIN ); ?>" value=''>
+                <span class="screen-reader-text"><?php _e( 'From Date', 'seur-oficial' ); ?></span>
+                <input id="datepicker" type='text' name='fechadesde' class="wp-filter-search" placeholder="<?php _e( 'From Date', 'seur-oficial' ); ?>" value=''>
             </label>
             <input type='hidden' name='horadesde' value='000000'>
             <?php wp_nonce_field( 'seur_manifest_action', 'seur_manifest_nonce_field' ); ?>
             <label>
-                <input type="submit" name="submit" id="submit" class="button button-primary" value="<?php _e('Submit', SEUR_TEXTDOMAIN ); ?>">
+                <input type="submit" name="submit" id="submit" class="button button-primary" value="<?php _e('Submit', 'seur-oficial' ); ?>">
             </label>
         </div>
-        <p class="description"><?php _e("If you don't have shipments created other days, you don't need to enter a date", SEUR_TEXTDOMAIN ); ?></p>
+        <p class="description"><?php _e("If you don't have shipments created other days, you don't need to enter a date", 'seur-oficial' ); ?></p>
  <?php } ?>
 </div>
 <?php   }

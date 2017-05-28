@@ -1,17 +1,17 @@
 <?php if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 
 return array(
-	'AB' => __( 'Alberta', SEUR_TEXTDOMAIN ),
-	'BC' => __( 'British Columbia', SEUR_TEXTDOMAIN ),
-	'MB' => __( 'Manitoba', SEUR_TEXTDOMAIN ),
-	'NB' => __( 'New Brunswick', SEUR_TEXTDOMAIN ),
-	'NL' => __( 'Newfoundland and Labrador', SEUR_TEXTDOMAIN ),
-	'NT' => __( 'Northwest Territories', SEUR_TEXTDOMAIN ),
-	'NS' => __( 'Nova Scotia', SEUR_TEXTDOMAIN ),
-	'NU' => __( 'Nunavut', SEUR_TEXTDOMAIN ),
-	'ON' => __( 'Ontario', SEUR_TEXTDOMAIN ),
-	'PE' => __( 'Prince Edward Island', SEUR_TEXTDOMAIN ),
-	'QC' => __( 'Quebec', SEUR_TEXTDOMAIN ),
-	'SK' => __( 'Saskatchewan', SEUR_TEXTDOMAIN ),
-	'YT' => __( 'Yukon Territory', SEUR_TEXTDOMAIN )
+	'AB' => __( 'Alberta', 'seur-oficial' ),
+	'BC' => __( 'British Columbia', 'seur-oficial' ),
+	'MB' => __( 'Manitoba', 'seur-oficial' ),
+	'NB' => __( 'New Brunswick', 'seur-oficial' ),
+	'NL' => __( 'Newfoundland and Labrador', 'seur-oficial' ),
+	'NT' => __( 'Northwest Territories', 'seur-oficial' ),
+	'NS' => __( 'Nova Scotia', 'seur-oficial' ),
+	'NU' => __( 'Nunavut', 'seur-oficial' ),
+	'ON' => __( 'Ontario', 'seur-oficial' ),
+	'PE' => __( 'Prince Edward Island', 'seur-oficial' ),
+	'QC' => __( 'Quebec', 'seur-oficial' ),
+	'SK' => __( 'Saskatchewan', 'seur-oficial' ),
+	'YT' => __( 'Yukon Territory', 'seur-oficial' )
 );

@@ -118,8 +118,8 @@ class SEUR_Import extends WP_Importer {
 	 */
 	function import_start( $file ) {
 		if ( ! is_file($file) ) {
-			echo '<p><strong>' . __( 'Sorry, there has been an error.', SEUR_TEXTDOMAIN ) . '</strong><br />';
-			echo __( 'The file does not exist, please try again.', SEUR_TEXTDOMAIN ) . '</p>';
+			echo '<p><strong>' . __( 'Sorry, there has been an error.', 'seur-oficial' ) . '</strong><br />';
+			echo __( 'The file does not exist, please try again.', 'seur-oficial' ) . '</p>';
 			$this->footer();
 			die();
 		}
@@ -127,7 +127,7 @@ class SEUR_Import extends WP_Importer {
 		$import_data = $this->parse( $file );
 
 		if ( is_wp_error( $import_data ) ) {
-			echo '<p><strong>' . __( 'Sorry, there has been an error.', SEUR_TEXTDOMAIN ) . '</strong><br />';
+			echo '<p><strong>' . __( 'Sorry, there has been an error.', 'seur-oficial' ) . '</strong><br />';
 			echo esc_html( $import_data->get_error_message() ) . '</p>';
 			$this->footer();
 			die();
@@ -162,8 +162,8 @@ class SEUR_Import extends WP_Importer {
 		wp_defer_term_counting( false );
 		wp_defer_comment_counting( false );
 
-		echo '<p>' . __( 'All done.', SEUR_TEXTDOMAIN ) . ' <a href="' . admin_url() . '">' . __( 'Have fun!', SEUR_TEXTDOMAIN ) . '</a>' . '</p>';
-		echo '<p>' . __( 'Remember to update the passwords and roles of imported users.', SEUR_TEXTDOMAIN ) . '</p>';
+		echo '<p>' . __( 'All done.', 'seur-oficial' ) . ' <a href="' . admin_url() . '">' . __( 'Have fun!', 'seur-oficial' ) . '</a>' . '</p>';
+		echo '<p>' . __( 'Remember to update the passwords and roles of imported users.', 'seur-oficial' ) . '</p>';
 
 		do_action( 'import_end' );
 	}
@@ -178,12 +178,12 @@ class SEUR_Import extends WP_Importer {
 		$file = seur_Import_handle_upload();
 
 		if ( isset( $file['error'] ) ) {
-			echo '<p><strong>' . __( 'Sorry, there has been an error.', SEUR_TEXTDOMAIN ) . '</strong><br />';
+			echo '<p><strong>' . __( 'Sorry, there has been an error.', 'seur-oficial' ) . '</strong><br />';
 			echo esc_html( $file['error'] ) . '</p>';
 			return false;
 		} else if ( ! file_exists( $file['file'] ) ) {
-			echo '<p><strong>' . __( 'Sorry, there has been an error.', SEUR_TEXTDOMAIN ) . '</strong><br />';
-			printf( __( 'The export file could not be found at <code>%s</code>. It is likely that this was caused by a permissions problem.', SEUR_TEXTDOMAIN ), esc_html( $file['file'] ) );
+			echo '<p><strong>' . __( 'Sorry, there has been an error.', 'seur-oficial' ) . '</strong><br />';
+			printf( __( 'The export file could not be found at <code>%s</code>. It is likely that this was caused by a permissions problem.', 'seur-oficial' ), esc_html( $file['file'] ) );
 			echo '</p>';
 			return false;
 		}
@@ -191,7 +191,7 @@ class SEUR_Import extends WP_Importer {
 		$this->id = (int) $file['id'];
 		$import_data = $this->parse( $file['file'] );
 		if ( is_wp_error( $import_data ) ) {
-			echo '<p><strong>' . __( 'Sorry, there has been an error.', SEUR_TEXTDOMAIN ) . '</strong><br />';
+			echo '<p><strong>' . __( 'Sorry, there has been an error.', 'seur-oficial' ) . '</strong><br />';
 			echo esc_html( $import_data->get_error_message() ) . '</p>';
 			return false;
 		}
@@ -199,7 +199,7 @@ class SEUR_Import extends WP_Importer {
 		$this->version = $import_data['version'];
 		if ( $this->version > $this->max_wxr_version ) {
 			echo '<div class="error"><p><strong>';
-			printf( __( 'This WXR file (version %s) may not be supported by this version of the importer. Please consider updating.', SEUR_TEXTDOMAIN ), esc_html($import_data['version']) );
+			printf( __( 'This WXR file (version %s) may not be supported by this version of the importer. Please consider updating.', 'seur-oficial' ), esc_html($import_data['version']) );
 			echo '</strong></p></div>';
 		}
 
@@ -224,7 +224,7 @@ class SEUR_Import extends WP_Importer {
 			foreach ( $import_data['posts'] as $post ) {
 				$login = sanitize_user( $post['post_author'], true );
 				if ( empty( $login ) ) {
-					printf( __( 'Failed to import author %s. Their posts will be attributed to the current user.', SEUR_TEXTDOMAIN ), esc_html( $post['post_author'] ) );
+					printf( __( 'Failed to import author %s. Their posts will be attributed to the current user.', 'seur-oficial' ), esc_html( $post['post_author'] ) );
 					echo '<br />';
 					continue;
 				}
@@ -250,10 +250,10 @@ class SEUR_Import extends WP_Importer {
 	<input type="hidden" name="import_id" value="<?php echo $this->id; ?>" />
 
 <?php if ( ! empty( $this->authors ) ) : ?>
-	<h3><?php _e( 'Assign Authors', SEUR_TEXTDOMAIN ); ?></h3>
-	<p><?php _e( 'To make it easier for you to edit and save the imported content, you may want to reassign the author of the imported item to an existing user of this site. For example, you may want to import all the entries as <code>admin</code>s entries.', SEUR_TEXTDOMAIN ); ?></p>
+	<h3><?php _e( 'Assign Authors', 'seur-oficial' ); ?></h3>
+	<p><?php _e( 'To make it easier for you to edit and save the imported content, you may want to reassign the author of the imported item to an existing user of this site. For example, you may want to import all the entries as <code>admin</code>s entries.', 'seur-oficial' ); ?></p>
 <?php if ( $this->allow_create_users() ) : ?>
-	<p><?php printf( __( 'If a new user is created by SEUR, a new password will be randomly generated and the new user&#8217;s role will be set as %s. Manually changing the new user&#8217;s details will be necessary.', SEUR_TEXTDOMAIN ), esc_html( get_option('default_role') ) ); ?></p>
+	<p><?php printf( __( 'If a new user is created by SEUR, a new password will be randomly generated and the new user&#8217;s role will be set as %s. Manually changing the new user&#8217;s details will be necessary.', 'seur-oficial' ), esc_html( get_option('default_role') ) ); ?></p>
 <?php endif; ?>
 	<ol id="authors">
 <?php foreach ( $this->authors as $author ) : ?>
@@ -263,14 +263,14 @@ class SEUR_Import extends WP_Importer {
 <?php endif; ?>
 
 <?php if ( $this->allow_fetch_attachments() ) : ?>
-	<h3><?php _e( 'Import Attachments', SEUR_TEXTDOMAIN ); ?></h3>
+	<h3><?php _e( 'Import Attachments', 'seur-oficial' ); ?></h3>
 	<p>
 		<input type="checkbox" value="1" name="fetch_attachments" id="import-attachments" />
-		<label for="import-attachments"><?php _e( 'Download and import file attachments', SEUR_TEXTDOMAIN ); ?></label>
+		<label for="import-attachments"><?php _e( 'Download and import file attachments', 'seur-oficial' ); ?></label>
 	</p>
 <?php endif; ?>
 
-	<p class="submit"><input type="submit" class="button" value="<?php esc_attr_e( 'Submit', SEUR_TEXTDOMAIN ); ?>" /></p>
+	<p class="submit"><input type="submit" class="button" value="<?php esc_attr_e( 'Submit', 'seur-oficial' ); ?>" /></p>
 </form>
 <?php
 	}
@@ -283,7 +283,7 @@ class SEUR_Import extends WP_Importer {
 	 * @param array $author Author information, e.g. login, display name, email
 	 */
 	function author_select( $n, $author ) {
-		_e( 'Import author:', SEUR_TEXTDOMAIN );
+		_e( 'Import author:', 'seur-oficial' );
 		echo ' <strong>' . esc_html( $author['author_display_name'] );
 		if ( $this->version != '1.0' ) echo ' (' . esc_html( $author['author_login'] ) . ')';
 		echo '</strong><br />';
@@ -294,10 +294,10 @@ class SEUR_Import extends WP_Importer {
 		$create_users = $this->allow_create_users();
 		if ( $create_users ) {
 			if ( $this->version != '1.0' ) {
-				_e( 'or create new user with login name:', SEUR_TEXTDOMAIN );
+				_e( 'or create new user with login name:', 'seur-oficial' );
 				$value = '';
 			} else {
-				_e( 'as a new user:', SEUR_TEXTDOMAIN );
+				_e( 'as a new user:', 'seur-oficial' );
 				$value = esc_attr( sanitize_user( $author['author_login'], true ) );
 			}
 
@@ -305,10 +305,10 @@ class SEUR_Import extends WP_Importer {
 		}
 
 		if ( ! $create_users && $this->version == '1.0' )
-			_e( 'assign posts to an existing user:', SEUR_TEXTDOMAIN );
+			_e( 'assign posts to an existing user:', 'seur-oficial' );
 		else
-			_e( 'or assign posts to an existing user:', SEUR_TEXTDOMAIN );
-		wp_dropdown_users( array( 'name' => "user_map[$n]", 'multi' => true, 'show_option_all' => __( '- Select -', SEUR_TEXTDOMAIN ) ) );
+			_e( 'or assign posts to an existing user:', 'seur-oficial' );
+		wp_dropdown_users( array( 'name' => "user_map[$n]", 'multi' => true, 'show_option_all' => __( '- Select -', 'seur-oficial' ) ) );
 		echo '<input type="hidden" name="imported_authors['.$n.']" value="' . esc_attr( $author['author_login'] ) . '" />';
 
 		if ( $this->version != '1.0' )
@@ -358,7 +358,7 @@ class SEUR_Import extends WP_Importer {
 						$this->processed_authors[$old_id] = $user_id;
 					$this->author_mapping[$santized_old_login] = $user_id;
 				} else {
-					printf( __( 'Failed to create new user for %s. Their posts will be attributed to the current user.', SEUR_TEXTDOMAIN ), esc_html($this->authors[$old_login]['author_display_name']) );
+					printf( __( 'Failed to create new user for %s. Their posts will be attributed to the current user.', 'seur-oficial' ), esc_html($this->authors[$old_login]['author_display_name']) );
 					if ( defined('IMPORT_DEBUG') && IMPORT_DEBUG )
 						echo ' ' . $user_id->get_error_message();
 					echo '<br />';
@@ -410,7 +410,7 @@ class SEUR_Import extends WP_Importer {
 				if ( isset($cat['term_id']) )
 					$this->processed_terms[intval($cat['term_id'])] = $id;
 			} else {
-				printf( __( 'Failed to import category %s', SEUR_TEXTDOMAIN ), esc_html($cat['category_nicename']) );
+				printf( __( 'Failed to import category %s', 'seur-oficial' ), esc_html($cat['category_nicename']) );
 				if ( defined('IMPORT_DEBUG') && IMPORT_DEBUG )
 					echo ': ' . $id->get_error_message();
 				echo '<br />';
@@ -453,7 +453,7 @@ class SEUR_Import extends WP_Importer {
 				if ( isset($tag['term_id']) )
 					$this->processed_terms[intval($tag['term_id'])] = $id['term_id'];
 			} else {
-				printf( __( 'Failed to import post tag %s', SEUR_TEXTDOMAIN ), esc_html($tag['tag_name']) );
+				printf( __( 'Failed to import post tag %s', 'seur-oficial' ), esc_html($tag['tag_name']) );
 				if ( defined('IMPORT_DEBUG') && IMPORT_DEBUG )
 					echo ': ' . $id->get_error_message();
 				echo '<br />';
@@ -502,7 +502,7 @@ class SEUR_Import extends WP_Importer {
 				if ( isset($term['term_id']) )
 					$this->processed_terms[intval($term['term_id'])] = $id['term_id'];
 			} else {
-				printf( __( 'Failed to import %s %s', SEUR_TEXTDOMAIN ), esc_html($term['term_taxonomy']), esc_html($term['term_name']) );
+				printf( __( 'Failed to import %s %s', 'seur-oficial' ), esc_html($term['term_taxonomy']), esc_html($term['term_name']) );
 				if ( defined('IMPORT_DEBUG') && IMPORT_DEBUG )
 					echo ': ' . $id->get_error_message();
 				echo '<br />';
@@ -591,7 +591,7 @@ class SEUR_Import extends WP_Importer {
 			$post = apply_filters( 'seur_Import_post_data_raw', $post );
 
 			if ( ! post_type_exists( $post['post_type'] ) ) {
-				printf( __( 'Failed to import &#8220;%s&#8221;: Invalid post type %s', SEUR_TEXTDOMAIN ),
+				printf( __( 'Failed to import &#8220;%s&#8221;: Invalid post type %s', 'seur-oficial' ),
 					esc_html($post['post_title']), esc_html($post['post_type']) );
 				echo '<br />';
 				do_action( 'seur_Import_post_exists', $post );
@@ -628,7 +628,7 @@ class SEUR_Import extends WP_Importer {
 			$post_exists = apply_filters( 'seur_Import_existing_post', $post_exists, $post );
 
 			if ( $post_exists && get_post_type( $post_exists ) == $post['post_type'] ) {
-				printf( __('%s &#8220;%s&#8221; already exists.', SEUR_TEXTDOMAIN), $post_type_object->labels->singular_name, esc_html($post['post_title']) );
+				printf( __('%s &#8220;%s&#8221; already exists.', 'seur-oficial'), $post_type_object->labels->singular_name, esc_html($post['post_title']) );
 				echo '<br />';
 				$comment_post_ID = $post_id = $post_exists;
 				$this->processed_posts[ intval( $post['post_id'] ) ] = intval( $post_exists );
@@ -690,7 +690,7 @@ class SEUR_Import extends WP_Importer {
 				}
 
 				if ( is_wp_error( $post_id ) ) {
-					printf( __( 'Failed to import %s &#8220;%s&#8221;', SEUR_TEXTDOMAIN ),
+					printf( __( 'Failed to import %s &#8220;%s&#8221;', 'seur-oficial' ),
 						$post_type_object->labels->singular_name, esc_html($post['post_title']) );
 					if ( defined('IMPORT_DEBUG') && IMPORT_DEBUG )
 						echo ': ' . $post_id->get_error_message();
@@ -724,7 +724,7 @@ class SEUR_Import extends WP_Importer {
 							$term_id = $t['term_id'];
 							do_action( 'seur_Import_insert_term', $t, $term, $post_id, $post );
 						} else {
-							printf( __( 'Failed to import %s %s', SEUR_TEXTDOMAIN ), esc_html($taxonomy), esc_html($term['name']) );
+							printf( __( 'Failed to import %s %s', 'seur-oficial' ), esc_html($taxonomy), esc_html($term['name']) );
 							if ( defined('IMPORT_DEBUG') && IMPORT_DEBUG )
 								echo ': ' . $t->get_error_message();
 							echo '<br />';
@@ -855,14 +855,14 @@ class SEUR_Import extends WP_Importer {
 
 		// no nav_menu term associated with this menu item
 		if ( ! $menu_slug ) {
-			_e( 'Menu item skipped due to missing menu slug', SEUR_TEXTDOMAIN );
+			_e( 'Menu item skipped due to missing menu slug', 'seur-oficial' );
 			echo '<br />';
 			return;
 		}
 
 		$menu_id = term_exists( $menu_slug, 'nav_menu' );
 		if ( ! $menu_id ) {
-			printf( __( 'Menu item skipped due to invalid menu slug: %s', SEUR_TEXTDOMAIN ), esc_html( $menu_slug ) );
+			printf( __( 'Menu item skipped due to invalid menu slug: %s', 'seur-oficial' ), esc_html( $menu_slug ) );
 			echo '<br />';
 			return;
 		} else {
@@ -925,7 +925,7 @@ class SEUR_Import extends WP_Importer {
 	function process_attachment( $post, $url ) {
 		if ( ! $this->fetch_attachments )
 			return new WP_Error( 'attachment_processing_error',
-				__( 'Fetching attachments is not enabled', SEUR_TEXTDOMAIN ) );
+				__( 'Fetching attachments is not enabled', 'seur-oficial' ) );
 
 		// if the URL is absolute, but does not contain address, then upload it assuming base_site_url
 		if ( preg_match( '|^/[\w\W]+$|', $url ) )
@@ -938,7 +938,7 @@ class SEUR_Import extends WP_Importer {
 		if ( $info = wp_check_filetype( $upload['file'] ) )
 			$post['post_mime_type'] = $info['type'];
 		else
-			return new WP_Error( 'attachment_processing_error', __('Invalid file type', SEUR_TEXTDOMAIN) );
+			return new WP_Error( 'attachment_processing_error', __('Invalid file type', 'seur-oficial') );
 
 		$post['guid'] = $upload['url'];
 
@@ -982,31 +982,31 @@ class SEUR_Import extends WP_Importer {
 		// request failed
 		if ( ! $headers ) {
 			@unlink( $upload['file'] );
-			return new WP_Error( 'import_file_error', __('Remote server did not respond', SEUR_TEXTDOMAIN) );
+			return new WP_Error( 'import_file_error', __('Remote server did not respond', 'seur-oficial') );
 		}
 
 		// make sure the fetch was successful
 		if ( $headers['response'] != '200' ) {
 			@unlink( $upload['file'] );
-			return new WP_Error( 'import_file_error', sprintf( __('Remote server returned error response %1$d %2$s', SEUR_TEXTDOMAIN), esc_html($headers['response']), get_status_header_desc($headers['response']) ) );
+			return new WP_Error( 'import_file_error', sprintf( __('Remote server returned error response %1$d %2$s', 'seur-oficial'), esc_html($headers['response']), get_status_header_desc($headers['response']) ) );
 		}
 
 		$filesize = filesize( $upload['file'] );
 
 		if ( isset( $headers['content-length'] ) && $filesize != $headers['content-length'] ) {
 			@unlink( $upload['file'] );
-			return new WP_Error( 'import_file_error', __('Remote file is incorrect size', SEUR_TEXTDOMAIN) );
+			return new WP_Error( 'import_file_error', __('Remote file is incorrect size', 'seur-oficial') );
 		}
 
 		if ( 0 == $filesize ) {
 			@unlink( $upload['file'] );
-			return new WP_Error( 'import_file_error', __('Zero size file downloaded', SEUR_TEXTDOMAIN) );
+			return new WP_Error( 'import_file_error', __('Zero size file downloaded', 'seur-oficial') );
 		}
 
 		$max_size = (int) $this->max_attachment_size();
 		if ( ! empty( $max_size ) && $filesize > $max_size ) {
 			@unlink( $upload['file'] );
-			return new WP_Error( 'import_file_error', sprintf(__('Remote file is too large, limit is %s', SEUR_TEXTDOMAIN), size_format($max_size) ) );
+			return new WP_Error( 'import_file_error', sprintf(__('Remote file is too large, limit is %s', 'seur-oficial'), size_format($max_size) ) );
 		}
 
 		// keep track of the old and new urls so we can substitute them later
@@ -1105,14 +1105,14 @@ class SEUR_Import extends WP_Importer {
 	function header() {
 		echo '<div class="wrap">';
 		screen_icon();
-		echo '<h2>' . __( 'Import SEUR', SEUR_TEXTDOMAIN ) . '</h2>';
+		echo '<h2>' . __( 'Import SEUR', 'seur-oficial' ) . '</h2>';
 
 		$updates = get_plugin_updates();
 		$basename = plugin_basename(__FILE__);
 		if ( isset( $updates[$basename] ) ) {
 			$update = $updates[$basename];
 			echo '<div class="error"><p><strong>';
-			printf( __( 'A new version of this importer is available. Please update to version %s to ensure compatibility with newer export files.', SEUR_TEXTDOMAIN ), $update->update->new_version );
+			printf( __( 'A new version of this importer is available. Please update to version %s to ensure compatibility with newer export files.', 'seur-oficial' ), $update->update->new_version );
 			echo '</strong></p></div>';
 		}
 	}
@@ -1127,8 +1127,8 @@ class SEUR_Import extends WP_Importer {
 	 */
 	function greet() {
 		echo '<div class="narrow">';
-		echo '<p>'.__( 'Howdy! Upload your SEUR eXtended RSS (WXR) file and we&#8217;ll import the posts, pages, comments, custom fields, categories, and tags into this site.', SEUR_TEXTDOMAIN ).'</p>';
-		echo '<p>'.__( 'Choose a WXR (.xml) file to upload, then click Upload file and import.', SEUR_TEXTDOMAIN ).'</p>';
+		echo '<p>'.__( 'Howdy! Upload your SEUR eXtended RSS (WXR) file and we&#8217;ll import the posts, pages, comments, custom fields, categories, and tags into this site.', 'seur-oficial' ).'</p>';
+		echo '<p>'.__( 'Choose a WXR (.xml) file to upload, then click Upload file and import.', 'seur-oficial' ).'</p>';
 		wp_import_upload_form( 'admin.php?import=seur&amp;step=1' );
 		echo '</div>';
 	}
@@ -1195,13 +1195,13 @@ class SEUR_Import extends WP_Importer {
 } // class_exists( 'WP_Importer' )
 
 function seur_importer_init() {
-	load_plugin_textdomain( SEUR_TEXTDOMAIN, false, dirname( plugin_basename( __FILE__ ) ) . '/languages' );
+	load_plugin_textdomain( 'seur-oficial', false, dirname( plugin_basename( __FILE__ ) ) . '/languages' );
 
 	/**
 	 * SEUR Importer object for registering the import callback
 	 * @global SEUR_Import $seur_import
 	 */
 	$GLOBALS['seur_import'] = new SEUR_Import();
-	register_importer( 'seur', 'SEUR', __('Import <strong>posts, pages, comments, custom fields, categories, and tags</strong> from a SEUR export file.', SEUR_TEXTDOMAIN), array( $GLOBALS['seur_import'], 'dispatch' ) );
+	register_importer( 'seur', 'SEUR', __('Import <strong>posts, pages, comments, custom fields, categories, and tags</strong> from a SEUR export file.', 'seur-oficial'), array( $GLOBALS['seur_import'], 'dispatch' ) );
 }
 add_action( 'admin_init', 'seur_importer_init' );

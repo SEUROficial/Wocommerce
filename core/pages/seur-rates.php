@@ -7,7 +7,7 @@ function seur_rates_prices( $post ) {
     $bloquear = '';
     if ( defined('SEUR_DEBUG') && SEUR_DEBUG == true ) {
         echo '============<br />';
-        echo __('Debug info', SEUR_TEXTDOMAIN ) . '<br />';
+        echo __('Debug info', 'seur-oficial' ) . '<br />';
         echo '============<br />';
 
         $usuarioCIT        = get_option( 'seur_cit_usuario_field' );
@@ -64,7 +64,7 @@ function seur_rates_prices( $post ) {
     } ?>
 
 <div class="wrap">
-        <h1><?php echo __( 'SEUR Rates', SEUR_TEXTDOMAIN ) ?></h1>
+        <h1><?php echo __( 'SEUR Rates', 'seur-oficial' ) ?></h1>
 
         <?php
     if( isset( $_GET[ 'tab' ] ) ) {
@@ -74,8 +74,8 @@ function seur_rates_prices( $post ) {
     }
 ?>
 <h2 class="nav-tab-wrapper">
-    <a href="?page=seur_rates_prices&tab=calculate_rates" class="nav-tab <?php echo $active_tab == 'calculate_rates' ? 'nav-tab-active' : ''; ?>"><?php _e( 'Calculate Rates', SEUR_TEXTDOMAIN ); ?></a>
-    <a href="?page=seur_rates_prices&tab=custom_rates" class="nav-tab <?php echo $active_tab == 'custom_rates' ? 'nav-tab-active' : ''; ?>"><?php _e( 'Custom Rates', SEUR_TEXTDOMAIN ); ?></a>
+    <a href="?page=seur_rates_prices&tab=calculate_rates" class="nav-tab <?php echo $active_tab == 'calculate_rates' ? 'nav-tab-active' : ''; ?>"><?php _e( 'Calculate Rates', 'seur-oficial' ); ?></a>
+    <a href="?page=seur_rates_prices&tab=custom_rates" class="nav-tab <?php echo $active_tab == 'custom_rates' ? 'nav-tab-active' : ''; ?>"><?php _e( 'Custom Rates', 'seur-oficial' ); ?></a>
 </h2>
 
 <?php

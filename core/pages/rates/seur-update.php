@@ -52,9 +52,9 @@ function seur_update_custom_rate(){
             );
 
             if ( ! $wpdb->insert_id ) {
-                echo '<div class="notice notice-success">' . __('Rate successfully updated', SEUR_TEXTDOMAIN ) . '</div>';
+                echo '<div class="notice notice-success">' . __('Rate successfully updated', 'seur-oficial' ) . '</div>';
             } else {
-                echo '<div class="notice notice notice-error">' . __('There was and error at rate update, please try again', SEUR_TEXTDOMAIN ) . '</div>';
+                echo '<div class="notice notice notice-error">' . __('There was and error at rate update, please try again', 'seur-oficial' ) . '</div>';
             }
         }
     }

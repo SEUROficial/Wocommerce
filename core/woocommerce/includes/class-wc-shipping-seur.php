@@ -212,8 +212,8 @@ class WC_Shipping_SEUR extends WC_Shipping_Method {
     public function __construct( $instance_id = 0 ) {
         $this->id                 = 'seur';
         $this->instance_id        = absint( $instance_id );
-        $this->method_title       = __( 'SEUR', SEUR_TEXTDOMAIN );
-        $this->method_description = __( '<p>The SEUR extension obtains rates dynamically from the SEUR API during cart/checkout.</p><p>Please, configure SEUR data in <code>SEUR -> Settings</code></p>', SEUR_TEXTDOMAIN );
+        $this->method_title       = __( 'SEUR', 'seur-oficial' );
+        $this->method_description = __( '<p>The SEUR extension obtains rates dynamically from the SEUR API during cart/checkout.</p><p>Please, configure SEUR data in <code>SEUR -> Settings</code></p>', 'seur-oficial' );
         $this->supports           = array(
             'shipping-zones',
             'instance-settings',
@@ -388,7 +388,7 @@ class WC_Shipping_SEUR extends WC_Shipping_Method {
             // Check if at least one SEUR packaging is chosen, or a custom box is defined
             if ( 'box_packing' === $this->packing_method ) {
                 if ( empty( $this->seur_packaging )  && empty( $this->boxes ) ) {
-                    $error_message .= '<p>' . __( 'SEUR is enabled, and Parcel Packing Method is set to \'Pack into boxes\', but no SEUR Packaging is selected and there are no custom boxes defined. Items will be packed individually.', SEUR_TEXTDOMAIN ) . '</p>';
+                    $error_message .= '<p>' . __( 'SEUR is enabled, and Parcel Packing Method is set to \'Pack into boxes\', but no SEUR Packaging is selected and there are no custom boxes defined. Items will be packed individually.', 'seur-oficial' ) . '</p>';
                 }
             }
 
@@ -402,7 +402,7 @@ class WC_Shipping_SEUR extends WC_Shipping_Method {
                 }
             }
             if ( $ctr == 0 ) {
-                $error_message .= '<p>' . __( 'SEUR is enabled, but there are no services enabled.', SEUR_TEXTDOMAIN ) . '</p>';
+                $error_message .= '<p>' . __( 'SEUR is enabled, but there are no services enabled.', 'seur-oficial' ) . '</p>';
             }
         }
 
@@ -440,7 +440,7 @@ class WC_Shipping_SEUR extends WC_Shipping_Method {
         ?>
         <tr valign="top">
             <th scope="row" class="titledesc">
-                <label for="origin_country"><?php _e( 'Origin Country', SEUR_TEXTDOMAIN ); ?></label>
+                <label for="origin_country"><?php _e( 'Origin Country', 'seur-oficial' ); ?></label>
             </th>
             <td class="forminp"><select name="woocommerce_seur_origin_country_state" id="woocommerce_seur_origin_country_state" style="width: 250px;" data-placeholder="<?php _e('Choose a country&hellip;', 'woocommerce'); ?>" title="Country" class="chosen_select">
                 <?php echo WC()->countries->country_dropdown_options( $this->origin_country, $this->origin_state ? $this->origin_state : '*' ); ?>
@@ -461,24 +461,24 @@ class WC_Shipping_SEUR extends WC_Shipping_Method {
         ob_start();
         ?>
         <tr valign="top" id="service_options">
-            <th scope="row" class="titledesc"><?php _e( 'Services', SEUR_TEXTDOMAIN ); ?></th>
+            <th scope="row" class="titledesc"><?php _e( 'Services', 'seur-oficial' ); ?></th>
             <td class="forminp">
                 <table class="seur_services widefat">
                     <thead>
                         <th class="sort">&nbsp;</th>
-                        <th><?php _e( 'Service Code', SEUR_TEXTDOMAIN ); ?></th>
-                        <th><?php _e( 'Product', SEUR_TEXTDOMAIN ); ?></th>
-                        <th><?php _e( 'Name', SEUR_TEXTDOMAIN ); ?></th>
-                        <th><?php _e( 'Enabled', SEUR_TEXTDOMAIN ); ?></th>
-                        <th><?php echo sprintf( __( 'Price Adjustment (%s)', SEUR_TEXTDOMAIN ), get_woocommerce_currency_symbol() ); ?></th>
-                        <th><?php _e( 'Price Adjustment (%)', SEUR_TEXTDOMAIN ); ?></th>
+                        <th><?php _e( 'Service Code', 'seur-oficial' ); ?></th>
+                        <th><?php _e( 'Product', 'seur-oficial' ); ?></th>
+                        <th><?php _e( 'Name', 'seur-oficial' ); ?></th>
+                        <th><?php _e( 'Enabled', 'seur-oficial' ); ?></th>
+                        <th><?php echo sprintf( __( 'Price Adjustment (%s)', 'seur-oficial' ), get_woocommerce_currency_symbol() ); ?></th>
+                        <th><?php _e( 'Price Adjustment (%)', 'seur-oficial' ); ?></th>
                     </thead>
                     <tfoot>
                     <?php if( !$this->origin_country == 'PL' && !in_array( $this->origin_country, $this->pt_array ) ) : ?>
                         <tr>
                             <th colspan="6">
-                                <small class="description"><?php _e( '<strong>Domestic Rates</strong>: Next Day Air, 2nd Day Air, Ground, 3 Day Select, Next Day Air Saver, Next Day Air Early AM, 2nd Day Air AM', SEUR_TEXTDOMAIN ); ?></small><br/>
-                                <small class="description"><?php _e( '<strong>International Rates</strong>: Worldwide Express, Worldwide Expedited, Standard, Worldwide Express Plus, SEUR Saver', SEUR_TEXTDOMAIN ); ?></small>
+                                <small class="description"><?php _e( '<strong>Domestic Rates</strong>: Next Day Air, 2nd Day Air, Ground, 3 Day Select, Next Day Air Saver, Next Day Air Early AM, 2nd Day Air AM', 'seur-oficial' ); ?></small><br/>
+                                <small class="description"><?php _e( '<strong>International Rates</strong>: Worldwide Express, Worldwide Expedited, Standard, Worldwide Express Plus, SEUR Saver', 'seur-oficial' ); ?></small>
                             </th>
                         </tr>
                     <?php endif ?>
@@ -603,29 +603,29 @@ class WC_Shipping_SEUR extends WC_Shipping_Method {
     public function init_form_fields() {
         $this->instance_form_fields = array(
             'core'           => array(
-                'title'           => __( 'Method & Origin Settings', SEUR_TEXTDOMAIN ),
+                'title'           => __( 'Method & Origin Settings', 'seur-oficial' ),
                 'type'            => 'title',
                 'description'     => '',
                 'class'           => 'seur-section-title',
             ),
             'title'            => array(
-                'title'           => __( 'Method Title', SEUR_TEXTDOMAIN ),
+                'title'           => __( 'Method Title', 'seur-oficial' ),
                 'type'            => 'text',
-                'description'     => __( 'This controls the title which the user sees during checkout.', SEUR_TEXTDOMAIN ),
-                'default'         => __( 'SEUR', SEUR_TEXTDOMAIN ),
+                'description'     => __( 'This controls the title which the user sees during checkout.', 'seur-oficial' ),
+                'default'         => __( 'SEUR', 'seur-oficial' ),
                 'desc_tip' => true
             ),
             'origin_city'         => array(
-                'title'           => __( 'Origin City', SEUR_TEXTDOMAIN ),
+                'title'           => __( 'Origin City', 'seur-oficial' ),
                 'type'            => 'text',
-                'description'     => __( 'Enter the city for the <strong>sender</strong>.', SEUR_TEXTDOMAIN ),
+                'description'     => __( 'Enter the city for the <strong>sender</strong>.', 'seur-oficial' ),
                 'default'         => '',
                 'desc_tip' => true
             ),
             'origin_postcode'     => array(
-                'title'           => __( 'Origin Postcode', SEUR_TEXTDOMAIN ),
+                'title'           => __( 'Origin Postcode', 'seur-oficial' ),
                 'type'            => 'text',
-                'description'     => __( 'Enter the zip/postcode for the <strong>sender</strong>.', SEUR_TEXTDOMAIN ),
+                'description'     => __( 'Enter the zip/postcode for the <strong>sender</strong>.', 'seur-oficial' ),
                 'default'         => '',
                 'desc_tip' => true
             ),
@@ -633,72 +633,72 @@ class WC_Shipping_SEUR extends WC_Shipping_Method {
                 'type'            => 'single_select_country',
             ),
             'services_packaging'  => array(
-                'title'           => __( 'Services and Packaging', SEUR_TEXTDOMAIN ),
+                'title'           => __( 'Services and Packaging', 'seur-oficial' ),
                 'type'            => 'title',
-                'description'     => __( 'Please enable all of the different services you\'d like to offer customers.', SEUR_TEXTDOMAIN ) . ' <em>' . __( 'By enabling a service, it doesn\'t gaurantee that it will be offered, as the plugin will only offer the available rates based on the package, the origin and the destination.', SEUR_TEXTDOMAIN ) . '</em>',
+                'description'     => __( 'Please enable all of the different services you\'d like to offer customers.', 'seur-oficial' ) . ' <em>' . __( 'By enabling a service, it doesn\'t gaurantee that it will be offered, as the plugin will only offer the available rates based on the package, the origin and the destination.', 'seur-oficial' ) . '</em>',
                 'class'           => 'seur-section-title',
             ),
             'services'  => array(
                 'type'            => 'services'
             ),
             'offer_rates'   => array(
-                'title'           => __( 'Offer Rates', SEUR_TEXTDOMAIN ),
+                'title'           => __( 'Offer Rates', 'seur-oficial' ),
                 'type'            => 'select',
                 'description'     => '',
                 'default'         => 'expensive',
                 'options'         => array(
-                    'all'         => __( 'Offer the customer all returned rates', SEUR_TEXTDOMAIN ),
-                    'cheapest'    => __( 'Offer the customer the cheapest rate only', SEUR_TEXTDOMAIN ),
-                    'expensive'   => __( 'Offer the customer the expensive rate only', SEUR_TEXTDOMAIN )
+                    'all'         => __( 'Offer the customer all returned rates', 'seur-oficial' ),
+                    'cheapest'    => __( 'Offer the customer the cheapest rate only', 'seur-oficial' ),
+                    'expensive'   => __( 'Offer the customer the expensive rate only', 'seur-oficial' )
                 ),
             ),
         );
 
         $this->form_fields = array(
         /*  'api'           => array(
-                'title'           => __( 'API Settings', SEUR_TEXTDOMAIN ),
+                'title'           => __( 'API Settings', 'seur-oficial' ),
                 'type'            => 'title',
-                'description'     => sprintf( __( 'You need to obtain SEUR account credentials by registering on %svia their website%s.', SEUR_TEXTDOMAIN ), '<a href="https://www.seur.com/seurdeveloperkit">', '</a>' ),
+                'description'     => sprintf( __( 'You need to obtain SEUR account credentials by registering on %svia their website%s.', 'seur-oficial' ), '<a href="https://www.seur.com/seurdeveloperkit">', '</a>' ),
                 'class'           => 'seur-section-title seur-api-title',
             ),
             'user_id'           => array(
-                'title'           => __( 'SEUR User ID', SEUR_TEXTDOMAIN ),
+                'title'           => __( 'SEUR User ID', 'seur-oficial' ),
                 'type'            => 'text',
-                'description'     => __( 'Obtained from SEUR after getting an account.', SEUR_TEXTDOMAIN ),
+                'description'     => __( 'Obtained from SEUR after getting an account.', 'seur-oficial' ),
                 'default'         => '',
                 'class'           => 'seur-api-setting',
                 'desc_tip' => true
             ),
             'password'            => array(
-                'title'           => __( 'SEUR Password', SEUR_TEXTDOMAIN ),
+                'title'           => __( 'SEUR Password', 'seur-oficial' ),
                 'type'            => 'password',
-                'description'     => __( 'Obtained from SEUR after getting an account.', SEUR_TEXTDOMAIN ),
+                'description'     => __( 'Obtained from SEUR after getting an account.', 'seur-oficial' ),
                 'default'         => '',
                 'class'           => 'seur-api-setting',
                 'desc_tip' => true
             ),
             'access_key'          => array(
-                'title'           => __( 'SEUR Access Key', SEUR_TEXTDOMAIN ),
+                'title'           => __( 'SEUR Access Key', 'seur-oficial' ),
                 'type'            => 'text',
-                'description'     => __( 'Obtained from SEUR after getting an account.', SEUR_TEXTDOMAIN ),
+                'description'     => __( 'Obtained from SEUR after getting an account.', 'seur-oficial' ),
                 'default'         => '',
                 'class'           => 'seur-api-setting',
                 'desc_tip' => true
             ),
             'shipper_number'      => array(
-                'title'           => __( 'SEUR Account Number', SEUR_TEXTDOMAIN ),
+                'title'           => __( 'SEUR Account Number', 'seur-oficial' ),
                 'type'            => 'text',
-                'description'     => __( 'Obtained from SEUR after getting an account.', SEUR_TEXTDOMAIN ),
+                'description'     => __( 'Obtained from SEUR after getting an account.', 'seur-oficial' ),
                 'default'         => '',
                 'class'           => 'seur-api-setting',
                 'desc_tip' => true
             ),
             'debug'  => array(
-                'title'           => __( 'Debug Mode', SEUR_TEXTDOMAIN ),
-                'label'           => __( 'Enable debug mode', SEUR_TEXTDOMAIN ),
+                'title'           => __( 'Debug Mode', 'seur-oficial' ),
+                'label'           => __( 'Enable debug mode', 'seur-oficial' ),
                 'type'            => 'checkbox',
                 'default'         => 'no',
-                'description'     => __( 'Enable debug mode to show debugging information on your cart/checkout.', SEUR_TEXTDOMAIN ),
+                'description'     => __( 'Enable debug mode to show debugging information on your cart/checkout.', 'seur-oficial' ),
                 'desc_tip' => true
             ), */
         );
@@ -718,13 +718,13 @@ class WC_Shipping_SEUR extends WC_Shipping_Method {
 
         // Only return rates if the package has a destination including country
         if ( '' === $package['destination']['country'] ) {
-            $this->debug( __( 'SEUR: Country not supplied. Rates not requested.', SEUR_TEXTDOMAIN ) );
+            $this->debug( __( 'SEUR: Country not supplied. Rates not requested.', 'seur-oficial' ) );
             return;
         }
 
         // If no origin postcode set, throw an error and stop the calculation
         if ( ! $this->origin_postcode ) {
-            $this->debug( sprintf( __( 'SEUR: No Origin Postcode has been set. Please %sadd one%s so rates can be calculated!', SEUR_TEXTDOMAIN ), '<a href="' . admin_url( 'admin.php?page=wc-settings&tab=shipping&section=wc_shipping_seur' ) . '">', '</a>' ), 'error' );
+            $this->debug( sprintf( __( 'SEUR: No Origin Postcode has been set. Please %sadd one%s so rates can be calculated!', 'seur-oficial' ), '<a href="' . admin_url( 'admin.php?page=wc-settings&tab=shipping&section=wc_shipping_seur' ) . '">', '</a>' ), 'error' );
             return;
         }
 
@@ -737,7 +737,7 @@ class WC_Shipping_SEUR extends WC_Shipping_Method {
                 $rate_requests = seur_show_availables_rates( $country, $state, $postcode, $price );
 
             if ( ! $rate_requests ) {
-                $this->debug( __( 'SEUR: No Services are enabled in admin panel.', SEUR_TEXTDOMAIN ) );
+                $this->debug( __( 'SEUR: No Services are enabled in admin panel.', 'seur-oficial' ) );
             }
 		if ( $rate_requests ){
 
@@ -808,7 +808,7 @@ class WC_Shipping_SEUR extends WC_Shipping_Method {
                 'cost'  => $this->fallback,
                 'sort'  => 0
             ) );
-            $this->debug( __( 'SEUR: Using Fallback setting.', SEUR_TEXTDOMAIN ) );
+            $this->debug( __( 'SEUR: Using Fallback setting.', 'seur-oficial' ) );
         }
     }
 

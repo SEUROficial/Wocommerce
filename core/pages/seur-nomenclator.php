@@ -4,15 +4,15 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 function seur_search_nomenclator( $post ) { ?>
 
 <div class="wrap">
-    <h1 class="wp-heading-inline"><?php _e( 'Nomenclator', SEUR_TEXTDOMAIN ) ?></h1>
-     <?php if( isset($_POST['codigo_postal']) ) { ?><a href="admin.php?page=seur_search_nomenclator" class="page-title-action"><?php _e('New Search', SEUR_TEXTDOMAIN);?></a> <?php } ?>
+    <h1 class="wp-heading-inline"><?php _e( 'Nomenclator', 'seur-oficial' ) ?></h1>
+     <?php if( isset($_POST['codigo_postal']) ) { ?><a href="admin.php?page=seur_search_nomenclator" class="page-title-action"><?php _e('New Search', 'seur-oficial');?></a> <?php } ?>
     <hr class="wp-header-end">
     <?php $seur_user = get_option( 'seur_seurcom_usuario_field' );
         $seur_pass = get_option( 'seur_seurcom_contra_field' );
 
         if ( defined('SEUR_DEBUG') && SEUR_DEBUG == true ) {
             echo '============<br />';
-            echo __('Debug info', SEUR_TEXTDOMAIN ) . '<br />';
+            echo __('Debug info', 'seur-oficial' ) . '<br />';
             echo '============<br />';
             $safe_zipcode = '';
             echo 'SEUR User: ' . $seur_user . '<br />';
@@ -35,7 +35,7 @@ function seur_search_nomenclator( $post ) { ?>
             echo '===============================================<br />';
             echo '===============================================<br />';
         } ?>
-
+	<?php _e( 'Consulte el CP o Población asociado en los sistemas de SEUR.', 'seur-oficial' ); ?>
     <form method="post" name="formulario" width="100%">
         <?php
 
@@ -73,7 +73,7 @@ function seur_search_nomenclator( $post ) { ?>
 
                     $seur_url = 'https://ws.seur.com/WSEcatalogoPublicos/servlet/XFireServlet/WSServiciosWebPublicos?wsdl';
                     if ( filter_var( $seur_url, FILTER_VALIDATE_URL) === FALSE ) {
-                        _e('There is a problem connecting to SEUR. Please try again later.', SEUR_TEXTDOMAIN);
+                        _e('There is a problem connecting to SEUR. Please try again later.', 'seur-oficial');
                     } else {
                         $soap_client = new SoapClient('https://ws.seur.com/WSEcatalogoPublicos/servlet/XFireServlet/WSServiciosWebPublicos?wsdl', $sc_options);
 
@@ -107,11 +107,11 @@ function seur_search_nomenclator( $post ) { ?>
         <table class="wp-list-table widefat fixed striped pages">
             <thead>
                 <tr>
-                    <td class="manage-column"><?php _e('POSTCODE', SEUR_TEXTDOMAIN ); ?></td>
+                    <td class="manage-column"><?php _e('POSTCODE', 'seur-oficial' ); ?></td>
 
-                    <td class="manage-column"><?php _e('CITY', SEUR_TEXTDOMAIN ); ?></td>
+                    <td class="manage-column"><?php _e('CITY', 'seur-oficial' ); ?></td>
 
-                    <td class="manage-column"><?php _e('STATE/PROVINCE', SEUR_TEXTDOMAIN ); ?></td>
+                    <td class="manage-column"><?php _e('STATE/PROVINCE', 'seur-oficial' ); ?></td>
                 </tr>
             </thead><?php
                                 for ( $ele = 1; $ele <= $howmanyresults; $ele++ ) {
@@ -126,11 +126,11 @@ function seur_search_nomenclator( $post ) { ?>
 
             <tfoot>
                 <tr>
-                    <td class="manage-column"><?php _e('POSTCODE', SEUR_TEXTDOMAIN ); ?></td>
+                    <td class="manage-column"><?php _e('POSTCODE', 'seur-oficial' ); ?></td>
 
-                    <td class="manage-column"><?php _e('CITY', SEUR_TEXTDOMAIN ); ?></td>
+                    <td class="manage-column"><?php _e('CITY', 'seur-oficial' ); ?></td>
 
-                    <td class="manage-column"><?php _e('STATE/PROVINCE', SEUR_TEXTDOMAIN ); ?></td>
+                    <td class="manage-column"><?php _e('STATE/PROVINCE', 'seur-oficial' ); ?></td>
                 </tr>
             </tfoot>
         </table><?php
@@ -147,12 +147,12 @@ function seur_search_nomenclator( $post ) { ?>
 	<div class="wp-filter">
 
 		<label>
-			<span class="screen-reader-text"><?php _e( 'City', SEUR_TEXTDOMAIN ) ?></span>
-			<input type='text' name='nombre_poblacion' class="wp-filter-search" placeholder="<?php _e( 'City', SEUR_TEXTDOMAIN ) ?>" value=''>
+			<span class="screen-reader-text"><?php _e( 'City', 'seur-oficial' ) ?></span>
+			<input type='text' name='nombre_poblacion' class="wp-filter-search" placeholder="<?php _e( 'City', 'seur-oficial' ) ?>" value=''>
 		</label>
 		<label>
-			<span class="screen-reader-text"><?php _e( 'Postal code', SEUR_TEXTDOMAIN ) ?></span>
-			<input type='text' name='codigo_postal' class="wp-filter-search" placeholder="<?php _e( 'Postalcode', SEUR_TEXTDOMAIN ) ?>" value='' size="12">
+			<span class="screen-reader-text"><?php _e( 'Postal code', 'seur-oficial' ) ?></span>
+			<input type='text' name='codigo_postal' class="wp-filter-search" placeholder="<?php _e( 'Postalcode', 'seur-oficial' ) ?>" value='' size="12">
 		</label>
 		<label>
 			<input type="submit" name="submit" id="submit" class="button button-primary" value="Search">

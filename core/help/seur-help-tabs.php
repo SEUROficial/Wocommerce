@@ -8,13 +8,13 @@ function seur_settings_add_help_tab () {
     // Add my_help_tab if current screen is My Admin Page
     $screen->add_help_tab( array(
         'id'	=> 'seur_user_settings_help_tab',
-        'title'	=> __('Users Settings'),
-        'content'	=> '<p>' . __( 'Help about User SEUR Settings.' ) . '</p>',
+        'title'	=> __('Users Settings', 'seur-oficial' ),
+        'content'	=> '<p>' . __( 'Help about User SEUR Settings.', 'seur-oficial'  ) . '</p>',
     ) );
     $screen->add_help_tab( array(
         'id'	=> 'seur_advanced_settings_help_tab',
-        'title'	=> __('Advanced Settings'),
-        'content'	=> '<p>' . __( 'Help about Advanced SEUR Settings.' ) . '</p>',
+        'title'	=> __('Advanced Settings', 'seur-oficial' ),
+        'content'	=> '<p>' . __( 'Help about Advanced SEUR Settings.', 'seur-oficial'  ) . '</p>',
     ) );
 }
 
@@ -24,13 +24,13 @@ function seur_rates_add_help_tab () {
     // Add my_help_tab if current screen is My Admin Page
     $screen->add_help_tab( array(
         'id'	=> 'seur_calculate_rates_help_tab',
-        'title'	=> __('Calculate Rates'),
-        'content'	=> '<p>' . __( 'Help about calculate Rates.' ) . '</p>',
+        'title'	=> __('Calculate Rates', 'seur-oficial' ),
+        'content'	=> '<p>' . __( 'Help about calculate Rates.', 'seur-oficial'  ) . '</p>',
     ) );
     $screen->add_help_tab( array(
         'id'	=> 'seur_custom_rates_help_tab',
-        'title'	=> __('Custom Rates'),
-        'content'	=> '<p>' . __( 'Help about Custom Rates.' ) . '</p>',
+        'title'	=> __('Custom Rates', 'seur-oficial' ),
+        'content'	=> '<p>' . __( 'Help about Custom Rates.', 'seur-oficial'  ) . '</p>',
     ) );
 }
 
@@ -41,7 +41,7 @@ function seur_manifests_add_help_tab () {
     $screen->add_help_tab( array(
         'id'	=> 'seur_manifest_help_tab',
         'title'	=> __('Manifest'),
-        'content'	=> '<p>' . __( 'Help about Manifest.' ) . '</p>',
+        'content'	=> '<p>' . __( 'Help about Manifest.', 'seur-oficial'  ) . '</p>',
     ) );
 }
 
@@ -51,8 +51,8 @@ function seur_nomenclator_add_help_tab () {
     // Add my_help_tab if current screen is My Admin Page
     $screen->add_help_tab( array(
         'id'	=> 'seur_nomenclator_help_tab',
-        'title'	=> __('Nomenclator'),
-        'content'	=> '<p>' . __( 'Help about Nomenclator.' ) . '</p>',
+        'title'	=> __('Nomenclator', 'seur-oficial' ),
+        'content'	=> '<p>' . __( 'Help about Nomenclator.', 'seur-oficial'  ) . '</p>',
     ) );
 }
 
@@ -62,8 +62,8 @@ function seur_product_service_add_help_tab () {
     // Add my_help_tab if current screen is My Admin Page
     $screen->add_help_tab( array(
         'id'	=> 'seur_product_service_help_tab',
-        'title'	=> __('Product/Service'),
-        'content'	=> '<p>' . __( 'Help about Product/Service.' ) . '</p>',
+        'title'	=> __('Product/Service', 'seur-oficial' ),
+        'content'	=> '<p>' . __( 'Help about Product/Service.', 'seur-oficial'  ) . '</p>',
     ) );
 }
 
@@ -73,8 +73,8 @@ function seur_pickup_add_help_tab () {
     // Add my_help_tab if current screen is My Admin Page
     $screen->add_help_tab( array(
         'id'	=> 'seur_pickupe_help_tab',
-        'title'	=> __('Pickup'),
-        'content'	=> '<p>' . __( 'Help about Pickup.' ) . '</p>',
+        'title'	=> __('Pickup', 'seur-oficial' ),
+        'content'	=> '<p>' . __( 'Help about Pickup.', 'seur-oficial'  ) . '</p>',
     ) );
 }
 
@@ -95,7 +95,7 @@ function seur_label_list_add_help_tab () {
     $screen->add_help_tab( array(
         'id'	=> 'seur_label_help_tab',
         'title'	=> __('Label List'),
-        'content'	=> '<p>' . __( 'Help about Label List.' ) . '</p>',
+        'content'	=> '<p>' . __( 'Help about Label List.', 'seur-oficial'  ) . '</p>',
     ) );
     }
 }
@@ -116,8 +116,8 @@ function seur_woocommercel_order_list_add_help_tab () {
     // Add my_help_tab if current screen is My Admin Page
     $screen->add_help_tab( array(
         'id'	=> 'seur_woocommerce_order_help_tab',
-        'title'	=> __('SEUR Options'),
-        'content'	=> '<p>' . __( 'Help about WooCommerce SEUR Options.' ) . '</p>',
+        'title'	=> __('SEUR Options', 'seur-oficial' ),
+        'content'	=> '<p>' . __( 'Help about WooCommerce SEUR Options.', 'seur-oficial'  ) . '</p>',
     ) );
     }
 }

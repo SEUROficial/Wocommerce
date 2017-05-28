@@ -87,7 +87,7 @@ function seur_register_awaiting_labels_status() {
         'label'     => 'Awaiting SEUR Labels',
         'public'    => true,
         'show_in_admin_status_list' => true, // show count All (12) , Completed (9) , Awaiting shipment (2) ...
-        'label_count'   => _n_noop( __('Awaiting SEUR Label <span class="count">(%s)</span>', SEUR_TEXTDOMAIN ), __('Awaiting SEUR Label <span class="count">(%s)</span>', SEUR_TEXTDOMAIN ) )
+        'label_count'   => _n_noop( __('Awaiting SEUR Label <span class="count">(%s)</span>', 'seur-oficial' ), __('Awaiting SEUR Label <span class="count">(%s)</span>', 'seur-oficial' ) )
     ) );
 
 }
@@ -118,7 +118,7 @@ function seur_add_order_meta_box_action( $actions ) {
     global $theorder;
 
     // add "mark printed" custom action
-    $actions['wc_custom_order_action'] = __( 'Mark as printed for packaging', SEUR_TEXTDOMAIN );
+    $actions['wc_custom_order_action'] = __( 'Mark as printed for packaging', 'seur-oficial' );
     return $actions;
 }
 add_action( 'woocommerce_order_actions', 'seur_add_order_meta_box_action' );
@@ -129,7 +129,7 @@ function seur_register_awaiting_shipment_status_list() {
         'label'     => 'Awaiting SEUR Shipment',
         'public'    => true,
         'show_in_admin_status_list' => true, // show count All (12) , Completed (9) , Awaiting shipment (2) ...
-        'label_count'   => _n_noop( __('Awaiting SEUR Shipment <span class="count">(%s)</span>', SEUR_TEXTDOMAIN ), __('Awaiting SEUR Shipment <span class="count">(%s)</span>', SEUR_TEXTDOMAIN ) )
+        'label_count'   => _n_noop( __('Awaiting SEUR Shipment <span class="count">(%s)</span>', 'seur-oficial' ), __('Awaiting SEUR Shipment <span class="count">(%s)</span>', 'seur-oficial' ) )
     ) );
 
 }
@@ -139,7 +139,7 @@ function seur_process_order_meta_box_action( $order ) {
 
     // add the order note
     // translators: Placeholders: %s is a user's display name
-    $message = sprintf( __( 'Order information printed by %s for packaging.', SEUR_TEXTDOMAIN ), wp_get_current_user()->display_name );
+    $message = sprintf( __( 'Order information printed by %s for packaging.', 'seur-oficial' ), wp_get_current_user()->display_name );
     $order->add_order_note( $message );
 
     // add the flag
@@ -157,12 +157,12 @@ function seur_custom_bulk_admin_footer() {
     ?>
     <script type="text/javascript">
       jQuery(document).ready(function() {
-        jQuery('<option>').val('mark_seur-label').text('<?php _e('Mark Awaiting SEUR Label', SEUR_TEXTDOMAIN )?>').appendTo("select[name='action']");
-        jQuery('<option>').val('mark_seur-shipment').text('<?php _e('Mark Awaiting SEUR Shipment', SEUR_TEXTDOMAIN )?>').appendTo("select[name='action']");
-        jQuery('<option>').val('mark_seur-label').text('<?php _e('Mark Awaiting SEUR Label', SEUR_TEXTDOMAIN )?>').appendTo("select[name='action2']");
-        jQuery('<option>').val('mark_seur-shipment').text('<?php _e('Mark Awaiting SEUR Shipment', SEUR_TEXTDOMAIN )?>').appendTo("select[name='action2']");
-        jQuery('<option>').val('seur-createlabel').text('<?php _e('Create SEUR Label (Only 1 label per order)', SEUR_TEXTDOMAIN )?>').appendTo("select[name='action']");
-        jQuery('<option>').val('seur-createlabel').text('<?php _e('Create SEUR Label (Only 1 label per order)', SEUR_TEXTDOMAIN )?>').appendTo("select[name='action2']");
+        jQuery('<option>').val('mark_seur-label').text('<?php _e('Mark Awaiting SEUR Label', 'seur-oficial' )?>').appendTo("select[name='action']");
+        jQuery('<option>').val('mark_seur-shipment').text('<?php _e('Mark Awaiting SEUR Shipment', 'seur-oficial' )?>').appendTo("select[name='action']");
+        jQuery('<option>').val('mark_seur-label').text('<?php _e('Mark Awaiting SEUR Label', 'seur-oficial' )?>').appendTo("select[name='action2']");
+        jQuery('<option>').val('mark_seur-shipment').text('<?php _e('Mark Awaiting SEUR Shipment', 'seur-oficial' )?>').appendTo("select[name='action2']");
+        jQuery('<option>').val('seur-createlabel').text('<?php _e('Create SEUR Label (Only 1 label per order)', 'seur-oficial' )?>').appendTo("select[name='action']");
+        jQuery('<option>').val('seur-createlabel').text('<?php _e('Create SEUR Label (Only 1 label per order)', 'seur-oficial' )?>').appendTo("select[name='action2']");
       });
     </script>
     <?php
@@ -206,7 +206,7 @@ function seur_woo_bulk_action() {
                 if( $label_result ){
 
                     $order = wc_get_order( $post_id );
-                    $order->update_status( $new_status, __( 'Label have been created:', SEUR_TEXTDOMAIN ), true );
+                    $order->update_status( $new_status, __( 'Label have been created:', 'seur-oficial' ), true );
                     add_post_meta( $post_id,'_seur_shipping_order_label_downloaded',  'yes', true );
                     add_post_meta( $post_id,'_seur_shipping_label_id',  $label_id, true );
                     $order->add_order_note( 'The Label for Order #' . $order_id . ' have been downloaded', 0, true);
@@ -251,7 +251,7 @@ function seur_add_label_order_actions_button( $actions, $the_order ) {
     if ( $has_label != 'yes' ) { // if order has not label
         $actions['cancel'] = array(
             'url'       => wp_nonce_url( admin_url( 'admin-ajax.php?action=seur_get_label&order_id=' . $the_order->id ), 'woocommerce-mark-order-status' ),
-            'name'      => __( 'Get SEUR Label (Only 1 label per order)', SEUR_TEXTDOMAIN ),
+            'name'      => __( 'Get SEUR Label (Only 1 label per order)', 'seur-oficial' ),
             'action'    => "view label", // setting "view" for proper button CSS
         );
     }
@@ -300,7 +300,7 @@ function seur_get_label_ajax() {
 
                  if ( $label_result ) {
 	                $order = wc_get_order( $order_id );
-	                $order->update_status( $new_status, __( 'Label have been created:', SEUR_TEXTDOMAIN ), true );
+	                $order->update_status( $new_status, __( 'Label have been created:', 'seur-oficial' ), true );
 	                add_post_meta( $order_id,'_seur_shipping_order_label_downloaded',  'yes', true );
 	                add_post_meta( $order_id,'_seur_shipping_label_id',  $label_id, true );
 	                $order->add_order_note( 'The Label for Order #' . $order_id . ' have been downloaded', 0, true);
@@ -323,8 +323,8 @@ add_filter( 'woocommerce_checkout_fields', 'seur_billing_mobil_phone_fields' );
 function seur_billing_mobil_phone_fields( $fields ) {
 
    $fields['billing']['billing_mobile_phone'] = array(
-    'label'       => __('Billing Mobile Phone', SEUR_TEXTDOMAIN ),  // Add custom field label
-    'placeholder' => _x('Billing Mobile Phone', 'placeholder', SEUR_TEXTDOMAIN ),  // Add custom field placeholder
+    'label'       => __('Billing Mobile Phone', 'seur-oficial' ),  // Add custom field label
+    'placeholder' => _x('Billing Mobile Phone', 'placeholder', 'seur-oficial' ),  // Add custom field placeholder
     'required'    => false,             // if field is required or not
     'class'       => array('billing-mobile-phone-field'),      // add class name
     'autocomplete' => 'mobile',
@@ -345,8 +345,8 @@ add_filter( 'woocommerce_checkout_fields', 'seur_shipping_mobil_phone_fields' );
 function seur_shipping_mobil_phone_fields( $fields ) {
 
    $fields['shipping']['shipping_mobile_phone'] = array(
-    'label'       => __('Shipping Mobile Phone', SEUR_TEXTDOMAIN ),  // Add custom field label
-    'placeholder' => _x('Shipping Mobile Phone', 'placeholder', SEUR_TEXTDOMAIN ),  // Add custom field placeholder
+    'label'       => __('Shipping Mobile Phone', 'seur-oficial' ),  // Add custom field label
+    'placeholder' => _x('Shipping Mobile Phone', 'placeholder', 'seur-oficial' ),  // Add custom field placeholder
     'required'    => false,             // if field is required or not
     'class'       => array('shipping-mobile-phone-field'),      // add class name
     'autocomplete' => 'mobile',
