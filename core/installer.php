@@ -501,10 +501,6 @@ function seur_add_avanced_settings_preset(){
         update_option( 'seur_preaviso_notificar_field',         NULL                    );
         update_option( 'seur_reparto_notificar_field',          NULL                    );
         update_option( 'seur_tipo_notificacion_field',          'EMAIL'                 );
-        update_option( 'seur_manana_desde_field',               '09:00'                 );
-        update_option( 'seur_manana_hasta_field',               '14:00'                 );
-        update_option( 'seur_tarde_desde_field',                '16:00'                 );
-        update_option( 'seur_tarde_hasta_field',                '19:00'                 );
         update_option( 'seur_tipo_etiqueta_field',              'PDF'                   );
         update_option( 'seur_aduana_origen_field',              'D'                     );
         update_option( 'seur_aduana_destino_field',             'D'                     );

@@ -5,7 +5,9 @@ $texto="TARIFAS<BR>Consultar el coste de un envio según su tarifa";
 
 ?>
     <form id="calculate-rates" method="post" name="formulario" width="100%">
+	   <p>
         <?php
+	    _e('Calcule la tarifa que le aplicará SEUR para una Población o CP concreto.', 'seur-oficial');
 // Si está establecido, buscamos los datos
 if( isset( $_POST['postal'] ) )
 {
@@ -47,9 +49,8 @@ if( isset( $_POST['postal'] ) )
 // ** PARAMETROS DE ENTRADA **
 // ********************************************
 ?>
-
+    </p>
     <div class="wp-filter">
-	    <?php _e('Calcule la tarifa que le aplicará SEUR para una Población o CP concreto.', 'seur-oficial'); ?>
 
         <label>
             <span class="screen-reader-text"><?php _e( 'Postalcode', 'seur-oficial' ) ?></span>

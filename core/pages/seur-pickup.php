@@ -110,14 +110,13 @@ function seur_pickup( $post ) {
    exit;
 
     } else {
-		$advanced_data          = seur_get_advanced_settings();
 
         $bultos             = $_POST["bultos"];
         $kilos              = $_POST["kilos"];
-        $Md                 = $advanced_data[0]['manana_desde'];
-        $Mh                 = $advanced_data[0]['manana_hasta'];
-        $Td                 = $advanced_data[0]['tarde_desde'];
-        $Th                 = $advanced_data[0]['tarde_hasta'];
+        $Md                 = $_POST["Md"];
+        $Mh                 = $_POST["Mh"];
+        $Td                 = $_POST["Td"];
+        $Th                 = $_POST["Th"];
         $bloquear           = "readonly";
         $usuarioseurcom     = $_POST["usuarioseurcom"];
         $contrasenaseurcom  = $_POST["contrasenaseurcom"];
@@ -206,6 +205,47 @@ function seur_pickup( $post ) {
     <input style=text-align:right type=text name=kilos value="<?php echo $kilos;?>" size=1 maxlength=4   <?php echo $bloquear; ?>>
     </td>
     </tr>
+    <tr><td colslpan=2><br><Introduzca un horario para la Recogida, formato HH:MM<BR>El margen minimo entre cada horario es de 2 horas.</div></td></tr>
+    <tr>
+    <td>Mañana Desde:&nbsp;&nbsp;&nbsp;
+	<select id="manana_desde_type" name="Md">
+       <option value="" <?php if ( $Md == '') echo ' selected'; ?>><?php _e( 'None', 'seur-oficial'); ?></option>
+       <option value="09:00" <?php if ( $Md == '09:00') echo ' selected'; ?>>09:00</option>
+       <option value="10:00" <?php if ( $Md == '10:00') echo ' selected'; ?>>10:00</option>
+       <option value="11:00" <?php if ( $Md == '11:00') echo ' selected'; ?>>11:00</option>
+       <option value="12:00" <?php if ( $Md == '12:00') echo ' selected'; ?>>12:00</option>
+    </select>
+    &nbsp;&nbsp;&nbsp;
+    Hasta&nbsp;&nbsp;&nbsp;
+   <select id="manana_hasta_type" name="Mh">
+       <option value="" <?php if ( $Mh == '') echo ' selected'; ?>><?php _e( 'None', 'seur-oficial'); ?></option>
+       <option value="11:00" <?php if ( $Mh == '11:00') echo ' selected'; ?>>11:00</option>
+       <option value="12:00" <?php if ( $Mh == '12:00') echo ' selected'; ?>>12:00</option>
+       <option value="13:00" <?php if ( $Mh == '13:00') echo ' selected'; ?>>13:00</option>
+       <option value="14:00" <?php if ( $Mh == '14:00') echo ' selected'; ?>>14:00</option>
+    </select>
+    </td></tr><tr>
+    <td>Tarde Desde:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+   <select id="tarde_desde_type" name="Td">
+       <option value="" <?php if ( $Td == '') echo ' selected'; ?>><?php _e( 'None', 'seur-oficial'); ?></option>
+       <option value="15:00" <?php if ( $Td == '15:00') echo ' selected'; ?>>15:00</option>
+       <option value="16:00" <?php if ( $Td == '16:00') echo ' selected'; ?>>16:00</option>
+       <option value="17:00" <?php if ( $Td == '17:00') echo ' selected'; ?>>17:00</option>
+       <option value="18:00" <?php if ( $Td == '18:00') echo ' selected'; ?>>18:00</option>
+    </select>
+    &nbsp;&nbsp;&nbsp;
+    Hasta&nbsp;&nbsp;&nbsp;
+   <select id="tarde_hasta_type" name="Th">
+       <option value="" <?php if ( $Th == '') echo ' selected'; ?>><?php _e( 'None', 'seur-oficial'); ?></option>
+       <option value="17:00" <?php if ( $Th == '17:00') echo ' selected'; ?>>17:00</option>
+       <option value="18:00" <?php if ( $Th == '18:00') echo ' selected'; ?>>18:00</option>
+       <option value="19:00" <?php if ( $Th == '19:00') echo ' selected'; ?>>19:00</option>
+       <option value="20:00" <?php if ( $Th == '20:00') echo ' selected'; ?>>20:00</option>
+    </select>
+    </td>
+    </tr>
+    <tr><td colslpan=2><br>Si el horario es sólo de Mañanas deje vacios los horarios de Tarde.<br>Si el horario es sólo de Tardes deje vacios los horarios de Mañana.</div></td></tr>
+
     </tr>
 
     </table>

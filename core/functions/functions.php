@@ -851,10 +851,6 @@ function seur_get_advanced_settings() {
     if ( get_option( 'seur_preaviso_notificar_field' ) )     { $seur_preaviso_notificar_field     = get_option( 'seur_preaviso_notificar_field'     ); } else { $seur_preaviso_notificar_field     = ''; }
     if ( get_option( 'seur_reparto_notificar_field' ) )      { $seur_reparto_notificar_field      = get_option( 'seur_reparto_notificar_field'      ); } else { $seur_reparto_notificar_field      = ''; }
     if ( get_option( 'seur_tipo_notificacion_field' ) )      { $seur_tipo_notificacion_field      = get_option( 'seur_tipo_notificacion_field'      ); } else { $seur_tipo_notificacion_field      = ''; }
-    if ( get_option( 'seur_manana_desde_field' ) )           { $seur_manana_desde_field           = get_option( 'seur_manana_desde_field'           ); } else { $seur_manana_desde_field           = ''; }
-    if ( get_option( 'seur_manana_hasta_field' ) )           { $seur_manana_hasta_field           = get_option( 'seur_manana_hasta_field'           ); } else { $seur_manana_hasta_field           = ''; }
-    if ( get_option( 'seur_tarde_desde_field' ) )            { $seur_tarde_desde_field            = get_option( 'seur_tarde_desde_field'            ); } else { $seur_tarde_desde_field            = ''; }
-    if ( get_option( 'seur_tarde_hasta_field' )  )           { $seur_tarde_hasta_field            = get_option( 'seur_tarde_hasta_field'            ); } else { $seur_tarde_hasta_field            = ''; }
     if ( get_option( 'seur_tipo_etiqueta_field' ) )          { $seur_tipo_etiqueta_field          = get_option( 'seur_tipo_etiqueta_field'          ); } else { $seur_tipo_etiqueta_field          = ''; }
     if ( get_option( 'seur_aduana_origen_field' ) )          { $seur_aduana_origen_field          = get_option( 'seur_aduana_origen_field'          ); } else { $seur_aduana_origen_field          = ''; }
     if ( get_option( 'seur_aduana_destino_field' ) )         { $seur_aduana_destino_field         = get_option( 'seur_aduana_destino_field'         ); } else { $seur_aduana_destino_field         = ''; }
@@ -866,10 +862,6 @@ function seur_get_advanced_settings() {
                 'preaviso_notificar',
                 'reparto_notificar',
                 'tipo_notificacion',
-                'manana_desde',
-                'manana_hasta',
-                'tarde_desde',
-                'tarde_hasta',
                 'tipo_etiqueta',
                 'aduana_origen',
                 'aduana_destino',
@@ -882,10 +874,6 @@ function seur_get_advanced_settings() {
                 $seur_preaviso_notificar_field,
                 $seur_reparto_notificar_field,
                 $seur_tipo_notificacion_field,
-                $seur_manana_desde_field,
-                $seur_manana_hasta_field,
-                $seur_tarde_desde_field,
-                $seur_tarde_hasta_field,
                 $seur_tipo_etiqueta_field,
                 $seur_aduana_origen_field,
                 $seur_aduana_destino_field,

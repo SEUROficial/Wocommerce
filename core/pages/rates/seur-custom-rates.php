@@ -3,6 +3,8 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 ?>
 <div class="container">
 	<br />
+	<p><?php _e( 'Incluya las tarifas de las opciones de transporte que podrán elegir sus clientes', 'seur-oficial' ); ?></p>
+	<br />
     <button class="button" type="button" id="btn-add"><?php _e('Add Custom Rate', 'seur-oficial' ); ?></button>
     <button class="button" type="button" id="btn-view"><?php _e('View Custom Rates', 'seur-oficial' ); ?></button>
 	<hr>

@@ -24,53 +24,9 @@ function seur_tipo_notificacion_field(){
    <select id="notification_type" name="seur_tipo_notificacion_field">
        <option value="SMS" <?php if ( $option == 'SMS') echo ' selected'; ?>><?php _e('SMS (this option has an extra cost)', 'seur-oficial'); ?></option>
        <option value="EMAIL" <?php if ( $option == 'EMAIL') echo ' selected'; ?>><?php _e('Email', 'seur-oficial'); ?></option>
-       <option value="both" <?php if ( $option == 'both') echo ' selected'; ?>><?php _e('Both', 'seur-oficial'); ?></option>
+       <option value="both" <?php if ( $option == 'both') echo ' selected'; ?>><?php _e('Both (this option has an extra cost)', 'seur-oficial'); ?></option>
     </select>
 <?php   }
-
-function seur_manana_desde_field(){
-    $option = get_option( 'seur_manana_desde_field' );
-   ?>
-   <select id="manana_desde_type" name="seur_manana_desde_field">
-       <option value="09:00" <?php if ( $option == '09:00') echo ' selected'; ?>>09:00</option>
-       <option value="10:00" <?php if ( $option == '10:00') echo ' selected'; ?>>10:00</option>
-       <option value="11:00" <?php if ( $option == '11:00') echo ' selected'; ?>>11:00</option>
-       <option value="12:00" <?php if ( $option == '12:00') echo ' selected'; ?>>12:00</option>
-    </select>
-    <?php }
-
-function seur_manana_hasta_field(){
-    $option = get_option( 'seur_manana_hasta_field' );
-   ?>
-   <select id="manana_hasta_type" name="seur_manana_hasta_field">
-       <option value="11:00" <?php if ( $option == '11:00') echo ' selected'; ?>>11:00</option>
-       <option value="12:00" <?php if ( $option == '12:00') echo ' selected'; ?>>12:00</option>
-       <option value="13:00" <?php if ( $option == '13:00') echo ' selected'; ?>>13:00</option>
-       <option value="14:00" <?php if ( $option == '14:00') echo ' selected'; ?>>14:00</option>
-    </select>
-    <?php }
-
-function seur_tarde_desde_field(){
-    $option = get_option( 'seur_tarde_desde_field' );
-   ?>
-   <select id="tarde_desde_type" name="seur_tarde_desde_field">
-       <option value="15:00" <?php if ( $option == '15:00') echo ' selected'; ?>>15:00</option>
-       <option value="16:00" <?php if ( $option == '16:00') echo ' selected'; ?>>16:00</option>
-       <option value="17:00" <?php if ( $option == '17:00') echo ' selected'; ?>>17:00</option>
-       <option value="18:00" <?php if ( $option == '18:00') echo ' selected'; ?>>18:00</option>
-    </select>
-    <?php }
-
-function seur_tarde_hasta_field(){
-    $option = get_option( 'seur_tarde_hasta_field' );
-   ?>
-   <select id="tarde_hasta_type" name="seur_tarde_hasta_field">
-       <option value="17:00" <?php if ( $option == '17:00') echo ' selected'; ?>>17:00</option>
-       <option value="18:00" <?php if ( $option == '18:00') echo ' selected'; ?>>18:00</option>
-       <option value="19:00" <?php if ( $option == '19:00') echo ' selected'; ?>>19:00</option>
-       <option value="20:00" <?php if ( $option == '20:00') echo ' selected'; ?>>20:00</option>
-    </select>
-    <?php }
 
 function seur_tipo_etiqueta_field(){
    $option = get_option( 'seur_tipo_etiqueta_field' );
@@ -128,10 +84,6 @@ function display_seur_advanced_settings_panel_fields(){
     add_settings_field( 'seur_preaviso_notificar_field',    __('Notificar recogida',        'seur-oficial'), 'seur_preaviso_notificar_field',      'seur-advanced-settings-options', 'seur-advanced-settings-section' );
      add_settings_field( 'seur_reparto_notificar_field',     __('Notificar reparto',         'seur-oficial'), 'seur_reparto_notificar_field',       'seur-advanced-settings-options', 'seur-advanced-settings-section' );
     add_settings_field( 'seur_tipo_notificacion_field',    __('Notifications by SMS or Email',        'seur-oficial'), 'seur_tipo_notificacion_field',      'seur-advanced-settings-options', 'seur-advanced-settings-section' );
-    add_settings_field( 'seur_manana_desde_field',          __('Mañana desde',              'seur-oficial'), 'seur_manana_desde_field',            'seur-advanced-settings-options', 'seur-advanced-settings-section' );
-    add_settings_field( 'seur_manana_hasta_field',          __('Mañana hasta',              'seur-oficial'), 'seur_manana_hasta_field',            'seur-advanced-settings-options', 'seur-advanced-settings-section' );
-    add_settings_field( 'seur_tarde_desde_field',           __('Tarde desde',               'seur-oficial'), 'seur_tarde_desde_field',             'seur-advanced-settings-options', 'seur-advanced-settings-section' );
-    add_settings_field( 'seur_tarde_hasta_field',           __('Tarde hasta',               'seur-oficial'), 'seur_tarde_hasta_field',             'seur-advanced-settings-options', 'seur-advanced-settings-section' );
     add_settings_field( 'seur_tipo_etiqueta_field',         __('Tipo etiqueta',             'seur-oficial'), 'seur_tipo_etiqueta_field',           'seur-advanced-settings-options', 'seur-advanced-settings-section' );
     add_settings_field( 'seur_aduana_origen_field',         __('Aduana origen',             'seur-oficial'), 'seur_aduana_origen_field',           'seur-advanced-settings-options', 'seur-advanced-settings-section' );
     add_settings_field( 'seur_aduana_destino_field',        __('Aduana destino',            'seur-oficial'), 'seur_aduana_destino_field',          'seur-advanced-settings-options', 'seur-advanced-settings-section' );
@@ -145,10 +97,6 @@ function display_seur_advanced_settings_panel_fields(){
     register_setting('seur-advanced-settings-section', 'seur_preaviso_notificar_field'      );
     register_setting('seur-advanced-settings-section', 'seur_reparto_notificar_field'       );
     register_setting('seur-advanced-settings-section', 'seur_tipo_notificacion_field'       );
-    register_setting('seur-advanced-settings-section', 'seur_manana_desde_field'            );
-    register_setting('seur-advanced-settings-section', 'seur_manana_hasta_field'            );
-    register_setting('seur-advanced-settings-section', 'seur_tarde_desde_field'             );
-    register_setting('seur-advanced-settings-section', 'seur_tarde_hasta_field'             );
     register_setting('seur-advanced-settings-section', 'seur_tipo_etiqueta_field'           );
     register_setting('seur-advanced-settings-section', 'seur_aduana_origen_field'           );
     register_setting('seur-advanced-settings-section', 'seur_aduana_destino_field'          );
