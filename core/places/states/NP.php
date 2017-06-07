@@ -1,18 +1,18 @@
 <?php if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 
 return array(
-	'BAG' => __( 'Bagmati', 'seur-oficial' ),
-	'BHE' => __( 'Bheri', 'seur-oficial' ),
-	'DHA' => __( 'Dhawalagiri', 'seur-oficial' ),
-	'GAN' => __( 'Gandaki', 'seur-oficial' ),
-	'JAN' => __( 'Janakpur', 'seur-oficial' ),
-	'KAR' => __( 'Karnali', 'seur-oficial' ),
-	'KOS' => __( 'Koshi', 'seur-oficial' ),
-	'LUM' => __( 'Lumbini', 'seur-oficial' ),
-	'MAH' => __( 'Mahakali', 'seur-oficial' ),
-	'MEC' => __( 'Mechi', 'seur-oficial' ),
-	'NAR' => __( 'Narayani', 'seur-oficial' ),
-	'RAP' => __( 'Rapti', 'seur-oficial' ),
-	'SAG' => __( 'Sagarmatha', 'seur-oficial' ),
-	'SET' => __( 'Seti', 'seur-oficial' )
+	'BAG' => __( 'Bagmati', 'seur' ),
+	'BHE' => __( 'Bheri', 'seur' ),
+	'DHA' => __( 'Dhawalagiri', 'seur' ),
+	'GAN' => __( 'Gandaki', 'seur' ),
+	'JAN' => __( 'Janakpur', 'seur' ),
+	'KAR' => __( 'Karnali', 'seur' ),
+	'KOS' => __( 'Koshi', 'seur' ),
+	'LUM' => __( 'Lumbini', 'seur' ),
+	'MAH' => __( 'Mahakali', 'seur' ),
+	'MEC' => __( 'Mechi', 'seur' ),
+	'NAR' => __( 'Narayani', 'seur' ),
+	'RAP' => __( 'Rapti', 'seur' ),
+	'SAG' => __( 'Sagarmatha', 'seur' ),
+	'SET' => __( 'Seti', 'seur' )
 );

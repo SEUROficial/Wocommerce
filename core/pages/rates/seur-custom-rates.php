@@ -3,10 +3,10 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 ?>
 <div class="container">
 	<br />
-	<p><?php _e( 'Incluya las tarifas de las opciones de transporte que podrán elegir sus clientes', 'seur-oficial' ); ?></p>
+	<p><?php _e( 'Incluya las tarifas de las opciones de transporte que podrán elegir sus clientes', 'seur' ); ?></p>
 	<br />
-    <button class="button" type="button" id="btn-add"><?php _e('Add Custom Rate', 'seur-oficial' ); ?></button>
-    <button class="button" type="button" id="btn-view"><?php _e('View Custom Rates', 'seur-oficial' ); ?></button>
+    <button class="button" type="button" id="btn-add"><?php _e('Add Custom Rate', 'seur' ); ?></button>
+    <button class="button" type="button" id="btn-view"><?php _e('View Custom Rates', 'seur' ); ?></button>
 	<hr>
     <div class="content-loader">
         <table class="wp-list-table widefat fixed striped pages">
@@ -14,23 +14,23 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
                 <tr>
                     <!-- <th class="manage-column">ID</th> -->
 
-                    <th class="manage-column"><?php _e('Rate', 		 'seur-oficial' ); ?></th>
+                    <th class="manage-column"><?php _e('Rate', 		 'seur' ); ?></th>
 
-                    <th class="manage-column"><?php _e('Country', 	 'seur-oficial' ); ?></th>
+                    <th class="manage-column"><?php _e('Country', 	 'seur' ); ?></th>
 
-                    <th class="manage-column"><?php _e('State', 	 'seur-oficial' ); ?></th>
+                    <th class="manage-column"><?php _e('State', 	 'seur' ); ?></th>
 
-                    <th class="manage-column"><?php _e('Postcode', 	 'seur-oficial' ); ?></th>
+                    <th class="manage-column"><?php _e('Postcode', 	 'seur' ); ?></th>
 
-                    <th class="manage-column"><?php _e('Min Price',  'seur-oficial' ); ?></th>
+                    <th class="manage-column"><?php _e('Min Price',  'seur' ); ?></th>
 
-                    <th class="manage-column"><?php _e('Max Price',  'seur-oficial' ); ?></th>
+                    <th class="manage-column"><?php _e('Max Price',  'seur' ); ?></th>
 
-                    <th class="manage-column"><?php _e('Rate Price', 'seur-oficial' ); ?></th>
+                    <th class="manage-column"><?php _e('Rate Price', 'seur' ); ?></th>
 
-                    <th class="manage-column"><?php _e('edit', 		 'seur-oficial' ); ?></th>
+                    <th class="manage-column"><?php _e('edit', 		 'seur' ); ?></th>
 
-                    <th class="manage-column"><?php _e('delete', 	 'seur-oficial' ); ?></th>
+                    <th class="manage-column"><?php _e('delete', 	 'seur' ); ?></th>
                 </tr>
             </thead>
 
@@ -41,7 +41,7 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 
 					 if ( ! $getrates ) {
 
-					 	echo '<tr class="no-items"><td class="colspanchange" colspan="9"><br /><center><b>' . __('No custom rates found, please add your Custom Rates', 'seur-oficial' ) . '</b></center><br /></td></tr>';
+					 	echo '<tr class="no-items"><td class="colspanchange" colspan="9"><br /><center><b>' . __('No custom rates found, please add your Custom Rates', 'seur' ) . '</b></center><br /></td></tr>';
 
 						} else {
 
@@ -51,23 +51,23 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 							<tr>
 							<?php
 								if ( $getrate->country == 'ALL' ) {
-									$country = __( 'ALL', 'seur-oficial' );
+									$country = __( 'ALL', 'seur' );
 								} else {
 									$country = $getrate->country;
 								}
 								if ( $getrate->country == 'REST' ) {
-									$country = __( 'REST', 'seur-oficial' );
+									$country = __( 'REST', 'seur' );
 								} else {
 									$country = $getrate->country;
 								}
 
 								if ( $getrate->rateprice == '0' ) {
-									$rateprice = __( 'FREE', 'seur-oficial' );
+									$rateprice = __( 'FREE', 'seur' );
 								} else {
 									$rateprice = $getrate->rateprice;
 								}
 								if ( $getrate->maxprice == '9999999' ) {
-									$maxrateprice = __( 'No limit', 'seur-oficial' );
+									$maxrateprice = __( 'No limit', 'seur' );
 								} else {
 									$maxrateprice = $getrate->maxprice;
 								} ?>
@@ -98,23 +98,23 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
                 <tr>
                     <!-- <th class="manage-column">ID</th> -->
 
-                    <th class="manage-column"><?php _e('Rate', 		 'seur-oficial' ); ?></th>
+                    <th class="manage-column"><?php _e('Rate', 		 'seur' ); ?></th>
 
-                    <th class="manage-column"><?php _e('Country', 	 'seur-oficial' ); ?></th>
+                    <th class="manage-column"><?php _e('Country', 	 'seur' ); ?></th>
 
-                    <th class="manage-column"><?php _e('State', 	 'seur-oficial' ); ?></th>
+                    <th class="manage-column"><?php _e('State', 	 'seur' ); ?></th>
 
-                    <th class="manage-column"><?php _e('Postcode',   'seur-oficial' ); ?></th>
+                    <th class="manage-column"><?php _e('Postcode',   'seur' ); ?></th>
 
-                    <th class="manage-column"><?php _e('Min Price',  'seur-oficial' ); ?></th>
+                    <th class="manage-column"><?php _e('Min Price',  'seur' ); ?></th>
 
-                    <th class="manage-column"><?php _e('Max Price',	 'seur-oficial' ); ?></th>
+                    <th class="manage-column"><?php _e('Max Price',	 'seur' ); ?></th>
 
-                    <th class="manage-column"><?php _e('Rate Price', 'seur-oficial' ); ?></th>
+                    <th class="manage-column"><?php _e('Rate Price', 'seur' ); ?></th>
 
-                    <th class="manage-column"><?php _e('edit', 		 'seur-oficial' ); ?></th>
+                    <th class="manage-column"><?php _e('edit', 		 'seur' ); ?></th>
 
-                    <th class="manage-column"><?php _e('delete', 	 'seur-oficial' ); ?></th>
+                    <th class="manage-column"><?php _e('delete', 	 'seur' ); ?></th>
                 </tr>
             </thead>
 

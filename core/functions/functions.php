@@ -4,7 +4,7 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 // SEUR Localization
 
 function seur_official_init() {
-    load_plugin_textdomain( 'seur-oficial', false, dirname( plugin_basename( __FILE__ ) ) . '/languages' );
+    load_plugin_textdomain( 'seur', false, dirname( plugin_basename( __FILE__ ) ) . '/languages' );
 }
 add_action('init', 'seur_official_init');
 
@@ -37,7 +37,7 @@ add_action( 'admin_init', 'seur_welcome_splash', 1 );
 
 function seur_debug_mode_notice() {
     $class   = 'notice notice-warning';
-    $message = __( 'SEUR_DEBUG is set to TRUE, please set it to false.', 'seur-oficial' );
+    $message = __( 'SEUR_DEBUG is set to TRUE, please set it to false.', 'seur' );
 
     printf( '<div class="%1$s"><p>%2$s</p></div>', $class, $message );
 }
@@ -91,15 +91,15 @@ function seur_search_number_message_result( $howmany ){
 
     if ( $howmany <= 0 ) {
 
-        $message = _e( 'No Matches Found', 'seur-oficial' );
+        $message = _e( 'No Matches Found', 'seur' );
         return $message;
     }
     if ( $howmany == 1 ) {
-        $message =  _e( '1 Result Found', 'seur-oficial' );
+        $message =  _e( '1 Result Found', 'seur' );
         return $message;
     }
     if( $howmany > 1 ) {
-        $message = printf( esc_html__( 'Found %s Results.', 'seur-oficial' ), $howmany );
+        $message = printf( esc_html__( 'Found %s Results.', 'seur' ), $howmany );
         return $message;
     }
 }
@@ -320,69 +320,71 @@ function seur_screen_menu_submenus_array() {
 function seur_look_url(){
     global $menu;
 
-	foreach ( $menu as $item ) {
+    foreach ( $menu as $item ) {
 
-	    // Get name of menu item
-	    $name = $item[0];
+        // Get name of menu item
+        $name = $item[0];
 
-	    // Get dashboard item file
-	    $file = $item[2];
+        // Get dashboard item file
+        $file = $item[2];
 
-	    // Get URL for item
-	    $url = get_admin_menu_item_url( $file );
+        // Get URL for item
+        $url = get_admin_menu_item_url( $file );
 
-	    echo "$name: $url<br />";
+        echo "$name: $url<br />";
 
-	}
+    }
 }
 
 // Add notices
 function seur_check_curl_admin_notice__error() {
     ?>
     <div class="notice notice-error">
-        <p><?php _e( 'CURL is needed by SEUR Plugin, please ask for CURL to your hosting provider', 'seur-oficial' ); ?></p>
+        <p><?php _e( 'CURL is needed by SEUR Plugin, please ask for CURL to your hosting provider', 'seur' ); ?></p>
     </div>
     <?php
 }
 if ( ! function_exists('curl_version') ) {
-	add_action( 'admin_notices', 'seur_check_curl_admin_notice__error' );
-	}
+    add_action( 'admin_notices', 'seur_check_curl_admin_notice__error' );
+    }
 
 function seur_check_soap_admin_notice__error() {
     ?>
     <div class="notice notice-error">
-        <p><?php _e( 'SOAP is needed by SEUR Plugin, please ask for SOAP to your hosting provider', 'seur-oficial' ); ?></p>
+        <p><?php _e( 'SOAP is needed by SEUR Plugin, please ask for SOAP to your hosting provider', 'seur' ); ?></p>
     </div>
     <?php
 }
 if ( ! class_exists( 'SoapClient') ) {
-	add_action( 'admin_notices', 'seur_check_soap_admin_notice__error' );
-	}
+    add_action( 'admin_notices', 'seur_check_soap_admin_notice__error' );
+    }
 
 function seur_check_xml_admin_notice__error() {
     ?>
     <div class="notice notice-error">
-        <p><?php _e( 'XML (simplexml_load_string) is needed by SEUR Plugin, please ask for XML to your hosting provider', 'seur-oficial' ); ?></p>
+        <p><?php _e( 'XML (simplexml_load_string) is needed by SEUR Plugin, please ask for XML to your hosting provider', 'seur' ); ?></p>
     </div>
     <?php
 }
 if ( ! function_exists ( 'simplexml_load_string' ) ) {
-	add_action( 'admin_notices', 'seur_check_xml_admin_notice__error' );
-	}
+    add_action( 'admin_notices', 'seur_check_xml_admin_notice__error' );
+    }
 
-function seur_sanitize_postcode( $postcode ) {
+function seur_sanitize_postcode( $postcode, $country = NULL ) {
+
+        $unsafe_zipcode = '';
         $unsafe_zipcode = $postcode;
 
-        if ( empty( $postcode ) || ! $postcode || $postcode == '' ) {
-            $safe_zipcode = '';
-        } else {
-            $zipcode_interval   = intval( $unsafe_zipcode );
-            $safe_zipcode       = str_pad( $zipcode_interval, 5, '0', STR_PAD_LEFT );
-            }
+
+        $safe_zipcode_trim = trim( $unsafe_zipcode );
+        $safe_zipcode      = sanitize_text_field( $safe_zipcode_trim );
+
+
         return $safe_zipcode;
+
 }
 
-function seur_gets_all_orders(){
+function seur_gets_all_orders() {
         global $wpdb;
 
         $tabla       = $wpdb->prefix . 'seur_labels';
@@ -783,6 +785,18 @@ function seur_get_user_settings() {
     if ( get_option( 'seur_franquicia_field' ) )            { $seur_franquicia_field          = get_option( 'seur_franquicia_field'           ); } else { $seur_franquicia_field            = ''; }
     if ( get_option( 'seur_seurcom_usuario_field' ) )       { $seur_seurcom_usuario_field     = get_option( 'seur_seurcom_usuario_field'      ); } else { $seur_seurcom_usuario_field       = ''; }
     if ( get_option( 'seur_seurcom_contra_field' ) )        { $seur_seurcom_contra_field      = get_option( 'seur_seurcom_contra_field'       ); } else { $seur_seurcom_contra_field        = ''; }
+
+    if ( $seur_pais_field ) {
+        if ( $seur_pais_field == 'ES') {
+            $seur_pais_field = 'España';
+        }
+        if ( $seur_pais_field == 'PT') {
+            $seur_pais_field = 'Portugal';
+        }
+        if ( $seur_pais_field == 'AD') {
+            $seur_pais_field = 'Andorra';
+        }
+    }
 
     $option = array(
                 'nif',

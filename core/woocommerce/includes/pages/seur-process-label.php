@@ -12,21 +12,21 @@ function seur_process_label_woocommerce() {
 
 			$table = $wpdb->base_prefix . 'seur_custom_rates';
 
-			$seur_rate		= sanitize_text_field ( $_POST['rate']			);
-			$seur_country	= sanitize_text_field ( $_POST['country']		);
-			$seur_state		= sanitize_text_field ( $_POST['state']			);
-			$seur_minprice	= sanitize_text_field ( $_POST['minprice']		);
-			$seur_maxprice	= sanitize_text_field ( $_POST['maxprice']		);
-			$seur_rateprice	= sanitize_text_field ( $_POST['rateprice']		);
-			$seur_postcode	= seur_sanitize_postcode ( $_POST['postcode']	);
+			$seur_rate		= sanitize_text_field ( $_POST['rate']						 );
+			$seur_country	= sanitize_text_field ( $_POST['country']					 );
+			$seur_state		= sanitize_text_field ( $_POST['state']						 );
+			$seur_minprice	= sanitize_text_field ( $_POST['minprice']					 );
+			$seur_maxprice	= sanitize_text_field ( $_POST['maxprice']					 );
+			$seur_rateprice	= sanitize_text_field ( $_POST['rateprice']					 );
+			$seur_postcode	= seur_sanitize_postcode ( $_POST['postcode'], $seur_country );
 
 			if ( empty( $seur_city ) )		$seur_city		= '*';
 			if ( empty( $seur_minprice ) )	$seur_minprice	= '0';
-			if ( empty( $seur_postcode ) )	$seur_postcode	= '*';
+			if ( empty( $seur_postcode ) || $seur_postcode == '00000' || $seur_postcode == '0000' || $seur_postcode == '*' )	$seur_postcode	= '*';
 			if ( empty( $seur_rateprice ) )	$seur_rateprice	= '0';
 			if ( empty( $seur_state ) )		$seur_state		= '0';
-			if ( empty( $seur_country ) )	$seur_country	= '0';
-			if ( empty( $seur_maxprice ) )	$seur_maxprice	= '9999999';
+			if ( empty( $seur_country ) )	$seur_country	= '*';
+			if ( empty( $seur_maxprice ) || $seur_maxprice == '*' ||  $seur_maxprice > '9999999' )	$seur_maxprice	= '9999999';
 
 			$wpdb->insert(
 				$table,
@@ -50,14 +50,12 @@ function seur_process_label_woocommerce() {
 				)
 			);
 			if ( $wpdb->insert_id ) {
-				echo '<div class="notice notice-success">' . __('New rate successfully added', 'seur-oficial' ) . '</div>';
+				echo '<div class="notice notice-success">' . __('New rate successfully added', 'seur' ) . '</div>';
 			} else {
-				echo '<div class="notice notice notice-error">' . __('There was and error adding the new rate, please try again', 'seur-oficial' ) . '</div>';
+				echo '<div class="notice notice notice-error">' . __('There was and error adding the new rate, please try again', 'seur' ) . '</div>';
 			}
 		} else {
-			_e("Sorry, you didn't post data.", 'seur-oficial' );
+			_e("Sorry, you didn't post data.", 'seur' );
 			exit;
 		}
-	//}
-
 	}

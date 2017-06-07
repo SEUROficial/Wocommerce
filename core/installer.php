@@ -419,12 +419,12 @@ function seur_create_content_for_download(){
     $create_password = get_option( 'seur_pass_for_download' );
 
     if ( ! empty( $create_password ) ){
-	    $create_password = $create_password;
+         $create_password = $create_password;
     } else {
-	    $create_password = seur_create_random_string();
+         $create_password = seur_create_random_string();
     }
 
-    $content = '<?php'                                                                                  . PHP_EOL;
+    $content  = '<?php'                                                                                 . PHP_EOL;
     $content .= '   $file      = $_GET["label"];'                                                       . PHP_EOL;
     $content .= '   $name      = $_GET["label_name"];'                                                  . PHP_EOL;
     $content .= '   $password  = $_GET["pass"];'                                                        . PHP_EOL;
@@ -470,8 +470,8 @@ function seur_create_download_files(){
     if( $seur_download_file ) {
         wp_delete_file( $seur_download_file );
         }
-    delete_option('seur_download_file_url');
-    delete_option('seur_download_file_path');
+    delete_option( 'seur_download_file_url'  );
+    delete_option( 'seur_download_file_path' );
 
     $content_url    = content_url();
     $random_string  = seur_create_random_string();

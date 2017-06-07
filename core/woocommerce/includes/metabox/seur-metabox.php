@@ -4,7 +4,7 @@
  * Register meta box(es).
  */
 function seur_register_meta_boxes() {
-    add_meta_box( 'seurmetabox', __( 'SEUR Labels', 'seur-oficial' ), 'seur_metabox_callback', 'shop_order', 'side', 'low' );
+    add_meta_box( 'seurmetabox', __( 'SEUR Labels', 'seur' ), 'seur_metabox_callback', 'shop_order', 'side', 'low' );
 }
 add_action( 'add_meta_boxes_shop_order', 'seur_register_meta_boxes', 999 );
 
@@ -36,12 +36,12 @@ function seur_metabox_callback( $post ) {
            $final_get_label_url = esc_url( add_query_arg(  $arrayUrl , $url ) );
            add_thickbox(); ?>
            <img src="<?php echo SEUR_PLUGIN_URL; ?>assets/img/icon-96x37.png" alt="SEUR Image" width="96" height="37" />
-           <a class='thickbox button' title='<?php _e( 'Get SEUR Label','seur-oficial' ); ?>' alt='<?php _e( 'Get SEUR Label','seur-oficial' ); ?>' href='<?php echo $final_get_label_url; ?>'><?php _e( 'Get SEUR Label','seur-oficial' ); ?></a>
+           <a class='thickbox button' title='<?php _e( 'Get SEUR Label','seur' ); ?>' alt='<?php _e( 'Get SEUR Label','seur' ); ?>' href='<?php echo $final_get_label_url; ?>'><?php _e( 'Get SEUR Label','seur' ); ?></a>
            <?php
 
 	} else { ?>
 		 <img src="<?php echo SEUR_PLUGIN_URL; ?>assets/img/icon-96x37.png" alt="SEUR Image" width="96" height="37" />
-		 <?php echo '<a href="' . $url_to_file_down . '?label=' . $label_path . '&label_name=' . $label_file_name . '&pass=' . $file_downlo_pass . '&file_type=' . $file_type . '" class="button" target="_blank">' . __( ' See SEUR Label ', 'seur-oficial' ) . '</a>';
+		 <?php echo '<a href="' . $url_to_file_down . '?label=' . $label_path . '&label_name=' . $label_file_name . '&pass=' . $file_downlo_pass . '&file_type=' . $file_type . '" class="button" target="_blank">' . __( ' See SEUR Label ', 'seur' ) . '</a>';
 
 } ?>
 </div>
@@ -86,7 +86,7 @@ function seur_save_meta_box( $post_id ) {
         if( $label_result ){
 
             $order = wc_get_order( $post_id );
-            $order->update_status( $new_status, __( 'Label have been created:', 'seur-oficial' ), true );
+            $order->update_status( $new_status, __( 'Label have been created:', 'seur' ), true );
             add_post_meta( $post_id,'_seur_shipping_order_label_downloaded',  'yes', true );
             add_post_meta( $post_id,'_seur_shipping_label_id',  $label_id, true );
             $order->add_order_note( 'The Label for Order #' . $post_id . ' have been downloaded', 0, true);

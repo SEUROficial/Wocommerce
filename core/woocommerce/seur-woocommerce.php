@@ -82,7 +82,7 @@ class WC_Shipping_SEUR_Init {
 	 * Localisation
 	 */
 	public function load_textdomain() {
-		load_plugin_textdomain( 'seur-oficial', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
+		load_plugin_textdomain( 'seur', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
 	}
 
 	/**
@@ -90,8 +90,8 @@ class WC_Shipping_SEUR_Init {
 	 */
 	public function plugin_links( $links ) {
 		$plugin_links = array(
-			'<a href="http://support.woothemes.com/">' . __( 'Support', 'seur-oficial' ) . '</a>',
-			'<a href="http://wcdocs.woothemes.com/user-guide/seur/">' . __( 'Docs', 'seur-oficial' ) . '</a>',
+			'<a href="http://support.woothemes.com/">' . __( 'Support', 'seur' ) . '</a>',
+			'<a href="http://wcdocs.woothemes.com/user-guide/seur/">' . __( 'Docs', 'seur' ) . '</a>',
 		);
 		return array_merge( $plugin_links, $links );
 	}
@@ -100,7 +100,7 @@ class WC_Shipping_SEUR_Init {
 	 * WooCommerce not installed notice
 	 */
 	public function wc_deactivated() {
-		echo '<div class="error"><p>' . sprintf( __( 'WooCommerce SEUR Shipping requires %s to be installed and active.', 'seur-oficial' ), '<a href="http://www.woothemes.com/woocommerce/" target="_blank">WooCommerce</a>' ) . '</p></div>';
+		echo '<div class="error"><p>' . sprintf( __( 'WooCommerce SEUR Shipping requires %s to be installed and active.', 'seur' ), '<a href="http://www.woothemes.com/woocommerce/" target="_blank">WooCommerce</a>' ) . '</p></div>';
 	}
 
 	/**
@@ -179,7 +179,7 @@ class WC_Shipping_SEUR_Init {
 		$zones_admin_url = add_query_arg( $query_args, get_admin_url() . 'admin.php' );
 		?>
 		<div class="notice notice-success is-dismissible wc-seur-notice">
-			<p><?php echo sprintf( __( 'SEUR now supports shipping zones. The zone settings were added to a new SEUR method on the "Rest of the World" Zone. See the zones %shere%s ', 'seur-oficial' ),'<a href="' .$zones_admin_url. '">','</a>' ); ?></p>
+			<p><?php echo sprintf( __( 'SEUR now supports shipping zones. The zone settings were added to a new SEUR method on the "Rest of the World" Zone. See the zones %shere%s ', 'seur' ),'<a href="' .$zones_admin_url. '">','</a>' ); ?></p>
 		</div>
 
 		<script type="application/javascript">

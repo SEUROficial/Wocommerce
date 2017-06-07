@@ -13,9 +13,9 @@ function seur_pickup( $post ) {
 
 ?>
 <div class="wrap">
-    <h1 class="wp-heading-inline"><?php _e( 'Pickup', 'seur-oficial' ) ?></h1>
+    <h1 class="wp-heading-inline"><?php _e( 'Pickup', 'seur' ) ?></h1>
     <hr class="wp-header-end">
-    <?php _e('Genere una solicitud para que pasemos a recoger su mercancía. ', 'seur-oficial' ); ?>
+    <?php _e( 'Generate an order for us to pick up your customers orders.', 'seur' ); ?>
     <form method="post"  name="formulario" width="100%">
 <?php
 
@@ -138,7 +138,11 @@ function seur_pickup( $post ) {
  if ( $last_date == $now ) {
 
     echo "<div style='color:#e53920;font-weight:bold; font-size:12px;'>";
-    echo "YA TIENE UNA RECOGIDA PARA HOY<br>IDENTIFICADOR: " . $identificador ."</div>";
+    echo __('You have a pickup for today', 'seur' );
+    echo '<br>';
+    echo __('IDENTIFIER: ', 'seur' ) . $identificador;
+    echo '</div>';
+
     // situaciones de la recogida
 
     $sc_options = array(
@@ -192,51 +196,53 @@ function seur_pickup( $post ) {
 <table width='100%' style='color:ed734d;font-weight:bold; font-size:12px;'>
 
     <tr>
-    <td>
-    <table  width='50%'>
-    <tr><td colspan="2">RECOGIDA</div><hr></td></tr>
-    <tr><td colspan="2">Introduzca un valor aproximado para Bultos y Kilos.</div></td></tr>
-    </tr>
-    <tr>
-    <td>Bultos:&nbsp;&nbsp;&nbsp;
-    <?php if (strlen($bultos)<1) $bultos=1;  if (strlen($kilos)<1) $kilos=1;?>
-    <input style=text-align:right type=text name=bultos value="<?php echo $bultos;?>" size=1 maxlength=3  <?php echo $bloquear; ?> >
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Kilos:&nbsp;&nbsp;&nbsp;
-    <input style=text-align:right type=text name=kilos value="<?php echo $kilos;?>" size=1 maxlength=4   <?php echo $bloquear; ?>>
+	    <td>
+	    <table width='50%'>
+	    	<tr>
+		    	<td colspan="2"><?php _e('PICKUP','seur'); ?></div><hr></td></tr>
+	    <tr><td colspan="2"><?php _e( 'Enter an approximate value for Bulk and Kilos.', 'seur' ); ?></div></td></tr>
+	    </tr>
+	<tr>
+    <td><?php _e( 'Bulk:', 'seur' ); ?>&nbsp;&nbsp;&nbsp;
+    <?php if ( strlen( $bultos ) < 1 ) $bultos = 1;  if ( strlen( $kilos ) < 1 ) $kilos = 1;?>
+    <input style="text-align:right" type="text" name="bultos" value="<?php echo $bultos;?>" size="1" maxlength="3"  <?php echo $bloquear; ?> >
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?php _e( 'Kilos:', 'seur' ); ?>&nbsp;&nbsp;&nbsp;
+    <input style="text-align:right" type="text" name="kilos" value="<?php echo $kilos;?>" size="1" maxlength="4"   <?php echo $bloquear; ?>>
     </td>
     </tr>
-    <tr><td colslpan=2><br><Introduzca un horario para la Recogida, formato HH:MM<BR>El margen minimo entre cada horario es de 2 horas.</div></td></tr>
+    <tr><td colslpan="2"><br><?php _e( 'Enter a schedule for Pickup', 'seur' ); ?><br />
+    <?php _e( 'The minimum margin between each schedule has to be 2 hours.', 'seur'); ?></div></td></tr>
     <tr>
-    <td>Mañana Desde:&nbsp;&nbsp;&nbsp;
+    <td><?php _e( 'Morning from:', 'seur' ); ?>&nbsp;&nbsp;&nbsp;
 	<select id="manana_desde_type" name="Md">
-       <option value="" <?php if ( $Md == '') echo ' selected'; ?>><?php _e( 'None', 'seur-oficial'); ?></option>
+       <option value="" <?php if ( $Md == '') echo ' selected'; ?>><?php _e( 'None', 'seur'); ?></option>
        <option value="09:00" <?php if ( $Md == '09:00') echo ' selected'; ?>>09:00</option>
        <option value="10:00" <?php if ( $Md == '10:00') echo ' selected'; ?>>10:00</option>
        <option value="11:00" <?php if ( $Md == '11:00') echo ' selected'; ?>>11:00</option>
        <option value="12:00" <?php if ( $Md == '12:00') echo ' selected'; ?>>12:00</option>
     </select>
     &nbsp;&nbsp;&nbsp;
-    Hasta&nbsp;&nbsp;&nbsp;
+    <?php _e( 'to', 'seur' ); ?>&nbsp;&nbsp;&nbsp;
    <select id="manana_hasta_type" name="Mh">
-       <option value="" <?php if ( $Mh == '') echo ' selected'; ?>><?php _e( 'None', 'seur-oficial'); ?></option>
+       <option value="" <?php if ( $Mh == '') echo ' selected'; ?>><?php _e( 'None', 'seur'); ?></option>
        <option value="11:00" <?php if ( $Mh == '11:00') echo ' selected'; ?>>11:00</option>
        <option value="12:00" <?php if ( $Mh == '12:00') echo ' selected'; ?>>12:00</option>
        <option value="13:00" <?php if ( $Mh == '13:00') echo ' selected'; ?>>13:00</option>
        <option value="14:00" <?php if ( $Mh == '14:00') echo ' selected'; ?>>14:00</option>
     </select>
     </td></tr><tr>
-    <td>Tarde Desde:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <td><?php _e( 'Afternoon From:', 'seur' ); ?>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
    <select id="tarde_desde_type" name="Td">
-       <option value="" <?php if ( $Td == '') echo ' selected'; ?>><?php _e( 'None', 'seur-oficial'); ?></option>
+       <option value="" <?php if ( $Td == '') echo ' selected'; ?>><?php _e( 'None', 'seur'); ?></option>
        <option value="15:00" <?php if ( $Td == '15:00') echo ' selected'; ?>>15:00</option>
        <option value="16:00" <?php if ( $Td == '16:00') echo ' selected'; ?>>16:00</option>
        <option value="17:00" <?php if ( $Td == '17:00') echo ' selected'; ?>>17:00</option>
        <option value="18:00" <?php if ( $Td == '18:00') echo ' selected'; ?>>18:00</option>
     </select>
     &nbsp;&nbsp;&nbsp;
-    Hasta&nbsp;&nbsp;&nbsp;
+    <?php _e( 'to', 'seur' ); ?>&nbsp;&nbsp;&nbsp;
    <select id="tarde_hasta_type" name="Th">
-       <option value="" <?php if ( $Th == '') echo ' selected'; ?>><?php _e( 'None', 'seur-oficial'); ?></option>
+       <option value="" <?php if ( $Th == '') echo ' selected'; ?>><?php _e( 'None', 'seur'); ?></option>
        <option value="17:00" <?php if ( $Th == '17:00') echo ' selected'; ?>>17:00</option>
        <option value="18:00" <?php if ( $Th == '18:00') echo ' selected'; ?>>18:00</option>
        <option value="19:00" <?php if ( $Th == '19:00') echo ' selected'; ?>>19:00</option>
@@ -244,7 +250,9 @@ function seur_pickup( $post ) {
     </select>
     </td>
     </tr>
-    <tr><td colslpan=2><br>Si el horario es sólo de Mañanas deje vacios los horarios de Tarde.<br>Si el horario es sólo de Tardes deje vacios los horarios de Mañana.</div></td></tr>
+    <tr><td colslpan=2><br><?php _e( 'If the schedule is only of mornings, leave the afternoon schedules with null.', 'seur' ); ?>
+	    <br><?php _e( 'If schedule is only of afternoon leave the morning hours with null.', 'seur' ); ?>
+	    </div></td></tr>
 
     </tr>
 
@@ -255,9 +263,9 @@ function seur_pickup( $post ) {
 <?php
 
 // Si no está setado, boton Solicitar
-if( !isset($_POST["bultos"]) )
+if( !isset( $_POST["bultos"] ) )
     {
-    submit_button("Solicitar");
+    submit_button( "Solicitar" );
     return;
     }
 
@@ -370,33 +378,38 @@ if( !isset($_POST["bultos"]) )
                 'connection_timeout' => 30
             );
 
-        $soap_client = new SoapClient('https://ws.seur.com/webseur/services/WSCrearRecogida?wsdl', $sc_options);
-        $parametros = array('in0'=>$DatosRecogida);
-        $respuesta = $soap_client->crearRecogida($parametros);
-        $xml = simplexml_load_string($respuesta->out);
-        $codigo="";
-        $codigo=$xml->CODIGO;
+        $soap_client	= new SoapClient('https://ws.seur.com/webseur/services/WSCrearRecogida?wsdl', $sc_options);
+        $parametros		= array( 'in0' => $DatosRecogida );
+        $respuesta		= $soap_client->crearRecogida( $parametros );
+        $xml			= simplexml_load_string( $respuesta->out );
+        $codigo			= "";
+        $codigo			= $xml->CODIGO;
 
-        if (strlen($codigo)>1 )
-        {
-            echo "SE HA PRODUCIDO UN ERROR</div>";
+        if ( strlen( $codigo ) > 1 ) {
+            echo __( 'AN ERROR HAS OCCURRED', 'seur' ) . '</div>';
             echo $xml->DESCRIPCION;
             echo "<hr><a href='javascript:javascript:history.go(-1)'>";
-            echo "<img src='". SEUR_IMAGENES. "/volver.jpg" . "'></img>";
+            echo "<img src='" . SEUR_IMAGENES . "/volver.jpg" . "'></img>";
             echo "</a>";
-            ?>
-        <textarea rows="20" cols="40" style="border:none;">
-        <?php
-        echo $DatosRecogida;
-        ?>
-        </textarea>
-        <?php
+
+        if ( defined( 'SEUR_DEBUG' ) && SEUR_DEBUG == true ) { ?>
+
+	        <textarea rows="20" cols="40" style="border:none;">
+		        <?php
+		        echo $DatosRecogida;
+		        ?>
+	        </textarea>
+
+        <?php }
+
             return;
         }
         else
         {
         $locali_num = (string)$xml->LOCALIZADOR;
-        echo "Se ha creado la recogida.<br>Localizador: " . $locali_num . "</div>";
+        echo __('The pickup have been created', 'seur');
+        echo '<br />';
+        echo __('Identifier: ') . $locali_num . '</div>';
 
         // Destruirmos la variable para que no pueda crear mas recogidas en esta vista actual
          unset($_POST["bultos"]);
