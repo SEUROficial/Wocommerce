@@ -788,7 +788,7 @@ class WC_Shipping_SEUR extends WC_Shipping_Method {
 
                 $this->add_rate( $cheapest_rate );
 
-            } else {
+            } elseif ( $this->offer_rates == 'expensive' ) {
 
 	            $expensive_rate = '';
 
@@ -799,6 +799,14 @@ class WC_Shipping_SEUR extends WC_Shipping_Method {
                 }
 
                 $this->add_rate( $expensive_rate );
+
+
+            } else {
+
+	            uasort( $rates, array( $this, 'sort_rates' ) );
+                foreach ( $rates as $key => $rate ) {
+                    $this->add_rate( $rate );
+                }
             }
         // Fallback
         } elseif ( $this->fallback ) {
