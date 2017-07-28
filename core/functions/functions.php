@@ -1487,13 +1487,13 @@ function seur_get_label( $order_id, $numpackages = '1', $weight = '1' ) {
 
                 if ( $labelid ) {
 
-                    $result = true;
+                    $result  = true;
                     $message = 'OK';
-                    $label = array(
-                            'result',
-                            'labelID',
-                            'message'
-                    );
+                    $label   = array(
+                                'result',
+                                'labelID',
+                                'message'
+                            );
                     $has_label = array(
                             $result,
                             $labelid,
@@ -1504,11 +1504,26 @@ function seur_get_label( $order_id, $numpackages = '1', $weight = '1' ) {
 
                     return $seur_label;
 
-                    } else {
+                } else {
 
-                    return false;
+                    $result  = false;
+                    $message = __( 'Label not created', 'seur' );
+                    $label   = array(
+                                'result',
+                                'labelID',
+                                'message'
+                            );
+                    $has_label = array(
+                            $result,
+                            $labelid,
+                            $message
+                    );
 
-                    }
+                    $seur_label[] = array_combine( $label, $has_label );
+
+                    return $seur_label;
+
+                  }
 
 
 
@@ -1517,10 +1532,10 @@ function seur_get_label( $order_id, $numpackages = '1', $weight = '1' ) {
                 $result  = false;
                 $labelid = false;
                 $label   = array(
-                        'result',
-                        'labelID',
-                        'message'
-                );
+                            'result',
+                            'labelID',
+                            'message'
+                        );
                 $has_label = array(
                         $result,
                         $labelid,
@@ -1597,11 +1612,41 @@ function seur_get_label( $order_id, $numpackages = '1', $weight = '1' ) {
 
                     if ( $labelid ) {
 
-                    return $labelid;
+                        $result  = true;
+                        $message = 'OK';
+                        $label   = array(
+                                    'result',
+                                    'labelID',
+                                    'message'
+                                );
+                        $has_label = array(
+                                $result,
+                                $labelid,
+                                $message
+                        );
+
+                        $seur_label[] = array_combine( $label, $has_label );
+
+                        return $seur_label;
 
                     } else {
 
-                    return false;
+                        $result  = false;
+                        $message = __( 'Label not created', 'seur' );
+                        $label   = array(
+                                    'result',
+                                    'labelID',
+                                    'message'
+                                );
+                        $has_label = array(
+                                $result,
+                                $labelid,
+                                $message
+                        );
+
+                        $seur_label[] = array_combine( $label, $has_label );
+
+                        return $seur_label;
 
                     }
                 } else {
