@@ -56,7 +56,7 @@ if( isset( $_POST['postal'] ) ) {
     if ( isset( $_POST['postal'] ) ){
 
         $unsafepostal  = trim( $_POST["postal"] );
-        $postal        = seur_sanitize_postcode( $unsafepostal, $pais )
+        $postal        = seur_sanitize_postcode( $unsafepostal, $pais );
 
     } else {
 
