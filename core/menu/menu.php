@@ -59,7 +59,7 @@ function seur_menu() {
             $seuraddlabelwoocommerce = add_submenu_page( $menu_slug, __( 'Get Label', 'seur' ), __( 'Get Label', 'seur' ), $capability, 'seur_process_label_woocommerce', 'seur_process_label_woocommerce' );
         }
         $seurlabelslist         = add_submenu_page( $menu_slug, __( 'Labels', 'seur' ), __( 'Labels',   'seur' ), 'edit_posts', 'edit.php?post_type=seur_labels');
-        $seur_pickup            = add_submenu_page( $menu_slug, __( 'Pickup',               'seur' ), __( 'Pickup',                     'seur' ), $capability, 'seur_pickup',     'seur_pickup' );
+        $seur_pickup            = add_submenu_page( $menu_slug, __( 'Collection', 'seur' ), __( 'Collection',                     'seur' ), $capability, 'seur_pickup',     'seur_pickup' );
         $seur_get_labels        = add_submenu_page( $menu_slug, __( 'Get labels from order', 'seur' ), __( 'Get labels from order',     'seur' ), $capability, 'seur_get_labels_from_order',      'seur_get_labels_from_order' );
 
         //add_action for add scripts to different screens

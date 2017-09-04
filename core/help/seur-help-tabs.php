@@ -73,8 +73,8 @@ function seur_pickup_add_help_tab () {
     // Add my_help_tab if current screen is My Admin Page
     $screen->add_help_tab( array(
         'id'	=> 'seur_pickupe_help_tab',
-        'title'	=> __('Pickup', 'seur' ),
-        'content'	=> '<p>' . __( 'Help about Pickup.', 'seur'  ) . '</p>',
+        'title'	=> __('Collection', 'seur' ),
+        'content'	=> '<p>' . __( 'Help about Collection.', 'seur'  ) . '</p>',
     ) );
 }
 

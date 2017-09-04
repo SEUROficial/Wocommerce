@@ -13,7 +13,7 @@ function seur_pickup( $post ) {
 
 ?>
 <div class="wrap">
-    <h1 class="wp-heading-inline"><?php _e( 'Pickup', 'seur' ) ?></h1>
+    <h1 class="wp-heading-inline"><?php _e( 'Collection', 'seur' ) ?></h1>
     <hr class="wp-header-end">
     <?php _e( 'Generate an order for us to pick up your customers orders.', 'seur' ); ?>
     <form method="post"  name="formulario" width="100%">
@@ -138,7 +138,7 @@ function seur_pickup( $post ) {
  if ( $last_date == $now ) {
 
     echo "<div style='color:#e53920;font-weight:bold; font-size:12px;'>";
-    echo __('You have a pickup for today', 'seur' );
+    echo __('You have a collection for today', 'seur' );
     echo '<br>';
     echo __('IDENTIFIER: ', 'seur' ) . $identificador;
     echo '</div>';
@@ -199,7 +199,7 @@ function seur_pickup( $post ) {
 	    <td>
 	    <table width='50%'>
 	    	<tr>
-		    	<td colspan="2"><?php _e('PICKUP','seur'); ?></div><hr></td></tr>
+		    	<td colspan="2"><?php _e('COLLECTION','seur'); ?></div><hr></td></tr>
 	    <tr><td colspan="2"><?php _e( 'Enter an approximate value for Bulk and Kilos.', 'seur' ); ?></div></td></tr>
 	    </tr>
 	<tr>
@@ -210,7 +210,7 @@ function seur_pickup( $post ) {
     <input style="text-align:right" type="text" name="kilos" value="<?php echo $kilos;?>" size="1" maxlength="4"   <?php echo $bloquear; ?>>
     </td>
     </tr>
-    <tr><td colslpan="2"><br><?php _e( 'Enter a schedule for Pickup', 'seur' ); ?><br />
+    <tr><td colslpan="2"><br><?php _e( 'Enter a schedule for Collection', 'seur' ); ?><br />
     <?php _e( 'The minimum margin between each schedule has to be 2 hours.', 'seur'); ?></div></td></tr>
     <tr>
     <td><?php _e( 'Morning from:', 'seur' ); ?>&nbsp;&nbsp;&nbsp;
@@ -407,7 +407,7 @@ if( !isset( $_POST["bultos"] ) )
         else
         {
         $locali_num = (string)$xml->LOCALIZADOR;
-        echo __('The pickup have been created', 'seur');
+        echo __('The Collection have been created', 'seur');
         echo '<br />';
         echo __('Identifier: ') . $locali_num . '</div>';
 
