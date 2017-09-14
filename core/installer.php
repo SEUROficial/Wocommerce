@@ -9,30 +9,36 @@ function seur_create_tables_hook(){
     $seur_db_version_saved = '';
     $seur_db_version_saved = get_option('seur_db_version');
 
-    if ( !$seur_db_version_saved || ( version_compare( SEUR_DB_VERSION, $seur_db_version_saved, '>' ) ) ) {
+    if ( $seur_db_version_saved && $seur_db_version_saved != '1.0.2' && ( SEUR_DB_VERSION == '1.0.2' ) ) {
 
-        require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
+	    require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
         $charset_collate = $wpdb->get_charset_collate();
 
-        $table_name = $wpdb->base_prefix . "seur_reco";
+        $table_name = $wpdb->base_prefix . "seur_custom_rates";
+
         $sql = "CREATE TABLE " . $table_name . " (
-            fecha varchar(6) NOT NULL,
-            id varchar(15) NOT NULL,
-            UNIQUE KEY `Clave` (`fecha`,`id`)
-        ) $charset_collate;";
-
-        dbDelta( $sql );
-
-
-        $table_name = $wpdb->base_prefix . "seur_ecb";
-        $sql = "CREATE TABLE " . $table_name . " (
-            pedido varchar(15) NOT NULL,
-            extension int(1) NOT NULL,
-            fecha varchar(6) NOT NULL,
-            PRIMARY KEY (`pedido`)
+            ID bigint(20) unsigned NOT NULL auto_increment,
+            country varchar(50) NOT NULL default '',
+            state varchar(200) NOT NULL default '',
+            postcode varchar(7) NOT NULL default '00000',
+            minprice decimal(20,2) unsigned NOT NULL default '0.00',
+            maxprice decimal(20,2) unsigned NOT NULL default '0.00',
+            minweight decimal(20,2) unsigned NOT NULL default '0.00',
+            maxweight decimal(20,2) unsigned NOT NULL default '0.00',
+            rate varchar(200) NOT NULL default '',
+            rateprice decimal(20,2) unsigned NOT NULL default '0.00',
+            PRIMARY KEY (ID)
         ) $charset_collate;";
 
         dbDelta($sql);
+
+        update_option('seur_db_version', SEUR_DB_VERSION );
+    }
+
+	if ( ! $seur_db_version_saved ) {
+
+        require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
+        $charset_collate = $wpdb->get_charset_collate();
 
         $table_name = $wpdb->base_prefix . "seur_svpr";
 
@@ -54,12 +60,12 @@ function seur_create_tables_hook(){
             country varchar(50) NOT NULL default '',
             state varchar(200) NOT NULL default '',
             postcode varchar(7) NOT NULL default '00000',
-            minprice bigint(20) unsigned NOT NULL default '0',
-            maxprice bigint(20) unsigned NOT NULL default '0',
-            minweight bigint(20) unsigned NOT NULL default '0',
-            maxweight bigint(20) unsigned NOT NULL default '0',
+            minprice float(20) unsigned NOT NULL default '0',
+            maxprice float(20) unsigned NOT NULL default '0',
+            minweight float(20) unsigned NOT NULL default '0',
+            maxweight float(20) unsigned NOT NULL default '0',
             rate varchar(200) NOT NULL default '',
-            rateprice bigint(20) unsigned NOT NULL default '0',
+            rateprice float(20) unsigned NOT NULL default '0',
             PRIMARY KEY (ID)
         ) $charset_collate;";
 
@@ -75,7 +81,7 @@ function seur_add_data_to_tables_hook(){
     $seur_table_version_saved = '';
     $seur_table_version_saved = get_option('seur_table_version');
 
-    if ( !$seur_table_version_saved || ( version_compare( SEUR_TABLE_VERSION, $seur_table_version_saved, '>' ) ) ) {
+    if ( ! $seur_table_version_saved ) {
 
         $table_name = $wpdb->prefix . 'seur_svpr';
 

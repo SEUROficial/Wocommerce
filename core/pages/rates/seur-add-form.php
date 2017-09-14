@@ -68,19 +68,19 @@ display:none;
         <tr>
             <td><?php _e('Min Price (=)', 'seur' ); ?></td>
 
-            <td><input title="<?php _e('The product price is equal or mayor of this field', 'seur' ); ?>" type='text' name='minprice' class='form-control' placeholder='EX : 0' required=""></td>
+            <td><input title="<?php _e('The product price is equal or mayor of this field', 'seur' ); ?>" type='text' name='minprice' class='form-control' placeholder='EX : 0.50' required=""></td>
         </tr>
 
         <tr>
             <td><?php _e('Max Price (<)', 'seur' ); ?></td>
 
-            <td><input title="<?php _e('The product price is minor of this field', 'seur' ); ?>" type='text' name='maxprice' class='form-control' placeholder='EX : 100' required=""></td>
+            <td><input title="<?php _e('The product price is minor of this field', 'seur' ); ?>" type='text' name='maxprice' class='form-control' placeholder='EX : 100.50' required=""></td>
         </tr>
 
         <tr>
             <td><?php _e('Rate Price', 'seur' ); ?></td>
 
-            <td><input title="<?php _e('Apply this price to the rate', 'seur' ); ?>" type='text' name='rateprice' class='form-control' placeholder='EX : 5' required=""></td>
+            <td><input title="<?php _e('Apply this price to the rate', 'seur' ); ?>" type='text' name='rateprice' class='form-control' placeholder='EX : 5.63' required=""></td>
         </tr>
 
         <?php wp_nonce_field( 'add_new_seur_rate', 'new_seur_rate_nonce_field' ); ?>

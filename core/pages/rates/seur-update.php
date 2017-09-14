@@ -47,9 +47,9 @@ function seur_update_custom_rate(){
                     '%s',
                     '%s',
                     '%s',
-                    '%d',
-                    '%d',
-                    '%d',
+                    '%f',
+                    '%f',
+                    '%f',
                     '%s'
                 ),
                 array( '%d' )
