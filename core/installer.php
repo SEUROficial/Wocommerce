@@ -60,12 +60,12 @@ function seur_create_tables_hook(){
             country varchar(50) NOT NULL default '',
             state varchar(200) NOT NULL default '',
             postcode varchar(7) NOT NULL default '00000',
-            minprice float(20) unsigned NOT NULL default '0',
-            maxprice float(20) unsigned NOT NULL default '0',
-            minweight float(20) unsigned NOT NULL default '0',
-            maxweight float(20) unsigned NOT NULL default '0',
+            minprice decimal(20,2) unsigned NOT NULL default '0.00',
+            maxprice decimal(20,2) unsigned NOT NULL default '0.00',
+            minweight decimal(20,2) unsigned NOT NULL default '0.00',
+            maxweight decimal(20,2) unsigned NOT NULL default '0.00',
             rate varchar(200) NOT NULL default '',
-            rateprice float(20) unsigned NOT NULL default '0',
+            rateprice decimal(20,2) unsigned NOT NULL default '0.00',
             PRIMARY KEY (ID)
         ) $charset_collate;";
 
