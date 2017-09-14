@@ -35,7 +35,7 @@ function seur_search_nomenclator( $post ) { ?>
             echo '===============================================<br />';
             echo '===============================================<br />';
         } ?>
-    <?php _e( 'Consulte el CP o Población asociado en los sistemas de SEUR.', 'seur' ); ?>
+    <?php _e( 'Check ZIP or city associated to Seur system.', 'seur' ); ?>
     <form method="post" name="formulario" width="100%">
         <?php
 
@@ -52,8 +52,7 @@ function seur_search_nomenclator( $post ) { ?>
                     if ( ! $unsafe_zipcode ) {
                         $safe_zipcode = '';
                     } else {
-                        $zipcode_interval = trim( $unsafe_zipcode );
-                        $safe_zipcode  = sanitize_text_field( $unsafepostal );
+                        $safe_zipcode  = sanitize_text_field( $unsafe_zipcode );
                     }
                     //Getting needed user data
 
@@ -162,4 +161,3 @@ function seur_search_nomenclator( $post ) { ?>
     <?php }
 
 }
-?>
