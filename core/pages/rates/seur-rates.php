@@ -5,11 +5,17 @@ $texto="TARIFAS<BR>Consultar el coste de un envio según su tarifa";
 
 ?>
     <form id="calculate-rates" method="post" name="formulario" width="100%">
-	   <p>
+       <p>
         <?php
-	    _e('Calcule la tarifa que le aplicará SEUR para una Población o CP concreto.', 'seur');
+        _e('Calcule la tarifa que le aplicará SEUR para una Población o CP concreto.', 'seur');
 // Si está establecido, buscamos los datos
 if( isset( $_POST['postal'] ) ) {
+
+    if ( ! isset( $_POST['seur_rates_seur_nonce_field'] ) || ! wp_verify_nonce( $_POST['seur_rates_seur_nonce_field'], 'seur_rates_seur' ) ) {
+
+                    print 'Sorry, your nonce did not verify.';
+                    exit;
+    } else {
 
     $bloquear = "readonly";
 
@@ -64,9 +70,56 @@ if( isset( $_POST['postal'] ) ) {
 
     }
 
+    if ( isset( $_POST['productservice'] ) ){
+
+        $ps = sanitize_text_field ( trim( $_POST['productservice'] ) );
+
+        if ( $ps == 'bc2' ){
+            $p_nacional = '2';
+            $s_nacional = '31';
+        }
+
+        if ( $ps == 'seur10e' ){
+            $p_nacional = '2';
+            $s_nacional = '3';
+        }
+
+        if ( $ps == 'seur10f' ){
+            $p_nacional = '18';
+            $s_nacional = '3';
+        }
+
+        if ( $ps == 'seur1330e' ){
+            $p_nacional = '2';
+            $s_nacional = '9';
+        }
+
+        if ( $ps == 'seur1330f' ){
+            $p_nacional = '18';
+            $s_nacional = '9';
+        }
+
+        if ( $ps == 'seur48' ){
+            $p_nacional = '2';
+            $s_nacional = '15';
+        }
+
+        if ( $ps == 'seur72' ){
+            $p_nacional = '2';
+            $s_nacional = '13';
+        }
+
+    } else {
+
+        $p_nacional = '2';
+        $s_nacional = '31';
+
+    }
+
     $reembolso = sanitize_text_field ( trim( $_POST["reembolso"] ) );
     $texto     = "TARIFAS";
 
+}
 }
 
 // ********************************************
@@ -76,7 +129,6 @@ if( isset( $_POST['postal'] ) ) {
     </p>
     <div class="wp-filter">
 
-        <label>
             <span class="screen-reader-text"><?php _e( 'Postalcode', 'seur' ) ?></span>
             <input type='text' name='postal' class="calculate-rates" placeholder="<?php _e( 'Postalcode', 'seur' ) ?>" value='<?php if( isset( $postal ) ) echo $postal; ?>'>
         </label>
@@ -100,6 +152,19 @@ if( isset( $_POST['postal'] ) ) {
             <span class="screen-reader-text"><?php _e( 'Reimbursement Value', 'seur' ) ?></span>
             <input type='text' name='reembolso' class="calculate-rates" placeholder="<?php _e( 'Reimbursement Value', 'seur' ) ?>" value='<?php if( isset( $reembolso ) ) echo $reembolso; ?>' size="12">
         </label>
+        <label>
+            <span class="screen-reader-text"><?php _e( 'Product/Service', 'seur' ) ?></span>
+            <select name="productservice" id="productservice">
+                <option <?php if( isset( $productservice ) && ($productservice == 'bc2') )       echo ' selected="selected" '; ?> value="bc2">B2C Estándar</option>
+                <option <?php if( isset( $productservice ) && ($productservice == 'seur10e') )   echo ' selected="selected" '; ?> value="seur10e">SEUR 10 Estándar</option>
+                <option <?php if( isset( $productservice ) && ($productservice == 'seur10f') )   echo ' selected="selected" '; ?> value="seur10f">SEUR 10 Frío</option>
+                <option <?php if( isset( $productservice ) && ($productservice == 'seur1330e') ) echo ' selected="selected" '; ?> value="seur1330e">SEUR 13:30 Estándar</option>
+                <option <?php if( isset( $productservice ) && ($productservice == 'seur1330f') ) echo ' selected="selected" '; ?> value="seur1330f">SEUR 13:30 Frío</option>
+                <option <?php if( isset( $productservice ) && ($productservice == 'seur48') )    echo ' selected="selected" '; ?> value="seur48">SEUR 48H Estándar</option>
+                <option <?php if( isset( $productservice ) && ($productservice == 'seur72') )    echo ' selected="selected" '; ?> value="seur72">SEUR 72H Estándar</option>
+            </select>
+        <label>
+        <?php  wp_nonce_field( 'seur_rates_seur', 'seur_rates_seur_nonce_field' ); ?>
         <?php if( ! isset( $_POST["postal"] ) ) { ?>
         <label>
             <input type="submit" name="submit" id="submit" class="button button-primary" value="Search">
@@ -132,8 +197,10 @@ if( isset( $_POST['postal'] ) ) {
                 <?php
 
 //Si no está establecida, volvemos aqui
+
 if(!isset($_POST["postal"]) ) {
-    return;
+    print __( 'Please fill in the field Post Code.', 'seur' );
+    exit;
 }
 
 
@@ -151,8 +218,6 @@ $usuarioseurcom     = $useroptions[0]['seurcom_usuario'];
 $contrasenaseurcom  = $useroptions[0]['seurcom_contra'];
 $ccc                = $useroptions[0]['ccc'];
 $franquicia         = $useroptions[0]['franquicia'];
-$p_nacional         = $advancedoptions[0]['nal_producto'];
-$s_nacional         = $advancedoptions[0]['nal_servicio'];
 $p_canarias         = $advancedoptions[0]['canarias_producto'];
 $s_canarias         = $advancedoptions[0]['canarias_servicio'];
 $aduana_origen      = $advancedoptions[0]['aduana_origen'];
