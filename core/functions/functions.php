@@ -288,6 +288,17 @@ function seur_nomenclator_styles_css( $hook ){
 }
 add_action( 'admin_enqueue_scripts', 'seur_nomenclator_styles_css' );
 
+function seur_about_styles_css( $hook ){
+    global $seurabout;
+
+    if( $seurabout != $hook ) {
+        return; } else {
+        wp_register_style( 'seurAboutCSS', SEUR_PLUGIN_URL . 'assets/css/seur-about.css', array(), SEUR_OFFICIAL_VERSION );
+        wp_enqueue_style( 'seurAboutCSS' );
+    }
+}
+add_action( 'admin_enqueue_scripts', 'seur_about_styles_css' );
+
 add_filter( 'custom_menu_order', '__return_true' );
 
 function seur_remove_menu_items(){
@@ -417,11 +428,11 @@ function seur_get_countries_states( $country ) {
     return $states;
 }
 
-function seur_get_custom_rates( $output_type = 'OBJECT'){
+function seur_get_custom_rates( $output_type = 'OBJECT', $type = 'price' ){
     global $wpdb;
 
     $table      = $wpdb->base_prefix . SEUR_TBL_SCR;
-    $getrates   = $wpdb->get_results( "SELECT * FROM $table ORDER BY ID ASC", $output_type );
+    $getrates   = $wpdb->get_results( "SELECT * FROM $table WHERE type = '$type' ORDER BY ID ASC", $output_type );
 
     return $getrates;
 }
@@ -429,8 +440,10 @@ function seur_get_custom_rates( $output_type = 'OBJECT'){
 function seur_search_allowed_rates_by_country( $allowedcountry ) {
 
     $filtered_rates_by_country = array();
+    $rates_type = get_option( 'seur_rates_type_field' );
+    $output_type = 'OBJECT';
 
-    $getrates = seur_get_custom_rates();
+    $getrates = seur_get_custom_rates( $output_type, $rates_type );
 
     foreach ( $getrates as $rate ) {
 
@@ -449,7 +462,8 @@ function seur_search_allowed_rates_by_country( $allowedcountry ) {
                             'minweight',
                             'maxweight',
                             'rate',
-                            'rateprice'
+                            'rateprice',
+                            'type'
                         );
 
             $valors     = array(
@@ -462,7 +476,8 @@ function seur_search_allowed_rates_by_country( $allowedcountry ) {
                             $rate->minweight,
                             $rate->maxweight,
                             $rate->rate,
-                            $rate->rateprice
+                            $rate->rateprice,
+                            $rate->type
                         );
 
             $filtered_rates_by_country[] = array_combine( $columns, $valors );
@@ -492,7 +507,8 @@ function seur_search_allowed_rates_by_country( $allowedcountry ) {
                                     'minweight',
                                     'maxweight',
                                     'rate',
-                                    'rateprice'
+                                    'rateprice',
+                                    'type'
                                 );
 
                     $valors     = array(
@@ -505,7 +521,8 @@ function seur_search_allowed_rates_by_country( $allowedcountry ) {
                                     $rate->minweight,
                                     $rate->maxweight,
                                     $rate->rate,
-                                    $rate->rateprice
+                                    $rate->rateprice,
+                                    $rate->type
                                 );
 
                     $filtered_rates_by_country[] = array_combine( $columns, $valors );
@@ -537,7 +554,9 @@ function seur_seach_allowed_states_filtered_by_countries( $allowedstate, $filter
                                 'minweight',
                                 'maxweight',
                                 'rate',
-                                'rateprice' );
+                                'rateprice',
+                                'type'
+                             );
 
                 $valors     = array(
                                 $allowedrate['ID'],
@@ -549,7 +568,8 @@ function seur_seach_allowed_states_filtered_by_countries( $allowedstate, $filter
                                 $allowedrate['minweight'],
                                 $allowedrate['maxweight'],
                                 $allowedrate['rate'],
-                                $allowedrate['rateprice']
+                                $allowedrate['rateprice'],
+                                $allowedrate['type']
                             );
 
                 $filtered_rates_by_state[] = array_combine( $columns, $valors );
@@ -579,7 +599,9 @@ function seur_seach_allowed_states_filtered_by_countries( $allowedstate, $filter
                                         'minweight',
                                         'maxweight',
                                         'rate',
-                                        'rateprice' );
+                                        'rateprice',
+                                        'type'
+                                    );
 
                         $valors     = array(
                                         $allowedrate['ID'],
@@ -591,7 +613,8 @@ function seur_seach_allowed_states_filtered_by_countries( $allowedstate, $filter
                                         $allowedrate['minweight'],
                                         $allowedrate['maxweight'],
                                         $allowedrate['rate'],
-                                        $allowedrate['rateprice']
+                                        $allowedrate['rateprice'],
+                                        $allowedrate['type']
                                     );
 
                         $filtered_rates_by_state[] = array_combine( $columns, $valors );
@@ -623,7 +646,8 @@ function seur_seach_allowed_postcodes_filtered_by_states( $allowedpostcode, $fil
                                 'minweight',
                                 'maxweight',
                                 'rate',
-                                'rateprice'
+                                'rateprice',
+                                'type'
                             );
 
                 $valors     = array(
@@ -636,7 +660,8 @@ function seur_seach_allowed_postcodes_filtered_by_states( $allowedpostcode, $fil
                                 $allowedrate['minweight'],
                                 $allowedrate['maxweight'],
                                 $allowedrate['rate'],
-                                $allowedrate['rateprice']
+                                $allowedrate['rateprice'],
+                                $allowedrate['type']
                             );
 
                 $filtered_rates_by_postcode[] = array_combine( $columns, $valors );
@@ -666,7 +691,8 @@ function seur_seach_allowed_postcodes_filtered_by_states( $allowedpostcode, $fil
                                         'minweight',
                                         'maxweight',
                                         'rate',
-                                        'rateprice'
+                                        'rateprice',
+                                        'type'
                                     );
 
                         $valors     = array(
@@ -679,7 +705,8 @@ function seur_seach_allowed_postcodes_filtered_by_states( $allowedpostcode, $fil
                                         $allowedrate['minweight'],
                                         $allowedrate['maxweight'],
                                         $allowedrate['rate'],
-                                        $allowedrate['rateprice']
+                                        $allowedrate['rateprice'],
+                                        $allowedrate['type']
                                     );
 
                         $filtered_rates_by_postcode[] = array_combine( $columns, $valors );
@@ -713,7 +740,8 @@ function seur_seach_allowed_prices_filtered_by_postcode( $allowedprice, $filtere
                                 'minweight',
                                 'maxweight',
                                 'rate',
-                                'rateprice'
+                                'rateprice',
+                                'type'
                             );
 
                 $valors     = array(
@@ -726,7 +754,8 @@ function seur_seach_allowed_prices_filtered_by_postcode( $allowedprice, $filtere
                                 $allowedrate['minweight'],
                                 $allowedrate['maxweight'],
                                 $allowedrate['rate'],
-                                $allowedrate['rateprice']
+                                $allowedrate['rateprice'],
+                                $allowedrate['type']
                             );
 
                 $filtered_rates_by_price[] = array_combine( $columns, $valors );
@@ -736,7 +765,7 @@ function seur_seach_allowed_prices_filtered_by_postcode( $allowedprice, $filtere
     return $filtered_rates_by_price;
 }
 
-function seur_show_availables_rates( $country, $state = NULL, $postcode = NULL, $price ){
+function seur_show_availables_rates( $country = NULL, $state = NULL, $postcode = NULL, $price = NULL ){
 
     if ( ! $country )   $country           = '*';
     if ( ! $state )     $state             = '*';
@@ -911,20 +940,21 @@ function seur_get_order_data( $post_id ) {
 
     if ( defined( 'SEUR_WOOCOMMERCE_PART' ) ){
 
-        $title       = $post->post_title;
-        $weight      = get_post_meta( $post_id, '_seur_cart_weight',    true );
-        $country     = get_post_meta( $post_id, '_shipping_country',    true );
-        $first_name  = get_post_meta( $post_id, '_shipping_first_name', true );
-        $last_name   = get_post_meta( $post_id, '_shipping_last_name',  true );
-        $company     = get_post_meta( $post_id, '_shipping_company',    true );
-        $address_1   = get_post_meta( $post_id, '_shipping_address_1',  true );
-        $address_2   = get_post_meta( $post_id, '_shipping_address_2',  true );
-        $city        = get_post_meta( $post_id, '_shipping_city',       true );
-        $postcode    = get_post_meta( $post_id, '_shipping_postcode',   true );
-        $email       = get_post_meta( $post_id, '_billing_email',       true );
-        $phone       = get_post_meta( $post_id, '_billing_phone',       true );
-        $order_total = get_post_meta( $post_id, '_order_total',         true );
-        $order_notes = esc_html( $post->post_excerpt );
+        $title            = $post->post_title;
+        $weight           = get_post_meta( $post_id, '_seur_cart_weight',    true );
+        $country          = get_post_meta( $post_id, '_shipping_country',    true );
+        $first_name       = get_post_meta( $post_id, '_shipping_first_name', true );
+        $last_name        = get_post_meta( $post_id, '_shipping_last_name',  true );
+        $company          = get_post_meta( $post_id, '_shipping_company',    true );
+        $address_1        = get_post_meta( $post_id, '_shipping_address_1',  true );
+        $address_2        = get_post_meta( $post_id, '_shipping_address_2',  true );
+        $city             = get_post_meta( $post_id, '_shipping_city',       true );
+        $postcode         = get_post_meta( $post_id, '_shipping_postcode',   true );
+        $email            = get_post_meta( $post_id, '_billing_email',       true );
+        $phone            = get_post_meta( $post_id, '_billing_phone',       true );
+        $order_total      = get_post_meta( $post_id, '_order_total',         true );
+        $order_pay_method = get_post_meta( $post_id, '_payment_method',      true );
+        $order_notes      = esc_html( $post->post_excerpt );
 
         $option = array(
                     'title',
@@ -940,7 +970,8 @@ function seur_get_order_data( $post_id ) {
                     'email',
                     'phone',
                     'order_notes',
-                    'order_total'
+                    'order_total',
+                    'order_pay_method'
                 );
 
         $value = array(
@@ -957,7 +988,8 @@ function seur_get_order_data( $post_id ) {
                     $email,
                     $phone,
                     $order_notes,
-                    $order_total
+                    $order_total,
+                    $order_pay_method
                 );
 
         $seur_order_data[] = array_combine( $option, $value );
@@ -1216,6 +1248,13 @@ function seur_get_label( $order_id, $numpackages = '1', $weight = '1' ) {
     $customer_phone          = $order_data[0]['phone'];
     $customer_order_notes    = seur_clean_data( $order_data[0]['order_notes'] );
     $customer_order_total    = str_replace (",", ".", $order_data[0]['order_total'] );
+    $order_pay_method        = seur_clean_data( $order_data[0]['order_pay_method'] );
+
+    if ( 'cod' == $order_pay_method ) {
+        $seur_reembolso =  '<claveReembolso>f</claveReembolso><valorReembolso>' . $customer_order_total . '</valorReembolso>';
+    } else {
+        $seur_reembolso = '';
+    }
 
     // SEUR service and Product
 
@@ -1254,9 +1293,7 @@ function seur_get_label( $order_id, $numpackages = '1', $weight = '1' ) {
             {
                 $seur_weight_by_label = 1;
             }*/
-    $gastosR                 = '';
     $portes                  = 'F';
-    $valorreembolso          = '';
 
     if ( $shipping_class == 0 && date( 'l' ) == 'Friday'){
 
@@ -1374,10 +1411,9 @@ function seur_get_label( $order_id, $numpackages = '1', $weight = '1' ) {
                         <tipo_mercancia>' . $tipo_mercancia . '</tipo_mercancia>
                         <valor_declarado>' . $customer_order_total . '</valor_declarado>
                         <aduana_origen>' . $aduana_origen . '</aduana_origen>
-                        <aduana_destino>' . $aduana_destino . '</aduana_destino>
-                        <claveReembolso>' . $gastosR . '</claveReembolso>
-                        <valorReembolso>' . $valorreembolso . '</valorReembolso>
-                        <id_mercancia>' . $id_mercancia . '</id_mercancia>
+                        <aduana_destino>' . $aduana_destino . '</aduana_destino>' .
+                        $seur_reembolso .
+                        '<id_mercancia>' . $id_mercancia . '</id_mercancia>
                         <descripcion_mercancia>' . $descripcion . '</descripcion_mercancia>
                         <codigo_pais_destino>' . $customer_country . '</codigo_pais_destino>
                         <libroControl></libroControl>
