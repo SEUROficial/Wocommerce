@@ -7,6 +7,7 @@ function seur_country_state_process() {
 
 		if ( $rate == 'B2C Estándar' || $rate == 'SEUR 13:30 Estándar' || $rate == 'SEUR 10 Estándar' || $rate == 'SEUR 10 Frío' || $rate == 'SEUR 13:30 Frío' ){
 			echo '<select class="select country" id="country" title="' . __('Select Country', 'seur' ) . '" name="country">';
+			echo '<option value="NULL">' . __( 'Select', 'seur' ) . '</option>';
 			echo '<option value="AD">' . __('Andorra', 'seur' ) . '</option>';
 			echo '<option value="PT">' . __('Portugal', 'seur' ) . '</option>';
 			echo '<option value="ES">' . __('Spain', 'seur' ) . '</option>';
@@ -59,7 +60,9 @@ function seur_country_state_process() {
 			        }
 			        echo "</select>";
 			   }
-		   }
+		   } else {
+				   echo '<input title="' . __('Type State', 'seur' ) . '" type="text" name="state" class="form-control" placeholder="' . __('EX : State', 'seur' ) . '" required="">';
+				   }
 	    }
 
 	    if ( $rate == 'SEUR 48H Estándar' ) {
@@ -77,14 +80,30 @@ function seur_country_state_process() {
 			echo '</select>';
 	    }
 
-	    if ( $country == '*' && ! $countryArr ) {
-		    //campo
-		    echo '<input title="' . __( 'No needed', 'seur' ) . '" type="text" name="state" class="form-control" placeholder="' . __( 'No needed', 'seur' ) . '" value="*" readonly>';
+	    if ( $rate == 'Classic Internacional Terrestre' ) {
+		    	if( $countryArr ){
+					// Display city dropdown based on country name
+				   if( $country !== 'Select' && $country !== 'NULL' ) {
+				        echo '<select title="' . __( 'Select State', 'seur' ) . '" name="state">';
+				        echo '<option value="*">' . __('All States', 'seur' ) . '</option>';
+				        foreach( $countryArr as $state => $value ){
+
+				            echo '<option value="' . $state . '">' . $value . '</option>';
+				        }
+				        echo "</select>";
+				   }
+		   		}
+				if ( $country == '*' && ! $countryArr ) {
+				    //campo
+				    echo '<input title="' . __( 'No needed', 'seur' ) . '" type="text" name="state" class="form-control" placeholder="' . __( 'No needed', 'seur' ) . '" value="*" readonly>';
+			    	}
+			    if ( $country !== '*' && ! $countryArr ) {
+				    echo '<input title="' . __('SEUR field description', 'seur' ) . '" type="text" name="state" class="form-control" placeholder="' . __('EX : State', 'seur' ) . '" required="">';
+			    }
+
 	    	}
-	    elseif ( $country !== '*' && ! $countryArr ) {
-		    echo '<input title="' . __('SEUR field description', 'seur' ) . '" type="text" name="state" class="form-control" placeholder="' . __('EX : State', 'seur' ) . '" required="">';
-	    }
-	    delete_transient( get_current_user_id() . '_seur_rate' );
+	    unset($country);
+	    //delete_transient( get_current_user_id() . '_seur_rate' );
 	}
 }
 ?>
