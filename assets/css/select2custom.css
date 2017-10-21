@@ -5,21 +5,54 @@ form#emp-SaveForm{
 	width: 275px;
 }
 input {
-
-min-height: 35px;
-height: 1%;
-width: 275px;
-margin: 0;
-padding: 2px 5px 0 5px;
-position: relative;
-border: 1px solid #aaa;
-cursor: text;
-overflow: hidden;
-background-color: #fff;
-background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, color-stop(1%, #eee), color-stop(15%, #fff));
-background-image: -webkit-linear-gradient(top, #eee 1%, #fff 15%);
-background-image: -moz-linear-gradient(top, #eee 1%, #fff 15%);
-background-image: linear-gradient(#eee 1%, #fff 15%);
+	min-height: 35px;
+	height: 1%;
+	width: 275px;
+	margin: 0;
+	padding: 2px 5px 0 5px;
+	position: relative;
+	border: 1px solid #aaa;
+	cursor: text;
+	overflow: hidden;
+	background-color: #fff;
+	background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, color-stop(1%, #eee), color-stop(15%, #fff));
+	background-image: -webkit-linear-gradient(top, #eee 1%, #fff 15%);
+	background-image: -moz-linear-gradient(top, #eee 1%, #fff 15%);
+	background-image: linear-gradient(#eee 1%, #fff 15%);
+}
+select#productservice{
+	cursor: pointer;
+	-moz-appearance: none;
+	-ms-appearance: none;
+	appearance: none;
+	outline: 0;
+	box-shadow: none;
+	border: 0 !important;
+	background: rgba(67, 104, 147, 0.66);
+	background-image: none;
+	color: #fff;
+	height: 36px;
+	margin-bottom: 8px;
+}
+/* Arrow */
+.select::after {
+  content: '\25BC';
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  padding: 0 1em;
+  background: #34495e;
+  pointer-events: none;
+}
+/* Transition */
+.select:hover::after {
+  color: #f39c12;
+}
+.select::after {
+  -webkit-transition: .25s all ease;
+  -o-transition: .25s all ease;
+  transition: .25s all ease;
 }
 button#btn-save.button.button-primary.btn.btn-primary{
 	margin-top: 30px;
@@ -34,9 +67,9 @@ form#calculate-rates input#submit.button.button-primary {
 	width: 170px;
 }
 .wp-filter{
-	min-height: 54px;
+	height: auto!important;
 	text-align: center;
 	margin: 0 auto;
-	padding-top: 7px;
+	padding-top: 9px!important;
 	margin-top: 15px;
 }
