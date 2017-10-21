@@ -18,6 +18,7 @@ function seur_create_custom_rate() {
 			$seur_minprice	= sanitize_text_field( $_POST['minprice']		);
 			$seur_maxprice	= sanitize_text_field( $_POST['maxprice']		);
 			$seur_rateprice	= sanitize_text_field( $_POST['rateprice']      );
+			$seur_rate_type	= sanitize_text_field( $_POST['rate_type']      );
 			$seur_postcode	= seur_sanitize_postcode( $_POST['postcode'], $seur_country	);
 
 			if ( empty( $seur_city ) )		$seur_city		= '*';
@@ -37,7 +38,8 @@ function seur_create_custom_rate() {
 					'postcode'	=> $seur_postcode,
 					'minprice'	=> $seur_minprice,
 					'maxprice'	=> $seur_maxprice,
-					'rateprice'	=> $seur_rateprice
+					'rateprice'	=> $seur_rateprice,
+					'type'		=> $seur_rate_type
 				),
 				array(
 					'%s',
@@ -46,7 +48,8 @@ function seur_create_custom_rate() {
 					'%s',
 					'%f',
 					'%f',
-					'%f'
+					'%f',
+					'%s'
 				)
 			);
 			if ( $wpdb->insert_id ) {
