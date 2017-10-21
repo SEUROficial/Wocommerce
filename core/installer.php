@@ -9,7 +9,7 @@ function seur_create_tables_hook(){
     $seur_db_version_saved = '';
     $seur_db_version_saved = get_option('seur_db_version');
 
-    if ( $seur_db_version_saved && $seur_db_version_saved != '1.0.2' && ( SEUR_DB_VERSION == '1.0.2' ) ) {
+    if ( $seur_db_version_saved && $seur_db_version_saved != '1.0.3' && ( SEUR_DB_VERSION == '1.0.3' ) ) {
 
 	    require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
         $charset_collate = $wpdb->get_charset_collate();
@@ -18,6 +18,7 @@ function seur_create_tables_hook(){
 
         $sql = "CREATE TABLE " . $table_name . " (
             ID bigint(20) unsigned NOT NULL auto_increment,
+            type varchar(50) NOT NULL default 'price',
             country varchar(50) NOT NULL default '',
             state varchar(200) NOT NULL default '',
             postcode varchar(7) NOT NULL default '00000',
@@ -57,6 +58,7 @@ function seur_create_tables_hook(){
 
         $sql = "CREATE TABLE " . $table_name . " (
             ID bigint(20) unsigned NOT NULL auto_increment,
+            type varchar(50) NOT NULL default 'price',
             country varchar(50) NOT NULL default '',
             state varchar(200) NOT NULL default '',
             postcode varchar(7) NOT NULL default '00000',
@@ -163,6 +165,7 @@ function seur_add_data_to_tables_hook(){
         $wpdb->insert(
             $table_name,
             array(
+	            'type'		=> 'price',
                 'country'   => 'ES',
                 'state'     => '*',
                 'postcode'  => '*',
@@ -177,6 +180,7 @@ function seur_add_data_to_tables_hook(){
         $wpdb->insert(
             $table_name,
             array(
+	            'type'		=> 'price',
                 'country'   => 'ES',
                 'state'     => '*',
                 'postcode'  => '*',
@@ -191,6 +195,7 @@ function seur_add_data_to_tables_hook(){
         $wpdb->insert(
             $table_name,
             array(
+	            'type'		=> 'price',
                 'country'   => 'PT',
                 'state'     => '*',
                 'postcode'  => '*',
@@ -205,6 +210,7 @@ function seur_add_data_to_tables_hook(){
         $wpdb->insert(
             $table_name,
             array(
+	            'type'		=> 'price',
                 'country'   => 'PT',
                 'state'     => '*',
                 'postcode'  => '*',
@@ -219,6 +225,7 @@ function seur_add_data_to_tables_hook(){
         $wpdb->insert(
             $table_name,
             array(
+	            'type'		=> 'price',
                 'country'   => 'AD',
                 'state'     => '*',
                 'postcode'  => '*',
@@ -233,6 +240,7 @@ function seur_add_data_to_tables_hook(){
         $wpdb->insert(
             $table_name,
             array(
+	            'type'		=> 'price',
                 'country'   => 'AD',
                 'state'     => '*',
                 'postcode'  => '*',
@@ -247,6 +255,7 @@ function seur_add_data_to_tables_hook(){
         $wpdb->insert(
             $table_name,
             array(
+	            'type'		=> 'price',
                 'country'   => 'ES',
                 'state'     => 'PM',
                 'postcode'  => '*',
@@ -261,6 +270,7 @@ function seur_add_data_to_tables_hook(){
         $wpdb->insert(
             $table_name,
             array(
+	            'type'		=> 'price',
                 'country'   => 'ES',
                 'state'     => 'PM',
                 'postcode'  => '*',
@@ -275,6 +285,7 @@ function seur_add_data_to_tables_hook(){
         $wpdb->insert(
             $table_name,
             array(
+	            'type'		=> 'price',
                 'country'   => 'ES',
                 'state'     => 'GC',
                 'postcode'  => '*',
@@ -289,6 +300,7 @@ function seur_add_data_to_tables_hook(){
         $wpdb->insert(
             $table_name,
             array(
+	            'type'		=> 'price',
                 'country'   => 'ES',
                 'state'     => 'GC',
                 'postcode'  => '*',
@@ -303,6 +315,7 @@ function seur_add_data_to_tables_hook(){
         $wpdb->insert(
             $table_name,
             array(
+	            'type'		=> 'price',
                 'country'   => 'ES',
                 'state'     => 'CE',
                 'postcode'  => '*',
@@ -317,6 +330,7 @@ function seur_add_data_to_tables_hook(){
         $wpdb->insert(
             $table_name,
             array(
+	            'type'		=> 'price',
                 'country'   => 'ES',
                 'state'     => 'CE',
                 'postcode'  => '*',
@@ -331,6 +345,7 @@ function seur_add_data_to_tables_hook(){
         $wpdb->insert(
             $table_name,
             array(
+	            'type'		=> 'price',
                 'country'   => 'ES',
                 'state'     => 'ML',
                 'postcode'  => '*',
@@ -345,6 +360,7 @@ function seur_add_data_to_tables_hook(){
         $wpdb->insert(
             $table_name,
             array(
+	            'type'		=> 'price',
                 'country'   => 'ES',
                 'state'     => 'ML',
                 'postcode'  => '*',
@@ -359,6 +375,7 @@ function seur_add_data_to_tables_hook(){
         $wpdb->insert(
             $table_name,
             array(
+	            'type'		=> 'price',
                 'country'   => '*',
                 'state'     => '*',
                 'postcode'  => '*',
