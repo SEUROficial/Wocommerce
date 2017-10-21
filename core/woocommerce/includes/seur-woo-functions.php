@@ -361,3 +361,90 @@ add_action( 'woocommerce_admin_order_data_after_shipping_address', 'seur_shippin
 function seur_shipping_mobil_phone_fields_display_admin_order_meta( $order ){
     echo '<p><strong>'.__('Shipping Mobile Phone').':</strong> ' . get_post_meta( $order->id, '_shipping_mobile_phone', true ) . '</p>';
 }
+
+ function seur_filter_price_rate_weight( $package_price, $raterate, $ratepricerate ){
+
+		$seur_bc2_max_price_field  = get_option( 'seur_bc2_max_price_field'  );
+		$seur_10e_max_price_field  = get_option( 'seur_10e_max_price_field'  );
+		$seur_10ef_max_price_field = get_option( 'seur_10ef_max_price_field' );
+		$seur_13e_max_price_field  = get_option( 'seur_13e_max_price_field'  );
+		$seur_13f_max_price_field  = get_option( 'seur_13f_max_price_field'  );
+		$seur_48h_max_price_field  = get_option( 'seur_48h_max_price_field'  );
+		$seur_72h_max_price_field  = get_option( 'seur_72h_max_price_field'  );
+		$seur_cit_max_price_field  = get_option( 'seur_cit_max_price_field'  );
+
+		if ( $seur_bc2_max_price_field  == '0' || ! $seur_bc2_max_price_field  ) $seur_bc2_max_price_field  = '99999999999';
+		if ( $seur_10e_max_price_field  == '0' || ! $seur_10e_max_price_field  ) $seur_10e_max_price_field  = '99999999999';
+		if ( $seur_10ef_max_price_field == '0' || ! $seur_10ef_max_price_field ) $seur_10ef_max_price_field = '99999999999';
+		if ( $seur_13e_max_price_field  == '0' || ! $seur_13e_max_price_field  ) $seur_13e_max_price_field  = '99999999999';
+		if ( $seur_13f_max_price_field  == '0' || ! $seur_13f_max_price_field  ) $seur_13f_max_price_field  = '99999999999';
+		if ( $seur_48h_max_price_field  == '0' || ! $seur_48h_max_price_field  ) $seur_48h_max_price_field  = '99999999999';
+		if ( $seur_72h_max_price_field  == '0' || ! $seur_72h_max_price_field  ) $seur_72h_max_price_field  = '99999999999';
+		if ( $seur_cit_max_price_field  == '0' || ! $seur_cit_max_price_field  ) $seur_cit_max_price_field  = '99999999999';
+
+		if ( $raterate == 'B2C Estándar' ){
+			if( $package_price > $seur_bc2_max_price_field ){
+				$ratepricerate = '0';
+			} else {
+				$ratepricerate = $ratepricerate;
+			}
+		}
+
+		if ( $raterate == 'SEUR 10 Estándar' ){
+			if( $package_price > $seur_10e_max_price_field ){
+				$ratepricerate = '0';
+			} else {
+				$ratepricerate = $ratepricerate;
+			}
+		}
+
+		if ( $raterate == 'SEUR 10 Frío' ){
+			if( $package_price > $seur_10ef_max_price_field ){
+				$ratepricerate = '0';
+			} else {
+				$ratepricerate = $ratepricerate;
+			}
+		}
+
+		if ( $raterate == 'SEUR 13:30 Estándar' ){
+			if( $package_price > $seur_13e_max_price_field ){
+				$ratepricerate = '0';
+			} else {
+				$ratepricerate = $ratepricerate;
+			}
+		}
+
+		if ( $raterate == 'SEUR 13:30 Frío' ){
+			if( $package_price > $seur_13f_max_price_field ){
+				$ratepricerate = '0';
+			} else {
+				$ratepricerate = $ratepricerate;
+			}
+		}
+
+		if ( $raterate == 'SEUR 48H Estándar' ){
+			if( $package_price > $seur_48h_max_price_field ){
+				$ratepricerate = '0';
+			} else {
+				$ratepricerate = $ratepricerate;
+			}
+		}
+
+		if ( $raterate == 'SEUR 72H Estándar' ){
+			if( $package_price > $seur_72h_max_price_field ){
+				$ratepricerate = '0';
+			} else {
+				$ratepricerate = $ratepricerate;
+			}
+		}
+
+		if ( $raterate == 'Classic Internacional Terrestre' ){
+			if( $package_price > $seur_cit_max_price_field ){
+				$ratepricerate = '0';
+			} else {
+				$ratepricerate = $ratepricerate;
+			}
+		}
+
+		return $ratepricerate;
+	}

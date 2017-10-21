@@ -5,6 +5,16 @@ function seur_nif_field(){ ?>
     <input title="<?php _e('NIF- NIF de la empresa', 'seur' ); ?>" type="text" name="seur_nif_field" value="<?php echo get_option('seur_nif_field'); ?>" size="40" />
     <?php }
 
+function seur_rates_type_field(){
+	$option = get_option( 'seur_rates_type_field' );
+?>
+
+    <select id="seur_rates_type" name="seur_rates_type_field">
+       <option value="price"  <?php if ( $option == 'price') echo ' selected'; ?>><?php _e('By Price', 'seur' ); ?></option>
+       <option value="weight"  <?php if ( $option == 'weight') echo ' selected'; ?>><?php _e('By Weight', 'seur' ); ?></option>
+    </select>
+    <?php }
+
 function seur_empresa_field(){ ?>
     <input title="<?php _e('Empresa', 'seur' ); ?>" type="text" name="seur_empresa_field" value="<?php echo get_option('seur_empresa_field'); ?>" size="40" />
     <?php }
@@ -113,6 +123,7 @@ function display_seur_user_sittings_panel_fields(){
 
     add_settings_section( 'seur-user-settings-section', NULL, NULL, 'seur-user-settings-options' );
     add_settings_field( 'seur_nif_field',                   __('NIF',                       'seur'), 'seur_nif_field',                     'seur-user-settings-options', 'seur-user-settings-section' );
+    add_settings_field( 'seur_rates_type_field',            __('How to apply rates?',       'seur'), 'seur_rates_type_field',              'seur-user-settings-options', 'seur-user-settings-section' );
     add_settings_field( 'seur_empresa_field',               __('Empresa',                   'seur'), 'seur_empresa_field',                 'seur-user-settings-options', 'seur-user-settings-section' );
     add_settings_field( 'seur_viatipo_field',               __('Via tipo',                  'seur'), 'seur_viatipo_field',                 'seur-user-settings-options', 'seur-user-settings-section' );
     add_settings_field( 'seur_vianombre_field',             __('Via nombre',                'seur'), 'seur_vianombre_field',               'seur-user-settings-options', 'seur-user-settings-section' );
@@ -140,6 +151,7 @@ function display_seur_user_sittings_panel_fields(){
     // register all setings
 
     register_setting('seur-user-settings-section', 'seur_nif_field'                     );
+    register_setting('seur-user-settings-section', 'seur_rates_type_field'              );
     register_setting('seur-user-settings-section', 'seur_empresa_field'                 );
     register_setting('seur-user-settings-section', 'seur_viatipo_field'                 );
     register_setting('seur-user-settings-section', 'seur_vianombre_field'               );

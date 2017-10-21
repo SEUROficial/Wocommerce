@@ -323,6 +323,7 @@ class WC_Shipping_SEUR extends WC_Shipping_Method {
         add_action( 'woocommerce_update_options_shipping_' . $this->id, array( $this, 'process_admin_options' ) );
         add_action( 'woocommerce_update_options_shipping_' . $this->id, array( $this, 'clear_transients' ) );
         add_action( 'admin_enqueue_scripts', array( $this, 'assets' ) );
+        add_filter( 'option_woocommerce_cod_settings', array( $this, 'seur_option_woocommerce_cod_settings' ) );
     }
 
     /**
@@ -704,6 +705,30 @@ class WC_Shipping_SEUR extends WC_Shipping_Method {
         );
     }
 
+	public function seur_option_woocommerce_cod_settings( $value ) {
+    if ( is_checkout() ) {
+        if (
+            !empty( $value )
+            && is_array( $value )
+            && $value['enabled'] == 'yes'
+            && !empty( $value['enable_for_methods'] )
+            && is_array( $value['enable_for_methods'] )
+    ) {
+            foreach ( $value['enable_for_methods'] as $method ) {
+                if ( $method == 'seur' ) {
+                    $seur_rates = seur_get_custom_rates();
+                    foreach ( $seur_rates as $seur_rate ) {
+                        $value['enable_for_methods'][] = $seur_rate->ID;
+                    }
+                    break;
+                }
+        }
+            }
+    }
+return $value;
+}
+
+
     /**
      * calculate_shipping function.
      *
@@ -712,9 +737,10 @@ class WC_Shipping_SEUR extends WC_Shipping_Method {
      * @return void
      */
     public function calculate_shipping( $package = array() ) {
-        $rates        = array();
-        $seur_response = array();
-        $rate_requests = array();
+        $rates                     = array();
+        $seur_response             = array();
+        $rate_requests             = array();
+        $rates_type                = get_option( 'seur_rates_type_field' );
 
         // Only return rates if the package has a destination including country
         if ( '' === $package['destination']['country'] ) {
@@ -728,11 +754,16 @@ class WC_Shipping_SEUR extends WC_Shipping_Method {
             return;
         }
 
-                $price      = $package['contents_cost'];
+                if ( $rates_type == 'price' ) {
+	                $price = $package['contents_cost'];
+                } else {
+	                $price 		   = wc_get_weight( $weight, 'kg' );
+	                $package_price = $package['contents_cost'];
+                }
+                //$price      = $package['contents_cost'];
                 $country    = $package['destination']['country'];
                 $state      = $package['destination']['state'];
                 $postcode   = $package['destination']['postcode'];
-
 
                 $rate_requests = seur_show_availables_rates( $country, $state, $postcode, $price );
 
@@ -754,6 +785,12 @@ class WC_Shipping_SEUR extends WC_Shipping_Method {
                 if ( $rate ) {
 
                     $sort = 999;
+
+                    if ( $rates_type == 'price' ) {
+	                		$ratepricerate = $ratepricerate;
+		                } else {
+			                $ratepricerate = seur_filter_price_rate_weight( $package_price, $raterate, $ratepricerate );
+		                }
 
                     $rates[ $idrate ] = array(
                         'id'    => $idrate,
