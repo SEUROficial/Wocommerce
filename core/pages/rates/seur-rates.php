@@ -128,7 +128,7 @@ if( isset( $_POST['postal'] ) ) {
 ?>
     </p>
     <div class="wp-filter">
-
+		<label>
             <span class="screen-reader-text"><?php _e( 'Postalcode', 'seur' ) ?></span>
             <input type='text' name='postal' class="calculate-rates" placeholder="<?php _e( 'Postalcode', 'seur' ) ?>" value='<?php if( isset( $postal ) ) echo $postal; ?>'>
         </label>
