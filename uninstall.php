@@ -63,7 +63,16 @@ $options = array(
     'seur_download_file_path',
     'seur_pass_for_download',
     'seur_date_localizador',
-    'seur_num_localizador'
+    'seur_num_localizador',
+    'seur_rates_type_field',
+	'seur_bc2_max_price_field',
+	'seur_10e_max_price_field',
+	'seur_10ef_max_price_field',
+	'seur_13e_max_price_field',
+	'seur_13f_max_price_field',
+	'seur_48h_max_price_field',
+	'seur_72h_max_price_field',
+	'seur_cit_max_price_field'
     );
 
 foreach ( $options as $option ){
