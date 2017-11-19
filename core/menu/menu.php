@@ -65,7 +65,7 @@ function seur_menu() {
         //add_action for add scripts to different screens
 
         add_action("admin_print_scripts-$seurrates",                'seur_custom_rates_load_js'     );
-        add_action("admin_print_scripts-$seurrates",                'seur_settings_load_js'         );
+        //add_action("admin_print_scripts-$seurrates",                'seur_settings_load_js'         );
         add_action("admin_print_scripts-$seuraddform",              'seur_auto_country_state_js'    );
         add_action("admin_print_scripts-$seureditcustomrate",       'seur_auto_country_state_js'    );
         add_action("admin_print_scripts-$seurcountrystateprocess",  'seur_auto_country_state_js'    );

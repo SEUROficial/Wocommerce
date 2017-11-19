@@ -8,9 +8,12 @@ function seur_edit_rate(){
 
 		$id = sanitize_text_field ( $_GET[ 'edit_id' ] );
 
-		$table = $wpdb->base_prefix . 'seur_custom_rates';
+		$table = $wpdb->base_prefix . "seur_custom_rates";
+		$wpdb->seur_custom_rates = $wpdb->base_prefix . 'seur_custom_rates';
 
-		$getrate = $wpdb->get_row( "SELECT * FROM " . $table . " WHERE ID = " . $id );
+		//$wpdb->show_errors();
+		$getrate = $wpdb->get_row ( $wpdb->prepare( "SELECT * FROM {$wpdb->base_prefix}seur_custom_rates WHERE ID = %d", $id ) );
+		//$wpdb->print_error();
 
 		$max_price = $getrate->maxprice;
 
@@ -20,6 +23,20 @@ function seur_edit_rate(){
 			$max_price = $max_price;
 		}
 
+	}
+
+	$rates_type = get_option( 'seur_rates_type_field' );
+
+	if( $rates_type == 'price' ){
+		$min 	   = __('Min Price (=)', 'seur' );
+		$title_min = __('The product price is equal or mayor of this field', 'seur' );
+		$max 	   = __('Max Price (<)', 'seur' );
+		$title_max = __('The product price is minor of this field', 'seur' );
+	} else {
+		$min       = __('Min Weight (=)', 'seur' );
+		$title_min = __('The product Weight is equal or mayor of this field', 'seur' );
+		$max       = __('Max Weight (<)', 'seur' );
+		$title_max = __('The product Weight is minor of this field', 'seur' );
 	}
 
 ?>
@@ -46,7 +63,7 @@ function seur_edit_rate(){
 				    <?php
 						$tabla = $wpdb->prefix . SEUR_PLUGIN_SVPR;
 						$sql   = "SELECT * FROM $tabla";
-						$regs  = $wpdb->get_results( $sql );
+						$regs  = $wpdb->get_results( $wpdb->prepare( $sql ) );
 
 						foreach ( $regs as $valor ) {
 
@@ -94,7 +111,7 @@ function seur_edit_rate(){
 								$countries = seur_get_countries();
 								foreach ($countries as $country => $value ) {
 
-									if ( $getrate->country == $country ){
+									if ( $getrate->country == $value ){
 										$selected = ' selected="selected"';
 									} else {
 										$selected = '';
@@ -154,15 +171,15 @@ function seur_edit_rate(){
         </tr>
 
         <tr>
-            <td><?php _e('Min Price', 'seur' ); ?></td>
+            <td><?php echo $min; ?></td>
 
-            <td><input title="<?php _e('SEUR field description', 'seur' ); ?>" type='text' name='minprice' value='<?php echo $getrate->minprice ?>' class='form-control' placeholder='EX : 0.50' required=""></td>
+            <td><input title="<?php echo $title_min; ?>" type='text' name='minprice' value='<?php echo $getrate->minprice ?>' class='form-control' placeholder='EX : 0.50' required=""></td>
         </tr>
 
         <tr>
-            <td><?php _e('Max Price', 'seur' ); ?></td>
+            <td><?php echo $max; ?></td>
 
-            <td><input title="<?php _e('SEUR field description', 'seur' ); ?>" type='text' name='maxprice' value='<?php echo $max_price ?>' class='form-control' placeholder='EX : 100.34' required=""></td>
+            <td><input title="<?php echo $title_max; ?>" type='text' name='maxprice' value='<?php echo $max_price ?>' class='form-control' placeholder='EX : 100.34' required=""></td>
         </tr>
 
         <tr>
@@ -171,6 +188,7 @@ function seur_edit_rate(){
             <td><input title="<?php _e('SEUR field description', 'seur' ); ?>" type='text' name='rateprice' value='<?php echo $getrate->rateprice ?>' class='form-control' placeholder='EX : 5.45' required=""></td>
         </tr>
 
+        <input type="hidden" name="rate_type" value="<?php echo $rates_type; ?>">
         <?php wp_nonce_field( 'edit_seur_rate', 'edit_rate_nonce_field' ); ?>
 
         <tr>

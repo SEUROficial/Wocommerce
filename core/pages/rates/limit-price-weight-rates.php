@@ -39,49 +39,49 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
                         <tr>
                             <th scope="row">BC2 Estándar</th>
 
-                            <td><input title="NIF- NIF de la empresa" type="text" name="seur_bc2_max_price_field" value="<?php if ( $seur_bc2_max_price_field ) echo $seur_bc2_max_price_field ?>" size="40"></td>
+                            <td><input title="<?php _e('Max package price for ', 'seur'); ?>BC2 Estándar" type="text" name="seur_bc2_max_price_field" value="<?php if ( $seur_bc2_max_price_field ) echo $seur_bc2_max_price_field ?>" size="40"></td>
                         </tr>
 
                         <tr>
                             <th scope="row">SEUR 10 Estándar</th>
 
-                            <td><input title="NIF- NIF de la empresa" type="text" name="seur_10e_max_price_field" value="<?php if ( $seur_10e_max_price_field ) echo $seur_10e_max_price_field ?>" size="40"></td>
+                            <td><input title="<?php _e('Max package price for ', 'seur'); ?>SEUR 10 Estándar" type="text" name="seur_10e_max_price_field" value="<?php if ( $seur_10e_max_price_field ) echo $seur_10e_max_price_field ?>" size="40"></td>
                         </tr>
 
                         <tr>
                             <th scope="row">SEUR 10 Frío</th>
 
-                            <td><input title="NIF- NIF de la empresa" type="text" name="seur_10ef_max_price_field" value="<?php if ( $seur_10ef_max_price_field ) echo $seur_10ef_max_price_field ?>" size="40"></td>
+                            <td><input title="<?php _e('Max package price for ', 'seur'); ?>SEUR 10 Frío" type="text" name="seur_10ef_max_price_field" value="<?php if ( $seur_10ef_max_price_field ) echo $seur_10ef_max_price_field ?>" size="40"></td>
                         </tr>
 
                         <tr>
                             <th scope="row">SEUR 13:30 Estándar</th>
 
-                            <td><input title="NIF- NIF de la empresa" type="text" name="seur_13e_max_price_field" value="<?php if ( $seur_13e_max_price_field ) echo $seur_13e_max_price_field ?>" size="40"></td>
+                            <td><input title="<?php _e('Max package price for ', 'seur'); ?>SEUR 13:30 Estándar" type="text" name="seur_13e_max_price_field" value="<?php if ( $seur_13e_max_price_field ) echo $seur_13e_max_price_field ?>" size="40"></td>
                         </tr>
 
                         <tr>
                             <th scope="row">SEUR 13:30 Frío</th>
 
-                            <td><input title="NIF- NIF de la empresa" type="text" name="seur_13f_max_price_field" value="<?php if ( $seur_13f_max_price_field ) echo $seur_13f_max_price_field ?>" size="40"></td>
+                            <td><input title="<?php _e('Max package price for ', 'seur'); ?>SEUR 13:30 Frío" type="text" name="seur_13f_max_price_field" value="<?php if ( $seur_13f_max_price_field ) echo $seur_13f_max_price_field ?>" size="40"></td>
                         </tr>
 
                         <tr>
                             <th scope="row">SEUR 48H Estándar</th>
 
-                            <td><input title="NIF- NIF de la empresa" type="text" name="seur_48h_max_price_field" value="<?php if ( $seur_48h_max_price_field ) echo $seur_48h_max_price_field ?>" size="40"></td>
+                            <td><input title="<?php _e('Max package price for ', 'seur'); ?>SEUR 48H Estándar" type="text" name="seur_48h_max_price_field" value="<?php if ( $seur_48h_max_price_field ) echo $seur_48h_max_price_field ?>" size="40"></td>
                         </tr>
 
                         <tr>
                             <th scope="row">SEUR 72H Estándar</th>
 
-                            <td><input title="NIF- NIF de la empresa" type="text" name="seur_72h_max_price_field" value="<?php if ( $seur_72h_max_price_field ) echo $seur_72h_max_price_field ?>" size="40"></td>
+                            <td><input title="<?php _e('Max package price for ', 'seur'); ?>SEUR 72H Estándar" type="text" name="seur_72h_max_price_field" value="<?php if ( $seur_72h_max_price_field ) echo $seur_72h_max_price_field ?>" size="40"></td>
                         </tr>
 
                         <tr>
                             <th scope="row">Classic Internacional Terrestre</th>
 
-                            <td><input title="NIF- NIF de la empresa" type="text" name="seur_cit_max_price_field" value="<?php if ( $seur_cit_max_price_field ) echo $seur_cit_max_price_field ?>" size="40"></td>
+                            <td><input title="<?php _e('Max package price for ', 'seur'); ?>Classic Internacional Terrestre" type="text" name="seur_cit_max_price_field" value="<?php if ( $seur_cit_max_price_field ) echo $seur_cit_max_price_field ?>" size="40"></td>
                         </tr>
                         <input type="hidden" name="seur_limit_price_weight_rates_post" value="true" >
                         <?php wp_nonce_field( 'seur_limit_price_weight_rates', 'seur_limit_price_weight_rates_nonce_field' ); ?>

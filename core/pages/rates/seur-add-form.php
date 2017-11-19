@@ -40,7 +40,7 @@ display:none;
 				    <?php
 					    $tabla	= $wpdb->prefix . SEUR_PLUGIN_SVPR;
 	                    $sql	= "SELECT * FROM $tabla";
-	                    $regs	= $wpdb->get_results( $sql );
+	                    $regs	= $wpdb->get_results( $wpdb->prepare( $sql ) );
 
 						foreach ( $regs as $valor ) {
 

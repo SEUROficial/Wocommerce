@@ -21,7 +21,8 @@ function seur_update_custom_rate(){
             $seur_minprice  = sanitize_text_field ( $_POST['minprice']                   );
             $seur_maxprice  = sanitize_text_field ( $_POST['maxprice']                   );
             $seur_rateprice = sanitize_text_field ( $_POST['rateprice']                  );
-            $seur_postcode  = seur_sanitize_postcode ( $_POST['postcode'], $seur_country );
+            $seur_rate_type	= sanitize_text_field( $_POST['rate_type']                   );
+            $seur_postcode  = sanitize_text_field( $_POST['postcode'], $seur_country     );
 
 			if ( empty( $seur_minprice ) )	$seur_minprice	= '0';
 			if ( empty( $seur_postcode ) || $seur_postcode == '00000' || $seur_postcode == '0000' || $seur_postcode == '*' )	$seur_postcode	= '*';
@@ -40,7 +41,8 @@ function seur_update_custom_rate(){
                     'minprice'  => $seur_minprice,
                     'maxprice'  => $seur_maxprice,
                     'rateprice' => $seur_rateprice,
-                    'postcode'  => $seur_postcode
+                    'postcode'  => $seur_postcode,
+                    'type'		=> $seur_rate_type
                 ),
                 array( 'ID' => $seur_id ),
                 array(
@@ -50,6 +52,7 @@ function seur_update_custom_rate(){
                     '%f',
                     '%f',
                     '%f',
+                    '%s',
                     '%s'
                 ),
                 array( '%d' )
