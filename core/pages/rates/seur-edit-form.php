@@ -8,8 +8,6 @@ function seur_edit_rate(){
 
 		$id = sanitize_text_field ( $_GET[ 'edit_id' ] );
 
-		$table = $wpdb->base_prefix . "seur_custom_rates";
-		$wpdb->seur_custom_rates = $wpdb->base_prefix . 'seur_custom_rates';
 
 		//$wpdb->show_errors();
 		$getrate = $wpdb->get_row ( $wpdb->prepare( "SELECT * FROM {$wpdb->base_prefix}seur_custom_rates WHERE ID = %d", $id ) );

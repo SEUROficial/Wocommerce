@@ -1,7 +1,7 @@
 <?php
 if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 
-$texto="TARIFAS<BR>Consultar el coste de un envio según su tarifa";
+$texto = __('TARIFAS<BR>Consultar el coste de un envio según su tarifa', 'seur' );
 
 ?>
     <form id="calculate-rates" method="post" name="formulario" width="100%">
@@ -9,118 +9,118 @@ $texto="TARIFAS<BR>Consultar el coste de un envio según su tarifa";
         <?php
         _e('Calcule la tarifa que le aplicará SEUR para una Población o CP concreto.', 'seur');
 // Si está establecido, buscamos los datos
-if( isset( $_POST['postal'] ) ) {
+		if( isset( $_POST['postal'] ) ) {
 
-    if ( ! isset( $_POST['seur_rates_seur_nonce_field'] ) || ! wp_verify_nonce( $_POST['seur_rates_seur_nonce_field'], 'seur_rates_seur' ) ) {
+		    if ( ! isset( $_POST['seur_rates_seur_nonce_field'] ) || ! wp_verify_nonce( $_POST['seur_rates_seur_nonce_field'], 'seur_rates_seur' ) ) {
 
-                    print 'Sorry, your nonce did not verify.';
-                    exit;
-    } else {
+		                    print 'Sorry, your nonce did not verify.';
+		                    exit;
+		    } else {
 
-    $bloquear = "readonly";
+		    $bloquear = "readonly";
 
-    if ( isset( $_POST['poblacion'] ) ){
+		    if ( isset( $_POST['poblacion'] ) ){
 
-        $poblacion = sanitize_text_field( trim( $_POST['poblacion'] ) );
+		        $poblacion = sanitize_text_field( trim( $_POST['poblacion'] ) );
 
-    } else {
+		    } else {
 
-        $poblacion = '';
+		        $poblacion = '';
 
-    }
+		    }
 
-    if ( isset( $_POST['bultos'] ) ){
+		    if ( isset( $_POST['bultos'] ) ){
 
-        $bultos = intval( trim( $_POST['bultos'] ) );
+		        $bultos = intval( trim( $_POST['bultos'] ) );
 
-    } else {
+		    } else {
 
-        $bultos = '';
+		        $bultos = '';
 
-    }
+		    }
 
-    if ( isset( $_POST['kilos'] ) ){
+		    if ( isset( $_POST['kilos'] ) ){
 
-        $kilos = intval( trim( $_POST['kilos'] ) );
+		        $kilos = intval( trim( $_POST['kilos'] ) );
 
-    } else {
+		    } else {
 
-        $kilos = '';
+		        $kilos = '';
 
-    }
+		    }
 
-    if ( isset( $_POST['pais'] ) ){
+		    if ( isset( $_POST['pais'] ) ){
 
-        $pais = sanitize_text_field ( trim( $_POST['pais'] ) );
+		        $pais = sanitize_text_field ( trim( $_POST['pais'] ) );
 
-    } else {
+		    } else {
 
-        $pais = '';
+		        $pais = '';
 
-    }
+		    }
 
-    if ( isset( $_POST['postal'] ) ){
+		    if ( isset( $_POST['postal'] ) ){
 
-        $unsafepostal  = trim( $_POST["postal"] );
-        $postal        = seur_sanitize_postcode( $unsafepostal, $pais );
+		        $unsafepostal  = trim( $_POST["postal"] );
+		        $postal        = seur_sanitize_postcode( $unsafepostal, $pais );
 
-    } else {
+		    } else {
 
-        $postal = '';
+		        $postal = '';
 
-    }
+		    }
 
-    if ( isset( $_POST['productservice'] ) ){
+		    if ( isset( $_POST['productservice'] ) ){
 
-        $ps = sanitize_text_field ( trim( $_POST['productservice'] ) );
+		        $ps = sanitize_text_field ( trim( $_POST['productservice'] ) );
 
-        if ( $ps == 'bc2' ){
-            $p_nacional = '2';
-            $s_nacional = '31';
-        }
+		        if ( $ps == 'bc2' ){
+		            $p_nacional = '2';
+		            $s_nacional = '31';
+		        }
 
-        if ( $ps == 'seur10e' ){
-            $p_nacional = '2';
-            $s_nacional = '3';
-        }
+		        if ( $ps == 'seur10e' ){
+		            $p_nacional = '2';
+		            $s_nacional = '3';
+		        }
 
-        if ( $ps == 'seur10f' ){
-            $p_nacional = '18';
-            $s_nacional = '3';
-        }
+		        if ( $ps == 'seur10f' ){
+		            $p_nacional = '18';
+		            $s_nacional = '3';
+		        }
 
-        if ( $ps == 'seur1330e' ){
-            $p_nacional = '2';
-            $s_nacional = '9';
-        }
+		        if ( $ps == 'seur1330e' ){
+		            $p_nacional = '2';
+		            $s_nacional = '9';
+		        }
 
-        if ( $ps == 'seur1330f' ){
-            $p_nacional = '18';
-            $s_nacional = '9';
-        }
+		        if ( $ps == 'seur1330f' ){
+		            $p_nacional = '18';
+		            $s_nacional = '9';
+		        }
 
-        if ( $ps == 'seur48' ){
-            $p_nacional = '2';
-            $s_nacional = '15';
-        }
+		        if ( $ps == 'seur48' ){
+		            $p_nacional = '2';
+		            $s_nacional = '15';
+		        }
 
-        if ( $ps == 'seur72' ){
-            $p_nacional = '2';
-            $s_nacional = '13';
-        }
+		        if ( $ps == 'seur72' ){
+		            $p_nacional = '2';
+		            $s_nacional = '13';
+		        }
 
-    } else {
+		    } else {
 
-        $p_nacional = '2';
-        $s_nacional = '31';
+		        $p_nacional = '2';
+		        $s_nacional = '31';
 
-    }
+		    }
 
-    $reembolso = sanitize_text_field ( trim( $_POST["reembolso"] ) );
-    $texto     = "TARIFAS";
+		    $reembolso = sanitize_text_field ( trim( $_POST["reembolso"] ) );
+		    $texto     = "TARIFAS";
 
-}
-}
+		}
+		}
 
 // ********************************************
 // ** PARAMETROS DE ENTRADA **
@@ -179,7 +179,7 @@ if( isset( $_POST['postal'] ) ) {
     </div>
     <?php
         if( isset( $_POST['pais'] ) ) {
-            if ( strlen( $pais )  < 2 ) $pais  = 'ES';
+            if ( strlen( $pais ) < 2 ) $pais  = 'ES';
             }
         if( isset( $_POST['bultos'] ) ) {
             if ( strlen( $bultos ) < 1 ) $bultos = '1';
@@ -198,7 +198,7 @@ if( isset( $_POST['postal'] ) ) {
 
 //Si no está establecida, volvemos aqui
 
-if(!isset($_POST["postal"]) ) {
+if ( ! isset( $_POST['postal'] ) ) {
     print __( 'Please fill in the field Post Code.', 'seur' );
     exit;
 }
@@ -207,7 +207,7 @@ if(!isset($_POST["postal"]) ) {
 // *****************************************
 // ** RECUPERAR LOS DATOS DEL COMERCIANTE **
 // *****************************************
-$mensaje="";
+$mensaje = "";
 
 $useroptions     = seur_get_user_settings();
 $advancedoptions = seur_get_advanced_settings();
@@ -265,18 +265,18 @@ if ( ( $pais == 'ES' ) || ( $pais == 'PT' ) || ( $pais == 'AD' ) )
     {
         // Guardamos la franquicia de destino para luego asignar valores al envío adecuados como sv-pr,aduanas, etc
         $franq = SeurCheckCity( $datos );
-        if ($franq=="74" or $franq=="77"  or $franq=="56" or
-            $franq=="35" or $franq=="38" or $franq=="52"  or
-            $franq=="60" or $franq=="70")
+        if ( $franq == "74" or $franq == "77"  or $franq == "56" or
+            $franq == "35" or $franq == "38" or $franq == "52" or
+            $franq == "60" or $franq == "70" )
         {
 
-            if ($aduanaO=="P")
-                $mensaje.="<br>Aduana de Salida Pagada por el remitente.";
+            if ( $aduanaO == "P" )
+                $mensaje .= "<br>Aduana de Salida Pagada por el remitente.";
 
-            if ($aduanaD=="P")
-                $mensaje.="<br>Aduana de Entrada Pagada por el remitente.";
+            if ( $aduanaD == "P" )
+                $mensaje .= "<br>Aduana de Entrada Pagada por el remitente.";
 
-            if ($franq=="74" or $franq=="77" or $franq=="56")
+            if ( $franq == "74" or $franq == "77" or $franq == "56" )
             {
                 $producto=$p_nacional;
                 $servicio=$s_nacional;
@@ -290,11 +290,8 @@ if ( ( $pais == 'ES' ) || ( $pais == 'PT' ) || ( $pais == 'AD' ) )
         else {$tipomercancia=""; $aduanaO=""; $aduanaD="";}
 
     }
-}
-else
-{
-    if (strlen($reembolso)>0)
-    {
+} else {
+    if ( strlen( $reembolso ) >0 ) {
 
         $mensaje.="<br>Internacional no admite envio contrarrembolso.";
         $reembolso="";
@@ -309,9 +306,10 @@ else
 
 // Mostramos el servicio producto
 
-$tablaSP     = $wpdb->prefix . SEUR_PLUGIN_SVPR;
-$sqlbusqueda = "SELECT * FROM $tablaSP WHERE ser='" . $servicio . "' and pro='" . $producto . "'";
-$registros   = $wpdb->get_results( $sqlbusqueda );
+$registros   = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM {$wpdb->base_prefix}seur_svpr WHERE ser= %d and pro= %d", $servicio, $producto ) );
+
+
+
 $descripcion = "";
 
 foreach ( $registros as $registro_dato ) {
