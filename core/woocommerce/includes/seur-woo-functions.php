@@ -208,7 +208,7 @@ function seur_woo_bulk_action() {
                     $order = wc_get_order( $post_id );
                     $order->update_status( $new_status, __( 'Label have been created:', 'seur' ), true );
                     add_post_meta( $post_id,'_seur_shipping_order_label_downloaded',  'yes', true );
-                    add_post_meta( $post_id,'_seur_shipping_label_id',  $label_id, true );
+                    add_post_meta( $post_id,'_seur_shipping_label_id',  $labelID, true );
                     $order->add_order_note( 'The Label for Order #' . $order_id . ' have been downloaded', 0, true);
                     //do_action( 'woocommerce_order_edit_status', $post_id, $new_status );
 
@@ -302,7 +302,7 @@ function seur_get_label_ajax() {
 	                $order = wc_get_order( $order_id );
 	                $order->update_status( $new_status, __( 'Label have been created:', 'seur' ), true );
 	                add_post_meta( $order_id,'_seur_shipping_order_label_downloaded',  'yes', true );
-	                add_post_meta( $order_id,'_seur_shipping_label_id',  $label_id, true );
+	                add_post_meta( $order_id,'_seur_shipping_label_id',  $labelID, true );
 	                $order->add_order_note( 'The Label for Order #' . $order_id . ' have been downloaded', 0, true);
 	                //add_action( 'woocommerce_order_edit_status', $order_id, $new_status );
 
