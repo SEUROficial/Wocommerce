@@ -209,7 +209,7 @@ function seur_woo_bulk_action() {
                     $order->update_status( $new_status, __( 'Label have been created:', 'seur' ), true );
                     add_post_meta( $post_id,'_seur_shipping_order_label_downloaded',  'yes', true );
                     add_post_meta( $post_id,'_seur_shipping_label_id',  $labelID, true );
-                    $order->add_order_note( 'The Label for Order #' . $order_id . ' have been downloaded', 0, true);
+                    $order->add_order_note( 'The Label for Order #' . $post_id . ' have been downloaded', 0, true);
                     //do_action( 'woocommerce_order_edit_status', $post_id, $new_status );
 
                     } else {
@@ -323,8 +323,8 @@ add_filter( 'woocommerce_checkout_fields', 'seur_billing_mobil_phone_fields' );
 function seur_billing_mobil_phone_fields( $fields ) {
 
    $fields['billing']['billing_mobile_phone'] = array(
-    'label'       => __('Billing Mobile Phone', 'seur' ),  // Add custom field label
-    'placeholder' => _x('Billing Mobile Phone', 'placeholder', 'seur' ),  // Add custom field placeholder
+    'label'       => __('Mobile Phone', 'seur' ),  // Add custom field label
+    'placeholder' => _x('Mobile Phone', 'placeholder', 'seur' ),  // Add custom field placeholder
     'required'    => false,             // if field is required or not
     'class'       => array('billing-mobile-phone-field'),      // add class name
     'autocomplete' => 'mobile',
@@ -345,8 +345,8 @@ add_filter( 'woocommerce_checkout_fields', 'seur_shipping_mobil_phone_fields' );
 function seur_shipping_mobil_phone_fields( $fields ) {
 
    $fields['shipping']['shipping_mobile_phone'] = array(
-    'label'       => __('Shipping Mobile Phone', 'seur' ),  // Add custom field label
-    'placeholder' => _x('Shipping Mobile Phone', 'placeholder', 'seur' ),  // Add custom field placeholder
+    'label'       => __('Mobile Phone', 'seur' ),  // Add custom field label
+    'placeholder' => _x('Mobile Phone', 'placeholder', 'seur' ),  // Add custom field placeholder
     'required'    => false,             // if field is required or not
     'class'       => array('shipping-mobile-phone-field'),      // add class name
     'autocomplete' => 'mobile',
@@ -363,6 +363,8 @@ function seur_shipping_mobil_phone_fields_display_admin_order_meta( $order ){
 }
 
  function seur_filter_price_rate_weight( $package_price, $raterate, $ratepricerate ){
+
+	 	$raterate = seur_get_real_rate_name( $raterate );
 
 		$seur_bc2_max_price_field  = get_option( 'seur_bc2_max_price_field'  );
 		$seur_10e_max_price_field  = get_option( 'seur_10e_max_price_field'  );

@@ -154,6 +154,11 @@ function seur_edit_rate(){
 							echo "</select>";
 						}
 					}
+
+					if ( ! $states ) {
+						$currentstate = $getrate->state;
+						echo '<input title="' . __( 'State', 'seur' ) . '" type="text" name="state" class="form-control" placeholder="' . __( 'State', 'seur' ) . '" value="' . $currentstate . '">';
+					}
 					if ( $country == '*' ) {
 						//campo
 						echo '<input title="' . __( 'No needed', 'seur' ) . '" type="text" name="state" class="form-control" placeholder="' . __( 'No needed', 'seur' ) . '" value="*" readonly>';

@@ -9,8 +9,11 @@
 		$orderID   = absint( $_GET["order_id"] );
 		$order_id  = '';
 		$order_id  = $_POST['order-id'];
+		$weight_unit = '';
+		$weight_unit =  get_option('woocommerce_weight_unit');
 		$weight    = '';
-		$weight    = get_post_meta( $orderID, '_seur_cart_weight', true );
+		$order_data = seur_get_order_data( $orderID );
+		$weight    = $order_data[0]['weight'];
 		$packages  = '';
 		if( ! $orderID && ! $order_id ) exit;
 		?>
@@ -20,8 +23,7 @@
 		<?php
 
 		$url = 'https://ws.seur.com/WSEcatalogoPublicos/servlet/XFireServlet/WSServiciosWebPublicos?wsdl';
-		if ( ! seur_check_url_exists( $url ) )
-		    die('API dont work in this moment');
+		if ( ! seur_check_url_exists( $url ) ) die( __('We&apos;re sorry, SEUR API is down. Please try again in few minutes', 'seur' ) );
 
 		if( $orderID &&  ! $order_id ){ ?>
 
@@ -29,7 +31,10 @@
 				<input type='hidden' name='order-id' class='form-control' value='<?php echo $orderID; ?>' />
 
 				<label><?php _e( 'Packages Weight', 'seur'); ?></label><br />
-	            <input title="<?php _e('Weight', 'seur' ); ?>" type='text' name='seur-weight' class='form-control' placeholder='<?php _e( 'EX: 0.300', 'seur' ); ?>' value='<?php if ( $weight ) echo $weight; ?>' required='' /><br />
+	            <?php if ( $weight_unit == 'kg' ) { ?>
+	            <input title="<?php _e('Weight', 'seur' ); ?>" type='text' name='seur-weight' class='form-control' placeholder='<?php _e( 'EX: 0.300', 'seur' ); ?>' value='<?php if ( $weight ) echo $weight; ?>' required='' /> <?php } elseif ( $weight_unit == 'g' ) { ?>
+	            <input title="<?php _e('Weight', 'seur' ); ?>" type='text' name='seur-weight' class='form-control' placeholder='<?php _e( 'EX: 300', 'seur' ); ?>' value='<?php if ( $weight ) echo $weight; ?>' required='' /> <?php } ?>
+	            <br />
 	            <label><?php _e( 'Number of Packages', 'seur'); ?></label><br />
 	            <input title="<?php _e('Number of Packages', 'seur' ); ?>" type='text' name='seur-number-packages' class='form-control' placeholder='<?php _e( 'EX: 2', 'seur' ); ?>' value='' required="" /><br />
 	            <?php wp_nonce_field( 'seur_get_label_action', 'seur_get_label_nonce_field' ); ?>
@@ -65,7 +70,7 @@
 
 				    if ( $has_label != 'yes' ) {
 
-				        $label  = seur_get_label( $order_id, $numpackages, $weight );
+				        $label  = seur_get_label( $order_id, $numpackages, $weight, true );
 
 				        $label_result  = $label[0]['result'];
 				        $labelID       = $label[0]['labelID'];
@@ -77,7 +82,7 @@
 				            $order->update_status( $new_status, __( 'Label have been created:', 'seur' ), true );
 				            add_post_meta( $order_id,'_seur_shipping_order_label_downloaded',  'yes', true );
 				            add_post_meta( $order_id,'_seur_shipping_label_id',  $labelID, true );
-				            $order->add_order_note( 'The Label for Order #' . $post_id . ' have been downloaded', 0, true);
+				            $order->add_order_note( 'The Label for Order #' . $order_id . ' have been downloaded', 0, true);
 				            echo __('Label dowloaded, the Label ID is ', 'seur' ) . $labelID; ?>
 				            <br />
 							<a class="button" href="#" onclick="self.parent.tb_remove(); self.parent.location.reload()"><?php _e('Close', 'seur'); ?></a>

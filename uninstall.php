@@ -72,7 +72,15 @@ $options = array(
 	'seur_13f_max_price_field',
 	'seur_48h_max_price_field',
 	'seur_72h_max_price_field',
-	'seur_cit_max_price_field'
+	'seur_cit_max_price_field',
+	'seur_bc2_custom_name_field',
+	'seur_10e_custom_name_field',
+	'seur_10ef_custom_name_field',
+	'seur_13e_custom_name_field',
+	'seur_13f_custom_name_field',
+	'seur_48h_custom_name_field',
+	'seur_72h_custom_name_field',
+	'seur_cit_custom_name_field'
     );
 
 foreach ( $options as $option ){

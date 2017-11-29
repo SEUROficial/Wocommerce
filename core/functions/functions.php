@@ -104,8 +104,96 @@ function seur_search_number_message_result( $howmany ){
     }
 }
 
+function seur_get_real_rate_name( $rate_name ){
+
+	$seur_bc2_custom_name_field  = '';
+	$seur_10e_custom_name_field  = '';
+	$seur_10ef_custom_name_field = '';
+	$seur_13e_custom_name_field  = '';
+	$seur_13f_custom_name_field  = '';
+	$seur_48h_custom_name_field  = '';
+	$seur_72h_custom_name_field  = '';
+	$seur_cit_custom_name_field  = '';
+
+	$seur_bc2_custom_name_field  = get_option( 'seur_bc2_custom_name_field'  );
+	$seur_10e_custom_name_field  = get_option( 'seur_10e_custom_name_field'  );
+	$seur_10ef_custom_name_field = get_option( 'seur_10ef_custom_name_field' );
+	$seur_13e_custom_name_field  = get_option( 'seur_13e_custom_name_field'  );
+	$seur_13f_custom_name_field  = get_option( 'seur_13f_custom_name_field'  );
+	$seur_48h_custom_name_field  = get_option( 'seur_48h_custom_name_field'  );
+	$seur_72h_custom_name_field  = get_option( 'seur_72h_custom_name_field'  );
+	$seur_cit_custom_name_field  = get_option( 'seur_cit_custom_name_field'  );
+
+	if ( ! empty( $seur_bc2_custom_name_field ) && $rate_name ==  $seur_bc2_custom_name_field ) {
+		$real_name = 'B2C Estándar';
+	} elseif ( ! empty( $seur_10e_custom_name_field ) && $rate_name ==  $seur_10e_custom_name_field ) {
+		$real_name = 'SEUR 10 Estándar';
+	} elseif ( ! empty( $seur_10ef_custom_name_field ) && $rate_name ==  $seur_10ef_custom_name_field ) {
+		$real_name = 'SEUR 10 Frío';
+	} elseif ( ! empty( $seur_13e_custom_name_field ) && $rate_name ==  $seur_13e_custom_name_field ) {
+		$real_name = 'SEUR 13:30 Estándar';
+	} elseif ( ! empty( $seur_13f_custom_name_field ) && $rate_name ==  $seur_13f_custom_name_field ) {
+		$real_name = 'SEUR 13:30 Frío';
+	} elseif ( ! empty( $seur_48h_custom_name_field ) && $rate_name ==  $seur_48h_custom_name_field ) {
+		$real_name = 'SEUR 48H Estándar';
+	} elseif ( ! empty( $seur_72h_custom_name_field ) && $rate_name ==  $seur_72h_custom_name_field ) {
+		$real_name = 'SEUR 72H Estándar';
+	} elseif ( ! empty( $seur_cit_custom_name_field ) && $rate_name ==  $seur_cit_custom_name_field ) {
+		$real_name = 'Classic Internacional Terrestre';
+	} else {
+		$real_name = $rate_name;
+	}
+
+	return $real_name;
+}
+
+function seur_get_custom_rate_name( $rate_name ){
+
+	$seur_bc2_custom_name_field  = '';
+	$seur_10e_custom_name_field  = '';
+	$seur_10ef_custom_name_field = '';
+	$seur_13e_custom_name_field  = '';
+	$seur_13f_custom_name_field  = '';
+	$seur_48h_custom_name_field  = '';
+	$seur_72h_custom_name_field  = '';
+	$seur_cit_custom_name_field  = '';
+
+	$seur_bc2_custom_name_field  = get_option( 'seur_bc2_custom_name_field'  );
+	$seur_10e_custom_name_field  = get_option( 'seur_10e_custom_name_field'  );
+	$seur_10ef_custom_name_field = get_option( 'seur_10ef_custom_name_field' );
+	$seur_13e_custom_name_field  = get_option( 'seur_13e_custom_name_field'  );
+	$seur_13f_custom_name_field  = get_option( 'seur_13f_custom_name_field'  );
+	$seur_48h_custom_name_field  = get_option( 'seur_48h_custom_name_field'  );
+	$seur_72h_custom_name_field  = get_option( 'seur_72h_custom_name_field'  );
+	$seur_cit_custom_name_field  = get_option( 'seur_cit_custom_name_field'  );
+
+	if ( ! empty( $seur_bc2_custom_name_field ) && $rate_name ==  'B2C Estándar' ) {
+		$custom_name = $seur_bc2_custom_name_field;
+	} elseif ( ! empty( $seur_10e_custom_name_field ) && $rate_name ==  'SEUR 10 Estándar' ) {
+		$custom_name = $seur_10e_custom_name_field;
+	} elseif ( ! empty( $seur_10ef_custom_name_field ) && $rate_name ==  'SEUR 10 Frío' ) {
+		$custom_name = $seur_10ef_custom_name_field;
+	} elseif ( ! empty( $seur_13e_custom_name_field ) && $rate_name ==  'SEUR 13:30 Estándar' ) {
+		$custom_name = $seur_13e_custom_name_field;
+	} elseif ( ! empty( $seur_13f_custom_name_field ) && $rate_name ==  'SEUR 13:30 Frío' ) {
+		$custom_name = $seur_13f_custom_name_field;
+	} elseif ( ! empty( $seur_48h_custom_name_field ) && $rate_name ==  'SEUR 48H Estándar' ) {
+		$custom_name = $seur_48h_custom_name_field;
+	} elseif ( ! empty( $seur_72h_custom_name_field ) && $rate_name ==  'SEUR 72H Estándar' ) {
+		$custom_name = $seur_72h_custom_name_field;
+	} elseif ( ! empty( $seur_cit_custom_name_field ) && $rate_name ==  'Classic Internacional Terrestre' ) {
+		$custom_name = $seur_cit_custom_name_field;
+	} else {
+		$custom_name = $rate_name;
+	}
+
+	return $custom_name;
+}
+
 function SeurCheckCity( $datos ){
 
+    $url = 'https://ws.seur.com/WSEcatalogoPublicos/servlet/XFireServlet/WSServiciosWebPublicos?wsdl';
+	if ( ! seur_check_url_exists( $url ) ) die( __('We&apos;re sorry, SEUR API is down. Please try again in few minutes', 'seur' ) );
     $sc_options = array(
                 'connection_timeout' => 30
             );
@@ -1129,7 +1217,7 @@ function seur_clean_data( $out ){
     $out = str_replace ( ">", " ", $out );
     $out = str_replace ( "/", " ", $out );
     $out = str_replace ( "\"", " ", $out );
-    $out = str_replace ( "'", " ", $out );
+    $out = str_replace ( "'", " ", $out  );
     $out = str_replace ( "\"", " ", $out );
     $out = str_replace ( "?", " ", $out );
     $out = str_replace ( "¿", " ", $out );
@@ -1137,7 +1225,21 @@ function seur_clean_data( $out ){
     return $out;
 }
 
-function seur_get_label( $order_id, $numpackages = '1', $weight = '1' ) {
+function seur_always_kg( $weight ) {
+
+	$weight_unit =  get_option('woocommerce_weight_unit');
+
+	if ( $weight_unit == 'kg'){
+		$weight_kg = $weight;
+		}
+	if ( $weight_unit == 'g') {
+		$weight_kg = (string)( number_format( $weight/1000, 3, '.', '' ) );
+		}
+
+	return $weight_kg;
+}
+
+function seur_get_label( $order_id, $numpackages = '1', $weight = '1', $post_weight = false ) {
     global $error;
 
     $seur_pdf_label          = '';
@@ -1154,7 +1256,8 @@ function seur_get_label( $order_id, $numpackages = '1', $weight = '1' ) {
     $user_data               = array();
     $advanced_data           = array();
     $product_service_seur    = array();
-    $seur_shipping_method    = seur_get_shipping_method( $order_id );
+    $seur_shipping_method_tmp = seur_get_shipping_method( $order_id );
+    $seur_shipping_method    = seur_get_real_rate_name( $seur_shipping_method_tmp );
     $seur_shipping_method_id = seur_return_shipping_product_id( $seur_shipping_method );
     $date                    = date('d-m-Y');
     $mobile_shipping         = get_post_meta( $order_id, '_shipping_mobile_phone', true );
@@ -1235,9 +1338,14 @@ function seur_get_label( $order_id, $numpackages = '1', $weight = '1' ) {
     $customer_country        = $order_data[0]['country'];
     $customercity            = seur_clean_data( $order_data[0]['city'] );
     $customerpostcode        = $order_data[0]['postcode'];
+
     $customer_weight         = $order_data[0]['weight'];
 
-    if ( ! $customer_weight ) $customer_weight = $weight;
+    if ( $post_weight ) {
+	    $customer_weight_kg = seur_always_kg( $weight );
+    } else {
+	    $customer_weight_kg = seur_always_kg( $customer_weight );
+    }
 
     $customer_first_name     = seur_clean_data( $order_data[0]['first_name'] );
     $customer_last_name      = seur_clean_data( $order_data[0]['last_name'] );
@@ -1287,7 +1395,7 @@ function seur_get_label( $order_id, $numpackages = '1', $weight = '1' ) {
     /**** Temp data maybe changed in the next release ****/
     /*****************************************************/
 
-    $seur_weight_by_label = ( $customer_weight / $numpackages );
+    $seur_weight_by_label = ( $customer_weight_kg / $numpackages );
 
     /*if ( $seur_weight_by_label < 1)//1kg
             {
@@ -1402,7 +1510,7 @@ function seur_get_label( $order_id, $numpackages = '1', $weight = '1' ) {
                         <servicio>' . $seur_service . '</servicio>
                         <producto>' . $seur_product . '</producto>
                         <total_bultos>' . $numpackages . '</total_bultos>
-                        <total_kilos>' . $customer_weight . '</total_kilos>
+                        <total_kilos>' . $customer_weight_kg . '</total_kilos>
                         <pesoBulto>' . $seur_weight_by_label . '</pesoBulto>
                         <observaciones>' . $customer_order_notes . '</observaciones>
                         <referencia_expedicion>' . $order_id . '</referencia_expedicion>
@@ -1466,6 +1574,9 @@ function seur_get_label( $order_id, $numpackages = '1', $weight = '1' ) {
             'in7' => "wooseuroficial"
             );
 
+            $url = 'http://cit.seur.com/CIT-war/services/ImprimirECBWebService?wsdl';
+			if ( ! seur_check_url_exists( $url ) ) die( __('We&apos;re sorry, SEUR API is down. Please try again in few minutes', 'seur' ) );
+
             //pedimos las etiquetas
             $sc_options = array(
                             'connection_timeout' => 60
@@ -1510,7 +1621,7 @@ function seur_get_label( $order_id, $numpackages = '1', $weight = '1' ) {
                 wp_update_post( $update_post );
 
                 add_post_meta( $labelid, '_seur_shipping_method',                  $seur_shipping_method,                            true );
-                add_post_meta( $labelid, '_seur_shipping_weight',                  $customer_weight,                                 true );
+                add_post_meta( $labelid, '_seur_shipping_weight',                  $customer_weight_kg,                              true );
                 add_post_meta( $labelid, '_seur_shipping_packages',                $numpackages,                                     true );
                 add_post_meta( $labelid, '_seur_shipping_order_id',                $order_id,                                        true );
                 add_post_meta( $labelid, '_seur_shipping_order_customer_comments', $customer_order_notes,                            true );
@@ -1602,6 +1713,9 @@ function seur_get_label( $order_id, $numpackages = '1', $weight = '1' ) {
                             'connection_timeout' => 60
                             );
 
+                $url = 'http://cit.seur.com/CIT-war/services/ImprimirECBWebService?wsdl';
+				if ( ! seur_check_url_exists( $url ) ) die( __('We&apos;re sorry, SEUR API is down. Please try again in few minutes', 'seur' ) );
+
                 $soap_client = new SoapClient('http://cit.seur.com/CIT-war/services/ImprimirECBWebService?wsdl', $sc_options );
                 $respuesta   = $soap_client->impresionIntegracionConECBWS($params);
 
@@ -1635,7 +1749,7 @@ function seur_get_label( $order_id, $numpackages = '1', $weight = '1' ) {
                     wp_update_post( $update_post );
 
                     add_post_meta( $labelid, '_seur_shipping_method',                  $seur_shipping_method,                            true );
-                    add_post_meta( $labelid, '_seur_shipping_weight',                  $customer_weight,                                 true );
+                    add_post_meta( $labelid, '_seur_shipping_weight',                  $customer_weight_kg,                              true );
                     add_post_meta( $labelid, '_seur_shipping_packages',                $numpackages,                                     true );
                     add_post_meta( $labelid, '_seur_shipping_order_id',                $order_id,                                        true );
                     add_post_meta( $labelid, '_seur_shipping_order_customer_comments', $customer_order_notes,                            true );

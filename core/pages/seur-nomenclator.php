@@ -71,7 +71,7 @@ function seur_search_nomenclator( $post ) { ?>
                     );
 
                     $seur_url = 'https://ws.seur.com/WSEcatalogoPublicos/servlet/XFireServlet/WSServiciosWebPublicos?wsdl';
-                    if ( filter_var( $seur_url, FILTER_VALIDATE_URL) === FALSE ) {
+                    if ( ! seur_check_url_exists( $seur_url ) ) {
                         _e('There is a problem connecting to SEUR. Please try again later.', 'seur');
                     } else {
                         $soap_client = new SoapClient('https://ws.seur.com/WSEcatalogoPublicos/servlet/XFireServlet/WSServiciosWebPublicos?wsdl', $sc_options);

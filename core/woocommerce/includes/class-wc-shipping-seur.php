@@ -792,9 +792,11 @@ return $value;
 			                $ratepricerate = seur_filter_price_rate_weight( $package_price, $raterate, $ratepricerate );
 		                }
 
+		            $rate_name = seur_get_custom_rate_name( $raterate );
+
                     $rates[ $idrate ] = array(
                         'id'    => $idrate,
-                        'label' => $raterate,
+                        'label' => $rate_name,
                         'cost'  => $ratepricerate,
                         'sort'  => $sort
                     );

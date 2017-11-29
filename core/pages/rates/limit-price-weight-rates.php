@@ -37,9 +37,9 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
                 <table class="form-table">
                     <tbody>
                         <tr>
-                            <th scope="row">BC2 Estándar</th>
+                            <th scope="row">B2C Estándar</th>
 
-                            <td><input title="<?php _e('Max package price for ', 'seur'); ?>BC2 Estándar" type="text" name="seur_bc2_max_price_field" value="<?php if ( $seur_bc2_max_price_field ) echo $seur_bc2_max_price_field ?>" size="40"></td>
+                            <td><input title="<?php _e('Max package price for ', 'seur'); ?>B2C Estándar" type="text" name="seur_bc2_max_price_field" value="<?php if ( $seur_bc2_max_price_field ) echo $seur_bc2_max_price_field ?>" size="40"></td>
                         </tr>
 
                         <tr>
@@ -133,7 +133,7 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
                 <table class="form-table">
                     <tbody>
                         <tr>
-                            <th scope="row">BC2 Estándar</th>
+                            <th scope="row">B2C Estándar</th>
 
                             <td><input title="NIF- NIF de la empresa" type="text" name="seur_bc2_max_price_field" value="<?php if ( $seur_bc2_max_price_field ) echo $seur_bc2_max_price_field ?>" size="40"></td>
                         </tr>
