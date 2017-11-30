@@ -37,9 +37,9 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
                 <table class="form-table">
                     <tbody>
                         <tr>
-                            <th scope="row">BC2 Estándar</th>
+                            <th scope="row">B2C Estándar</th>
 
-                            <td><input title="<?php _e('Custom Name for ', 'seur'); ?>BC2 Estándar" type="text" name="seur_bc2_custom_name_field" value="<?php if ( $seur_bc2_custom_name ) echo $seur_bc2_custom_name ?>" size="40"></td>
+                            <td><input title="<?php _e('Custom Name for ', 'seur'); ?>B2C Estándar" type="text" name="seur_bc2_custom_name_field" value="<?php if ( $seur_bc2_custom_name ) echo $seur_bc2_custom_name ?>" size="40"></td>
                         </tr>
 
                         <tr>
@@ -133,9 +133,9 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
                 <table class="form-table">
                     <tbody>
                         <tr>
-                            <th scope="row">BC2 Estándar</th>
+                            <th scope="row">B2C Estándar</th>
 
-                            <td><input title="<?php _e('Custom Name for ', 'seur'); ?> BC2 Estándar" type="text" name="seur_bc2_custom_name_field" value="<?php if ( $seur_bc2_custom_name ) echo $seur_bc2_custom_name ?>" size="40"></td>
+                            <td><input title="<?php _e('Custom Name for ', 'seur'); ?> B2C Estándar" type="text" name="seur_bc2_custom_name_field" value="<?php if ( $seur_bc2_custom_name ) echo $seur_bc2_custom_name ?>" size="40"></td>
                         </tr>
 
                         <tr>
