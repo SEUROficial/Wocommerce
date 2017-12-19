@@ -60,11 +60,6 @@ function seur_pickup( $post ) {
 
     // Advanced User Settings
 
-    $manana_desde            = $advanced_data[0]['manana_desde'];
-    $manana_hasta            = $advanced_data[0]['manana_hasta'];
-    $tarde_desde             = $advanced_data[0]['tarde_desde'];
-    $tarde_hasta             = $advanced_data[0]['tarde_hasta'];
-
     $usuarioseurcom          = $usercom;
     $contrasenaseurcom       = $passcom;
     $Md                      = $manana_desde;
@@ -78,10 +73,6 @@ function seur_pickup( $post ) {
     echo "<input type='hidden' name='nif' value='" . $nif . "'>";
     echo "<input type='hidden' name='ccc' value='" . $ccc . "'>";
     echo "<input type='hidden' name='franquicia' value='" . $franquicia . "'>";
-    echo "<input type='hidden' name='Md' value='" . $manana_desde . "'>";
-    echo "<input type='hidden' name='Mh' value='" . $manana_hasta . "'>";
-    echo "<input type='hidden' name='Td' value='" . $tarde_desde . "'>";
-    echo "<input type='hidden' name='Th' value='" . $tarde_hasta . "'>";
     echo "<input type='hidden' name='empresa' value='" . $empresa . "'>";
     echo "<input type='hidden' name='viatip' value='" . $viatipo . "'>";
     echo "<input type='hidden' name='vianom' value='" . $vianombre . "'>";
