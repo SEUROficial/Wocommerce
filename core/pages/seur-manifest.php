@@ -6,7 +6,7 @@ function seur_donwload_data( $post ) {
 ?>
 <div class="wrap">
     <h1 class="wp-heading-inline"><?php _e('SEUR Manifest', 'seur' ); ?></h1>
-    <?php _e( 'Genere el manifiesto de carga de sus envíos e imprima dos copias para el transportista.', 'seur' ); ?>
+    <?php _e( 'Generate the cargo manifest of your deliveries and print two copies for the carrier.', 'seur' ); ?>
     <form method='post'  name='formulario' width='100%'>
 
 <?php

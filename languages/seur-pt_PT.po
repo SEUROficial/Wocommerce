@@ -1,11 +1,11 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: SEUR Oficial\n"
-"POT-Creation-Date: 2018-01-25 20:29+0100\n"
-"PO-Revision-Date: 2018-01-25 20:29+0100\n"
+"POT-Creation-Date: 2018-01-25 20:27+0100\n"
+"PO-Revision-Date: 2018-01-25 20:28+0100\n"
 "Last-Translator: José Conti <j.conti@joseconti.com>\n"
 "Language-Team: José Conti <j.conti@joseconti.com>\n"
-"Language: es_ES\n"
+"Language: pt_PT\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -73,12 +73,16 @@ msgid ""
 "From this screen, you&apos;ll be able to set up all the identifying details "
 "of your business."
 msgstr ""
+"Ajuda: a partir deste ecrã pode configurar todos os dados de identificação "
+"da sua empresa."
 
 #: core/help/seur-help-tabs.php:13
 msgid ""
 "If you have any questions or need to add any additional information, you can "
 "contact your Sales Advisor for assistance."
 msgstr ""
+"Se tiver alguma dúvida, ou precisar de adicionar mais informações, entre em "
+"contato com o seu Assessor Comercial para ajudá-lo."
 
 #: core/help/seur-help-tabs.php:17 core/pages/seur-settings.php:17
 msgid "Advanced Settings"
@@ -90,6 +94,9 @@ msgid ""
 "the type of notification to your customers, the type of transport label "
 "generated and customs and international control data."
 msgstr ""
+"Neste ecrã pode configurar opções avançadas tais como o tipo de notificação "
+"que pretende enviar aos seus clientes, o tipo de etiqueta de transporte "
+"criada e os dados do controlo alfandegário e internacional."
 
 #: core/help/seur-help-tabs.php:28 core/pages/seur-rates.php:78
 msgid "Calculate Rates"
@@ -99,7 +106,7 @@ msgstr ""
 msgid ""
 "It calculates the rates that you have agreed with SEUR for a specific "
 "destination."
-msgstr ""
+msgstr "Calcule as tarifas que contratou com a SEUR para um destino concreto."
 
 #: core/help/seur-help-tabs.php:30
 msgid ""
@@ -107,10 +114,12 @@ msgid ""
 "number of kilos, and we&apos;ll provide you with the corresponding rate that "
 "you have agreed."
 msgstr ""
+"Apenas t’estimo molt! de especificar o C.P., localidade, país, número de "
+"volumes e número de quilos e ser-lhe-á dada a tarifa que tiver contratada."
 
 #: core/help/seur-help-tabs.php:34 core/pages/seur-rates.php:79
 msgid "Custom Rates"
-msgstr "Tarifas personalizadas"
+msgstr ""
 
 #: core/help/seur-help-tabs.php:35
 msgid ""
@@ -119,6 +128,10 @@ msgid ""
 "screen, you&apos;ll be able to create the rates that your customers can "
 "select for their shipments."
 msgstr ""
+"Com o dado da tarifa associada da SEUR no menu Calculate Rates, fica com uma "
+"ideia melhor relativamente às tarifas que poderá propor aos seus clientes. "
+"Nesse ecrã, pode criar as tarifas que os seus clientes podem selecionar para "
+"realizar os seus envios."
 
 #: core/help/seur-help-tabs.php:36
 msgid ""
@@ -128,12 +141,19 @@ msgid ""
 "which the rate must be applied and the amount of euros that your customers "
 "must pay in the Rate Price field."
 msgstr ""
+"Para criar uma tarifa prima em Add Custom Rate, selecione o tipo de "
+"Serviço / Produto, País, Distrito e, se desejar, o C.P. (coloque um * para "
+"aplicar qualquer um). A seguir, indique o intervalo de preços do carrinho em "
+"que deve aplicar a tarifa e a quantidade em euros que devem pagar os seus "
+"clientes no campo Rate Price."
 
 #: core/help/seur-help-tabs.php:37
 msgid ""
 "Remember that you can edit or eliminate previously created rates from the "
 "main, Custom Rates screen."
 msgstr ""
+"Lembre-se que pode editar ou eliminar tarifas previamente criadas a partir "
+"do ecrã principal de Custom Rates."
 
 #: core/help/seur-help-tabs.php:47 core/menu/menu.php:48
 msgid "Manifest"
@@ -144,12 +164,16 @@ msgid ""
 "Download the list of packages with the content of the deliveries notified to "
 "SEUR as from the date you choose."
 msgstr ""
+"Faça o download da lista de volumes com o conteúdo de envios comunicados à "
+"SEUR a partir da data que escolher."
 
 #: core/help/seur-help-tabs.php:49
 msgid ""
 "If you must hand over a list to the carrier, remember to print two copies: "
 "one for you and one for the carrier"
 msgstr ""
+"Se t’estimo molt! de entrega-la ao motorista, imprima sempre duas cópias: "
+"uma para si e outra para ele"
 
 #: core/help/seur-help-tabs.php:59 core/menu/menu.php:49
 #: core/pages/seur-nomenclator.php:7
@@ -158,7 +182,7 @@ msgstr ""
 
 #: core/help/seur-help-tabs.php:60
 msgid "Consult the Postcode and Towns in the SEUR database."
-msgstr ""
+msgstr "Consulte os C.P. e Localidades da base de dados da SEUR."
 
 #: core/help/seur-help-tabs.php:70 core/pages/rates/seur-rates.php:156
 msgid "Product/Service"
@@ -169,6 +193,8 @@ msgid ""
 "Consult the combinations of available SEUR Services and Products in "
 "WooCommerce."
 msgstr ""
+"Consulte as combinações de Serviços e Produtos da SEUR disponíveis no "
+"WooCommerce."
 
 #: core/help/seur-help-tabs.php:81 core/menu/menu.php:62
 #: core/pages/seur-pickup.php:16
@@ -177,7 +203,7 @@ msgstr ""
 
 #: core/help/seur-help-tabs.php:82
 msgid "Request that we go by to collect a package whenever you may need it."
-msgstr ""
+msgstr "Solicite a sua recolha sempre que precisar."
 
 #: core/help/seur-help-tabs.php:83
 msgid ""
@@ -185,12 +211,16 @@ msgid ""
 "deliver, and when selecting the schedule, give us two-hour window for "
 "collecting a package."
 msgstr ""
+"Tenha presente que deve especificar o número de volumes e os quilos que vai "
+"entregar, e ao selecionar o horário, dê-nos uma margem de duas horas antes "
+"de ser efectuada a recolha."
 
 #: core/help/seur-help-tabs.php:84
 msgid ""
 "For example, if it&apos;s now 3 p.m., you could request that we come by to "
 "collect a package between 5 p.m. and 7 p.m"
 msgstr ""
+"Por exemplo, se são 15h00 pode solicitar a sua recolha das 17h00 até às 19h00"
 
 #: core/help/seur-help-tabs.php:104
 msgid "Label List"
@@ -798,6 +828,11 @@ msgid ""
 "designed new services and solutions that make the customer the focal point, "
 "thereby guaranteeing the best experience during the delivery process"
 msgstr ""
+"Sabia que 52% dos compradores on-line consideram o envio um elemento chave "
+"no momento de escolher entre um e-commerce ou outro? Na SEUR queremos "
+"contribuir para sermos os escolhidos e, para o conseguir, criámos novos "
+"serviços e soluções que situam o cliente num centro garantindo a melhor "
+"experiência durante o processo de entrega"
 
 #: core/pages/about.php:17
 msgid ""
@@ -809,6 +844,13 @@ msgid ""
 "simple solutions to facilitate and provide a more flexible package shipping "
 "and delivery process."
 msgstr ""
+"E o que é que t’estimo molt! a SEUR que não têm os outros? Um profundo "
+"conhecimento do sector do comércio electrónico, onde somos líderes com uma "
+"quota de mercado superior a 30%. O seu cliente também é o nosso, e sabemos o "
+"que quer: ser dono do seu tempo, ter o controlo dos seus envios e viver uma "
+"experiência personalizada; por isso desenvolvemos uma série de soluções "
+"inovadoras e simples que facilitam e flexibilizam o processo de envio e de "
+"entrega de encomendas."
 
 #: core/pages/about.php:20
 msgid "Go to SEUR Settings"
@@ -894,6 +936,8 @@ msgstr ""
 msgid ""
 "Include the rates of the transport options that your customers can choose"
 msgstr ""
+"Inclua as tarifas das opções de transporte que podem escolher os seus "
+"clientes"
 
 #: core/pages/rates/seur-add-form.php:35
 #: core/pages/rates/seur-custom-rates.php:22
@@ -921,7 +965,7 @@ msgstr ""
 #: core/pages/rates/seur-rates.php:141
 #: core/pages/setting-options/user-settings.php:137
 msgid "Country"
-msgstr ""
+msgstr "País"
 
 #: core/pages/rates/seur-add-form.php:58
 #: core/pages/rates/seur-country-state-process.php:9
@@ -1166,6 +1210,7 @@ msgstr ""
 msgid ""
 "Calculate the rate that SEUR will apply for a specific town or postcode."
 msgstr ""
+"Calcule a tarifa que aplicará a SEUR para uma Localidade ou um C.P. concreto."
 
 #: core/pages/rates/seur-rates.php:132 core/pages/rates/seur-rates.php:133
 #: core/pages/seur-nomenclator.php:154
@@ -1200,6 +1245,15 @@ msgid ""
 "of delivery will be considered according to the established set-up data. The "
 "same thing applies for deliveries to Andorra, Ceuta and Melilla.<br />"
 msgstr ""
+"O tipo de serviço produto considerado será o estabelecido nos dados da "
+"configuração e dependerá do destino.<br />\n"
+"\n"
+"Se o envio for contrarreembolso, introduza o valor APENAS se desejar que as "
+"despesas de gestão do reembolso correm a cargo do remetente.<br />\n"
+"Se o envio for para as Ilhas Canárias, serão tidas em conta as despesas de "
+"Alfândega bem como o tipo de envio, em conformidade com os dados de "
+"configuração estabelecidos, sendo o mesmo no caso de envios para Andorra, "
+"Ceuta e Melilha.<br />"
 
 #: core/pages/rates/seur-rates.php:202
 msgid "Please fill in the Postcode field."
@@ -1259,11 +1313,11 @@ msgstr ""
 
 #: core/pages/setting-options/advanced-settings.php:84
 msgid "Notify collection"
-msgstr ""
+msgstr "Notificar recolha"
 
 #: core/pages/setting-options/advanced-settings.php:85
 msgid "Notify distribution"
-msgstr ""
+msgstr "Notificar entrega"
 
 #: core/pages/setting-options/advanced-settings.php:86
 msgid "Notifications by SMS or Email"
@@ -1271,32 +1325,32 @@ msgstr ""
 
 #: core/pages/setting-options/advanced-settings.php:87
 msgid "Type of label"
-msgstr ""
+msgstr "Tipo etiqueta"
 
 #: core/pages/setting-options/advanced-settings.php:88
 msgid "Customs of origin"
-msgstr ""
+msgstr "Alfândega origem"
 
 #: core/pages/setting-options/advanced-settings.php:89
 msgid "Customs of destination"
-msgstr ""
+msgstr "Alfândega destino"
 
 #: core/pages/setting-options/advanced-settings.php:90
 msgid "Type of goods"
-msgstr ""
+msgstr "Tipo mercadoria"
 
 #: core/pages/setting-options/advanced-settings.php:91
 msgid "ID of goods"
-msgstr ""
+msgstr "ID Mercadoria"
 
 #: core/pages/setting-options/advanced-settings.php:92
 msgid "International description"
-msgstr ""
+msgstr "Descrição internacional"
 
 #: core/pages/setting-options/user-settings.php:5
 #: core/pages/setting-options/user-settings.php:125
 msgid "Tax ID Number"
-msgstr ""
+msgstr "N.º Contribuinte"
 
 #: core/pages/setting-options/user-settings.php:13
 msgid "By Price"
@@ -1309,7 +1363,7 @@ msgstr ""
 #: core/pages/setting-options/user-settings.php:19
 #: core/pages/setting-options/user-settings.php:127
 msgid "Company"
-msgstr ""
+msgstr "Empresa"
 
 #: core/pages/setting-options/user-settings.php:27
 msgid "Avenida"
@@ -1387,80 +1441,80 @@ msgstr ""
 
 #: core/pages/setting-options/user-settings.php:128
 msgid "Type of road"
-msgstr ""
+msgstr "Via Tipo"
 
 #: core/pages/setting-options/user-settings.php:129
 msgid "Road name"
-msgstr ""
+msgstr "Via Nome"
 
 #: core/pages/setting-options/user-settings.php:130
 msgid "Road number"
-msgstr ""
+msgstr "Via número"
 
 #: core/pages/setting-options/user-settings.php:131
 msgid "Stairwell"
-msgstr ""
+msgstr "Escada"
 
 #: core/pages/setting-options/user-settings.php:132
 msgid "Floor"
-msgstr ""
+msgstr "Andar"
 
 #: core/pages/setting-options/user-settings.php:133
 msgid "Door"
-msgstr ""
+msgstr "Porta"
 
 #: core/pages/setting-options/user-settings.php:135
 msgid "Province"
-msgstr ""
+msgstr "Distrito"
 
 #: core/pages/setting-options/user-settings.php:136
 msgid "Town/City"
-msgstr ""
+msgstr "Localidade"
 
 #: core/pages/setting-options/user-settings.php:138
 msgid "Telephone"
-msgstr ""
+msgstr "Telefone"
 
 #: core/pages/setting-options/user-settings.php:139
 msgid "E-mail"
-msgstr ""
+msgstr "E-mail"
 
 #: core/pages/setting-options/user-settings.php:140
 #: core/woocommerce/includes/class-wc-shipping-seur.php:472
 msgid "Name"
-msgstr ""
+msgstr "Nome"
 
 #: core/pages/setting-options/user-settings.php:141
 msgid "Surnames"
-msgstr ""
+msgstr "Apelidos"
 
 #: core/pages/setting-options/user-settings.php:142
 msgid "CIT code<sup>*</sup>"
-msgstr ""
+msgstr "CIT Código<sup>*</sup>"
 
 #: core/pages/setting-options/user-settings.php:143
 msgid "CIT user<sup>*</sup>"
-msgstr ""
+msgstr "CIT Utilizador<sup>*</sup>"
 
 #: core/pages/setting-options/user-settings.php:144
 msgid "CIT password<sup>*</sup>"
-msgstr ""
+msgstr "CIT Password<sup>*</sup>"
 
 #: core/pages/setting-options/user-settings.php:145
 msgid "CCC<sup>*</sup>"
-msgstr ""
+msgstr "CCC<sup>*</sup>"
 
 #: core/pages/setting-options/user-settings.php:146
 msgid "Franchise<sup>*</sup>"
-msgstr ""
+msgstr "Delegação<sup>*</sup>"
 
 #: core/pages/setting-options/user-settings.php:147
 msgid "SEUR.com user<sup>*</sup>"
-msgstr ""
+msgstr "Utilizador SEUR.com<sup>*</sup>"
 
 #: core/pages/setting-options/user-settings.php:148
 msgid "SEUR.com password<sup>*</sup>"
-msgstr ""
+msgstr "Password SEUR.com<sup>*</sup>"
 
 #: core/pages/seur-get-labels.php:7
 msgid "Cheatin&#8217; uh?"
@@ -1531,6 +1585,8 @@ msgid ""
 "Generate the cargo manifest of your deliveries and print two copies for the "
 "carrier."
 msgstr ""
+"Emita o manifesto de carga das suas encomendas e imprima duas cópias para o "
+"motorista."
 
 #: core/pages/seur-manifest.php:94
 msgid " Open Manifest "
@@ -1560,7 +1616,7 @@ msgstr ""
 
 #: core/pages/seur-nomenclator.php:109 core/pages/seur-nomenclator.php:128
 msgid "POSTCODE"
-msgstr ""
+msgstr "Código Postal"
 
 #: core/pages/seur-nomenclator.php:111 core/pages/seur-nomenclator.php:130
 msgid "CITY"
@@ -1568,7 +1624,7 @@ msgstr ""
 
 #: core/pages/seur-nomenclator.php:113 core/pages/seur-nomenclator.php:132
 msgid "STATE/PROVINCE"
-msgstr ""
+msgstr "Distrito"
 
 #: core/pages/seur-nomenclator.php:153
 msgid "Postal code"
@@ -1638,7 +1694,7 @@ msgstr ""
 
 #: core/pages/seur-pickup.php:259
 msgid "Request"
-msgstr ""
+msgstr "Solicitar"
 
 #: core/pages/seur-pickup.php:380
 msgid "AN ERROR HAS OCCURRED"
@@ -1666,11 +1722,16 @@ msgid ""
 "proposal. Please verify with your SEUR sales contact that you have all "
 "combinations enabled."
 msgstr ""
+"Estes serviços e produtos podem não estar disponíveis na sua oferta "
+"comercial. Por favor, verifique com o seu assessor comercial da SEUR que "
+"todas as combinações estão habilitadas."
 
 #: core/pages/seur-products-services.php:12
 msgid ""
 "List of combinations of SEUR Services and Products available in the plugin."
 msgstr ""
+"Lista das combinações de Serviços e de Produtos da SEUR, disponíveis no "
+"plugin."
 
 #: core/pages/seur-products-services.php:16
 #: core/pages/seur-products-services.php:48
@@ -1991,3 +2052,25 @@ msgstr ""
 #. Author URI of the plugin/theme
 msgid "https://www.joseconti.com/"
 msgstr ""
+
+#~ msgid ""
+#~ "The type of service/product considered will be that which is established "
+#~ "in the set-up data and according to the destination.<br>\n"
+#~ "            If payment is going to be cash on delivery, enter the value "
+#~ "ONLY if you would like to consider the cash management expenses to be "
+#~ "charged to the sender.<br>\n"
+#~ "            If the delivery is to the Canary Islands, Customs and the "
+#~ "type of delivery will be considered according to the established set-up "
+#~ "data. The same thing applies for deliveries to Andorra, Ceuta and Melilla."
+#~ "<br>"
+#~ msgstr ""
+#~ "O tipo de serviço produto considerado será o estabelecido nos dados da "
+#~ "configuração e dependerá do destino.\n"
+#~ "\n"
+#~ "Se o envio for contrarreembolso, introduza o valor APENAS se desejar que "
+#~ "as despesas de gestão do reembolso correm a cargo do remetente.\n"
+#~ "\n"
+#~ "Se o envio for para as Ilhas Canárias, serão tidas em conta as despesas "
+#~ "de Alfândega bem como o tipo de envio, em conformidade com os dados de "
+#~ "configuração estabelecidos, sendo o mesmo no caso de envios para Andorra, "
+#~ "Ceuta e Melilha.<br>"

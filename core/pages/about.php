@@ -9,13 +9,12 @@
 				<a href="<?php echo esc_url( admin_url( add_query_arg( array( 'page' => 'seur_about_page' ), 'admin.php' ) ) ); ?>" class="nav-tab nav-tab-active"><?php  _e( 'SEUR', 'seur' ); ?></a>
 				<a href="<?php echo esc_url( admin_url( add_query_arg( array( 'page' => 'seur_about_page' ), 'admin.php' ) ) ); ?>" class="nav-tab"><?php  _e( 'What&#8217;s New SEUR Plugin', 'seur' ); ?></a>
 			</h2>
-			<p class="about-description"><?php  _e( 'SEUR Shipping Method.', 'wangguard' ); ?></p>
-			<p>¿Sabías que el 52% de los compradores online consideran el envío un elemento clave a la hora de elegir un e-commerce u otro?
-En SEUR queremos contribuir a que te elijan a ti y, para lograrlo, hemos diseñado nuevos servicios y soluciones que sitúan al cliente en el centro y garantizan la mejor experiencia durante el proceso de entrega.</p>
+			<p class="about-description"><?php  _e( 'SEUR Shipping Method.', 'seur' ); ?></p>
+			<p><?php _e( 'Did you know that 52% of on-line shoppers consider delivery to be a key element when choosing between one e-commerce and another? At SEUR, we want to contribute to ensuring that the clients choose you. To do so, we&apos;ve designed new services and solutions that make the customer the focal point, thereby guaranteeing the best experience during the delivery process', 'seur' ); ?></p>
 
 <center><iframe width="560" height="315" src="https://www.youtube.com/embed/0qiLsRVt8MY" frameborder="0" allowfullscreen></iframe></center>
 
-<p>¿Y qué tiene SEUR que no tiene el resto? Un profundo conocimiento del sector del comercio electrónico, donde somos líderes con una cuota de mercado por encima del 30%. Tu cliente, también es el nuestro y sabemos qué quiere: ser dueño de su tiempo, tener el control de sus envíos y vivir una experiencia personalizada, por eso hemos desarrollado una serie de soluciones innovadoras y sencillas, que facilitan y flexibilizan el proceso de envío y entrega de paquetes.</p>
+<p><?php _e( 'And what does SEUR have that others don&apos;t? In-depth knowledge of the e-commerce sector, where we are leaders with a market share of over 30%. Your customer is ours as well, and we know what they want: to be the owner of their time, to have control over their deliveries and to have a personalised experience. That&apos;s why we&apos;ve developed a series of innovative and simple solutions to facilitate and provide a more flexible package shipping and delivery process.', 'seur' ); ?></p>
 
 			<div class="return-to-dashboard">
 				<a href="<?php echo esc_url( admin_url( add_query_arg( array( 'page' => 'seur' ), 'admin.php' ) ) ); ?>"><?php  _e( 'Go to SEUR Settings', 'seur' ); ?></a>

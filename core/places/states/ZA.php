@@ -1,13 +1,13 @@
 <?php if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 
 return array(
-	'EC'  => __( 'Eastern Cape', 'seur' ),
-	'FS'  => __( 'Free State', 'seur' ),
-	'GP'  => __( 'Gauteng', 'seur' ),
-	'KZN' => __( 'KwaZulu-Natal', 'seur' ),
-	'LP'  => __( 'Limpopo', 'seur' ),
-	'MP'  => __( 'Mpumalanga', 'seur' ),
-	'NC'  => __( 'Northern Cape', 'seur' ),
-	'NW'  => __( 'North West', 'seur' ),
-	'WC'  => __( 'Western Cape', 'seur' )
+	'EC'  => 'Eastern Cape',
+	'FS'  => 'Free State',
+	'GP'  => 'Gauteng',
+	'KZN' => 'KwaZulu-Natal',
+	'LP'  => 'Limpopo',
+	'MP'  => 'Mpumalanga',
+	'NC'  => 'Northern Cape',
+	'NW'  => 'North West',
+	'WC'  => 'Western Cape'
 );

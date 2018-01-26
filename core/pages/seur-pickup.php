@@ -256,7 +256,7 @@ function seur_pickup( $post ) {
 // Si no está setado, boton Solicitar
 if( !isset( $_POST["bultos"] ) )
     {
-    submit_button( "Solicitar" );
+    submit_button( __( 'Request', 'seur' ) );
     return;
     }
 

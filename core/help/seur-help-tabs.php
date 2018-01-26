@@ -9,13 +9,13 @@ function seur_settings_add_help_tab () {
     $screen->add_help_tab( array(
         'id'	=> 'seur_user_settings_help_tab',
         'title'	=> __('Users Settings', 'seur' ),
-        'content'	=> '<p>' . __( 'Desde esta pantalla podrás configurar todos los datos identificativos de tu negocio.', 'seur'  ) . '</p>
-					    <p>' . __( 'Si tienes alguna duda o necesitas añadir algún dato más puedes ponerte en contacto con tu Asesor Comercial para que te ayude.', 'seur'  ) . '</p>',
+        'content'	=> '<p>' . __( 'From this screen, you&apos;ll be able to set up all the identifying details of your business.', 'seur'  ) . '</p>
+					    <p>' . __( 'If you have any questions or need to add any additional information, you can contact your Sales Advisor for assistance.', 'seur'  ) . '</p>',
     ) );
     $screen->add_help_tab( array(
         'id'	=> 'seur_advanced_settings_help_tab',
         'title'	=> __('Advanced Settings', 'seur' ),
-        'content'	=> '<p>' . __( 'Desde esta pantalla podrás puedes configurar opciones avanzadas como el tipo de notificación a tus clientes, tipo de etiqueta de transporte generada y datos el del control aduanero e internacional.', 'seur'  ) . '</p>',
+        'content'	=> '<p>' . __( 'From this screen, you&apos;ll be able to set up advanced options, such as the type of notification to your customers, the type of transport label generated and customs and international control data.', 'seur'  ) . '</p>',
     ) );
 }
 
@@ -26,15 +26,15 @@ function seur_rates_add_help_tab () {
     $screen->add_help_tab( array(
         'id'	=> 'seur_calculate_rates_help_tab',
         'title'	=> __('Calculate Rates', 'seur' ),
-        'content'	=> '<p>' . __( 'Calcula las tarifa que tienes acordada con SEUR para un destino en concreto.', 'seur'  ) . '</p>
-					    <p>' . __( 'Simplemente especifica el CP, población, país, número de bultos y número de kilos y te facilitaremos la tarifa correspondiente que tienes acordada', 'seur'  ) . '</p>',
+        'content'	=> '<p>' . __( 'It calculates the rates that you have agreed with SEUR for a specific destination.', 'seur'  ) . '</p>
+					    <p>' . __( 'Simply specify the postcode, town/city, country, number of packages and number of kilos, and we&apos;ll provide you with the corresponding rate that you have agreed.', 'seur'  ) . '</p>',
     ) );
     $screen->add_help_tab( array(
         'id'	=> 'seur_custom_rates_help_tab',
         'title'	=> __('Custom Rates', 'seur' ),
-        'content'	=> '<p>' . __( 'Con el dato de la tarifa asociada de SEUR del menú Calculate Rates, ya tienes una mejor idea de qué tarifas plantear a tus clientes. En esta pantalla, podrás puedes crear  las tarifas que tus clientes pueden seleccionar para realizar sus envíos.', 'seur'  ) . '</p>
-					    <p>' . __( 'Para crear una tarifa pulsa en Add Custom Rate, selecciona el tipo de Servicio / Producto, el País, Provincia y si lo deseas CP (pon * para que aplique cualquiera). A continuación indica en que qué rango de precios de carrito debe aplicar la tarifa y la cantidad en euros que deberán abonar tus clientes en el campo Rate Price.', 'seur'  ) . '</p>
-					    <p>' . __( 'Recuerda que puedes editar o eliminar tarifas previamente creadas desde la pantalla de principal de Custom Rates.', 'seur'  ) . '</p>',
+        'content'	=> '<p>' . __( 'With the information on the associated SEUR rate from the Calculate Rates menu, you have a better idea of the rates to pose to your customers. On this screen, you&apos;ll be able to create the rates that your customers can select for their shipments.', 'seur'  ) . '</p>
+					    <p>' . __( 'To create a rate, click on Add Custom Rate, and select the type of Service/Product, the Country, the Province and, if you wish, the Postcode (add an * so that any one applies). Then indicate the shopping cart price range within which the rate must be applied and the amount of euros that your customers must pay in the Rate Price field.', 'seur'  ) . '</p>
+					    <p>' . __( 'Remember that you can edit or eliminate previously created rates from the main, Custom Rates screen.', 'seur'  ) . '</p>',
     ) );
 }
 
@@ -45,8 +45,8 @@ function seur_manifests_add_help_tab () {
     $screen->add_help_tab( array(
         'id'	=> 'seur_manifest_help_tab',
         'title'	=> __('Manifest'),
-        'content'	=> '<p>' . __( 'Descarga el listado de bultos con el contenido de envíos comunicados a SEUR desde la fecha que tú elijas.', 'seur'  ) . '</p>
-					    <p>' . __( 'Si debes entregarlo al transportista, recuerda imprimir dos copias: una para ti y otra para él', 'seur'  ) . '</p>',
+        'content'	=> '<p>' . __( 'Download the list of packages with the content of the deliveries notified to SEUR as from the date you choose.', 'seur'  ) . '</p>
+					    <p>' . __( 'If you must hand over a list to the carrier, remember to print two copies: one for you and one for the carrier', 'seur'  ) . '</p>',
     ) );
 }
 
@@ -57,7 +57,7 @@ function seur_nomenclator_add_help_tab () {
     $screen->add_help_tab( array(
         'id'	=> 'seur_nomenclator_help_tab',
         'title'	=> __('Nomenclator', 'seur' ),
-        'content'	=> '<p>' . __( 'Consulta los CP y Poblaciones de la base de datos de SEUR.', 'seur'  ) . '</p>',
+        'content'	=> '<p>' . __( 'Consult the Postcode and Towns in the SEUR database.', 'seur'  ) . '</p>',
     ) );
 }
 
@@ -68,7 +68,7 @@ function seur_product_service_add_help_tab () {
     $screen->add_help_tab( array(
         'id'	=> 'seur_product_service_help_tab',
         'title'	=> __('Product/Service', 'seur' ),
-        'content'	=> '<p>' . __( 'Consulta las combinaciones de Servicios y Productos de SEUR disponibles en WooCommerce', 'seur'  ) . '</p>',
+        'content'	=> '<p>' . __( 'Consult the combinations of available SEUR Services and Products in WooCommerce.', 'seur'  ) . '</p>',
     ) );
 }
 
@@ -79,9 +79,9 @@ function seur_pickup_add_help_tab () {
     $screen->add_help_tab( array(
         'id'	=> 'seur_pickupe_help_tab',
         'title'	=> __('Collection', 'seur' ),
-        'content'	=> '<p>' . __( 'Solicita que pasemos a recoger siempre que lo necesites.', 'seur'  ) . '</p>
-					    <p>' . __( 'Recuerda especificarnos el número de bultos y kilos que nos vas a entregar, y al seleccionar el horario, danos un margen de dos horas hasta el inicio de la recogida.', 'seur'  ) . '</p>
-					    <p>' . __( 'Por ejemplo si son las 15:00 podrás solicitar que pasemos a recoger de 17:00 a 19:00', 'seur'  ) . '</p>',
+        'content'	=> '<p>' . __( 'Request that we go by to collect a package whenever you may need it.', 'seur'  ) . '</p>
+					    <p>' . __( 'Remember to specify the number of packages and kilos that you are going to deliver, and when selecting the schedule, give us two-hour window for collecting a package.', 'seur'  ) . '</p>
+					    <p>' . __( 'For example, if it&apos;s now 3 p.m., you could request that we come by to collect a package between 5 p.m. and 7 p.m', 'seur'  ) . '</p>',
     ) );
 }
 
@@ -102,7 +102,7 @@ function seur_label_list_add_help_tab () {
     $screen->add_help_tab( array(
         'id'	=> 'seur_label_help_tab',
         'title'	=> __('Label List'),
-        'content'	=> '<p>' . __( 'Desde esta pantalla puedes recuperar las etiquetas de los pedidos previamente etiquetados en el menú WooCommerce > Pedidos.', 'seur'  ) . '</p>',
+        'content'	=> '<p>' . __( 'From this screen you can get the order labels requested from menu WooCommerce > Orders.', 'seur'  ) . '</p>',
     ) );
     }
 }

@@ -7,7 +7,7 @@ $texto = __('TARIFAS<BR>Consultar el coste de un envio según su tarifa', 'seur'
     <form id="calculate-rates" method="post" name="formulario" width="100%">
        <p>
         <?php
-        _e('Calcule la tarifa que le aplicará SEUR para una Población o CP concreto.', 'seur');
+        _e('Calculate the rate that SEUR will apply for a specific town or postcode.', 'seur');
 // Si está establecido, buscamos los datos
 		if( isset( $_POST['postal'] ) ) {
 
@@ -190,16 +190,16 @@ $texto = __('TARIFAS<BR>Consultar el coste de un envio según su tarifa', 'seur'
         ?>
 
 
-        <p class="description" id="text-seur-rates"><?php _e('El tipo de servicio producto considerado sera el establecido en los datos de la configuracion y segun el destino.<br>
-            Si el envio es contrarrembolso, introduzca el valor SOLO si desea considerar que los gastos de gestión de reembolso son a cargo del remitente.<br>
-            Si el envío es a Canarias, se considerarán las Aduanas y tipo de envio conforme a los datos de configuración establecidos, lo mismo para envíos a Andorra, Ceuta y Melilla.<br>', 'seur' ); ?></p>
+        <p class="description" id="text-seur-rates"><?php _e('The type of service/product considered will be that which is established in the set-up data and according to the destination.<br />
+            If payment is going to be cash on delivery, enter the value ONLY if you would like to consider the cash management expenses to be charged to the sender.<br />
+            If the delivery is to the Canary Islands, Customs and the type of delivery will be considered according to the established set-up data. The same thing applies for deliveries to Andorra, Ceuta and Melilla.<br />', 'seur' ); ?></p>
 
                 <?php
 
 //Si no está establecida, volvemos aqui
 
 if ( ! isset( $_POST['postal'] ) ) {
-    print __( 'Please fill in the field Post Code.', 'seur' );
+    print __( 'Please fill in the Postcode field.', 'seur' );
     exit;
 }
 

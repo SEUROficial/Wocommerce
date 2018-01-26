@@ -4,7 +4,7 @@ $rates_type = get_option( 'seur_rates_type_field' );
 ?>
 <div class="container">
 	<br />
-	<p><?php _e( 'Incluya las tarifas de las opciones de transporte que podrán elegir sus clientes', 'seur' ); ?></p>
+	<p><?php _e( 'Include the rates of the transport options that your customers can choose', 'seur' ); ?></p>
 	<p><?php echo __( 'Your rates are based on', 'seur' ) . ' <b>' . $rates_type . '</b> '; ?></p>
 	<p><a href="<?php echo esc_url( admin_url( add_query_arg( array( 'page' => 'seur' ), 'admin.php' ) ) ); ?>"><?php  _e( 'Please, set based rates price here', 'seur' ); ?></a></p>
 	<br />

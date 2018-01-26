@@ -317,9 +317,9 @@ function seur_metabox_label_callback( $post ) {
 
 <?php }
 
-//add_filter('display_post_states', 'wpsites_custom_post_states');
+//add_filter('display_post_states', 'seur_custom_post_states');
 
-function wpsites_custom_post_states($states) {
+function seur_custom_post_states($states) {
     global $post;
     if( ( 'seur_label' == get_post_type( $post->ID ) ) ){
         $states[] = '__return_false';

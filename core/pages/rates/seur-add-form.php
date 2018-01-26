@@ -28,7 +28,7 @@ display:none;
 </div>
 
 <form method='post' id='emp-SaveForm' action="#">
-	<?php _e('Incluya las tarifas de las opciones de transporte que podrán elegir sus clientes', 'seur'); ?>
+	<?php _e('Include the rates of the transport options that your customers can choose', 'seur'); ?>
     <table class='table table-bordered'>
 
         <tr>

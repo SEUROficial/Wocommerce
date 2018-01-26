@@ -22,17 +22,17 @@ function seur_settings(){ ?>
                 $link = esc_url( admin_url( add_query_arg( array( 'import' => 'seur' ), 'admin.php' ) ) );
 
             ?>
-            <div class="wp-filter">
+            <!-- <div class="wp-filter">
                 <p class="description" id="text-seur-rates"><?php _e( 'If you have a SEUR settings file, you can upload it through this ', 'seur' ); ?><a href="<?php echo $link; ?>"><?php  _e( 'Link', 'seur' ); ?> </a></p>
-                </div>
+                </div> -->
                 <p><?php
-                _e('Datos de configuración. Contacte con SEUR si no dispone de ellos.', 'seur' ); ?></p><?php
+                _e('Configuration data. Contact SEUR if you do not have them.', 'seur' ); ?></p><?php
                 settings_fields( "seur-user-settings-section");
                 do_settings_sections( "seur-user-settings-options" );
                 _e( '(<sup>*</sup>) This data is provided by SEUR', 'seur' );
             } else { ?>
                 <p><?php
-                _e( 'Especifique por favor si desea Notificaciones, horario para las recogidas, tipo de etiquetas generada e información aduanera.', 'seur' ); ?></p><?php
+                _e( 'Please specify if you want Notifications, time for pickups, type of labels generated and customs information.', 'seur' ); ?></p><?php
                 settings_fields( "seur-advanced-settings-section");
                 do_settings_sections( "seur-advanced-settings-options" );
                 }

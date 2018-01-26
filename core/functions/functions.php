@@ -1,13 +1,6 @@
 <?php
 if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 
-// SEUR Localization
-
-function seur_official_init() {
-    load_plugin_textdomain( 'seur', false, dirname( plugin_basename( __FILE__ ) ) . '/languages' );
-}
-add_action('init', 'seur_official_init');
-
 // SEUR Get Parent Page
 function seur_get_parent_page(){
     $seur_parent = basename( $_SERVER['SCRIPT_NAME'] );
@@ -1239,8 +1232,24 @@ function seur_always_kg( $weight ) {
 	return $weight_kg;
 }
 
+function seur_create_random_shippping_id(){
+
+    $characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    $string = '';
+    $max = strlen($characters) - 1;
+    $random_string_length = 5;
+    for ($i = 0; $i < $random_string_length; $i++) {
+        $string .= $characters[mt_rand(0, $max)];
+    }
+
+    return $string;
+ }
+
 function seur_get_label( $order_id, $numpackages = '1', $weight = '1', $post_weight = false ) {
     global $error;
+
+    $pre_id_seur             = seur_create_random_shippping_id();
+    $order_id_seur           = $pre_id_seur . $order_id;
 
     $seur_pdf_label          = '';
     $TotalBultos             = '';
@@ -1513,7 +1522,7 @@ function seur_get_label( $order_id, $numpackages = '1', $weight = '1', $post_wei
                         <total_kilos>' . $customer_weight_kg . '</total_kilos>
                         <pesoBulto>' . $seur_weight_by_label . '</pesoBulto>
                         <observaciones>' . $customer_order_notes . '</observaciones>
-                        <referencia_expedicion>' . $order_id . '</referencia_expedicion>
+                        <referencia_expedicion>' . $order_id_seur . '</referencia_expedicion>
                         <clavePortes>' . $portes . '</clavePortes>
                         <clavePod></clavePod>
                         <tipo_mercancia>' . $tipo_mercancia . '</tipo_mercancia>
@@ -1616,10 +1625,11 @@ function seur_get_label( $order_id, $numpackages = '1', $weight = '1', $post_wei
 
                 $update_post = array(
                                    'ID'           => $labelid,
-                                   'post_title'   => 'Label ID ' . $labelid,
+                                   'post_title'   => 'Label ' . $order_id_seur . '( ID #' . $labelid . ' )',
                                 );
                 wp_update_post( $update_post );
 
+                add_post_meta( $labelid, '_seur_shipping_id_number',               $order_id_seur,                                   true );
                 add_post_meta( $labelid, '_seur_shipping_method',                  $seur_shipping_method,                            true );
                 add_post_meta( $labelid, '_seur_shipping_weight',                  $customer_weight_kg,                              true );
                 add_post_meta( $labelid, '_seur_shipping_packages',                $numpackages,                                     true );
@@ -1744,10 +1754,11 @@ function seur_get_label( $order_id, $numpackages = '1', $weight = '1', $post_wei
                             );
                     $update_post = array(
                                      'ID'           => $labelid,
-                                     'post_title'   => 'Label ID #' . $labelid,
+                                     'post_title'   => 'Label ' . $order_id_seur . '( ID #' . $labelid . ' )',
                                   );
                     wp_update_post( $update_post );
 
+                    add_post_meta( $labelid, '_seur_shipping_id_number',               $order_id_seur,                                   true );
                     add_post_meta( $labelid, '_seur_shipping_method',                  $seur_shipping_method,                            true );
                     add_post_meta( $labelid, '_seur_shipping_weight',                  $customer_weight_kg,                              true );
                     add_post_meta( $labelid, '_seur_shipping_packages',                $numpackages,                                     true );

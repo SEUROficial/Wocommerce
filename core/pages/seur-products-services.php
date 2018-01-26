@@ -8,8 +8,8 @@ global $wpdb;
     <h2><?php echo __( 'Products / Services', 'seur' ) ?></h2>
 
     <h2 class="screen-reader-text"><?php _e( 'Products / Services List', 'seur' ); ?></h2>
-    <p><?php _e( 'Estos servicios y productos pueden no estar disponibles en su oferta comercial. Por favor, verifique con su contacto comercial de SEUR que tiene todas las combinaciones habilitadas.', 'seur' ); ?></p>
-    <p><?php _e( 'Listado de las combinaciones de Servicios y Productos de SEUR, disponibles en el plug-in.', 'seur' ); ?></p>
+    <p><?php _e( 'These services and products might not be available in your commercial proposal. Please verify with your SEUR sales contact that you have all combinations enabled.', 'seur' ); ?></p>
+    <p><?php _e( 'List of combinations of SEUR Services and Products available in the plugin.', 'seur' ); ?></p>
     <table class="wp-list-table widefat fixed striped pages">
         <thead>
             <tr>

@@ -81,15 +81,15 @@ function display_seur_advanced_settings_panel_fields(){
     add_settings_section( 'seur-advanced-settings-section', NULL, NULL, 'seur-advanced-settings-options' );
 
     add_settings_field( 'seur_after_get_label_field',    __('What to do after get order label',        'seur'), 'seur_after_get_label_field',      'seur-advanced-settings-options', 'seur-advanced-settings-section' );
-    add_settings_field( 'seur_preaviso_notificar_field',    __('Notificar recogida',        'seur'), 'seur_preaviso_notificar_field',      'seur-advanced-settings-options', 'seur-advanced-settings-section' );
-     add_settings_field( 'seur_reparto_notificar_field',     __('Notificar reparto',         'seur'), 'seur_reparto_notificar_field',       'seur-advanced-settings-options', 'seur-advanced-settings-section' );
+    add_settings_field( 'seur_preaviso_notificar_field',    __('Notify collection',        'seur'), 'seur_preaviso_notificar_field',      'seur-advanced-settings-options', 'seur-advanced-settings-section' );
+     add_settings_field( 'seur_reparto_notificar_field',     __('Notify distribution',         'seur'), 'seur_reparto_notificar_field',       'seur-advanced-settings-options', 'seur-advanced-settings-section' );
     add_settings_field( 'seur_tipo_notificacion_field',    __('Notifications by SMS or Email',        'seur'), 'seur_tipo_notificacion_field',      'seur-advanced-settings-options', 'seur-advanced-settings-section' );
-    add_settings_field( 'seur_tipo_etiqueta_field',         __('Tipo etiqueta',             'seur'), 'seur_tipo_etiqueta_field',           'seur-advanced-settings-options', 'seur-advanced-settings-section' );
-    add_settings_field( 'seur_aduana_origen_field',         __('Aduana origen',             'seur'), 'seur_aduana_origen_field',           'seur-advanced-settings-options', 'seur-advanced-settings-section' );
-    add_settings_field( 'seur_aduana_destino_field',        __('Aduana destino',            'seur'), 'seur_aduana_destino_field',          'seur-advanced-settings-options', 'seur-advanced-settings-section' );
-    add_settings_field( 'seur_tipo_mercancia_field',        __('Tipo mercancia',            'seur'), 'seur_tipo_mercancia_field',          'seur-advanced-settings-options', 'seur-advanced-settings-section' );
-    add_settings_field( 'seur_id_mercancia_field',          __('ID Mercancia',              'seur'), 'seur_id_mercancia_field',            'seur-advanced-settings-options', 'seur-advanced-settings-section' );
-    add_settings_field( 'seur_descripcion_field',           __('Descripción internacional', 'seur'), 'seur_descripcion_field',             'seur-advanced-settings-options', 'seur-advanced-settings-section' );
+    add_settings_field( 'seur_tipo_etiqueta_field',         __('Type of label',             'seur'), 'seur_tipo_etiqueta_field',           'seur-advanced-settings-options', 'seur-advanced-settings-section' );
+    add_settings_field( 'seur_aduana_origen_field',         __('Customs of origin',             'seur'), 'seur_aduana_origen_field',           'seur-advanced-settings-options', 'seur-advanced-settings-section' );
+    add_settings_field( 'seur_aduana_destino_field',        __('Customs of destination',            'seur'), 'seur_aduana_destino_field',          'seur-advanced-settings-options', 'seur-advanced-settings-section' );
+    add_settings_field( 'seur_tipo_mercancia_field',        __('Type of goods',            'seur'), 'seur_tipo_mercancia_field',          'seur-advanced-settings-options', 'seur-advanced-settings-section' );
+    add_settings_field( 'seur_id_mercancia_field',          __('ID of goods',              'seur'), 'seur_id_mercancia_field',            'seur-advanced-settings-options', 'seur-advanced-settings-section' );
+    add_settings_field( 'seur_descripcion_field',           __('International description', 'seur'), 'seur_descripcion_field',             'seur-advanced-settings-options', 'seur-advanced-settings-section' );
 
     // register all setings
 
