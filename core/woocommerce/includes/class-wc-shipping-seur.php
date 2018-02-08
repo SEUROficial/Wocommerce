@@ -389,7 +389,7 @@ class WC_Shipping_SEUR extends WC_Shipping_Method {
             // Check if at least one SEUR packaging is chosen, or a custom box is defined
             if ( 'box_packing' === $this->packing_method ) {
                 if ( empty( $this->seur_packaging )  && empty( $this->boxes ) ) {
-                    $error_message .= '<p>' . __( 'SEUR is enabled, and Parcel Packing Method is set to \'Pack into boxes\', but no SEUR Packaging is selected and there are no custom boxes defined. Items will be packed individually.', 'seur' ) . '</p>';
+                    $error_message .= '<p>SEUR is enabled, and Parcel Packing Method is set to \'Pack into boxes\', but no SEUR Packaging is selected and there are no custom boxes defined. Items will be packed individually.</p>';
                 }
             }
 
@@ -478,8 +478,8 @@ class WC_Shipping_SEUR extends WC_Shipping_Method {
                     <?php if( !$this->origin_country == 'PL' && !in_array( $this->origin_country, $this->pt_array ) ) : ?>
                         <tr>
                             <th colspan="6">
-                                <small class="description"><?php _e( '<strong>Domestic Rates</strong>: Next Day Air, 2nd Day Air, Ground, 3 Day Select, Next Day Air Saver, Next Day Air Early AM, 2nd Day Air AM', 'seur' ); ?></small><br/>
-                                <small class="description"><?php _e( '<strong>International Rates</strong>: Worldwide Express, Worldwide Expedited, Standard, Worldwide Express Plus, SEUR Saver', 'seur' ); ?></small>
+                                <small class="description"><strong>Domestic Rates</strong>: Next Day Air, 2nd Day Air, Ground, 3 Day Select, Next Day Air Saver, Next Day Air Early AM, 2nd Day Air AM'</small><br/>
+                                <small class="description">International Rates</strong>: Worldwide Express, Worldwide Expedited, Standard, Worldwide Express Plus, SEUR Saver</small>
                             </th>
                         </tr>
                     <?php endif ?>
@@ -705,7 +705,7 @@ class WC_Shipping_SEUR extends WC_Shipping_Method {
         );
     }
 
-	public function seur_option_woocommerce_cod_settings( $value ) {
+    public function seur_option_woocommerce_cod_settings( $value ) {
     if ( is_checkout() ) {
         if (
             !empty( $value )
@@ -737,6 +737,7 @@ return $value;
      * @return void
      */
     public function calculate_shipping( $package = array() ) {
+        global $woocommerce;
         $rates                     = array();
         $seur_response             = array();
         $rate_requests             = array();
@@ -755,10 +756,19 @@ return $value;
         }
 
                 if ( $rates_type == 'price' ) {
-	                $price = $package['contents_cost'];
+                    $price = $package['contents_cost'];
                 } else {
-	                $price 		   = wc_get_weight( $weight, 'kg' );
-	                $package_price = $package['contents_cost'];
+
+                    $weight  = 0;
+                    $cost    = 0;
+                    $country = $package["destination"]["country"];
+
+                    foreach ( $package['contents'] as $item_id => $values ) {
+                        $_product = $values['data'];
+                        $weight = $weight + $_product->get_weight() * $values['quantity'];
+                    }
+
+                    $price = wc_get_weight( $weight, 'kg' );
                 }
                 //$price      = $package['contents_cost'];
                 $country    = $package['destination']['country'];
@@ -770,7 +780,7 @@ return $value;
             if ( ! $rate_requests ) {
                 $this->debug( __( 'SEUR: No Services are enabled in admin panel.', 'seur' ) );
             }
-		if ( $rate_requests ){
+        if ( $rate_requests ){
 
             // parse the results
             foreach ( $rate_requests as $rate ) {
@@ -787,12 +797,12 @@ return $value;
                     $sort = 999;
 
                     if ( $rates_type == 'price' ) {
-	                		$ratepricerate = $ratepricerate;
-		                } else {
-			                $ratepricerate = seur_filter_price_rate_weight( $package_price, $raterate, $ratepricerate );
-		                }
+                            $ratepricerate = $ratepricerate;
+                        } else {
+                            $ratepricerate = seur_filter_price_rate_weight( $package_price, $raterate, $ratepricerate );
+                        }
 
-		            $rate_name = seur_get_custom_rate_name( $raterate );
+                    $rate_name = seur_get_custom_rate_name( $raterate );
 
                     $rates[ $idrate ] = array(
                         'id'    => $idrate,
@@ -802,7 +812,7 @@ return $value;
                     );
                 }
 
-				}
+                }
         } // foreach ( $package_requests )
 
         // Add rates
@@ -829,7 +839,7 @@ return $value;
 
             } elseif ( $this->offer_rates == 'expensive' ) {
 
-	            $expensive_rate = '';
+                $expensive_rate = '';
 
                 foreach ( $rates as $key => $rate ) {
                     if ( ! $expensive_rate || $expensive_rate['cost'] < $rate['cost'] ) {
@@ -842,7 +852,7 @@ return $value;
 
             } else {
 
-	            uasort( $rates, array( $this, 'sort_rates' ) );
+                uasort( $rates, array( $this, 'sort_rates' ) );
                 foreach ( $rates as $key => $rate ) {
                     $this->add_rate( $rate );
                 }
