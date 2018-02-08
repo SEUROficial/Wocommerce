@@ -17,7 +17,7 @@ function seur_cpt_labels() {
         'add_new_item'          => __( 'Add New Label',                     'seur' ),
         'add_new'               => __( 'Add New',                           'seur' ),
         'new_item'              => __( 'New Label',                         'seur' ),
-        'edit_item'             => __( 'Edit Labels',                       'seur' ),
+        'edit_item'             => __( 'Label Data',                        'seur' ),
         'update_item'           => __( 'Update Label',                      'seur' ),
         'view_item'             => __( 'View Label',                        'seur' ),
         'view_items'            => __( 'View Labels',                       'seur' ),
