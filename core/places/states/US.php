@@ -11,7 +11,7 @@ return array(
 	'DE' => 'Delaware',
 	'DC' => 'District Of Columbia',
 	'FL' => 'Florida',
-	'GA' => _x( 'Georgia', 'US state of Georgia',
+	'GA' => 'US state of Georgia',
 	'HI' => 'Hawaii',
 	'ID' => 'Idaho',
 	'IL' => 'Illinois',
