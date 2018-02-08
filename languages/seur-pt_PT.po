@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: SEUR Oficial\n"
-"POT-Creation-Date: 2018-01-25 20:27+0100\n"
-"PO-Revision-Date: 2018-01-25 20:28+0100\n"
+"POT-Creation-Date: 2018-01-26 02:49+0100\n"
+"PO-Revision-Date: 2018-01-26 02:50+0100\n"
 "Last-Translator: José Conti <j.conti@joseconti.com>\n"
 "Language-Team: José Conti <j.conti@joseconti.com>\n"
 "Language: pt_PT\n"
@@ -21,6 +21,7 @@ msgstr ""
 "X-Poedit-SearchPath-0: .\n"
 "X-Poedit-SearchPathExcluded-0: *.js\n"
 "X-Poedit-SearchPathExcluded-1: include/TGMPA\n"
+"X-Poedit-SearchPathExcluded-2: core/importer\n"
 
 #: core/functions/functions.php:33
 msgid "SEUR_DEBUG is set to TRUE, please set it to false."
@@ -238,225 +239,6 @@ msgstr ""
 
 #: core/help/seur-help-tabs.php:127
 msgid "Help about WooCommerce SEUR Options."
-msgstr ""
-
-#: core/importer/parsers.php:42 core/importer/parsers.php:72
-#: core/importer/parsers.php:80
-msgid "There was an error when reading this WXR file"
-msgstr ""
-
-#: core/importer/parsers.php:43
-msgid ""
-"Details are shown above. The importer will now try again with a different "
-"parser..."
-msgstr ""
-
-#: core/importer/parsers.php:84 core/importer/parsers.php:89
-#: core/importer/parsers.php:306 core/importer/parsers.php:495
-msgid ""
-"This does not appear to be a WXR file, missing/invalid WXR version number"
-msgstr ""
-
-#: core/importer/seur-importer.php:121 core/importer/seur-importer.php:130
-#: core/importer/seur-importer.php:181 core/importer/seur-importer.php:185
-#: core/importer/seur-importer.php:194
-msgid "Sorry, there has been an error."
-msgstr ""
-
-#: core/importer/seur-importer.php:122
-msgid "The file does not exist, please try again."
-msgstr ""
-
-#: core/importer/seur-importer.php:165
-msgid "All done."
-msgstr ""
-
-#: core/importer/seur-importer.php:165
-msgid "Have fun!"
-msgstr ""
-
-#: core/importer/seur-importer.php:166
-msgid "Remember to update the passwords and roles of imported users."
-msgstr ""
-
-#: core/importer/seur-importer.php:186
-#, php-format
-msgid ""
-"The export file could not be found at <code>%s</code>. It is likely that "
-"this was caused by a permissions problem."
-msgstr ""
-
-#: core/importer/seur-importer.php:202
-#, php-format
-msgid ""
-"This WXR file (version %s) may not be supported by this version of the "
-"importer. Please consider updating."
-msgstr ""
-
-#: core/importer/seur-importer.php:227
-#, php-format
-msgid ""
-"Failed to import author %s. Their posts will be attributed to the current "
-"user."
-msgstr ""
-
-#: core/importer/seur-importer.php:253
-msgid "Assign Authors"
-msgstr ""
-
-#: core/importer/seur-importer.php:254
-msgid ""
-"To make it easier for you to edit and save the imported content, you may "
-"want to reassign the author of the imported item to an existing user of this "
-"site. For example, you may want to import all the entries as <code>admin</"
-"code>s entries."
-msgstr ""
-
-#: core/importer/seur-importer.php:256
-#, php-format
-msgid ""
-"If a new user is created by SEUR, a new password will be randomly generated "
-"and the new user&#8217;s role will be set as %s. Manually changing the new "
-"user&#8217;s details will be necessary."
-msgstr ""
-
-#: core/importer/seur-importer.php:266
-msgid "Import Attachments"
-msgstr ""
-
-#: core/importer/seur-importer.php:269
-msgid "Download and import file attachments"
-msgstr ""
-
-#: core/importer/seur-importer.php:273 core/pages/seur-manifest.php:105
-msgid "Submit"
-msgstr ""
-
-#: core/importer/seur-importer.php:286
-msgid "Import author:"
-msgstr ""
-
-#: core/importer/seur-importer.php:297
-msgid "or create new user with login name:"
-msgstr ""
-
-#: core/importer/seur-importer.php:300
-msgid "as a new user:"
-msgstr ""
-
-#: core/importer/seur-importer.php:308
-msgid "assign posts to an existing user:"
-msgstr ""
-
-#: core/importer/seur-importer.php:310
-msgid "or assign posts to an existing user:"
-msgstr ""
-
-#: core/importer/seur-importer.php:311
-msgid "- Select -"
-msgstr ""
-
-#: core/importer/seur-importer.php:361
-#, php-format
-msgid ""
-"Failed to create new user for %s. Their posts will be attributed to the "
-"current user."
-msgstr ""
-
-#: core/importer/seur-importer.php:413
-#, php-format
-msgid "Failed to import category %s"
-msgstr ""
-
-#: core/importer/seur-importer.php:456
-#, php-format
-msgid "Failed to import post tag %s"
-msgstr ""
-
-#: core/importer/seur-importer.php:505 core/importer/seur-importer.php:727
-#, php-format
-msgid "Failed to import %s %s"
-msgstr ""
-
-#: core/importer/seur-importer.php:594
-#, php-format
-msgid "Failed to import &#8220;%s&#8221;: Invalid post type %s"
-msgstr ""
-
-#: core/importer/seur-importer.php:631
-#, php-format
-msgid "%s &#8220;%s&#8221; already exists."
-msgstr ""
-
-#: core/importer/seur-importer.php:693
-#, php-format
-msgid "Failed to import %s &#8220;%s&#8221;"
-msgstr ""
-
-#: core/importer/seur-importer.php:858
-msgid "Menu item skipped due to missing menu slug"
-msgstr ""
-
-#: core/importer/seur-importer.php:865
-#, php-format
-msgid "Menu item skipped due to invalid menu slug: %s"
-msgstr ""
-
-#: core/importer/seur-importer.php:928
-msgid "Fetching attachments is not enabled"
-msgstr ""
-
-#: core/importer/seur-importer.php:941
-msgid "Invalid file type"
-msgstr ""
-
-#: core/importer/seur-importer.php:985
-msgid "Remote server did not respond"
-msgstr ""
-
-#: core/importer/seur-importer.php:991
-#, php-format
-msgid "Remote server returned error response %1$d %2$s"
-msgstr ""
-
-#: core/importer/seur-importer.php:998
-msgid "Remote file is incorrect size"
-msgstr ""
-
-#: core/importer/seur-importer.php:1003
-msgid "Zero size file downloaded"
-msgstr ""
-
-#: core/importer/seur-importer.php:1009
-#, php-format
-msgid "Remote file is too large, limit is %s"
-msgstr ""
-
-#: core/importer/seur-importer.php:1108
-msgid "Import SEUR"
-msgstr ""
-
-#: core/importer/seur-importer.php:1115
-#, php-format
-msgid ""
-"A new version of this importer is available. Please update to version %s to "
-"ensure compatibility with newer export files."
-msgstr ""
-
-#: core/importer/seur-importer.php:1130
-msgid ""
-"Howdy! Upload your SEUR eXtended RSS (WXR) file and we&#8217;ll import the "
-"posts, pages, comments, custom fields, categories, and tags into this site."
-msgstr ""
-
-#: core/importer/seur-importer.php:1131
-msgid "Choose a WXR (.xml) file to upload, then click Upload file and import."
-msgstr ""
-
-#: core/importer/seur-importer.php:1205
-msgid ""
-"Import <strong>posts, pages, comments, custom fields, categories, and tags</"
-"strong> from a SEUR export file."
 msgstr ""
 
 #: core/labels-cpt/labels-cpt.php:9
@@ -1594,6 +1376,10 @@ msgstr ""
 
 #: core/pages/seur-manifest.php:99 core/pages/seur-manifest.php:100
 msgid "From Date"
+msgstr ""
+
+#: core/pages/seur-manifest.php:105
+msgid "Submit"
 msgstr ""
 
 #: core/pages/seur-manifest.php:108
