@@ -59,9 +59,7 @@ function seur_edit_rate(){
 	        <td>
 	            <select class="select rate" id="rate" title="<?php _e('Select Rate to apply', 'seur' ); ?>" name="rate">
 				    <?php
-						$tabla = $wpdb->prefix . SEUR_PLUGIN_SVPR;
-						$sql   = "SELECT * FROM $tabla";
-						$regs  = $wpdb->get_results( $wpdb->prepare( $sql ) );
+	                    $regs	= $wpdb->get_results( "SELECT * FROM {$wpdb->prefix}seur_svpr");
 
 						foreach ( $regs as $valor ) {
 
@@ -84,8 +82,6 @@ function seur_edit_rate(){
             <td id="countryid">
 	            <select class="select country" value="Select" id="country" title="<?php _e('Select Country', 'seur' ); ?>" name="country">
 				    <?php
-
-					    $countries = seur_get_countries();
 					    if ( $getrate->country == 'ES' || $getrate->country == 'PT' || $getrate->country == 'AD' ) {
 
 						    if ( $getrate->country == 'ES' ){
@@ -105,8 +101,11 @@ function seur_edit_rate(){
 									}
 
 						    } else {
+						        $countries = array();
+                                $countries = include_once SEUR_PLUGIN_PATH . 'core/places/countries.php';
+                                $countries = asort( $countries );
+                                print_r($countries);
 								echo '<option value="*">' . __( 'All Countries', 'seur' ) . '</option>';
-								$countries = seur_get_countries();
 								foreach ($countries as $country => $value ) {
 
 									if ( $getrate->country == $value ){

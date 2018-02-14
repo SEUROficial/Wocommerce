@@ -77,7 +77,8 @@ function seur_set_custom_label_columns( $columns ) {
     $columns['customer_name']           = __( 'Customer Name',       'seur' );
     $columns['customer_comments']       = __( 'Customer Comments',   'seur' );
     $columns['weight']                  = __( 'Weight',              'seur' );
-    $columns['taxonomy-labels-product'] = __( 'Service/Product',     'seur' );
+    $columns['taxonomy-labels-product'] = __( 'Serv/Prod',           'seur' );
+    $columns['seur-tracking']           = __( 'Tracking',            'seur' );
     $columns['print']                   = __( 'Print/Download',      'seur' );
     $columns['date']                    = __( 'Label Date',          'seur' );
 
@@ -102,6 +103,13 @@ function seur_custom_label_column_data( $column, $post_id ) {
     $file_downlo_pass     = get_option('seur_pass_for_download');
     $label_path           = str_replace("\\", "/", $label_path );
     $file_type            = get_post_meta( $post_id, '_seur_label_type',                        true );
+    $order_tracking       = get_post_meta( $post_id, '_seur_shipping_tracking_state',           true );
+
+    if ( ! empty( $order_tracking ) ) {
+	    $order_tracking = $order_tracking;
+    } else {
+	    $order_tracking = __( 'Waiting Shipping', 'seur' );
+    }
 
     $order        = new WC_Order( $order_id );
     $product_list = '';
@@ -129,6 +137,10 @@ function seur_custom_label_column_data( $column, $post_id ) {
             break;
         case 'customer_comments' :
             echo $order_comments;
+            break;
+
+        case 'seur-tracking' :
+            echo $order_tracking;
             break;
 
         case 'weight' :
@@ -330,22 +342,32 @@ add_action('admin_footer-edit.php', 'seur_custom_bulk_admin_footer_labels');
 
 function seur_custom_bulk_admin_footer_labels() {
 
-  global $post_type;
+	global $post_type;
 
 
-  $advanced_data  = seur_get_advanced_settings();
-  $label_type     = $advanced_data[0]['tipo_etiqueta'];
+	$advanced_data  = seur_get_advanced_settings();
+	$label_type     = $advanced_data[0]['tipo_etiqueta'];
 
-  if( $post_type == 'seur_labels' && $label_type != 'PDF' ) {
-    ?>
-    <script type="text/javascript">
-      jQuery(document).ready(function() {
-        jQuery('<option>').val('download-seur-label').text('<?php _e('Download SEUR Label', 'seur' )?>').appendTo("select[name='action']");
-        jQuery('<option>').val('download-seur-label').text('<?php _e('Download SEUR Label', 'seur' )?>').appendTo("select[name='action2']");
-      });
-    </script>
-    <?php
-  }
+	if( $post_type == 'seur_labels' && $label_type != 'PDF' ) {
+	?>
+	<script type="text/javascript">
+		jQuery(document).ready(function() {
+			jQuery('<option>').val('download-seur-label').text('<?php _e('Download  SEUR Label', 'seur' )?>').appendTo("select[name='action']");
+			jQuery('<option>').val('download-seur-label').text('<?php _e('Download  SEUR Label', 'seur' )?>').appendTo("select[name='action2']");
+		});
+	</script>
+	<?php
+	}
+	if( $post_type == 'seur_labels' ) {
+		?>
+	    <script type="text/javascript">
+			jQuery(document).ready(function() {
+		        jQuery('<option>').val('update-seur-tracking').text('<?php _e('Update SEUR Tracking', 'seur' )?>').appendTo("select[name='action']");
+		        jQuery('<option>').val('update-seur-tracking').text('<?php _e('Update SEUR Tracking', 'seur' )?>').appendTo("select[name='action2']");
+	      	});
+	</script>
+	<?php
+	}
 }
 
 function seur_labels_bulk_action() {
@@ -383,6 +405,29 @@ function seur_labels_bulk_action() {
 
       // build the redirect url
       $sendback = add_query_arg( array( 'post_type' => 'seur_labels', $report_action => true, 'changed' => $added, 'ids' => join( ',', $post_ids ) ), '' );
+
+    break;
+
+    case 'update-seur-tracking':
+
+    	$added = 0;
+
+		foreach( $post_ids as $post_id ) {
+
+			$has_tracking	= '';
+			$has_tracking	= get_post_meta( $post->ID, '_seur_shipping_order_tracking',	true );
+
+			if ( ! empty( $has_tracking ) ) {
+
+				$result = seur_get_tracking_shipment( $post->ID, $has_tracking );
+
+			}
+
+			$added++;
+
+			}
+		// build the redirect url
+		$sendback = add_query_arg( array( 'post_type' => 'seur_labels', $report_action => true, 'changed' => $added, 'ids' => join( ',', $post_ids ) ), '' );
 
     break;
     default: return;

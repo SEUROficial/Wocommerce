@@ -190,9 +190,9 @@ $texto = __('TARIFAS<BR>Consultar el coste de un envio según su tarifa', 'seur'
         ?>
 
 
-        <p class="description" id="text-seur-rates"><?php _e('The type of service/product considered will be that which is established in the set-up data and according to the destination.<br />
-            If payment is going to be cash on delivery, enter the value ONLY if you would like to consider the cash management expenses to be charged to the sender.<br />
-            If the delivery is to the Canary Islands, Customs and the type of delivery will be considered according to the established set-up data. The same thing applies for deliveries to Andorra, Ceuta and Melilla.<br />', 'seur' ); ?></p>
+        <p class="description" id="text-seur-rates"><?php _e('The type of service/product considered will be that which is established in the set-up data and according to the destination.<br>
+            If payment is going to be cash on delivery, enter the value ONLY if you would like to consider the cash management expenses to be charged to the sender.<br>
+            If the delivery is to the Canary Islands, Customs and the type of delivery will be considered according to the established set-up data. The same thing applies for deliveries to Andorra, Ceuta and Melilla.<br>', 'seur' ); ?></p>
 
                 <?php
 

@@ -61,3 +61,7 @@
   content: "\e01a";
   color: #999;
 }
+mark.order-status.status-seur-shipment.tips, mark.order-status.status-seur-shipment {
+  background: #89C4F4;
+  color: #446CB3;
+}

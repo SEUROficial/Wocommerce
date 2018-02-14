@@ -705,7 +705,7 @@ class WC_Shipping_SEUR extends WC_Shipping_Method {
         );
     }
 
-    public function seur_option_woocommerce_cod_settings( $value ) {
+	public function seur_option_woocommerce_cod_settings( $value ) {
     if ( is_checkout() ) {
         if (
             !empty( $value )
@@ -756,19 +756,20 @@ return $value;
         }
 
                 if ( $rates_type == 'price' ) {
-                    $price = $package['contents_cost'];
+	                $price = $package['contents_cost'];
                 } else {
 
-                    $weight  = 0;
-                    $cost    = 0;
-                    $country = $package["destination"]["country"];
+	                	$weight = 0;
+					   $cost = 0;
+					   $country = $package["destination"]["country"];
 
-                    foreach ( $package['contents'] as $item_id => $values ) {
-                        $_product = $values['data'];
-                        $weight = $weight + $_product->get_weight() * $values['quantity'];
-                    }
+					   foreach ( $package['contents'] as $item_id => $values ) 
+					   { 
+						   $_product = $values['data']; 
+						   $weight = $weight + $_product->get_weight() * $values['quantity'];
+					   }
 
-                    $price = wc_get_weight( $weight, 'kg' );
+					   $price = wc_get_weight( $weight, 'kg' );
                 }
                 //$price      = $package['contents_cost'];
                 $country    = $package['destination']['country'];
@@ -780,7 +781,7 @@ return $value;
             if ( ! $rate_requests ) {
                 $this->debug( __( 'SEUR: No Services are enabled in admin panel.', 'seur' ) );
             }
-        if ( $rate_requests ){
+		if ( $rate_requests ){
 
             // parse the results
             foreach ( $rate_requests as $rate ) {
@@ -797,12 +798,12 @@ return $value;
                     $sort = 999;
 
                     if ( $rates_type == 'price' ) {
-                            $ratepricerate = $ratepricerate;
-                        } else {
-                            $ratepricerate = seur_filter_price_rate_weight( $package_price, $raterate, $ratepricerate );
-                        }
+	                		$ratepricerate = $ratepricerate;
+		                } else {
+			                $ratepricerate = seur_filter_price_rate_weight( $package_price, $raterate, $ratepricerate );
+		                }
 
-                    $rate_name = seur_get_custom_rate_name( $raterate );
+		            $rate_name = seur_get_custom_rate_name( $raterate );
 
                     $rates[ $idrate ] = array(
                         'id'    => $idrate,
@@ -812,7 +813,7 @@ return $value;
                     );
                 }
 
-                }
+				}
         } // foreach ( $package_requests )
 
         // Add rates
@@ -839,7 +840,7 @@ return $value;
 
             } elseif ( $this->offer_rates == 'expensive' ) {
 
-                $expensive_rate = '';
+	            $expensive_rate = '';
 
                 foreach ( $rates as $key => $rate ) {
                     if ( ! $expensive_rate || $expensive_rate['cost'] < $rate['cost'] ) {
@@ -852,7 +853,7 @@ return $value;
 
             } else {
 
-                uasort( $rates, array( $this, 'sort_rates' ) );
+	            uasort( $rates, array( $this, 'sort_rates' ) );
                 foreach ( $rates as $key => $rate ) {
                     $this->add_rate( $rate );
                 }

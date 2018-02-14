@@ -143,7 +143,7 @@ function seur_process_order_meta_box_action( $order ) {
     $order->add_order_note( $message );
 
     // add the flag
-    update_post_meta( $order->id, '_wc_order_marked_printed_for_packaging', 'yes' );
+    update_post_meta( $order->get_id(), '_wc_order_marked_printed_for_packaging', 'yes' );
 }
 add_action( 'woocommerce_order_action_wc_custom_order_action', 'seur_process_order_meta_box_action' );
 
@@ -247,10 +247,10 @@ add_action( 'load-edit.php', 'seur_woo_bulk_action' );
 add_filter( 'woocommerce_admin_order_actions', 'seur_add_label_order_actions_button', PHP_INT_MAX, 2 );
 function seur_add_label_order_actions_button( $actions, $the_order ) {
 
-    $has_label = get_post_meta( $the_order->id, '_seur_shipping_order_label_downloaded', true );
+    $has_label = get_post_meta( $the_order->get_id(), '_seur_shipping_order_label_downloaded', true );
     if ( $has_label != 'yes' ) { // if order has not label
         $actions['cancel'] = array(
-            'url'       => wp_nonce_url( admin_url( 'admin-ajax.php?action=seur_get_label&order_id=' . $the_order->id ), 'woocommerce-mark-order-status' ),
+            'url'       => wp_nonce_url( admin_url( 'admin-ajax.php?action=seur_get_label&order_id=' . $the_order->get_id() ), 'woocommerce-mark-order-status' ),
             'name'      => __( 'Get SEUR Label (Only 1 label per order)', 'seur' ),
             'action'    => "view label", // setting "view" for proper button CSS
         );
@@ -260,6 +260,24 @@ function seur_add_label_order_actions_button( $actions, $the_order ) {
 add_action( 'admin_head', 'seur_add_label_order_actions_button_css' );
 function seur_add_label_order_actions_button_css() {
     echo '<style>.view.label::after {
+                            content: "\e000" !important;
+                            font-family: seur-font;
+                            speak: none;
+                            font-weight: 400;
+                            font-variant: normal;
+                            text-transform: none;
+                            line-height: 1;
+                            -webkit-font-smoothing: antialiased;
+                            margin-top: 6px;
+                            text-indent: 0;
+                            position: absolute;
+                            top: 0;
+                            left: 0;
+                            width: 100%;
+                            height: 100%;
+                            text-align: center;
+                        }
+               .widefat .column-wc_actions a.view.label::after {
                             content: "\e000" !important;
                             font-family: seur-font;
                             speak: none;
@@ -337,7 +355,7 @@ function seur_billing_mobil_phone_fields( $fields ) {
 add_action( 'woocommerce_admin_order_data_after_billing_address', 'seur_billing_mobil_phone_fields_display_admin_order_meta', 10, 1 );
 
 function seur_billing_mobil_phone_fields_display_admin_order_meta( $order ){
-    echo '<p><strong>'.__('Billing Mobile Phone').':</strong> ' . get_post_meta( $order->id, '_billing_mobile_phone', true ) . '</p>';
+    echo '<p><strong>'.__('Billing Mobile Phone').':</strong> ' . get_post_meta( $order->get_id(), '_billing_mobile_phone', true ) . '</p>';
 }
 
 add_filter( 'woocommerce_checkout_fields', 'seur_shipping_mobil_phone_fields' );
@@ -359,7 +377,7 @@ function seur_shipping_mobil_phone_fields( $fields ) {
 add_action( 'woocommerce_admin_order_data_after_shipping_address', 'seur_shipping_mobil_phone_fields_display_admin_order_meta', 10, 1 );
 
 function seur_shipping_mobil_phone_fields_display_admin_order_meta( $order ){
-    echo '<p><strong>'.__('Shipping Mobile Phone').':</strong> ' . get_post_meta( $order->id, '_shipping_mobile_phone', true ) . '</p>';
+    echo '<p><strong>'.__('Shipping Mobile Phone').':</strong> ' . get_post_meta( $order->get_id(), '_shipping_mobile_phone', true ) . '</p>';
 }
 
 function seur_filter_price_rate_weight( $package_price, $raterate, $ratepricerate ){

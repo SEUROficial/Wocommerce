@@ -2,11 +2,11 @@
 Contributors: j.conti, S0p0rteintegracion
 Tags: woocommerce, shipping, seur
 Requires at least: 4.0
-Tested up to: 4.9.4
-Stable tag: 1.0.0-RC14
+Tested up to: 4.9.3
+Stable tag: 1.0.0-RC15
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
-WC requires at least: 3.0
+WC requires at least: 2.5
 WC tested up to: 3.3
 
 Add a SEUR shipping method to WooCommerce.
