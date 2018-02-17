@@ -1629,18 +1629,18 @@ function seur_get_label( $order_id, $numpackages = '1', $weight = '1', $post_wei
                                 );
                 wp_update_post( $update_post );
 
-                add_post_meta( $labelid, '_seur_shipping_id_number',               $order_id_seur,                                   true );
-                add_post_meta( $labelid, '_seur_shipping_method',                  $seur_shipping_method,                            true );
-                add_post_meta( $labelid, '_seur_shipping_weight',                  $customer_weight_kg,                              true );
-                add_post_meta( $labelid, '_seur_shipping_packages',                $numpackages,                                     true );
-                add_post_meta( $labelid, '_seur_shipping_order_id',                $order_id,                                        true );
-                add_post_meta( $labelid, '_seur_shipping_order_customer_comments', $customer_order_notes,                            true );
-                add_post_meta( $labelid, '_seur_shipping_order_label_file_name',   $seur_pdf_label,                                  true );
-                add_post_meta( $labelid, '_seur_shipping_order_label_path_name',   $upload_path,                                     true );
-                add_post_meta( $labelid, '_seur_shipping_order_label_url_name',    $url_to_label,                                    true );
-                add_post_meta( $order_id,'_seur_shipping_order_label_url_name',    $url_to_label,                                    true );
-                add_post_meta( $labelid, '_seur_label_customer_name',              $customer_first_name . ' ' . $customer_last_name, true );
-                add_post_meta( $labelid, '_seur_label_type',                       $seur_label_type,                                 true );
+                add_post_meta( $labelid,  '_seur_shipping_id_number',               $order_id_seur,                                   true );
+                add_post_meta( $labelid,  '_seur_shipping_method',                  $seur_shipping_method,                            true );
+                add_post_meta( $labelid,  '_seur_shipping_weight',                  $customer_weight_kg,                              true );
+                add_post_meta( $labelid,  '_seur_shipping_packages',                $numpackages,                                     true );
+                add_post_meta( $labelid,  '_seur_shipping_order_id',                $order_id,                                        true );
+                add_post_meta( $labelid,  '_seur_shipping_order_customer_comments', $customer_order_notes,                            true );
+                add_post_meta( $labelid,  '_seur_shipping_order_label_file_name',   $seur_pdf_label,                                  true );
+                add_post_meta( $labelid,  '_seur_shipping_order_label_path_name',   $upload_path,                                     true );
+                add_post_meta( $labelid,  '_seur_shipping_order_label_url_name',    $url_to_label,                                    true );
+                add_post_meta( $order_id, '_seur_shipping_order_label_url_name',    $url_to_label,                                    true );
+                add_post_meta( $labelid,  '_seur_label_customer_name',              $customer_first_name . ' ' . $customer_last_name, true );
+                add_post_meta( $labelid,  '_seur_label_type',                       $seur_label_type,                                 true );
 
                 if ( $labelid ) {
 
@@ -1664,7 +1664,7 @@ function seur_get_label( $order_id, $numpackages = '1', $weight = '1', $post_wei
                 } else {
 
                     $result  = false;
-                    $message = __( 'Label not created', 'seur' );
+                    $message = $response->out->mensaje;
                     $label   = array(
                                 'result',
                                 'labelID',
@@ -1758,18 +1758,18 @@ function seur_get_label( $order_id, $numpackages = '1', $weight = '1', $post_wei
                                   );
                     wp_update_post( $update_post );
 
-                    add_post_meta( $labelid, '_seur_shipping_id_number',               $order_id_seur,                                   true );
-                    add_post_meta( $labelid, '_seur_shipping_method',                  $seur_shipping_method,                            true );
-                    add_post_meta( $labelid, '_seur_shipping_weight',                  $customer_weight_kg,                              true );
-                    add_post_meta( $labelid, '_seur_shipping_packages',                $numpackages,                                     true );
-                    add_post_meta( $labelid, '_seur_shipping_order_id',                $order_id,                                        true );
-                    add_post_meta( $labelid, '_seur_shipping_order_customer_comments', $customer_order_notes,                            true );
-                    add_post_meta( $labelid, '_seur_shipping_order_label_file_name',   $seur_txt_label,                                  true );
-                    add_post_meta( $labelid, '_seur_shipping_order_label_path_name',   $upload_path,                                     true );
-                    add_post_meta( $labelid, '_seur_shipping_order_label_url_name',    $url_to_label,                                    true );
-                    add_post_meta( $order_id,'_seur_shipping_order_label_url_name',    $url_to_label,                                    true );
-                    add_post_meta( $labelid, '_seur_label_customer_name',              $customer_first_name . ' ' . $customer_last_name, true );
-                    add_post_meta( $labelid, '_seur_label_type',                       $seur_label_type,                                 true );
+                    add_post_meta( $labelid,  '_seur_shipping_id_number',               $order_id_seur,                                   true );
+                    add_post_meta( $labelid,  '_seur_shipping_method',                  $seur_shipping_method,                            true );
+                    add_post_meta( $labelid,  '_seur_shipping_weight',                  $customer_weight_kg,                              true );
+                    add_post_meta( $labelid,  '_seur_shipping_packages',                $numpackages,                                     true );
+                    add_post_meta( $labelid,  '_seur_shipping_order_id',                $order_id,                                        true );
+                    add_post_meta( $labelid,  '_seur_shipping_order_customer_comments', $customer_order_notes,                            true );
+                    add_post_meta( $labelid,  '_seur_shipping_order_label_file_name',   $seur_txt_label,                                  true );
+                    add_post_meta( $labelid,  '_seur_shipping_order_label_path_name',   $upload_path,                                     true );
+                    add_post_meta( $labelid,  '_seur_shipping_order_label_url_name',    $url_to_label,                                    true );
+                    add_post_meta( $order_id, '_seur_shipping_order_label_url_name',    $url_to_label,                                    true );
+                    add_post_meta( $labelid,  '_seur_label_customer_name',              $customer_first_name . ' ' . $customer_last_name, true );
+                    add_post_meta( $labelid,  '_seur_label_type',                       $seur_label_type,                                 true );
 
                     if ( $labelid ) {
 
@@ -1793,7 +1793,7 @@ function seur_get_label( $order_id, $numpackages = '1', $weight = '1', $post_wei
                     } else {
 
                         $result  = false;
-                        $message = __( 'Label not created', 'seur' );
+                        $message = $respuesta->out->mensaje;
                         $label   = array(
                                     'result',
                                     'labelID',
@@ -1802,7 +1802,7 @@ function seur_get_label( $order_id, $numpackages = '1', $weight = '1', $post_wei
                         $has_label = array(
                                 $result,
                                 $labelid,
-                                $message
+                                $message,
                         );
 
                         $seur_label[] = array_combine( $label, $has_label );

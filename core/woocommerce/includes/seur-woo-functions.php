@@ -17,6 +17,58 @@ add_action('woocommerce_checkout_update_order_meta', 'seur_add_cart_weight');
 function seur_add_cart_weight( $order_id ) {
     global $woocommerce;
 
+    $order = new WC_Order( $order_id );
+
+	$ship_methods = maybe_unserialize( $order->get_shipping_methods() );
+
+    foreach ( $ship_methods as $ship_method ) {
+		$product_name = $ship_method['name'];
+      }
+    $seur_bc2_custom_name  = '';
+	$seur_10e_custom_name  = '';
+	$seur_10ef_custom_name = '';
+	$seur_13e_custom_name  = '';
+	$seur_13f_custom_name  = '';
+	$seur_48h_custom_name  = '';
+	$seur_72h_custom_name  = '';
+	$seur_cit_custom_name  = '';
+
+	$seur_bc2_custom_name  = get_option( 'seur_bc2_custom_name_field'  );
+	$seur_10e_custom_name  = get_option( 'seur_10e_custom_name_field'  );
+	$seur_10ef_custom_name = get_option( 'seur_10ef_custom_name_field' );
+	$seur_13e_custom_name  = get_option( 'seur_13e_custom_name_field'  );
+	$seur_13f_custom_name  = get_option( 'seur_13f_custom_name_field'  );
+	$seur_48h_custom_name  = get_option( 'seur_48h_custom_name_field'  );
+	$seur_72h_custom_name  = get_option( 'seur_72h_custom_name_field'  );
+	$seur_cit_custom_name  = get_option( 'seur_cit_custom_name_field'  );
+
+	if ( ! empty ( $seur_bc2_custom_name ) )  { $seur_bc2_custom_name  = $seur_bc2_custom_name;  } else { $seur_bc2_custom_name  =  'B2C Estándar'; 				   }
+	if ( ! empty ( $seur_10e_custom_name ) )  { $seur_10e_custom_name  = $seur_10e_custom_name;  } else { $seur_10ef_custom_name =  'SEUR 10 Estándar'; 			   }
+	if ( ! empty ( $seur_10ef_custom_name ) ) { $seur_10ef_custom_name = $seur_10ef_custom_name; } else { $seur_bc2_custom_name  =  'SEUR 10 Frío';					   }
+	if ( ! empty ( $seur_13e_custom_name ) )  { $seur_13e_custom_name  = $seur_13e_custom_name;  } else { $seur_13e_custom_name  =  'SEUR 13:30 Estándar'; 			   }
+	if ( ! empty ( $seur_13f_custom_name ) )  { $seur_13f_custom_name  = $seur_13f_custom_name;  } else { $seur_13f_custom_name  =  'SEUR 13:30 Frío'; 				   }
+	if ( ! empty ( $seur_48h_custom_name ) )  { $seur_48h_custom_name  = $seur_48h_custom_name;  } else { $seur_48h_custom_name  =  'SEUR 48H Estándar'; 			   }
+	if ( ! empty ( $seur_72h_custom_name ) )  { $seur_72h_custom_name  = $seur_72h_custom_name;  } else { $seur_72h_custom_name  =  'SEUR 72H Estándar'; 			   }
+	if ( ! empty ( $seur_cit_custom_name ) )  { $seur_cit_custom_name  = $seur_cit_custom_name;  } else { $seur_cit_custom_name  =  'Classic Internacional Terrestre'; }
+
+	$seur_shipments = array(
+		$seur_bc2_custom_name,
+		$seur_10e_custom_name,
+		$seur_10ef_custom_name,
+		$seur_13e_custom_name,
+		$seur_13f_custom_name,
+		$seur_48h_custom_name,
+		$seur_72h_custom_name,
+		$seur_cit_custom_name,
+	);
+
+	foreach ( $seur_shipments as $seur_shipment ) {
+		if ( $seur_shipment == $product_name ) {
+			update_post_meta( $order_id, '_seur_shipping_method_service', sanitize_title( $product_name ) );
+			update_post_meta( $order_id, '_seur_shipping', 'seur' );
+		}
+	}
+
     $weight = WC()->cart->cart_contents_weight;
     update_post_meta( $order_id, '_seur_cart_weight', $weight );
 }
@@ -475,3 +527,125 @@ function seur_hide_standard_free_shipping( $available_methods ){
 	return $available_methods;
 }
 add_filter( 'woocommerce_shipping_methods', 'seur_hide_standard_free_shipping' , 10, 1 );
+
+//defining the filter that will be used to select posts by 'post formats'
+function seur_post_formats_filter_to_woo_order_administration(){
+    global $post_type;
+
+    if ( $post_type == 'shop_order' ){
+
+	    $seur_bc2_custom_name  = '';
+		$seur_10e_custom_name  = '';
+		$seur_10ef_custom_name = '';
+		$seur_13e_custom_name  = '';
+		$seur_13f_custom_name  = '';
+		$seur_48h_custom_name  = '';
+		$seur_72h_custom_name  = '';
+		$seur_cit_custom_name  = '';
+
+		$seur_bc2_custom_name  = get_option( 'seur_bc2_custom_name_field'  );
+		$seur_10e_custom_name  = get_option( 'seur_10e_custom_name_field'  );
+		$seur_10ef_custom_name = get_option( 'seur_10ef_custom_name_field' );
+		$seur_13e_custom_name  = get_option( 'seur_13e_custom_name_field'  );
+		$seur_13f_custom_name  = get_option( 'seur_13f_custom_name_field'  );
+		$seur_48h_custom_name  = get_option( 'seur_48h_custom_name_field'  );
+		$seur_72h_custom_name  = get_option( 'seur_72h_custom_name_field'  );
+		$seur_cit_custom_name  = get_option( 'seur_cit_custom_name_field'  );
+
+		if ( ! empty ( $seur_bc2_custom_name ) )  { $seur_bc2_custom_name  = $seur_bc2_custom_name;  } else { $seur_bc2_custom_name  =  'B2C Estándar'; 				   }
+		if ( ! empty ( $seur_10e_custom_name ) )  { $seur_10e_custom_name  = $seur_10e_custom_name;  } else { $seur_10ef_custom_name =  'SEUR 10 Estándar'; 			   }
+		if ( ! empty ( $seur_10ef_custom_name ) ) { $seur_10ef_custom_name = $seur_10ef_custom_name; } else { $seur_bc2_custom_name  =  'SEUR 10 Frío';					   }
+		if ( ! empty ( $seur_13e_custom_name ) )  { $seur_13e_custom_name  = $seur_13e_custom_name;  } else { $seur_13e_custom_name  =  'SEUR 13:30 Estándar'; 			   }
+		if ( ! empty ( $seur_13f_custom_name ) )  { $seur_13f_custom_name  = $seur_13f_custom_name;  } else { $seur_13f_custom_name  =  'SEUR 13:30 Frío'; 				   }
+		if ( ! empty ( $seur_48h_custom_name ) )  { $seur_48h_custom_name  = $seur_48h_custom_name;  } else { $seur_48h_custom_name  =  'SEUR 48H Estándar'; 			   }
+		if ( ! empty ( $seur_72h_custom_name ) )  { $seur_72h_custom_name  = $seur_72h_custom_name;  } else { $seur_72h_custom_name  =  'SEUR 72H Estándar'; 			   }
+		if ( ! empty ( $seur_cit_custom_name ) )  { $seur_cit_custom_name  = $seur_cit_custom_name;  } else { $seur_cit_custom_name  =  'Classic Internacional Terrestre'; }
+
+		$seur_shipments = array(
+			$seur_bc2_custom_name,
+			$seur_10e_custom_name,
+			$seur_10ef_custom_name,
+			$seur_13e_custom_name,
+			$seur_13f_custom_name,
+			$seur_48h_custom_name,
+			$seur_72h_custom_name,
+			$seur_cit_custom_name,
+		);
+		?>
+
+		<label for="dropdown_shop_order_seur_shipping_method" class="screen-reader-text"><?php _e( 'Seur Shippments', 'seur' ); ?></label>
+		<select name="_shop_order_seur_shipping_method" id="dropdown_shop_order_seur_shipping_method">
+			<option value=""><?php _e( 'All', 'seur' ); ?></option>
+			<option value="seur" <?php if ( ( esc_attr( isset( $_GET['_shop_order_seur_shipping_method'] ) ) ) &&  ( esc_attr( $_GET['_shop_order_seur_shipping_method'] ) == 'seur' ) ){ echo 'selected'; }?>><?php _e( 'All Seur Shipping', 'seur' ); ?></option>
+<!--			<option value="all_seur"><?php _e( 'All Seur Shippments', 'seur' ); ?></option> -->
+		<?php foreach ( $seur_shipments as $shippment ) :
+				$shippment_sani = sanitize_title( $shippment );
+		?>
+		      <option value="<?php echo esc_attr( $shippment_sani ); ?>" <?php echo esc_attr( isset( $_GET['_shop_order_seur_shipping_method'] ) ? selected( $shippment_sani, $_GET['_shop_order_seur_shipping_method'], false ) : '' ); ?>>
+					<?php echo esc_html( $shippment ); ?>
+			  </option>
+
+		<?php endforeach; ?>
+		</select>
+		<?php
+    }
+}
+add_action('restrict_manage_posts','seur_post_formats_filter_to_woo_order_administration');
+
+function seur_filter_orders_by_shipping_method_query( $vars ) {
+	global $typenow;
+
+	if ( 'shop_order' === $typenow && isset( $_GET['_shop_order_seur_shipping_method'] ) ) {
+
+		$seur_bc2_custom_name  = '';
+		$seur_10e_custom_name  = '';
+		$seur_10ef_custom_name = '';
+		$seur_13e_custom_name  = '';
+		$seur_13f_custom_name  = '';
+		$seur_48h_custom_name  = '';
+		$seur_72h_custom_name  = '';
+		$seur_cit_custom_name  = '';
+
+		$seur_bc2_custom_name  = get_option( 'seur_bc2_custom_name_field'  );
+		$seur_10e_custom_name  = get_option( 'seur_10e_custom_name_field'  );
+		$seur_10ef_custom_name = get_option( 'seur_10ef_custom_name_field' );
+		$seur_13e_custom_name  = get_option( 'seur_13e_custom_name_field'  );
+		$seur_13f_custom_name  = get_option( 'seur_13f_custom_name_field'  );
+		$seur_48h_custom_name  = get_option( 'seur_48h_custom_name_field'  );
+		$seur_72h_custom_name  = get_option( 'seur_72h_custom_name_field'  );
+		$seur_cit_custom_name  = get_option( 'seur_cit_custom_name_field'  );
+
+		if ( ! empty ( $seur_bc2_custom_name ) )  { $seur_bc2_custom_name  = $seur_bc2_custom_name;  } else { $seur_bc2_custom_name  =  'B2C Estándar'; 				   }
+		if ( ! empty ( $seur_10e_custom_name ) )  { $seur_10e_custom_name  = $seur_10e_custom_name;  } else { $seur_10ef_custom_name =  'SEUR 10 Estándar'; 			   }
+		if ( ! empty ( $seur_10ef_custom_name ) ) { $seur_10ef_custom_name = $seur_10ef_custom_name; } else { $seur_bc2_custom_name  =  'SEUR 10 Frío';					   }
+		if ( ! empty ( $seur_13e_custom_name ) )  { $seur_13e_custom_name  = $seur_13e_custom_name;  } else { $seur_13e_custom_name  =  'SEUR 13:30 Estándar'; 			   }
+		if ( ! empty ( $seur_13f_custom_name ) )  { $seur_13f_custom_name  = $seur_13f_custom_name;  } else { $seur_13f_custom_name  =  'SEUR 13:30 Frío'; 				   }
+		if ( ! empty ( $seur_48h_custom_name ) )  { $seur_48h_custom_name  = $seur_48h_custom_name;  } else { $seur_48h_custom_name  =  'SEUR 48H Estándar'; 			   }
+		if ( ! empty ( $seur_72h_custom_name ) )  { $seur_72h_custom_name  = $seur_72h_custom_name;  } else { $seur_72h_custom_name  =  'SEUR 72H Estándar'; 			   }
+		if ( ! empty ( $seur_cit_custom_name ) )  { $seur_cit_custom_name  = $seur_cit_custom_name;  } else { $seur_cit_custom_name  =  'Classic Internacional Terrestre'; }
+
+		$seur_shipments = array(
+			$seur_bc2_custom_name,
+			$seur_10e_custom_name,
+			$seur_10ef_custom_name,
+			$seur_13e_custom_name,
+			$seur_13f_custom_name,
+			$seur_48h_custom_name,
+			$seur_72h_custom_name,
+			$seur_cit_custom_name,
+		);
+
+		foreach ( $seur_shipments as $shippment ) {
+			if ( sanitize_title( $shippment ) == $_GET['_shop_order_seur_shipping_method'] ) {
+				//$shop_order_seur_shipping_method = $shippment;
+				$vars['meta_key']   = '_seur_shipping_method_service';
+		        $vars['meta_value'] = sanitize_title( $shippment );
+			} elseif ( 'seur' == $_GET['_shop_order_seur_shipping_method'] ){
+				$vars['meta_key']   = '_seur_shipping';
+		        $vars['meta_value'] = 'seur';
+			}
+		}
+	}
+	return $vars;
+}
+add_filter( 'request', 'seur_filter_orders_by_shipping_method_query' );

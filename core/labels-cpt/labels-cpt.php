@@ -415,17 +415,17 @@ function seur_labels_bulk_action() {
 		foreach( $post_ids as $post_id ) {
 
 			$has_tracking	= '';
-			$has_tracking	= get_post_meta( $post->ID, '_seur_shipping_order_tracking',	true );
+			$has_tracking	= get_post_meta( $post_id, '_seur_shipping_order_tracking', true );
 
 			if ( ! empty( $has_tracking ) ) {
 
-				$result = seur_get_tracking_shipment( $post->ID, $has_tracking );
+				$result = seur_get_tracking_shipment( $post_id, $has_tracking );
 
 			}
 
 			$added++;
 
-			}
+		}
 		// build the redirect url
 		$sendback = add_query_arg( array( 'post_type' => 'seur_labels', $report_action => true, 'changed' => $added, 'ids' => join( ',', $post_ids ) ), '' );
 
