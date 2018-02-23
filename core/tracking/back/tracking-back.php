@@ -51,7 +51,7 @@ function seur_save_tracking_meta_box( $post_id ) {
 add_action( 'save_post_shop_order', 'seur_save_tracking_meta_box', 999 );
 
 
-function seur_get_tracking_shipment( $label_order_id, $tracking_number ) {
+function seur_get_tracking_shipment( $label_order_id, $tracking_number = false ) {
 
 	$shipping_id    = get_post_meta( $label_order_id, '_seur_shipping_id_number', true );
 	$user_data      = seur_get_user_settings();
@@ -74,9 +74,9 @@ function seur_get_tracking_shipment( $label_order_id, $tracking_number ) {
 	}
 	$params = array(
 				'in0'  => 'S',
-				'in1'  => '',
+				'in1'  => $shipping_id,
 				'in2'  => '',
-				'in3'  => $shipping_id,
+				'in3'  => '',
 				'in4'  => $ccc. "-".$franquicia,
 				'in5'  => '',
 				'in6'  => '',
@@ -84,7 +84,7 @@ function seur_get_tracking_shipment( $label_order_id, $tracking_number ) {
 				'in8'  => '',
 				'in9'  => '',
 				'in10' => '',
-				'in11' => '',
+				'in11' => '0',
 				'in12' => $usercom,
 				'in13' => $passcom,
 				'in14' => 'N'
@@ -97,6 +97,8 @@ function seur_get_tracking_shipment( $label_order_id, $tracking_number ) {
 	$respons   = $client->consultaListadoExpedicionesStr( $params );
 
 	$xml = simplexml_load_string( $respons->out );
+
+	add_post_meta( $label_order_id, '_seur_tracking_states', $respons, true );
 
 	// An instance of
 	$order = wc_get_order( $label_order_id );
