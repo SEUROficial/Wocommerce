@@ -6,22 +6,22 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 function seur_cpt_labels() {
 
     $labels = array(
-        'name'                  => _x( 'Labels', 'Post Type General Name',  'seur' ),
-        'singular_name'         => _x( 'Label', 'Post Type Singular Name',  'seur' ),
-        'menu_name'             => __( 'Labels',                            'seur' ),
-        'name_admin_bar'        => __( 'Labels',                            'seur' ),
+        'name'                  => _x( 'Shipments', 'Post Type General Name',  'seur' ),
+        'singular_name'         => _x( 'Shipment', 'Post Type Singular Name',  'seur' ),
+        'menu_name'             => __( 'Shipments',                            'seur' ),
+        'name_admin_bar'        => __( 'Shipments',                            'seur' ),
         'archives'              => __( 'Labels',                            'seur' ),
-        'attributes'            => __( 'Labels Atributte',                  'seur' ),
+        'attributes'            => __( 'Shipments Atributte',                  'seur' ),
         'parent_item_colon'     => __( 'Parent Item:',                      'seur' ),
         'all_items'             => __( 'All Labels',                        'seur' ),
-        'add_new_item'          => __( 'Add New Label',                     'seur' ),
+        'add_new_item'          => __( 'Add New Shipment',                     'seur' ),
         'add_new'               => __( 'Add New',                           'seur' ),
-        'new_item'              => __( 'New Label',                         'seur' ),
-        'edit_item'             => __( 'Label Data',                        'seur' ),
-        'update_item'           => __( 'Update Label',                      'seur' ),
-        'view_item'             => __( 'View Label',                        'seur' ),
-        'view_items'            => __( 'View Labels',                       'seur' ),
-        'search_items'          => __( 'Search Label',                      'seur' ),
+        'new_item'              => __( 'New Shipment',                         'seur' ),
+        'edit_item'             => __( 'Shipment Data',                        'seur' ),
+        'update_item'           => __( 'Update Shipment',                      'seur' ),
+        'view_item'             => __( 'View Shipment',                        'seur' ),
+        'view_items'            => __( 'View Shipment',                       'seur' ),
+        'search_items'          => __( 'Search Shipment',                      'seur' ),
         'not_found'             => __( 'Not found',                         'seur' ),
         'not_found_in_trash'    => __( 'Not found in Trash',                'seur' ),
         'featured_image'        => __( 'Featured Image',                    'seur' ),
@@ -35,8 +35,8 @@ function seur_cpt_labels() {
         'filter_items_list'     => __( 'Filter Labels list',                'seur' ),
     );
     $args = array(
-        'label'                 => __( 'Label',         'seur' ),
-        'description'           => __( 'Seur Labels',   'seur' ),
+        'label'                 => __( 'Shipment',         'seur' ),
+        'description'           => __( 'Seur Shipments',   'seur' ),
         'labels'                => $labels,
         'supports'              => false,
         'taxonomies'            => array( 'labels-product' ),
@@ -71,15 +71,15 @@ function seur_set_custom_label_columns( $columns ) {
     unset( $columns['title'] );
     unset( $columns['date'] );
     unset( $columns['taxonomy-labels-product']);
-    $columns['title']                   = __( 'Label ID',            'seur' );
+    $columns['title']                   = __( 'Shipment ID',            'seur' );
     $columns['order_id']                = __( 'Order ID',            'seur' );
     $columns['product']                 = __( 'Product',             'seur' );
     $columns['customer_name']           = __( 'Customer Name',       'seur' );
     $columns['customer_comments']       = __( 'Customer Comments',   'seur' );
     $columns['weight']                  = __( 'Weight',              'seur' );
+    $columns['print']                   = __( 'Print/Download',      'seur' );
     $columns['taxonomy-labels-product'] = __( 'Serv/Prod',           'seur' );
     $columns['seur-tracking']           = __( 'Tracking',            'seur' );
-    $columns['print']                   = __( 'Print/Download',      'seur' );
     $columns['date']                    = __( 'Label Date',          'seur' );
 
     return $columns;
@@ -260,7 +260,7 @@ function seur_metabox_label_callback( $post ) {
 
         <div id="order_data" class="panel">
 
-			<h2><?php echo __('Details for Label ID #', 'seur' ) . $post->ID; ?> </h2>
+			<h2><?php echo __('Details for Shipment ID #', 'seur' ) . $post->ID; ?> </h2>
 
 			<div class="order_data_column_container">
 
