@@ -1630,6 +1630,8 @@ function seur_get_label( $order_id, $numpackages = '1', $weight = '1', $post_wei
                 wp_update_post( $update_post );
 
                 add_post_meta( $labelid,  '_seur_shipping_id_number',               $order_id_seur,                                   true );
+                add_post_meta( $order_id, '_seur_shipping_id_number',               $order_id_seur,                                   true );
+                add_post_meta( $order_id, '_seur_label_id_number',                  $labelid,                                         true );
                 add_post_meta( $labelid,  '_seur_shipping_method',                  $seur_shipping_method,                            true );
                 add_post_meta( $labelid,  '_seur_shipping_weight',                  $customer_weight_kg,                              true );
                 add_post_meta( $labelid,  '_seur_shipping_packages',                $numpackages,                                     true );
@@ -1759,6 +1761,8 @@ function seur_get_label( $order_id, $numpackages = '1', $weight = '1', $post_wei
                     wp_update_post( $update_post );
 
                     add_post_meta( $labelid,  '_seur_shipping_id_number',               $order_id_seur,                                   true );
+                    add_post_meta( $order_id, '_seur_shipping_id_number',               $order_id_seur,                                   true );
+                    add_post_meta( $order_id, '_seur_label_id_number',                  $labelid,                                         true );
                     add_post_meta( $labelid,  '_seur_shipping_method',                  $seur_shipping_method,                            true );
                     add_post_meta( $labelid,  '_seur_shipping_weight',                  $customer_weight_kg,                              true );
                     add_post_meta( $labelid,  '_seur_shipping_packages',                $numpackages,                                     true );
