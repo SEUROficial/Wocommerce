@@ -3,7 +3,7 @@
 	function seur_get_labels_from_order( $post ){
 		global $error;
 
-		if ( ! current_user_can('level_10') )
+		if ( ! current_user_can('edit_shop_orders') )
 		die( __( 'Cheatin&#8217; uh?', 'seur' ) );
 		$orderID   = '';
 		$orderID   = absint( $_GET["order_id"] );
