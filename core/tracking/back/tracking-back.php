@@ -16,13 +16,50 @@ add_action( 'add_meta_boxes_shop_order', 'seur_register_meta_boxes_tracking', 99
 function seur_metabox_tracking_callback( $post ) {
 
     $has_tracking	= '';
-    $has_tracking	= get_post_meta( $post->ID, '_seur_shipping_order_tracking',	true );
+    $has_tracking	= get_post_meta( $post->ID, '_seur_shipping_id_number',      true );
+    $label_id       = get_post_meta( $post->ID, '_seur_label_id_number',         true );
+    $order_tracking = get_post_meta( $label_id, '_seur_shipping_tracking_state', true );
 
     ?> 	<div id="seur_content_metabox">
-	    <input type="text" id="seur-tracking-code" name="seur-tracking-code" class="seur-tracking-code" size="16" autocomplete="off" value="<?php if ( ! empty( $has_tracking ) ) echo $has_tracking; ?>" >
-	    <?php wp_nonce_field( 'seur_tracking_action', 'seur_tracking_nonce_field' ); ?>
+	    <label for="seur-tracking-code"><?php _e( 'Tracking ID', 'seur' ); ?></label>
+	    <input type="text" id="seur-tracking-code" name="seur-tracking-code" class="seur-tracking-code" size="16" autocomplete="off" style="width:100%;" value="<?php if ( ! empty( $has_tracking ) ) echo $has_tracking; ?>" >
+	    <?php wp_nonce_field( 'seur_tracking_action', 'seur_tracking_nonce_field' ); ?><br />
+		<?php if ( empty( $label_id ) ) { ?>
+				<ul class="order_notes">
+					<li class="note system-note">
+						<div class="note_content">
+							<p><?php _e( 'Waiting Seur Label', 'seur' ); ?> </p>
+						</div>
+					</li>
+				</ul>
+		<?php
+
+		} elseif( ! empty( $label_id ) && empty( $order_tracking) ) { ?>
+				<ul class="order_notes">
+					<li class="note system-note">
+						<div class="note_content">
+							<p><?php _e( 'Waiting Collection or update tracking', 'seur' ); ?> </p>
+						</div>
+					</li>
+				</ul>
+		<?php
+		} else {
+			$order_tracking_unse  = maybe_unserialize( $order_tracking );
+			echo '<ul class="order_notes">';
+			foreach ( $order_tracking_unse as $state => $value ) {
+					echo '<li class="note">';
+					echo '<div class="note_content">';
+					echo '<p>' . $value['descripcion_cliente'] . '</p>';
+					echo '</div>';
+					echo '<p class="meta">';
+					echo '<abbr class="exact-date" title="' . $value['fecha_situacion'] . '">' . __('added on', 'seur' ) . ' ' . $value['fecha_situacion'] . '</abbr>';
+					echo '</p>';
+					echo '</li>';
+			}
+			echo '</ul>';
+		} ?>
 		</div>
-<?php
+		<?php
     }
 
 /**
@@ -32,7 +69,7 @@ function seur_metabox_tracking_callback( $post ) {
  */
 function seur_save_tracking_meta_box( $post_id ) {
 
-    if ( ! isset($_POST['seur-tracking-code'] ) ) {
+    if ( ! isset( $_POST['seur-tracking-code'] ) ) {
 	    return $post_id;
 	    }
     if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) {
@@ -42,13 +79,15 @@ function seur_save_tracking_meta_box( $post_id ) {
     if ( ! isset( $_POST['seur_tracking_nonce_field'] )  || ! wp_verify_nonce( $_POST['seur_tracking_nonce_field'], 'seur_tracking_action' ) ) {
 	    return $post_id;
 	    }
-    $seur_tracking_number = $_POST['seur-tracking-code'];
+    $seur_tracking_number = sanitize_text_field( $_POST['seur-tracking-code'] );
 
     if ( ! empty( $seur_tracking_number) ) {
-	    add_post_meta( $post_id,'_seur_shipping_order_tracking',  $seur_tracking_number, true );
+	    $label_id = get_post_meta( $post_id, '_seur_label_id_number', true );
+	    update_post_meta( $post_id,'_seur_shipping_id_number',  $seur_tracking_number );
+	    update_post_meta( $label_id,'_seur_shipping_id_number',  $seur_tracking_number );
 	    }
 }
-add_action( 'save_post_shop_order', 'seur_save_tracking_meta_box', 999 );
+add_action( 'save_post', 'seur_save_tracking_meta_box', 999 );
 
 
 function seur_get_tracking_shipment( $label_order_id, $tracking_number = false ) {
@@ -63,7 +102,7 @@ function seur_get_tracking_shipment( $label_order_id, $tracking_number = false )
 	$label_date_A   = new DateTime( $get_date );
     $label_date_str = get_the_date( 'd-m-Y', '666' );
 	$label_date     = new DateTime( $label_date_str );
-    $now_str        = date( 'Y-m-d', current_time( 'timestamp', 0 ) );
+    $now_str        = date( 'd-m-Y', current_time( 'timestamp', 0 ) );
 	$now            = new DateTime( $now_str );
 	$diff           = $label_date_A->diff( $now );
 
@@ -72,14 +111,15 @@ function seur_get_tracking_shipment( $label_order_id, $tracking_number = false )
 	} else {
 		$now = $now;
 	}
+	//$shipping_id = 'EXPPREDICT-254';
 	$params = array(
 				'in0'  => 'S',
-				'in1'  => $shipping_id,
+				'in1'  => '', //$shipping_id,
 				'in2'  => '',
-				'in3'  => '',
-				'in4'  => $ccc. "-".$franquicia,
-				'in5'  => '',
-				'in6'  => '',
+				'in3'  => $shipping_id,
+				'in4'  => '72264-28',
+				'in5'  => '25-02-2018',
+				'in6'  => '06-03-2018',
 				'in7'  => '',
 				'in8'  => '',
 				'in9'  => '',
@@ -94,20 +134,42 @@ function seur_get_tracking_shipment( $label_order_id, $tracking_number = false )
 				);
 
 	$client    = new SoapClient('https://ws.seur.com/webseur/services/WSConsultaExpediciones?wsdl', $sc_options );
-	$respons   = $client->consultaListadoExpedicionesStr( $params );
+	$respons   = $client->consultaExpedicionesStr( $params );
 
 	$xml = simplexml_load_string( $respons->out );
+	$howmany     = $xml->attributes()->NUM;
 
-	add_post_meta( $label_order_id, '_seur_tracking_states', $respons, true );
+	if ( $howmany > 0 )  {
+		foreach ( $xml->EXPEDICION->SITUACIONES->SITUACION as $item ) {
+     delete_post_meta( $label_order_id, '_seur_shipping_tracking_state' );
+     $expedition[] = array (
+                        'descripcion_cliente_ingles' 	=> (string)$item->DESCRIPCION_CLIENTE_INGLES,
+                    	'descripcion_cliente_frances' 	=> (string)$item->DESCRIPCION_CLIENTE_FRANCES,
+                    	'sit1' 							=> (string)$item->SIT1,
+                    	'descripcion_cliente_ingles' 	=> (string)$item->SIT2,
+                    	'sit2' 							=> (string)$item->ESTADO_CRM,
+                    	'area' 							=> (string)$item->AREA,
+                    	'descripcion_cliente' 			=> (string)$item->DESCRIPCION_CLIENTE,
+                    	'descripcion_cliente_portugues'	=> (string)$item->DESCRIPCION_CLIENTE_PORTUGUES,
+                    	'fecha_situacion' 				=> (string)$item->FECHA_SITUACION,
+                    	'situacion_crm' 				=> (string)$item->SITUACION_CRM,
+                    	'activa' 						=> (string)$item->ACTIVA,
+                    	'transito' 						=> (string)$item->TRANSITO,
+                    );
 
-	// An instance of
-	$order = wc_get_order( $label_order_id );
+     }
+	$all_expedition = maybe_serialize( $expedition );
 
-	// Iterating through order shipping items
-	foreach( $order->get_items( 'shipping' ) as $item_id => $shipping_item_obj ){
-	    $shipping_method_id = $shipping_item_obj->get_method_id(); // The method ID
+	} else {
+	    $order_tracking = get_post_meta( $order_id, '_seur_shipping_tracking_state', true );
+
+		if ( $order_tracking ) {
+			$all_expedition = $order_tracking;
+			update_post_meta( $label_order_id, '_seur_shipping_tracking_state', $all_expedition );
+		}
+		return true;
 	}
-	//retorno temporal para que no haya un error.
-	return true;
+	update_post_meta( $label_order_id, '_seur_shipping_tracking_state', $all_expedition );
 
+	return true;
 }

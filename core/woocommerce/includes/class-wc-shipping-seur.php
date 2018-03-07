@@ -243,7 +243,7 @@ class WC_Shipping_SEUR extends WC_Shipping_Method {
      */
     public function debug( $message, $type = 'notice' ) {
 
-        if ( $this->debug || ( current_user_can( 'manage_options' ) && 'error' == $type ) ) {
+        if ( $this->debug || ( current_user_can( 'edit_shop_orders' ) && 'error' == $type ) ) {
             wc_add_notice( $message, $type );
         }
 
@@ -763,9 +763,9 @@ return $value;
 					   $cost = 0;
 					   $country = $package["destination"]["country"];
 
-					   foreach ( $package['contents'] as $item_id => $values ) 
-					   { 
-						   $_product = $values['data']; 
+					   foreach ( $package['contents'] as $item_id => $values )
+					   {
+						   $_product = $values['data'];
 						   $weight = $weight + $_product->get_weight() * $values['quantity'];
 					   }
 
