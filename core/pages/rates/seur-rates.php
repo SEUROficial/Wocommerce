@@ -1,7 +1,7 @@
 <?php
 if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 
-$texto = __('TARIFAS<BR>Consultar el coste de un envio según su tarifa', 'seur' );
+$texto = __('TARIFAS', 'seur' ) . '<br />' . __('Consultar el coste de un envío según su tarifa', 'seur' );
 
 ?>
     <form id="calculate-rates" method="post" name="formulario" width="100%">
