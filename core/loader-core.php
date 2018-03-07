@@ -4,6 +4,10 @@
 	// Load defines
 	include_once ( 'defines/defines-loader.php' );
 
+	// Load Tracking
+
+	include_once ( 'tracking/loader.php' );
+
 	// Load functions
 	include_once ( 'functions/functions.php' );
 
@@ -12,10 +16,6 @@
 		include_once ( 'woocommerce/seur-woocommerce.php' );
 		include_once ( 'tracking/loader.php' );
 		}
-
-	// Load importer
-
-	include_once ( 'importer/seur-importer.php' );
 
 	include_once 'labels-cpt/labels-cpt.php';
 

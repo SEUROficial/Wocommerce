@@ -22,9 +22,6 @@ function seur_settings(){ ?>
                 $link = esc_url( admin_url( add_query_arg( array( 'import' => 'seur' ), 'admin.php' ) ) );
 
             ?>
-            <!-- <div class="wp-filter">
-                <p class="description" id="text-seur-rates"><?php _e( 'If you have a SEUR settings file, you can upload it through this ', 'seur' ); ?><a href="<?php echo $link; ?>"><?php  _e( 'Link', 'seur' ); ?> </a></p>
-                </div> -->
                 <p><?php
                 _e('Configuration data. Contact SEUR if you do not have them.', 'seur' ); ?></p><?php
                 settings_fields( "seur-user-settings-section");
