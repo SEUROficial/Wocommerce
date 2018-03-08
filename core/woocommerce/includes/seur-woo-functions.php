@@ -1,16 +1,16 @@
 <?php if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 
 function seur_after_get_label(){
-	$seur_do = get_option('seur_after_get_label_field');
+    $seur_do = get_option('seur_after_get_label_field');
 
-	if ( $seur_do == 'shipping' ) {
-	$return = 'seur-shipment';
+    if ( $seur_do == 'shipping' ) {
+    $return = 'seur-shipment';
 
-	} else {
-		$return = 'completed';
-	}
+    } else {
+        $return = 'completed';
+    }
 
-	return $return;
+    return $return;
 }
 // Store cart weight in the database
 add_action('woocommerce_checkout_update_order_meta', 'seur_add_cart_weight');
@@ -19,55 +19,55 @@ function seur_add_cart_weight( $order_id ) {
 
     $order = new WC_Order( $order_id );
 
-	$ship_methods = maybe_unserialize( $order->get_shipping_methods() );
+    $ship_methods = maybe_unserialize( $order->get_shipping_methods() );
 
     foreach ( $ship_methods as $ship_method ) {
-		$product_name = $ship_method['name'];
+        $product_name = $ship_method['name'];
       }
     $seur_bc2_custom_name  = '';
-	$seur_10e_custom_name  = '';
-	$seur_10ef_custom_name = '';
-	$seur_13e_custom_name  = '';
-	$seur_13f_custom_name  = '';
-	$seur_48h_custom_name  = '';
-	$seur_72h_custom_name  = '';
-	$seur_cit_custom_name  = '';
+    $seur_10e_custom_name  = '';
+    $seur_10ef_custom_name = '';
+    $seur_13e_custom_name  = '';
+    $seur_13f_custom_name  = '';
+    $seur_48h_custom_name  = '';
+    $seur_72h_custom_name  = '';
+    $seur_cit_custom_name  = '';
 
-	$seur_bc2_custom_name  = get_option( 'seur_bc2_custom_name_field'  );
-	$seur_10e_custom_name  = get_option( 'seur_10e_custom_name_field'  );
-	$seur_10ef_custom_name = get_option( 'seur_10ef_custom_name_field' );
-	$seur_13e_custom_name  = get_option( 'seur_13e_custom_name_field'  );
-	$seur_13f_custom_name  = get_option( 'seur_13f_custom_name_field'  );
-	$seur_48h_custom_name  = get_option( 'seur_48h_custom_name_field'  );
-	$seur_72h_custom_name  = get_option( 'seur_72h_custom_name_field'  );
-	$seur_cit_custom_name  = get_option( 'seur_cit_custom_name_field'  );
+    $seur_bc2_custom_name  = get_option( 'seur_bc2_custom_name_field'  );
+    $seur_10e_custom_name  = get_option( 'seur_10e_custom_name_field'  );
+    $seur_10ef_custom_name = get_option( 'seur_10ef_custom_name_field' );
+    $seur_13e_custom_name  = get_option( 'seur_13e_custom_name_field'  );
+    $seur_13f_custom_name  = get_option( 'seur_13f_custom_name_field'  );
+    $seur_48h_custom_name  = get_option( 'seur_48h_custom_name_field'  );
+    $seur_72h_custom_name  = get_option( 'seur_72h_custom_name_field'  );
+    $seur_cit_custom_name  = get_option( 'seur_cit_custom_name_field'  );
 
-	if ( ! empty ( $seur_bc2_custom_name ) )  { $seur_bc2_custom_name  = $seur_bc2_custom_name;  } else { $seur_bc2_custom_name  =  'B2C Estándar'; 				   }
-	if ( ! empty ( $seur_10e_custom_name ) )  { $seur_10e_custom_name  = $seur_10e_custom_name;  } else { $seur_10ef_custom_name =  'SEUR 10 Estándar'; 			   }
-	if ( ! empty ( $seur_10ef_custom_name ) ) { $seur_10ef_custom_name = $seur_10ef_custom_name; } else { $seur_bc2_custom_name  =  'SEUR 10 Frío';					   }
-	if ( ! empty ( $seur_13e_custom_name ) )  { $seur_13e_custom_name  = $seur_13e_custom_name;  } else { $seur_13e_custom_name  =  'SEUR 13:30 Estándar'; 			   }
-	if ( ! empty ( $seur_13f_custom_name ) )  { $seur_13f_custom_name  = $seur_13f_custom_name;  } else { $seur_13f_custom_name  =  'SEUR 13:30 Frío'; 				   }
-	if ( ! empty ( $seur_48h_custom_name ) )  { $seur_48h_custom_name  = $seur_48h_custom_name;  } else { $seur_48h_custom_name  =  'SEUR 48H Estándar'; 			   }
-	if ( ! empty ( $seur_72h_custom_name ) )  { $seur_72h_custom_name  = $seur_72h_custom_name;  } else { $seur_72h_custom_name  =  'SEUR 72H Estándar'; 			   }
-	if ( ! empty ( $seur_cit_custom_name ) )  { $seur_cit_custom_name  = $seur_cit_custom_name;  } else { $seur_cit_custom_name  =  'Classic Internacional Terrestre'; }
+    if ( ! empty ( $seur_bc2_custom_name ) )  { $seur_bc2_custom_name  = $seur_bc2_custom_name;  } else { $seur_bc2_custom_name  =  'B2C Estándar';                    }
+    if ( ! empty ( $seur_10e_custom_name ) )  { $seur_10e_custom_name  = $seur_10e_custom_name;  } else { $seur_10ef_custom_name =  'SEUR 10 Estándar';                }
+    if ( ! empty ( $seur_10ef_custom_name ) ) { $seur_10ef_custom_name = $seur_10ef_custom_name; } else { $seur_bc2_custom_name  =  'SEUR 10 Frío';                    }
+    if ( ! empty ( $seur_13e_custom_name ) )  { $seur_13e_custom_name  = $seur_13e_custom_name;  } else { $seur_13e_custom_name  =  'SEUR 13:30 Estándar';             }
+    if ( ! empty ( $seur_13f_custom_name ) )  { $seur_13f_custom_name  = $seur_13f_custom_name;  } else { $seur_13f_custom_name  =  'SEUR 13:30 Frío';                 }
+    if ( ! empty ( $seur_48h_custom_name ) )  { $seur_48h_custom_name  = $seur_48h_custom_name;  } else { $seur_48h_custom_name  =  'SEUR 48H Estándar';               }
+    if ( ! empty ( $seur_72h_custom_name ) )  { $seur_72h_custom_name  = $seur_72h_custom_name;  } else { $seur_72h_custom_name  =  'SEUR 72H Estándar';               }
+    if ( ! empty ( $seur_cit_custom_name ) )  { $seur_cit_custom_name  = $seur_cit_custom_name;  } else { $seur_cit_custom_name  =  'Classic Internacional Terrestre'; }
 
-	$seur_shipments = array(
-		$seur_bc2_custom_name,
-		$seur_10e_custom_name,
-		$seur_10ef_custom_name,
-		$seur_13e_custom_name,
-		$seur_13f_custom_name,
-		$seur_48h_custom_name,
-		$seur_72h_custom_name,
-		$seur_cit_custom_name,
-	);
+    $seur_shipments = array(
+        $seur_bc2_custom_name,
+        $seur_10e_custom_name,
+        $seur_10ef_custom_name,
+        $seur_13e_custom_name,
+        $seur_13f_custom_name,
+        $seur_48h_custom_name,
+        $seur_72h_custom_name,
+        $seur_cit_custom_name,
+    );
 
-	foreach ( $seur_shipments as $seur_shipment ) {
-		if ( $seur_shipment == $product_name ) {
-			update_post_meta( $order_id, '_seur_shipping_method_service', sanitize_title( $product_name ) );
-			update_post_meta( $order_id, '_seur_shipping', 'seur' );
-		}
-	}
+    foreach ( $seur_shipments as $seur_shipment ) {
+        if ( $seur_shipment == $product_name ) {
+            update_post_meta( $order_id, '_seur_shipping_method_service', sanitize_title( $product_name ) );
+            update_post_meta( $order_id, '_seur_shipping', 'seur' );
+        }
+    }
 
     $weight = WC()->cart->cart_contents_weight;
     update_post_meta( $order_id, '_seur_cart_weight', $weight );
@@ -369,16 +369,16 @@ function seur_get_label_ajax() {
                 $new_status = seur_after_get_label();
 
                  if ( $label_result ) {
-	                $order = wc_get_order( $order_id );
-	                $order->update_status( $new_status, __( 'Label have been created:', 'seur' ), true );
-	                add_post_meta( $order_id,'_seur_shipping_order_label_downloaded',  'yes', true );
-	                add_post_meta( $order_id,'_seur_shipping_label_id',  $labelID, true );
-	                $order->add_order_note( 'The Label for Order #' . $order_id . ' have been downloaded', 0, true);
-	                //add_action( 'woocommerce_order_edit_status', $order_id, $new_status );
+                    $order = wc_get_order( $order_id );
+                    $order->update_status( $new_status, __( 'Label have been created:', 'seur' ), true );
+                    add_post_meta( $order_id,'_seur_shipping_order_label_downloaded',  'yes', true );
+                    add_post_meta( $order_id,'_seur_shipping_label_id',  $labelID, true );
+                    $order->add_order_note( 'The Label for Order #' . $order_id . ' have been downloaded', 0, true);
+                    //add_action( 'woocommerce_order_edit_status', $order_id, $new_status );
 
-	                } else {
+                    } else {
                     set_transient( get_current_user_id() . '_seur_woo_bulk_action_pending_notice', 'The order ID ' . $order_id . ' has an Error: ' . $label_message );
-	                }
+                    }
             }
         }
 
@@ -434,97 +434,97 @@ function seur_shipping_mobil_phone_fields_display_admin_order_meta( $order ){
 
 function seur_filter_price_rate_weight( $package_price, $raterate, $ratepricerate ){
 
- 	$raterate = seur_get_real_rate_name( $raterate );
+    $raterate = seur_get_real_rate_name( $raterate );
 
-	$seur_bc2_max_price_field  = get_option( 'seur_bc2_max_price_field'  );
-	$seur_10e_max_price_field  = get_option( 'seur_10e_max_price_field'  );
-	$seur_10ef_max_price_field = get_option( 'seur_10ef_max_price_field' );
-	$seur_13e_max_price_field  = get_option( 'seur_13e_max_price_field'  );
-	$seur_13f_max_price_field  = get_option( 'seur_13f_max_price_field'  );
-	$seur_48h_max_price_field  = get_option( 'seur_48h_max_price_field'  );
-	$seur_72h_max_price_field  = get_option( 'seur_72h_max_price_field'  );
-	$seur_cit_max_price_field  = get_option( 'seur_cit_max_price_field'  );
+    $seur_bc2_max_price_field  = get_option( 'seur_bc2_max_price_field'  );
+    $seur_10e_max_price_field  = get_option( 'seur_10e_max_price_field'  );
+    $seur_10ef_max_price_field = get_option( 'seur_10ef_max_price_field' );
+    $seur_13e_max_price_field  = get_option( 'seur_13e_max_price_field'  );
+    $seur_13f_max_price_field  = get_option( 'seur_13f_max_price_field'  );
+    $seur_48h_max_price_field  = get_option( 'seur_48h_max_price_field'  );
+    $seur_72h_max_price_field  = get_option( 'seur_72h_max_price_field'  );
+    $seur_cit_max_price_field  = get_option( 'seur_cit_max_price_field'  );
 
-	if ( $seur_bc2_max_price_field  == '0' || ! $seur_bc2_max_price_field  ) $seur_bc2_max_price_field  = '99999999999';
-	if ( $seur_10e_max_price_field  == '0' || ! $seur_10e_max_price_field  ) $seur_10e_max_price_field  = '99999999999';
-	if ( $seur_10ef_max_price_field == '0' || ! $seur_10ef_max_price_field ) $seur_10ef_max_price_field = '99999999999';
-	if ( $seur_13e_max_price_field  == '0' || ! $seur_13e_max_price_field  ) $seur_13e_max_price_field  = '99999999999';
-	if ( $seur_13f_max_price_field  == '0' || ! $seur_13f_max_price_field  ) $seur_13f_max_price_field  = '99999999999';
-	if ( $seur_48h_max_price_field  == '0' || ! $seur_48h_max_price_field  ) $seur_48h_max_price_field  = '99999999999';
-	if ( $seur_72h_max_price_field  == '0' || ! $seur_72h_max_price_field  ) $seur_72h_max_price_field  = '99999999999';
-	if ( $seur_cit_max_price_field  == '0' || ! $seur_cit_max_price_field  ) $seur_cit_max_price_field  = '99999999999';
+    if ( $seur_bc2_max_price_field  == '0' || ! $seur_bc2_max_price_field  ) $seur_bc2_max_price_field  = '99999999999';
+    if ( $seur_10e_max_price_field  == '0' || ! $seur_10e_max_price_field  ) $seur_10e_max_price_field  = '99999999999';
+    if ( $seur_10ef_max_price_field == '0' || ! $seur_10ef_max_price_field ) $seur_10ef_max_price_field = '99999999999';
+    if ( $seur_13e_max_price_field  == '0' || ! $seur_13e_max_price_field  ) $seur_13e_max_price_field  = '99999999999';
+    if ( $seur_13f_max_price_field  == '0' || ! $seur_13f_max_price_field  ) $seur_13f_max_price_field  = '99999999999';
+    if ( $seur_48h_max_price_field  == '0' || ! $seur_48h_max_price_field  ) $seur_48h_max_price_field  = '99999999999';
+    if ( $seur_72h_max_price_field  == '0' || ! $seur_72h_max_price_field  ) $seur_72h_max_price_field  = '99999999999';
+    if ( $seur_cit_max_price_field  == '0' || ! $seur_cit_max_price_field  ) $seur_cit_max_price_field  = '99999999999';
 
-	if ( $raterate == 'B2C Estándar' ){
-		if( $package_price > $seur_bc2_max_price_field ){
-			$ratepricerate = '0';
-		} else {
-			$ratepricerate = $ratepricerate;
-		}
-	}
+    if ( $raterate == 'B2C Estándar' ){
+        if( $package_price > $seur_bc2_max_price_field ){
+            $ratepricerate = '0';
+        } else {
+            $ratepricerate = $ratepricerate;
+        }
+    }
 
-	if ( $raterate == 'SEUR 10 Estándar' ){
-		if( $package_price > $seur_10e_max_price_field ){
-			$ratepricerate = '0';
-		} else {
-			$ratepricerate = $ratepricerate;
-		}
-	}
+    if ( $raterate == 'SEUR 10 Estándar' ){
+        if( $package_price > $seur_10e_max_price_field ){
+            $ratepricerate = '0';
+        } else {
+            $ratepricerate = $ratepricerate;
+        }
+    }
 
-	if ( $raterate == 'SEUR 10 Frío' ){
-		if( $package_price > $seur_10ef_max_price_field ){
-			$ratepricerate = '0';
-		} else {
-			$ratepricerate = $ratepricerate;
-		}
-	}
+    if ( $raterate == 'SEUR 10 Frío' ){
+        if( $package_price > $seur_10ef_max_price_field ){
+            $ratepricerate = '0';
+        } else {
+            $ratepricerate = $ratepricerate;
+        }
+    }
 
-	if ( $raterate == 'SEUR 13:30 Estándar' ){
-		if( $package_price > $seur_13e_max_price_field ){
-			$ratepricerate = '0';
-		} else {
-			$ratepricerate = $ratepricerate;
-		}
-	}
+    if ( $raterate == 'SEUR 13:30 Estándar' ){
+        if( $package_price > $seur_13e_max_price_field ){
+            $ratepricerate = '0';
+        } else {
+            $ratepricerate = $ratepricerate;
+        }
+    }
 
-	if ( $raterate == 'SEUR 13:30 Frío' ){
-		if( $package_price > $seur_13f_max_price_field ){
-			$ratepricerate = '0';
-		} else {
-			$ratepricerate = $ratepricerate;
-		}
-	}
+    if ( $raterate == 'SEUR 13:30 Frío' ){
+        if( $package_price > $seur_13f_max_price_field ){
+            $ratepricerate = '0';
+        } else {
+            $ratepricerate = $ratepricerate;
+        }
+    }
 
-	if ( $raterate == 'SEUR 48H Estándar' ){
-		if( $package_price > $seur_48h_max_price_field ){
-			$ratepricerate = '0';
-		} else {
-			$ratepricerate = $ratepricerate;
-		}
-	}
+    if ( $raterate == 'SEUR 48H Estándar' ){
+        if( $package_price > $seur_48h_max_price_field ){
+            $ratepricerate = '0';
+        } else {
+            $ratepricerate = $ratepricerate;
+        }
+    }
 
-	if ( $raterate == 'SEUR 72H Estándar' ){
-		if( $package_price > $seur_72h_max_price_field ){
-			$ratepricerate = '0';
-		} else {
-			$ratepricerate = $ratepricerate;
-		}
-	}
+    if ( $raterate == 'SEUR 72H Estándar' ){
+        if( $package_price > $seur_72h_max_price_field ){
+            $ratepricerate = '0';
+        } else {
+            $ratepricerate = $ratepricerate;
+        }
+    }
 
-	if ( $raterate == 'Classic Internacional Terrestre' ){
-		if( $package_price > $seur_cit_max_price_field ){
-			$ratepricerate = '0';
-		} else {
-			$ratepricerate = $ratepricerate;
-		}
-	}
+    if ( $raterate == 'Classic Internacional Terrestre' ){
+        if( $package_price > $seur_cit_max_price_field ){
+            $ratepricerate = '0';
+        } else {
+            $ratepricerate = $ratepricerate;
+        }
+    }
 
-	return $ratepricerate;
+    return $ratepricerate;
 }
 
 // Hide free_shipping method because has to be set with seur shipping method
 function seur_hide_standard_free_shipping( $available_methods ){
-	unset( $available_methods['free_shipping'] );
-	return $available_methods;
+    unset( $available_methods['free_shipping'] );
+    return $available_methods;
 }
 add_filter( 'woocommerce_shipping_methods', 'seur_hide_standard_free_shipping' , 10, 1 );
 
@@ -534,118 +534,118 @@ function seur_post_formats_filter_to_woo_order_administration(){
 
     if ( $post_type == 'shop_order' ){
 
-	    $seur_bc2_custom_name  = '';
-		$seur_10e_custom_name  = '';
-		$seur_10ef_custom_name = '';
-		$seur_13e_custom_name  = '';
-		$seur_13f_custom_name  = '';
-		$seur_48h_custom_name  = '';
-		$seur_72h_custom_name  = '';
-		$seur_cit_custom_name  = '';
+        $seur_bc2_custom_name  = '';
+        $seur_10e_custom_name  = '';
+        $seur_10ef_custom_name = '';
+        $seur_13e_custom_name  = '';
+        $seur_13f_custom_name  = '';
+        $seur_48h_custom_name  = '';
+        $seur_72h_custom_name  = '';
+        $seur_cit_custom_name  = '';
 
-		$seur_bc2_custom_name  = get_option( 'seur_bc2_custom_name_field'  );
-		$seur_10e_custom_name  = get_option( 'seur_10e_custom_name_field'  );
-		$seur_10ef_custom_name = get_option( 'seur_10ef_custom_name_field' );
-		$seur_13e_custom_name  = get_option( 'seur_13e_custom_name_field'  );
-		$seur_13f_custom_name  = get_option( 'seur_13f_custom_name_field'  );
-		$seur_48h_custom_name  = get_option( 'seur_48h_custom_name_field'  );
-		$seur_72h_custom_name  = get_option( 'seur_72h_custom_name_field'  );
-		$seur_cit_custom_name  = get_option( 'seur_cit_custom_name_field'  );
+        $seur_bc2_custom_name  = get_option( 'seur_bc2_custom_name_field'  );
+        $seur_10e_custom_name  = get_option( 'seur_10e_custom_name_field'  );
+        $seur_10ef_custom_name = get_option( 'seur_10ef_custom_name_field' );
+        $seur_13e_custom_name  = get_option( 'seur_13e_custom_name_field'  );
+        $seur_13f_custom_name  = get_option( 'seur_13f_custom_name_field'  );
+        $seur_48h_custom_name  = get_option( 'seur_48h_custom_name_field'  );
+        $seur_72h_custom_name  = get_option( 'seur_72h_custom_name_field'  );
+        $seur_cit_custom_name  = get_option( 'seur_cit_custom_name_field'  );
 
-		if ( ! empty ( $seur_bc2_custom_name ) )  { $seur_bc2_custom_name  = $seur_bc2_custom_name;  } else { $seur_bc2_custom_name  =  'B2C Estándar'; 				   }
-		if ( ! empty ( $seur_10e_custom_name ) )  { $seur_10e_custom_name  = $seur_10e_custom_name;  } else { $seur_10ef_custom_name =  'SEUR 10 Estándar'; 			   }
-		if ( ! empty ( $seur_10ef_custom_name ) ) { $seur_10ef_custom_name = $seur_10ef_custom_name; } else { $seur_bc2_custom_name  =  'SEUR 10 Frío';					   }
-		if ( ! empty ( $seur_13e_custom_name ) )  { $seur_13e_custom_name  = $seur_13e_custom_name;  } else { $seur_13e_custom_name  =  'SEUR 13:30 Estándar'; 			   }
-		if ( ! empty ( $seur_13f_custom_name ) )  { $seur_13f_custom_name  = $seur_13f_custom_name;  } else { $seur_13f_custom_name  =  'SEUR 13:30 Frío'; 				   }
-		if ( ! empty ( $seur_48h_custom_name ) )  { $seur_48h_custom_name  = $seur_48h_custom_name;  } else { $seur_48h_custom_name  =  'SEUR 48H Estándar'; 			   }
-		if ( ! empty ( $seur_72h_custom_name ) )  { $seur_72h_custom_name  = $seur_72h_custom_name;  } else { $seur_72h_custom_name  =  'SEUR 72H Estándar'; 			   }
-		if ( ! empty ( $seur_cit_custom_name ) )  { $seur_cit_custom_name  = $seur_cit_custom_name;  } else { $seur_cit_custom_name  =  'Classic Internacional Terrestre'; }
+        if ( ! empty ( $seur_bc2_custom_name ) )  { $seur_bc2_custom_name  = $seur_bc2_custom_name;  } else { $seur_bc2_custom_name  =  'B2C Estándar';                    }
+        if ( ! empty ( $seur_10e_custom_name ) )  { $seur_10e_custom_name  = $seur_10e_custom_name;  } else { $seur_10e_custom_name  =  'SEUR 10 Estándar';                }
+        if ( ! empty ( $seur_10ef_custom_name ) ) { $seur_10ef_custom_name = $seur_10ef_custom_name; } else { $seur_10ef_custom_name =  'SEUR 10 Frío';                    }
+        if ( ! empty ( $seur_13e_custom_name ) )  { $seur_13e_custom_name  = $seur_13e_custom_name;  } else { $seur_13e_custom_name  =  'SEUR 13:30 Estándar';             }
+        if ( ! empty ( $seur_13f_custom_name ) )  { $seur_13f_custom_name  = $seur_13f_custom_name;  } else { $seur_13f_custom_name  =  'SEUR 13:30 Frío';                 }
+        if ( ! empty ( $seur_48h_custom_name ) )  { $seur_48h_custom_name  = $seur_48h_custom_name;  } else { $seur_48h_custom_name  =  'SEUR 48H Estándar';               }
+        if ( ! empty ( $seur_72h_custom_name ) )  { $seur_72h_custom_name  = $seur_72h_custom_name;  } else { $seur_72h_custom_name  =  'SEUR 72H Estándar';               }
+        if ( ! empty ( $seur_cit_custom_name ) )  { $seur_cit_custom_name  = $seur_cit_custom_name;  } else { $seur_cit_custom_name  =  'Classic Internacional Terrestre'; }
 
-		$seur_shipments = array(
-			$seur_bc2_custom_name,
-			$seur_10e_custom_name,
-			$seur_10ef_custom_name,
-			$seur_13e_custom_name,
-			$seur_13f_custom_name,
-			$seur_48h_custom_name,
-			$seur_72h_custom_name,
-			$seur_cit_custom_name,
-		);
-		?>
+        $seur_shipments = array(
+            $seur_bc2_custom_name,
+            $seur_10e_custom_name,
+            $seur_10ef_custom_name,
+            $seur_13e_custom_name,
+            $seur_13f_custom_name,
+            $seur_48h_custom_name,
+            $seur_72h_custom_name,
+            $seur_cit_custom_name,
+        );
+        ?>
 
-		<label for="dropdown_shop_order_seur_shipping_method" class="screen-reader-text"><?php _e( 'Seur Shippments', 'seur' ); ?></label>
-		<select name="_shop_order_seur_shipping_method" id="dropdown_shop_order_seur_shipping_method">
-			<option value=""><?php _e( 'All', 'seur' ); ?></option>
-			<option value="seur" <?php if ( ( esc_attr( isset( $_GET['_shop_order_seur_shipping_method'] ) ) ) &&  ( esc_attr( $_GET['_shop_order_seur_shipping_method'] ) == 'seur' ) ){ echo 'selected'; }?>><?php _e( 'All Seur Shipping', 'seur' ); ?></option>
-<!--			<option value="all_seur"><?php _e( 'All Seur Shippments', 'seur' ); ?></option> -->
-		<?php foreach ( $seur_shipments as $shippment ) :
-				$shippment_sani = sanitize_title( $shippment );
-		?>
-		      <option value="<?php echo esc_attr( $shippment_sani ); ?>" <?php echo esc_attr( isset( $_GET['_shop_order_seur_shipping_method'] ) ? selected( $shippment_sani, $_GET['_shop_order_seur_shipping_method'], false ) : '' ); ?>>
-					<?php echo esc_html( $shippment ); ?>
-			  </option>
+        <label for="dropdown_shop_order_seur_shipping_method" class="screen-reader-text"><?php _e( 'Seur Shippments', 'seur' ); ?></label>
+        <select name="_shop_order_seur_shipping_method" id="dropdown_shop_order_seur_shipping_method">
+            <option value=""><?php _e( 'All', 'seur' ); ?></option>
+            <option value="seur" <?php if ( ( esc_attr( isset( $_GET['_shop_order_seur_shipping_method'] ) ) ) &&  ( esc_attr( $_GET['_shop_order_seur_shipping_method'] ) == 'seur' ) ){ echo 'selected'; }?>><?php _e( 'All Seur Shipping', 'seur' ); ?></option>
+<!--            <option value="all_seur"><?php _e( 'All Seur Shippments', 'seur' ); ?></option> -->
+        <?php foreach ( $seur_shipments as $shippment ) :
+                $shippment_sani = sanitize_title( $shippment );
+        ?>
+              <option value="<?php echo esc_attr( $shippment_sani ); ?>" <?php echo esc_attr( isset( $_GET['_shop_order_seur_shipping_method'] ) ? selected( $shippment_sani, $_GET['_shop_order_seur_shipping_method'], false ) : '' ); ?>>
+                    <?php echo esc_html( $shippment ); ?>
+              </option>
 
-		<?php endforeach; ?>
-		</select>
-		<?php
+        <?php endforeach; ?>
+        </select>
+        <?php
     }
 }
 add_action('restrict_manage_posts','seur_post_formats_filter_to_woo_order_administration');
 
 function seur_filter_orders_by_shipping_method_query( $vars ) {
-	global $typenow;
+    global $typenow;
 
-	if ( 'shop_order' === $typenow && isset( $_GET['_shop_order_seur_shipping_method'] ) ) {
+    if ( 'shop_order' === $typenow && isset( $_GET['_shop_order_seur_shipping_method'] ) ) {
 
-		$seur_bc2_custom_name  = '';
-		$seur_10e_custom_name  = '';
-		$seur_10ef_custom_name = '';
-		$seur_13e_custom_name  = '';
-		$seur_13f_custom_name  = '';
-		$seur_48h_custom_name  = '';
-		$seur_72h_custom_name  = '';
-		$seur_cit_custom_name  = '';
+        $seur_bc2_custom_name  = '';
+        $seur_10e_custom_name  = '';
+        $seur_10ef_custom_name = '';
+        $seur_13e_custom_name  = '';
+        $seur_13f_custom_name  = '';
+        $seur_48h_custom_name  = '';
+        $seur_72h_custom_name  = '';
+        $seur_cit_custom_name  = '';
 
-		$seur_bc2_custom_name  = get_option( 'seur_bc2_custom_name_field'  );
-		$seur_10e_custom_name  = get_option( 'seur_10e_custom_name_field'  );
-		$seur_10ef_custom_name = get_option( 'seur_10ef_custom_name_field' );
-		$seur_13e_custom_name  = get_option( 'seur_13e_custom_name_field'  );
-		$seur_13f_custom_name  = get_option( 'seur_13f_custom_name_field'  );
-		$seur_48h_custom_name  = get_option( 'seur_48h_custom_name_field'  );
-		$seur_72h_custom_name  = get_option( 'seur_72h_custom_name_field'  );
-		$seur_cit_custom_name  = get_option( 'seur_cit_custom_name_field'  );
+        $seur_bc2_custom_name  = get_option( 'seur_bc2_custom_name_field'  );
+        $seur_10e_custom_name  = get_option( 'seur_10e_custom_name_field'  );
+        $seur_10ef_custom_name = get_option( 'seur_10ef_custom_name_field' );
+        $seur_13e_custom_name  = get_option( 'seur_13e_custom_name_field'  );
+        $seur_13f_custom_name  = get_option( 'seur_13f_custom_name_field'  );
+        $seur_48h_custom_name  = get_option( 'seur_48h_custom_name_field'  );
+        $seur_72h_custom_name  = get_option( 'seur_72h_custom_name_field'  );
+        $seur_cit_custom_name  = get_option( 'seur_cit_custom_name_field'  );
 
-		if ( ! empty ( $seur_bc2_custom_name ) )  { $seur_bc2_custom_name  = $seur_bc2_custom_name;  } else { $seur_bc2_custom_name  =  'B2C Estándar'; 				   }
-		if ( ! empty ( $seur_10e_custom_name ) )  { $seur_10e_custom_name  = $seur_10e_custom_name;  } else { $seur_10ef_custom_name =  'SEUR 10 Estándar'; 			   }
-		if ( ! empty ( $seur_10ef_custom_name ) ) { $seur_10ef_custom_name = $seur_10ef_custom_name; } else { $seur_bc2_custom_name  =  'SEUR 10 Frío';					   }
-		if ( ! empty ( $seur_13e_custom_name ) )  { $seur_13e_custom_name  = $seur_13e_custom_name;  } else { $seur_13e_custom_name  =  'SEUR 13:30 Estándar'; 			   }
-		if ( ! empty ( $seur_13f_custom_name ) )  { $seur_13f_custom_name  = $seur_13f_custom_name;  } else { $seur_13f_custom_name  =  'SEUR 13:30 Frío'; 				   }
-		if ( ! empty ( $seur_48h_custom_name ) )  { $seur_48h_custom_name  = $seur_48h_custom_name;  } else { $seur_48h_custom_name  =  'SEUR 48H Estándar'; 			   }
-		if ( ! empty ( $seur_72h_custom_name ) )  { $seur_72h_custom_name  = $seur_72h_custom_name;  } else { $seur_72h_custom_name  =  'SEUR 72H Estándar'; 			   }
-		if ( ! empty ( $seur_cit_custom_name ) )  { $seur_cit_custom_name  = $seur_cit_custom_name;  } else { $seur_cit_custom_name  =  'Classic Internacional Terrestre'; }
+        if ( ! empty ( $seur_bc2_custom_name ) )  { $seur_bc2_custom_name  = $seur_bc2_custom_name;  } else { $seur_bc2_custom_name  =  'B2C Estándar';                    }
+        if ( ! empty ( $seur_10e_custom_name ) )  { $seur_10e_custom_name  = $seur_10e_custom_name;  } else { $seur_10e_custom_name  =  'SEUR 10 Estándar';                }
+        if ( ! empty ( $seur_10ef_custom_name ) ) { $seur_10ef_custom_name = $seur_10ef_custom_name; } else { $seur_10ef_custom_name =  'SEUR 10 Frío';                    }
+        if ( ! empty ( $seur_13e_custom_name ) )  { $seur_13e_custom_name  = $seur_13e_custom_name;  } else { $seur_13e_custom_name  =  'SEUR 13:30 Estándar';             }
+        if ( ! empty ( $seur_13f_custom_name ) )  { $seur_13f_custom_name  = $seur_13f_custom_name;  } else { $seur_13f_custom_name  =  'SEUR 13:30 Frío';                 }
+        if ( ! empty ( $seur_48h_custom_name ) )  { $seur_48h_custom_name  = $seur_48h_custom_name;  } else { $seur_48h_custom_name  =  'SEUR 48H Estándar';               }
+        if ( ! empty ( $seur_72h_custom_name ) )  { $seur_72h_custom_name  = $seur_72h_custom_name;  } else { $seur_72h_custom_name  =  'SEUR 72H Estándar';               }
+        if ( ! empty ( $seur_cit_custom_name ) )  { $seur_cit_custom_name  = $seur_cit_custom_name;  } else { $seur_cit_custom_name  =  'Classic Internacional Terrestre'; }
 
-		$seur_shipments = array(
-			$seur_bc2_custom_name,
-			$seur_10e_custom_name,
-			$seur_10ef_custom_name,
-			$seur_13e_custom_name,
-			$seur_13f_custom_name,
-			$seur_48h_custom_name,
-			$seur_72h_custom_name,
-			$seur_cit_custom_name,
-		);
+        $seur_shipments = array(
+            $seur_bc2_custom_name,
+            $seur_10e_custom_name,
+            $seur_10ef_custom_name,
+            $seur_13e_custom_name,
+            $seur_13f_custom_name,
+            $seur_48h_custom_name,
+            $seur_72h_custom_name,
+            $seur_cit_custom_name,
+        );
 
-		foreach ( $seur_shipments as $shippment ) {
-			if ( sanitize_title( $shippment ) == $_GET['_shop_order_seur_shipping_method'] ) {
-				//$shop_order_seur_shipping_method = $shippment;
-				$vars['meta_key']   = '_seur_shipping_method_service';
-		        $vars['meta_value'] = sanitize_title( $shippment );
-			} elseif ( 'seur' == $_GET['_shop_order_seur_shipping_method'] ){
-				$vars['meta_key']   = '_seur_shipping';
-		        $vars['meta_value'] = 'seur';
-			}
-		}
-	}
-	return $vars;
+        foreach ( $seur_shipments as $shippment ) {
+            if ( sanitize_title( $shippment ) == $_GET['_shop_order_seur_shipping_method'] ) {
+                //$shop_order_seur_shipping_method = $shippment;
+                $vars['meta_key']   = '_seur_shipping_method_service';
+                $vars['meta_value'] = sanitize_title( $shippment );
+            } elseif ( 'seur' == $_GET['_shop_order_seur_shipping_method'] ){
+                $vars['meta_key']   = '_seur_shipping';
+                $vars['meta_value'] = 'seur';
+            }
+        }
+    }
+    return $vars;
 }
 add_filter( 'request', 'seur_filter_orders_by_shipping_method_query' );
