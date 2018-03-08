@@ -1,5 +1,5 @@
 === Plugin Name ===
-Contributors: j.conti, S0p0rteintegracion
+Contributors: j.conti, seuroficial
 Tags: woocommerce, shipping, seur, logistica, enviar paquete, pedidos, entregas
 Requires at least: 4.0
 Tested up to: 4.9.4

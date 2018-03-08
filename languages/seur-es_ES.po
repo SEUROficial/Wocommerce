@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: SEUR Oficial\n"
-"POT-Creation-Date: 2018-02-24 17:03+0100\n"
-"PO-Revision-Date: 2018-02-24 18:02+0100\n"
+"POT-Creation-Date: 2018-03-08 14:30+0100\n"
+"PO-Revision-Date: 2018-03-08 14:30+0100\n"
 "Last-Translator: José Conti <j.conti@joseconti.com>\n"
 "Language-Team: José Conti <j.conti@joseconti.com>\n"
 "Language: es_ES\n"
@@ -41,7 +41,7 @@ msgid "Found %s Results."
 msgstr "Encontrados %s resultados."
 
 #: core/functions/functions.php:189 core/functions/functions.php:1587
-#: core/functions/functions.php:1727 core/pages/seur-get-labels.php:26
+#: core/functions/functions.php:1729 core/pages/seur-get-labels.php:26
 msgid "We&apos;re sorry, SEUR API is down. Please try again in few minutes"
 msgstr ""
 "Lo sentimos, La API de SEUR está caída. Por favor, inténtalo de nuevo en "
@@ -254,7 +254,7 @@ msgstr "Etiquetas"
 msgid "Shipments Atributte"
 msgstr "Atributos de envío"
 
-#: core/labels-cpt/labels-cpt.php:15 core/labels-cpt/labels-cpt.php:167
+#: core/labels-cpt/labels-cpt.php:15 core/labels-cpt/labels-cpt.php:186
 msgid "Parent Item:"
 msgstr "Elemento Principal:"
 
@@ -350,7 +350,7 @@ msgstr "ID Envío"
 msgid "Order ID"
 msgstr "ID Pedido"
 
-#: core/labels-cpt/labels-cpt.php:76 core/labels-cpt/labels-cpt.php:164
+#: core/labels-cpt/labels-cpt.php:76 core/labels-cpt/labels-cpt.php:183
 #: core/pages/seur-products-services.php:20
 #: core/pages/seur-products-services.php:52
 #: core/woocommerce/includes/class-wc-shipping-seur.php:471
@@ -388,143 +388,161 @@ msgstr "Seguimiento"
 msgid "Label Date"
 msgstr "Fecha de la etiqueta"
 
-#: core/labels-cpt/labels-cpt.php:111
+#: core/labels-cpt/labels-cpt.php:104
+msgid "Waiting Collection"
+msgstr ""
+
+#: core/labels-cpt/labels-cpt.php:130
 msgid "Waiting Shipping"
 msgstr "Esperando envío"
 
-#: core/labels-cpt/labels-cpt.php:153
+#: core/labels-cpt/labels-cpt.php:172
 msgid " Open "
 msgstr " Abrir "
 
-#: core/labels-cpt/labels-cpt.php:162
+#: core/labels-cpt/labels-cpt.php:181
 msgctxt "Taxonomy General Name"
 msgid "Products"
 msgstr "Productos"
 
-#: core/labels-cpt/labels-cpt.php:163
+#: core/labels-cpt/labels-cpt.php:182
 msgctxt "Taxonomy Singular Name"
 msgid "Product"
 msgstr "Producto"
 
-#: core/labels-cpt/labels-cpt.php:165
+#: core/labels-cpt/labels-cpt.php:184
 msgid "All products"
 msgstr "Todos los productos"
 
-#: core/labels-cpt/labels-cpt.php:166
+#: core/labels-cpt/labels-cpt.php:185
 msgid "Parent Item"
 msgstr "Elemento principal"
 
-#: core/labels-cpt/labels-cpt.php:168
+#: core/labels-cpt/labels-cpt.php:187
 msgid "New Product"
 msgstr "Nuevo producto"
 
-#: core/labels-cpt/labels-cpt.php:169
+#: core/labels-cpt/labels-cpt.php:188
 msgid "Add new product"
 msgstr "Añadir nuevo producto"
 
-#: core/labels-cpt/labels-cpt.php:170
+#: core/labels-cpt/labels-cpt.php:189
 msgid "Edit Product"
 msgstr "Editar producto"
 
-#: core/labels-cpt/labels-cpt.php:171
+#: core/labels-cpt/labels-cpt.php:190
 msgid "Update Product"
 msgstr "Actualizar Producto"
 
-#: core/labels-cpt/labels-cpt.php:172
+#: core/labels-cpt/labels-cpt.php:191
 msgid "View Product"
 msgstr "Ver producto"
 
-#: core/labels-cpt/labels-cpt.php:173
+#: core/labels-cpt/labels-cpt.php:192
 msgid "Separate Products with commas"
 msgstr "Separa los productos con comas"
 
-#: core/labels-cpt/labels-cpt.php:174
+#: core/labels-cpt/labels-cpt.php:193
 msgid "Add or remove Products"
 msgstr "Agregar o quitar productos"
 
-#: core/labels-cpt/labels-cpt.php:175
+#: core/labels-cpt/labels-cpt.php:194
 msgid "Choose from the most used"
 msgstr "Elegir entre los más utilizados"
 
-#: core/labels-cpt/labels-cpt.php:176
+#: core/labels-cpt/labels-cpt.php:195
 msgid "Popular Products"
 msgstr "Productos Populares"
 
-#: core/labels-cpt/labels-cpt.php:177
+#: core/labels-cpt/labels-cpt.php:196
 msgid "Search Products"
 msgstr "Buscar Productos"
 
-#: core/labels-cpt/labels-cpt.php:178
+#: core/labels-cpt/labels-cpt.php:197
 msgid "Not Found"
 msgstr "No Encontrado"
 
-#: core/labels-cpt/labels-cpt.php:179
+#: core/labels-cpt/labels-cpt.php:198
 msgid "No Products"
 msgstr "Sin roductos"
 
-#: core/labels-cpt/labels-cpt.php:180
+#: core/labels-cpt/labels-cpt.php:199
 msgid "Product list"
 msgstr "Lista de productos"
 
-#: core/labels-cpt/labels-cpt.php:181
+#: core/labels-cpt/labels-cpt.php:200
 msgid "Products list navigation"
 msgstr "Navegación de productos"
 
-#: core/labels-cpt/labels-cpt.php:206
+#: core/labels-cpt/labels-cpt.php:225
 msgid "Data Label"
 msgstr "Fecha etiqueta"
 
-#: core/labels-cpt/labels-cpt.php:255
+#: core/labels-cpt/labels-cpt.php:274
 msgid "There aren't comments for this order"
 msgstr "No hay comentarios para este pedido"
 
-#: core/labels-cpt/labels-cpt.php:263
+#: core/labels-cpt/labels-cpt.php:282
 msgid "Details for Shipment ID #"
 msgstr "Los datos del envío con ID #"
 
-#: core/labels-cpt/labels-cpt.php:269
+#: core/labels-cpt/labels-cpt.php:288
 msgid "Billing Details"
 msgstr "Información de facturación"
 
-#: core/labels-cpt/labels-cpt.php:273 core/labels-cpt/labels-cpt.php:300
+#: core/labels-cpt/labels-cpt.php:292 core/labels-cpt/labels-cpt.php:319
 msgid "Adress:  "
 msgstr "Dirección:  "
 
-#: core/labels-cpt/labels-cpt.php:283
+#: core/labels-cpt/labels-cpt.php:302
 msgid "Email: "
 msgstr "Correo electrónico: "
 
-#: core/labels-cpt/labels-cpt.php:286
+#: core/labels-cpt/labels-cpt.php:305
 msgid "Phone: "
 msgstr "Teléfono: "
 
-#: core/labels-cpt/labels-cpt.php:289
+#: core/labels-cpt/labels-cpt.php:308
 msgid "Billing Mobile Phone: "
 msgstr "Teléfono móvil facturación: "
 
-#: core/labels-cpt/labels-cpt.php:296
+#: core/labels-cpt/labels-cpt.php:315
 msgid "Shipping Details"
 msgstr "Detalles facturación"
 
-#: core/labels-cpt/labels-cpt.php:309
+#: core/labels-cpt/labels-cpt.php:328
 msgid "Shipping Mobile Phone: "
 msgstr "Teléfono móvil envío: "
 
-#: core/labels-cpt/labels-cpt.php:312
+#: core/labels-cpt/labels-cpt.php:331
 msgid "Shipping Method: "
 msgstr "Método de envío: "
 
-#: core/labels-cpt/labels-cpt.php:318
+#: core/labels-cpt/labels-cpt.php:337
 msgid "Customer notes about Order: "
 msgstr "Notas del cliente sobre el pedido: "
 
-#: core/labels-cpt/labels-cpt.php:355 core/labels-cpt/labels-cpt.php:356
-msgid "Download  SEUR Label"
-msgstr "Descargar etiqueta SEUR"
+#: core/labels-cpt/labels-cpt.php:364
+msgid "Download  SEUR Labels"
+msgstr ""
 
-#: core/labels-cpt/labels-cpt.php:365 core/labels-cpt/labels-cpt.php:366
+#: core/labels-cpt/labels-cpt.php:365
 msgid "Update SEUR Tracking"
 msgstr "Actualizar seguimiento SEUR"
+
+#: core/labels-cpt/labels-cpt.php:435
+msgid ""
+"Bulk Print ready, please press Download Bulk Labels button for download the "
+"txt file. "
+msgstr ""
+
+#: core/labels-cpt/labels-cpt.php:435
+msgid " Download Bulk Labels "
+msgstr ""
+
+#: core/labels-cpt/labels-cpt.php:450
+msgid "All tracking updated"
+msgstr ""
 
 #: core/menu/menu.php:36 core/pages/about.php:9
 #: core/woocommerce/includes/class-wc-shipping-seur.php:215
@@ -1553,9 +1571,33 @@ msgstr ""
 msgid "SEUR Tracking"
 msgstr "Seguimiento SEUR"
 
+#: core/tracking/back/tracking-back.php:24
+msgid "Tracking ID"
+msgstr ""
+
+#: core/tracking/back/tracking-back.php:31
+msgid "Waiting Seur Label"
+msgstr ""
+
+#: core/tracking/back/tracking-back.php:41
+msgid "Waiting Collection or update tracking"
+msgstr ""
+
+#: core/tracking/back/tracking-back.php:55
+msgid "added on"
+msgstr ""
+
 #: core/tracking/front/tracking-front.php:7
 msgid "Where is my Order?"
 msgstr "¿Dónde está mi pedido?"
+
+#: core/tracking/front/tracking-front.php:28
+msgid "Click here"
+msgstr ""
+
+#: core/tracking/front/tracking-front.php:32
+msgid "Waiting shippment"
+msgstr ""
 
 #: core/woocommerce/includes/class-wc-shipping-seur.php:216
 msgid ""
@@ -1810,6 +1852,9 @@ msgstr "José Conti"
 #. Author URI of the plugin/theme
 msgid "https://www.joseconti.com/"
 msgstr "https://www.joseconti.com/"
+
+#~ msgid "Download  SEUR Label"
+#~ msgstr "Descargar etiqueta SEUR"
 
 #~ msgid "Link"
 #~ msgstr "Enlace"

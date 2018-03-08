@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: SEUR Oficial\n"
-"POT-Creation-Date: 2018-01-24 10:38+0100\n"
-"PO-Revision-Date: 2018-01-24 10:54+0100\n"
+"POT-Creation-Date: 2018-03-08 14:31+0100\n"
+"PO-Revision-Date: 2018-03-08 14:31+0100\n"
 "Last-Translator: José Conti <j.conti@joseconti.com>\n"
 "Language-Team: José Conti <j.conti@joseconti.com>\n"
 "Language: pt_PT\n"
@@ -22,46 +22,42 @@ msgstr ""
 "X-Poedit-SearchPathExcluded-0: *.js\n"
 "X-Poedit-SearchPathExcluded-1: include/TGMPA\n"
 
-#: core/functions/functions.php:40
+#: core/functions/functions.php:33
 msgid "SEUR_DEBUG is set to TRUE, please set it to false."
 msgstr ""
 
-#: core/functions/functions.php:94
+#: core/functions/functions.php:87
 msgid "No Matches Found"
 msgstr ""
 
-#: core/functions/functions.php:98
+#: core/functions/functions.php:91
 msgid "1 Result Found"
 msgstr ""
 
-#: core/functions/functions.php:102
+#: core/functions/functions.php:95
 #, php-format
 msgid "Found %s Results."
 msgstr ""
 
-#: core/functions/functions.php:196 core/functions/functions.php:1594
-#: core/functions/functions.php:1734 core/pages/seur-get-labels.php:26
+#: core/functions/functions.php:189 core/functions/functions.php:1587
+#: core/functions/functions.php:1729 core/pages/seur-get-labels.php:26
 msgid "We&apos;re sorry, SEUR API is down. Please try again in few minutes"
 msgstr ""
 
-#: core/functions/functions.php:442
+#: core/functions/functions.php:435
 msgid ""
 "CURL is needed by SEUR Plugin, please ask for CURL to your hosting provider"
 msgstr ""
 
-#: core/functions/functions.php:453
+#: core/functions/functions.php:446
 msgid ""
 "SOAP is needed by SEUR Plugin, please ask for SOAP to your hosting provider"
 msgstr ""
 
-#: core/functions/functions.php:464
+#: core/functions/functions.php:457
 msgid ""
 "XML (simplexml_load_string) is needed by SEUR Plugin, please ask for XML to "
 "your hosting provider"
-msgstr ""
-
-#: core/functions/functions.php:1674 core/functions/functions.php:1803
-msgid "Label not created"
 msgstr ""
 
 #: core/help/seur-help-tabs.php:11
@@ -240,245 +236,30 @@ msgstr ""
 msgid "Help about WooCommerce SEUR Options."
 msgstr ""
 
-#: core/importer/parsers.php:42 core/importer/parsers.php:72
-#: core/importer/parsers.php:80
-msgid "There was an error when reading this WXR file"
-msgstr ""
-
-#: core/importer/parsers.php:43
-msgid ""
-"Details are shown above. The importer will now try again with a different "
-"parser..."
-msgstr ""
-
-#: core/importer/parsers.php:84 core/importer/parsers.php:89
-#: core/importer/parsers.php:306 core/importer/parsers.php:495
-msgid ""
-"This does not appear to be a WXR file, missing/invalid WXR version number"
-msgstr ""
-
-#: core/importer/seur-importer.php:121 core/importer/seur-importer.php:130
-#: core/importer/seur-importer.php:181 core/importer/seur-importer.php:185
-#: core/importer/seur-importer.php:194
-msgid "Sorry, there has been an error."
-msgstr ""
-
-#: core/importer/seur-importer.php:122
-msgid "The file does not exist, please try again."
-msgstr ""
-
-#: core/importer/seur-importer.php:165
-msgid "All done."
-msgstr ""
-
-#: core/importer/seur-importer.php:165
-msgid "Have fun!"
-msgstr ""
-
-#: core/importer/seur-importer.php:166
-msgid "Remember to update the passwords and roles of imported users."
-msgstr ""
-
-#: core/importer/seur-importer.php:186
-#, php-format
-msgid ""
-"The export file could not be found at <code>%s</code>. It is likely that "
-"this was caused by a permissions problem."
-msgstr ""
-
-#: core/importer/seur-importer.php:202
-#, php-format
-msgid ""
-"This WXR file (version %s) may not be supported by this version of the "
-"importer. Please consider updating."
-msgstr ""
-
-#: core/importer/seur-importer.php:227
-#, php-format
-msgid ""
-"Failed to import author %s. Their posts will be attributed to the current "
-"user."
-msgstr ""
-
-#: core/importer/seur-importer.php:253
-msgid "Assign Authors"
-msgstr ""
-
-#: core/importer/seur-importer.php:254
-msgid ""
-"To make it easier for you to edit and save the imported content, you may "
-"want to reassign the author of the imported item to an existing user of this "
-"site. For example, you may want to import all the entries as <code>admin</"
-"code>s entries."
-msgstr ""
-
-#: core/importer/seur-importer.php:256
-#, php-format
-msgid ""
-"If a new user is created by SEUR, a new password will be randomly generated "
-"and the new user&#8217;s role will be set as %s. Manually changing the new "
-"user&#8217;s details will be necessary."
-msgstr ""
-
-#: core/importer/seur-importer.php:266
-msgid "Import Attachments"
-msgstr ""
-
-#: core/importer/seur-importer.php:269
-msgid "Download and import file attachments"
-msgstr ""
-
-#: core/importer/seur-importer.php:273 core/pages/seur-manifest.php:105
-msgid "Submit"
-msgstr ""
-
-#: core/importer/seur-importer.php:286
-msgid "Import author:"
-msgstr ""
-
-#: core/importer/seur-importer.php:297
-msgid "or create new user with login name:"
-msgstr ""
-
-#: core/importer/seur-importer.php:300
-msgid "as a new user:"
-msgstr ""
-
-#: core/importer/seur-importer.php:308
-msgid "assign posts to an existing user:"
-msgstr ""
-
-#: core/importer/seur-importer.php:310
-msgid "or assign posts to an existing user:"
-msgstr ""
-
-#: core/importer/seur-importer.php:311
-msgid "- Select -"
-msgstr ""
-
-#: core/importer/seur-importer.php:361
-#, php-format
-msgid ""
-"Failed to create new user for %s. Their posts will be attributed to the "
-"current user."
-msgstr ""
-
-#: core/importer/seur-importer.php:413
-#, php-format
-msgid "Failed to import category %s"
-msgstr ""
-
-#: core/importer/seur-importer.php:456
-#, php-format
-msgid "Failed to import post tag %s"
-msgstr ""
-
-#: core/importer/seur-importer.php:505 core/importer/seur-importer.php:727
-#, php-format
-msgid "Failed to import %s %s"
-msgstr ""
-
-#: core/importer/seur-importer.php:594
-#, php-format
-msgid "Failed to import &#8220;%s&#8221;: Invalid post type %s"
-msgstr ""
-
-#: core/importer/seur-importer.php:631
-#, php-format
-msgid "%s &#8220;%s&#8221; already exists."
-msgstr ""
-
-#: core/importer/seur-importer.php:693
-#, php-format
-msgid "Failed to import %s &#8220;%s&#8221;"
-msgstr ""
-
-#: core/importer/seur-importer.php:858
-msgid "Menu item skipped due to missing menu slug"
-msgstr ""
-
-#: core/importer/seur-importer.php:865
-#, php-format
-msgid "Menu item skipped due to invalid menu slug: %s"
-msgstr ""
-
-#: core/importer/seur-importer.php:928
-msgid "Fetching attachments is not enabled"
-msgstr ""
-
-#: core/importer/seur-importer.php:941
-msgid "Invalid file type"
-msgstr ""
-
-#: core/importer/seur-importer.php:985
-msgid "Remote server did not respond"
-msgstr ""
-
-#: core/importer/seur-importer.php:991
-#, php-format
-msgid "Remote server returned error response %1$d %2$s"
-msgstr ""
-
-#: core/importer/seur-importer.php:998
-msgid "Remote file is incorrect size"
-msgstr ""
-
-#: core/importer/seur-importer.php:1003
-msgid "Zero size file downloaded"
-msgstr ""
-
-#: core/importer/seur-importer.php:1009
-#, php-format
-msgid "Remote file is too large, limit is %s"
-msgstr ""
-
-#: core/importer/seur-importer.php:1108
-msgid "Import SEUR"
-msgstr ""
-
-#: core/importer/seur-importer.php:1115
-#, php-format
-msgid ""
-"A new version of this importer is available. Please update to version %s to "
-"ensure compatibility with newer export files."
-msgstr ""
-
-#: core/importer/seur-importer.php:1130
-msgid ""
-"Howdy! Upload your SEUR eXtended RSS (WXR) file and we&#8217;ll import the "
-"posts, pages, comments, custom fields, categories, and tags into this site."
-msgstr ""
-
-#: core/importer/seur-importer.php:1131
-msgid "Choose a WXR (.xml) file to upload, then click Upload file and import."
-msgstr ""
-
-#: core/importer/seur-importer.php:1205
-msgid ""
-"Import <strong>posts, pages, comments, custom fields, categories, and tags</"
-"strong> from a SEUR export file."
-msgstr ""
-
 #: core/labels-cpt/labels-cpt.php:9
 msgctxt "Post Type General Name"
-msgid "Labels"
+msgid "Shipments"
 msgstr ""
 
 #: core/labels-cpt/labels-cpt.php:10
 msgctxt "Post Type Singular Name"
-msgid "Label"
+msgid "Shipment"
 msgstr ""
 
 #: core/labels-cpt/labels-cpt.php:11 core/labels-cpt/labels-cpt.php:12
-#: core/labels-cpt/labels-cpt.php:13 core/menu/menu.php:61
+#: core/menu/menu.php:61
+msgid "Shipments"
+msgstr ""
+
+#: core/labels-cpt/labels-cpt.php:13
 msgid "Labels"
 msgstr ""
 
 #: core/labels-cpt/labels-cpt.php:14
-msgid "Labels Atributte"
+msgid "Shipments Atributte"
 msgstr ""
 
-#: core/labels-cpt/labels-cpt.php:15 core/labels-cpt/labels-cpt.php:155
+#: core/labels-cpt/labels-cpt.php:15 core/labels-cpt/labels-cpt.php:186
 msgid "Parent Item:"
 msgstr ""
 
@@ -487,7 +268,7 @@ msgid "All Labels"
 msgstr ""
 
 #: core/labels-cpt/labels-cpt.php:17
-msgid "Add New Label"
+msgid "Add New Shipment"
 msgstr ""
 
 #: core/labels-cpt/labels-cpt.php:18
@@ -495,27 +276,23 @@ msgid "Add New"
 msgstr ""
 
 #: core/labels-cpt/labels-cpt.php:19
-msgid "New Label"
+msgid "New Shipment"
 msgstr ""
 
 #: core/labels-cpt/labels-cpt.php:20
-msgid "Edit Labels"
+msgid "Shipment Data"
 msgstr ""
 
 #: core/labels-cpt/labels-cpt.php:21
-msgid "Update Label"
+msgid "Update Shipment"
 msgstr ""
 
-#: core/labels-cpt/labels-cpt.php:22
-msgid "View Label"
-msgstr ""
-
-#: core/labels-cpt/labels-cpt.php:23
-msgid "View Labels"
+#: core/labels-cpt/labels-cpt.php:22 core/labels-cpt/labels-cpt.php:23
+msgid "View Shipment"
 msgstr ""
 
 #: core/labels-cpt/labels-cpt.php:24
-msgid "Search Label"
+msgid "Search Shipment"
 msgstr ""
 
 #: core/labels-cpt/labels-cpt.php:25
@@ -563,22 +340,22 @@ msgid "Filter Labels list"
 msgstr ""
 
 #: core/labels-cpt/labels-cpt.php:38
-msgid "Label"
+msgid "Shipment"
 msgstr ""
 
 #: core/labels-cpt/labels-cpt.php:39
-msgid "Seur Labels"
+msgid "Seur Shipments"
 msgstr ""
 
 #: core/labels-cpt/labels-cpt.php:74
-msgid "Label ID"
+msgid "Shipment ID"
 msgstr ""
 
 #: core/labels-cpt/labels-cpt.php:75
 msgid "Order ID"
 msgstr ""
 
-#: core/labels-cpt/labels-cpt.php:76 core/labels-cpt/labels-cpt.php:152
+#: core/labels-cpt/labels-cpt.php:76 core/labels-cpt/labels-cpt.php:183
 #: core/pages/seur-products-services.php:20
 #: core/pages/seur-products-services.php:52
 #: core/woocommerce/includes/class-wc-shipping-seur.php:471
@@ -596,150 +373,180 @@ msgstr ""
 #: core/labels-cpt/labels-cpt.php:79 core/pages/rates/seur-rates.php:148
 #: core/pages/rates/seur-rates.php:149 core/pages/seur-get-labels.php:35
 #: core/pages/seur-get-labels.php:36
-#: core/woocommerce/includes/seur-woo-functions.php:29
+#: core/woocommerce/includes/seur-woo-functions.php:81
 msgid "Weight"
 msgstr ""
 
 #: core/labels-cpt/labels-cpt.php:80
-msgid "Service/Product"
-msgstr ""
-
-#: core/labels-cpt/labels-cpt.php:81
 msgid "Print/Download"
 msgstr ""
 
+#: core/labels-cpt/labels-cpt.php:81
+msgid "Serv/Prod"
+msgstr ""
+
 #: core/labels-cpt/labels-cpt.php:82
+msgid "Tracking"
+msgstr ""
+
+#: core/labels-cpt/labels-cpt.php:83
 msgid "Label Date"
 msgstr ""
 
-#: core/labels-cpt/labels-cpt.php:141
+#: core/labels-cpt/labels-cpt.php:104
+msgid "Waiting Collection"
+msgstr ""
+
+#: core/labels-cpt/labels-cpt.php:130
+msgid "Waiting Shipping"
+msgstr ""
+
+#: core/labels-cpt/labels-cpt.php:172
 msgid " Open "
 msgstr ""
 
-#: core/labels-cpt/labels-cpt.php:150
+#: core/labels-cpt/labels-cpt.php:181
 msgctxt "Taxonomy General Name"
 msgid "Products"
 msgstr ""
 
-#: core/labels-cpt/labels-cpt.php:151
+#: core/labels-cpt/labels-cpt.php:182
 msgctxt "Taxonomy Singular Name"
 msgid "Product"
 msgstr ""
 
-#: core/labels-cpt/labels-cpt.php:153
+#: core/labels-cpt/labels-cpt.php:184
 msgid "All products"
 msgstr ""
 
-#: core/labels-cpt/labels-cpt.php:154
+#: core/labels-cpt/labels-cpt.php:185
 msgid "Parent Item"
 msgstr ""
 
-#: core/labels-cpt/labels-cpt.php:156
+#: core/labels-cpt/labels-cpt.php:187
 msgid "New Product"
 msgstr ""
 
-#: core/labels-cpt/labels-cpt.php:157
+#: core/labels-cpt/labels-cpt.php:188
 msgid "Add new product"
 msgstr ""
 
-#: core/labels-cpt/labels-cpt.php:158
+#: core/labels-cpt/labels-cpt.php:189
 msgid "Edit Product"
 msgstr ""
 
-#: core/labels-cpt/labels-cpt.php:159
+#: core/labels-cpt/labels-cpt.php:190
 msgid "Update Product"
 msgstr ""
 
-#: core/labels-cpt/labels-cpt.php:160
+#: core/labels-cpt/labels-cpt.php:191
 msgid "View Product"
 msgstr ""
 
-#: core/labels-cpt/labels-cpt.php:161
+#: core/labels-cpt/labels-cpt.php:192
 msgid "Separate Products with commas"
 msgstr ""
 
-#: core/labels-cpt/labels-cpt.php:162
+#: core/labels-cpt/labels-cpt.php:193
 msgid "Add or remove Products"
 msgstr ""
 
-#: core/labels-cpt/labels-cpt.php:163
+#: core/labels-cpt/labels-cpt.php:194
 msgid "Choose from the most used"
 msgstr ""
 
-#: core/labels-cpt/labels-cpt.php:164
+#: core/labels-cpt/labels-cpt.php:195
 msgid "Popular Products"
 msgstr ""
 
-#: core/labels-cpt/labels-cpt.php:165
+#: core/labels-cpt/labels-cpt.php:196
 msgid "Search Products"
 msgstr ""
 
-#: core/labels-cpt/labels-cpt.php:166
+#: core/labels-cpt/labels-cpt.php:197
 msgid "Not Found"
 msgstr ""
 
-#: core/labels-cpt/labels-cpt.php:167
+#: core/labels-cpt/labels-cpt.php:198
 msgid "No Products"
 msgstr ""
 
-#: core/labels-cpt/labels-cpt.php:168
+#: core/labels-cpt/labels-cpt.php:199
 msgid "Product list"
 msgstr ""
 
-#: core/labels-cpt/labels-cpt.php:169
+#: core/labels-cpt/labels-cpt.php:200
 msgid "Products list navigation"
 msgstr ""
 
-#: core/labels-cpt/labels-cpt.php:194
+#: core/labels-cpt/labels-cpt.php:225
 msgid "Data Label"
 msgstr ""
 
-#: core/labels-cpt/labels-cpt.php:243
+#: core/labels-cpt/labels-cpt.php:274
 msgid "There aren't comments for this order"
 msgstr ""
 
-#: core/labels-cpt/labels-cpt.php:251
-msgid "Details for Label ID #"
+#: core/labels-cpt/labels-cpt.php:282
+msgid "Details for Shipment ID #"
 msgstr ""
 
-#: core/labels-cpt/labels-cpt.php:257
+#: core/labels-cpt/labels-cpt.php:288
 msgid "Billing Details"
 msgstr ""
 
-#: core/labels-cpt/labels-cpt.php:261 core/labels-cpt/labels-cpt.php:288
+#: core/labels-cpt/labels-cpt.php:292 core/labels-cpt/labels-cpt.php:319
 msgid "Adress:  "
 msgstr ""
 
-#: core/labels-cpt/labels-cpt.php:271
+#: core/labels-cpt/labels-cpt.php:302
 msgid "Email: "
 msgstr ""
 
-#: core/labels-cpt/labels-cpt.php:274
+#: core/labels-cpt/labels-cpt.php:305
 msgid "Phone: "
 msgstr ""
 
-#: core/labels-cpt/labels-cpt.php:277
+#: core/labels-cpt/labels-cpt.php:308
 msgid "Billing Mobile Phone: "
 msgstr ""
 
-#: core/labels-cpt/labels-cpt.php:284
+#: core/labels-cpt/labels-cpt.php:315
 msgid "Shipping Details"
 msgstr ""
 
-#: core/labels-cpt/labels-cpt.php:297
+#: core/labels-cpt/labels-cpt.php:328
 msgid "Shipping Mobile Phone: "
 msgstr ""
 
-#: core/labels-cpt/labels-cpt.php:300
+#: core/labels-cpt/labels-cpt.php:331
 msgid "Shipping Method: "
 msgstr ""
 
-#: core/labels-cpt/labels-cpt.php:306
+#: core/labels-cpt/labels-cpt.php:337
 msgid "Customer notes about Order: "
 msgstr ""
 
-#: core/labels-cpt/labels-cpt.php:343 core/labels-cpt/labels-cpt.php:344
-msgid "Download SEUR Label"
+#: core/labels-cpt/labels-cpt.php:364
+msgid "Download  SEUR Labels"
+msgstr ""
+
+#: core/labels-cpt/labels-cpt.php:365
+msgid "Update SEUR Tracking"
+msgstr ""
+
+#: core/labels-cpt/labels-cpt.php:435
+msgid ""
+"Bulk Print ready, please press Download Bulk Labels button for download the "
+"txt file. "
+msgstr ""
+
+#: core/labels-cpt/labels-cpt.php:435
+msgid " Download Bulk Labels "
+msgstr ""
+
+#: core/labels-cpt/labels-cpt.php:450
+msgid "All tracking updated"
 msgstr ""
 
 #: core/menu/menu.php:36 core/pages/about.php:9
@@ -956,77 +763,77 @@ msgstr ""
 msgid "Select a Rate"
 msgstr ""
 
-#: core/pages/rates/seur-add-form.php:55
+#: core/pages/rates/seur-add-form.php:57
 #: core/pages/rates/seur-custom-rates.php:24
 #: core/pages/rates/seur-custom-rates.php:109
 #: core/pages/rates/seur-custom-rates.php:139
 #: core/pages/rates/seur-custom-rates.php:224
-#: core/pages/rates/seur-edit-form.php:82 core/pages/rates/seur-rates.php:140
+#: core/pages/rates/seur-edit-form.php:80 core/pages/rates/seur-rates.php:140
 #: core/pages/rates/seur-rates.php:141
 #: core/pages/setting-options/user-settings.php:137
 msgid "Country"
 msgstr "País"
 
-#: core/pages/rates/seur-add-form.php:58
+#: core/pages/rates/seur-add-form.php:60
 #: core/pages/rates/seur-country-state-process.php:9
 #: core/pages/rates/seur-country-state-process.php:18
 #: core/pages/rates/seur-country-state-process.php:19
 #: core/pages/rates/seur-country-state-process.php:24
-#: core/pages/rates/seur-edit-form.php:85
+#: core/pages/rates/seur-edit-form.php:83
 msgid "Select Country"
 msgstr ""
 
-#: core/pages/rates/seur-add-form.php:60 core/pages/rates/seur-add-form.php:71
+#: core/pages/rates/seur-add-form.php:62 core/pages/rates/seur-add-form.php:73
 msgid "Select a Country"
 msgstr ""
 
-#: core/pages/rates/seur-add-form.php:61
+#: core/pages/rates/seur-add-form.php:63
 #: core/pages/rates/seur-country-state-process.php:13
 #: core/pages/rates/seur-country-state-process.php:20
-#: core/pages/rates/seur-edit-form.php:92
-#: core/pages/rates/seur-edit-form.php:94
+#: core/pages/rates/seur-edit-form.php:88
+#: core/pages/rates/seur-edit-form.php:90
 #: core/pages/setting-options/user-settings.php:70
 msgid "Spain"
 msgstr ""
 
-#: core/pages/rates/seur-add-form.php:68
+#: core/pages/rates/seur-add-form.php:70
 #: core/pages/rates/seur-custom-rates.php:26
 #: core/pages/rates/seur-custom-rates.php:111
 #: core/pages/rates/seur-custom-rates.php:141
 #: core/pages/rates/seur-custom-rates.php:226
-#: core/pages/rates/seur-edit-form.php:126
-#: core/pages/rates/seur-edit-form.php:160
+#: core/pages/rates/seur-edit-form.php:125
+#: core/pages/rates/seur-edit-form.php:159
 msgid "State"
 msgstr ""
 
-#: core/pages/rates/seur-add-form.php:76
+#: core/pages/rates/seur-add-form.php:78
 #: core/pages/rates/seur-custom-rates.php:28
 #: core/pages/rates/seur-custom-rates.php:113
 #: core/pages/rates/seur-custom-rates.php:143
 #: core/pages/rates/seur-custom-rates.php:228
-#: core/pages/rates/seur-edit-form.php:171
+#: core/pages/rates/seur-edit-form.php:170
 #: core/pages/setting-options/user-settings.php:134
 msgid "Postcode"
 msgstr ""
 
-#: core/pages/rates/seur-add-form.php:78
+#: core/pages/rates/seur-add-form.php:80
 msgid "Type a Postcode"
 msgstr ""
 
-#: core/pages/rates/seur-add-form.php:94
+#: core/pages/rates/seur-add-form.php:96
 #: core/pages/rates/seur-custom-rates.php:34
 #: core/pages/rates/seur-custom-rates.php:119
 #: core/pages/rates/seur-custom-rates.php:149
 #: core/pages/rates/seur-custom-rates.php:234
-#: core/pages/rates/seur-edit-form.php:189
+#: core/pages/rates/seur-edit-form.php:188
 msgid "Rate Price"
 msgstr ""
 
-#: core/pages/rates/seur-add-form.php:96
+#: core/pages/rates/seur-add-form.php:98
 msgid "Apply this price to the rate"
 msgstr ""
 
-#: core/pages/rates/seur-add-form.php:103
+#: core/pages/rates/seur-add-form.php:105
 msgid "Save this Record"
 msgstr ""
 
@@ -1036,15 +843,15 @@ msgid "Select"
 msgstr ""
 
 #: core/pages/rates/seur-country-state-process.php:11
-#: core/pages/rates/seur-edit-form.php:102
-#: core/pages/rates/seur-edit-form.php:104
+#: core/pages/rates/seur-edit-form.php:98
+#: core/pages/rates/seur-edit-form.php:100
 #: core/pages/setting-options/user-settings.php:72
 msgid "Andorra"
 msgstr ""
 
 #: core/pages/rates/seur-country-state-process.php:12
-#: core/pages/rates/seur-edit-form.php:97
-#: core/pages/rates/seur-edit-form.php:99
+#: core/pages/rates/seur-edit-form.php:93
+#: core/pages/rates/seur-edit-form.php:95
 #: core/pages/setting-options/user-settings.php:71
 msgid "Portugal"
 msgstr ""
@@ -1058,13 +865,13 @@ msgstr ""
 #: core/pages/rates/seur-country-state-process.php:69
 #: core/pages/rates/seur-country-state-process.php:77
 #: core/pages/rates/seur-country-state-process.php:87
-#: core/pages/rates/seur-edit-form.php:141
+#: core/pages/rates/seur-edit-form.php:140
 msgid "Select State"
 msgstr ""
 
 #: core/pages/rates/seur-country-state-process.php:56
 #: core/pages/rates/seur-country-state-process.php:88
-#: core/pages/rates/seur-edit-form.php:142
+#: core/pages/rates/seur-edit-form.php:141
 msgid "All States"
 msgstr ""
 
@@ -1078,38 +885,33 @@ msgid "EX : State"
 msgstr ""
 
 #: core/pages/rates/seur-country-state-process.php:70
-#: core/places/states/ES.php:12
 msgid "Baleares"
 msgstr ""
 
 #: core/pages/rates/seur-country-state-process.php:71
-#: core/places/states/ES.php:19
 msgid "Ceuta"
 msgstr ""
 
 #: core/pages/rates/seur-country-state-process.php:72
-#: core/places/states/ES.php:37
 msgid "Melilla"
 msgstr ""
 
 #: core/pages/rates/seur-country-state-process.php:78
-#: core/places/states/ES.php:31
 msgid "Las Palmas"
 msgstr ""
 
 #: core/pages/rates/seur-country-state-process.php:79
-#: core/places/states/ES.php:44
 msgid "Santa Cruz de Tenerife"
 msgstr ""
 
 #: core/pages/rates/seur-country-state-process.php:98
-#: core/pages/rates/seur-edit-form.php:164
+#: core/pages/rates/seur-edit-form.php:163
 msgid "No needed"
 msgstr ""
 
 #: core/pages/rates/seur-country-state-process.php:101
-#: core/pages/rates/seur-edit-form.php:173
-#: core/pages/rates/seur-edit-form.php:191
+#: core/pages/rates/seur-edit-form.php:172
+#: core/pages/rates/seur-edit-form.php:190
 #: core/pages/setting-options/advanced-settings.php:14
 #: core/pages/setting-options/advanced-settings.php:18
 #: core/pages/setting-options/advanced-settings.php:72
@@ -1208,7 +1010,11 @@ msgid "Max Weight"
 msgstr ""
 
 #: core/pages/rates/seur-rates.php:4
-msgid "TARIFAS<BR>Consultar el coste de un envio según su tarifa"
+msgid "TARIFAS"
+msgstr ""
+
+#: core/pages/rates/seur-rates.php:4
+msgid "Consultar el coste de un envío según su tarifa"
 msgstr ""
 
 #: core/pages/rates/seur-rates.php:10
@@ -1242,23 +1048,24 @@ msgstr ""
 #: core/pages/rates/seur-rates.php:193
 msgid ""
 "The type of service/product considered will be that which is established in "
-"the set-up data and according to the destination.<br />\n"
+"the set-up data and according to the destination.<br>\n"
 "            If payment is going to be cash on delivery, enter the value ONLY "
 "if you would like to consider the cash management expenses to be charged to "
-"the sender.<br />\n"
+"the sender.<br>\n"
 "            If the delivery is to the Canary Islands, Customs and the type "
 "of delivery will be considered according to the established set-up data. The "
-"same thing applies for deliveries to Andorra, Ceuta and Melilla.<br />"
+"same thing applies for deliveries to Andorra, Ceuta and Melilla.<br>"
 msgstr ""
 "O tipo de serviço produto considerado será o estabelecido nos dados da "
-"configuração e dependerá do destino.<br />\n"
+"configuração e dependerá do destino.\n"
 "\n"
 "Se o envio for contrarreembolso, introduza o valor APENAS se desejar que as "
-"despesas de gestão do reembolso correm a cargo do remetente.<br />\n"
+"despesas de gestão do reembolso correm a cargo do remetente.\n"
+"\n"
 "Se o envio for para as Ilhas Canárias, serão tidas em conta as despesas de "
 "Alfândega bem como o tipo de envio, em conformidade com os dados de "
 "configuração estabelecidos, sendo o mesmo no caso de envios para Andorra, "
-"Ceuta e Melilha.<br />"
+"Ceuta e Melilha.<br>"
 
 #: core/pages/rates/seur-rates.php:202
 msgid "Please fill in the Postcode field."
@@ -1568,8 +1375,8 @@ msgstr ""
 
 #: core/pages/seur-get-labels.php:82
 #: core/woocommerce/includes/metabox/seur-metabox.php:89
-#: core/woocommerce/includes/seur-woo-functions.php:209
-#: core/woocommerce/includes/seur-woo-functions.php:303
+#: core/woocommerce/includes/seur-woo-functions.php:261
+#: core/woocommerce/includes/seur-woo-functions.php:373
 msgid "Label have been created:"
 msgstr ""
 
@@ -1599,6 +1406,10 @@ msgstr ""
 
 #: core/pages/seur-manifest.php:99 core/pages/seur-manifest.php:100
 msgid "From Date"
+msgstr ""
+
+#: core/pages/seur-manifest.php:105
+msgid "Submit"
 msgstr ""
 
 #: core/pages/seur-manifest.php:108
@@ -1774,4821 +1585,49 @@ msgid "User Settings"
 msgstr ""
 
 #: core/pages/seur-settings.php:26
-msgid "If you have a SEUR settings file, you can upload it through this "
-msgstr ""
-
-#: core/pages/seur-settings.php:26
-msgid "Link"
+msgid "Configuration data. Contact SEUR if you do not have them."
 msgstr ""
 
 #: core/pages/seur-settings.php:29
-msgid "Datos de configuración. Contacte con SEUR si no dispone de ellos."
-msgstr ""
-
-#: core/pages/seur-settings.php:32
 msgid "(<sup>*</sup>) This data is provided by SEUR"
 msgstr ""
 
-#: core/pages/seur-settings.php:35
+#: core/pages/seur-settings.php:32
 msgid ""
-"Especifique por favor si desea Notificaciones, horario para las recogidas, "
-"tipo de etiquetas generada e información aduanera."
-msgstr ""
-
-#: core/places/countries.php:4
-msgid "Afghanistan"
-msgstr ""
-
-#: core/places/countries.php:5
-msgid "&#197;land Islands"
-msgstr ""
-
-#: core/places/countries.php:6
-msgid "Albania"
-msgstr ""
-
-#: core/places/countries.php:7
-msgid "Algeria"
-msgstr ""
-
-#: core/places/countries.php:8
-msgid "American Samoa"
-msgstr ""
-
-#: core/places/countries.php:9
-msgid "Angola"
-msgstr ""
-
-#: core/places/countries.php:10
-msgid "Anguilla"
-msgstr ""
-
-#: core/places/countries.php:11
-msgid "Antarctica"
-msgstr ""
-
-#: core/places/countries.php:12
-msgid "Antigua and Barbuda"
-msgstr ""
-
-#: core/places/countries.php:13
-msgid "Argentina"
-msgstr ""
-
-#: core/places/countries.php:14
-msgid "Armenia"
-msgstr ""
-
-#: core/places/countries.php:15
-msgid "Aruba"
-msgstr ""
-
-#: core/places/countries.php:16
-msgid "Australia"
-msgstr ""
-
-#: core/places/countries.php:17
-msgid "Austria"
-msgstr ""
-
-#: core/places/countries.php:18
-msgid "Azerbaijan"
-msgstr ""
-
-#: core/places/countries.php:19
-msgid "Bahamas"
-msgstr ""
-
-#: core/places/countries.php:20
-msgid "Bahrain"
-msgstr ""
-
-#: core/places/countries.php:21
-msgid "Bangladesh"
-msgstr ""
-
-#: core/places/countries.php:22
-msgid "Barbados"
-msgstr ""
-
-#: core/places/countries.php:23
-msgid "Belarus"
-msgstr ""
-
-#: core/places/countries.php:24
-msgid "Belgium"
-msgstr ""
-
-#: core/places/countries.php:25
-msgid "Belau"
-msgstr ""
-
-#: core/places/countries.php:26
-msgid "Belize"
-msgstr ""
-
-#: core/places/countries.php:27
-msgid "Benin"
-msgstr ""
-
-#: core/places/countries.php:28
-msgid "Bermuda"
-msgstr ""
-
-#: core/places/countries.php:29
-msgid "Bhutan"
-msgstr ""
-
-#: core/places/countries.php:30
-msgid "Bolivia"
-msgstr ""
-
-#: core/places/countries.php:31
-msgid "Bonaire, Saint Eustatius and Saba"
-msgstr ""
-
-#: core/places/countries.php:32
-msgid "Bosnia and Herzegovina"
-msgstr ""
-
-#: core/places/countries.php:33
-msgid "Botswana"
-msgstr ""
-
-#: core/places/countries.php:34
-msgid "Bouvet Island"
-msgstr ""
-
-#: core/places/countries.php:35
-msgid "Brazil"
-msgstr ""
-
-#: core/places/countries.php:36
-msgid "British Indian Ocean Territory"
-msgstr ""
-
-#: core/places/countries.php:37
-msgid "British Virgin Islands"
-msgstr ""
-
-#: core/places/countries.php:38
-msgid "Brunei"
-msgstr ""
-
-#: core/places/countries.php:39
-msgid "Bulgaria"
-msgstr ""
-
-#: core/places/countries.php:40
-msgid "Burkina Faso"
-msgstr ""
-
-#: core/places/countries.php:41
-msgid "Burundi"
-msgstr ""
-
-#: core/places/countries.php:42
-msgid "Cambodia"
-msgstr ""
-
-#: core/places/countries.php:43
-msgid "Cameroon"
-msgstr ""
-
-#: core/places/countries.php:44
-msgid "Canada"
-msgstr ""
-
-#: core/places/countries.php:45
-msgid "Cape Verde"
-msgstr ""
-
-#: core/places/countries.php:46
-msgid "Cayman Islands"
-msgstr ""
-
-#: core/places/countries.php:47
-msgid "Central African Republic"
-msgstr ""
-
-#: core/places/countries.php:48
-msgid "Chad"
-msgstr ""
-
-#: core/places/countries.php:49
-msgid "Chile"
-msgstr ""
-
-#: core/places/countries.php:50
-msgid "China"
-msgstr ""
-
-#: core/places/countries.php:51
-msgid "Christmas Island"
-msgstr ""
-
-#: core/places/countries.php:52
-msgid "Cocos (Keeling) Islands"
-msgstr ""
-
-#: core/places/countries.php:53
-msgid "Colombia"
-msgstr ""
-
-#: core/places/countries.php:54
-msgid "Comoros"
-msgstr ""
-
-#: core/places/countries.php:55
-msgid "Congo (Brazzaville)"
-msgstr ""
-
-#: core/places/countries.php:56
-msgid "Congo (Kinshasa)"
-msgstr ""
-
-#: core/places/countries.php:57
-msgid "Cook Islands"
-msgstr ""
-
-#: core/places/countries.php:58
-msgid "Costa Rica"
-msgstr ""
-
-#: core/places/countries.php:59
-msgid "Croatia"
-msgstr ""
-
-#: core/places/countries.php:60
-msgid "Cuba"
-msgstr ""
-
-#: core/places/countries.php:61
-msgid "Cura&ccedil;ao"
-msgstr ""
-
-#: core/places/countries.php:62
-msgid "Cyprus"
-msgstr ""
-
-#: core/places/countries.php:63
-msgid "Czech Republic"
-msgstr ""
-
-#: core/places/countries.php:64
-msgid "Denmark"
-msgstr ""
-
-#: core/places/countries.php:65
-msgid "Djibouti"
-msgstr ""
-
-#: core/places/countries.php:66
-msgid "Dominica"
-msgstr ""
-
-#: core/places/countries.php:67
-msgid "Dominican Republic"
-msgstr ""
-
-#: core/places/countries.php:68
-msgid "Ecuador"
-msgstr ""
-
-#: core/places/countries.php:69
-msgid "Egypt"
-msgstr ""
-
-#: core/places/countries.php:70
-msgid "El Salvador"
-msgstr ""
-
-#: core/places/countries.php:71
-msgid "Equatorial Guinea"
-msgstr ""
-
-#: core/places/countries.php:72
-msgid "Eritrea"
-msgstr ""
-
-#: core/places/countries.php:73
-msgid "Estonia"
-msgstr ""
-
-#: core/places/countries.php:74
-msgid "Ethiopia"
-msgstr ""
-
-#: core/places/countries.php:75
-msgid "Falkland Islands"
-msgstr ""
-
-#: core/places/countries.php:76
-msgid "Faroe Islands"
-msgstr ""
-
-#: core/places/countries.php:77
-msgid "Fiji"
-msgstr ""
-
-#: core/places/countries.php:78
-msgid "Finland"
-msgstr ""
-
-#: core/places/countries.php:79
-msgid "France"
-msgstr ""
-
-#: core/places/countries.php:80
-msgid "French Guiana"
-msgstr ""
-
-#: core/places/countries.php:81
-msgid "French Polynesia"
-msgstr ""
-
-#: core/places/countries.php:82
-msgid "French Southern Territories"
-msgstr ""
-
-#: core/places/countries.php:83
-msgid "Gabon"
-msgstr ""
-
-#: core/places/countries.php:84
-msgid "Gambia"
-msgstr ""
-
-#: core/places/countries.php:85
-msgid "Georgia"
-msgstr ""
-
-#: core/places/countries.php:86
-msgid "Germany"
-msgstr ""
-
-#: core/places/countries.php:87
-msgid "Ghana"
-msgstr ""
-
-#: core/places/countries.php:88
-msgid "Gibraltar"
-msgstr ""
-
-#: core/places/countries.php:89
-msgid "Greece"
-msgstr ""
-
-#: core/places/countries.php:90
-msgid "Greenland"
-msgstr ""
-
-#: core/places/countries.php:91
-msgid "Grenada"
-msgstr ""
-
-#: core/places/countries.php:92
-msgid "Guadeloupe"
-msgstr ""
-
-#: core/places/countries.php:93
-msgid "Guam"
-msgstr ""
-
-#: core/places/countries.php:94
-msgid "Guatemala"
-msgstr ""
-
-#: core/places/countries.php:95
-msgid "Guernsey"
-msgstr ""
-
-#: core/places/countries.php:96
-msgid "Guinea"
-msgstr ""
-
-#: core/places/countries.php:97
-msgid "Guinea-Bissau"
-msgstr ""
-
-#: core/places/countries.php:98
-msgid "Guyana"
-msgstr ""
-
-#: core/places/countries.php:99
-msgid "Haiti"
-msgstr ""
-
-#: core/places/countries.php:100
-msgid "Heard Island and McDonald Islands"
-msgstr ""
-
-#: core/places/countries.php:101
-msgid "Honduras"
-msgstr ""
-
-#: core/places/countries.php:102
-msgid "Hong Kong"
-msgstr ""
-
-#: core/places/countries.php:103
-msgid "Hungary"
-msgstr ""
-
-#: core/places/countries.php:104
-msgid "Iceland"
-msgstr ""
-
-#: core/places/countries.php:105
-msgid "India"
-msgstr ""
-
-#: core/places/countries.php:106
-msgid "Indonesia"
-msgstr ""
-
-#: core/places/countries.php:107
-msgid "Iran"
-msgstr ""
-
-#: core/places/countries.php:108
-msgid "Iraq"
-msgstr ""
-
-#: core/places/countries.php:109
-msgid "Republic of Ireland"
-msgstr ""
-
-#: core/places/countries.php:110
-msgid "Isle of Man"
-msgstr ""
-
-#: core/places/countries.php:111
-msgid "Israel"
-msgstr ""
-
-#: core/places/countries.php:112
-msgid "Italy"
-msgstr ""
-
-#: core/places/countries.php:113
-msgid "Ivory Coast"
-msgstr ""
-
-#: core/places/countries.php:114
-msgid "Jamaica"
-msgstr ""
-
-#: core/places/countries.php:115
-msgid "Japan"
-msgstr ""
-
-#: core/places/countries.php:116
-msgid "Jersey"
-msgstr ""
-
-#: core/places/countries.php:117
-msgid "Jordan"
-msgstr ""
-
-#: core/places/countries.php:118
-msgid "Kazakhstan"
-msgstr ""
-
-#: core/places/countries.php:119
-msgid "Kenya"
-msgstr ""
-
-#: core/places/countries.php:120
-msgid "Kiribati"
-msgstr ""
-
-#: core/places/countries.php:121
-msgid "Kuwait"
-msgstr ""
-
-#: core/places/countries.php:122
-msgid "Kyrgyzstan"
-msgstr ""
-
-#: core/places/countries.php:123
-msgid "Laos"
-msgstr ""
-
-#: core/places/countries.php:124
-msgid "Latvia"
-msgstr ""
-
-#: core/places/countries.php:125
-msgid "Lebanon"
-msgstr ""
-
-#: core/places/countries.php:126
-msgid "Lesotho"
-msgstr ""
-
-#: core/places/countries.php:127
-msgid "Liberia"
-msgstr ""
-
-#: core/places/countries.php:128
-msgid "Libya"
-msgstr ""
-
-#: core/places/countries.php:129
-msgid "Liechtenstein"
-msgstr ""
-
-#: core/places/countries.php:130
-msgid "Lithuania"
-msgstr ""
-
-#: core/places/countries.php:131
-msgid "Luxembourg"
-msgstr ""
-
-#: core/places/countries.php:132
-msgid "Macao S.A.R., China"
-msgstr ""
-
-#: core/places/countries.php:133
-msgid "Macedonia"
-msgstr ""
-
-#: core/places/countries.php:134
-msgid "Madagascar"
-msgstr ""
-
-#: core/places/countries.php:135
-msgid "Malawi"
-msgstr ""
-
-#: core/places/countries.php:136
-msgid "Malaysia"
-msgstr ""
-
-#: core/places/countries.php:137
-msgid "Maldives"
-msgstr ""
-
-#: core/places/countries.php:138
-msgid "Mali"
-msgstr ""
-
-#: core/places/countries.php:139
-msgid "Malta"
-msgstr ""
-
-#: core/places/countries.php:140
-msgid "Marshall Islands"
-msgstr ""
-
-#: core/places/countries.php:141
-msgid "Martinique"
-msgstr ""
-
-#: core/places/countries.php:142
-msgid "Mauritania"
-msgstr ""
-
-#: core/places/countries.php:143
-msgid "Mauritius"
-msgstr ""
-
-#: core/places/countries.php:144
-msgid "Mayotte"
-msgstr ""
-
-#: core/places/countries.php:145
-msgid "Mexico"
-msgstr ""
-
-#: core/places/countries.php:146
-msgid "Micronesia"
-msgstr ""
-
-#: core/places/countries.php:147
-msgid "Moldova"
-msgstr ""
-
-#: core/places/countries.php:148
-msgid "Monaco"
-msgstr ""
-
-#: core/places/countries.php:149
-msgid "Mongolia"
-msgstr ""
-
-#: core/places/countries.php:150
-msgid "Montenegro"
-msgstr ""
-
-#: core/places/countries.php:151
-msgid "Montserrat"
-msgstr ""
-
-#: core/places/countries.php:152
-msgid "Morocco"
-msgstr ""
-
-#: core/places/countries.php:153
-msgid "Mozambique"
-msgstr ""
-
-#: core/places/countries.php:154
-msgid "Myanmar"
-msgstr ""
-
-#: core/places/countries.php:155
-msgid "Namibia"
-msgstr ""
-
-#: core/places/countries.php:156
-msgid "Nauru"
-msgstr ""
-
-#: core/places/countries.php:157
-msgid "Nepal"
-msgstr ""
-
-#: core/places/countries.php:158
-msgid "Netherlands"
-msgstr ""
-
-#: core/places/countries.php:159
-msgid "New Caledonia"
-msgstr ""
-
-#: core/places/countries.php:160
-msgid "New Zealand"
-msgstr ""
-
-#: core/places/countries.php:161
-msgid "Nicaragua"
-msgstr ""
-
-#: core/places/countries.php:162
-msgid "Niger"
-msgstr ""
-
-#: core/places/countries.php:163
-msgid "Nigeria"
-msgstr ""
-
-#: core/places/countries.php:164
-msgid "Niue"
-msgstr ""
-
-#: core/places/countries.php:165
-msgid "Norfolk Island"
-msgstr ""
-
-#: core/places/countries.php:166
-msgid "Northern Mariana Islands"
-msgstr ""
-
-#: core/places/countries.php:167
-msgid "North Korea"
-msgstr ""
-
-#: core/places/countries.php:168
-msgid "Norway"
-msgstr ""
-
-#: core/places/countries.php:169
-msgid "Oman"
-msgstr ""
-
-#: core/places/countries.php:170
-msgid "Pakistan"
-msgstr ""
-
-#: core/places/countries.php:171
-msgid "Palestinian Territory"
-msgstr ""
-
-#: core/places/countries.php:172
-msgid "Panama"
-msgstr ""
-
-#: core/places/countries.php:173
-msgid "Papua New Guinea"
-msgstr ""
-
-#: core/places/countries.php:174
-msgid "Paraguay"
-msgstr ""
-
-#: core/places/countries.php:175
-msgid "Peru"
-msgstr ""
-
-#: core/places/countries.php:176
-msgid "Philippines"
-msgstr ""
-
-#: core/places/countries.php:177
-msgid "Pitcairn"
-msgstr ""
-
-#: core/places/countries.php:178
-msgid "Poland"
-msgstr ""
-
-#: core/places/countries.php:179
-msgid "Puerto Rico"
-msgstr ""
-
-#: core/places/countries.php:180
-msgid "Qatar"
-msgstr ""
-
-#: core/places/countries.php:181
-msgid "Reunion"
-msgstr ""
-
-#: core/places/countries.php:182
-msgid "Romania"
-msgstr ""
-
-#: core/places/countries.php:183
-msgid "Russia"
-msgstr ""
-
-#: core/places/countries.php:184
-msgid "Rwanda"
-msgstr ""
-
-#: core/places/countries.php:185
-msgid "Saint Barth&eacute;lemy"
-msgstr ""
-
-#: core/places/countries.php:186
-msgid "Saint Helena"
-msgstr ""
-
-#: core/places/countries.php:187
-msgid "Saint Kitts and Nevis"
-msgstr ""
-
-#: core/places/countries.php:188
-msgid "Saint Lucia"
-msgstr ""
-
-#: core/places/countries.php:189
-msgid "Saint Martin (French part)"
-msgstr ""
-
-#: core/places/countries.php:190
-msgid "Saint Martin (Dutch part)"
-msgstr ""
-
-#: core/places/countries.php:191
-msgid "Saint Pierre and Miquelon"
-msgstr ""
-
-#: core/places/countries.php:192
-msgid "Saint Vincent and the Grenadines"
-msgstr ""
-
-#: core/places/countries.php:193
-msgid "San Marino"
-msgstr ""
-
-#: core/places/countries.php:194
-msgid "S&atilde;o Tom&eacute; and Pr&iacute;ncipe"
-msgstr ""
-
-#: core/places/countries.php:195
-msgid "Saudi Arabia"
-msgstr ""
-
-#: core/places/countries.php:196
-msgid "Senegal"
-msgstr ""
-
-#: core/places/countries.php:197
-msgid "Serbia"
-msgstr ""
-
-#: core/places/countries.php:198
-msgid "Seychelles"
-msgstr ""
-
-#: core/places/countries.php:199
-msgid "Sierra Leone"
-msgstr ""
-
-#: core/places/countries.php:200
-msgid "Singapore"
-msgstr ""
-
-#: core/places/countries.php:201
-msgid "Slovakia"
-msgstr ""
-
-#: core/places/countries.php:202
-msgid "Slovenia"
-msgstr ""
-
-#: core/places/countries.php:203
-msgid "Solomon Islands"
-msgstr ""
-
-#: core/places/countries.php:204
-msgid "Somalia"
-msgstr ""
-
-#: core/places/countries.php:205
-msgid "South Africa"
-msgstr ""
-
-#: core/places/countries.php:206
-msgid "South Georgia/Sandwich Islands"
-msgstr ""
-
-#: core/places/countries.php:207
-msgid "South Korea"
-msgstr ""
-
-#: core/places/countries.php:208
-msgid "South Sudan"
-msgstr ""
-
-#: core/places/countries.php:209
-msgid "Sri Lanka"
-msgstr ""
-
-#: core/places/countries.php:210
-msgid "Sudan"
-msgstr ""
-
-#: core/places/countries.php:211
-msgid "Suriname"
-msgstr ""
-
-#: core/places/countries.php:212
-msgid "Svalbard and Jan Mayen"
-msgstr ""
-
-#: core/places/countries.php:213
-msgid "Swaziland"
-msgstr ""
-
-#: core/places/countries.php:214
-msgid "Sweden"
-msgstr ""
-
-#: core/places/countries.php:215
-msgid "Switzerland"
-msgstr ""
-
-#: core/places/countries.php:216
-msgid "Syria"
-msgstr ""
-
-#: core/places/countries.php:217
-msgid "Taiwan"
-msgstr ""
-
-#: core/places/countries.php:218
-msgid "Tajikistan"
-msgstr ""
-
-#: core/places/countries.php:219
-msgid "Tanzania"
-msgstr ""
-
-#: core/places/countries.php:220
-msgid "Thailand"
-msgstr ""
-
-#: core/places/countries.php:221
-msgid "Timor-Leste"
-msgstr ""
-
-#: core/places/countries.php:222
-msgid "Togo"
-msgstr ""
-
-#: core/places/countries.php:223
-msgid "Tokelau"
-msgstr ""
-
-#: core/places/countries.php:224
-msgid "Tonga"
-msgstr ""
-
-#: core/places/countries.php:225
-msgid "Trinidad and Tobago"
-msgstr ""
-
-#: core/places/countries.php:226
-msgid "Tunisia"
-msgstr ""
-
-#: core/places/countries.php:227
-msgid "Turkey"
-msgstr ""
-
-#: core/places/countries.php:228
-msgid "Turkmenistan"
-msgstr ""
-
-#: core/places/countries.php:229
-msgid "Turks and Caicos Islands"
-msgstr ""
-
-#: core/places/countries.php:230
-msgid "Tuvalu"
-msgstr ""
-
-#: core/places/countries.php:231
-msgid "Uganda"
-msgstr ""
-
-#: core/places/countries.php:232
-msgid "Ukraine"
-msgstr ""
-
-#: core/places/countries.php:233
-msgid "United Arab Emirates"
-msgstr ""
-
-#: core/places/countries.php:234
-msgid "United Kingdom (UK)"
-msgstr ""
-
-#: core/places/countries.php:235
-msgid "United States (US)"
-msgstr ""
-
-#: core/places/countries.php:236
-msgid "United States (US) Minor Outlying Islands"
-msgstr ""
-
-#: core/places/countries.php:237
-msgid "United States (US) Virgin Islands"
-msgstr ""
-
-#: core/places/countries.php:238
-msgid "Uruguay"
-msgstr ""
-
-#: core/places/countries.php:239
-msgid "Uzbekistan"
-msgstr ""
-
-#: core/places/countries.php:240
-msgid "Vanuatu"
-msgstr ""
-
-#: core/places/countries.php:241
-msgid "Vatican"
-msgstr ""
-
-#: core/places/countries.php:242
-msgid "Venezuela"
-msgstr ""
-
-#: core/places/countries.php:243
-msgid "Vietnam"
-msgstr ""
-
-#: core/places/countries.php:244
-msgid "Wallis and Futuna"
-msgstr ""
-
-#: core/places/countries.php:245
-msgid "Western Sahara"
-msgstr ""
-
-#: core/places/countries.php:246
-msgid "Samoa"
-msgstr ""
-
-#: core/places/countries.php:247
-msgid "Yemen"
-msgstr ""
-
-#: core/places/countries.php:248
-msgid "Zambia"
-msgstr ""
-
-#: core/places/countries.php:249
-msgid "Zimbabwe"
-msgstr ""
-
-#: core/places/states/AR.php:4
-msgid "Ciudad Aut&oacute;noma de Buenos Aires"
-msgstr ""
-
-#: core/places/states/AR.php:5
-msgid "Buenos Aires"
-msgstr ""
-
-#: core/places/states/AR.php:6
-msgid "Catamarca"
-msgstr ""
-
-#: core/places/states/AR.php:7
-msgid "Chaco"
-msgstr ""
-
-#: core/places/states/AR.php:8
-msgid "Chubut"
-msgstr ""
-
-#: core/places/states/AR.php:9 core/places/states/ES.php:21
-msgid "C&oacute;rdoba"
-msgstr ""
-
-#: core/places/states/AR.php:10
-msgid "Corrientes"
-msgstr ""
-
-#: core/places/states/AR.php:11
-msgid "Entre R&iacute;os"
-msgstr ""
-
-#: core/places/states/AR.php:12
-msgid "Formosa"
-msgstr ""
-
-#: core/places/states/AR.php:13
-msgid "Jujuy"
-msgstr ""
-
-#: core/places/states/AR.php:14
-msgid "La Pampa"
-msgstr ""
-
-#: core/places/states/AR.php:15 core/places/states/ES.php:30
-msgid "La Rioja"
-msgstr ""
-
-#: core/places/states/AR.php:16
-msgid "Mendoza"
-msgstr ""
-
-#: core/places/states/AR.php:17
-msgid "Misiones"
-msgstr ""
-
-#: core/places/states/AR.php:18
-msgid "Neuqu&eacute;n"
-msgstr ""
-
-#: core/places/states/AR.php:19
-msgid "R&iacute;o Negro"
-msgstr ""
-
-#: core/places/states/AR.php:20
-msgid "Salta"
-msgstr ""
-
-#: core/places/states/AR.php:21
-msgid "San Juan"
-msgstr ""
-
-#: core/places/states/AR.php:22
-msgid "San Luis"
-msgstr ""
-
-#: core/places/states/AR.php:23
-msgid "Santa Cruz"
-msgstr ""
-
-#: core/places/states/AR.php:24
-msgid "Santa Fe"
-msgstr ""
-
-#: core/places/states/AR.php:25
-msgid "Santiago del Estero"
-msgstr ""
-
-#: core/places/states/AR.php:26
-msgid "Tierra del Fuego"
-msgstr ""
-
-#: core/places/states/AR.php:27
-msgid "Tucum&aacute;n"
-msgstr ""
-
-#: core/places/states/AU.php:4
-msgid "Australian Capital Territory"
-msgstr ""
-
-#: core/places/states/AU.php:5
-msgid "New South Wales"
-msgstr ""
-
-#: core/places/states/AU.php:6
-msgid "Northern Territory"
-msgstr ""
-
-#: core/places/states/AU.php:7
-msgid "Queensland"
-msgstr ""
-
-#: core/places/states/AU.php:8
-msgid "South Australia"
-msgstr ""
-
-#: core/places/states/AU.php:9
-msgid "Tasmania"
-msgstr ""
-
-#: core/places/states/AU.php:10
-msgid "Victoria"
-msgstr ""
-
-#: core/places/states/AU.php:11
-msgid "Western Australia"
-msgstr ""
-
-#: core/places/states/BD.php:4
-msgid "Bagerhat"
-msgstr ""
-
-#: core/places/states/BD.php:5
-msgid "Bandarban"
-msgstr ""
-
-#: core/places/states/BD.php:6
-msgid "Barguna"
-msgstr ""
-
-#: core/places/states/BD.php:7
-msgid "Barisal"
-msgstr ""
-
-#: core/places/states/BD.php:8
-msgid "Bhola"
-msgstr ""
-
-#: core/places/states/BD.php:9
-msgid "Bogra"
-msgstr ""
-
-#: core/places/states/BD.php:10
-msgid "Brahmanbaria"
-msgstr ""
-
-#: core/places/states/BD.php:11
-msgid "Chandpur"
-msgstr ""
-
-#: core/places/states/BD.php:12
-msgid "Chittagong"
-msgstr ""
-
-#: core/places/states/BD.php:13
-msgid "Chuadanga"
-msgstr ""
-
-#: core/places/states/BD.php:14
-msgid "Comilla"
-msgstr ""
-
-#: core/places/states/BD.php:15
-msgid "Cox's Bazar"
-msgstr ""
-
-#: core/places/states/BD.php:16
-msgid "Dhaka"
-msgstr ""
-
-#: core/places/states/BD.php:17
-msgid "Dinajpur"
-msgstr ""
-
-#: core/places/states/BD.php:18
-msgid "Faridpur "
-msgstr ""
-
-#: core/places/states/BD.php:19
-msgid "Feni"
-msgstr ""
-
-#: core/places/states/BD.php:20
-msgid "Gaibandha"
-msgstr ""
-
-#: core/places/states/BD.php:21
-msgid "Gazipur"
-msgstr ""
-
-#: core/places/states/BD.php:22
-msgid "Gopalganj"
-msgstr ""
-
-#: core/places/states/BD.php:23
-msgid "Habiganj"
-msgstr ""
-
-#: core/places/states/BD.php:24
-msgid "Jamalpur"
-msgstr ""
-
-#: core/places/states/BD.php:25
-msgid "Jessore"
-msgstr ""
-
-#: core/places/states/BD.php:26
-msgid "Jhalokati"
-msgstr ""
-
-#: core/places/states/BD.php:27
-msgid "Jhenaidah"
-msgstr ""
-
-#: core/places/states/BD.php:28
-msgid "Joypurhat"
-msgstr ""
-
-#: core/places/states/BD.php:29
-msgid "Khagrachhari"
-msgstr ""
-
-#: core/places/states/BD.php:30
-msgid "Khulna"
-msgstr ""
-
-#: core/places/states/BD.php:31
-msgid "Kishoreganj"
-msgstr ""
-
-#: core/places/states/BD.php:32
-msgid "Kurigram"
-msgstr ""
-
-#: core/places/states/BD.php:33
-msgid "Kushtia"
-msgstr ""
-
-#: core/places/states/BD.php:34
-msgid "Lakshmipur"
-msgstr ""
-
-#: core/places/states/BD.php:35
-msgid "Lalmonirhat"
-msgstr ""
-
-#: core/places/states/BD.php:36
-msgid "Madaripur"
-msgstr ""
-
-#: core/places/states/BD.php:37
-msgid "Magura"
-msgstr ""
-
-#: core/places/states/BD.php:38
-msgid "Manikganj "
-msgstr ""
-
-#: core/places/states/BD.php:39
-msgid "Meherpur"
-msgstr ""
-
-#: core/places/states/BD.php:40
-msgid "Moulvibazar"
-msgstr ""
-
-#: core/places/states/BD.php:41
-msgid "Munshiganj"
-msgstr ""
-
-#: core/places/states/BD.php:42
-msgid "Mymensingh"
-msgstr ""
-
-#: core/places/states/BD.php:43
-msgid "Naogaon"
-msgstr ""
-
-#: core/places/states/BD.php:44
-msgid "Narail"
-msgstr ""
-
-#: core/places/states/BD.php:45
-msgid "Narayanganj"
-msgstr ""
-
-#: core/places/states/BD.php:46
-msgid "Narsingdi"
-msgstr ""
-
-#: core/places/states/BD.php:47
-msgid "Natore"
-msgstr ""
-
-#: core/places/states/BD.php:48
-msgid "Nawabganj"
-msgstr ""
-
-#: core/places/states/BD.php:49
-msgid "Netrakona"
-msgstr ""
-
-#: core/places/states/BD.php:50
-msgid "Nilphamari"
-msgstr ""
-
-#: core/places/states/BD.php:51
-msgid "Noakhali"
-msgstr ""
-
-#: core/places/states/BD.php:52
-msgid "Pabna"
-msgstr ""
-
-#: core/places/states/BD.php:53
-msgid "Panchagarh"
-msgstr ""
-
-#: core/places/states/BD.php:54
-msgid "Patuakhali"
-msgstr ""
-
-#: core/places/states/BD.php:55
-msgid "Pirojpur"
-msgstr ""
-
-#: core/places/states/BD.php:56
-msgid "Rajbari"
-msgstr ""
-
-#: core/places/states/BD.php:57
-msgid "Rajshahi"
-msgstr ""
-
-#: core/places/states/BD.php:58
-msgid "Rangamati"
-msgstr ""
-
-#: core/places/states/BD.php:59
-msgid "Rangpur"
-msgstr ""
-
-#: core/places/states/BD.php:60
-msgid "Satkhira"
-msgstr ""
-
-#: core/places/states/BD.php:61
-msgid "Shariatpur"
-msgstr ""
-
-#: core/places/states/BD.php:62
-msgid "Sherpur"
-msgstr ""
-
-#: core/places/states/BD.php:63
-msgid "Sirajganj"
-msgstr ""
-
-#: core/places/states/BD.php:64
-msgid "Sunamganj"
-msgstr ""
-
-#: core/places/states/BD.php:65
-msgid "Sylhet"
-msgstr ""
-
-#: core/places/states/BD.php:66
-msgid "Tangail"
-msgstr ""
-
-#: core/places/states/BD.php:67
-msgid "Thakurgaon"
-msgstr ""
-
-#: core/places/states/BG.php:4
-msgid "Blagoevgrad"
-msgstr ""
-
-#: core/places/states/BG.php:5
-msgid "Burgas"
-msgstr ""
-
-#: core/places/states/BG.php:6
-msgid "Dobrich"
-msgstr ""
-
-#: core/places/states/BG.php:7
-msgid "Gabrovo"
-msgstr ""
-
-#: core/places/states/BG.php:8
-msgid "Haskovo"
-msgstr ""
-
-#: core/places/states/BG.php:9
-msgid "Kardzhali"
-msgstr ""
-
-#: core/places/states/BG.php:10
-msgid "Kyustendil"
-msgstr ""
-
-#: core/places/states/BG.php:11
-msgid "Lovech"
-msgstr ""
-
-#: core/places/states/BG.php:12 core/places/states/US.php:30
-msgid "Montana"
-msgstr ""
-
-#: core/places/states/BG.php:13
-msgid "Pazardzhik"
-msgstr ""
-
-#: core/places/states/BG.php:14
-msgid "Pernik"
-msgstr ""
-
-#: core/places/states/BG.php:15
-msgid "Pleven"
-msgstr ""
-
-#: core/places/states/BG.php:16
-msgid "Plovdiv"
-msgstr ""
-
-#: core/places/states/BG.php:17
-msgid "Razgrad"
-msgstr ""
-
-#: core/places/states/BG.php:18
-msgid "Ruse"
-msgstr ""
-
-#: core/places/states/BG.php:19
-msgid "Shumen"
-msgstr ""
-
-#: core/places/states/BG.php:20
-msgid "Silistra"
-msgstr ""
-
-#: core/places/states/BG.php:21
-msgid "Sliven"
-msgstr ""
-
-#: core/places/states/BG.php:22
-msgid "Smolyan"
-msgstr ""
-
-#: core/places/states/BG.php:23
-msgid "Sofia"
-msgstr ""
-
-#: core/places/states/BG.php:24
-msgid "Sofia-Grad"
-msgstr ""
-
-#: core/places/states/BG.php:25
-msgid "Stara Zagora"
-msgstr ""
-
-#: core/places/states/BG.php:26
-msgid "Targovishte"
-msgstr ""
-
-#: core/places/states/BG.php:27
-msgid "Varna"
-msgstr ""
-
-#: core/places/states/BG.php:28
-msgid "Veliko Tarnovo"
-msgstr ""
-
-#: core/places/states/BG.php:29
-msgid "Vidin"
-msgstr ""
-
-#: core/places/states/BG.php:30
-msgid "Vratsa"
-msgstr ""
-
-#: core/places/states/BG.php:31
-msgid "Yambol"
-msgstr ""
-
-#: core/places/states/BR.php:4
-msgid "Acre"
-msgstr ""
-
-#: core/places/states/BR.php:5
-msgid "Alagoas"
-msgstr ""
-
-#: core/places/states/BR.php:6
-msgid "Amap&aacute;"
-msgstr ""
-
-#: core/places/states/BR.php:7 core/places/states/PE.php:6
-msgid "Amazonas"
-msgstr ""
-
-#: core/places/states/BR.php:8
-msgid "Bahia"
-msgstr ""
-
-#: core/places/states/BR.php:9
-msgid "Cear&aacute;"
-msgstr ""
-
-#: core/places/states/BR.php:10 core/places/states/MX.php:4
-msgid "Distrito Federal"
-msgstr ""
-
-#: core/places/states/BR.php:11
-msgid "Esp&iacute;rito Santo"
-msgstr ""
-
-#: core/places/states/BR.php:12
-msgid "Goi&aacute;s"
-msgstr ""
-
-#: core/places/states/BR.php:13
-msgid "Maranh&atilde;o"
-msgstr ""
-
-#: core/places/states/BR.php:14
-msgid "Mato Grosso"
-msgstr ""
-
-#: core/places/states/BR.php:15
-msgid "Mato Grosso do Sul"
-msgstr ""
-
-#: core/places/states/BR.php:16
-msgid "Minas Gerais"
-msgstr ""
-
-#: core/places/states/BR.php:17
-msgid "Par&aacute;"
-msgstr ""
-
-#: core/places/states/BR.php:18
-msgid "Para&iacute;ba"
-msgstr ""
-
-#: core/places/states/BR.php:19
-msgid "Paran&aacute;"
-msgstr ""
-
-#: core/places/states/BR.php:20
-msgid "Pernambuco"
-msgstr ""
-
-#: core/places/states/BR.php:21
-msgid "Piau&iacute;"
-msgstr ""
-
-#: core/places/states/BR.php:22
-msgid "Rio de Janeiro"
-msgstr ""
-
-#: core/places/states/BR.php:23
-msgid "Rio Grande do Norte"
-msgstr ""
-
-#: core/places/states/BR.php:24
-msgid "Rio Grande do Sul"
-msgstr ""
-
-#: core/places/states/BR.php:25
-msgid "Rond&ocirc;nia"
-msgstr ""
-
-#: core/places/states/BR.php:26
-msgid "Roraima"
-msgstr ""
-
-#: core/places/states/BR.php:27
-msgid "Santa Catarina"
-msgstr ""
-
-#: core/places/states/BR.php:28
-msgid "S&atilde;o Paulo"
-msgstr ""
-
-#: core/places/states/BR.php:29
-msgid "Sergipe"
-msgstr ""
-
-#: core/places/states/BR.php:30
-msgid "Tocantins"
-msgstr ""
-
-#: core/places/states/CA.php:4
-msgid "Alberta"
-msgstr ""
-
-#: core/places/states/CA.php:5
-msgid "British Columbia"
-msgstr ""
-
-#: core/places/states/CA.php:6
-msgid "Manitoba"
-msgstr ""
-
-#: core/places/states/CA.php:7
-msgid "New Brunswick"
-msgstr ""
-
-#: core/places/states/CA.php:8
-msgid "Newfoundland and Labrador"
-msgstr ""
-
-#: core/places/states/CA.php:9
-msgid "Northwest Territories"
-msgstr ""
-
-#: core/places/states/CA.php:10
-msgid "Nova Scotia"
-msgstr ""
-
-#: core/places/states/CA.php:11
-msgid "Nunavut"
-msgstr ""
-
-#: core/places/states/CA.php:12
-msgid "Ontario"
-msgstr ""
-
-#: core/places/states/CA.php:13
-msgid "Prince Edward Island"
-msgstr ""
-
-#: core/places/states/CA.php:14
-msgid "Quebec"
-msgstr ""
-
-#: core/places/states/CA.php:15
-msgid "Saskatchewan"
-msgstr ""
-
-#: core/places/states/CA.php:16
-msgid "Yukon Territory"
-msgstr ""
-
-#: core/places/states/CN.php:4
-msgid "Yunnan / &#20113;&#21335;"
-msgstr ""
-
-#: core/places/states/CN.php:5
-msgid "Beijing / &#21271;&#20140;"
-msgstr ""
-
-#: core/places/states/CN.php:6
-msgid "Tianjin / &#22825;&#27941;"
-msgstr ""
-
-#: core/places/states/CN.php:7
-msgid "Hebei / &#27827;&#21271;"
-msgstr ""
-
-#: core/places/states/CN.php:8
-msgid "Shanxi / &#23665;&#35199;"
-msgstr ""
-
-#: core/places/states/CN.php:9
-msgid "Inner Mongolia / &#20839;&#33945;&#21476;"
-msgstr ""
-
-#: core/places/states/CN.php:10
-msgid "Liaoning / &#36797;&#23425;"
-msgstr ""
-
-#: core/places/states/CN.php:11
-msgid "Jilin / &#21513;&#26519;"
-msgstr ""
-
-#: core/places/states/CN.php:12
-msgid "Heilongjiang / &#40657;&#40857;&#27743;"
-msgstr ""
-
-#: core/places/states/CN.php:13
-msgid "Shanghai / &#19978;&#28023;"
-msgstr ""
-
-#: core/places/states/CN.php:14
-msgid "Jiangsu / &#27743;&#33487;"
-msgstr ""
-
-#: core/places/states/CN.php:15
-msgid "Zhejiang / &#27993;&#27743;"
-msgstr ""
-
-#: core/places/states/CN.php:16
-msgid "Anhui / &#23433;&#24509;"
-msgstr ""
-
-#: core/places/states/CN.php:17
-msgid "Fujian / &#31119;&#24314;"
-msgstr ""
-
-#: core/places/states/CN.php:18
-msgid "Jiangxi / &#27743;&#35199;"
-msgstr ""
-
-#: core/places/states/CN.php:19
-msgid "Shandong / &#23665;&#19996;"
-msgstr ""
-
-#: core/places/states/CN.php:20
-msgid "Henan / &#27827;&#21335;"
-msgstr ""
-
-#: core/places/states/CN.php:21
-msgid "Hubei / &#28246;&#21271;"
-msgstr ""
-
-#: core/places/states/CN.php:22
-msgid "Hunan / &#28246;&#21335;"
-msgstr ""
-
-#: core/places/states/CN.php:23
-msgid "Guangdong / &#24191;&#19996;"
-msgstr ""
-
-#: core/places/states/CN.php:24
-msgid "Guangxi Zhuang / &#24191;&#35199;&#22766;&#26063;"
-msgstr ""
-
-#: core/places/states/CN.php:25
-msgid "Hainan / &#28023;&#21335;"
-msgstr ""
-
-#: core/places/states/CN.php:26
-msgid "Chongqing / &#37325;&#24198;"
-msgstr ""
-
-#: core/places/states/CN.php:27
-msgid "Sichuan / &#22235;&#24029;"
-msgstr ""
-
-#: core/places/states/CN.php:28
-msgid "Guizhou / &#36149;&#24030;"
-msgstr ""
-
-#: core/places/states/CN.php:29
-msgid "Shaanxi / &#38485;&#35199;"
-msgstr ""
-
-#: core/places/states/CN.php:30
-msgid "Gansu / &#29976;&#32899;"
-msgstr ""
-
-#: core/places/states/CN.php:31
-msgid "Qinghai / &#38738;&#28023;"
-msgstr ""
-
-#: core/places/states/CN.php:32
-msgid "Ningxia Hui / &#23425;&#22799;"
-msgstr ""
-
-#: core/places/states/CN.php:33
-msgid "Macau / &#28595;&#38376;"
-msgstr ""
-
-#: core/places/states/CN.php:34
-msgid "Tibet / &#35199;&#34255;"
-msgstr ""
-
-#: core/places/states/CN.php:35
-msgid "Xinjiang / &#26032;&#30086;"
-msgstr ""
-
-#: core/places/states/ES.php:4
-msgid "A Coru&ntilde;a"
-msgstr ""
-
-#: core/places/states/ES.php:5
-msgid "Araba/&Aacute;lava"
-msgstr ""
-
-#: core/places/states/ES.php:6
-msgid "Albacete"
-msgstr ""
-
-#: core/places/states/ES.php:7
-msgid "Alicante"
-msgstr ""
-
-#: core/places/states/ES.php:8
-msgid "Almer&iacute;a"
-msgstr ""
-
-#: core/places/states/ES.php:9
-msgid "Asturias"
-msgstr ""
-
-#: core/places/states/ES.php:10
-msgid "&Aacute;vila"
-msgstr ""
-
-#: core/places/states/ES.php:11
-msgid "Badajoz"
-msgstr ""
-
-#: core/places/states/ES.php:13
-msgid "Barcelona"
-msgstr ""
-
-#: core/places/states/ES.php:14
-msgid "Burgos"
-msgstr ""
-
-#: core/places/states/ES.php:15
-msgid "C&aacute;ceres"
-msgstr ""
-
-#: core/places/states/ES.php:16
-msgid "C&aacute;diz"
-msgstr ""
-
-#: core/places/states/ES.php:17
-msgid "Cantabria"
-msgstr ""
-
-#: core/places/states/ES.php:18
-msgid "Castell&oacute;n"
-msgstr ""
-
-#: core/places/states/ES.php:20
-msgid "Ciudad Real"
-msgstr ""
-
-#: core/places/states/ES.php:22
-msgid "Cuenca"
-msgstr ""
-
-#: core/places/states/ES.php:23
-msgid "Girona"
-msgstr ""
-
-#: core/places/states/ES.php:24
-msgid "Granada"
-msgstr ""
-
-#: core/places/states/ES.php:25
-msgid "Guadalajara"
-msgstr ""
-
-#: core/places/states/ES.php:26
-msgid "Gipuzkoa"
-msgstr ""
-
-#: core/places/states/ES.php:27
-msgid "Huelva"
-msgstr ""
-
-#: core/places/states/ES.php:28
-msgid "Huesca"
-msgstr ""
-
-#: core/places/states/ES.php:29
-msgid "Ja&eacute;n"
-msgstr ""
-
-#: core/places/states/ES.php:32
-msgid "Le&oacute;n"
-msgstr ""
-
-#: core/places/states/ES.php:33
-msgid "Lleida"
-msgstr ""
-
-#: core/places/states/ES.php:34
-msgid "Lugo"
-msgstr ""
-
-#: core/places/states/ES.php:35
-msgid "Madrid"
-msgstr ""
-
-#: core/places/states/ES.php:36
-msgid "M&aacute;laga"
-msgstr ""
-
-#: core/places/states/ES.php:38
-msgid "Murcia"
-msgstr ""
-
-#: core/places/states/ES.php:39
-msgid "Navarra"
-msgstr ""
-
-#: core/places/states/ES.php:40
-msgid "Ourense"
-msgstr ""
-
-#: core/places/states/ES.php:41
-msgid "Palencia"
-msgstr ""
-
-#: core/places/states/ES.php:42
-msgid "Pontevedra"
-msgstr ""
-
-#: core/places/states/ES.php:43
-msgid "Salamanca"
-msgstr ""
-
-#: core/places/states/ES.php:45
-msgid "Segovia"
-msgstr ""
-
-#: core/places/states/ES.php:46
-msgid "Sevilla"
-msgstr ""
-
-#: core/places/states/ES.php:47
-msgid "Soria"
-msgstr ""
-
-#: core/places/states/ES.php:48
-msgid "Tarragona"
-msgstr ""
-
-#: core/places/states/ES.php:49
-msgid "Teruel"
-msgstr ""
-
-#: core/places/states/ES.php:50
-msgid "Toledo"
-msgstr ""
-
-#: core/places/states/ES.php:51
-msgid "Valencia"
-msgstr ""
-
-#: core/places/states/ES.php:52
-msgid "Valladolid"
-msgstr ""
-
-#: core/places/states/ES.php:53
-msgid "Bizkaia"
-msgstr ""
-
-#: core/places/states/ES.php:54
-msgid "Zamora"
-msgstr ""
-
-#: core/places/states/ES.php:55
-msgid "Zaragoza"
-msgstr ""
-
-#: core/places/states/GR.php:4
-msgid "Αττική"
-msgstr ""
-
-#: core/places/states/GR.php:5
-msgid "Ανατολική Μακεδονία και Θράκη"
-msgstr ""
-
-#: core/places/states/GR.php:6
-msgid "Κεντρική Μακεδονία"
-msgstr ""
-
-#: core/places/states/GR.php:7
-msgid "Δυτική Μακεδονία"
-msgstr ""
-
-#: core/places/states/GR.php:8
-msgid "Ήπειρος"
-msgstr ""
-
-#: core/places/states/GR.php:9
-msgid "Θεσσαλία"
-msgstr ""
-
-#: core/places/states/GR.php:10
-msgid "Ιόνιοι Νήσοι"
-msgstr ""
-
-#: core/places/states/GR.php:11
-msgid "Δυτική Ελλάδα"
-msgstr ""
-
-#: core/places/states/GR.php:12
-msgid "Στερεά Ελλάδα"
-msgstr ""
-
-#: core/places/states/GR.php:13
-msgid "Πελοπόννησος"
-msgstr ""
-
-#: core/places/states/GR.php:14
-msgid "Βόρειο Αιγαίο"
-msgstr ""
-
-#: core/places/states/GR.php:15
-msgid "Νότιο Αιγαίο"
-msgstr ""
-
-#: core/places/states/GR.php:16
-msgid "Κρήτη"
-msgstr ""
-
-#: core/places/states/HK.php:4
-msgid "Hong Kong Island"
-msgstr ""
-
-#: core/places/states/HK.php:5
-msgid "Kowloon"
-msgstr ""
-
-#: core/places/states/HK.php:6
-msgid "New Territories"
-msgstr ""
-
-#: core/places/states/HU.php:4
-msgid "Bács-Kiskun"
-msgstr ""
-
-#: core/places/states/HU.php:5
-msgid "Békés"
-msgstr ""
-
-#: core/places/states/HU.php:6
-msgid "Baranya"
-msgstr ""
-
-#: core/places/states/HU.php:7
-msgid "Borsod-Abaúj-Zemplén"
-msgstr ""
-
-#: core/places/states/HU.php:8
-msgid "Budapest"
-msgstr ""
-
-#: core/places/states/HU.php:9
-msgid "Csongrád"
-msgstr ""
-
-#: core/places/states/HU.php:10
-msgid "Fejér"
-msgstr ""
-
-#: core/places/states/HU.php:11
-msgid "Győr-Moson-Sopron"
-msgstr ""
-
-#: core/places/states/HU.php:12
-msgid "Hajdú-Bihar"
-msgstr ""
-
-#: core/places/states/HU.php:13
-msgid "Heves"
-msgstr ""
-
-#: core/places/states/HU.php:14
-msgid "Jász-Nagykun-Szolnok"
-msgstr ""
-
-#: core/places/states/HU.php:15
-msgid "Komárom-Esztergom"
-msgstr ""
-
-#: core/places/states/HU.php:16
-msgid "Nógrád"
-msgstr ""
-
-#: core/places/states/HU.php:17
-msgid "Pest"
-msgstr ""
-
-#: core/places/states/HU.php:18
-msgid "Somogy"
-msgstr ""
-
-#: core/places/states/HU.php:19
-msgid "Szabolcs-Szatmár-Bereg"
-msgstr ""
-
-#: core/places/states/HU.php:20
-msgid "Tolna"
-msgstr ""
-
-#: core/places/states/HU.php:21
-msgid "Vas"
-msgstr ""
-
-#: core/places/states/HU.php:22
-msgid "Veszprém"
-msgstr ""
-
-#: core/places/states/HU.php:23
-msgid "Zala"
-msgstr ""
-
-#: core/places/states/ID.php:4
-msgid "Daerah Istimewa Aceh"
-msgstr ""
-
-#: core/places/states/ID.php:5
-msgid "Sumatera Utara"
-msgstr ""
-
-#: core/places/states/ID.php:6
-msgid "Sumatera Barat"
-msgstr ""
-
-#: core/places/states/ID.php:7
-msgid "Riau"
-msgstr ""
-
-#: core/places/states/ID.php:8
-msgid "Kepulauan Riau"
-msgstr ""
-
-#: core/places/states/ID.php:9
-msgid "Jambi"
-msgstr ""
-
-#: core/places/states/ID.php:10
-msgid "Sumatera Selatan"
-msgstr ""
-
-#: core/places/states/ID.php:11
-msgid "Bangka Belitung"
-msgstr ""
-
-#: core/places/states/ID.php:12
-msgid "Bengkulu"
-msgstr ""
-
-#: core/places/states/ID.php:13
-msgid "Lampung"
-msgstr ""
-
-#: core/places/states/ID.php:14
-msgid "DKI Jakarta"
-msgstr ""
-
-#: core/places/states/ID.php:15
-msgid "Jawa Barat"
-msgstr ""
-
-#: core/places/states/ID.php:16
-msgid "Banten"
-msgstr ""
-
-#: core/places/states/ID.php:17
-msgid "Jawa Tengah"
-msgstr ""
-
-#: core/places/states/ID.php:18
-msgid "Jawa Timur"
-msgstr ""
-
-#: core/places/states/ID.php:19
-msgid "Daerah Istimewa Yogyakarta"
-msgstr ""
-
-#: core/places/states/ID.php:20
-msgid "Bali"
-msgstr ""
-
-#: core/places/states/ID.php:21
-msgid "Nusa Tenggara Barat"
-msgstr ""
-
-#: core/places/states/ID.php:22
-msgid "Nusa Tenggara Timur"
-msgstr ""
-
-#: core/places/states/ID.php:23
-msgid "Kalimantan Barat"
-msgstr ""
-
-#: core/places/states/ID.php:24
-msgid "Kalimantan Tengah"
-msgstr ""
-
-#: core/places/states/ID.php:25
-msgid "Kalimantan Timur"
-msgstr ""
-
-#: core/places/states/ID.php:26
-msgid "Kalimantan Selatan"
-msgstr ""
-
-#: core/places/states/ID.php:27
-msgid "Kalimantan Utara"
-msgstr ""
-
-#: core/places/states/ID.php:28
-msgid "Sulawesi Utara"
-msgstr ""
-
-#: core/places/states/ID.php:29
-msgid "Sulawesi Tengah"
-msgstr ""
-
-#: core/places/states/ID.php:30
-msgid "Sulawesi Tenggara"
-msgstr ""
-
-#: core/places/states/ID.php:31
-msgid "Sulawesi Barat"
-msgstr ""
-
-#: core/places/states/ID.php:32
-msgid "Sulawesi Selatan"
-msgstr ""
-
-#: core/places/states/ID.php:33
-msgid "Gorontalo"
-msgstr ""
-
-#: core/places/states/ID.php:34
-msgid "Maluku"
-msgstr ""
-
-#: core/places/states/ID.php:35
-msgid "Maluku Utara"
-msgstr ""
-
-#: core/places/states/ID.php:36
-msgid "Papua"
-msgstr ""
-
-#: core/places/states/ID.php:37
-msgid "Papua Barat"
-msgstr ""
-
-#: core/places/states/IN.php:4
-msgid "Andhra Pradesh"
-msgstr ""
-
-#: core/places/states/IN.php:5
-msgid "Arunachal Pradesh"
-msgstr ""
-
-#: core/places/states/IN.php:6
-msgid "Assam"
-msgstr ""
-
-#: core/places/states/IN.php:7
-msgid "Bihar"
-msgstr ""
-
-#: core/places/states/IN.php:8
-msgid "Chhattisgarh"
-msgstr ""
-
-#: core/places/states/IN.php:9
-msgid "Goa"
-msgstr ""
-
-#: core/places/states/IN.php:10
-msgid "Gujarat"
-msgstr ""
-
-#: core/places/states/IN.php:11
-msgid "Haryana"
-msgstr ""
-
-#: core/places/states/IN.php:12
-msgid "Himachal Pradesh"
-msgstr ""
-
-#: core/places/states/IN.php:13
-msgid "Jammu and Kashmir"
-msgstr ""
-
-#: core/places/states/IN.php:14
-msgid "Jharkhand"
-msgstr ""
-
-#: core/places/states/IN.php:15
-msgid "Karnataka"
-msgstr ""
-
-#: core/places/states/IN.php:16
-msgid "Kerala"
-msgstr ""
-
-#: core/places/states/IN.php:17
-msgid "Madhya Pradesh"
-msgstr ""
-
-#: core/places/states/IN.php:18
-msgid "Maharashtra"
-msgstr ""
-
-#: core/places/states/IN.php:19
-msgid "Manipur"
-msgstr ""
-
-#: core/places/states/IN.php:20
-msgid "Meghalaya"
-msgstr ""
-
-#: core/places/states/IN.php:21
-msgid "Mizoram"
-msgstr ""
-
-#: core/places/states/IN.php:22
-msgid "Nagaland"
-msgstr ""
-
-#: core/places/states/IN.php:23
-msgid "Orissa"
-msgstr ""
-
-#: core/places/states/IN.php:24
-msgid "Punjab"
-msgstr ""
-
-#: core/places/states/IN.php:25
-msgid "Rajasthan"
-msgstr ""
-
-#: core/places/states/IN.php:26
-msgid "Sikkim"
-msgstr ""
-
-#: core/places/states/IN.php:27
-msgid "Tamil Nadu"
-msgstr ""
-
-#: core/places/states/IN.php:28
-msgid "Telangana"
-msgstr ""
-
-#: core/places/states/IN.php:29
-msgid "Tripura"
-msgstr ""
-
-#: core/places/states/IN.php:30
-msgid "Uttarakhand"
-msgstr ""
-
-#: core/places/states/IN.php:31
-msgid "Uttar Pradesh"
-msgstr ""
-
-#: core/places/states/IN.php:32
-msgid "West Bengal"
-msgstr ""
-
-#: core/places/states/IN.php:33
-msgid "Andaman and Nicobar Islands"
-msgstr ""
-
-#: core/places/states/IN.php:34
-msgid "Chandigarh"
-msgstr ""
-
-#: core/places/states/IN.php:35
-msgid "Dadar and Nagar Haveli"
-msgstr ""
-
-#: core/places/states/IN.php:36
-msgid "Daman and Diu"
-msgstr ""
-
-#: core/places/states/IN.php:37
-msgid "Delhi"
-msgstr ""
-
-#: core/places/states/IN.php:38
-msgid "Lakshadeep"
-msgstr ""
-
-#: core/places/states/IN.php:39
-msgid "Pondicherry (Puducherry)"
-msgstr ""
-
-#: core/places/states/IR.php:4
-msgid "Khuzestan  (خوزستان)"
-msgstr ""
-
-#: core/places/states/IR.php:5
-msgid "Tehran  (تهران)"
-msgstr ""
-
-#: core/places/states/IR.php:6
-msgid "Ilaam (ایلام)"
-msgstr ""
-
-#: core/places/states/IR.php:7
-msgid "Bushehr (بوشهر)"
-msgstr ""
-
-#: core/places/states/IR.php:8
-msgid "Ardabil (اردبیل)"
-msgstr ""
-
-#: core/places/states/IR.php:9
-msgid "Isfahan (اصفهان)"
-msgstr ""
-
-#: core/places/states/IR.php:10
-msgid "Yazd (یزد)"
-msgstr ""
-
-#: core/places/states/IR.php:11
-msgid "Kermanshah (کرمانشاه)"
-msgstr ""
-
-#: core/places/states/IR.php:12
-msgid "Kerman (کرمان)"
-msgstr ""
-
-#: core/places/states/IR.php:13
-msgid "Hamadan (همدان)"
-msgstr ""
-
-#: core/places/states/IR.php:14
-msgid "Ghazvin (قزوین)"
-msgstr ""
-
-#: core/places/states/IR.php:15
-msgid "Zanjan (زنجان)"
-msgstr ""
-
-#: core/places/states/IR.php:16
-msgid "Luristan (لرستان)"
-msgstr ""
-
-#: core/places/states/IR.php:17
-msgid "Alborz (البرز)"
-msgstr ""
-
-#: core/places/states/IR.php:18
-msgid "East Azarbaijan (آذربایجان شرقی)"
-msgstr ""
-
-#: core/places/states/IR.php:19
-msgid "West Azarbaijan (آذربایجان غربی)"
-msgstr ""
-
-#: core/places/states/IR.php:20
-msgid "Chaharmahal and Bakhtiari (چهارمحال و بختیاری)"
-msgstr ""
-
-#: core/places/states/IR.php:21
-msgid "South Khorasan (خراسان جنوبی)"
-msgstr ""
-
-#: core/places/states/IR.php:22
-msgid "Razavi Khorasan (خراسان رضوی)"
-msgstr ""
-
-#: core/places/states/IR.php:23
-msgid "North Khorasan (خراسان جنوبی)"
-msgstr ""
-
-#: core/places/states/IR.php:24
-msgid "Semnan (سمنان)"
-msgstr ""
-
-#: core/places/states/IR.php:25
-msgid "Fars (فارس)"
-msgstr ""
-
-#: core/places/states/IR.php:26
-msgid "Qom (قم)"
-msgstr ""
-
-#: core/places/states/IR.php:27
-msgid "Kurdistan / کردستان)"
-msgstr ""
-
-#: core/places/states/IR.php:28
-msgid "Kohgiluyeh and BoyerAhmad (کهگیلوییه و بویراحمد)"
-msgstr ""
-
-#: core/places/states/IR.php:29
-msgid "Golestan (گلستان)"
-msgstr ""
-
-#: core/places/states/IR.php:30
-msgid "Gilan (گیلان)"
-msgstr ""
-
-#: core/places/states/IR.php:31
-msgid "Mazandaran (مازندران)"
-msgstr ""
-
-#: core/places/states/IR.php:32
-msgid "Markazi (مرکزی)"
-msgstr ""
-
-#: core/places/states/IR.php:33
-msgid "Hormozgan (هرمزگان)"
-msgstr ""
-
-#: core/places/states/IR.php:34
-msgid "Sistan and Baluchestan (سیستان و بلوچستان)"
-msgstr ""
-
-#: core/places/states/IT.php:4
-msgid "Agrigento"
-msgstr ""
-
-#: core/places/states/IT.php:5
-msgid "Alessandria"
-msgstr ""
-
-#: core/places/states/IT.php:6
-msgid "Ancona"
-msgstr ""
-
-#: core/places/states/IT.php:7
-msgid "Aosta"
-msgstr ""
-
-#: core/places/states/IT.php:8
-msgid "Arezzo"
-msgstr ""
-
-#: core/places/states/IT.php:9
-msgid "Ascoli Piceno"
-msgstr ""
-
-#: core/places/states/IT.php:10
-msgid "Asti"
-msgstr ""
-
-#: core/places/states/IT.php:11
-msgid "Avellino"
-msgstr ""
-
-#: core/places/states/IT.php:12
-msgid "Bari"
-msgstr ""
-
-#: core/places/states/IT.php:13
-msgid "Barletta-Andria-Trani"
-msgstr ""
-
-#: core/places/states/IT.php:14
-msgid "Belluno"
-msgstr ""
-
-#: core/places/states/IT.php:15
-msgid "Benevento"
-msgstr ""
-
-#: core/places/states/IT.php:16
-msgid "Bergamo"
-msgstr ""
-
-#: core/places/states/IT.php:17
-msgid "Biella"
-msgstr ""
-
-#: core/places/states/IT.php:18
-msgid "Bologna"
-msgstr ""
-
-#: core/places/states/IT.php:19
-msgid "Bolzano"
-msgstr ""
-
-#: core/places/states/IT.php:20
-msgid "Brescia"
-msgstr ""
-
-#: core/places/states/IT.php:21
-msgid "Brindisi"
-msgstr ""
-
-#: core/places/states/IT.php:22
-msgid "Cagliari"
-msgstr ""
-
-#: core/places/states/IT.php:23
-msgid "Caltanissetta"
-msgstr ""
-
-#: core/places/states/IT.php:24
-msgid "Campobasso"
-msgstr ""
-
-#: core/places/states/IT.php:25
-msgid "Carbonia-Iglesias"
-msgstr ""
-
-#: core/places/states/IT.php:26
-msgid "Caserta"
-msgstr ""
-
-#: core/places/states/IT.php:27
-msgid "Catania"
-msgstr ""
-
-#: core/places/states/IT.php:28
-msgid "Catanzaro"
-msgstr ""
-
-#: core/places/states/IT.php:29
-msgid "Chieti"
-msgstr ""
-
-#: core/places/states/IT.php:30
-msgid "Como"
-msgstr ""
-
-#: core/places/states/IT.php:31
-msgid "Cosenza"
-msgstr ""
-
-#: core/places/states/IT.php:32
-msgid "Cremona"
-msgstr ""
-
-#: core/places/states/IT.php:33
-msgid "Crotone"
-msgstr ""
-
-#: core/places/states/IT.php:34
-msgid "Cuneo"
-msgstr ""
-
-#: core/places/states/IT.php:35
-msgid "Enna"
-msgstr ""
-
-#: core/places/states/IT.php:36
-msgid "Fermo"
-msgstr ""
-
-#: core/places/states/IT.php:37
-msgid "Ferrara"
-msgstr ""
-
-#: core/places/states/IT.php:38
-msgid "Firenze"
-msgstr ""
-
-#: core/places/states/IT.php:39
-msgid "Foggia"
-msgstr ""
-
-#: core/places/states/IT.php:40
-msgid "Forlì-Cesena"
-msgstr ""
-
-#: core/places/states/IT.php:41
-msgid "Frosinone"
-msgstr ""
-
-#: core/places/states/IT.php:42
-msgid "Genova"
-msgstr ""
-
-#: core/places/states/IT.php:43
-msgid "Gorizia"
-msgstr ""
-
-#: core/places/states/IT.php:44
-msgid "Grosseto"
-msgstr ""
-
-#: core/places/states/IT.php:45
-msgid "Imperia"
-msgstr ""
-
-#: core/places/states/IT.php:46
-msgid "Isernia"
-msgstr ""
-
-#: core/places/states/IT.php:47
-msgid "La Spezia"
-msgstr ""
-
-#: core/places/states/IT.php:48
-msgid "L&apos;Aquila"
-msgstr ""
-
-#: core/places/states/IT.php:49
-msgid "Latina"
-msgstr ""
-
-#: core/places/states/IT.php:50
-msgid "Lecce"
-msgstr ""
-
-#: core/places/states/IT.php:51
-msgid "Lecco"
-msgstr ""
-
-#: core/places/states/IT.php:52
-msgid "Livorno"
-msgstr ""
-
-#: core/places/states/IT.php:53
-msgid "Lodi"
-msgstr ""
-
-#: core/places/states/IT.php:54
-msgid "Lucca"
-msgstr ""
-
-#: core/places/states/IT.php:55
-msgid "Macerata"
-msgstr ""
-
-#: core/places/states/IT.php:56
-msgid "Mantova"
-msgstr ""
-
-#: core/places/states/IT.php:57
-msgid "Massa-Carrara"
-msgstr ""
-
-#: core/places/states/IT.php:58
-msgid "Matera"
-msgstr ""
-
-#: core/places/states/IT.php:59
-msgid "Messina"
-msgstr ""
-
-#: core/places/states/IT.php:60
-msgid "Milano"
-msgstr ""
-
-#: core/places/states/IT.php:61
-msgid "Modena"
-msgstr ""
-
-#: core/places/states/IT.php:62
-msgid "Monza e della Brianza"
-msgstr ""
-
-#: core/places/states/IT.php:63
-msgid "Napoli"
-msgstr ""
-
-#: core/places/states/IT.php:64
-msgid "Novara"
-msgstr ""
-
-#: core/places/states/IT.php:65
-msgid "Nuoro"
-msgstr ""
-
-#: core/places/states/IT.php:66
-msgid "Olbia-Tempio"
-msgstr ""
-
-#: core/places/states/IT.php:67
-msgid "Oristano"
-msgstr ""
-
-#: core/places/states/IT.php:68
-msgid "Padova"
-msgstr ""
-
-#: core/places/states/IT.php:69
-msgid "Palermo"
-msgstr ""
-
-#: core/places/states/IT.php:70
-msgid "Parma"
-msgstr ""
-
-#: core/places/states/IT.php:71
-msgid "Pavia"
-msgstr ""
-
-#: core/places/states/IT.php:72
-msgid "Perugia"
-msgstr ""
-
-#: core/places/states/IT.php:73
-msgid "Pesaro e Urbino"
-msgstr ""
-
-#: core/places/states/IT.php:74
-msgid "Pescara"
-msgstr ""
-
-#: core/places/states/IT.php:75
-msgid "Piacenza"
-msgstr ""
-
-#: core/places/states/IT.php:76
-msgid "Pisa"
-msgstr ""
-
-#: core/places/states/IT.php:77
-msgid "Pistoia"
-msgstr ""
-
-#: core/places/states/IT.php:78
-msgid "Pordenone"
-msgstr ""
-
-#: core/places/states/IT.php:79
-msgid "Potenza"
-msgstr ""
-
-#: core/places/states/IT.php:80
-msgid "Prato"
-msgstr ""
-
-#: core/places/states/IT.php:81
-msgid "Ragusa"
-msgstr ""
-
-#: core/places/states/IT.php:82
-msgid "Ravenna"
-msgstr ""
-
-#: core/places/states/IT.php:83
-msgid "Reggio Calabria"
-msgstr ""
-
-#: core/places/states/IT.php:84
-msgid "Reggio Emilia"
-msgstr ""
-
-#: core/places/states/IT.php:85
-msgid "Rieti"
-msgstr ""
-
-#: core/places/states/IT.php:86
-msgid "Rimini"
-msgstr ""
-
-#: core/places/states/IT.php:87
-msgid "Roma"
-msgstr ""
-
-#: core/places/states/IT.php:88
-msgid "Rovigo"
-msgstr ""
-
-#: core/places/states/IT.php:89
-msgid "Salerno"
-msgstr ""
-
-#: core/places/states/IT.php:90
-msgid "Medio Campidano"
-msgstr ""
-
-#: core/places/states/IT.php:91
-msgid "Sassari"
-msgstr ""
-
-#: core/places/states/IT.php:92
-msgid "Savona"
-msgstr ""
-
-#: core/places/states/IT.php:93
-msgid "Siena"
-msgstr ""
-
-#: core/places/states/IT.php:94
-msgid "Siracusa"
-msgstr ""
-
-#: core/places/states/IT.php:95
-msgid "Sondrio"
-msgstr ""
-
-#: core/places/states/IT.php:96
-msgid "Taranto"
-msgstr ""
-
-#: core/places/states/IT.php:97
-msgid "Teramo"
-msgstr ""
-
-#: core/places/states/IT.php:98
-msgid "Terni"
-msgstr ""
-
-#: core/places/states/IT.php:99
-msgid "Torino"
-msgstr ""
-
-#: core/places/states/IT.php:100
-msgid "Ogliastra"
-msgstr ""
-
-#: core/places/states/IT.php:101
-msgid "Trapani"
-msgstr ""
-
-#: core/places/states/IT.php:102
-msgid "Trento"
-msgstr ""
-
-#: core/places/states/IT.php:103
-msgid "Treviso"
-msgstr ""
-
-#: core/places/states/IT.php:104
-msgid "Trieste"
-msgstr ""
-
-#: core/places/states/IT.php:105
-msgid "Udine"
-msgstr ""
-
-#: core/places/states/IT.php:106
-msgid "Varese"
-msgstr ""
-
-#: core/places/states/IT.php:107
-msgid "Venezia"
-msgstr ""
-
-#: core/places/states/IT.php:108
-msgid "Verbano-Cusio-Ossola"
-msgstr ""
-
-#: core/places/states/IT.php:109
-msgid "Vercelli"
-msgstr ""
-
-#: core/places/states/IT.php:110
-msgid "Verona"
-msgstr ""
-
-#: core/places/states/IT.php:111
-msgid "Vibo Valentia"
-msgstr ""
-
-#: core/places/states/IT.php:112
-msgid "Vicenza"
-msgstr ""
-
-#: core/places/states/IT.php:113
-msgid "Viterbo"
-msgstr ""
-
-#: core/places/states/JP.php:4
-msgid "Hokkaido"
-msgstr ""
-
-#: core/places/states/JP.php:5
-msgid "Aomori"
-msgstr ""
-
-#: core/places/states/JP.php:6
-msgid "Iwate"
-msgstr ""
-
-#: core/places/states/JP.php:7
-msgid "Miyagi"
-msgstr ""
-
-#: core/places/states/JP.php:8
-msgid "Akita"
-msgstr ""
-
-#: core/places/states/JP.php:9
-msgid "Yamagata"
-msgstr ""
-
-#: core/places/states/JP.php:10
-msgid "Fukushima"
-msgstr ""
-
-#: core/places/states/JP.php:11
-msgid "Ibaraki"
-msgstr ""
-
-#: core/places/states/JP.php:12
-msgid "Tochigi"
-msgstr ""
-
-#: core/places/states/JP.php:13
-msgid "Gunma"
-msgstr ""
-
-#: core/places/states/JP.php:14
-msgid "Saitama"
-msgstr ""
-
-#: core/places/states/JP.php:15
-msgid "Chiba"
-msgstr ""
-
-#: core/places/states/JP.php:16
-msgid "Tokyo"
-msgstr ""
-
-#: core/places/states/JP.php:17
-msgid "Kanagawa"
-msgstr ""
-
-#: core/places/states/JP.php:18
-msgid "Niigata"
-msgstr ""
-
-#: core/places/states/JP.php:19
-msgid "Toyama"
-msgstr ""
-
-#: core/places/states/JP.php:20
-msgid "Ishikawa"
-msgstr ""
-
-#: core/places/states/JP.php:21
-msgid "Fukui"
-msgstr ""
-
-#: core/places/states/JP.php:22
-msgid "Yamanashi"
-msgstr ""
-
-#: core/places/states/JP.php:23
-msgid "Nagano"
-msgstr ""
-
-#: core/places/states/JP.php:24
-msgid "Gifu"
-msgstr ""
-
-#: core/places/states/JP.php:25
-msgid "Shizuoka"
-msgstr ""
-
-#: core/places/states/JP.php:26
-msgid "Aichi"
-msgstr ""
-
-#: core/places/states/JP.php:27
-msgid "Mie"
-msgstr ""
-
-#: core/places/states/JP.php:28
-msgid "Shiga"
-msgstr ""
-
-#: core/places/states/JP.php:29
-msgid "Kyoto"
-msgstr ""
-
-#: core/places/states/JP.php:30
-msgid "Osaka"
-msgstr ""
-
-#: core/places/states/JP.php:31
-msgid "Hyogo"
-msgstr ""
-
-#: core/places/states/JP.php:32
-msgid "Nara"
-msgstr ""
-
-#: core/places/states/JP.php:33
-msgid "Wakayama"
-msgstr ""
-
-#: core/places/states/JP.php:34
-msgid "Tottori"
-msgstr ""
-
-#: core/places/states/JP.php:35
-msgid "Shimane"
-msgstr ""
-
-#: core/places/states/JP.php:36
-msgid "Okayama"
-msgstr ""
-
-#: core/places/states/JP.php:37
-msgid "Hiroshima"
-msgstr ""
-
-#: core/places/states/JP.php:38
-msgid "Yamaguchi"
-msgstr ""
-
-#: core/places/states/JP.php:39
-msgid "Tokushima"
-msgstr ""
-
-#: core/places/states/JP.php:40
-msgid "Kagawa"
-msgstr ""
-
-#: core/places/states/JP.php:41
-msgid "Ehime"
-msgstr ""
-
-#: core/places/states/JP.php:42
-msgid "Kochi"
-msgstr ""
-
-#: core/places/states/JP.php:43
-msgid "Fukuoka"
-msgstr ""
-
-#: core/places/states/JP.php:44
-msgid "Saga"
-msgstr ""
-
-#: core/places/states/JP.php:45
-msgid "Nagasaki"
-msgstr ""
-
-#: core/places/states/JP.php:46
-msgid "Kumamoto"
-msgstr ""
-
-#: core/places/states/JP.php:47
-msgid "Oita"
-msgstr ""
-
-#: core/places/states/JP.php:48
-msgid "Miyazaki"
-msgstr ""
-
-#: core/places/states/JP.php:49
-msgid "Kagoshima"
-msgstr ""
-
-#: core/places/states/JP.php:50
-msgid "Okinawa"
-msgstr ""
-
-#: core/places/states/MX.php:5
-msgid "Jalisco"
-msgstr ""
-
-#: core/places/states/MX.php:6
-msgid "Nuevo León"
-msgstr ""
-
-#: core/places/states/MX.php:7
-msgid "Aguascalientes"
-msgstr ""
-
-#: core/places/states/MX.php:8
-msgid "Baja California"
-msgstr ""
-
-#: core/places/states/MX.php:9
-msgid "Baja California Sur"
-msgstr ""
-
-#: core/places/states/MX.php:10
-msgid "Campeche"
-msgstr ""
-
-#: core/places/states/MX.php:11
-msgid "Chiapas"
-msgstr ""
-
-#: core/places/states/MX.php:12
-msgid "Chihuahua"
-msgstr ""
-
-#: core/places/states/MX.php:13
-msgid "Coahuila"
-msgstr ""
-
-#: core/places/states/MX.php:14
-msgid "Colima"
-msgstr ""
-
-#: core/places/states/MX.php:15
-msgid "Durango"
-msgstr ""
-
-#: core/places/states/MX.php:16
-msgid "Guanajuato"
-msgstr ""
-
-#: core/places/states/MX.php:17
-msgid "Guerrero"
-msgstr ""
-
-#: core/places/states/MX.php:18
-msgid "Hidalgo"
-msgstr ""
-
-#: core/places/states/MX.php:19
-msgid "Edo. de México"
-msgstr ""
-
-#: core/places/states/MX.php:20
-msgid "Michoacán"
-msgstr ""
-
-#: core/places/states/MX.php:21
-msgid "Morelos"
-msgstr ""
-
-#: core/places/states/MX.php:22
-msgid "Nayarit"
-msgstr ""
-
-#: core/places/states/MX.php:23
-msgid "Oaxaca"
-msgstr ""
-
-#: core/places/states/MX.php:24
-msgid "Puebla"
-msgstr ""
-
-#: core/places/states/MX.php:25
-msgid "Querétaro"
-msgstr ""
-
-#: core/places/states/MX.php:26
-msgid "Quintana Roo"
-msgstr ""
-
-#: core/places/states/MX.php:27
-msgid "San Luis Potosí"
-msgstr ""
-
-#: core/places/states/MX.php:28
-msgid "Sinaloa"
-msgstr ""
-
-#: core/places/states/MX.php:29
-msgid "Sonora"
-msgstr ""
-
-#: core/places/states/MX.php:30
-msgid "Tabasco"
-msgstr ""
-
-#: core/places/states/MX.php:31
-msgid "Tamaulipas"
-msgstr ""
-
-#: core/places/states/MX.php:32
-msgid "Tlaxcala"
-msgstr ""
-
-#: core/places/states/MX.php:33
-msgid "Veracruz"
-msgstr ""
-
-#: core/places/states/MX.php:34
-msgid "Yucatán"
-msgstr ""
-
-#: core/places/states/MX.php:35
-msgid "Zacatecas"
-msgstr ""
-
-#: core/places/states/MY.php:4
-msgid "Johor"
-msgstr ""
-
-#: core/places/states/MY.php:5
-msgid "Kedah"
-msgstr ""
-
-#: core/places/states/MY.php:6
-msgid "Kelantan"
-msgstr ""
-
-#: core/places/states/MY.php:7
-msgid "Labuan"
-msgstr ""
-
-#: core/places/states/MY.php:8
-msgid "Malacca (Melaka)"
-msgstr ""
-
-#: core/places/states/MY.php:9
-msgid "Negeri Sembilan"
-msgstr ""
-
-#: core/places/states/MY.php:10
-msgid "Pahang"
-msgstr ""
-
-#: core/places/states/MY.php:11
-msgid "Penang (Pulau Pinang)"
-msgstr ""
-
-#: core/places/states/MY.php:12
-msgid "Perak"
-msgstr ""
-
-#: core/places/states/MY.php:13
-msgid "Perlis"
-msgstr ""
-
-#: core/places/states/MY.php:14
-msgid "Sabah"
-msgstr ""
-
-#: core/places/states/MY.php:15
-msgid "Sarawak"
-msgstr ""
-
-#: core/places/states/MY.php:16
-msgid "Selangor"
-msgstr ""
-
-#: core/places/states/MY.php:17
-msgid "Terengganu"
-msgstr ""
-
-#: core/places/states/MY.php:18
-msgid "Putrajaya"
-msgstr ""
-
-#: core/places/states/MY.php:19
-msgid "Kuala Lumpur"
-msgstr ""
-
-#: core/places/states/NP.php:4
-msgid "Bagmati"
-msgstr ""
-
-#: core/places/states/NP.php:5
-msgid "Bheri"
-msgstr ""
-
-#: core/places/states/NP.php:6
-msgid "Dhawalagiri"
-msgstr ""
-
-#: core/places/states/NP.php:7
-msgid "Gandaki"
-msgstr ""
-
-#: core/places/states/NP.php:8
-msgid "Janakpur"
-msgstr ""
-
-#: core/places/states/NP.php:9
-msgid "Karnali"
-msgstr ""
-
-#: core/places/states/NP.php:10
-msgid "Koshi"
-msgstr ""
-
-#: core/places/states/NP.php:11
-msgid "Lumbini"
-msgstr ""
-
-#: core/places/states/NP.php:12
-msgid "Mahakali"
-msgstr ""
-
-#: core/places/states/NP.php:13
-msgid "Mechi"
-msgstr ""
-
-#: core/places/states/NP.php:14
-msgid "Narayani"
-msgstr ""
-
-#: core/places/states/NP.php:15
-msgid "Rapti"
-msgstr ""
-
-#: core/places/states/NP.php:16
-msgid "Sagarmatha"
-msgstr ""
-
-#: core/places/states/NP.php:17
-msgid "Seti"
-msgstr ""
-
-#: core/places/states/NZ.php:4
-msgid "Northland"
-msgstr ""
-
-#: core/places/states/NZ.php:5
-msgid "Auckland"
-msgstr ""
-
-#: core/places/states/NZ.php:6
-msgid "Waikato"
-msgstr ""
-
-#: core/places/states/NZ.php:7
-msgid "Bay of Plenty"
-msgstr ""
-
-#: core/places/states/NZ.php:8
-msgid "Taranaki"
-msgstr ""
-
-#: core/places/states/NZ.php:9
-msgid "Gisborne"
-msgstr ""
-
-#: core/places/states/NZ.php:10
-msgid "Hawke&rsquo;s Bay"
-msgstr ""
-
-#: core/places/states/NZ.php:11
-msgid "Manawatu-Wanganui"
-msgstr ""
-
-#: core/places/states/NZ.php:12
-msgid "Wellington"
-msgstr ""
-
-#: core/places/states/NZ.php:13
-msgid "Nelson"
-msgstr ""
-
-#: core/places/states/NZ.php:14
-msgid "Marlborough"
-msgstr ""
-
-#: core/places/states/NZ.php:15
-msgid "Tasman"
-msgstr ""
-
-#: core/places/states/NZ.php:16
-msgid "West Coast"
-msgstr ""
-
-#: core/places/states/NZ.php:17
-msgid "Canterbury"
-msgstr ""
-
-#: core/places/states/NZ.php:18
-msgid "Otago"
-msgstr ""
-
-#: core/places/states/NZ.php:19
-msgid "Southland"
-msgstr ""
-
-#: core/places/states/PE.php:4
-msgid "El Callao"
-msgstr ""
-
-#: core/places/states/PE.php:5
-msgid "Municipalidad Metropolitana de Lima"
-msgstr ""
-
-#: core/places/states/PE.php:7
-msgid "Ancash"
-msgstr ""
-
-#: core/places/states/PE.php:8
-msgid "Apur&iacute;mac"
-msgstr ""
-
-#: core/places/states/PE.php:9
-msgid "Arequipa"
-msgstr ""
-
-#: core/places/states/PE.php:10
-msgid "Ayacucho"
-msgstr ""
-
-#: core/places/states/PE.php:11
-msgid "Cajamarca"
-msgstr ""
-
-#: core/places/states/PE.php:12
-msgid "Cusco"
-msgstr ""
-
-#: core/places/states/PE.php:13
-msgid "Huancavelica"
-msgstr ""
-
-#: core/places/states/PE.php:14
-msgid "Hu&aacute;nuco"
-msgstr ""
-
-#: core/places/states/PE.php:15
-msgid "Ica"
-msgstr ""
-
-#: core/places/states/PE.php:16
-msgid "Jun&iacute;n"
-msgstr ""
-
-#: core/places/states/PE.php:17
-msgid "La Libertad"
-msgstr ""
-
-#: core/places/states/PE.php:18
-msgid "Lambayeque"
-msgstr ""
-
-#: core/places/states/PE.php:19
-msgid "Lima"
-msgstr ""
-
-#: core/places/states/PE.php:20
-msgid "Loreto"
-msgstr ""
-
-#: core/places/states/PE.php:21
-msgid "Madre de Dios"
-msgstr ""
-
-#: core/places/states/PE.php:22
-msgid "Moquegua"
-msgstr ""
-
-#: core/places/states/PE.php:23
-msgid "Pasco"
-msgstr ""
-
-#: core/places/states/PE.php:24
-msgid "Piura"
-msgstr ""
-
-#: core/places/states/PE.php:25
-msgid "Puno"
-msgstr ""
-
-#: core/places/states/PE.php:26
-msgid "San Mart&iacute;n"
-msgstr ""
-
-#: core/places/states/PE.php:27
-msgid "Tacna"
-msgstr ""
-
-#: core/places/states/PE.php:28
-msgid "Tumbes"
-msgstr ""
-
-#: core/places/states/PE.php:29
-msgid "Ucayali"
-msgstr ""
-
-#: core/places/states/PH.php:4
-msgid "Abra"
-msgstr ""
-
-#: core/places/states/PH.php:5
-msgid "Agusan del Norte"
-msgstr ""
-
-#: core/places/states/PH.php:6
-msgid "Agusan del Sur"
-msgstr ""
-
-#: core/places/states/PH.php:7
-msgid "Aklan"
-msgstr ""
-
-#: core/places/states/PH.php:8
-msgid "Albay"
-msgstr ""
-
-#: core/places/states/PH.php:9
-msgid "Antique"
-msgstr ""
-
-#: core/places/states/PH.php:10
-msgid "Apayao"
-msgstr ""
-
-#: core/places/states/PH.php:11
-msgid "Aurora"
-msgstr ""
-
-#: core/places/states/PH.php:12
-msgid "Basilan"
-msgstr ""
-
-#: core/places/states/PH.php:13
-msgid "Bataan"
-msgstr ""
-
-#: core/places/states/PH.php:14
-msgid "Batanes"
-msgstr ""
-
-#: core/places/states/PH.php:15
-msgid "Batangas"
-msgstr ""
-
-#: core/places/states/PH.php:16
-msgid "Benguet"
-msgstr ""
-
-#: core/places/states/PH.php:17
-msgid "Biliran"
-msgstr ""
-
-#: core/places/states/PH.php:18
-msgid "Bohol"
-msgstr ""
-
-#: core/places/states/PH.php:19
-msgid "Bukidnon"
-msgstr ""
-
-#: core/places/states/PH.php:20
-msgid "Bulacan"
-msgstr ""
-
-#: core/places/states/PH.php:21
-msgid "Cagayan"
-msgstr ""
-
-#: core/places/states/PH.php:22
-msgid "Camarines Norte"
-msgstr ""
-
-#: core/places/states/PH.php:23
-msgid "Camarines Sur"
-msgstr ""
-
-#: core/places/states/PH.php:24
-msgid "Camiguin"
-msgstr ""
-
-#: core/places/states/PH.php:25
-msgid "Capiz"
-msgstr ""
-
-#: core/places/states/PH.php:26
-msgid "Catanduanes"
-msgstr ""
-
-#: core/places/states/PH.php:27
-msgid "Cavite"
-msgstr ""
-
-#: core/places/states/PH.php:28
-msgid "Cebu"
-msgstr ""
-
-#: core/places/states/PH.php:29
-msgid "Compostela Valley"
-msgstr ""
-
-#: core/places/states/PH.php:30
-msgid "Cotabato"
-msgstr ""
-
-#: core/places/states/PH.php:31
-msgid "Davao del Norte"
-msgstr ""
-
-#: core/places/states/PH.php:32
-msgid "Davao del Sur"
-msgstr ""
-
-#: core/places/states/PH.php:33
-msgid "Davao Occidental"
-msgstr ""
-
-#: core/places/states/PH.php:34
-msgid "Davao Oriental"
-msgstr ""
-
-#: core/places/states/PH.php:35
-msgid "Dinagat Islands"
-msgstr ""
-
-#: core/places/states/PH.php:36
-msgid "Eastern Samar"
-msgstr ""
-
-#: core/places/states/PH.php:37
-msgid "Guimaras"
-msgstr ""
-
-#: core/places/states/PH.php:38
-msgid "Ifugao"
-msgstr ""
-
-#: core/places/states/PH.php:39
-msgid "Ilocos Norte"
-msgstr ""
-
-#: core/places/states/PH.php:40
-msgid "Ilocos Sur"
-msgstr ""
-
-#: core/places/states/PH.php:41
-msgid "Iloilo"
-msgstr ""
-
-#: core/places/states/PH.php:42
-msgid "Isabela"
-msgstr ""
-
-#: core/places/states/PH.php:43
-msgid "Kalinga"
-msgstr ""
-
-#: core/places/states/PH.php:44
-msgid "La Union"
-msgstr ""
-
-#: core/places/states/PH.php:45
-msgid "Laguna"
-msgstr ""
-
-#: core/places/states/PH.php:46
-msgid "Lanao del Norte"
-msgstr ""
-
-#: core/places/states/PH.php:47
-msgid "Lanao del Sur"
-msgstr ""
-
-#: core/places/states/PH.php:48
-msgid "Leyte"
-msgstr ""
-
-#: core/places/states/PH.php:49
-msgid "Maguindanao"
-msgstr ""
-
-#: core/places/states/PH.php:50
-msgid "Marinduque"
-msgstr ""
-
-#: core/places/states/PH.php:51
-msgid "Masbate"
-msgstr ""
-
-#: core/places/states/PH.php:52
-msgid "Misamis Occidental"
-msgstr ""
-
-#: core/places/states/PH.php:53
-msgid "Misamis Oriental"
-msgstr ""
-
-#: core/places/states/PH.php:54
-msgid "Mountain Province"
-msgstr ""
-
-#: core/places/states/PH.php:55
-msgid "Negros Occidental"
-msgstr ""
-
-#: core/places/states/PH.php:56
-msgid "Negros Oriental"
-msgstr ""
-
-#: core/places/states/PH.php:57
-msgid "Northern Samar"
-msgstr ""
-
-#: core/places/states/PH.php:58
-msgid "Nueva Ecija"
-msgstr ""
-
-#: core/places/states/PH.php:59
-msgid "Nueva Vizcaya"
-msgstr ""
-
-#: core/places/states/PH.php:60
-msgid "Occidental Mindoro"
-msgstr ""
-
-#: core/places/states/PH.php:61
-msgid "Oriental Mindoro"
-msgstr ""
-
-#: core/places/states/PH.php:62
-msgid "Palawan"
-msgstr ""
-
-#: core/places/states/PH.php:63
-msgid "Pampanga"
-msgstr ""
-
-#: core/places/states/PH.php:64
-msgid "Pangasinan"
-msgstr ""
-
-#: core/places/states/PH.php:65
-msgid "Quezon"
-msgstr ""
-
-#: core/places/states/PH.php:66
-msgid "Quirino"
-msgstr ""
-
-#: core/places/states/PH.php:67
-msgid "Rizal"
-msgstr ""
-
-#: core/places/states/PH.php:68
-msgid "Romblon"
-msgstr ""
-
-#: core/places/states/PH.php:69
-msgid "Samar"
-msgstr ""
-
-#: core/places/states/PH.php:70
-msgid "Sarangani"
-msgstr ""
-
-#: core/places/states/PH.php:71
-msgid "Siquijor"
-msgstr ""
-
-#: core/places/states/PH.php:72
-msgid "Sorsogon"
-msgstr ""
-
-#: core/places/states/PH.php:73
-msgid "South Cotabato"
-msgstr ""
-
-#: core/places/states/PH.php:74
-msgid "Southern Leyte"
-msgstr ""
-
-#: core/places/states/PH.php:75
-msgid "Sultan Kudarat"
-msgstr ""
-
-#: core/places/states/PH.php:76
-msgid "Sulu"
-msgstr ""
-
-#: core/places/states/PH.php:77
-msgid "Surigao del Norte"
-msgstr ""
-
-#: core/places/states/PH.php:78
-msgid "Surigao del Sur"
-msgstr ""
-
-#: core/places/states/PH.php:79
-msgid "Tarlac"
-msgstr ""
-
-#: core/places/states/PH.php:80
-msgid "Tawi-Tawi"
-msgstr ""
-
-#: core/places/states/PH.php:81
-msgid "Zambales"
-msgstr ""
-
-#: core/places/states/PH.php:82
-msgid "Zamboanga del Norte"
-msgstr ""
-
-#: core/places/states/PH.php:83
-msgid "Zamboanga del Sur"
-msgstr ""
-
-#: core/places/states/PH.php:84
-msgid "Zamboanga Sibugay"
-msgstr ""
-
-#: core/places/states/PH.php:85
-msgid "Metro Manila"
-msgstr ""
-
-#: core/places/states/TH.php:4
-msgid ""
-"Amnat Charoen (&#3629;&#3635;&#3609;&#3634;&#3592;&#3648;&#3592;&#3619;"
-"&#3636;&#3597;)"
-msgstr ""
-
-#: core/places/states/TH.php:5
-msgid "Ang Thong (&#3629;&#3656;&#3634;&#3591;&#3607;&#3629;&#3591;)"
-msgstr ""
-
-#: core/places/states/TH.php:6
-msgid ""
-"Ayutthaya (&#3614;&#3619;&#3632;&#3609;&#3588;&#3619;&#3624;&#3619;&#3637;"
-"&#3629;&#3618;&#3640;&#3608;&#3618;&#3634;)"
-msgstr ""
-
-#: core/places/states/TH.php:7
-msgid ""
-"Bangkok (&#3585;&#3619;&#3640;&#3591;&#3648;&#3607;&#3614;&#3617;&#3627;"
-"&#3634;&#3609;&#3588;&#3619;)"
-msgstr ""
-
-#: core/places/states/TH.php:8
-msgid "Bueng Kan (&#3610;&#3638;&#3591;&#3585;&#3634;&#3628;)"
-msgstr ""
-
-#: core/places/states/TH.php:9
-msgid ""
-"Buri Ram (&#3610;&#3640;&#3619;&#3637;&#3619;&#3633;&#3617;&#3618;&#3660;)"
-msgstr ""
-
-#: core/places/states/TH.php:10
-msgid ""
-"Chachoengsao (&#3593;&#3632;&#3648;&#3594;&#3636;&#3591;&#3648;&#3607;&#3619;"
-"&#3634;)"
-msgstr ""
-
-#: core/places/states/TH.php:11
-msgid "Chai Nat (&#3594;&#3633;&#3618;&#3609;&#3634;&#3607;)"
-msgstr ""
-
-#: core/places/states/TH.php:12
-msgid "Chaiyaphum (&#3594;&#3633;&#3618;&#3616;&#3641;&#3617;&#3636;)"
-msgstr ""
-
-#: core/places/states/TH.php:13
-msgid "Chanthaburi (&#3592;&#3633;&#3609;&#3607;&#3610;&#3640;&#3619;&#3637;)"
-msgstr ""
-
-#: core/places/states/TH.php:14
-msgid ""
-"Chiang Mai (&#3648;&#3594;&#3637;&#3618;&#3591;&#3651;&#3627;&#3617;&#3656;)"
-msgstr ""
-
-#: core/places/states/TH.php:15
-msgid "Chiang Rai (&#3648;&#3594;&#3637;&#3618;&#3591;&#3619;&#3634;&#3618;)"
-msgstr ""
-
-#: core/places/states/TH.php:16
-msgid "Chonburi (&#3594;&#3621;&#3610;&#3640;&#3619;&#3637;)"
-msgstr ""
-
-#: core/places/states/TH.php:17
-msgid "Chumphon (&#3594;&#3640;&#3617;&#3614;&#3619;)"
-msgstr ""
-
-#: core/places/states/TH.php:18
-msgid ""
-"Kalasin (&#3585;&#3634;&#3628;&#3626;&#3636;&#3609;&#3608;&#3640;&#3660;)"
-msgstr ""
-
-#: core/places/states/TH.php:19
-msgid ""
-"Kamphaeng Phet (&#3585;&#3635;&#3649;&#3614;&#3591;&#3648;&#3614;&#3594;"
-"&#3619;)"
-msgstr ""
-
-#: core/places/states/TH.php:20
-msgid ""
-"Kanchanaburi (&#3585;&#3634;&#3597;&#3592;&#3609;&#3610;&#3640;&#3619;"
-"&#3637;)"
-msgstr ""
-
-#: core/places/states/TH.php:21
-msgid "Khon Kaen (&#3586;&#3629;&#3609;&#3649;&#3585;&#3656;&#3609;)"
-msgstr ""
-
-#: core/places/states/TH.php:22
-msgid "Krabi (&#3585;&#3619;&#3632;&#3610;&#3637;&#3656;)"
-msgstr ""
-
-#: core/places/states/TH.php:23
-msgid "Lampang (&#3621;&#3635;&#3611;&#3634;&#3591;)"
-msgstr ""
-
-#: core/places/states/TH.php:24
-msgid "Lamphun (&#3621;&#3635;&#3614;&#3641;&#3609;)"
-msgstr ""
-
-#: core/places/states/TH.php:25
-msgid "Loei (&#3648;&#3621;&#3618;)"
-msgstr ""
-
-#: core/places/states/TH.php:26
-msgid "Lopburi (&#3621;&#3614;&#3610;&#3640;&#3619;&#3637;)"
-msgstr ""
-
-#: core/places/states/TH.php:27
-msgid ""
-"Mae Hong Son (&#3649;&#3617;&#3656;&#3630;&#3656;&#3629;&#3591;&#3626;&#3629;"
-"&#3609;)"
-msgstr ""
-
-#: core/places/states/TH.php:28
-msgid ""
-"Maha Sarakham (&#3617;&#3627;&#3634;&#3626;&#3634;&#3619;&#3588;&#3634;"
-"&#3617;)"
-msgstr ""
-
-#: core/places/states/TH.php:29
-msgid "Mukdahan (&#3617;&#3640;&#3585;&#3604;&#3634;&#3627;&#3634;&#3619;)"
-msgstr ""
-
-#: core/places/states/TH.php:30
-msgid "Nakhon Nayok (&#3609;&#3588;&#3619;&#3609;&#3634;&#3618;&#3585;)"
-msgstr ""
-
-#: core/places/states/TH.php:31
-msgid "Nakhon Pathom (&#3609;&#3588;&#3619;&#3611;&#3600;&#3617;)"
-msgstr ""
-
-#: core/places/states/TH.php:32
-msgid "Nakhon Phanom (&#3609;&#3588;&#3619;&#3614;&#3609;&#3617;)"
-msgstr ""
-
-#: core/places/states/TH.php:33
-msgid ""
-"Nakhon Ratchasima (&#3609;&#3588;&#3619;&#3619;&#3634;&#3594;&#3626;&#3637;"
-"&#3617;&#3634;)"
-msgstr ""
-
-#: core/places/states/TH.php:34
-msgid ""
-"Nakhon Sawan (&#3609;&#3588;&#3619;&#3626;&#3623;&#3619;&#3619;&#3588;"
-"&#3660;)"
-msgstr ""
-
-#: core/places/states/TH.php:35
-msgid ""
-"Nakhon Si Thammarat (&#3609;&#3588;&#3619;&#3624;&#3619;&#3637;&#3608;&#3619;"
-"&#3619;&#3617;&#3619;&#3634;&#3594;)"
-msgstr ""
-
-#: core/places/states/TH.php:36
-msgid "Nan (&#3609;&#3656;&#3634;&#3609;)"
-msgstr ""
-
-#: core/places/states/TH.php:37
-msgid "Narathiwat (&#3609;&#3619;&#3634;&#3608;&#3636;&#3623;&#3634;&#3626;)"
-msgstr ""
-
-#: core/places/states/TH.php:38
-msgid ""
-"Nong Bua Lam Phu (&#3627;&#3609;&#3629;&#3591;&#3610;&#3633;&#3623;&#3621;"
-"&#3635;&#3616;&#3641;)"
-msgstr ""
-
-#: core/places/states/TH.php:39
-msgid "Nong Khai (&#3627;&#3609;&#3629;&#3591;&#3588;&#3634;&#3618;)"
-msgstr ""
-
-#: core/places/states/TH.php:40
-msgid "Nonthaburi (&#3609;&#3609;&#3607;&#3610;&#3640;&#3619;&#3637;)"
-msgstr ""
-
-#: core/places/states/TH.php:41
-msgid "Pathum Thani (&#3611;&#3607;&#3640;&#3617;&#3608;&#3634;&#3609;&#3637;)"
-msgstr ""
-
-#: core/places/states/TH.php:42
-msgid "Pattani (&#3611;&#3633;&#3605;&#3605;&#3634;&#3609;&#3637;)"
-msgstr ""
-
-#: core/places/states/TH.php:43
-msgid "Phang Nga (&#3614;&#3633;&#3591;&#3591;&#3634;)"
-msgstr ""
-
-#: core/places/states/TH.php:44
-msgid "Phatthalung (&#3614;&#3633;&#3607;&#3621;&#3640;&#3591;)"
-msgstr ""
-
-#: core/places/states/TH.php:45
-msgid "Phayao (&#3614;&#3632;&#3648;&#3618;&#3634;)"
-msgstr ""
-
-#: core/places/states/TH.php:46
-msgid ""
-"Phetchabun (&#3648;&#3614;&#3594;&#3619;&#3610;&#3641;&#3619;&#3603;&#3660;)"
-msgstr ""
-
-#: core/places/states/TH.php:47
-msgid "Phetchaburi (&#3648;&#3614;&#3594;&#3619;&#3610;&#3640;&#3619;&#3637;)"
-msgstr ""
-
-#: core/places/states/TH.php:48
-msgid "Phichit (&#3614;&#3636;&#3592;&#3636;&#3605;&#3619;)"
-msgstr ""
-
-#: core/places/states/TH.php:49
-msgid "Phitsanulok (&#3614;&#3636;&#3625;&#3603;&#3640;&#3650;&#3621;&#3585;)"
-msgstr ""
-
-#: core/places/states/TH.php:50
-msgid "Phrae (&#3649;&#3614;&#3619;&#3656;)"
-msgstr ""
-
-#: core/places/states/TH.php:51
-msgid "Phuket (&#3616;&#3641;&#3648;&#3585;&#3655;&#3605;)"
-msgstr ""
-
-#: core/places/states/TH.php:52
-msgid ""
-"Prachin Buri (&#3611;&#3619;&#3634;&#3592;&#3637;&#3609;&#3610;&#3640;&#3619;"
-"&#3637;)"
-msgstr ""
-
-#: core/places/states/TH.php:53
-msgid ""
-"Prachuap Khiri Khan (&#3611;&#3619;&#3632;&#3592;&#3623;&#3610;&#3588;&#3637;"
-"&#3619;&#3637;&#3586;&#3633;&#3609;&#3608;&#3660;)"
-msgstr ""
-
-#: core/places/states/TH.php:54
-msgid "Ranong (&#3619;&#3632;&#3609;&#3629;&#3591;)"
-msgstr ""
-
-#: core/places/states/TH.php:55
-msgid "Ratchaburi (&#3619;&#3634;&#3594;&#3610;&#3640;&#3619;&#3637;)"
-msgstr ""
-
-#: core/places/states/TH.php:56
-msgid "Rayong (&#3619;&#3632;&#3618;&#3629;&#3591;)"
-msgstr ""
-
-#: core/places/states/TH.php:57
-msgid "Roi Et (&#3619;&#3657;&#3629;&#3618;&#3648;&#3629;&#3655;&#3604;)"
-msgstr ""
-
-#: core/places/states/TH.php:58
-msgid "Sa Kaeo (&#3626;&#3619;&#3632;&#3649;&#3585;&#3657;&#3623;)"
-msgstr ""
-
-#: core/places/states/TH.php:59
-msgid "Sakon Nakhon (&#3626;&#3585;&#3621;&#3609;&#3588;&#3619;)"
-msgstr ""
-
-#: core/places/states/TH.php:60
-msgid ""
-"Samut Prakan (&#3626;&#3617;&#3640;&#3607;&#3619;&#3611;&#3619;&#3634;&#3585;"
-"&#3634;&#3619;)"
-msgstr ""
-
-#: core/places/states/TH.php:61
-msgid ""
-"Samut Sakhon (&#3626;&#3617;&#3640;&#3607;&#3619;&#3626;&#3634;&#3588;"
-"&#3619;)"
-msgstr ""
-
-#: core/places/states/TH.php:62
-msgid ""
-"Samut Songkhram (&#3626;&#3617;&#3640;&#3607;&#3619;&#3626;&#3591;&#3588;"
-"&#3619;&#3634;&#3617;)"
-msgstr ""
-
-#: core/places/states/TH.php:63
-msgid "Saraburi (&#3626;&#3619;&#3632;&#3610;&#3640;&#3619;&#3637;)"
-msgstr ""
-
-#: core/places/states/TH.php:64
-msgid "Satun (&#3626;&#3605;&#3641;&#3621;)"
-msgstr ""
-
-#: core/places/states/TH.php:65
-msgid ""
-"Sing Buri (&#3626;&#3636;&#3591;&#3627;&#3660;&#3610;&#3640;&#3619;&#3637;)"
-msgstr ""
-
-#: core/places/states/TH.php:66
-msgid "Sisaket (&#3624;&#3619;&#3637;&#3626;&#3632;&#3648;&#3585;&#3625;)"
-msgstr ""
-
-#: core/places/states/TH.php:67
-msgid "Songkhla (&#3626;&#3591;&#3586;&#3621;&#3634;)"
-msgstr ""
-
-#: core/places/states/TH.php:68
-msgid "Sukhothai (&#3626;&#3640;&#3650;&#3586;&#3607;&#3633;&#3618;)"
-msgstr ""
-
-#: core/places/states/TH.php:69
-msgid ""
-"Suphan Buri (&#3626;&#3640;&#3614;&#3619;&#3619;&#3603;&#3610;&#3640;&#3619;"
-"&#3637;)"
-msgstr ""
-
-#: core/places/states/TH.php:70
-msgid ""
-"Surat Thani (&#3626;&#3640;&#3619;&#3634;&#3625;&#3598;&#3619;&#3660;&#3608;"
-"&#3634;&#3609;&#3637;)"
-msgstr ""
-
-#: core/places/states/TH.php:71
-msgid "Surin (&#3626;&#3640;&#3619;&#3636;&#3609;&#3607;&#3619;&#3660;)"
-msgstr ""
-
-#: core/places/states/TH.php:72
-msgid "Tak (&#3605;&#3634;&#3585;)"
-msgstr ""
-
-#: core/places/states/TH.php:73
-msgid "Trang (&#3605;&#3619;&#3633;&#3591;)"
-msgstr ""
-
-#: core/places/states/TH.php:74
-msgid "Trat (&#3605;&#3619;&#3634;&#3604;)"
-msgstr ""
-
-#: core/places/states/TH.php:75
-msgid ""
-"Ubon Ratchathani (&#3629;&#3640;&#3610;&#3621;&#3619;&#3634;&#3594;&#3608;"
-"&#3634;&#3609;&#3637;)"
-msgstr ""
-
-#: core/places/states/TH.php:76
-msgid "Udon Thani (&#3629;&#3640;&#3604;&#3619;&#3608;&#3634;&#3609;&#3637;)"
-msgstr ""
-
-#: core/places/states/TH.php:77
-msgid ""
-"Uthai Thani (&#3629;&#3640;&#3607;&#3633;&#3618;&#3608;&#3634;&#3609;&#3637;)"
-msgstr ""
-
-#: core/places/states/TH.php:78
-msgid ""
-"Uttaradit (&#3629;&#3640;&#3605;&#3619;&#3604;&#3636;&#3605;&#3606;&#3660;)"
-msgstr ""
-
-#: core/places/states/TH.php:79
-msgid "Yala (&#3618;&#3632;&#3621;&#3634;)"
-msgstr ""
-
-#: core/places/states/TH.php:80
-msgid "Yasothon (&#3618;&#3650;&#3626;&#3608;&#3619;)"
-msgstr ""
-
-#: core/places/states/TR.php:4
-msgid "Adana"
-msgstr ""
-
-#: core/places/states/TR.php:5
-msgid "Ad&#305;yaman"
-msgstr ""
-
-#: core/places/states/TR.php:6
-msgid "Afyon"
-msgstr ""
-
-#: core/places/states/TR.php:7
-msgid "A&#287;r&#305;"
-msgstr ""
-
-#: core/places/states/TR.php:8
-msgid "Amasya"
-msgstr ""
-
-#: core/places/states/TR.php:9
-msgid "Ankara"
-msgstr ""
-
-#: core/places/states/TR.php:10
-msgid "Antalya"
-msgstr ""
-
-#: core/places/states/TR.php:11
-msgid "Artvin"
-msgstr ""
-
-#: core/places/states/TR.php:12
-msgid "Ayd&#305;n"
-msgstr ""
-
-#: core/places/states/TR.php:13
-msgid "Bal&#305;kesir"
-msgstr ""
-
-#: core/places/states/TR.php:14
-msgid "Bilecik"
-msgstr ""
-
-#: core/places/states/TR.php:15
-msgid "Bing&#246;l"
-msgstr ""
-
-#: core/places/states/TR.php:16
-msgid "Bitlis"
-msgstr ""
-
-#: core/places/states/TR.php:17
-msgid "Bolu"
-msgstr ""
-
-#: core/places/states/TR.php:18
-msgid "Burdur"
-msgstr ""
-
-#: core/places/states/TR.php:19
-msgid "Bursa"
-msgstr ""
-
-#: core/places/states/TR.php:20
-msgid "&#199;anakkale"
-msgstr ""
-
-#: core/places/states/TR.php:21
-msgid "&#199;ank&#305;r&#305;"
-msgstr ""
-
-#: core/places/states/TR.php:22
-msgid "&#199;orum"
-msgstr ""
-
-#: core/places/states/TR.php:23
-msgid "Denizli"
-msgstr ""
-
-#: core/places/states/TR.php:24
-msgid "Diyarbak&#305;r"
-msgstr ""
-
-#: core/places/states/TR.php:25
-msgid "Edirne"
-msgstr ""
-
-#: core/places/states/TR.php:26
-msgid "Elaz&#305;&#287;"
-msgstr ""
-
-#: core/places/states/TR.php:27
-msgid "Erzincan"
-msgstr ""
-
-#: core/places/states/TR.php:28
-msgid "Erzurum"
-msgstr ""
-
-#: core/places/states/TR.php:29
-msgid "Eski&#351;ehir"
-msgstr ""
-
-#: core/places/states/TR.php:30
-msgid "Gaziantep"
-msgstr ""
-
-#: core/places/states/TR.php:31
-msgid "Giresun"
-msgstr ""
-
-#: core/places/states/TR.php:32
-msgid "G&#252;m&#252;&#351;hane"
-msgstr ""
-
-#: core/places/states/TR.php:33
-msgid "Hakkari"
-msgstr ""
-
-#: core/places/states/TR.php:34
-msgid "Hatay"
-msgstr ""
-
-#: core/places/states/TR.php:35
-msgid "Isparta"
-msgstr ""
-
-#: core/places/states/TR.php:36
-msgid "&#304;&#231;el"
-msgstr ""
-
-#: core/places/states/TR.php:37
-msgid "&#304;stanbul"
-msgstr ""
-
-#: core/places/states/TR.php:38
-msgid "&#304;zmir"
-msgstr ""
-
-#: core/places/states/TR.php:39
-msgid "Kars"
-msgstr ""
-
-#: core/places/states/TR.php:40
-msgid "Kastamonu"
-msgstr ""
-
-#: core/places/states/TR.php:41
-msgid "Kayseri"
-msgstr ""
-
-#: core/places/states/TR.php:42
-msgid "K&#305;rklareli"
-msgstr ""
-
-#: core/places/states/TR.php:43
-msgid "K&#305;r&#351;ehir"
-msgstr ""
-
-#: core/places/states/TR.php:44
-msgid "Kocaeli"
-msgstr ""
-
-#: core/places/states/TR.php:45
-msgid "Konya"
-msgstr ""
-
-#: core/places/states/TR.php:46
-msgid "K&#252;tahya"
-msgstr ""
-
-#: core/places/states/TR.php:47
-msgid "Malatya"
-msgstr ""
-
-#: core/places/states/TR.php:48
-msgid "Manisa"
-msgstr ""
-
-#: core/places/states/TR.php:49
-msgid "Kahramanmara&#351;"
-msgstr ""
-
-#: core/places/states/TR.php:50
-msgid "Mardin"
-msgstr ""
-
-#: core/places/states/TR.php:51
-msgid "Mu&#287;la"
-msgstr ""
-
-#: core/places/states/TR.php:52
-msgid "Mu&#351;"
-msgstr ""
-
-#: core/places/states/TR.php:53
-msgid "Nev&#351;ehir"
-msgstr ""
-
-#: core/places/states/TR.php:54
-msgid "Ni&#287;de"
-msgstr ""
-
-#: core/places/states/TR.php:55
-msgid "Ordu"
-msgstr ""
-
-#: core/places/states/TR.php:56
-msgid "Rize"
-msgstr ""
-
-#: core/places/states/TR.php:57
-msgid "Sakarya"
-msgstr ""
-
-#: core/places/states/TR.php:58
-msgid "Samsun"
-msgstr ""
-
-#: core/places/states/TR.php:59
-msgid "Siirt"
-msgstr ""
-
-#: core/places/states/TR.php:60
-msgid "Sinop"
-msgstr ""
-
-#: core/places/states/TR.php:61
-msgid "Sivas"
-msgstr ""
-
-#: core/places/states/TR.php:62
-msgid "Tekirda&#287;"
-msgstr ""
-
-#: core/places/states/TR.php:63
-msgid "Tokat"
-msgstr ""
-
-#: core/places/states/TR.php:64
-msgid "Trabzon"
-msgstr ""
-
-#: core/places/states/TR.php:65
-msgid "Tunceli"
-msgstr ""
-
-#: core/places/states/TR.php:66
-msgid "&#350;anl&#305;urfa"
-msgstr ""
-
-#: core/places/states/TR.php:67
-msgid "U&#351;ak"
-msgstr ""
-
-#: core/places/states/TR.php:68
-msgid "Van"
-msgstr ""
-
-#: core/places/states/TR.php:69
-msgid "Yozgat"
-msgstr ""
-
-#: core/places/states/TR.php:70
-msgid "Zonguldak"
-msgstr ""
-
-#: core/places/states/TR.php:71
-msgid "Aksaray"
-msgstr ""
-
-#: core/places/states/TR.php:72
-msgid "Bayburt"
-msgstr ""
-
-#: core/places/states/TR.php:73
-msgid "Karaman"
-msgstr ""
-
-#: core/places/states/TR.php:74
-msgid "K&#305;r&#305;kkale"
-msgstr ""
-
-#: core/places/states/TR.php:75
-msgid "Batman"
-msgstr ""
-
-#: core/places/states/TR.php:76
-msgid "&#350;&#305;rnak"
-msgstr ""
-
-#: core/places/states/TR.php:77
-msgid "Bart&#305;n"
-msgstr ""
-
-#: core/places/states/TR.php:78
-msgid "Ardahan"
-msgstr ""
-
-#: core/places/states/TR.php:79
-msgid "I&#287;d&#305;r"
-msgstr ""
-
-#: core/places/states/TR.php:80
-msgid "Yalova"
-msgstr ""
-
-#: core/places/states/TR.php:81
-msgid "Karab&#252;k"
-msgstr ""
-
-#: core/places/states/TR.php:82
-msgid "Kilis"
-msgstr ""
-
-#: core/places/states/TR.php:83
-msgid "Osmaniye"
-msgstr ""
-
-#: core/places/states/TR.php:84
-msgid "D&#252;zce"
-msgstr ""
-
-#: core/places/states/US.php:4
-msgid "Alabama"
-msgstr ""
-
-#: core/places/states/US.php:5
-msgid "Alaska"
-msgstr ""
-
-#: core/places/states/US.php:6
-msgid "Arizona"
-msgstr ""
-
-#: core/places/states/US.php:7
-msgid "Arkansas"
-msgstr ""
-
-#: core/places/states/US.php:8
-msgid "California"
-msgstr ""
-
-#: core/places/states/US.php:9
-msgid "Colorado"
-msgstr ""
-
-#: core/places/states/US.php:10
-msgid "Connecticut"
-msgstr ""
-
-#: core/places/states/US.php:11
-msgid "Delaware"
-msgstr ""
-
-#: core/places/states/US.php:12
-msgid "District Of Columbia"
-msgstr ""
-
-#: core/places/states/US.php:13
-msgid "Florida"
-msgstr ""
-
-#: core/places/states/US.php:14
-msgctxt "US state of Georgia"
-msgid "Georgia"
-msgstr ""
-
-#: core/places/states/US.php:15
-msgid "Hawaii"
-msgstr ""
-
-#: core/places/states/US.php:16
-msgid "Idaho"
-msgstr ""
-
-#: core/places/states/US.php:17
-msgid "Illinois"
-msgstr ""
-
-#: core/places/states/US.php:18
-msgid "Indiana"
-msgstr ""
-
-#: core/places/states/US.php:19
-msgid "Iowa"
-msgstr ""
-
-#: core/places/states/US.php:20
-msgid "Kansas"
-msgstr ""
-
-#: core/places/states/US.php:21
-msgid "Kentucky"
-msgstr ""
-
-#: core/places/states/US.php:22
-msgid "Louisiana"
-msgstr ""
-
-#: core/places/states/US.php:23
-msgid "Maine"
-msgstr ""
-
-#: core/places/states/US.php:24
-msgid "Maryland"
-msgstr ""
-
-#: core/places/states/US.php:25
-msgid "Massachusetts"
-msgstr ""
-
-#: core/places/states/US.php:26
-msgid "Michigan"
-msgstr ""
-
-#: core/places/states/US.php:27
-msgid "Minnesota"
-msgstr ""
-
-#: core/places/states/US.php:28
-msgid "Mississippi"
-msgstr ""
-
-#: core/places/states/US.php:29
-msgid "Missouri"
-msgstr ""
-
-#: core/places/states/US.php:31
-msgid "Nebraska"
-msgstr ""
-
-#: core/places/states/US.php:32
-msgid "Nevada"
-msgstr ""
-
-#: core/places/states/US.php:33
-msgid "New Hampshire"
-msgstr ""
-
-#: core/places/states/US.php:34
-msgid "New Jersey"
-msgstr ""
-
-#: core/places/states/US.php:35
-msgid "New Mexico"
-msgstr ""
-
-#: core/places/states/US.php:36
-msgid "New York"
-msgstr ""
-
-#: core/places/states/US.php:37
-msgid "North Carolina"
-msgstr ""
-
-#: core/places/states/US.php:38
-msgid "North Dakota"
-msgstr ""
-
-#: core/places/states/US.php:39
-msgid "Ohio"
-msgstr ""
-
-#: core/places/states/US.php:40
-msgid "Oklahoma"
-msgstr ""
-
-#: core/places/states/US.php:41
-msgid "Oregon"
-msgstr ""
-
-#: core/places/states/US.php:42
-msgid "Pennsylvania"
-msgstr ""
-
-#: core/places/states/US.php:43
-msgid "Rhode Island"
-msgstr ""
-
-#: core/places/states/US.php:44
-msgid "South Carolina"
-msgstr ""
-
-#: core/places/states/US.php:45
-msgid "South Dakota"
-msgstr ""
-
-#: core/places/states/US.php:46
-msgid "Tennessee"
-msgstr ""
-
-#: core/places/states/US.php:47
-msgid "Texas"
-msgstr ""
-
-#: core/places/states/US.php:48
-msgid "Utah"
-msgstr ""
-
-#: core/places/states/US.php:49
-msgid "Vermont"
-msgstr ""
-
-#: core/places/states/US.php:50
-msgid "Virginia"
-msgstr ""
-
-#: core/places/states/US.php:51
-msgid "Washington"
-msgstr ""
-
-#: core/places/states/US.php:52
-msgid "West Virginia"
-msgstr ""
-
-#: core/places/states/US.php:53
-msgid "Wisconsin"
-msgstr ""
-
-#: core/places/states/US.php:54
-msgid "Wyoming"
-msgstr ""
-
-#: core/places/states/US.php:55
-msgid "Armed Forces (AA)"
-msgstr ""
-
-#: core/places/states/US.php:56
-msgid "Armed Forces (AE)"
-msgstr ""
-
-#: core/places/states/US.php:57
-msgid "Armed Forces (AP)"
-msgstr ""
-
-#: core/places/states/ZA.php:4
-msgid "Eastern Cape"
-msgstr ""
-
-#: core/places/states/ZA.php:5
-msgid "Free State"
-msgstr ""
-
-#: core/places/states/ZA.php:6
-msgid "Gauteng"
-msgstr ""
-
-#: core/places/states/ZA.php:7
-msgid "KwaZulu-Natal"
-msgstr ""
-
-#: core/places/states/ZA.php:8
-msgid "Limpopo"
-msgstr ""
-
-#: core/places/states/ZA.php:9
-msgid "Mpumalanga"
-msgstr ""
-
-#: core/places/states/ZA.php:10
-msgid "Northern Cape"
-msgstr ""
-
-#: core/places/states/ZA.php:11
-msgid "North West"
-msgstr ""
-
-#: core/places/states/ZA.php:12
-msgid "Western Cape"
+"Please specify if you want Notifications, time for pickups, type of labels "
+"generated and customs information."
 msgstr ""
 
 #: core/tracking/back/tracking-back.php:7
 msgid "SEUR Tracking"
 msgstr ""
 
+#: core/tracking/back/tracking-back.php:24
+msgid "Tracking ID"
+msgstr ""
+
+#: core/tracking/back/tracking-back.php:31
+msgid "Waiting Seur Label"
+msgstr ""
+
+#: core/tracking/back/tracking-back.php:41
+msgid "Waiting Collection or update tracking"
+msgstr ""
+
+#: core/tracking/back/tracking-back.php:55
+msgid "added on"
+msgstr ""
+
 #: core/tracking/front/tracking-front.php:7
 msgid "Where is my Order?"
+msgstr ""
+
+#: core/tracking/front/tracking-front.php:28
+msgid "Click here"
+msgstr ""
+
+#: core/tracking/front/tracking-front.php:32
+msgid "Waiting shippment"
 msgstr ""
 
 #: core/woocommerce/includes/class-wc-shipping-seur.php:216
@@ -6596,13 +1635,6 @@ msgid ""
 "<p>The SEUR extension obtains rates dynamically from the SEUR API during "
 "cart/checkout.</p><p>Please, configure SEUR data in <code>SEUR -> Settings</"
 "code></p>"
-msgstr ""
-
-#: core/woocommerce/includes/class-wc-shipping-seur.php:392
-msgid ""
-"SEUR is enabled, and Parcel Packing Method is set to 'Pack into boxes', but "
-"no SEUR Packaging is selected and there are no custom boxes defined. Items "
-"will be packed individually."
 msgstr ""
 
 #: core/woocommerce/includes/class-wc-shipping-seur.php:406
@@ -6636,18 +1668,6 @@ msgstr ""
 
 #: core/woocommerce/includes/class-wc-shipping-seur.php:475
 msgid "Price Adjustment (%)"
-msgstr ""
-
-#: core/woocommerce/includes/class-wc-shipping-seur.php:481
-msgid ""
-"<strong>Domestic Rates</strong>: Next Day Air, 2nd Day Air, Ground, 3 Day "
-"Select, Next Day Air Saver, Next Day Air Early AM, 2nd Day Air AM"
-msgstr ""
-
-#: core/woocommerce/includes/class-wc-shipping-seur.php:482
-msgid ""
-"<strong>International Rates</strong>: Worldwide Express, Worldwide "
-"Expedited, Standard, Worldwide Express Plus, SEUR Saver"
 msgstr ""
 
 #: core/woocommerce/includes/class-wc-shipping-seur.php:607
@@ -6710,22 +1730,22 @@ msgstr ""
 msgid "Offer the customer the expensive rate only"
 msgstr ""
 
-#: core/woocommerce/includes/class-wc-shipping-seur.php:747
+#: core/woocommerce/includes/class-wc-shipping-seur.php:748
 msgid "SEUR: Country not supplied. Rates not requested."
 msgstr ""
 
-#: core/woocommerce/includes/class-wc-shipping-seur.php:753
+#: core/woocommerce/includes/class-wc-shipping-seur.php:754
 #, php-format
 msgid ""
 "SEUR: No Origin Postcode has been set. Please %sadd one%s so rates can be "
 "calculated!"
 msgstr ""
 
-#: core/woocommerce/includes/class-wc-shipping-seur.php:771
+#: core/woocommerce/includes/class-wc-shipping-seur.php:782
 msgid "SEUR: No Services are enabled in admin panel."
 msgstr ""
 
-#: core/woocommerce/includes/class-wc-shipping-seur.php:858
+#: core/woocommerce/includes/class-wc-shipping-seur.php:869
 msgid "SEUR: Using Fallback setting."
 msgstr ""
 
@@ -6741,67 +1761,83 @@ msgstr ""
 msgid " See SEUR Label "
 msgstr ""
 
-#: core/woocommerce/includes/seur-woo-functions.php:56
+#: core/woocommerce/includes/seur-woo-functions.php:108
 #, php-format
 msgid "Awaiting SEUR shipment <span class=\"count\">(%s)</span>"
 msgstr ""
 
-#: core/woocommerce/includes/seur-woo-functions.php:90
+#: core/woocommerce/includes/seur-woo-functions.php:142
 #, php-format
 msgid "Awaiting SEUR Label <span class=\"count\">(%s)</span>"
 msgstr ""
 
-#: core/woocommerce/includes/seur-woo-functions.php:121
+#: core/woocommerce/includes/seur-woo-functions.php:173
 msgid "Mark as printed for packaging"
 msgstr ""
 
-#: core/woocommerce/includes/seur-woo-functions.php:132
+#: core/woocommerce/includes/seur-woo-functions.php:184
 #, php-format
 msgid "Awaiting SEUR Shipment <span class=\"count\">(%s)</span>"
 msgstr ""
 
 #. translators: Placeholders: %s is a user's display name
-#: core/woocommerce/includes/seur-woo-functions.php:142
+#: core/woocommerce/includes/seur-woo-functions.php:194
 #, php-format
 msgid "Order information printed by %s for packaging."
 msgstr ""
 
-#: core/woocommerce/includes/seur-woo-functions.php:160
-#: core/woocommerce/includes/seur-woo-functions.php:162
+#: core/woocommerce/includes/seur-woo-functions.php:212
+#: core/woocommerce/includes/seur-woo-functions.php:214
 msgid "Mark Awaiting SEUR Label"
 msgstr ""
 
-#: core/woocommerce/includes/seur-woo-functions.php:161
-#: core/woocommerce/includes/seur-woo-functions.php:163
+#: core/woocommerce/includes/seur-woo-functions.php:213
+#: core/woocommerce/includes/seur-woo-functions.php:215
 msgid "Mark Awaiting SEUR Shipment"
 msgstr ""
 
-#: core/woocommerce/includes/seur-woo-functions.php:164
-#: core/woocommerce/includes/seur-woo-functions.php:165
+#: core/woocommerce/includes/seur-woo-functions.php:216
+#: core/woocommerce/includes/seur-woo-functions.php:217
 msgid "Create SEUR Label (Only 1 label per order)"
 msgstr ""
 
-#: core/woocommerce/includes/seur-woo-functions.php:254
+#: core/woocommerce/includes/seur-woo-functions.php:306
 msgid "Get SEUR Label (Only 1 label per order)"
 msgstr ""
 
-#: core/woocommerce/includes/seur-woo-functions.php:326
-#: core/woocommerce/includes/seur-woo-functions.php:348
+#: core/woocommerce/includes/seur-woo-functions.php:396
+#: core/woocommerce/includes/seur-woo-functions.php:418
 msgid "Mobile Phone"
 msgstr ""
 
-#: core/woocommerce/includes/seur-woo-functions.php:327
-#: core/woocommerce/includes/seur-woo-functions.php:349
+#: core/woocommerce/includes/seur-woo-functions.php:397
+#: core/woocommerce/includes/seur-woo-functions.php:419
 msgctxt "placeholder"
 msgid "Mobile Phone"
 msgstr ""
 
-#: core/woocommerce/includes/seur-woo-functions.php:340
+#: core/woocommerce/includes/seur-woo-functions.php:410
 msgid "Billing Mobile Phone"
 msgstr ""
 
-#: core/woocommerce/includes/seur-woo-functions.php:362
+#: core/woocommerce/includes/seur-woo-functions.php:432
 msgid "Shipping Mobile Phone"
+msgstr ""
+
+#: core/woocommerce/includes/seur-woo-functions.php:576
+msgid "Seur Shippments"
+msgstr ""
+
+#: core/woocommerce/includes/seur-woo-functions.php:578
+msgid "All"
+msgstr ""
+
+#: core/woocommerce/includes/seur-woo-functions.php:579
+msgid "All Seur Shipping"
+msgstr ""
+
+#: core/woocommerce/includes/seur-woo-functions.php:580
+msgid "All Seur Shippments"
 msgstr ""
 
 #: core/woocommerce/seur-woocommerce.php:93
@@ -6843,22 +1879,21 @@ msgstr ""
 
 #~ msgid ""
 #~ "The type of service/product considered will be that which is established "
-#~ "in the set-up data and according to the destination.<br>\n"
+#~ "in the set-up data and according to the destination.<br />\n"
 #~ "            If payment is going to be cash on delivery, enter the value "
 #~ "ONLY if you would like to consider the cash management expenses to be "
-#~ "charged to the sender.<br>\n"
+#~ "charged to the sender.<br />\n"
 #~ "            If the delivery is to the Canary Islands, Customs and the "
 #~ "type of delivery will be considered according to the established set-up "
 #~ "data. The same thing applies for deliveries to Andorra, Ceuta and Melilla."
-#~ "<br>"
+#~ "<br />"
 #~ msgstr ""
 #~ "O tipo de serviço produto considerado será o estabelecido nos dados da "
-#~ "configuração e dependerá do destino.\n"
+#~ "configuração e dependerá do destino.<br />\n"
 #~ "\n"
 #~ "Se o envio for contrarreembolso, introduza o valor APENAS se desejar que "
-#~ "as despesas de gestão do reembolso correm a cargo do remetente.\n"
-#~ "\n"
+#~ "as despesas de gestão do reembolso correm a cargo do remetente.<br />\n"
 #~ "Se o envio for para as Ilhas Canárias, serão tidas em conta as despesas "
 #~ "de Alfândega bem como o tipo de envio, em conformidade com os dados de "
 #~ "configuração estabelecidos, sendo o mesmo no caso de envios para Andorra, "
-#~ "Ceuta e Melilha.<br>"
+#~ "Ceuta e Melilha.<br />"
