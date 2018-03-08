@@ -7,7 +7,6 @@
 			<div class="seur-badge"><?php  printf( __( 'Version %s' ), SEUR_OFFICIAL_VERSION ); ?></div>
 			<h2 class="nav-tab-wrapper">
 				<a href="<?php echo esc_url( admin_url( add_query_arg( array( 'page' => 'seur_about_page' ), 'admin.php' ) ) ); ?>" class="nav-tab nav-tab-active"><?php  _e( 'SEUR', 'seur' ); ?></a>
-				<a href="<?php echo esc_url( admin_url( add_query_arg( array( 'page' => 'seur_about_page' ), 'admin.php' ) ) ); ?>" class="nav-tab"><?php  _e( 'What&#8217;s New SEUR Plugin', 'seur' ); ?></a>
 			</h2>
 			<p class="about-description"><?php  _e( 'SEUR Shipping Method.', 'seur' ); ?></p>
 			<p><?php _e( 'Did you know that 52% of on-line shoppers consider delivery to be a key element when choosing between one e-commerce and another? At SEUR, we want to contribute to ensuring that the clients choose you. To do so, we&apos;ve designed new services and solutions that make the customer the focal point, thereby guaranteeing the best experience during the delivery process', 'seur' ); ?></p>
