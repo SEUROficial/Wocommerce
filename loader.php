@@ -2,7 +2,7 @@
 /*
 Plugin Name: SEUR Oficial
 Plugin URI: http://www.seur.com/
-Description: SEUR Oficial
+Description: Add SEUR shipping method to WooCommerce. The SEUR plugin for WooCommerce allows you to manage your order dispatches in a fast and easy way
 Version: 1.0.0
 Author: José Conti
 Author URI: https://www.joseconti.com/
