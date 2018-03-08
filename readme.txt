@@ -94,7 +94,7 @@ The "SEUR > Shipments" menu includes the option to track your shipment and see t
 == Changelog ==
 
 = 1.0.1 =
-*Fixed a bug that breaks the admin orders search when rates are not customized.
+* Fixed a bug that breaks the admin orders search when rates are not customized.
 
 = 1.0 =
 * First public release.
