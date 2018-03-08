@@ -1,4 +1,4 @@
-=== Seur ===
+=== SEUR Oficial ===
 Contributors: j.conti, seuroficial
 Tags: woocommerce, shipping, seur, logistica, enviar paquete, pedidos, entregas
 Requires at least: 4.0
