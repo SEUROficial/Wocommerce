@@ -16,6 +16,6 @@ return array(
 	'WC' => 'West Coast',
 	'CT' => 'Canterbury',
 	'OT' => 'Otago',
-	'SL' => 'Southland', 'seur'),
+	'SL' => 'Southland',
 );
 
