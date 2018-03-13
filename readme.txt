@@ -94,7 +94,7 @@ The "SEUR > Shipments" menu includes the option to track your shipment and see t
 == Changelog ==
 
 = 1.0.2 =
-*Added compatibility with WordPress Multisite.
+* Added compatibility with WordPress Multisite.
 
 = 1.0.1 =
 * Fixed a bug that breaks the admin orders search when rates are not customized.
