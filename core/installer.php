@@ -9,12 +9,13 @@ function seur_create_tables_hook(){
     $seur_db_version_saved = '';
     $seur_db_version_saved = get_option('seur_db_version');
 
+
     if ( $seur_db_version_saved && $seur_db_version_saved != '1.0.3' && ( SEUR_DB_VERSION == '1.0.3' ) ) {
 
 	    require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
         $charset_collate = $wpdb->get_charset_collate();
 
-        $table_name = $wpdb->base_prefix . "seur_custom_rates";
+        $table_name = $wpdb->prefix . "seur_custom_rates";
 
         $sql = "CREATE TABLE " . $table_name . " (
             ID bigint(20) unsigned NOT NULL auto_increment,
@@ -41,7 +42,7 @@ function seur_create_tables_hook(){
         require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
         $charset_collate = $wpdb->get_charset_collate();
 
-        $table_name = $wpdb->base_prefix . "seur_svpr";
+        $table_name = $wpdb->prefix . "seur_svpr";
 
         $sql = "CREATE TABLE " . $table_name . " (
             ID bigint(20) unsigned NOT NULL auto_increment,
@@ -54,7 +55,7 @@ function seur_create_tables_hook(){
 
         dbDelta($sql);
 
-        $table_name = $wpdb->base_prefix . "seur_custom_rates";
+        $table_name = $wpdb->prefix . "seur_custom_rates";
 
         $sql = "CREATE TABLE " . $table_name . " (
             ID bigint(20) unsigned NOT NULL auto_increment,
@@ -83,7 +84,7 @@ function seur_add_data_to_tables_hook(){
     $seur_table_version_saved = '';
     $seur_table_version_saved = get_option('seur_table_version');
 
-    if ( ! $seur_table_version_saved ) {
+    if ( ! $seur_table_version_saved ||  $seur_table_version_saved == ''  ) {
 
         $table_name = $wpdb->prefix . 'seur_svpr';
 
@@ -439,7 +440,7 @@ function seur_create_upload_folder_hook(){
 
 function seur_create_content_for_download(){
 
-    $create_password = get_option( 'seur_pass_for_download' );
+    $create_password = get_site_option( 'seur_pass_for_download' );
 
     if ( ! empty( $create_password ) ){
          $create_password = $create_password;
@@ -477,7 +478,7 @@ function seur_create_content_for_download(){
     $content .= '       exit;'                                                                          . PHP_EOL;
     $content .= '     }';
 
-    update_option( 'seur_pass_for_download', $create_password );
+    update_site_option( 'seur_pass_for_download', $create_password );
 
     return $content;
 }
@@ -489,12 +490,12 @@ function seur_create_download_files(){
         require_once ( ABSPATH . '/wp-admin/includes/file.php' );
         WP_Filesystem();
     }
-    $seur_download_file = get_option( 'seur_download_file_path' );
+    $seur_download_file = get_site_option( 'seur_download_file_path' );
     if( $seur_download_file ) {
         wp_delete_file( $seur_download_file );
         }
-    delete_option( 'seur_download_file_url'  );
-    delete_option( 'seur_download_file_path' );
+    delete_site_option( 'seur_download_file_url'  );
+    delete_site_option( 'seur_download_file_path' );
 
     $content_url    = content_url();
     $random_string  = seur_create_random_string();
@@ -510,8 +511,8 @@ function seur_create_download_files(){
       FS_CHMOD_FILE // predefined mode settings for WP files
     );
 
-    update_option( 'seur_download_file_url',  $full_url_file  );
-    update_option( 'seur_download_file_path', $full_path_file );
+    update_site_option( 'seur_download_file_url',  $full_url_file  );
+    update_site_option( 'seur_download_file_path', $full_path_file );
 
 }
 

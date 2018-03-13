@@ -306,7 +306,7 @@ if ( ( $pais == 'ES' ) || ( $pais == 'PT' ) || ( $pais == 'AD' ) )
 
 // Mostramos el servicio producto
 
-$registros   = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM {$wpdb->base_prefix}seur_svpr WHERE ser= %d and pro= %d", $servicio, $producto ) );
+$registros   = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM {$wpdb->prefix}seur_svpr WHERE ser= %d and pro= %d", $servicio, $producto ) );
 
 
 

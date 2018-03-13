@@ -7,7 +7,7 @@ function seur_delete_rate(){
 
 		$id = sanitize_text_field ( $_POST['del_id'] );
 
-		$table = $wpdb->base_prefix . 'seur_custom_rates';
+		$table = $wpdb->prefix . 'seur_custom_rates';
 
 		$getrates = $wpdb->get_results("SELECT * FROM $table ORDER BY ID ASC");
 

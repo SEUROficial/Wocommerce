@@ -20,11 +20,11 @@ function seur_metabox_callback( $post ) {
     $labelID   			  = '';
     $has_label 			  = get_post_meta( $post->ID, '_seur_shipping_order_label_downloaded',	true );
     $labelID   			  = get_post_meta( $post->ID, '_seur_shipping_label_id',				true );
-    $url_to_file_down     = get_option( 'seur_download_file_url' );
+    $url_to_file_down     = get_site_option( 'seur_download_file_url' );
     $label_path           = get_post_meta( $labelID, '_seur_shipping_order_label_path_name',	true );
     $label_path           = str_replace( "\\", "/", $label_path );
     $label_file_name      = get_post_meta( $labelID, '_seur_shipping_order_label_file_name',	true );
-    $file_downlo_pass     = get_option( 'seur_pass_for_download' );
+    $file_downlo_pass     = get_site_option( 'seur_pass_for_download' );
     $file_type            = get_post_meta( $labelID, '_seur_label_type',						true );
 
     ?> <div id="seur_content_metabox"> <?php

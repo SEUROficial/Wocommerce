@@ -119,8 +119,8 @@ function seur_custom_label_column_data( $column, $post_id ) {
     $label_file_name      = get_post_meta( $post_id, '_seur_shipping_order_label_file_name',    true );
     $label_path           = get_post_meta( $post_id, '_seur_shipping_order_label_path_name',    true );
     $label_url            = get_post_meta( $post_id, '_seur_shipping_order_label_url_name',     true );
-    $url_to_file_down     = get_option('seur_download_file_url');
-    $file_downlo_pass     = get_option('seur_pass_for_download');
+    $url_to_file_down     = get_site_option('seur_download_file_url');
+    $file_downlo_pass     = get_site_option('seur_pass_for_download');
     $label_path           = str_replace("\\", "/", $label_path );
     $file_type            = get_post_meta( $post_id, '_seur_label_type',                        true );
 
@@ -422,10 +422,10 @@ function seur_bulk_actions_success() {
 
     $screen               = get_current_screen();
     $file_name            = get_transient( get_current_user_id() . '_seur_label_bulk_download' );
-    $file_downlo_pass     = get_option('seur_pass_for_download');
+    $file_downlo_pass     = get_site_option('seur_pass_for_download');
     $url_to_dir           = seur_upload_url( 'labels' );
     $upload_dir           = seur_upload_dir( 'labels' );
-    $url_to_txt           = get_option('seur_download_file_url');
+    $url_to_txt           = get_site_option('seur_download_file_url');
     $path_to_txt          = $upload_dir . '/' . $file_name;
     $label_path_fix       = str_replace("\\", "/", $path_to_txt );
 

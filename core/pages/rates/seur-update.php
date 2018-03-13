@@ -12,7 +12,7 @@ function seur_update_custom_rate(){
 	    if ( $_POST ) {
             global $wpdb;
 
-            $table = $wpdb->base_prefix . 'seur_custom_rates';
+            $table = $wpdb->prefix . 'seur_custom_rates';
 
             $seur_id        = sanitize_text_field ( $_POST['id']                         );
             $seur_rate      = sanitize_text_field ( $_POST['rate']                       );

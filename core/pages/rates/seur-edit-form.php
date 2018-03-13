@@ -10,7 +10,7 @@ function seur_edit_rate(){
 
 
 		//$wpdb->show_errors();
-		$getrate = $wpdb->get_row ( $wpdb->prepare( "SELECT * FROM {$wpdb->base_prefix}seur_custom_rates WHERE ID = %d", $id ) );
+		$getrate = $wpdb->get_row ( $wpdb->prepare( "SELECT * FROM {$wpdb->prefix}seur_custom_rates WHERE ID = %d", $id ) );
 		//$wpdb->print_error();
 
 		$max_price = $getrate->maxprice;

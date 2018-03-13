@@ -512,7 +512,7 @@ function seur_get_countries_states( $country ) {
 function seur_get_custom_rates( $output_type = 'OBJECT', $type = 'price' ){
     global $wpdb;
 
-    $table      = $wpdb->base_prefix . SEUR_TBL_SCR;
+    $table      = $wpdb->prefix . SEUR_TBL_SCR;
     $getrates   = $wpdb->get_results( "SELECT * FROM $table WHERE type = '$type' ORDER BY ID ASC", $output_type );
 
     return $getrates;

@@ -9,7 +9,7 @@ global $wpdb, $wp_filesystem;
 
 $seur_uploads = get_option( 'seur_uploads_dir' );
 $wp_filesystem->rmdir( $seur_uploads, true );
-$seur_download_file = get_option( 'seur_download_file_path' );
+$seur_download_file = get_site_option( 'seur_download_file_path' );
 wp_delete_file( $seur_download_file );
 
 

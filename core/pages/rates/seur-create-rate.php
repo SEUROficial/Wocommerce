@@ -10,7 +10,7 @@ function seur_create_custom_rate() {
 		if( $_POST ) {
 			global $wpdb;
 
-			$table = $wpdb->base_prefix . 'seur_custom_rates';
+			$table = $wpdb->prefix . 'seur_custom_rates';
 
 			$seur_rate		= sanitize_text_field( $_POST['rate']			);
 			$seur_country	= sanitize_text_field( $_POST['country']		);
