@@ -202,14 +202,14 @@ function SeurCheckCity( $datos ){
         'in5'=>$datos[0],
         'in6'=>$datos[1]);
 
-    $respuesta = $soap_client->infoPoblacionesCortoStr($parametros);
+    $respuesta  = $soap_client->infoPoblacionesCortoStr($parametros);
     $string_xml = htmlspecialchars_decode($respuesta->out);
-    $strXml = iconv("UTF-8","ISO-8859-1",$string_xml);
-    $xml = simplexml_load_string($strXml);
+    $strXml     = iconv("UTF-8","ISO-8859-1",$string_xml);
+    $xml         = simplexml_load_string($strXml);
 
-    $cuantos=$xml->attributes()->NUM;
+    $cuantos = $xml->attributes()->NUM;
 
-    if ($cuantos!=1)
+    if ( $cuantos !=1 )
         return "ERROR";
     else
      return $xml->REG1->COD_UNIDAD_ADMIN;
