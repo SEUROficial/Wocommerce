@@ -759,9 +759,10 @@ return $value;
 	                $price = $package['contents_cost'];
                 } else {
 
-	                	$weight = 0;
+	                   $weight = 0;
 					   $cost = 0;
 					   $country = $package["destination"]["country"];
+					   $package_price = $package['contents_cost'];
 
 					   foreach ( $package['contents'] as $item_id => $values )
 					   {
