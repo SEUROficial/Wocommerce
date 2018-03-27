@@ -35,16 +35,16 @@ select#productservice{
 	margin-bottom: 8px;
 }
 /* Arrow */
-.select::after {
+/*.select::after {
   content: '\25BC';
   position: absolute;
   top: 0;
   right: 0;
   bottom: 0;
   padding: 0 1em;
-  background: #34495e;
+  background: rgba(165, 165, 165, 0.86);
   pointer-events: none;
-}
+}*/
 /* Transition */
 .select:hover::after {
   color: #f39c12;
@@ -53,6 +53,10 @@ select#productservice{
   -webkit-transition: .25s all ease;
   -o-transition: .25s all ease;
   transition: .25s all ease;
+}
+a.select2-choice{
+	min-height: 32px;
+    margin-top: -5px;
 }
 button#btn-save.button.button-primary.btn.btn-primary{
 	margin-top: 30px;
