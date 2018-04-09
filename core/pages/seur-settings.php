@@ -48,6 +48,11 @@ function seur_settings(){ ?>
                 var switchery = new Switchery(repartonotificar, { size: 'small' } );
                 }
 
+              var localpickup = document.querySelector( '.js-switch-pickup' );
+              if ( localpickup ) {
+                var switchery = new Switchery(localpickup, { size: 'small' } );
+                }
+
         </script>
     </div>
 <?php }
@@ -57,7 +62,7 @@ function seur_settings_load_css( $hook ){
     if( $seurconfig != $hook ) {
         return;
     } else {
-        wp_register_style(  'seur_switchery_css', SEUR_PLUGIN_URL . '/assets/css/switchery.css', array(), SEUR_OFFICIAL_VERSION  );
+        wp_register_style(  'seur_switchery_css', SEUR_PLUGIN_URL . 'assets/css/switchery.css', array(), SEUR_OFFICIAL_VERSION  );
         wp_enqueue_style(   'seur_switchery_css');
     }
 }

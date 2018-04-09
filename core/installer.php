@@ -84,7 +84,23 @@ function seur_add_data_to_tables_hook(){
     $seur_table_version_saved = '';
     $seur_table_version_saved = get_option('seur_table_version');
 
-    if ( ! $seur_table_version_saved ||  $seur_table_version_saved == ''  ) {
+    if ( ! empty( $seur_table_version_saved ) &&  $seur_table_version_saved == '1.0.0' ) {
+
+	    $table_name = $wpdb->prefix . 'seur_svpr';
+
+        $wpdb->insert(
+            $table_name,
+            array(
+                'ser' => '1',
+                'pro' => '48',
+                'descripcion' => 'SEUR 2SHOP',
+                'tipo' => 'ESTANDAR',
+            )
+        );
+        update_option('seur_table_version', SEUR_TABLE_VERSION );
+	}
+
+    if ( ! $seur_table_version_saved ||  $seur_table_version_saved == '' ) {
 
         $table_name = $wpdb->prefix . 'seur_svpr';
 
@@ -157,6 +173,15 @@ function seur_add_data_to_tables_hook(){
                 'ser' => '77',
                 'pro' => '70',
                 'descripcion' => 'Classic Internacional Terrestre',
+                'tipo' => 'ESTANDAR',
+            )
+        );
+        $wpdb->insert(
+            $table_name,
+            array(
+                'ser' => '1',
+                'pro' => '48',
+                'descripcion' => 'SEUR 2SHOP',
                 'tipo' => 'ESTANDAR',
             )
         );

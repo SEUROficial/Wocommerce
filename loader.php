@@ -17,7 +17,7 @@ License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
 define( 'SEUR_OFFICIAL_VERSION',    '1.0.3'                     );
 define( 'SEUR_DB_VERSION',          '1.0.3'                     );
-define( 'SEUR_TABLE_VERSION',       '1.0.0'                     );
+define( 'SEUR_TABLE_VERSION',       '1.0.1'                     );
 define( 'SEUR_PLUGIN_PATH',         plugin_dir_path( __FILE__ ) );
 define( 'SEUR_PLUGIN_URL',          plugin_dir_url( __FILE__ )  );
 

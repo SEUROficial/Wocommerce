@@ -90,6 +90,11 @@ $texto = __('RATES', 'seur' ) . '<br />' . __('Calculate rate that SEUR apply to
                             $servicio = '77';
                         }
 
+                        elseif ( $ps == 'seur2shop' ){
+                            $producto = '48';
+                            $servicio = '1';
+                        }
+
                     } // if ( isset( $_POST['productservice'] ) )
 
             } // ! isset( $_POST['seur_rates_seur_nonce_field'] )
@@ -139,6 +144,7 @@ $texto = __('RATES', 'seur' ) . '<br />' . __('Calculate rate that SEUR apply to
                 <option <?php if( isset( $ps ) && ( $ps == 'seur48'    ) ) echo ' selected'; ?> value="seur48">SEUR 48H Estándar</option>
                 <option <?php if( isset( $ps ) && ( $ps == 'seur72'    ) ) echo ' selected'; ?> value="seur72">SEUR 72H Estándar</option>
                 <option <?php if( isset( $ps ) && ( $ps == 'seurint'   ) ) echo ' selected'; ?> value="seurint">Classic Internacional Terrestre</option>
+                <option <?php if( isset( $ps ) && ( $ps == 'seur2shop'   ) ) echo ' selected'; ?> value="seur2shop">SEUR 2SHOP</option>
             </select>
         <label>
         <?php  wp_nonce_field( 'seur_rates_seur', 'seur_rates_seur_nonce_field' ); ?>
@@ -244,7 +250,9 @@ $texto = __('RATES', 'seur' ) . '<br />' . __('Calculate rate that SEUR apply to
                 $lineasantes = ( $xml->attributes()->NUM) ;
                 $lineas      = (int)$lineasantes - 1;
                 $total       = 0;
-                echo '$usuarioseurcom: '    . $usuarioseurcom . '<br />';
+
+                /* Para debug
+	            echo '$usuarioseurcom: '    . $usuarioseurcom . '<br />';
                 echo '$contrasenaseurcom: ' . $contrasenaseurcom . '<br />';
                 echo '$poblacion: '         . $poblacion . '<br />';
                 echo '$kilos: '             . $kilos . '<br />';
@@ -257,6 +265,7 @@ $texto = __('RATES', 'seur' ) . '<br />' . __('Calculate rate that SEUR apply to
                 echo '$producto: '          . $producto . '<br />';
                 echo 'COD_IDIOMA: ES<br />';
                 echo '$pais: '              . $pais . '<br />';
+                */
 
                 ?>
                 <table width='25%' style='color:ed734d;font-weight:bold; font-size:14px;'>

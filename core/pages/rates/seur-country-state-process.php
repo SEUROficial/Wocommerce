@@ -5,7 +5,7 @@ function seur_country_state_process() {
 
 		$rate = $_POST[ "rate" ];
 
-		if ( $rate == 'B2C Estándar' || $rate == 'SEUR 13:30 Estándar' || $rate == 'SEUR 10 Estándar' || $rate == 'SEUR 10 Frío' || $rate == 'SEUR 13:30 Frío' ){
+		if ( $rate == 'B2C Estándar' || $rate == 'SEUR 13:30 Estándar' || $rate == 'SEUR 10 Estándar' || $rate == 'SEUR 10 Frío' || $rate == 'SEUR 13:30 Frío' ||  $rate == 'SEUR 2SHOP' ){
 			echo '<select class="select country" id="country" title="' . __('Select Country', 'seur' ) . '" name="country">';
 			echo '<option value="NULL">' . __( 'Select', 'seur' ) . '</option>';
 			echo '<option value="AD">' . __('Andorra', 'seur' ) . '</option>';
@@ -47,7 +47,7 @@ function seur_country_state_process() {
 	    // Define country and city array
 	    $countryArr = seur_get_countries_states( $country );
 
-	    if ( $rate == 'B2C Estándar' || $rate == 'SEUR 13:30 Estándar' || $rate == 'SEUR 10 Estándar' || $rate == 'SEUR 10 Frío' || $rate == 'SEUR 13:30 Frío' ) {
+	    if ( $rate == 'B2C Estándar' || $rate == 'SEUR 13:30 Estándar' || $rate == 'SEUR 10 Estándar' || $rate == 'SEUR 10 Frío' || $rate == 'SEUR 13:30 Frío' ||  $rate == 'SEUR 2SHOP' ) {
 
 		    if( $countryArr ){
 		    // Display city dropdown based on country name

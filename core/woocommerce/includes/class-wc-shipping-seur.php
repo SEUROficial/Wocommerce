@@ -359,8 +359,8 @@ class WC_Shipping_SEUR extends WC_Shipping_Method {
      */
 
     public function assets() {
-        wp_register_style( 'seur-admin-css', SEUR_PLUGIN_URL . '/core/woocommerce/assets/css/seur-admin.css', '', WC_Shipping_SEUR_Init::$version );
-        wp_register_script( 'seur-admin-js', SEUR_PLUGIN_URL . '/core/woocommerce/assets/js/seur-admin.js', array( 'jquery' ), WC_Shipping_SEUR_Init::$version, true );
+        wp_register_style( 'seur-admin-css', SEUR_PLUGIN_URL . 'core/woocommerce/assets/css/seur-admin.css', '', WC_Shipping_SEUR_Init::$version );
+        wp_register_script( 'seur-admin-js', SEUR_PLUGIN_URL . 'core/woocommerce/assets/js/seur-admin.js', array( 'jquery' ), WC_Shipping_SEUR_Init::$version, true );
 
         wp_enqueue_style( 'seur-admin-css' );
         wp_enqueue_script( 'jquery-ui-sortable' );
@@ -705,29 +705,28 @@ class WC_Shipping_SEUR extends WC_Shipping_Method {
         );
     }
 
-	public function seur_option_woocommerce_cod_settings( $value ) {
-    if ( is_checkout() ) {
-        if (
-            !empty( $value )
-            && is_array( $value )
-            && $value['enabled'] == 'yes'
-            && !empty( $value['enable_for_methods'] )
-            && is_array( $value['enable_for_methods'] )
-    ) {
-            foreach ( $value['enable_for_methods'] as $method ) {
-                if ( $method == 'seur' ) {
-                    $seur_rates = seur_get_custom_rates();
-                    foreach ( $seur_rates as $seur_rate ) {
-                        $value['enable_for_methods'][] = $seur_rate->ID;
+    public function seur_option_woocommerce_cod_settings( $value ) {
+        if ( is_checkout() ) {
+            if (
+                !empty( $value )
+                && is_array( $value )
+                && $value['enabled'] == 'yes'
+                && !empty( $value['enable_for_methods'] )
+                && is_array( $value['enable_for_methods'] )
+                ) {
+                    foreach ( $value['enable_for_methods'] as $method ) {
+                        if ( $method == 'seur' ) {
+                            $seur_rates = seur_get_custom_rates();
+                            foreach ( $seur_rates as $seur_rate ) {
+                                $value['enable_for_methods'][] = $seur_rate->ID;
+                            }
+                            break;
+                        }
                     }
-                    break;
-                }
+             }
         }
-            }
+        return $value;
     }
-return $value;
-}
-
 
     /**
      * calculate_shipping function.
@@ -756,21 +755,21 @@ return $value;
         }
 
                 if ( $rates_type == 'price' ) {
-	                $price = $package['contents_cost'];
+                    $price = $package['contents_cost'];
                 } else {
 
-	                   $weight = 0;
-					   $cost = 0;
-					   $country = $package["destination"]["country"];
-					   $package_price = $package['contents_cost'];
+                       $weight = 0;
+                       $cost = 0;
+                       $country = $package["destination"]["country"];
+                       $package_price = $package['contents_cost'];
 
-					   foreach ( $package['contents'] as $item_id => $values )
-					   {
-						   $_product = $values['data'];
-						   $weight = $weight + $_product->get_weight() * $values['quantity'];
-					   }
+                       foreach ( $package['contents'] as $item_id => $values )
+                       {
+                           $_product = $values['data'];
+                           $weight = $weight + $_product->get_weight() * $values['quantity'];
+                       }
 
-					   $price = wc_get_weight( $weight, 'kg' );
+                       $price = wc_get_weight( $weight, 'kg' );
                 }
                 //$price      = $package['contents_cost'];
                 $country    = $package['destination']['country'];
@@ -782,7 +781,7 @@ return $value;
             if ( ! $rate_requests ) {
                 $this->debug( __( 'SEUR: No Services are enabled in admin panel.', 'seur' ) );
             }
-		if ( $rate_requests ){
+        if ( $rate_requests ){
 
             // parse the results
             foreach ( $rate_requests as $rate ) {
@@ -794,17 +793,17 @@ return $value;
                 $raterate       = $rate['rate'];
                 $ratepricerate  = $rate['rateprice'];
 
-                if ( $rate ) {
+                if ( $rate && $raterate != 'SEUR 2SHOP' ) {
 
                     $sort = 999;
 
                     if ( $rates_type == 'price' ) {
-	                		$ratepricerate = $ratepricerate;
-		                } else {
-			                $ratepricerate = seur_filter_price_rate_weight( $package_price, $raterate, $ratepricerate );
-		                }
+                            $ratepricerate = $ratepricerate;
+                        } else {
+                            $ratepricerate = seur_filter_price_rate_weight( $package_price, $raterate, $ratepricerate );
+                        }
 
-		            $rate_name = seur_get_custom_rate_name( $raterate );
+                    $rate_name = seur_get_custom_rate_name( $raterate );
 
                     $rates[ $idrate ] = array(
                         'id'    => $idrate,
@@ -813,8 +812,7 @@ return $value;
                         'sort'  => $sort
                     );
                 }
-
-				}
+            }
         } // foreach ( $package_requests )
 
         // Add rates
@@ -841,7 +839,7 @@ return $value;
 
             } elseif ( $this->offer_rates == 'expensive' ) {
 
-	            $expensive_rate = '';
+                $expensive_rate = '';
 
                 foreach ( $rates as $key => $rate ) {
                     if ( ! $expensive_rate || $expensive_rate['cost'] < $rate['cost'] ) {
@@ -854,7 +852,7 @@ return $value;
 
             } else {
 
-	            uasort( $rates, array( $this, 'sort_rates' ) );
+                uasort( $rates, array( $this, 'sort_rates' ) );
                 foreach ( $rates as $key => $rate ) {
                     $this->add_rate( $rate );
                 }

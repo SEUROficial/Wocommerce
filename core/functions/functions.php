@@ -107,6 +107,7 @@ function seur_get_real_rate_name( $rate_name ){
 	$seur_48h_custom_name_field  = '';
 	$seur_72h_custom_name_field  = '';
 	$seur_cit_custom_name_field  = '';
+	$seur_2SHOP_custom_name_field = '';
 
 	$seur_bc2_custom_name_field  = get_option( 'seur_bc2_custom_name_field'  );
 	$seur_10e_custom_name_field  = get_option( 'seur_10e_custom_name_field'  );
@@ -116,6 +117,7 @@ function seur_get_real_rate_name( $rate_name ){
 	$seur_48h_custom_name_field  = get_option( 'seur_48h_custom_name_field'  );
 	$seur_72h_custom_name_field  = get_option( 'seur_72h_custom_name_field'  );
 	$seur_cit_custom_name_field  = get_option( 'seur_cit_custom_name_field'  );
+	$seur_2SHOP_custom_name_field = get_option( 'seur_2SHOP_custom_name_field');
 
 	if ( ! empty( $seur_bc2_custom_name_field ) && $rate_name ==  $seur_bc2_custom_name_field ) {
 		$real_name = 'B2C Estándar';
@@ -133,6 +135,8 @@ function seur_get_real_rate_name( $rate_name ){
 		$real_name = 'SEUR 72H Estándar';
 	} elseif ( ! empty( $seur_cit_custom_name_field ) && $rate_name ==  $seur_cit_custom_name_field ) {
 		$real_name = 'Classic Internacional Terrestre';
+	} elseif ( ! empty( $seur_2SHOP_custom_name_field ) && $rate_name ==  $seur_2SHOP_custom_name_field ) {
+		$real_name = 'SEUR 2SHOP';
 	} else {
 		$real_name = $rate_name;
 	}
@@ -150,6 +154,7 @@ function seur_get_custom_rate_name( $rate_name ){
 	$seur_48h_custom_name_field  = '';
 	$seur_72h_custom_name_field  = '';
 	$seur_cit_custom_name_field  = '';
+	$seur_2SHOP_custom_name_field = '';
 
 	$seur_bc2_custom_name_field  = get_option( 'seur_bc2_custom_name_field'  );
 	$seur_10e_custom_name_field  = get_option( 'seur_10e_custom_name_field'  );
@@ -159,6 +164,7 @@ function seur_get_custom_rate_name( $rate_name ){
 	$seur_48h_custom_name_field  = get_option( 'seur_48h_custom_name_field'  );
 	$seur_72h_custom_name_field  = get_option( 'seur_72h_custom_name_field'  );
 	$seur_cit_custom_name_field  = get_option( 'seur_cit_custom_name_field'  );
+	$seur_2SHOP_custom_name_field = get_option( 'seur_2SHOP_custom_name_field');
 
 	if ( ! empty( $seur_bc2_custom_name_field ) && $rate_name ==  'B2C Estándar' ) {
 		$custom_name = $seur_bc2_custom_name_field;
@@ -176,6 +182,8 @@ function seur_get_custom_rate_name( $rate_name ){
 		$custom_name = $seur_72h_custom_name_field;
 	} elseif ( ! empty( $seur_cit_custom_name_field ) && $rate_name ==  'Classic Internacional Terrestre' ) {
 		$custom_name = $seur_cit_custom_name_field;
+	} elseif ( ! empty( $seur_2SHOP_custom_name_field ) && $rate_name ==  'SEUR 2SHOP' ) {
+		$custom_name = $seur_2SHOP_custom_name_field;
 	} else {
 		$custom_name = $rate_name;
 	}
@@ -231,7 +239,7 @@ function seur_select2_load_js(){
 
 function seur_settings_load_js(){
     wp_enqueue_script( 'seur-tooltip', SEUR_PLUGIN_URL . 'assets/js/tooltip.js', array('jquery-ui-tooltip'), SEUR_OFFICIAL_VERSION );
-    wp_enqueue_script( 'seur-switchery',  SEUR_PLUGIN_URL . '/assets/js/switchery.min.js',  array(), SEUR_OFFICIAL_VERSION );
+    wp_enqueue_script( 'seur-switchery',  SEUR_PLUGIN_URL . 'assets/js/switchery.min.js',  array(), SEUR_OFFICIAL_VERSION );
 }
 
 function seur_select2_custom_load_js(){

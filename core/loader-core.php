@@ -17,6 +17,9 @@
 		include_once ( 'tracking/loader.php' );
 		}
 
+	// Load Local Pick-up
+	include_once 'local-pickup/loader.php';
+
 	include_once 'labels-cpt/labels-cpt.php';
 
 	//Load menus
