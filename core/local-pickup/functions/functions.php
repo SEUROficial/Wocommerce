@@ -335,6 +335,8 @@
                 $print_js .=        "codCentro: '" . addslashes( $local_pickups_array[$i]['codCentro'] ) . "',";
                 $print_js .=        "address: '" . addslashes( $local_pickups_array[$i]['nomcorto'] ) . " " . addslashes( $local_pickups_array[$i]['numvia'] ) . "',";
                 $print_js .=        "city: '". addslashes( $local_pickups_array[$i]['post_code'] ) . " " . addslashes( $local_pickups_array[$i]['city'] ) ."',";
+                $print_js .=        "city_only: '". addslashes( $local_pickups_array[$i]['city'] ) ."',";
+                $print_js .=        "post_code: '" . addslashes( $local_pickups_array[$i]['post_code'] ) . "',";
                 $print_js .=        "timetable: '" . addslashes( $local_pickups_array[$i]['timetable'] ) . "',";
                 $print_js .=        "html: [";
                 $print_js .=        "'<h3>" . addslashes( $local_pickups_array[$i]['company'] ) . "</h3>',";
@@ -386,7 +388,8 @@
                                         html += '<input type=\"hidden\" name=\"seur_title_' + (a + 1) + '\" value=\"' + (this.o.locations[a].title || ('#' + (a + 1))) + '\">';
                                         html += '<input type=\"hidden\" name=\"seur_codCentro_' + (a + 1) + '\" value=\"' + (this.o.locations[a].codCentro || ('#' + (a + 1))) + '\">';
                                         html += '<input type=\"hidden\" name=\"seur_address_' + (a + 1) + '\" value=\"' + (this.o.locations[a].address || ('#' + (a + 1))) + '\">';
-                                        html += '<input type=\"hidden\" name=\"seur_city_' + (a + 1) + '\" value=\"' + (this.o.locations[a].city || ('#' + (a + 1))) + '\">';
+                                        html += '<input type=\"hidden\" name=\"seur_city_' + (a + 1) + '\" value=\"' + (this.o.locations[a].city_only || ('#' + (a + 1))) + '\">';
+                                        html += '<input type=\"hidden\" name=\"seur_postcode_' + (a + 1) + '\" value=\"' + (this.o.locations[a].post_code || ('#' + (a + 1))) + '\">';
                                         html += '<input type=\"hidden\" name=\"seur_lat_' + (a + 1) + '\" value=\"' + (this.o.locations[a].lat || ('#' + (a + 1))) + '\">';
                                         html += '<input type=\"hidden\" name=\"seur_lon_' + (a + 1) + '\" value=\"' + (this.o.locations[a].lon || ('#' + (a + 1))) + '\">';
                                         html += '<input type=\"hidden\" name=\"seur_timetable_' + (a + 1) + '\" value=\"' + (this.o.locations[a].timetable || ('#' + (a + 1))) + '\">';
@@ -457,6 +460,7 @@
 			$seur_codCentro = 'seur_codCentro_' . $id;
 			$seur_address   = 'seur_address_'   . $id;
 			$seur_city      = 'seur_city_'      . $id;
+			$seur_postcode  = 'seur_postcode_'  . $id;
 			$seur_lat       = 'seur_lat_'       . $id;
 			$seur_lon       = 'seur_lon_'       . $id;
 			$seur_timetable = 'seur_timetable_' . $id;
@@ -465,6 +469,7 @@
             $codCentro = sanitize_text_field( $_POST[ $seur_codCentro ]);
             $address   = sanitize_text_field( $_POST[ $seur_address   ]);
             $city      = sanitize_text_field( $_POST[ $seur_city      ]);
+            $postcode  = sanitize_text_field( $_POST[ $seur_postcode  ]);
             $lat       = sanitize_text_field( $_POST[ $seur_lat       ]);
             $lon       = sanitize_text_field( $_POST[ $seur_lon       ]);
             $timetable = sanitize_text_field( $_POST[ $seur_timetable ]);
@@ -473,6 +478,7 @@
 	        update_post_meta( $order_id, 'seur_2shop_codCentro', $codCentro );
 	        update_post_meta( $order_id, 'seur_2shop_address',   $address   );
 	        update_post_meta( $order_id, 'seur_2shop_city',      $city      );
+	        update_post_meta( $order_id, 'seur_2shop_postcode',  $postcode  );
 	        update_post_meta( $order_id, 'seur_2shop_lat',       $lat       );
 	        update_post_meta( $order_id, 'seur_2shop_lon',       $lon       );
 	        update_post_meta( $order_id, 'seur_2shop_timetable', $timetable );

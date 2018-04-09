@@ -1029,20 +1029,27 @@ function seur_get_order_data( $post_id ) {
 
     if ( defined( 'SEUR_WOOCOMMERCE_PART' ) ){
 
-        $title            = $post->post_title;
-        $weight           = get_post_meta( $post_id, '_seur_cart_weight',    true );
-        $country          = get_post_meta( $post_id, '_shipping_country',    true );
-        $first_name       = get_post_meta( $post_id, '_shipping_first_name', true );
-        $last_name        = get_post_meta( $post_id, '_shipping_last_name',  true );
-        $company          = get_post_meta( $post_id, '_shipping_company',    true );
-        $address_1        = get_post_meta( $post_id, '_shipping_address_1',  true );
-        $address_2        = get_post_meta( $post_id, '_shipping_address_2',  true );
-        $city             = get_post_meta( $post_id, '_shipping_city',       true );
-        $postcode         = get_post_meta( $post_id, '_shipping_postcode',   true );
-        $email            = get_post_meta( $post_id, '_billing_email',       true );
-        $phone            = get_post_meta( $post_id, '_billing_phone',       true );
-        $order_total      = get_post_meta( $post_id, '_order_total',         true );
-        $order_pay_method = get_post_meta( $post_id, '_payment_method',      true );
+        $title             = $post->post_title;
+        $weight            = get_post_meta( $post_id, '_seur_cart_weight',      true );
+        $country           = get_post_meta( $post_id, '_shipping_country',      true );
+        $first_name        = get_post_meta( $post_id, '_shipping_first_name',   true );
+        $last_name         = get_post_meta( $post_id, '_shipping_last_name',    true );
+        $company           = get_post_meta( $post_id, '_shipping_company',      true );
+        $address_1         = get_post_meta( $post_id, '_shipping_address_1',    true );
+        $address_2         = get_post_meta( $post_id, '_shipping_address_2',    true );
+        $city              = get_post_meta( $post_id, '_shipping_city',         true );
+        $postcode          = get_post_meta( $post_id, '_shipping_postcode',     true );
+        $email             = get_post_meta( $post_id, '_billing_email',         true );
+        $phone             = get_post_meta( $post_id, '_billing_phone',         true );
+        $order_total       = get_post_meta( $post_id, '_order_total',           true );
+        $order_pay_method  = get_post_meta( $post_id, '_payment_method',        true );
+
+        // SEUR 2SHOP shipping
+        $address_2hop      = get_post_meta( $post_id, 'seur_2shop_address',    true );
+        $postcode_2shop    = get_post_meta( $post_id, 'seur_2shop_postcode',   true );
+        $city_2shop        = get_post_meta( $post_id, 'seur_2shop_city',       true );
+        $code_centro_2shop = get_post_meta( $post_id, 'seur_2shop_codCentro',  true );
+
         $order_notes      = esc_html( $post->post_excerpt );
 
         $option = array(
@@ -1060,7 +1067,11 @@ function seur_get_order_data( $post_id ) {
                     'phone',
                     'order_notes',
                     'order_total',
-                    'order_pay_method'
+                    'order_pay_method',
+                    'address_2hop',
+                    'postcode_2shop',
+                    'city_2shop',
+                    'code_centro_2shop'
                 );
 
         $value = array(
@@ -1078,7 +1089,11 @@ function seur_get_order_data( $post_id ) {
                     $phone,
                     $order_notes,
                     $order_total,
-                    $order_pay_method
+                    $order_pay_method,
+                    $address_2hop,
+                    $postcode_2shop,
+                    $city_2shop,
+                    $code_centro_2shop
                 );
 
         $seur_order_data[] = array_combine( $option, $value );
@@ -1375,6 +1390,27 @@ function seur_get_label( $order_id, $numpackages = '1', $weight = '1', $post_wei
     $customer_order_total    = str_replace (",", ".", $order_data[0]['order_total'] );
     $order_pay_method        = seur_clean_data( $order_data[0]['order_pay_method'] );
 
+
+    if ( $order_data[0]['address_2hop'] ) {
+    	$customer_address_1 = seur_clean_data( $order_data[0]['address_2hop'] );
+    }
+
+    if ( $order_data[0]['city_2shop'] ) {
+    	$customercity = seur_clean_data( $order_data[0]['city_2shop'] );
+    }
+
+    if ( $order_data[0]['postcode_2shop'] ) {
+    	$customerpostcode = $order_data[0]['postcode_2shop'];
+    }
+
+    if ( $order_data[0]['code_centro_2shop'] ) {
+	    $shop2localcode = '<cod_centro>' . $order_data[0]['code_centro_2shop'] . '</cod_centro>' .
+	    				  '<cod_tipo_centro>E,F,S,K,V,U</cod_tipo_centro>' .
+	    				  '<c_recogeran>S</c_recogeran>';
+    } else {
+	    $shop2localcode = '';
+    }
+
     if ( 'cod' == $order_pay_method ) {
         $seur_reembolso =  '<claveReembolso>f</claveReembolso><valorReembolso>' . $customer_order_total . '</valorReembolso>';
     } else {
@@ -1532,8 +1568,9 @@ function seur_get_label( $order_id, $numpackages = '1', $weight = '1', $post_wei
                         <observaciones>' . $customer_order_notes . '</observaciones>
                         <referencia_expedicion>' . $order_id_seur . '</referencia_expedicion>
                         <clavePortes>' . $portes . '</clavePortes>
-                        <clavePod></clavePod>
-                        <tipo_mercancia>' . $tipo_mercancia . '</tipo_mercancia>
+                        <clavePod></clavePod>' .
+                        $shop2localcode .
+                        '<tipo_mercancia>' . $tipo_mercancia . '</tipo_mercancia>
                         <valor_declarado>' . $customer_order_total . '</valor_declarado>
                         <aduana_origen>' . $aduana_origen . '</aduana_origen>
                         <aduana_destino>' . $aduana_destino . '</aduana_destino>' .
