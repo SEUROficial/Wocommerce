@@ -62,6 +62,11 @@
                     $has_label   = '';
                     $label_id    = '';
 
+                    if ( ! empty( $shop2 ) && $weight > 20 ) {
+	                    $message = __( 'Max Weight 20 Kg', 'seur' );
+                        die( $message );
+                    }
+
                     if ( ! $weight ) {
                         $message = __( 'Weight is needed', 'seur' );
                         die( $message );
