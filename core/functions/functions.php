@@ -99,102 +99,102 @@ function seur_search_number_message_result( $howmany ){
 
 function seur_get_real_rate_name( $rate_name ){
 
-	$seur_bc2_custom_name_field  = '';
-	$seur_10e_custom_name_field  = '';
-	$seur_10ef_custom_name_field = '';
-	$seur_13e_custom_name_field  = '';
-	$seur_13f_custom_name_field  = '';
-	$seur_48h_custom_name_field  = '';
-	$seur_72h_custom_name_field  = '';
-	$seur_cit_custom_name_field  = '';
-	$seur_2SHOP_custom_name_field = '';
+    $seur_bc2_custom_name_field  = '';
+    $seur_10e_custom_name_field  = '';
+    $seur_10ef_custom_name_field = '';
+    $seur_13e_custom_name_field  = '';
+    $seur_13f_custom_name_field  = '';
+    $seur_48h_custom_name_field  = '';
+    $seur_72h_custom_name_field  = '';
+    $seur_cit_custom_name_field  = '';
+    $seur_2SHOP_custom_name_field = '';
 
-	$seur_bc2_custom_name_field  = get_option( 'seur_bc2_custom_name_field'  );
-	$seur_10e_custom_name_field  = get_option( 'seur_10e_custom_name_field'  );
-	$seur_10ef_custom_name_field = get_option( 'seur_10ef_custom_name_field' );
-	$seur_13e_custom_name_field  = get_option( 'seur_13e_custom_name_field'  );
-	$seur_13f_custom_name_field  = get_option( 'seur_13f_custom_name_field'  );
-	$seur_48h_custom_name_field  = get_option( 'seur_48h_custom_name_field'  );
-	$seur_72h_custom_name_field  = get_option( 'seur_72h_custom_name_field'  );
-	$seur_cit_custom_name_field  = get_option( 'seur_cit_custom_name_field'  );
-	$seur_2SHOP_custom_name_field = get_option( 'seur_2SHOP_custom_name_field');
+    $seur_bc2_custom_name_field  = get_option( 'seur_bc2_custom_name_field'  );
+    $seur_10e_custom_name_field  = get_option( 'seur_10e_custom_name_field'  );
+    $seur_10ef_custom_name_field = get_option( 'seur_10ef_custom_name_field' );
+    $seur_13e_custom_name_field  = get_option( 'seur_13e_custom_name_field'  );
+    $seur_13f_custom_name_field  = get_option( 'seur_13f_custom_name_field'  );
+    $seur_48h_custom_name_field  = get_option( 'seur_48h_custom_name_field'  );
+    $seur_72h_custom_name_field  = get_option( 'seur_72h_custom_name_field'  );
+    $seur_cit_custom_name_field  = get_option( 'seur_cit_custom_name_field'  );
+    $seur_2SHOP_custom_name_field = get_option( 'seur_2SHOP_custom_name_field');
 
-	if ( ! empty( $seur_bc2_custom_name_field ) && $rate_name ==  $seur_bc2_custom_name_field ) {
-		$real_name = 'B2C Estándar';
-	} elseif ( ! empty( $seur_10e_custom_name_field ) && $rate_name ==  $seur_10e_custom_name_field ) {
-		$real_name = 'SEUR 10 Estándar';
-	} elseif ( ! empty( $seur_10ef_custom_name_field ) && $rate_name ==  $seur_10ef_custom_name_field ) {
-		$real_name = 'SEUR 10 Frío';
-	} elseif ( ! empty( $seur_13e_custom_name_field ) && $rate_name ==  $seur_13e_custom_name_field ) {
-		$real_name = 'SEUR 13:30 Estándar';
-	} elseif ( ! empty( $seur_13f_custom_name_field ) && $rate_name ==  $seur_13f_custom_name_field ) {
-		$real_name = 'SEUR 13:30 Frío';
-	} elseif ( ! empty( $seur_48h_custom_name_field ) && $rate_name ==  $seur_48h_custom_name_field ) {
-		$real_name = 'SEUR 48H Estándar';
-	} elseif ( ! empty( $seur_72h_custom_name_field ) && $rate_name ==  $seur_72h_custom_name_field ) {
-		$real_name = 'SEUR 72H Estándar';
-	} elseif ( ! empty( $seur_cit_custom_name_field ) && $rate_name ==  $seur_cit_custom_name_field ) {
-		$real_name = 'Classic Internacional Terrestre';
-	} elseif ( ! empty( $seur_2SHOP_custom_name_field ) && $rate_name ==  $seur_2SHOP_custom_name_field ) {
-		$real_name = 'SEUR 2SHOP';
-	} else {
-		$real_name = $rate_name;
-	}
+    if ( ! empty( $seur_bc2_custom_name_field ) && $rate_name ==  $seur_bc2_custom_name_field ) {
+        $real_name = 'B2C Estándar';
+    } elseif ( ! empty( $seur_10e_custom_name_field ) && $rate_name ==  $seur_10e_custom_name_field ) {
+        $real_name = 'SEUR 10 Estándar';
+    } elseif ( ! empty( $seur_10ef_custom_name_field ) && $rate_name ==  $seur_10ef_custom_name_field ) {
+        $real_name = 'SEUR 10 Frío';
+    } elseif ( ! empty( $seur_13e_custom_name_field ) && $rate_name ==  $seur_13e_custom_name_field ) {
+        $real_name = 'SEUR 13:30 Estándar';
+    } elseif ( ! empty( $seur_13f_custom_name_field ) && $rate_name ==  $seur_13f_custom_name_field ) {
+        $real_name = 'SEUR 13:30 Frío';
+    } elseif ( ! empty( $seur_48h_custom_name_field ) && $rate_name ==  $seur_48h_custom_name_field ) {
+        $real_name = 'SEUR 48H Estándar';
+    } elseif ( ! empty( $seur_72h_custom_name_field ) && $rate_name ==  $seur_72h_custom_name_field ) {
+        $real_name = 'SEUR 72H Estándar';
+    } elseif ( ! empty( $seur_cit_custom_name_field ) && $rate_name ==  $seur_cit_custom_name_field ) {
+        $real_name = 'Classic Internacional Terrestre';
+    } elseif ( ! empty( $seur_2SHOP_custom_name_field ) && $rate_name ==  $seur_2SHOP_custom_name_field ) {
+        $real_name = 'SEUR 2SHOP';
+    } else {
+        $real_name = $rate_name;
+    }
 
-	return $real_name;
+    return $real_name;
 }
 
 function seur_get_custom_rate_name( $rate_name ){
 
-	$seur_bc2_custom_name_field  = '';
-	$seur_10e_custom_name_field  = '';
-	$seur_10ef_custom_name_field = '';
-	$seur_13e_custom_name_field  = '';
-	$seur_13f_custom_name_field  = '';
-	$seur_48h_custom_name_field  = '';
-	$seur_72h_custom_name_field  = '';
-	$seur_cit_custom_name_field  = '';
-	$seur_2SHOP_custom_name_field = '';
+    $seur_bc2_custom_name_field  = '';
+    $seur_10e_custom_name_field  = '';
+    $seur_10ef_custom_name_field = '';
+    $seur_13e_custom_name_field  = '';
+    $seur_13f_custom_name_field  = '';
+    $seur_48h_custom_name_field  = '';
+    $seur_72h_custom_name_field  = '';
+    $seur_cit_custom_name_field  = '';
+    $seur_2SHOP_custom_name_field = '';
 
-	$seur_bc2_custom_name_field  = get_option( 'seur_bc2_custom_name_field'  );
-	$seur_10e_custom_name_field  = get_option( 'seur_10e_custom_name_field'  );
-	$seur_10ef_custom_name_field = get_option( 'seur_10ef_custom_name_field' );
-	$seur_13e_custom_name_field  = get_option( 'seur_13e_custom_name_field'  );
-	$seur_13f_custom_name_field  = get_option( 'seur_13f_custom_name_field'  );
-	$seur_48h_custom_name_field  = get_option( 'seur_48h_custom_name_field'  );
-	$seur_72h_custom_name_field  = get_option( 'seur_72h_custom_name_field'  );
-	$seur_cit_custom_name_field  = get_option( 'seur_cit_custom_name_field'  );
-	$seur_2SHOP_custom_name_field = get_option( 'seur_2SHOP_custom_name_field');
+    $seur_bc2_custom_name_field  = get_option( 'seur_bc2_custom_name_field'  );
+    $seur_10e_custom_name_field  = get_option( 'seur_10e_custom_name_field'  );
+    $seur_10ef_custom_name_field = get_option( 'seur_10ef_custom_name_field' );
+    $seur_13e_custom_name_field  = get_option( 'seur_13e_custom_name_field'  );
+    $seur_13f_custom_name_field  = get_option( 'seur_13f_custom_name_field'  );
+    $seur_48h_custom_name_field  = get_option( 'seur_48h_custom_name_field'  );
+    $seur_72h_custom_name_field  = get_option( 'seur_72h_custom_name_field'  );
+    $seur_cit_custom_name_field  = get_option( 'seur_cit_custom_name_field'  );
+    $seur_2SHOP_custom_name_field = get_option( 'seur_2SHOP_custom_name_field');
 
-	if ( ! empty( $seur_bc2_custom_name_field ) && $rate_name ==  'B2C Estándar' ) {
-		$custom_name = $seur_bc2_custom_name_field;
-	} elseif ( ! empty( $seur_10e_custom_name_field ) && $rate_name ==  'SEUR 10 Estándar' ) {
-		$custom_name = $seur_10e_custom_name_field;
-	} elseif ( ! empty( $seur_10ef_custom_name_field ) && $rate_name ==  'SEUR 10 Frío' ) {
-		$custom_name = $seur_10ef_custom_name_field;
-	} elseif ( ! empty( $seur_13e_custom_name_field ) && $rate_name ==  'SEUR 13:30 Estándar' ) {
-		$custom_name = $seur_13e_custom_name_field;
-	} elseif ( ! empty( $seur_13f_custom_name_field ) && $rate_name ==  'SEUR 13:30 Frío' ) {
-		$custom_name = $seur_13f_custom_name_field;
-	} elseif ( ! empty( $seur_48h_custom_name_field ) && $rate_name ==  'SEUR 48H Estándar' ) {
-		$custom_name = $seur_48h_custom_name_field;
-	} elseif ( ! empty( $seur_72h_custom_name_field ) && $rate_name ==  'SEUR 72H Estándar' ) {
-		$custom_name = $seur_72h_custom_name_field;
-	} elseif ( ! empty( $seur_cit_custom_name_field ) && $rate_name ==  'Classic Internacional Terrestre' ) {
-		$custom_name = $seur_cit_custom_name_field;
-	} elseif ( ! empty( $seur_2SHOP_custom_name_field ) && $rate_name ==  'SEUR 2SHOP' ) {
-		$custom_name = $seur_2SHOP_custom_name_field;
-	} else {
-		$custom_name = $rate_name;
-	}
+    if ( ! empty( $seur_bc2_custom_name_field ) && $rate_name ==  'B2C Estándar' ) {
+        $custom_name = $seur_bc2_custom_name_field;
+    } elseif ( ! empty( $seur_10e_custom_name_field ) && $rate_name ==  'SEUR 10 Estándar' ) {
+        $custom_name = $seur_10e_custom_name_field;
+    } elseif ( ! empty( $seur_10ef_custom_name_field ) && $rate_name ==  'SEUR 10 Frío' ) {
+        $custom_name = $seur_10ef_custom_name_field;
+    } elseif ( ! empty( $seur_13e_custom_name_field ) && $rate_name ==  'SEUR 13:30 Estándar' ) {
+        $custom_name = $seur_13e_custom_name_field;
+    } elseif ( ! empty( $seur_13f_custom_name_field ) && $rate_name ==  'SEUR 13:30 Frío' ) {
+        $custom_name = $seur_13f_custom_name_field;
+    } elseif ( ! empty( $seur_48h_custom_name_field ) && $rate_name ==  'SEUR 48H Estándar' ) {
+        $custom_name = $seur_48h_custom_name_field;
+    } elseif ( ! empty( $seur_72h_custom_name_field ) && $rate_name ==  'SEUR 72H Estándar' ) {
+        $custom_name = $seur_72h_custom_name_field;
+    } elseif ( ! empty( $seur_cit_custom_name_field ) && $rate_name ==  'Classic Internacional Terrestre' ) {
+        $custom_name = $seur_cit_custom_name_field;
+    } elseif ( ! empty( $seur_2SHOP_custom_name_field ) && $rate_name ==  'SEUR 2SHOP' ) {
+        $custom_name = $seur_2SHOP_custom_name_field;
+    } else {
+        $custom_name = $rate_name;
+    }
 
-	return $custom_name;
+    return $custom_name;
 }
 
 function SeurCheckCity( $datos ){
 
     $url = 'https://ws.seur.com/WSEcatalogoPublicos/servlet/XFireServlet/WSServiciosWebPublicos?wsdl';
-	if ( ! seur_check_url_exists( $url ) ) die( __('We&apos;re sorry, SEUR API is down. Please try again in few minutes', 'seur' ) );
+    if ( ! seur_check_url_exists( $url ) ) die( __('We&apos;re sorry, SEUR API is down. Please try again in few minutes', 'seur' ) );
     $sc_options = array(
                 'connection_timeout' => 30
             );
@@ -1045,10 +1045,10 @@ function seur_get_order_data( $post_id ) {
         $order_pay_method  = get_post_meta( $post_id, '_payment_method',        true );
 
         // SEUR 2SHOP shipping
-        $address_2hop      = get_post_meta( $post_id, 'seur_2shop_address',    true );
-        $postcode_2shop    = get_post_meta( $post_id, 'seur_2shop_postcode',   true );
-        $city_2shop        = get_post_meta( $post_id, 'seur_2shop_city',       true );
-        $code_centro_2shop = get_post_meta( $post_id, 'seur_2shop_codCentro',  true );
+        $address_2hop      = get_post_meta( $post_id, '_seur_2shop_address',    true );
+        $postcode_2shop    = get_post_meta( $post_id, '_seur_2shop_postcode',   true );
+        $city_2shop        = get_post_meta( $post_id, '_seur_2shop_city',       true );
+        $code_centro_2shop = get_post_meta( $post_id, '_seur_2shop_codCentro',  true );
 
         $order_notes      = esc_html( $post->post_excerpt );
 
@@ -1243,16 +1243,16 @@ function seur_clean_data( $out ){
 
 function seur_always_kg( $weight ) {
 
-	$weight_unit =  get_option('woocommerce_weight_unit');
+    $weight_unit =  get_option('woocommerce_weight_unit');
 
-	if ( $weight_unit == 'kg'){
-		$weight_kg = $weight;
-		}
-	if ( $weight_unit == 'g') {
-		$weight_kg = (string)( number_format( $weight/1000, 3, '.', '' ) );
-		}
+    if ( $weight_unit == 'kg'){
+        $weight_kg = $weight;
+        }
+    if ( $weight_unit == 'g') {
+        $weight_kg = (string)( number_format( $weight/1000, 3, '.', '' ) );
+        }
 
-	return $weight_kg;
+    return $weight_kg;
 }
 
 function seur_create_random_shippping_id(){
@@ -1374,9 +1374,9 @@ function seur_get_label( $order_id, $numpackages = '1', $weight = '1', $post_wei
     $customer_weight         = $order_data[0]['weight'];
 
     if ( $post_weight ) {
-	    $customer_weight_kg = seur_always_kg( $weight );
+        $customer_weight_kg = seur_always_kg( $weight );
     } else {
-	    $customer_weight_kg = seur_always_kg( $customer_weight );
+        $customer_weight_kg = seur_always_kg( $customer_weight );
     }
 
     $customer_first_name     = seur_clean_data( $order_data[0]['first_name'] );
@@ -1392,23 +1392,23 @@ function seur_get_label( $order_id, $numpackages = '1', $weight = '1', $post_wei
 
 
     if ( $order_data[0]['address_2hop'] ) {
-    	$customer_address_1 = seur_clean_data( $order_data[0]['address_2hop'] );
+        $customer_address_1 = seur_clean_data( $order_data[0]['address_2hop'] );
     }
 
     if ( $order_data[0]['city_2shop'] ) {
-    	$customercity = seur_clean_data( $order_data[0]['city_2shop'] );
+        $customercity = seur_clean_data( $order_data[0]['city_2shop'] );
     }
 
     if ( $order_data[0]['postcode_2shop'] ) {
-    	$customerpostcode = $order_data[0]['postcode_2shop'];
+        $customerpostcode = $order_data[0]['postcode_2shop'];
     }
 
     if ( $order_data[0]['code_centro_2shop'] ) {
-	    $shop2localcode = '<cod_centro>' . $order_data[0]['code_centro_2shop'] . '</cod_centro>' .
-	    				  '<cod_tipo_centro>E,F,S,K,V,U</cod_tipo_centro>' .
-	    				  '<c_recogeran>S</c_recogeran>';
+        $shop2localcode = '<cod_centro>' . $order_data[0]['code_centro_2shop'] . '</cod_centro>' .
+                          '<cod_tipo_centro>E,F,S,K,V,U</cod_tipo_centro>' .
+                          '<c_recogeran>S</c_recogeran>';
     } else {
-	    $shop2localcode = '';
+        $shop2localcode = '';
     }
 
     if ( 'cod' == $order_pay_method ) {
@@ -1476,202 +1476,343 @@ function seur_get_label( $order_id, $numpackages = '1', $weight = '1', $post_wei
     /** END Temp data maybe changed in the next release **/
     /*****************************************************/
 
-        if ( $tipo_aviso == 'SMS' && $preaviso_notificar == 'S' ) {
-        $preaviso_sms = 'S';
+    if ( $tipo_aviso == 'SMS' && $preaviso_notificar == 'S' ) {
+    $preaviso_sms = 'S';
+    } else {
+        $preaviso_sms = 'N';
+    }
+
+    if ( $tipo_aviso == 'SMS' && $reparto_notificar == 'S' ) {
+        $reparto_sms = 'S';
+    } else {
+        $reparto_sms = 'N';
+    }
+
+    if ( $tipo_aviso == 'EMAIL' && $preaviso_notificar == 'S' ){
+        $preaviso_email = 'S';
+    } else {
+        $preaviso_email = 'N';
+    }
+
+    if ( $tipo_aviso == 'EMAIL' && $reparto_notificar == 'S' ) {
+        $reparto_email = 'S';
+    } else {
+        $reparto_email = 'N';
+    }
+
+    if ( $preaviso_notificar == 'S' ){
+
+        $preaviso_notificar = '<test_preaviso>S</test_preaviso>';
+
+    } else {
+
+        $preaviso_notificar = '<test_preaviso>N</test_preaviso>';
+
+    }
+
+    if ( $reparto_notificar == 'S' ){
+
+        $reparto_notificar = '<test_reparto>S</test_reparto>';
+
+    } else {
+
+        $reparto_notificar = '<test_reparto>N</test_reparto>';
+
+    }
+
+    if ( $preaviso_sms == 'S' || $reparto_sms == 'S' ){
+
+        $seur_sms = '<test_sms>S</test_sms>';
+
+    } else {
+
+        $seur_sms = '<test_sms>N</test_sms>';
+
+    }
+
+    if ( $preaviso_email == 'S' || $reparto_email == 'S' ){
+
+        $seur_email = '<test_email>S</test_email>';
+
+    } else {
+
+        $seur_email = '<test_email>N</test_email>';
+
+    }
+
+    if ( ( $mobile_shipping || $mobile_billing ) ){
+
+        if ( $mobile_shipping ) {
+            $seur_sms_mobile = '<sms_consignatario>' . $mobile_shipping . '</sms_consignatario>';
         } else {
-            $preaviso_sms = 'N';
+            $seur_sms_mobile = '<sms_consignatario>' . $mobile_billing . '</sms_consignatario>';
         }
+    } else {
 
-        if ( $tipo_aviso == 'SMS' && $reparto_notificar == 'S' ) {
-            $reparto_sms = 'S';
-        } else {
-            $reparto_sms = 'N';
-        }
+        $seur_sms = '<test_sms>N</test_sms>';
+    }
 
-        if ( $tipo_aviso == 'EMAIL' && $preaviso_notificar == 'S' ){
-            $preaviso_email = 'S';
-        } else {
-            $preaviso_email = 'N';
-        }
+    if ( $order_data[0]['code_centro_2shop'] ) {
+	    $shop2localcode     = '<cod_centro>' . $order_data[0]['code_centro_2shop'] . '</cod_centro>' .
+	                          '<cod_tipo_centro>E,F,S,K,V,U</cod_tipo_centro>' .
+	                          '<c_recogeran>S</c_recogeran>';
+	    $reparto_notificar  = '<test_reparto>N</test_reparto>';
+	    $preaviso_notificar = '<test_preaviso>N</test_preaviso>';
+	    $seur_email         = '<test_email>N</test_email>';
+	    $customer_phone     = $mobile_billing;
+    }
 
-        if ( $tipo_aviso == 'EMAIL' && $reparto_notificar == 'S' ) {
-            $reparto_email = 'S';
-        } else {
-            $reparto_email = 'N';
-        }
+    $Encoding = '<?xml version="1.0" encoding="ISO-8859-1"?>';
+    $DatosEnvioInicio = $Encoding . '<root><exp>';
+    $DatosEnvioFin = '</exp></root>';
 
-        if ( $preaviso_notificar == 'S' ){
+        $xml = '<bulto>
+                    <ci>' . $cit_pass . '</ci>
+                    <nif>' . $nif . '</nif>
+                    <ccc>' . $ccc . '</ccc>
+                    <servicio>' . $seur_service . '</servicio>
+                    <producto>' . $seur_product . '</producto>
+                    <total_bultos>' . $numpackages . '</total_bultos>
+                    <total_kilos>' . $customer_weight_kg . '</total_kilos>
+                    <pesoBulto>' . $seur_weight_by_label . '</pesoBulto>
+                    <observaciones>' . $customer_order_notes . '</observaciones>
+                    <referencia_expedicion>' . $order_id_seur . '</referencia_expedicion>
+                    <clavePortes>' . $portes . '</clavePortes>
+                    <clavePod></clavePod>' .
+                    $shop2localcode .
+                    '<tipo_mercancia>' . $tipo_mercancia . '</tipo_mercancia>
+                    <valor_declarado>' . $customer_order_total . '</valor_declarado>
+                    <aduana_origen>' . $aduana_origen . '</aduana_origen>
+                    <aduana_destino>' . $aduana_destino . '</aduana_destino>' .
+                    $seur_reembolso .
+                    '<id_mercancia>' . $id_mercancia . '</id_mercancia>
+                    <descripcion_mercancia>' . $descripcion . '</descripcion_mercancia>
+                    <codigo_pais_destino>' . $customer_country . '</codigo_pais_destino>
+                    <libroControl></libroControl>
+                    <nombre_consignatario>' . $customer_first_name . ' ' . $customer_last_name . '</nombre_consignatario>";
+                    <direccion_consignatario>' . $customer_address_1 . ' ' . $customer_address_2 . '</direccion_consignatario>
+                    <tipoVia_consignatario>CL</tipoVia_consignatario>
+                    <tNumVia_consignatario>N</tNumVia_consignatario>
+                    <numVia_consignatario>.</numVia_consignatario>
+                    <escalera_consignatario>.</escalera_consignatario>
+                    <piso_consignatario>.</piso_consignatario>
+                    <puerta_consignatario>.</puerta_consignatario>
+                    <poblacion_consignatario>' . $customercity . '</poblacion_consignatario>
+                    <codPostal_consignatario>' . $customerpostcode . '</codPostal_consignatario>
+                    <pais_consignatario>' . $customer_country . '</pais_consignatario>' .
+                    $preaviso_notificar .
+                    $reparto_notificar .
+                    $seur_sms .
+                    $seur_email .
+                    $seur_sms_mobile .
+                    '<email_consignatario>' . $customer_email . '</email_consignatario>' .
+                    $seur_saturday_shipping .
+                    '<telefono_consignatario>' . $customer_phone . '</telefono_consignatario>
+                    <id_mercancia>' . $id_mercancia . '</id_mercancia>
+                    <atencion_de>' . $customer_first_name . ' ' . $customer_last_name . '</atencion_de>
+                    <eci>N</eci>
+                    <et>N</et>
+                </bulto>';
 
-            $preaviso_notificar = '<test_preaviso>S</test_preaviso>';
+    $numero_de_bultos = 1;
 
-        } else {
+    while ( $numero_de_bultos <= $numpackages ) {
 
-            $preaviso_notificar = '<test_preaviso>N</test_preaviso>';
+        $numero_de_bultos++;
+        $complete_xml .= $xml;
 
-        }
+    }
 
-        if ( $reparto_notificar == 'S' ){
+    $Datasend = $DatosEnvioInicio . $complete_xml . $DatosEnvioFin;
 
-            $reparto_notificar = '<test_reparto>S</test_reparto>';
+    if ( $tipo_etiqueta == 'PDF' ) {
 
-        } else {
+    $params = array(
+        'in0' => $cit_user,
+        'in1' => $cit_contra,
+        'in2' => $Datasend,
+        'in3' => "seurwoocommerce.xml",
+        'in4' => $nif,
+        'in5' => $franquicia,
+        'in6' => '-1',
+        'in7' => "wooseuroficial"
+        );
 
-            $reparto_notificar = '<test_reparto>N</test_reparto>';
+        $url = 'http://cit.seur.com/CIT-war/services/ImprimirECBWebService?wsdl';
+        if ( ! seur_check_url_exists( $url ) ) die( __('We&apos;re sorry, SEUR API is down. Please try again in few minutes', 'seur' ) );
 
-        }
+        //pedimos las etiquetas
+        $sc_options = array(
+                        'connection_timeout' => 60
+                        );
 
-        if ( $preaviso_sms == 'S' || $reparto_sms == 'S' ){
+        $soap_client = new SoapClient('http://cit.seur.com/CIT-war/services/ImprimirECBWebService?wsdl', $sc_options );
+        $response    = $soap_client->impresionIntegracionPDFConECBWS($params);
 
-            $seur_sms = '<test_sms>S</test_sms>';
+        //echo $response->out->mensaje;
 
-        } else {
+        // var_dump($respuesta);
+        // echo htmlspecialchars($DatosEnvio);
 
-            $seur_sms = '<test_sms>N</test_sms>';
+        if ( $response->out->mensaje == 'OK' ) {
 
-        }
+            $pdf = base64_decode( $response->out->PDF );
+            $seur_pdf_label ='label_order_id_' . $order_id . '_' . $date . '.pdf';
+            $seur_label_type = 'pdf';
 
-        if ( $preaviso_email == 'S' || $reparto_email == 'S' ){
+            $upload_path    = $upload_dir . '/' . $seur_pdf_label;
+            $url_to_label   = $upload_url . '/' . $seur_pdf_label;
 
-            $seur_email = '<test_email>S</test_email>';
+            file_put_contents( $upload_path, $pdf );
 
-        } else {
+            $labelid = wp_insert_post(
+                            array(
+                                'post_title'     => 'Label Order ID ' . $order_id,
+                                'post_type'      => 'seur_labels',
+                                'post_status'    => 'publish',
+                                'ping_status'    => 'closed',
+                                'comment_status' => 'closed',
+                                'tax_input'      => array(
+                                    'labels-product' => $seur_shipping_method,
+                                    ),
+                                )
+                        );
 
-            $seur_email = '<test_email>N</test_email>';
+            $update_post = array(
+                               'ID'           => $labelid,
+                               'post_title'   => 'Label ' . $order_id_seur . '( ID #' . $labelid . ' )',
+                            );
+            wp_update_post( $update_post );
 
-        }
+            add_post_meta( $labelid,  '_seur_shipping_id_number',               $order_id_seur,                                   true );
+            add_post_meta( $order_id, '_seur_shipping_id_number',               $order_id_seur,                                   true );
+            add_post_meta( $order_id, '_seur_label_id_number',                  $labelid,                                         true );
+            add_post_meta( $labelid,  '_seur_shipping_method',                  $seur_shipping_method,                            true );
+            add_post_meta( $labelid,  '_seur_shipping_weight',                  $customer_weight_kg,                              true );
+            add_post_meta( $labelid,  '_seur_shipping_packages',                $numpackages,                                     true );
+            add_post_meta( $labelid,  '_seur_shipping_order_id',                $order_id,                                        true );
+            add_post_meta( $labelid,  '_seur_shipping_order_customer_comments', $customer_order_notes,                            true );
+            add_post_meta( $labelid,  '_seur_shipping_order_label_file_name',   $seur_pdf_label,                                  true );
+            add_post_meta( $labelid,  '_seur_shipping_order_label_path_name',   $upload_path,                                     true );
+            add_post_meta( $labelid,  '_seur_shipping_order_label_url_name',    $url_to_label,                                    true );
+            add_post_meta( $order_id, '_seur_shipping_order_label_url_name',    $url_to_label,                                    true );
+            add_post_meta( $labelid,  '_seur_label_customer_name',              $customer_first_name . ' ' . $customer_last_name, true );
+            add_post_meta( $labelid,  '_seur_label_type',                       $seur_label_type,                                 true );
 
-        if ( ( $mobile_shipping || $mobile_billing ) ){
+            if ( $labelid ) {
 
-            if ( $mobile_shipping ) {
-                $seur_sms_mobile = '<sms_consignatario>' . $mobile_shipping . '</sms_consignatario>';
+                $result  = true;
+                $message = 'OK';
+                $label   = array(
+                            'result',
+                            'labelID',
+                            'message'
+                        );
+                $has_label = array(
+                        $result,
+                        $labelid,
+                        $message
+                );
+
+                $seur_label[] = array_combine( $label, $has_label );
+
+                return $seur_label;
+
             } else {
-                $seur_sms_mobile = '<sms_consignatario>' . $mobile_billing . '</sms_consignatario>';
+
+                $result  = false;
+                $message = $response->out->mensaje;
+                $label   = array(
+                            'result',
+                            'labelID',
+                            'message'
+                        );
+                $has_label = array(
+                        $result,
+                        $labelid,
+                        $message
+                );
+
+                $seur_label[] = array_combine( $label, $has_label );
+
+                return $seur_label;
+
+              }
+
+
+
+        } else {
+            $message = $response->out->mensaje;
+            $result  = false;
+            $labelid = false;
+            $label   = array(
+                        'result',
+                        'labelID',
+                        'message'
+                    );
+            $has_label = array(
+                    $result,
+                    $labelid,
+                    $message
+            );
+
+            $seur_label[] = array_combine( $label, $has_label );
+
+            return $seur_label;
             }
         } else {
 
-            $seur_sms = '<test_sms>N</test_sms>';
-        }
+            $params = array(
+                'in0' => $cit_user,
+                'in1' => $cit_contra,
+                'in2' => "ZEBRA",
+                'in3' => "LP2844-Z",
+                'in4' => "2C",
+                'in5' => $Datasend,
+                'in6' => "seurwoocommerce.xml",
+                'in7' => $nif,
+                'in8' => $franquicia,
+                'in9' => '-1',
+                'in10'=> "wooseuroficial"
+                );
 
-        $Encoding = '<?xml version="1.0" encoding="ISO-8859-1"?>';
-        $DatosEnvioInicio = $Encoding . '<root><exp>';
-        $DatosEnvioFin = '</exp></root>';
-
-            $xml = '<bulto>
-                        <ci>' . $cit_pass . '</ci>
-                        <nif>' . $nif . '</nif>
-                        <ccc>' . $ccc . '</ccc>
-                        <servicio>' . $seur_service . '</servicio>
-                        <producto>' . $seur_product . '</producto>
-                        <total_bultos>' . $numpackages . '</total_bultos>
-                        <total_kilos>' . $customer_weight_kg . '</total_kilos>
-                        <pesoBulto>' . $seur_weight_by_label . '</pesoBulto>
-                        <observaciones>' . $customer_order_notes . '</observaciones>
-                        <referencia_expedicion>' . $order_id_seur . '</referencia_expedicion>
-                        <clavePortes>' . $portes . '</clavePortes>
-                        <clavePod></clavePod>' .
-                        $shop2localcode .
-                        '<tipo_mercancia>' . $tipo_mercancia . '</tipo_mercancia>
-                        <valor_declarado>' . $customer_order_total . '</valor_declarado>
-                        <aduana_origen>' . $aduana_origen . '</aduana_origen>
-                        <aduana_destino>' . $aduana_destino . '</aduana_destino>' .
-                        $seur_reembolso .
-                        '<id_mercancia>' . $id_mercancia . '</id_mercancia>
-                        <descripcion_mercancia>' . $descripcion . '</descripcion_mercancia>
-                        <codigo_pais_destino>' . $customer_country . '</codigo_pais_destino>
-                        <libroControl></libroControl>
-                        <nombre_consignatario>' . $customer_first_name . ' ' . $customer_last_name . '</nombre_consignatario>";
-                        <direccion_consignatario>' . $customer_address_1 . ' ' . $customer_address_2 . '</direccion_consignatario>
-                        <tipoVia_consignatario>CL</tipoVia_consignatario>
-                        <tNumVia_consignatario>N</tNumVia_consignatario>
-                        <numVia_consignatario>.</numVia_consignatario>
-                        <escalera_consignatario>.</escalera_consignatario>
-                        <piso_consignatario>.</piso_consignatario>
-                        <puerta_consignatario>.</puerta_consignatario>
-                        <poblacion_consignatario>' . $customercity . '</poblacion_consignatario>
-                        <codPostal_consignatario>' . $customerpostcode . '</codPostal_consignatario>
-                        <pais_consignatario>' . $customer_country . '</pais_consignatario>' .
-                        $preaviso_notificar .
-                        $reparto_notificar .
-                        $seur_sms .
-                        $seur_email .
-                        $seur_sms_mobile .
-                        '<email_consignatario>' . $customer_email . '</email_consignatario>' .
-                        $seur_saturday_shipping .
-                        '<telefono_consignatario>' . $customer_phone . '</telefono_consignatario>
-                        <id_mercancia>' . $id_mercancia . '</id_mercancia>
-                        <atencion_de>' . $customer_first_name . ' ' . $customer_last_name . '</atencion_de>
-                        <eci>N</eci>
-                        <et>N</et>
-                    </bulto>';
-
-        $numero_de_bultos = 1;
-
-        while ( $numero_de_bultos <= $numpackages ) {
-
-            $numero_de_bultos++;
-            $complete_xml .= $xml;
-
-        }
-
-        $Datasend = $DatosEnvioInicio . $complete_xml . $DatosEnvioFin;
-
-        if ( $tipo_etiqueta == 'PDF' ) {
-
-        $params = array(
-            'in0' => $cit_user,
-            'in1' => $cit_contra,
-            'in2' => $Datasend,
-            'in3' => "seurwoocommerce.xml",
-            'in4' => $nif,
-            'in5' => $franquicia,
-            'in6' => '-1',
-            'in7' => "wooseuroficial"
-            );
+            $sc_options = array(
+                        'connection_timeout' => 60
+                        );
 
             $url = 'http://cit.seur.com/CIT-war/services/ImprimirECBWebService?wsdl';
-			if ( ! seur_check_url_exists( $url ) ) die( __('We&apos;re sorry, SEUR API is down. Please try again in few minutes', 'seur' ) );
-
-            //pedimos las etiquetas
-            $sc_options = array(
-                            'connection_timeout' => 60
-                            );
+            if ( ! seur_check_url_exists( $url ) ) die( __('We&apos;re sorry, SEUR API is down. Please try again in few minutes', 'seur' ) );
 
             $soap_client = new SoapClient('http://cit.seur.com/CIT-war/services/ImprimirECBWebService?wsdl', $sc_options );
-            $response    = $soap_client->impresionIntegracionPDFConECBWS($params);
+            $respuesta   = $soap_client->impresionIntegracionConECBWS($params);
 
-            //echo $response->out->mensaje;
+            if ( $respuesta->out->mensaje == 'OK' ){
 
-            // var_dump($respuesta);
-            // echo htmlspecialchars($DatosEnvio);
+                $txtlabel = $respuesta->out->traza;
+                $seur_txt_label ='label_order_id_' . $order_id . '_' . $date . '.txt';
+                $seur_label_type = 'termica';
 
-            if ( $response->out->mensaje == 'OK' ) {
+                $upload_path    = $upload_dir . '/' . $seur_txt_label;
+                $url_to_label   = $upload_url . '/' . $seur_txt_label;
 
-                $pdf = base64_decode( $response->out->PDF );
-                $seur_pdf_label ='label_order_id_' . $order_id . '_' . $date . '.pdf';
-                $seur_label_type = 'pdf';
-
-                $upload_path    = $upload_dir . '/' . $seur_pdf_label;
-                $url_to_label   = $upload_url . '/' . $seur_pdf_label;
-
-                file_put_contents( $upload_path, $pdf );
+                file_put_contents( $upload_path, $txtlabel );
 
                 $labelid = wp_insert_post(
-                                array(
-                                    'post_title'     => 'Label Order ID ' . $order_id,
-                                    'post_type'      => 'seur_labels',
-                                    'post_status'    => 'publish',
-                                    'ping_status'    => 'closed',
-                                    'comment_status' => 'closed',
-                                    'tax_input'      => array(
-                                        'labels-product' => $seur_shipping_method,
-                                        ),
-                                    )
-                            );
-
+                            array(
+                                'post_title'     => 'Label Order ID ' . $order_id,
+                                'post_type'      => 'seur_labels',
+                                'post_status'    => 'publish',
+                                'ping_status'    => 'closed',
+                                'comment_status' => 'closed',
+                                'tax_input'      => array(
+                                    'labels-product' => $seur_shipping_method,
+                                    ),
+                                )
+                        );
                 $update_post = array(
-                                   'ID'           => $labelid,
-                                   'post_title'   => 'Label ' . $order_id_seur . '( ID #' . $labelid . ' )',
-                                );
+                                 'ID'           => $labelid,
+                                 'post_title'   => 'Label ' . $order_id_seur . '( ID #' . $labelid . ' )',
+                              );
                 wp_update_post( $update_post );
 
                 add_post_meta( $labelid,  '_seur_shipping_id_number',               $order_id_seur,                                   true );
@@ -1682,7 +1823,7 @@ function seur_get_label( $order_id, $numpackages = '1', $weight = '1', $post_wei
                 add_post_meta( $labelid,  '_seur_shipping_packages',                $numpackages,                                     true );
                 add_post_meta( $labelid,  '_seur_shipping_order_id',                $order_id,                                        true );
                 add_post_meta( $labelid,  '_seur_shipping_order_customer_comments', $customer_order_notes,                            true );
-                add_post_meta( $labelid,  '_seur_shipping_order_label_file_name',   $seur_pdf_label,                                  true );
+                add_post_meta( $labelid,  '_seur_shipping_order_label_file_name',   $seur_txt_label,                                  true );
                 add_post_meta( $labelid,  '_seur_shipping_order_label_path_name',   $upload_path,                                     true );
                 add_post_meta( $labelid,  '_seur_shipping_order_label_url_name',    $url_to_label,                                    true );
                 add_post_meta( $order_id, '_seur_shipping_order_label_url_name',    $url_to_label,                                    true );
@@ -1711,7 +1852,7 @@ function seur_get_label( $order_id, $numpackages = '1', $weight = '1', $post_wei
                 } else {
 
                     $result  = false;
-                    $message = $response->out->mensaje;
+                    $message = $respuesta->out->mensaje;
                     $label   = array(
                                 'result',
                                 'labelID',
@@ -1720,150 +1861,19 @@ function seur_get_label( $order_id, $numpackages = '1', $weight = '1', $post_wei
                     $has_label = array(
                             $result,
                             $labelid,
-                            $message
+                            $message,
                     );
 
                     $seur_label[] = array_combine( $label, $has_label );
 
                     return $seur_label;
 
-                  }
-
-
-
-            } else {
-                $message = $response->out->mensaje;
-                $result  = false;
-                $labelid = false;
-                $label   = array(
-                            'result',
-                            'labelID',
-                            'message'
-                        );
-                $has_label = array(
-                        $result,
-                        $labelid,
-                        $message
-                );
-
-                $seur_label[] = array_combine( $label, $has_label );
-
-                return $seur_label;
                 }
             } else {
 
-                $params = array(
-                    'in0' => $cit_user,
-                    'in1' => $cit_contra,
-                    'in2' => "ZEBRA",
-                    'in3' => "LP2844-Z",
-                    'in4' => "2C",
-                    'in5' => $Datasend,
-                    'in6' => "seurwoocommerce.xml",
-                    'in7' => $nif,
-                    'in8' => $franquicia,
-                    'in9' => '-1',
-                    'in10'=> "wooseuroficial"
-                    );
+                $message = $respuesta->out->mensaje;
+                echo '<div class="notice notice notice-error">' . $message . '</div>';
 
-                $sc_options = array(
-                            'connection_timeout' => 60
-                            );
-
-                $url = 'http://cit.seur.com/CIT-war/services/ImprimirECBWebService?wsdl';
-				if ( ! seur_check_url_exists( $url ) ) die( __('We&apos;re sorry, SEUR API is down. Please try again in few minutes', 'seur' ) );
-
-                $soap_client = new SoapClient('http://cit.seur.com/CIT-war/services/ImprimirECBWebService?wsdl', $sc_options );
-                $respuesta   = $soap_client->impresionIntegracionConECBWS($params);
-
-                if ( $respuesta->out->mensaje == 'OK' ){
-
-                    $txtlabel = $respuesta->out->traza;
-                    $seur_txt_label ='label_order_id_' . $order_id . '_' . $date . '.txt';
-                    $seur_label_type = 'termica';
-
-                    $upload_path    = $upload_dir . '/' . $seur_txt_label;
-                    $url_to_label   = $upload_url . '/' . $seur_txt_label;
-
-                    file_put_contents( $upload_path, $txtlabel );
-
-                    $labelid = wp_insert_post(
-                                array(
-                                    'post_title'     => 'Label Order ID ' . $order_id,
-                                    'post_type'      => 'seur_labels',
-                                    'post_status'    => 'publish',
-                                    'ping_status'    => 'closed',
-                                    'comment_status' => 'closed',
-                                    'tax_input'      => array(
-                                        'labels-product' => $seur_shipping_method,
-                                        ),
-                                    )
-                            );
-                    $update_post = array(
-                                     'ID'           => $labelid,
-                                     'post_title'   => 'Label ' . $order_id_seur . '( ID #' . $labelid . ' )',
-                                  );
-                    wp_update_post( $update_post );
-
-                    add_post_meta( $labelid,  '_seur_shipping_id_number',               $order_id_seur,                                   true );
-                    add_post_meta( $order_id, '_seur_shipping_id_number',               $order_id_seur,                                   true );
-                    add_post_meta( $order_id, '_seur_label_id_number',                  $labelid,                                         true );
-                    add_post_meta( $labelid,  '_seur_shipping_method',                  $seur_shipping_method,                            true );
-                    add_post_meta( $labelid,  '_seur_shipping_weight',                  $customer_weight_kg,                              true );
-                    add_post_meta( $labelid,  '_seur_shipping_packages',                $numpackages,                                     true );
-                    add_post_meta( $labelid,  '_seur_shipping_order_id',                $order_id,                                        true );
-                    add_post_meta( $labelid,  '_seur_shipping_order_customer_comments', $customer_order_notes,                            true );
-                    add_post_meta( $labelid,  '_seur_shipping_order_label_file_name',   $seur_txt_label,                                  true );
-                    add_post_meta( $labelid,  '_seur_shipping_order_label_path_name',   $upload_path,                                     true );
-                    add_post_meta( $labelid,  '_seur_shipping_order_label_url_name',    $url_to_label,                                    true );
-                    add_post_meta( $order_id, '_seur_shipping_order_label_url_name',    $url_to_label,                                    true );
-                    add_post_meta( $labelid,  '_seur_label_customer_name',              $customer_first_name . ' ' . $customer_last_name, true );
-                    add_post_meta( $labelid,  '_seur_label_type',                       $seur_label_type,                                 true );
-
-                    if ( $labelid ) {
-
-                        $result  = true;
-                        $message = 'OK';
-                        $label   = array(
-                                    'result',
-                                    'labelID',
-                                    'message'
-                                );
-                        $has_label = array(
-                                $result,
-                                $labelid,
-                                $message
-                        );
-
-                        $seur_label[] = array_combine( $label, $has_label );
-
-                        return $seur_label;
-
-                    } else {
-
-                        $result  = false;
-                        $message = $respuesta->out->mensaje;
-                        $label   = array(
-                                    'result',
-                                    'labelID',
-                                    'message'
-                                );
-                        $has_label = array(
-                                $result,
-                                $labelid,
-                                $message,
-                        );
-
-                        $seur_label[] = array_combine( $label, $has_label );
-
-                        return $seur_label;
-
-                    }
-                } else {
-
-                    $message = $respuesta->out->mensaje;
-                    echo '<div class="notice notice notice-error">' . $message . '</div>';
-
-                }
             }
+    }
 }

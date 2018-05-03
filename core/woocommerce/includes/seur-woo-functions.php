@@ -109,7 +109,7 @@ function seur_register_awaiting_shipment_status() {
         'label'     => 'Awaiting SEUR shipment',
         'public'    => true,
         'show_in_admin_status_list' => true, // show count All (12) , Completed (9) , Awaiting shipment (2) ...
-        'label_count'   => _n_noop( __('Awaiting SEUR shipment <span class="count">(%s)</span>', ''), __('Awaiting SEUR shipment <span class="count">(%s)</span>', '') )
+        'label_count'   => _n_noop( __('Awaiting SEUR shipment <span class="count">(%s)</span>', ''), __('Awaiting SEUR shipment <span class="count">(%s)</span>', 'seur') )
     ) );
 
 }

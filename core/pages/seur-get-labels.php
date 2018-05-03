@@ -15,9 +15,9 @@
         $weight      = '';
         $order_data  = seur_get_order_data( $orderID );
         $weight      = $order_data[0]['weight'];
-        $shop2       = get_post_meta( $orderID, 'seur_2shop_codCentro', true );
+        $shop2       = get_post_meta( $orderID, '_seur_2shop_codCentro', true );
         $packages    = '';
-        $disabled    = ' disabled="disabled"';
+        $disabled    = ' readonly';
 
         if ( ! empty( $shop2 ) ) {
             $value = ' value="1" ';
@@ -56,9 +56,9 @@
 
         <?php   } elseif ( $order_id ) {
 
-                    $order_id    = $_POST['order-id'];
-                    $weight      = $_POST['seur-weight'];
-                    $numpackages = $_POST['seur-number-packages'];
+                    $order_id    = sanitize_text_field( $_POST['order-id'] );
+                    $weight      = sanitize_text_field( $_POST['seur-weight'] );
+                    $numpackages = sanitize_text_field( $_POST['seur-number-packages'] );
                     $has_label   = '';
                     $label_id    = '';
 
@@ -67,12 +67,12 @@
                         die( $message );
                     }
 
-                    if ( ! $weight ) {
+                    if ( empty( $weight ) ) {
                         $message = __( 'Weight is needed', 'seur' );
                         die( $message );
                         }
 
-                    if ( ! $numpackages ) {
+                    if ( empty( $numpackages ) ) {
                         $message = __( 'Package number is needed', 'seur' );
                         die( $message );
                         }

@@ -299,6 +299,16 @@
         } else {
             $custom_name_seur_2shop = 'SEUR 2SHOP';
         }
+
+        if ( isset( $post_data['seur_pickup'] ) ) {
+            if ( $post_data['seur_pickup'] == 'all') {
+                $option_selected = '500000';
+            } else {
+                $option_selected = $post_data['seur_pickup'];
+            }
+        } else {
+            $option_selected = '0';
+        }
         if ( ( $method->label == $custom_name_seur_2shop ) && ( $method->id == $chosen_shipping ) && ! is_checkout() ) {
             echo '<br />';
             _e( 'You will have to select a location in the next step', 'seur');
@@ -311,19 +321,6 @@
 
             for( $i=0; $i < count( $local_pickups_array ); $i++ ){
 
-                /*'company'   => (string)$xml->$name->NOM_CENTRO_SEUR,
-                'codCentro' => (string)$xml->$name->COD_CENTRO_SEUR,
-                'city'      => (string)$xml->$name->NOM_POBLACION,
-                'post_code' => (string)$xml->$name->CODIGO_POSTAL,
-                'phone'     => (string)$xml->$name->TELEFONO_1,
-                'tipovia'   => (string)$xml->$name->COD_TIPO_VIA,
-                'nomcorto'  => (string)$xml->$name->NOM_CORTO,
-                'numvia'    => (string)$xml->$name->NUM_VIA,
-                'nompoblac' => (string)$xml->$name->NOM_POBLACION,
-                'lat'       => (float)$xml->$name->LATITUD,
-                'lng'       => (float)$xml->$name->LONGITUD,
-                'timetable' => (string)$xml->$name->HORARIO
-                */
                 if ( $i == 0 ) {
                     $print_js = "{";
                 } else {
@@ -338,6 +335,7 @@
                 $print_js .=        "city_only: '". addslashes( $local_pickups_array[$i]['city'] ) ."',";
                 $print_js .=        "post_code: '" . addslashes( $local_pickups_array[$i]['post_code'] ) . "',";
                 $print_js .=        "timetable: '" . addslashes( $local_pickups_array[$i]['timetable'] ) . "',";
+                $print_js .=        "option: '" . $option_selected . "',";
                 $print_js .=        "html: [";
                 $print_js .=        "'<h3>" . addslashes( $local_pickups_array[$i]['company'] ) . "</h3>',";
                 $print_js .=        "'<p>" . addslashes( $local_pickups_array[$i]['nomcorto'] ) . " " . addslashes( $local_pickups_array[$i]['numvia'] ) . "<br />',";
@@ -360,7 +358,7 @@
 
                     var html_seurdropdown = {
                         activateCurrent: function(index) {
-                            this.html_element.find('select').val(index);
+                            this.html_element.find('select.seur-pickup-select2').val(index);
                         },
 
                         getHtml: function() {
@@ -370,7 +368,7 @@
                                 a;
 
                             if (this.ln > 1) {
-                                html += '<select name=\"seur_pickup\" class=\"select dropdown controls seur-pickup-select2' + this.o.controls_cssclass + '\">';
+                                html += '<select name=\"seur_pickup\" class=\"seur-pickup-select2' + this.o.controls_cssclass + '\">';
 
                                 if (this.ShowOnMenu(this.view_all_key)) {
                                     html += '<option value=\"' + this.view_all_key + '\">' + this.o.view_all_text + '</option>';
@@ -426,6 +424,7 @@
                     maplace.Load({
                     locations: SeurPickupsLocs,
                     map_div: '#seur-gmap',
+                    start: '" . $option_selected . "',
                     controls_on_map: false,
                     controls_type: 'seurdropdown'
                 });
@@ -450,22 +449,38 @@
 
     }
 
-	function seur_add_2shop_data_to_order( $order_id ) {
+    function seur_validation_2shop_fields() {
 
-	    if ( ! empty( $_POST['seur_pickup'] ) ) {
+        $seur_pickup          = '';
+        $seur_codCentro       = '';
+        $seur_pickup          = $_POST['seur_pickup'];
+        $seur_mobi_phone      = $_POST['billing_mobile_phone'];
 
-	        $id = $_POST['seur_pickup'];
+        if ( ! empty( $seur_pickup ) && $seur_pickup == 'all' ) {
+             wc_add_notice( __( 'You need to select a Local Pickup.', 'seur' ), 'error' );
+        }
 
-	        $seur_title     = 'seur_title_'     . $id;
-			$seur_codCentro = 'seur_codCentro_' . $id;
-			$seur_address   = 'seur_address_'   . $id;
-			$seur_city      = 'seur_city_'      . $id;
-			$seur_postcode  = 'seur_postcode_'  . $id;
-			$seur_lat       = 'seur_lat_'       . $id;
-			$seur_lon       = 'seur_lon_'       . $id;
-			$seur_timetable = 'seur_timetable_' . $id;
+        if ( ! empty( $seur_pickup ) && empty( $seur_mobi_phone ) ) {
+	        wc_add_notice( __( 'Mobile phone for selected shipping method is needed.', 'seur' ), 'error' );
+        }
+    }
 
-	        $title     = sanitize_text_field( $_POST[ $seur_title     ]);
+    function seur_add_2shop_data_to_order( $order_id ) {
+
+        if ( ! empty( $_POST['seur_pickup'] ) ) {
+
+            $id = $_POST['seur_pickup'];
+
+            $seur_title     = 'seur_title_'     . $id;
+            $seur_codCentro = 'seur_codCentro_' . $id;
+            $seur_address   = 'seur_address_'   . $id;
+            $seur_city      = 'seur_city_'      . $id;
+            $seur_postcode  = 'seur_postcode_'  . $id;
+            $seur_lat       = 'seur_lat_'       . $id;
+            $seur_lon       = 'seur_lon_'       . $id;
+            $seur_timetable = 'seur_timetable_' . $id;
+
+            $title     = sanitize_text_field( $_POST[ $seur_title     ]);
             $codCentro = sanitize_text_field( $_POST[ $seur_codCentro ]);
             $address   = sanitize_text_field( $_POST[ $seur_address   ]);
             $city      = sanitize_text_field( $_POST[ $seur_city      ]);
@@ -474,16 +489,16 @@
             $lon       = sanitize_text_field( $_POST[ $seur_lon       ]);
             $timetable = sanitize_text_field( $_POST[ $seur_timetable ]);
 
-	        update_post_meta( $order_id, 'seur_2shop_title',     $title     );
-	        update_post_meta( $order_id, 'seur_2shop_codCentro', $codCentro );
-	        update_post_meta( $order_id, 'seur_2shop_address',   $address   );
-	        update_post_meta( $order_id, 'seur_2shop_city',      $city      );
-	        update_post_meta( $order_id, 'seur_2shop_postcode',  $postcode  );
-	        update_post_meta( $order_id, 'seur_2shop_lat',       $lat       );
-	        update_post_meta( $order_id, 'seur_2shop_lon',       $lon       );
-	        update_post_meta( $order_id, 'seur_2shop_timetable', $timetable );
-	    }
-	}
+            update_post_meta( $order_id, '_seur_2shop_title',     $title     );
+            update_post_meta( $order_id, '_seur_2shop_codCentro', $codCentro );
+            update_post_meta( $order_id, '_seur_2shop_address',   $address   );
+            update_post_meta( $order_id, '_seur_2shop_city',      $city      );
+            update_post_meta( $order_id, '_seur_2shop_postcode',  $postcode  );
+            update_post_meta( $order_id, '_seur_2shop_lat',       $lat       );
+            update_post_meta( $order_id, '_seur_2shop_lon',       $lon       );
+            update_post_meta( $order_id, '_seur_2shop_timetable', $timetable );
+        }
+    }
     if ( $localpickup_is_active == '1'  ) {
 
         add_filter( 'woocommerce_shipping_methods',                  'add_seur_local_shipping_method'             );
@@ -494,5 +509,6 @@
         add_action( 'woocommerce_after_shipping_rate',               'seur_after_seur_2shop_shipping_rate', 10, 2 );
         add_action( 'wp_footer',                                     'seur_add_map_type_select2'                  );
         add_action( 'woocommerce_checkout_update_order_meta',        'seur_add_2shop_data_to_order'               );
+        add_action( 'woocommerce_checkout_process',                  'seur_validation_2shop_fields'               );
 
         }

@@ -65,24 +65,24 @@ $options = array(
     'seur_date_localizador',
     'seur_num_localizador',
     'seur_rates_type_field',
-	'seur_bc2_max_price_field',
-	'seur_10e_max_price_field',
-	'seur_10ef_max_price_field',
-	'seur_13e_max_price_field',
-	'seur_13f_max_price_field',
-	'seur_48h_max_price_field',
-	'seur_72h_max_price_field',
-	'seur_cit_max_price_field',
-	'seur_2SHOP_max_price_field',
-	'seur_bc2_custom_name_field',
-	'seur_10e_custom_name_field',
-	'seur_10ef_custom_name_field',
-	'seur_13e_custom_name_field',
-	'seur_13f_custom_name_field',
-	'seur_48h_custom_name_field',
-	'seur_72h_custom_name_field',
-	'seur_cit_custom_name_field',
-	'seur_2SHOP_custom_name_field'
+    'seur_bc2_max_price_field',
+    'seur_10e_max_price_field',
+    'seur_10ef_max_price_field',
+    'seur_13e_max_price_field',
+    'seur_13f_max_price_field',
+    'seur_48h_max_price_field',
+    'seur_72h_max_price_field',
+    'seur_cit_max_price_field',
+    'seur_2SHOP_max_price_field',
+    'seur_bc2_custom_name_field',
+    'seur_10e_custom_name_field',
+    'seur_10ef_custom_name_field',
+    'seur_13e_custom_name_field',
+    'seur_13f_custom_name_field',
+    'seur_48h_custom_name_field',
+    'seur_72h_custom_name_field',
+    'seur_cit_custom_name_field',
+    'seur_2SHOP_custom_name_field'
     );
 
 foreach ( $options as $option ){
@@ -109,7 +109,7 @@ $wpdb->query( "DELETE t FROM {$wpdb->terms} t LEFT JOIN {$wpdb->term_taxonomy} t
 
 // Delete orphan term meta
 if ( ! empty( $wpdb->termmeta ) ) {
-	$wpdb->query( "DELETE tm FROM {$wpdb->termmeta} tm LEFT JOIN {$wpdb->term_taxonomy} tt ON tm.term_id = tt.term_id WHERE tt.term_id IS NULL;" );
+    $wpdb->query( "DELETE tm FROM {$wpdb->termmeta} tm LEFT JOIN {$wpdb->term_taxonomy} tt ON tm.term_id = tt.term_id WHERE tt.term_id IS NULL;" );
 }
 
 
