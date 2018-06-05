@@ -75,9 +75,6 @@
 
                     $rate_requests = seur_show_availables_rates( $country, $state, $postcode_seur, $price );
 
-                    if ( ! $rate_requests ) {
-                        $this->debug( __( 'SEUR: No Services are enabled in admin panel.', 'seur' ) );
-                    }
                     if ( $rate_requests ){
 
                         // parse the results
