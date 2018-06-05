@@ -114,9 +114,30 @@ $texto = __('RATES', 'seur' ) . '<br />' . __('Calculate rate that SEUR apply to
             <span class="screen-reader-text"><?php _e( 'Country', 'seur' ) ?></span>
             <select class="select country" id="country" title="<?php _e('Select Country', 'seur' ); ?>" name="pais">
                     <?php
-                        if ( ! empty( $pais ) && $pais == 'ES' ) { $selected = 'selected'; }
+                        if ( ! empty( $pais ) && $pais == 'ES' ) {
+	                        $selectedes = 'selected';
+	                        $selectedpt = '';
+	                        $selectedad = '';
+	                    }
+                        if ( ! empty( $pais ) && $pais == 'PT' ) {
+	                        $selectedpt = 'selected';
+	                        $selectedes = '';
+	                        $selectedad = '';
+	                    }
+                        if ( ! empty( $pais ) && $pais == 'AD' ) {
+	                        $selectedad = 'selected';
+	                        $selectedes = '';
+	                        $selectedpt = '';
+	                    }
+                        if ( empty( $pais ) ) {
+	                        $selectedad = '';
+	                        $selectedes = '';
+	                        $selectedpt = '';
+                        }
                         echo '<option value="NULL">' . __( 'Select', 'seur' ) . '</option>';
-                        echo '<option value="ES" ' . $selected . '>' . __('Spain', 'seur' ) . '</option>';
+                        echo '<option value="ES" ' . $selectedes . '>' . __('Spain', 'seur' ) . '</option>';
+                        echo '<option value="PT" ' . $selectedpt . '>' . __('Portugal', 'seur' ) . '</option>';
+                        echo '<option value="AD" ' . $selectedad . '>' . __('Andorra', 'seur' ) . '</option>';
                         $countries = seur_get_countries();
                         foreach ($countries as $countrie => $value ) {
                                 if ( ! empty( $pais ) && $pais == $countrie ) { $selected = 'selected'; } else { $selected = ''; }
