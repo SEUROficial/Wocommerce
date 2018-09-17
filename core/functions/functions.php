@@ -1,30 +1,29 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; // Exit if accessed directly
+}
 
 // SEUR Get Parent Page
-function seur_get_parent_page(){
-    $seur_parent = basename( $_SERVER['SCRIPT_NAME'] );
-    return $seur_parent;
+function seur_get_parent_page() {
+	$seur_parent = basename( $_SERVER['SCRIPT_NAME'] );
+	return $seur_parent
 }
 
 // SEUR Redirect to Welcome/About Page
-function seur_welcome_splash(){
-    $seur_parent = seur_get_parent_page();
-
-    if ( get_option( 'seur-official-version' ) == SEUR_OFFICIAL_VERSION ) {
-        return;
-    }
-    elseif ( $seur_parent == 'update.php' ) {
-        return;
-    }
-    elseif ( $seur_parent == 'update-core.php' ) {
-        return;
-    }
-    else {
-        update_option( 'seur-official-version', SEUR_OFFICIAL_VERSION );
-        $seurredirect = esc_url( admin_url( add_query_arg( array( 'page' => 'seur_about_page' ), 'admin.php' ) ) );
-        wp_redirect( $seurredirect ); exit;
-    }
+function seur_welcome_splash() {
+	$seur_parent = seur_get_parent_page();
+	if ( get_option( 'seur-official-version' ) === SEUR_OFFICIAL_VERSION ) {
+		return;
+	} elseif ( 'update.php' === $seur_parent ) {
+		return;
+	} elseif ( 'update-core.php' === $seur_parent ) {
+		return;
+	} else {
+		update_option( 'seur-official-version', SEUR_OFFICIAL_VERSION );
+		$seurredirect = esc_url( admin_url( add_query_arg( array( 'page' => 'seur_about_page' ), 'admin.php' ) ) );
+		wp_save_redirect( $seurredirect );
+		exit;
+	}
 }
 add_action( 'admin_init', 'seur_welcome_splash', 1 );
 

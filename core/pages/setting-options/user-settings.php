@@ -24,9 +24,9 @@ function seur_viatipo_field(){
 ?>
 
     <select id="street_type" name="seur_viatipo_field">
-       <option value="AVD"  <?php if ( $option == 'AVD') echo ' selected'; ?>><?php _e('Avenida', 'seur' ); ?></option>
-       <option value="PZA"  <?php if ( $option == 'PZA') echo ' selected'; ?>><?php _e('Plaza', 'seur' ); ?></option>
-       <option value="CL"  <?php if ( $option == 'CL') echo ' selected'; ?>><?php _e('Calle', 'seur' ); ?></option>
+       <option value="AVD"  <?php if ( $option == 'AVD') echo ' selected'; ?>><?php _e('Avenue', 'seur' ); ?></option>
+       <option value="PZA"  <?php if ( $option == 'PZA') echo ' selected'; ?>><?php _e('Square', 'seur' ); ?></option>
+       <option value="CL"  <?php if ( $option == 'CL') echo ' selected'; ?>><?php _e('Street', 'seur' ); ?></option>
     </select>
     <?php }
 
@@ -51,7 +51,7 @@ function seur_puerta_field(){ ?>
     <?php }
 
 function seur_postal_field(){ ?>
-    <input title="<?php _e('Para España 5 dígitos, para Portugal 4 dígitos', 'seur' ); ?>" type="text" name="seur_postal_field" value="<?php echo get_option('seur_postal_field'); ?>" size="40" />
+    <input title="<?php _e('For Spain 5 digits, for Portugal 4 digits', 'seur' ); ?>" type="text" name="seur_postal_field" value="<?php echo get_option('seur_postal_field'); ?>" size="40" />
     <?php }
 
 function seur_poblacion_field(){ ?>
@@ -91,31 +91,31 @@ function seur_contacto_apellidos_field(){ ?>
     <?php }
 
 function seur_cit_codigo_field(){ ?>
-    <input title="<?php _e('Código de cliente integrado (facilitado por SEUR)', 'seur' ); ?>" type="text" name="seur_cit_codigo_field" value="<?php echo get_option('seur_cit_codigo_field'); ?>" size="40" />
+    <input title="<?php _e('Integrated client code (given by SEUR)', 'seur' ); ?>" type="text" name="seur_cit_codigo_field" value="<?php echo get_option('seur_cit_codigo_field'); ?>" size="40" />
     <?php }
 
 function seur_cit_usuario_field(){ ?>
-    <input title="<?php _e('Usuario para generar las etiquetas (facilitado por SEUR)', 'seur' ); ?>" type="text" name="seur_cit_usuario_field" value="<?php echo get_option('seur_cit_usuario_field'); ?>" size="40" />
+    <input title="<?php _e('User to generate labels (given by SEUR)', 'seur' ); ?>" type="text" name="seur_cit_usuario_field" value="<?php echo get_option('seur_cit_usuario_field'); ?>" size="40" />
     <?php }
 
 function seur_cit_contra_field(){ ?>
-    <input title="<?php _e('Contraseña para generar las etiquetas (facilitado por SEUR)', 'seur' ); ?>" type="text" name="seur_cit_contra_field" value="<?php echo get_option('seur_cit_contra_field'); ?>" size="40" />
+    <input title="<?php _e('Password to generate the labels (given by SEUR)', 'seur' ); ?>" type="text" name="seur_cit_contra_field" value="<?php echo get_option('seur_cit_contra_field'); ?>" size="40" />
     <?php }
 
 function seur_ccc_field(){ ?>
-    <input title="<?php _e('Código de Cuenta con SEUR (facilitado por SEUR)', 'seur' ); ?>" type="text" name="seur_ccc_field" value="<?php echo get_option('seur_ccc_field'); ?>" size="40" maxlength="5" />
+    <input title="<?php _e('Account Code with SEUR (given by SEUR)', 'seur' ); ?>" type="text" name="seur_ccc_field" value="<?php echo get_option('seur_ccc_field'); ?>" size="40" maxlength="5" />
     <?php }
 
 function seur_franquicia_field(){ ?>
-    <input title="<?php _e('Código numérico de dos dígitos (facilitado por SEUR)', 'seur' ); ?>" type="text" name="seur_franquicia_field" value="<?php echo get_option('seur_franquicia_field'); ?>" size="40" maxlength="2" />
+    <input title="<?php _e('Two-digit numeric code (given by SEUR)', 'seur' ); ?>" type="text" name="seur_franquicia_field" value="<?php echo get_option('seur_franquicia_field'); ?>" size="40" maxlength="2" />
     <?php }
 
 function seur_seurcom_usuario_field(){ ?>
-    <input title="<?php _e('Usuario de acceso a seur.com (facilitado por SEUR)', 'seur' ); ?>" type="text" name="seur_seurcom_usuario_field" value="<?php echo get_option('seur_seurcom_usuario_field'); ?>" size="40" />
+    <input title="<?php _e('User access to seur.com (given by SEUR)', 'seur' ); ?>" type="text" name="seur_seurcom_usuario_field" value="<?php echo get_option('seur_seurcom_usuario_field'); ?>" size="40" />
     <?php }
 
 function seur_seurcom_contra_field(){ ?>
-    <input title="<?php _e('Contraseña de acceso seur.com (facilitado por SEUR)', 'seur' ); ?>" type="text" name="seur_seurcom_contra_field" value="<?php echo get_option('seur_seurcom_contra_field'); ?>" size="40" />
+    <input title="<?php _e('Access password seur.com (given by SEUR)', 'seur' ); ?>" type="text" name="seur_seurcom_contra_field" value="<?php echo get_option('seur_seurcom_contra_field'); ?>" size="40" />
     <?php }
 
 

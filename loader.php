@@ -3,19 +3,19 @@
 Plugin Name: SEUR Oficial
 Plugin URI: http://www.seur.com/
 Description: Add SEUR shipping method to WooCommerce. The SEUR plugin for WooCommerce allows you to manage your order dispatches in a fast and easy way
-Version: 1.0.3
+Version: 1.1.0
 Author: José Conti
 Author URI: https://www.joseconti.com/
-Tested up to: 4.9.4
+Tested up to: 4.9.8
 WC requires at least: 3.0
-WC tested up to: 3.3
+WC tested up to: 3.4
 Text Domain: seur
 Domain Path: /languages/
 License: GNU General Public License v3.0
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 */
 
-define( 'SEUR_OFFICIAL_VERSION',    '1.0.3'                     );
+define( 'SEUR_OFFICIAL_VERSION',    '1.1.0'                     );
 define( 'SEUR_DB_VERSION',          '1.0.3'                     );
 define( 'SEUR_TABLE_VERSION',       '1.0.1'                     );
 define( 'SEUR_PLUGIN_PATH',         plugin_dir_path( __FILE__ ) );
