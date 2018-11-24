@@ -1,21 +1,22 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; // Exit if accessed directly
+}
 
-function seur_settings(){ ?>
-
-    <div class="wrap">
-        <h1><?php echo __( 'SEUR Settings', 'seur' ) ?></h1>
-                <?php
-        if( isset( $_GET[ 'tab' ] ) ) {
-            $active_tab = $_GET[ 'tab' ];
-        } else {
-            $active_tab = 'user_settings';
-        }
-        ?>
-        <h2 class="nav-tab-wrapper">
-            <a href="admin.php?page=seur&tab=user_settings" class="nav-tab <?php echo $active_tab == 'user_settings' ? 'nav-tab-active' : ''; ?>"><?php _e( 'User Settings', 'seur' ); ?></a>
-            <a href="admin.php?page=seur&&tab=advanced_settings" class="nav-tab <?php echo $active_tab == 'advanced_settings' ? 'nav-tab-active' : ''; ?>"><?php _e( 'Advanced Settings', 'seur' ); ?></a>
-        </h2>
+function seur_settings() { ?>
+	<div class="wrap">
+		<h1><?php echo __( 'SEUR Settings', 'seur' ); ?></h1>
+		<?php
+		if ( isset( $_GET['tab'] ) ) {
+			$active_tab = $_GET['tab'];
+		} else {
+			$active_tab = 'user_settings';
+		}
+		?>
+		<h2 class="nav-tab-wrapper">
+			<a href="admin.php?page=seur&tab=user_settings" class="nav-tab <?php echo $active_tab === 'user_settings' ? 'nav-tab-active' : ''; ?>"><?php _e( 'User Settings', 'seur' ); ?></a>
+			<a href="admin.php?page=seur&&tab=advanced_settings" class="nav-tab <?php echo $active_tab == 'advanced_settings' ? 'nav-tab-active' : ''; ?>"><?php _e( 'Advanced Settings', 'seur' ); ?></a>
+		</h2>
         <form method="post" action="options.php">
             <?php
             if( $active_tab == 'user_settings' ) {

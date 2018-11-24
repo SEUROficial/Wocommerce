@@ -8,7 +8,7 @@ Author: José Conti
 Author URI: https://www.joseconti.com/
 Tested up to: 4.9.8
 WC requires at least: 3.0
-WC tested up to: 3.4
+WC tested up to: 3.5
 Text Domain: seur
 Domain Path: /languages/
 License: GNU General Public License v3.0
@@ -44,3 +44,27 @@ function seur_official_init() {
     load_plugin_textdomain( 'seur', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
 }
 add_action('init', 'seur_official_init');
+
+// SEUR Get Parent Page
+function seur_get_parent_page() {
+	$seur_parent = basename( $_SERVER['SCRIPT_NAME'] );
+	return $seur_parent;
+}
+
+// SEUR Redirect to Welcome/About Page
+function seur_welcome_splash() {
+	$seur_parent = seur_get_parent_page();
+	if ( get_option( 'seur-official-version' ) === SEUR_OFFICIAL_VERSION ) {
+		return;
+	} elseif ( 'update.php' === $seur_parent ) {
+		return;
+	} elseif ( 'update-core.php' === $seur_parent ) {
+		return;
+	} else {
+		update_option( 'seur-official-version', SEUR_OFFICIAL_VERSION );
+		$seurredirect = esc_url( admin_url( add_query_arg( array( 'page' => 'seur_about_page' ), 'admin.php' ) ) );
+		wp_safe_redirect( $seurredirect );
+		exit;
+	}
+}
+add_action( 'admin_init', 'seur_welcome_splash', 1 );

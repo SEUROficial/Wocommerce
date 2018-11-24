@@ -212,6 +212,7 @@ $texto = __('RATES', 'seur' ) . '<br />' . __('Calculate rate that SEUR apply to
             $usuarioseurcom     = $useroptions[0]['seurcom_usuario'];
             $contrasenaseurcom  = $useroptions[0]['seurcom_contra'];
             $ccc                = $useroptions[0]['ccc'];
+            $int_ccc            = $useroptions[0]['int_ccc'];
             $franquicia         = $useroptions[0]['franquicia'];
 
             if ( ( $pais == 'ES' ) || ( $pais == 'PT' ) || ( $pais == 'AD' ) ) {

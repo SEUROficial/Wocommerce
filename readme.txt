@@ -5,7 +5,7 @@ Requires at least: 4.0
 Tested up to: 4.9.8
 Stable tag: 1.0.3
 WC requires at least: 3.0
-WC tested up to: 3.4
+WC tested up to: 3.5
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -44,6 +44,7 @@ Check the status of your shipments, organise collection at your storage faciliti
 == Installation ==
 
 1. Upload `seur` folder to the `/wp-content/plugins/` directory
+3. seur needs write permissions during plugin activation at wp-content and uploads.
 2. Activate the plugin through the 'Plugins' menu in WordPress
 
 == Frequently Asked Questions ==
@@ -96,6 +97,7 @@ The "SEUR > Shipments" menu includes the option to track your shipment and see t
 == 1.1.0 ==
 * NEW: Added Local Pickup
 * Added Portugal to some forms.
++ Added International CCC (you need to add it to the plugin settings).
 * Fixed some bugs.
 
 = 1.0.3 =

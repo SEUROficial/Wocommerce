@@ -40,6 +40,7 @@ function seur_pickup( $post ) {
     $nif                    = $user_data[0]['nif'];
     $franquicia             = $user_data[0]['franquicia'];
     $ccc                    = $user_data[0]['ccc'];
+    $int_ccc                = $user_data[0]['int_ccc'];
     $usercom                = $user_data[0]['seurcom_usuario'];
     $passcom                = $user_data[0]['seurcom_contra'];
     $empresa                = $user_data[0]['empresa'];

@@ -3,30 +3,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly
 }
 
-// SEUR Get Parent Page
-function seur_get_parent_page() {
-	$seur_parent = basename( $_SERVER['SCRIPT_NAME'] );
-	return $seur_parent
-}
-
-// SEUR Redirect to Welcome/About Page
-function seur_welcome_splash() {
-	$seur_parent = seur_get_parent_page();
-	if ( get_option( 'seur-official-version' ) === SEUR_OFFICIAL_VERSION ) {
-		return;
-	} elseif ( 'update.php' === $seur_parent ) {
-		return;
-	} elseif ( 'update-core.php' === $seur_parent ) {
-		return;
-	} else {
-		update_option( 'seur-official-version', SEUR_OFFICIAL_VERSION );
-		$seurredirect = esc_url( admin_url( add_query_arg( array( 'page' => 'seur_about_page' ), 'admin.php' ) ) );
-		wp_save_redirect( $seurredirect );
-		exit;
-	}
-}
-add_action( 'admin_init', 'seur_welcome_splash', 1 );
-
 function seur_debug_mode_notice() {
     $class   = 'notice notice-warning';
     $message = __( 'SEUR_DEBUG is set to TRUE, please set it to false.', 'seur' );
@@ -899,6 +875,8 @@ function seur_get_user_settings() {
     if ( get_option( 'seur_cit_usuario_field' ) )           { $seur_cit_usuario_field         = get_option( 'seur_cit_usuario_field'          ); } else { $seur_cit_usuario_field           = ''; }
     if ( get_option( 'seur_cit_contra_field' ) )            { $seur_cit_contra_field          = get_option( 'seur_cit_contra_field'           ); } else { $seur_cit_contra_field            = ''; }
     if ( get_option( 'seur_ccc_field' ) )                   { $seur_ccc_field                 = get_option( 'seur_ccc_field'                  ); } else { $seur_ccc_field                   = ''; }
+    if ( get_option( 'seur_int_ccc_field' ) )               { $seur_int_ccc_field             = get_option( 'seur_int_ccc_field'              ); } else { $seur_int_ccc_field               = ''; }
+
     if ( get_option( 'seur_franquicia_field' ) )            { $seur_franquicia_field          = get_option( 'seur_franquicia_field'           ); } else { $seur_franquicia_field            = ''; }
     if ( get_option( 'seur_seurcom_usuario_field' ) )       { $seur_seurcom_usuario_field     = get_option( 'seur_seurcom_usuario_field'      ); } else { $seur_seurcom_usuario_field       = ''; }
     if ( get_option( 'seur_seurcom_contra_field' ) )        { $seur_seurcom_contra_field      = get_option( 'seur_seurcom_contra_field'       ); } else { $seur_seurcom_contra_field        = ''; }
@@ -936,6 +914,7 @@ function seur_get_user_settings() {
                 'cit_usuario',
                 'cit_contra',
                 'ccc',
+                'int_ccc',
                 'franquicia',
                 'seurcom_usuario',
                 'seurcom_contra'
@@ -962,6 +941,7 @@ function seur_get_user_settings() {
                 $seur_cit_usuario_field,
                 $seur_cit_contra_field,
                 $seur_ccc_field,
+                $seur_int_ccc_field,
                 $seur_franquicia_field,
                 $seur_seurcom_usuario_field,
                 $seur_seurcom_contra_field
@@ -1308,7 +1288,8 @@ function seur_get_label( $order_id, $numpackages = '1', $weight = '1', $post_wei
     $cit_contra              = $user_data[0]['cit_contra'];
     $nif                     = $user_data[0]['nif'];
     $franquicia              = $user_data[0]['franquicia'];
-    $ccc                     = $user_data[0]['ccc'];
+    $nat_ccc                 = $user_data[0]['ccc'];
+    $int_ccc                 = $user_data[0]['int_ccc'];
     $usercom                 = $user_data[0]['seurcom_usuario'];
     $passcom                 = $user_data[0]['seurcom_contra'];
 
@@ -1371,6 +1352,12 @@ function seur_get_label( $order_id, $numpackages = '1', $weight = '1', $post_wei
     $customerpostcode        = $order_data[0]['postcode'];
 
     $customer_weight         = $order_data[0]['weight'];
+
+    if ( 'ES' === $customer_country || 'AD' === $customer_country || 'PT' === $customer_country ) {
+	    $ccc = $nat_ccc;
+    } else {
+	    $ccc = $int_ccc;
+    }
 
     if ( $post_weight ) {
         $customer_weight_kg = seur_always_kg( $weight );

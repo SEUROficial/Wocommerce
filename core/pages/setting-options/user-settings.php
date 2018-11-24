@@ -31,23 +31,23 @@ function seur_viatipo_field(){
     <?php }
 
 function seur_vianombre_field(){ ?>
-    <input title="<?php _e('Pickup Adress', 'seur' ); ?>" type="text" name="seur_vianombre_field" value="<?php echo get_option('seur_vianombre_field'); ?>" size="40" />
+    <input title="<?php _e('Pickup Address', 'seur' ); ?>" type="text" name="seur_vianombre_field" value="<?php echo get_option('seur_vianombre_field'); ?>" size="40" />
     <?php }
 
 function seur_vianumero_field(){ ?>
-    <input title="<?php _e('Pickup Adress', 'seur' ); ?>" type="text" name="seur_vianumero_field" value="<?php echo get_option('seur_vianumero_field'); ?>" size="40" />
+    <input title="<?php _e('Pickup Address', 'seur' ); ?>" type="text" name="seur_vianumero_field" value="<?php echo get_option('seur_vianumero_field'); ?>" size="40" />
     <?php }
 
 function seur_escalera_field(){ ?>
-    <input title="<?php _e('Pickup Adress', 'seur' ); ?>" type="text" name="seur_escalera_field" value="<?php echo get_option('seur_escalera_field'); ?>" size="40" />
+    <input title="<?php _e('Pickup Address', 'seur' ); ?>" type="text" name="seur_escalera_field" value="<?php echo get_option('seur_escalera_field'); ?>" size="40" />
     <?php }
 
 function seur_piso_field(){ ?>
-    <input title="<?php _e('Pickup Adress', 'seur' ); ?>" type="text" name="seur_piso_field" value="<?php echo get_option('seur_piso_field'); ?>" size="40" />
+    <input title="<?php _e('Pickup Address', 'seur' ); ?>" type="text" name="seur_piso_field" value="<?php echo get_option('seur_piso_field'); ?>" size="40" />
     <?php }
 
 function seur_puerta_field(){ ?>
-    <input title="<?php _e('Pickup Adress', 'seur' ); ?>" type="text" name="seur_puerta_field" value="<?php echo get_option('seur_puerta_field'); ?>" size="40" />
+    <input title="<?php _e('Pickup Address', 'seur' ); ?>" type="text" name="seur_puerta_field" value="<?php echo get_option('seur_puerta_field'); ?>" size="40" />
     <?php }
 
 function seur_postal_field(){ ?>
@@ -55,11 +55,11 @@ function seur_postal_field(){ ?>
     <?php }
 
 function seur_poblacion_field(){ ?>
-    <input title="<?php _e('Pickup Adress', 'seur' ); ?>" type="text" name="seur_poblacion_field" value="<?php echo get_option('seur_poblacion_field'); ?>" size="40" />
+    <input title="<?php _e('Pickup Address', 'seur' ); ?>" type="text" name="seur_poblacion_field" value="<?php echo get_option('seur_poblacion_field'); ?>" size="40" />
     <?php }
 
 function seur_provincia_field(){ ?>
-    <input title="<?php _e('Pickup Adress', 'seur' ); ?>" type="text" name="seur_provincia_field" value="<?php echo get_option('seur_provincia_field'); ?>" size="40" />
+    <input title="<?php _e('Pickup Address', 'seur' ); ?>" type="text" name="seur_provincia_field" value="<?php echo get_option('seur_provincia_field'); ?>" size="40" />
     <?php }
 
 function seur_pais_field(){
@@ -103,7 +103,11 @@ function seur_cit_contra_field(){ ?>
     <?php }
 
 function seur_ccc_field(){ ?>
-    <input title="<?php _e('Account Code with SEUR (given by SEUR)', 'seur' ); ?>" type="text" name="seur_ccc_field" value="<?php echo get_option('seur_ccc_field'); ?>" size="40" maxlength="5" />
+    <input title="<?php _e('Country Account Code with SEUR (given by SEUR)', 'seur' ); ?>" type="text" name="seur_ccc_field" value="<?php echo get_option('seur_ccc_field'); ?>" size="40" maxlength="5" />
+    <?php }
+
+function seur_int_ccc_field(){ ?>
+    <input title="<?php _e('International Account Code with SEUR (given by SEUR)', 'seur' ); ?>" type="text" name="seur_int_ccc_field" value="<?php echo get_option('seur_int_ccc_field'); ?>" size="40" maxlength="5" />
     <?php }
 
 function seur_franquicia_field(){ ?>
@@ -143,6 +147,7 @@ function display_seur_user_sittings_panel_fields(){
     add_settings_field( 'seur_cit_usuario_field',           __('CIT user<sup>*</sup>',               'seur'), 'seur_cit_usuario_field',             'seur-user-settings-options', 'seur-user-settings-section' );
     add_settings_field( 'seur_cit_contra_field',            __('CIT password<sup>*</sup>',            'seur'), 'seur_cit_contra_field',              'seur-user-settings-options', 'seur-user-settings-section' );
     add_settings_field( 'seur_ccc_field',                   __('CCC<sup>*</sup>',                       'seur'), 'seur_ccc_field',                     'seur-user-settings-options', 'seur-user-settings-section' );
+    add_settings_field( 'seur_int_ccc_field',                   __('International CCC<sup>*</sup>',                       'seur'), 'seur_int_ccc_field',                     'seur-user-settings-options', 'seur-user-settings-section' );
     add_settings_field( 'seur_franquicia_field',            __('Franchise<sup>*</sup>',                'seur'), 'seur_franquicia_field',              'seur-user-settings-options', 'seur-user-settings-section' );
     add_settings_field( 'seur_seurcom_usuario_field',       __('SEUR.com user<sup>*</sup>',          'seur'), 'seur_seurcom_usuario_field',         'seur-user-settings-options', 'seur-user-settings-section' );
     add_settings_field( 'seur_seurcom_contra_field',        __('SEUR.com password<sup>*</sup>',       'seur'), 'seur_seurcom_contra_field',          'seur-user-settings-options', 'seur-user-settings-section' );
@@ -171,6 +176,7 @@ function display_seur_user_sittings_panel_fields(){
     register_setting('seur-user-settings-section', 'seur_cit_usuario_field'             );
     register_setting('seur-user-settings-section', 'seur_cit_contra_field'              );
     register_setting('seur-user-settings-section', 'seur_ccc_field'                     );
+    register_setting('seur-user-settings-section', 'seur_int_ccc_field'                 );
     register_setting('seur-user-settings-section', 'seur_franquicia_field'              );
     register_setting('seur-user-settings-section', 'seur_seurcom_usuario_field'         );
     register_setting('seur-user-settings-section', 'seur_seurcom_contra_field'          );
