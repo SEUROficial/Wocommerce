@@ -33,6 +33,9 @@ function seur_add_cart_weight( $order_id ) {
     $seur_72h_custom_name  = '';
     $seur_cit_custom_name  = '';
     $seur_2SHOP_custom_name = '';
+    $seur_courier_int_aereo_paqueteria_custom_name = '';
+	$seur_courier_int_aereo_documentos_custom_name = '';
+	$seur_netexpress_int_terrestre_custom_name     = '';
 
     $seur_bc2_custom_name  = get_option( 'seur_bc2_custom_name_field'  );
     $seur_10e_custom_name  = get_option( 'seur_10e_custom_name_field'  );
@@ -43,6 +46,9 @@ function seur_add_cart_weight( $order_id ) {
     $seur_72h_custom_name  = get_option( 'seur_72h_custom_name_field'  );
     $seur_cit_custom_name  = get_option( 'seur_cit_custom_name_field'  );
     $seur_2SHOP_custom_name = get_option( 'seur_2SHOP_custom_name_field');
+    $seur_courier_int_aereo_paqueteria_custom_name = get_option( 'seur_courier_int_aereo_paqueteria_custom_name_field' );
+	$seur_courier_int_aereo_documentos_custom_name = get_option( 'seur_courier_int_aereo_documentos_custom_name_field' );
+	$seur_netexpress_int_terrestre_custom_name     = get_option( 'seur_netexpress_int_terrestre_custom_name_field' );
 
     if ( ! empty ( $seur_bc2_custom_name ) )  { $seur_bc2_custom_name  = $seur_bc2_custom_name;  } else { $seur_bc2_custom_name  =  'B2C Estándar';                    }
     if ( ! empty ( $seur_10e_custom_name ) )  { $seur_10e_custom_name  = $seur_10e_custom_name;  } else { $seur_10ef_custom_name =  'SEUR 10 Estándar';                }
@@ -53,6 +59,9 @@ function seur_add_cart_weight( $order_id ) {
     if ( ! empty ( $seur_72h_custom_name ) )  { $seur_72h_custom_name  = $seur_72h_custom_name;  } else { $seur_72h_custom_name  =  'SEUR 72H Estándar';               }
     if ( ! empty ( $seur_cit_custom_name ) )  { $seur_cit_custom_name  = $seur_cit_custom_name;  } else { $seur_cit_custom_name  =  'Classic Internacional Terrestre'; }
     if ( ! empty ( $seur_2SHOP_custom_name ) )  { $seur_2SHOP_custom_name  = $seur_2SHOP_custom_name;  } else { $seur_2SHOP_custom_name  =  'SEUR 2SHOP'; }
+    if ( ! empty ( $seur_courier_int_aereo_paqueteria_custom_name ) )  { $seur_courier_int_aereo_paqueteria_custom_name  = $seur_courier_int_aereo_paqueteria_custom_name;  } else { $seur_courier_int_aereo_paqueteria_custom_name  =  'COURIER INT AEREO PAQUETERIA'; }
+        if ( ! empty ( $seur_courier_int_aereo_documentos_custom_name ) )  { $seur_courier_int_aereo_documentos_custom_name  = $seur_courier_int_aereo_documentos_custom_name;  } else { $seur_courier_int_aereo_documentos_custom_name  =  'COURIER INT AEREO DOCUMENTOS'; }
+        if ( ! empty ( $seur_netexpress_int_terrestre_custom_name ) )  { $seur_netexpress_int_terrestre_custom_name  = $seur_netexpress_int_terrestre_custom_name;  } else { $seur_netexpress_int_terrestre_custom_name  =  'NETEXPRESS INT TERRESTRE'; }
 
     $seur_shipments = array(
         $seur_bc2_custom_name,
@@ -64,6 +73,9 @@ function seur_add_cart_weight( $order_id ) {
         $seur_72h_custom_name,
         $seur_cit_custom_name,
         $seur_2SHOP_custom_name,
+        $seur_courier_int_aereo_paqueteria_custom_name,
+        $seur_courier_int_aereo_documentos_custom_name,
+        $seur_netexpress_int_terrestre_custom_name,
     );
 
     foreach ( $seur_shipments as $seur_shipment ) {
@@ -450,6 +462,16 @@ function seur_filter_price_rate_weight( $package_price, $raterate, $ratepricerat
     $seur_cit_max_price_field  = get_option( 'seur_cit_max_price_field'  );
     $seur_2SHOP_max_price_field = get_option( 'seur_2SHOP_max_price_field');
 
+
+
+    $seur_courier_int_aereo_paqueteria_max_price_field = get_option( 'seur_courier_int_aereo_paqueteria_max_price_field' );
+	$seur_courier_int_aereo_documentos_max_price_field = get_option( 'seur_courier_int_aereo_documentos_max_price_field' );
+	$seur_netexpress_int_terrestre_max_price_field     = get_option( 'seur_netexpress_int_terrestre_max_price_field' );
+
+
+
+
+
     if ( $seur_bc2_max_price_field  == '0' || ! $seur_bc2_max_price_field  ) $seur_bc2_max_price_field  = '99999999999';
     if ( $seur_10e_max_price_field  == '0' || ! $seur_10e_max_price_field  ) $seur_10e_max_price_field  = '99999999999';
     if ( $seur_10ef_max_price_field == '0' || ! $seur_10ef_max_price_field ) $seur_10ef_max_price_field = '99999999999';
@@ -459,6 +481,10 @@ function seur_filter_price_rate_weight( $package_price, $raterate, $ratepricerat
     if ( $seur_72h_max_price_field  == '0' || ! $seur_72h_max_price_field  ) $seur_72h_max_price_field  = '99999999999';
     if ( $seur_cit_max_price_field  == '0' || ! $seur_cit_max_price_field  ) $seur_cit_max_price_field  = '99999999999';
     if ( $seur_2SHOP_max_price_field  == '0' || ! $seur_2SHOP_max_price_field  ) $seur_2SHOP_max_price_field  = '99999999999';
+
+    if ( $seur_courier_int_aereo_paqueteria_max_price_field  == '0' || ! $seur_courier_int_aereo_paqueteria_max_price_field  ) $seur_courier_int_aereo_paqueteria_max_price_field  = '99999999999';
+    if ( $seur_courier_int_aereo_documentos_max_price_field  == '0' || ! $seur_courier_int_aereo_documentos_max_price_field  ) $seur_courier_int_aereo_documentos_max_price_field  = '99999999999';
+    if ( $seur_netexpress_int_terrestre_max_price_field  == '0' || ! $seur_netexpress_int_terrestre_max_price_field  ) $seur_netexpress_int_terrestre_max_price_field  = '99999999999';
 
     if ( $raterate == 'B2C Estándar' ){
         if( $package_price > $seur_bc2_max_price_field ){
@@ -532,41 +558,72 @@ function seur_filter_price_rate_weight( $package_price, $raterate, $ratepricerat
         }
     }
 
+    if ( $raterate == 'COURIER INT AEREO PAQUETERIA' ){
+        if( $package_price > $seur_courier_int_aereo_paqueteria_max_price_field ){
+            $ratepricerate = '0';
+        } else {
+            $ratepricerate = $ratepricerate;
+        }
+    }
+    if ( $raterate == 'COURIER INT AEREO DOCUMENTOS' ){
+        if( $package_price > $seur_courier_int_aereo_documentos_max_price_field ){
+            $ratepricerate = '0';
+        } else {
+            $ratepricerate = $ratepricerate;
+        }
+    }
+    if ( $raterate == 'NETEXPRESS INT TERRESTRE' ){
+        if( $package_price > $seur_netexpress_int_terrestre_max_price_field ){
+            $ratepricerate = '0';
+        } else {
+            $ratepricerate = $ratepricerate;
+        }
+    }
+
     return $ratepricerate;
 }
 
 // Hide free_shipping method because has to be set with seur shipping method
-function seur_hide_standard_free_shipping( $available_methods ){
-    unset( $available_methods['free_shipping'] );
-    return $available_methods;
+function seur_hide_standard_free_shipping( $available_methods ) {
+	$free_shipping = get_option( 'seur_deactivate_free_shipping_field' );
+	if ( ! $free_shipping || '1' === $free_shipping ) {
+		unset( $available_methods['free_shipping'] );
+		return $available_methods;
+		} else {
+			return $available_methods;
+			}
 }
 add_filter( 'woocommerce_shipping_methods', 'seur_hide_standard_free_shipping' , 10, 1 );
 
 //defining the filter that will be used to select posts by 'post formats'
 function seur_post_formats_filter_to_woo_order_administration(){
-    global $post_type;
+	global $post_type;
 
-    if ( $post_type == 'shop_order' ){
-
-        $seur_bc2_custom_name  = '';
-        $seur_10e_custom_name  = '';
-        $seur_10ef_custom_name = '';
-        $seur_13e_custom_name  = '';
-        $seur_13f_custom_name  = '';
-        $seur_48h_custom_name  = '';
-        $seur_72h_custom_name  = '';
-        $seur_cit_custom_name  = '';
-        $seur_2SHOP_custom_name = '';
-
-        $seur_bc2_custom_name  = get_option( 'seur_bc2_custom_name_field'  );
-        $seur_10e_custom_name  = get_option( 'seur_10e_custom_name_field'  );
-        $seur_10ef_custom_name = get_option( 'seur_10ef_custom_name_field' );
-        $seur_13e_custom_name  = get_option( 'seur_13e_custom_name_field'  );
-        $seur_13f_custom_name  = get_option( 'seur_13f_custom_name_field'  );
-        $seur_48h_custom_name  = get_option( 'seur_48h_custom_name_field'  );
-        $seur_72h_custom_name  = get_option( 'seur_72h_custom_name_field'  );
-        $seur_cit_custom_name  = get_option( 'seur_cit_custom_name_field'  );
-        $seur_2SHOP_custom_name = get_option( 'seur_2SHOP_custom_name_field');
+	if ( 'shop_order' === $post_type ) {
+		$seur_bc2_custom_name                          = '';
+		$seur_10e_custom_name                          = '';
+		$seur_10ef_custom_name                         = '';
+		$seur_13e_custom_name                          = '';
+		$seur_13f_custom_name                          = '';
+		$seur_48h_custom_name                          = '';
+		$seur_72h_custom_name                          = '';
+		$seur_cit_custom_name                          = '';
+		$seur_2SHOP_custom_name                        = '';
+		$seur_courier_int_aereo_paqueteria_custom_name = '';
+		$seur_courier_int_aereo_documentos_custom_name = '';
+		$seur_netexpress_int_terrestre_custom_name     = '';
+		$seur_bc2_custom_name                          = get_option( 'seur_bc2_custom_name_field'  );
+		$seur_10e_custom_name                          = get_option( 'seur_10e_custom_name_field'  );
+		$seur_10ef_custom_name                         = get_option( 'seur_10ef_custom_name_field' );
+		$seur_13e_custom_name                          = get_option( 'seur_13e_custom_name_field'  );
+		$seur_13f_custom_name                          = get_option( 'seur_13f_custom_name_field'  );
+		$seur_48h_custom_name                          = get_option( 'seur_48h_custom_name_field'  );
+		$seur_72h_custom_name                          = get_option( 'seur_72h_custom_name_field'  );
+		$seur_cit_custom_name                          = get_option( 'seur_cit_custom_name_field'  );
+		$seur_2SHOP_custom_name                        = get_option( 'seur_2SHOP_custom_name_field');
+		$seur_courier_int_aereo_paqueteria_custom_name = get_option( 'seur_courier_int_aereo_paqueteria_custom_name_field' );
+		$seur_courier_int_aereo_documentos_custom_name = get_option( 'seur_courier_int_aereo_documentos_custom_name_field' );
+		$seur_netexpress_int_terrestre_custom_name     = get_option( 'seur_netexpress_int_terrestre_custom_name_field' );
 
         if ( ! empty ( $seur_bc2_custom_name ) )  { $seur_bc2_custom_name  = $seur_bc2_custom_name;  } else { $seur_bc2_custom_name  =  'B2C Estándar';                    }
         if ( ! empty ( $seur_10e_custom_name ) )  { $seur_10e_custom_name  = $seur_10e_custom_name;  } else { $seur_10e_custom_name  =  'SEUR 10 Estándar';                }
@@ -578,17 +635,24 @@ function seur_post_formats_filter_to_woo_order_administration(){
         if ( ! empty ( $seur_cit_custom_name ) )  { $seur_cit_custom_name  = $seur_cit_custom_name;  } else { $seur_cit_custom_name  =  'Classic Internacional Terrestre'; }
         if ( ! empty ( $seur_2SHOP_custom_name ) )  { $seur_2SHOP_custom_name  = $seur_2SHOP_custom_name;  } else { $seur_2SHOP_custom_name  =  'SEUR 2SHOP'; }
 
-        $seur_shipments = array(
-            $seur_bc2_custom_name,
-            $seur_10e_custom_name,
-            $seur_10ef_custom_name,
-            $seur_13e_custom_name,
-            $seur_13f_custom_name,
-            $seur_48h_custom_name,
-            $seur_72h_custom_name,
-            $seur_cit_custom_name,
-            $seur_2SHOP_custom_name,
-        );
+        if ( ! empty ( $seur_courier_int_aereo_paqueteria_custom_name ) )  { $seur_courier_int_aereo_paqueteria_custom_name  = $seur_courier_int_aereo_paqueteria_custom_name;  } else { $seur_courier_int_aereo_paqueteria_custom_name  =  'COURIER INT AEREO PAQUETERIA'; }
+        if ( ! empty ( $seur_courier_int_aereo_documentos_custom_name ) )  { $seur_courier_int_aereo_documentos_custom_name  = $seur_courier_int_aereo_documentos_custom_name;  } else { $seur_courier_int_aereo_documentos_custom_name  =  'COURIER INT AEREO DOCUMENTOS'; }
+        if ( ! empty ( $seur_netexpress_int_terrestre_custom_name ) )  { $seur_netexpress_int_terrestre_custom_name  = $seur_netexpress_int_terrestre_custom_name;  } else { $seur_netexpress_int_terrestre_custom_name  =  'NETEXPRESS INT TERRESTRE'; }
+
+		$seur_shipments = array(
+			$seur_bc2_custom_name,
+			$seur_10e_custom_name,
+			$seur_10ef_custom_name,
+			$seur_13e_custom_name,
+			$seur_13f_custom_name,
+			$seur_48h_custom_name,
+			$seur_72h_custom_name,
+			$seur_cit_custom_name,
+			$seur_2SHOP_custom_name,
+			$seur_courier_int_aereo_paqueteria_custom_name,
+			$seur_courier_int_aereo_documentos_custom_name,
+			$seur_netexpress_int_terrestre_custom_name,
+		);
         ?>
 
         <label for="dropdown_shop_order_seur_shipping_method" class="screen-reader-text"><?php _e( 'Seur Shippments', 'seur' ); ?></label>
@@ -624,6 +688,9 @@ function seur_filter_orders_by_shipping_method_query( $vars ) {
         $seur_72h_custom_name  = '';
         $seur_cit_custom_name  = '';
         $seur_2SHOP_custom_name = '';
+        $seur_courier_int_aereo_paqueteria_custom_name = '';
+		$seur_courier_int_aereo_documentos_custom_name = '';
+		$seur_netexpress_int_terrestre_custom_name     = '';
 
         $seur_bc2_custom_name  = get_option( 'seur_bc2_custom_name_field'  );
         $seur_10e_custom_name  = get_option( 'seur_10e_custom_name_field'  );
@@ -634,6 +701,9 @@ function seur_filter_orders_by_shipping_method_query( $vars ) {
         $seur_72h_custom_name  = get_option( 'seur_72h_custom_name_field'  );
         $seur_cit_custom_name  = get_option( 'seur_cit_custom_name_field'  );
         $seur_2SHOP_custom_name = get_option( 'seur_2SHOP_custom_name_field');
+        $seur_courier_int_aereo_paqueteria_custom_name = get_option( 'seur_courier_int_aereo_paqueteria_custom_name_field' );
+		$seur_courier_int_aereo_documentos_custom_name = get_option( 'seur_courier_int_aereo_documentos_custom_name_field' );
+		$seur_netexpress_int_terrestre_custom_name     = get_option( 'seur_netexpress_int_terrestre_custom_name_field' );
 
         if ( ! empty ( $seur_bc2_custom_name ) )  { $seur_bc2_custom_name  = $seur_bc2_custom_name;  } else { $seur_bc2_custom_name  =  'B2C Estándar';                    }
         if ( ! empty ( $seur_10e_custom_name ) )  { $seur_10e_custom_name  = $seur_10e_custom_name;  } else { $seur_10e_custom_name  =  'SEUR 10 Estándar';                }
@@ -645,6 +715,10 @@ function seur_filter_orders_by_shipping_method_query( $vars ) {
         if ( ! empty ( $seur_cit_custom_name ) )  { $seur_cit_custom_name  = $seur_cit_custom_name;  } else { $seur_cit_custom_name  =  'Classic Internacional Terrestre'; }
         if ( ! empty ( $seur_2SHOP_custom_name ) )  { $seur_2SHOP_custom_name  = $seur_2SHOP_custom_name;  } else { $seur_2SHOP_custom_name  =  'SEUR 2SHOP'; }
 
+        if ( ! empty ( $seur_courier_int_aereo_paqueteria_custom_name ) )  { $seur_courier_int_aereo_paqueteria_custom_name  = $seur_courier_int_aereo_paqueteria_custom_name;  } else { $seur_courier_int_aereo_paqueteria_custom_name  =  'COURIER INT AEREO PAQUETERIA'; }
+        if ( ! empty ( $seur_courier_int_aereo_documentos_custom_name ) )  { $seur_courier_int_aereo_documentos_custom_name  = $seur_courier_int_aereo_documentos_custom_name;  } else { $seur_courier_int_aereo_documentos_custom_name  =  'COURIER INT AEREO DOCUMENTOS'; }
+        if ( ! empty ( $seur_netexpress_int_terrestre_custom_name ) )  { $seur_netexpress_int_terrestre_custom_name  = $seur_netexpress_int_terrestre_custom_name;  } else { $seur_netexpress_int_terrestre_custom_name  =  'NETEXPRESS INT TERRESTRE'; }
+
         $seur_shipments = array(
             $seur_bc2_custom_name,
             $seur_10e_custom_name,
@@ -655,6 +729,9 @@ function seur_filter_orders_by_shipping_method_query( $vars ) {
             $seur_72h_custom_name,
             $seur_cit_custom_name,
             $seur_2SHOP_custom_name,
+            $seur_courier_int_aereo_paqueteria_custom_name,
+            $seur_courier_int_aereo_documentos_custom_name,
+            $seur_netexpress_int_terrestre_custom_name,
         );
 
         foreach ( $seur_shipments as $shippment ) {

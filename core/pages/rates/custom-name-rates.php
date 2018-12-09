@@ -10,25 +10,31 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
         <hr>
         <?php
             if ( ! isset( $_POST['seur_custom_name_rates_post'] ) ) {
-                $seur_bc2_custom_name   = '';
-                $seur_10e_custom_name   = '';
-                $seur_10ef_custom_name  = '';
-                $seur_13e_custom_name   = '';
-                $seur_13f_custom_name   = '';
-                $seur_48h_custom_name   = '';
-                $seur_72h_custom_name   = '';
-                $seur_cit_custom_name   = '';
-                $seur_2SHOP_custom_name = '';
+                $seur_bc2_custom_name              = '';
+                $seur_10e_custom_name              = '';
+                $seur_10ef_custom_name             = '';
+                $seur_13e_custom_name              = '';
+                $seur_13f_custom_name              = '';
+                $seur_48h_custom_name              = '';
+                $seur_72h_custom_name              = '';
+                $seur_cit_custom_name              = '';
+                $seur_2SHOP_custom_name            = '';
+                $seur_courier_int_aereo_paqueteria = '';
+				$seur_courier_int_aereo_documentos = '';
+				$seur_netexpress_int_terrestre     = '';
 
-                $seur_bc2_custom_name   = get_option( 'seur_bc2_custom_name_field'  );
-                $seur_10e_custom_name   = get_option( 'seur_10e_custom_name_field'  );
-                $seur_10ef_custom_name  = get_option( 'seur_10ef_custom_name_field' );
-                $seur_13e_custom_name   = get_option( 'seur_13e_custom_name_field'  );
-                $seur_13f_custom_name   = get_option( 'seur_13f_custom_name_field'  );
-                $seur_48h_custom_name   = get_option( 'seur_48h_custom_name_field'  );
-                $seur_72h_custom_name   = get_option( 'seur_72h_custom_name_field'  );
-                $seur_cit_custom_name   = get_option( 'seur_cit_custom_name_field'  );
-                $seur_2SHOP_custom_name = get_option( 'seur_2SHOP_custom_name_field');
+                $seur_bc2_custom_name              = get_option( 'seur_bc2_custom_name_field'  );
+                $seur_10e_custom_name              = get_option( 'seur_10e_custom_name_field'  );
+                $seur_10ef_custom_name             = get_option( 'seur_10ef_custom_name_field' );
+                $seur_13e_custom_name              = get_option( 'seur_13e_custom_name_field'  );
+                $seur_13f_custom_name              = get_option( 'seur_13f_custom_name_field'  );
+                $seur_48h_custom_name              = get_option( 'seur_48h_custom_name_field'  );
+                $seur_72h_custom_name              = get_option( 'seur_72h_custom_name_field'  );
+                $seur_cit_custom_name              = get_option( 'seur_cit_custom_name_field'  );
+                $seur_2SHOP_custom_name            = get_option( 'seur_2SHOP_custom_name_field');
+                $seur_courier_int_aereo_paqueteria_custom_name = get_option( 'seur_courier_int_aereo_paqueteria_custom_name_field' );
+				$seur_courier_int_aereo_documentos_custom_name = get_option( 'seur_courier_int_aereo_documentos_custom_name_field' );
+				$seur_netexpress_int_terrestre_custom_name     = get_option( 'seur_netexpress_int_terrestre_custom_name_field' );
 
             ?>
 
@@ -91,6 +97,24 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
                             <td><input title="<?php _e('Custom Name for ', 'seur'); ?>SEUR 2SHOP" type="text" name="seur_2SHOP_custom_name_field" value="<?php if ( $seur_2SHOP_custom_name ) echo $seur_2SHOP_custom_name ?>" size="40"></td>
                         </tr>
 
+                        <tr>
+                            <th scope="row">COURIER INT AEREO PAQUETERIA</th>
+
+                            <td><input title="<?php _e('Custom Name for ', 'seur'); ?>COURIER INT AEREO PAQUETERIA" type="text" name="seur_courier_int_aereo_paqueteria_custom_name_field" value="<?php if ( $seur_courier_int_aereo_paqueteria_custom_name ) echo $seur_courier_int_aereo_paqueteria_custom_name ?>" size="40"></td>
+                        </tr>
+
+                        <tr>
+                            <th scope="row">COURIER INT AEREO DOCUMENTOS</th>
+
+                            <td><input title="<?php _e('Custom Name for ', 'seur'); ?>COURIER INT AEREO DOCUMENTOS" type="text" name="seur_courier_int_aereo_documentos_custom_name_field" value="<?php if ( $seur_courier_int_aereo_documentos_custom_name ) echo $seur_courier_int_aereo_documentos_custom_name ?>" size="40"></td>
+                        </tr>
+
+                        <tr>
+                            <th scope="row">NETEXPRESS INT TERRESTRE</th>
+
+                            <td><input title="<?php _e('Custom Name for ', 'seur'); ?>NETEXPRESS INT TERRESTRE" type="text" name="seur_netexpress_int_terrestre_custom_name_field" value="<?php if ( $seur_netexpress_int_terrestre_custom_name ) echo $seur_netexpress_int_terrestre_custom_name ?>" size="40"></td>
+                        </tr>
+
                         <input type="hidden" name="seur_custom_name_rates_post" value="true" >
                         <?php wp_nonce_field( 'seur_custom_name_rates', 'seur_custom_name_rates_nonce_field' ); ?>
 
@@ -117,6 +141,14 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
                 $seur_cit_custom_name   = sanitize_text_field( $_POST[ 'seur_cit_custom_name_field'  ] );
                 $seur_2SHOP_custom_name = sanitize_text_field( $_POST[ 'seur_2SHOP_custom_name_field'] );
 
+
+                $seur_courier_int_aereo_paqueteria_custom_name = sanitize_text_field( $_POST[ 'seur_courier_int_aereo_paqueteria_custom_name_field' ] );
+				$seur_courier_int_aereo_documentos_custom_name = sanitize_text_field( $_POST[ 'seur_courier_int_aereo_documentos_custom_name_field' ] );
+				$seur_netexpress_int_terrestre_custom_name     = sanitize_text_field( $_POST[ 'seur_netexpress_int_terrestre_custom_name_field' ] );
+
+
+
+
                 update_option ( 'seur_bc2_custom_name_field', $seur_bc2_custom_name   );
                 update_option ( 'seur_10e_custom_name_field', $seur_10e_custom_name   );
                 update_option ( 'seur_10ef_custom_name_field',$seur_10ef_custom_name  );
@@ -127,6 +159,10 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
                 update_option ( 'seur_cit_custom_name_field', $seur_cit_custom_name   );
                 update_option ( 'seur_2SHOP_custom_name_field', $seur_2SHOP_custom_name );
 
+                update_option ( 'seur_courier_int_aereo_paqueteria_custom_name_field', $seur_courier_int_aereo_paqueteria_custom_name );
+                update_option ( 'seur_courier_int_aereo_documentos_custom_name_field', $seur_courier_int_aereo_documentos_custom_name );
+                update_option ( 'seur_netexpress_int_terrestre_custom_name_field', $seur_netexpress_int_terrestre_custom_name );
+
                 $seur_bc2_custom_name   = get_option( 'seur_bc2_custom_name_field'  );
                 $seur_10e_custom_name   = get_option( 'seur_10e_custom_name_field'  );
                 $seur_10ef_custom_name  = get_option( 'seur_10ef_custom_name_field' );
@@ -136,6 +172,12 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
                 $seur_72h_custom_name   = get_option( 'seur_72h_custom_name_field'  );
                 $seur_cit_custom_name   = get_option( 'seur_cit_custom_name_field'  );
                 $seur_2SHOP_custom_name = get_option( 'seur_2SHOP_custom_name_field');
+
+                $seur_courier_int_aereo_paqueteria_custom_name = get_option( 'seur_courier_int_aereo_paqueteria_custom_name_field' );
+				$seur_courier_int_aereo_documentos_custom_name = get_option( 'seur_courier_int_aereo_documentos_custom_name_field' );
+				$seur_netexpress_int_terrestre_custom_name     = get_option( 'seur_netexpress_int_terrestre_custom_name_field' );
+
+
         ?>
 
          <div class="content-loader">
@@ -195,6 +237,25 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
                             <th scope="row">SEUR 2SHOP</th>
 
                             <td><input title="<?php _e('Custom Name for ', 'seur'); ?>SEUR 2SHOP" type="text" name="seur_2SHOP_custom_name_field" value="<?php if ( $seur_2SHOP_custom_name ) echo $seur_2SHOP_custom_name ?>" size="40"></td>
+                        </tr>
+
+                        <tr>
+                            <th scope="row">COURIER INT AEREO PAQUETERIA</th>
+
+                            <td><input title="<?php _e('Custom Name for ', 'seur'); ?>COURIER INT AEREO PAQUETERIA" type="text" name="seur_courier_int_aereo_paqueteria_custom_name_field" value="<?php if ( $seur_courier_int_aereo_paqueteria_custom_name ) echo $seur_courier_int_aereo_paqueteria_custom_name ?>" size="40"></td>
+                        </tr>
+
+
+                        <tr>
+                            <th scope="row">COURIER INT AEREO DOCUMENTOS</th>
+
+                            <td><input title="<?php _e('Custom Name for ', 'seur'); ?>COURIER INT AEREO DOCUMENTOS" type="text" name="seur_courier_int_aereo_documentos_custom_name_field" value="<?php if ( $seur_courier_int_aereo_documentos_custom_name ) echo $seur_courier_int_aereo_documentos_custom_name ?>" size="40"></td>
+                        </tr>
+
+                        <tr>
+                            <th scope="row">NETEXPRESS INT TERRESTRE</th>
+
+                            <td><input title="<?php _e('Custom Name for ', 'seur'); ?>NETEXPRESS INT TERRESTRE" type="text" name="seur_netexpress_int_terrestre_custom_name_field" value="<?php if ( $seur_netexpress_int_terrestre_custom_name ) echo $seur_netexpress_int_terrestre_custom_name ?>" size="40"></td>
                         </tr>
 
                         <input type="hidden" name="seur_custom_name_rates_post" value="true" >

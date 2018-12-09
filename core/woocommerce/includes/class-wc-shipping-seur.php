@@ -213,7 +213,7 @@ class WC_Shipping_SEUR extends WC_Shipping_Method {
         $this->id                 = 'seur';
         $this->instance_id        = absint( $instance_id );
         $this->method_title       = __( 'SEUR', 'seur' );
-        $this->method_description = __( '<p>The SEUR extension obtains rates dynamically from the SEUR API during cart/checkout.</p><p>Please, configure SEUR data in <code>SEUR -> Settings</code></p>', 'seur' );
+        $this->method_description = __( '<p>You need to add shipping prices at Seur > Rates.</p><p>Please, configure SEUR data in <code>SEUR -> Settings</code></p>', 'seur' );
         $this->supports           = array(
             'shipping-zones',
             'instance-settings',

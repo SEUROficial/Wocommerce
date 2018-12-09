@@ -95,6 +95,21 @@ $texto = __('RATES', 'seur' ) . '<br />' . __('Calculate rate that SEUR apply to
                             $servicio = '1';
                         }
 
+                        elseif ( $ps == 'seurintaepaq' ){
+                            $producto = '108';
+                            $servicio = '7';
+                        }
+
+                        elseif ( $ps == 'seurintaedoc' ){
+                            $producto = '54';
+                            $servicio = '7';
+                        }
+
+                        elseif ( $ps == 'seurintaeter' ){
+                            $producto = '19';
+                            $servicio = '70';
+                        }
+
                     } // if ( isset( $_POST['productservice'] ) )
 
             } // ! isset( $_POST['seur_rates_seur_nonce_field'] )
@@ -157,15 +172,18 @@ $texto = __('RATES', 'seur' ) . '<br />' . __('Calculate rate that SEUR apply to
         <label>
             <span class="screen-reader-text"><?php _e( 'Product/Service', 'seur' ) ?></span>
             <select name="productservice" id="productservice">
-                <option <?php if( isset( $ps ) && ( $ps == 'bc2'       ) ) echo ' selected'; ?> value="bc2">B2C Estándar</option>
-                <option <?php if( isset( $ps ) && ( $ps == 'seur10e'   ) ) echo ' selected'; ?> value="seur10e">SEUR 10 Estándar</option>
-                <option <?php if( isset( $ps ) && ( $ps == 'seur10f'   ) ) echo ' selected'; ?> value="seur10f">SEUR 10 Frío</option>
+                <option <?php if( isset( $ps ) && ( $ps == 'bc2' ) ) echo ' selected'; ?> value="bc2">B2C Estándar</option>
+                <option <?php if( isset( $ps ) && ( $ps == 'seur10e' ) ) echo ' selected'; ?> value="seur10e">SEUR 10 Estándar</option>
+                <option <?php if( isset( $ps ) && ( $ps == 'seur10f' ) ) echo ' selected'; ?> value="seur10f">SEUR 10 Frío</option>
                 <option <?php if( isset( $ps ) && ( $ps == 'seur1330e' ) ) echo ' selected'; ?> value="seur1330e">SEUR 13:30 Estándar</option>
                 <option <?php if( isset( $ps ) && ( $ps == 'seur1330f' ) ) echo ' selected'; ?> value="seur1330f">SEUR 13:30 Frío</option>
-                <option <?php if( isset( $ps ) && ( $ps == 'seur48'    ) ) echo ' selected'; ?> value="seur48">SEUR 48H Estándar</option>
-                <option <?php if( isset( $ps ) && ( $ps == 'seur72'    ) ) echo ' selected'; ?> value="seur72">SEUR 72H Estándar</option>
-                <option <?php if( isset( $ps ) && ( $ps == 'seurint'   ) ) echo ' selected'; ?> value="seurint">Classic Internacional Terrestre</option>
-                <option <?php if( isset( $ps ) && ( $ps == 'seur2shop'   ) ) echo ' selected'; ?> value="seur2shop">SEUR 2SHOP</option>
+                <option <?php if( isset( $ps ) && ( $ps == 'seur48' ) ) echo ' selected'; ?> value="seur48">SEUR 48H Estándar</option>
+                <option <?php if( isset( $ps ) && ( $ps == 'seur72' ) ) echo ' selected'; ?> value="seur72">SEUR 72H Estándar</option>
+                <option <?php if( isset( $ps ) && ( $ps == 'seurint' ) ) echo ' selected'; ?> value="seurint">Classic Internacional Terrestre</option>
+                <option <?php if( isset( $ps ) && ( $ps == 'seur2shop' ) ) echo ' selected'; ?> value="seur2shop">SEUR 2SHOP</option>
+                <option <?php if( isset( $ps ) && ( $ps == 'seurintaepaq' ) ) echo ' selected'; ?> value="seurintaepaq">COURIER INT AEREO PAQUETERIA</option>
+                <option <?php if( isset( $ps ) && ( $ps == 'seurintaedoc' ) ) echo ' selected'; ?> value="seurintaedoc">COURIER INT AEREO DOCUMENTOS</option>
+                <option <?php if( isset( $ps ) && ( $ps == 'seurintaeter' ) ) echo ' selected'; ?> value="seurintaeter">NETEXPRESS INT TERRESTRE</option>
             </select>
         <label>
         <?php  wp_nonce_field( 'seur_rates_seur', 'seur_rates_seur_nonce_field' ); ?>

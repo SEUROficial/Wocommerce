@@ -5,6 +5,11 @@ function seur_activate_local_pickup_field(){ ?>
      <input type="checkbox" class="js-switch-pickup" title="<?php _e('Activate Local Pickup', 'seur' ); ?>" name="seur_activate_local_pickup_field" value="1" <?php checked(1, get_option('seur_activate_local_pickup_field'), true); ?>/>
     <?php }
 
+function seur_deactivate_free_shipping_field(){ ?>
+
+     <input type="checkbox" class="js-switch-free-shipping" title="<?php _e('Deactivate WooCommerce Free Shipping', 'seur' ); ?>" name="seur_deactivate_free_shipping_field" value="1" <?php checked(1, get_option('seur_deactivate_free_shipping_field'), true); ?>/>
+    <?php }
+
 function seur_google_maps_api_field(){ ?>
     <input title="<?php _e('Google Maps API Key', 'seur' ); ?>" type="text" name="seur_google_maps_api_field" value="<?php echo get_option('seur_google_maps_api_field'); ?>" size="40" />
     <?php }
@@ -89,38 +94,36 @@ function display_seur_advanced_settings_panel_fields(){
 
     add_settings_section( 'seur-advanced-settings-section', NULL, NULL, 'seur-advanced-settings-options' );
 
-    add_settings_field( 'seur_after_get_label_field',    __('What to do after get order label',        'seur'), 'seur_after_get_label_field',      'seur-advanced-settings-options', 'seur-advanced-settings-section' );
-
-    add_settings_field( 'seur_activate_local_pickup_field',    __('Activate Local Pickup',        'seur'), 'seur_activate_local_pickup_field',      'seur-advanced-settings-options', 'seur-advanced-settings-section' );
-    add_settings_field( 'seur_google_maps_api_field',    __('Google Maps API Key',        'seur'), 'seur_google_maps_api_field',      'seur-advanced-settings-options', 'seur-advanced-settings-section' );
-
-
-
-    add_settings_field( 'seur_preaviso_notificar_field',    __('Notify collection',        'seur'), 'seur_preaviso_notificar_field',      'seur-advanced-settings-options', 'seur-advanced-settings-section' );
-     add_settings_field( 'seur_reparto_notificar_field',     __('Notify distribution',         'seur'), 'seur_reparto_notificar_field',       'seur-advanced-settings-options', 'seur-advanced-settings-section' );
-    add_settings_field( 'seur_tipo_notificacion_field',    __('Notifications by SMS or Email',        'seur'), 'seur_tipo_notificacion_field',      'seur-advanced-settings-options', 'seur-advanced-settings-section' );
-    add_settings_field( 'seur_tipo_etiqueta_field',         __('Type of label',             'seur'), 'seur_tipo_etiqueta_field',           'seur-advanced-settings-options', 'seur-advanced-settings-section' );
-    add_settings_field( 'seur_aduana_origen_field',         __('Customs of origin',             'seur'), 'seur_aduana_origen_field',           'seur-advanced-settings-options', 'seur-advanced-settings-section' );
-    add_settings_field( 'seur_aduana_destino_field',        __('Customs of destination',            'seur'), 'seur_aduana_destino_field',          'seur-advanced-settings-options', 'seur-advanced-settings-section' );
-    add_settings_field( 'seur_tipo_mercancia_field',        __('Type of goods',            'seur'), 'seur_tipo_mercancia_field',          'seur-advanced-settings-options', 'seur-advanced-settings-section' );
-    add_settings_field( 'seur_id_mercancia_field',          __('ID of goods',              'seur'), 'seur_id_mercancia_field',            'seur-advanced-settings-options', 'seur-advanced-settings-section' );
-    add_settings_field( 'seur_descripcion_field',           __('International description', 'seur'), 'seur_descripcion_field',             'seur-advanced-settings-options', 'seur-advanced-settings-section' );
+    add_settings_field( 'seur_deactivate_free_shipping_field', __('Disable WooCommerce Free Shipping (by default SEUR disable the Free Shipping)', 'seur'), 'seur_deactivate_free_shipping_field', 'seur-advanced-settings-options', 'seur-advanced-settings-section' );
+    add_settings_field( 'seur_after_get_label_field', __('What to do after get order label', 'seur'), 'seur_after_get_label_field', 'seur-advanced-settings-options', 'seur-advanced-settings-section' );
+    add_settings_field( 'seur_activate_local_pickup_field', __('Activate Local Pickup', 'seur'), 'seur_activate_local_pickup_field', 'seur-advanced-settings-options', 'seur-advanced-settings-section' );
+    add_settings_field( 'seur_google_maps_api_field', __('Google Maps API Key', 'seur'), 'seur_google_maps_api_field', 'seur-advanced-settings-options', 'seur-advanced-settings-section' );
+    add_settings_field( 'seur_preaviso_notificar_field', __('Notify collection', 'seur'), 'seur_preaviso_notificar_field', 'seur-advanced-settings-options', 'seur-advanced-settings-section' );
+    add_settings_field( 'seur_reparto_notificar_field', __('Notify distribution', 'seur'), 'seur_reparto_notificar_field', 'seur-advanced-settings-options', 'seur-advanced-settings-section' );
+    add_settings_field( 'seur_tipo_notificacion_field', __('Notifications by SMS or Email', 'seur'), 'seur_tipo_notificacion_field', 'seur-advanced-settings-options', 'seur-advanced-settings-section' );
+    add_settings_field( 'seur_tipo_etiqueta_field', __('Type of label', 'seur'), 'seur_tipo_etiqueta_field', 'seur-advanced-settings-options', 'seur-advanced-settings-section' );
+    add_settings_field( 'seur_aduana_origen_field', __('Customs of origin', 'seur'), 'seur_aduana_origen_field', 'seur-advanced-settings-options', 'seur-advanced-settings-section' );
+    add_settings_field( 'seur_aduana_destino_field', __('Customs of destination', 'seur'), 'seur_aduana_destino_field', 'seur-advanced-settings-options', 'seur-advanced-settings-section' );
+    add_settings_field( 'seur_tipo_mercancia_field', __('Type of goods', 'seur'), 'seur_tipo_mercancia_field', 'seur-advanced-settings-options', 'seur-advanced-settings-section' );
+    add_settings_field( 'seur_id_mercancia_field', __('ID of goods', 'seur'), 'seur_id_mercancia_field', 'seur-advanced-settings-options', 'seur-advanced-settings-section' );
+    add_settings_field( 'seur_descripcion_field', __('International description', 'seur'), 'seur_descripcion_field', 'seur-advanced-settings-options', 'seur-advanced-settings-section' );
 
     // register all setings
 
-    register_setting('seur-advanced-settings-section', 'seur_preaviso_notificar_field'      );
-    register_setting('seur-advanced-settings-section', 'seur_activate_local_pickup_field'   );
-    register_setting('seur-advanced-settings-section', 'seur_google_maps_api_field'         );
-    register_setting('seur-advanced-settings-section', 'seur_after_get_label_field'         );
-    register_setting('seur-advanced-settings-section', 'seur_preaviso_notificar_field'      );
-    register_setting('seur-advanced-settings-section', 'seur_reparto_notificar_field'       );
-    register_setting('seur-advanced-settings-section', 'seur_tipo_notificacion_field'       );
-    register_setting('seur-advanced-settings-section', 'seur_tipo_etiqueta_field'           );
-    register_setting('seur-advanced-settings-section', 'seur_aduana_origen_field'           );
-    register_setting('seur-advanced-settings-section', 'seur_aduana_destino_field'          );
-    register_setting('seur-advanced-settings-section', 'seur_tipo_mercancia_field'          );
-    register_setting('seur-advanced-settings-section', 'seur_id_mercancia_field'            );
-    register_setting('seur-advanced-settings-section', 'seur_descripcion_field'             );
+    register_setting('seur-advanced-settings-section', 'seur_deactivate_free_shipping_field' );
+    register_setting('seur-advanced-settings-section', 'seur_preaviso_notificar_field' );
+    register_setting('seur-advanced-settings-section', 'seur_activate_local_pickup_field' );
+    register_setting('seur-advanced-settings-section', 'seur_google_maps_api_field' );
+    register_setting('seur-advanced-settings-section', 'seur_after_get_label_field' );
+    register_setting('seur-advanced-settings-section', 'seur_preaviso_notificar_field' );
+    register_setting('seur-advanced-settings-section', 'seur_reparto_notificar_field' );
+    register_setting('seur-advanced-settings-section', 'seur_tipo_notificacion_field' );
+    register_setting('seur-advanced-settings-section', 'seur_tipo_etiqueta_field' );
+    register_setting('seur-advanced-settings-section', 'seur_aduana_origen_field' );
+    register_setting('seur-advanced-settings-section', 'seur_aduana_destino_field' );
+    register_setting('seur-advanced-settings-section', 'seur_tipo_mercancia_field' );
+    register_setting('seur-advanced-settings-section', 'seur_id_mercancia_field' );
+    register_setting('seur-advanced-settings-section', 'seur_descripcion_field' );
 
 }
 

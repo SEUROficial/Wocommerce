@@ -54,6 +54,11 @@ function seur_settings() { ?>
                 var switchery = new Switchery(localpickup, { size: 'small' } );
                 }
 
+              var freeshipping = document.querySelector( '.js-switch-free-shipping' );
+              if ( localpickup ) {
+                var switchery = new Switchery(freeshipping, { size: 'small' } );
+                }
+
         </script>
     </div>
 <?php }

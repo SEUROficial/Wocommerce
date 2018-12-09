@@ -82,8 +82,15 @@ $options = array(
     'seur_48h_custom_name_field',
     'seur_72h_custom_name_field',
     'seur_cit_custom_name_field',
-    'seur_2SHOP_custom_name_field'
-    );
+    'seur_2SHOP_custom_name_field',
+    'seur_deactivate_free_shipping_field',
+	'seur_courier_int_aereo_paqueteria_custom_name_field',
+	'seur_courier_int_aereo_documentos_custom_name_field',
+	'seur_netexpress_int_terrestre_custom_name_field',
+	'seur_courier_int_aereo_paqueteria_max_price_field',
+	'seur_courier_int_aereo_documentos_max_price_field',
+	'seur_netexpress_int_terrestre_max_price_field',
+);
 
 foreach ( $options as $option ){
 

@@ -13,7 +13,7 @@ function seur_country_state_process() {
 			echo '<option value="ES">' . __('Spain', 'seur' ) . '</option>';
 			echo '</select>';
 
-			} elseif ( $rate == 'SEUR 72H Estándar' || $rate == 'SEUR 48H Estándar' ) {
+		} elseif ( $rate == 'SEUR 72H Estándar' || $rate == 'SEUR 48H Estándar' || $rate == 'COURIER INT AEREO PAQUETERIA' || $rate == 'COURIER INT AEREO DOCUMENTOS' || $rate == 'NETEXPRESS INT TERRESTRE' ) {
 
 				echo '<select class="select country" id="country" title="' . __('Select Country', 'seur' ) . '" name="country">';
 				echo '<option value="NULL">' . __('Select Country', 'seur' ) . '</option>';
@@ -80,7 +80,7 @@ function seur_country_state_process() {
 			echo '</select>';
 	    }
 
-	    if ( $rate == 'Classic Internacional Terrestre' ) {
+	    if ( $rate == 'Classic Internacional Terrestre'|| $rate == 'COURIER INT AEREO PAQUETERIA' || $rate == 'COURIER INT AEREO DOCUMENTOS' || $rate == 'NETEXPRESS INT TERRESTRE' ) {
 		    	if( $countryArr ){
 					// Display city dropdown based on country name
 				   if( $country !== 'Select' && $country !== 'NULL' ) {

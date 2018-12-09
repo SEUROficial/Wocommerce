@@ -83,6 +83,9 @@ function seur_get_real_rate_name( $rate_name ){
     $seur_72h_custom_name_field  = '';
     $seur_cit_custom_name_field  = '';
     $seur_2SHOP_custom_name_field = '';
+    $seur_courier_int_aereo_paqueteria_custom_name = '';
+	$seur_courier_int_aereo_documentos_custom_name = '';
+	$seur_netexpress_int_terrestre_custom_name     = '';
 
     $seur_bc2_custom_name_field  = get_option( 'seur_bc2_custom_name_field'  );
     $seur_10e_custom_name_field  = get_option( 'seur_10e_custom_name_field'  );
@@ -93,6 +96,9 @@ function seur_get_real_rate_name( $rate_name ){
     $seur_72h_custom_name_field  = get_option( 'seur_72h_custom_name_field'  );
     $seur_cit_custom_name_field  = get_option( 'seur_cit_custom_name_field'  );
     $seur_2SHOP_custom_name_field = get_option( 'seur_2SHOP_custom_name_field');
+    $seur_courier_int_aereo_paqueteria_custom_name = get_option( 'seur_courier_int_aereo_paqueteria_custom_name_field' );
+	$seur_courier_int_aereo_documentos_custom_name = get_option( 'seur_courier_int_aereo_documentos_custom_name_field' );
+	$seur_netexpress_int_terrestre_custom_name     = get_option( 'seur_netexpress_int_terrestre_custom_name_field' );
 
     if ( ! empty( $seur_bc2_custom_name_field ) && $rate_name ==  $seur_bc2_custom_name_field ) {
         $real_name = 'B2C Estándar';
@@ -112,7 +118,17 @@ function seur_get_real_rate_name( $rate_name ){
         $real_name = 'Classic Internacional Terrestre';
     } elseif ( ! empty( $seur_2SHOP_custom_name_field ) && $rate_name ==  $seur_2SHOP_custom_name_field ) {
         $real_name = 'SEUR 2SHOP';
-    } else {
+
+
+    } elseif ( ! empty( $seur_courier_int_aereo_paqueteria_custom_name ) && $rate_name ==  $seur_courier_int_aereo_paqueteria_custom_name ) {
+        $real_name = 'COURIER INT AEREO PAQUETERIA';
+    }elseif ( ! empty( $seur_courier_int_aereo_documentos_custom_name ) && $rate_name ==  $seur_courier_int_aereo_documentos_custom_name ) {
+        $real_name = 'COURIER INT AEREO DOCUMENTOS';
+    }elseif ( ! empty( $seur_netexpress_int_terrestre_custom_name ) && $rate_name ==  $seur_netexpress_int_terrestre_custom_name ) {
+        $real_name = 'NETEXPRESS INT TERRESTRE';
+
+
+    }else {
         $real_name = $rate_name;
     }
 
@@ -130,6 +146,9 @@ function seur_get_custom_rate_name( $rate_name ){
     $seur_72h_custom_name_field  = '';
     $seur_cit_custom_name_field  = '';
     $seur_2SHOP_custom_name_field = '';
+    $seur_courier_int_aereo_paqueteria_custom_name = '';
+	$seur_courier_int_aereo_documentos_custom_name = '';
+	$seur_netexpress_int_terrestre_custom_name     = '';
 
     $seur_bc2_custom_name_field  = get_option( 'seur_bc2_custom_name_field'  );
     $seur_10e_custom_name_field  = get_option( 'seur_10e_custom_name_field'  );
@@ -140,6 +159,9 @@ function seur_get_custom_rate_name( $rate_name ){
     $seur_72h_custom_name_field  = get_option( 'seur_72h_custom_name_field'  );
     $seur_cit_custom_name_field  = get_option( 'seur_cit_custom_name_field'  );
     $seur_2SHOP_custom_name_field = get_option( 'seur_2SHOP_custom_name_field');
+    $seur_courier_int_aereo_paqueteria_custom_name = get_option( 'seur_courier_int_aereo_paqueteria_custom_name_field' );
+	$seur_courier_int_aereo_documentos_custom_name = get_option( 'seur_courier_int_aereo_documentos_custom_name_field' );
+	$seur_netexpress_int_terrestre_custom_name     = get_option( 'seur_netexpress_int_terrestre_custom_name_field' );
 
     if ( ! empty( $seur_bc2_custom_name_field ) && $rate_name ==  'B2C Estándar' ) {
         $custom_name = $seur_bc2_custom_name_field;
@@ -159,6 +181,12 @@ function seur_get_custom_rate_name( $rate_name ){
         $custom_name = $seur_cit_custom_name_field;
     } elseif ( ! empty( $seur_2SHOP_custom_name_field ) && $rate_name ==  'SEUR 2SHOP' ) {
         $custom_name = $seur_2SHOP_custom_name_field;
+    } elseif ( ! empty( $seur_courier_int_aereo_paqueteria_custom_name ) && $rate_name ==  'COURIER INT AEREO PAQUETERIA' ) {
+    	$custom_name = $seur_courier_int_aereo_paqueteria_custom_name;
+    } elseif ( ! empty( $seur_courier_int_aereo_documentos_custom_name ) && $rate_name ==  'COURIER INT AEREO DOCUMENTOS' ) {
+    	$custom_name = $seur_courier_int_aereo_documentos_custom_name;
+    } elseif ( ! empty( $seur_netexpress_int_terrestre_custom_name ) && $rate_name ==  'NETEXPRESS INT TERRESTRE' ) {
+    	$custom_name = $seur_netexpress_int_terrestre_custom_name;
     } else {
         $custom_name = $rate_name;
     }

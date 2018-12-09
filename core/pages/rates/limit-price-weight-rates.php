@@ -19,6 +19,9 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 				$seur_72h_max_price_field  = '';
 				$seur_cit_max_price_field  = '';
 				$seur_2SHOP_max_price_field  = '';
+				$seur_courier_int_aereo_paqueteria_max_price_field = '';
+				$seur_courier_int_aereo_documentos_max_price_field = '';
+				$seur_netexpress_int_terrestre_max_price_field     = '';
 
 				$seur_bc2_max_price_field  = get_option( 'seur_bc2_max_price_field'  );
 				$seur_10e_max_price_field  = get_option( 'seur_10e_max_price_field'  );
@@ -29,6 +32,9 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 				$seur_72h_max_price_field  = get_option( 'seur_72h_max_price_field'  );
 				$seur_cit_max_price_field  = get_option( 'seur_cit_max_price_field'  );
 				$seur_2SHOP_max_price_field  = get_option( 'seur_2SHOP_max_price_field');
+				$seur_courier_int_aereo_paqueteria_max_price_field = get_option( 'seur_courier_int_aereo_paqueteria_max_price_field' );
+				$seur_courier_int_aereo_documentos_max_price_field = get_option( 'seur_courier_int_aereo_documentos_max_price_field' );
+				$seur_netexpress_int_terrestre_max_price_field     = get_option( 'seur_netexpress_int_terrestre_max_price_field' );
 
             ?>
 
@@ -92,6 +98,22 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
                             <td><input title="<?php _e('Max package price for ', 'seur'); ?>SEUR 2SHOP" type="text" name="seur_2SHOP_max_price_field" value="<?php if ( $seur_2SHOP_max_price_field ) echo $seur_2SHOP_max_price_field ?>" size="40"></td>
                         </tr>
 
+                        <tr>
+                            <th scope="row">COURIER INT AEREO PAQUETERIA</th>
+
+                            <td><input title="<?php _e('Max package price for ', 'seur'); ?>COURIER INT AEREO PAQUETERIA" type="text" name="seur_courier_int_aereo_paqueteria_max_price_field" value="<?php if ( $seur_courier_int_aereo_paqueteria_max_price_field ) echo $seur_courier_int_aereo_paqueteria_max_price_field ?>" size="40"></td>
+                        </tr>
+                        <tr>
+                            <th scope="row">COURIER INT AEREO DOCUMENTOS</th>
+
+                            <td><input title="<?php _e('Max package price for ', 'seur'); ?>COURIER INT AEREO DOCUMENTOS" type="text" name="seur_courier_int_aereo_documentos_max_price_field" value="<?php if ( $seur_courier_int_aereo_documentos_max_price_field ) echo $seur_courier_int_aereo_documentos_max_price_field ?>" size="40"></td>
+                        </tr>
+                        <tr>
+                            <th scope="row">NETEXPRESS INT TERRESTRE</th>
+
+                            <td><input title="<?php _e('Max package price for ', 'seur'); ?>NETEXPRESS INT TERRESTRE" type="text" name="seur_netexpress_int_terrestre_max_price_field" value="<?php if ( $seur_netexpress_int_terrestre_max_price_field ) echo $seur_netexpress_int_terrestre_max_price_field ?>" size="40"></td>
+                        </tr>
+
                         <input type="hidden" name="seur_limit_price_weight_rates_post" value="true" >
                         <?php wp_nonce_field( 'seur_limit_price_weight_rates', 'seur_limit_price_weight_rates_nonce_field' ); ?>
 
@@ -108,35 +130,44 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
         exit;
 
     } else {
-	    		$seur_bc2_max_price_field  = sanitize_text_field( $_POST[ 'seur_bc2_max_price_field'  ] );
-				$seur_10e_max_price_field  = sanitize_text_field( $_POST[ 'seur_10e_max_price_field'  ] );
-				$seur_10ef_max_price_field = sanitize_text_field( $_POST[ 'seur_10ef_max_price_field' ] );
-				$seur_13e_max_price_field  = sanitize_text_field( $_POST[ 'seur_13e_max_price_field'  ] );
-				$seur_13f_max_price_field  = sanitize_text_field( $_POST[ 'seur_13f_max_price_field'  ] );
-				$seur_48h_max_price_field  = sanitize_text_field( $_POST[ 'seur_48h_max_price_field'  ] );
-				$seur_72h_max_price_field  = sanitize_text_field( $_POST[ 'seur_72h_max_price_field'  ] );
-				$seur_cit_max_price_field  = sanitize_text_field( $_POST[ 'seur_cit_max_price_field'  ] );
-				$seur_2SHOP_max_price_field  = sanitize_text_field( $_POST[ 'seur_2SHOP_max_price_field'  ] );
+	    		$seur_bc2_max_price_field                          = sanitize_text_field( $_POST[ 'seur_bc2_max_price_field' ] );
+				$seur_10e_max_price_field                          = sanitize_text_field( $_POST[ 'seur_10e_max_price_field' ] );
+				$seur_10ef_max_price_field                         = sanitize_text_field( $_POST[ 'seur_10ef_max_price_field' ] );
+				$seur_13e_max_price_field                          = sanitize_text_field( $_POST[ 'seur_13e_max_price_field' ] );
+				$seur_13f_max_price_field                          = sanitize_text_field( $_POST[ 'seur_13f_max_price_field' ] );
+				$seur_48h_max_price_field                          = sanitize_text_field( $_POST[ 'seur_48h_max_price_field' ] );
+				$seur_72h_max_price_field                          = sanitize_text_field( $_POST[ 'seur_72h_max_price_field' ] );
+				$seur_cit_max_price_field                          = sanitize_text_field( $_POST[ 'seur_cit_max_price_field' ] );
+				$seur_2SHOP_max_price_field                        = sanitize_text_field( $_POST[ 'seur_2SHOP_max_price_field' ] );
+				$seur_courier_int_aereo_paqueteria_max_price_field = sanitize_text_field( $_POST[ 'seur_courier_int_aereo_paqueteria_max_price_field' ] );
+				$seur_courier_int_aereo_documentos_max_price_field = sanitize_text_field( $_POST[ 'seur_courier_int_aereo_documentos_max_price_field' ] );
+				$seur_netexpress_int_terrestre_max_price_field     = sanitize_text_field( $_POST[ 'seur_netexpress_int_terrestre_max_price_field' ] );
 
-				update_option ( 'seur_bc2_max_price_field', $seur_bc2_max_price_field   );
-				update_option ( 'seur_10e_max_price_field', $seur_10e_max_price_field   );
-				update_option ( 'seur_10ef_max_price_field',$seur_10ef_max_price_field  );
-				update_option ( 'seur_13e_max_price_field', $seur_13e_max_price_field   );
-				update_option ( 'seur_13f_max_price_field', $seur_13f_max_price_field   );
-				update_option ( 'seur_48h_max_price_field', $seur_48h_max_price_field   );
-				update_option ( 'seur_72h_max_price_field', $seur_72h_max_price_field   );
-				update_option ( 'seur_cit_max_price_field', $seur_cit_max_price_field   );
-				update_option ( 'seur_2SHOP_max_price_field', $seur_2SHOP_max_price_field   );
+				update_option ( 'seur_bc2_max_price_field', $seur_bc2_max_price_field );
+				update_option ( 'seur_10e_max_price_field', $seur_10e_max_price_field );
+				update_option ( 'seur_10ef_max_price_field',$seur_10ef_max_price_field );
+				update_option ( 'seur_13e_max_price_field', $seur_13e_max_price_field );
+				update_option ( 'seur_13f_max_price_field', $seur_13f_max_price_field );
+				update_option ( 'seur_48h_max_price_field', $seur_48h_max_price_field );
+				update_option ( 'seur_72h_max_price_field', $seur_72h_max_price_field );
+				update_option ( 'seur_cit_max_price_field', $seur_cit_max_price_field );
+				update_option ( 'seur_2SHOP_max_price_field', $seur_2SHOP_max_price_field );
+				update_option ( 'seur_courier_int_aereo_paqueteria_max_price_field', $seur_courier_int_aereo_paqueteria_max_price_field );
+				update_option ( 'seur_courier_int_aereo_documentos_max_price_field', $seur_courier_int_aereo_documentos_max_price_field );
+				update_option ( 'seur_netexpress_int_terrestre_max_price_field', $seur_netexpress_int_terrestre_max_price_field );
 
-				$seur_bc2_max_price_field  = get_option( 'seur_bc2_max_price_field'  );
-				$seur_10e_max_price_field  = get_option( 'seur_10e_max_price_field'  );
-				$seur_10ef_max_price_field = get_option( 'seur_10ef_max_price_field' );
-				$seur_13e_max_price_field  = get_option( 'seur_13e_max_price_field'  );
-				$seur_13f_max_price_field  = get_option( 'seur_13f_max_price_field'  );
-				$seur_48h_max_price_field  = get_option( 'seur_48h_max_price_field'  );
-				$seur_72h_max_price_field  = get_option( 'seur_72h_max_price_field'  );
-				$seur_cit_max_price_field  = get_option( 'seur_cit_max_price_field'  );
-				$seur_2SHOP_max_price_field  = get_option( 'seur_2SHOP_max_price_field');
+				$seur_bc2_max_price_field                          = get_option( 'seur_bc2_max_price_field' );
+				$seur_10e_max_price_field                          = get_option( 'seur_10e_max_price_field' );
+				$seur_10ef_max_price_field                         = get_option( 'seur_10ef_max_price_field' );
+				$seur_13e_max_price_field                          = get_option( 'seur_13e_max_price_field' );
+				$seur_13f_max_price_field                          = get_option( 'seur_13f_max_price_field' );
+				$seur_48h_max_price_field                          = get_option( 'seur_48h_max_price_field' );
+				$seur_72h_max_price_field                          = get_option( 'seur_72h_max_price_field' );
+				$seur_cit_max_price_field                          = get_option( 'seur_cit_max_price_field' );
+				$seur_2SHOP_max_price_field                        = get_option( 'seur_2SHOP_max_price_field' );
+				$seur_courier_int_aereo_paqueteria_max_price_field = get_option( 'seur_courier_int_aereo_paqueteria_max_price_field' );
+				$seur_courier_int_aereo_documentos_max_price_field = get_option( 'seur_courier_int_aereo_documentos_max_price_field' );
+				$seur_netexpress_int_terrestre_max_price_field     = get_option( 'seur_netexpress_int_terrestre_max_price_field' );
         ?>
 
          <div class="content-loader">
@@ -196,6 +227,22 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
                             <th scope="row">SEUR 2SHOP</th>
 
                             <td><input title="SEUR 2SHOP" type="text" name="seur_2SHOP_max_price_field" value="<?php if ( $seur_2SHOP_max_price_field ) echo $seur_2SHOP_max_price_field ?>" size="40"></td>
+                        </tr>
+
+                        <tr>
+                            <th scope="row">COURIER INT AEREO PAQUETERIA</th>
+
+                            <td><input title="COURIER INT AEREO PAQUETERIA" type="text" name="seur_courier_int_aereo_paqueteria_max_price_field" value="<?php if ( $seur_courier_int_aereo_paqueteria_max_price_field ) echo $seur_courier_int_aereo_paqueteria_max_price_field ?>" size="40"></td>
+                        </tr>
+                        <tr>
+                            <th scope="row">COURIER INT AEREO DOCUMENTOS</th>
+
+                            <td><input title="COURIER INT AEREO DOCUMENTOS" type="text" name="seur_courier_int_aereo_documentos_max_price_field" value="<?php if ( $seur_courier_int_aereo_documentos_max_price_field ) echo $seur_courier_int_aereo_documentos_max_price_field ?>" size="40"></td>
+                        </tr>
+                        <tr>
+                            <th scope="row">NETEXPRESS INT TERRESTRE</th>
+
+                            <td><input title="NETEXPRESS INT TERRESTRE" type="text" name="seur_netexpress_int_terrestre_max_price_field" value="<?php if ( $seur_netexpress_int_terrestre_max_price_field ) echo $seur_netexpress_int_terrestre_max_price_field ?>" size="40"></td>
                         </tr>
 
                     </tbody>

@@ -81,6 +81,41 @@ function seur_add_data_to_tables_hook() {
     $seur_table_version_saved = '';
     $seur_table_version_saved = get_option('seur_table_version');
 
+    if ( ! empty( $seur_table_version_saved ) &&  $seur_table_version_saved === '1.0.1' ) {
+
+	    $table_name = $wpdb->prefix . 'seur_svpr';
+
+        $wpdb->insert(
+            $table_name,
+            array(
+                'ser' => '7',
+                'pro' => '108',
+                'descripcion' => 'COURIER INT AEREO PAQUETERIA',
+                'tipo' => 'ESTANDAR',
+            )
+        );
+        $wpdb->insert(
+            $table_name,
+            array(
+                'ser' => '7',
+                'pro' => '54',
+                'descripcion' => 'COURIER INT AEREO DOCUMENTOS',
+                'tipo' => 'ESTANDAR',
+            )
+        );
+        $wpdb->insert(
+            $table_name,
+            array(
+                'ser' => '19',
+                'pro' => '70',
+                'descripcion' => 'NETEXPRESS INT TERRESTRE',
+                'tipo' => 'ESTANDAR',
+            )
+        );
+
+        update_option('seur_table_version', SEUR_TABLE_VERSION );
+	}
+
     if ( ! empty( $seur_table_version_saved ) &&  $seur_table_version_saved === '1.0.0' ) {
 
 	    $table_name = $wpdb->prefix . 'seur_svpr';
@@ -94,6 +129,34 @@ function seur_add_data_to_tables_hook() {
                 'tipo' => 'ESTANDAR',
             )
         );
+        $wpdb->insert(
+            $table_name,
+            array(
+                'ser' => '7',
+                'pro' => '108',
+                'descripcion' => 'COURIER INT AEREO PAQUETERIA',
+                'tipo' => 'ESTANDAR',
+            )
+        );
+        $wpdb->insert(
+            $table_name,
+            array(
+                'ser' => '7',
+                'pro' => '54',
+                'descripcion' => 'COURIER INT AEREO DOCUMENTOS',
+                'tipo' => 'ESTANDAR',
+            )
+        );
+        $wpdb->insert(
+            $table_name,
+            array(
+                'ser' => '19',
+                'pro' => '70',
+                'descripcion' => 'NETEXPRESS INT TERRESTRE',
+                'tipo' => 'ESTANDAR',
+            )
+        );
+
         update_option('seur_table_version', SEUR_TABLE_VERSION );
 	}
 
@@ -536,7 +599,12 @@ function seur_create_download_files() {
 function seur_add_avanced_settings_preset() {
 
 	$seur_add = get_option( 'seur_add_advanced_settings_field_pre' );
-	if ( '1' !== $seur_add ) {
+
+	if ( '1' === $seur_add ) {
+		update_option( 'seur_deactivate_free_shipping_field', '1' );
+		update_option( 'seur_add_advanced_settings_field_pre', '2' );
+	}
+	if ( ! $seur_add ) {
 		update_option( 'seur_after_get_label_field', 'shipping' );
 		update_option( 'seur_preaviso_notificar_field', null );
 		update_option( 'seur_reparto_notificar_field', null );
@@ -548,5 +616,6 @@ function seur_add_avanced_settings_preset() {
 		update_option( 'seur_id_mercancia_field', '400' );
 		update_option( 'seur_descripcion_field', 'MANUFACTURAS DIVERSAS' );
 		update_option( 'seur_add_advanced_settings_field_pre', '1' );
+		update_option( 'seur_deactivate_free_shipping_field', '1' );
 	}
 }
