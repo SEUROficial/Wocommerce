@@ -6,7 +6,7 @@ Description: Add SEUR shipping method to WooCommerce. The SEUR plugin for WooCom
 Version: 1.1.0
 Author: José Conti
 Author URI: https://www.joseconti.com/
-Tested up to: 4.9.8
+Tested up to: 4.9.9
 WC requires at least: 3.0
 WC tested up to: 3.5
 Text Domain: seur

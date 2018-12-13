@@ -2,8 +2,8 @@
 Contributors: j.conti, seuroficial
 Tags: woocommerce, shipping, seur, logistica, enviar paquete, pedidos, entregas
 Requires at least: 4.0
-Tested up to: 4.9.8
-Stable tag: 1.0.3
+Tested up to: 4.9.9
+Stable tag: 1.1.0
 WC requires at least: 3.0
 WC tested up to: 3.5
 License: GPLv2 or later
@@ -99,6 +99,8 @@ The "SEUR > Shipments" menu includes the option to track your shipment and see t
 * Added Portugal to some forms.
 + Added International CCC (you need to add it to the plugin settings).
 * Fixed some bugs.
+* Added SEUR Pickup
+* Added 3 new International product/Service
 
 = 1.0.3 =
 * Fixed maximun price to charge fee
