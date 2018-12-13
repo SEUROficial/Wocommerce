@@ -245,6 +245,33 @@ function seur_add_data_to_tables_hook() {
                 'tipo' => 'ESTANDAR',
             )
         );
+        $wpdb->insert(
+            $table_name,
+            array(
+                'ser' => '7',
+                'pro' => '108',
+                'descripcion' => 'COURIER INT AEREO PAQUETERIA',
+                'tipo' => 'ESTANDAR',
+            )
+        );
+        $wpdb->insert(
+            $table_name,
+            array(
+                'ser' => '7',
+                'pro' => '54',
+                'descripcion' => 'COURIER INT AEREO DOCUMENTOS',
+                'tipo' => 'ESTANDAR',
+            )
+        );
+        $wpdb->insert(
+            $table_name,
+            array(
+                'ser' => '19',
+                'pro' => '70',
+                'descripcion' => 'NETEXPRESS INT TERRESTRE',
+                'tipo' => 'ESTANDAR',
+            )
+        );
 
         $table_name = $wpdb->prefix . 'seur_custom_rates';
 
