@@ -13,196 +13,6 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 class WC_Shipping_SEUR extends WC_Shipping_Method {
 
-    private $services = array(
-        // Domestic
-        "1" => array(
-                "servicode" => "1",
-                "product"   => "2",
-                "name"      => "SEUR 24H ESTANDAR"
-            ),
-        "2" => array(
-                "servicode" => "13",
-                "product"   => "2" ,
-                "name"      => "SEUR 72H ESTANDAR"
-            ),
-        "3" => array(
-                "servicode" => "15",
-                "product"   => "2",
-                "name"      => "SEUR 48H ESTANDAR"
-            ),
-        "4" => array(
-                "servicode" => "17",
-                "product"   => "2",
-                "name"      => "SEUR MARITIMO ESTANDAR"
-            ),
-        "5" => array(
-                "servicode" => "3",
-                "product"   => "4",
-                "name"      => "SEUR 10 ESTANDAR"
-            ),
-        "6" => array(
-                "servicode" => "31",
-                "product"   => "2",
-                "name"      => "PARTICULARES 24H ESTANDAR"
-            ),
-        "7" => array(
-                "servicode" => "83",
-                "product"   => "2",
-                "name"      => "SEUR 8:30 ESTANDAR"
-            ),
-        "8" => array(
-                "servicode" => "9",
-                "product"   => "2",
-                "name"      => "SEUR 13:30 ESTANDAR"
-            ),
-
-        // International Shipping
-
-        "9" => array(
-                "servicode" => "7",
-                "product"   => "108",
-                "name"      => "COURIER INT AEREO PAQUETERIA"
-            ),
-        "10" => array(
-                "servicode" => "7",
-                "product"   => "54",
-                "name"      => "COURIER INT AEREO DOCUMENTOS"
-            ),
-        "11" => array(
-                "servicode" => "77",
-                "product"   => "70",
-                "name"      => "CLASSIC INT TERRESTRE"
-            ),
-        "12" => array(
-                "servicode" => "19",
-                "product"   => "70",
-                "name"      => "NETEXPRESS INT TERRESTRE"
-            ),
-        );
-
-
-    private $pt_array = array('PT');
-
-    // Shipments Originating in the European Union
-    private $ptservices = array(
-        // Domestic
-        "1" => array(
-                "servicode" => "1",
-                "product"   => "2",
-                "name"      => "SEUR PORTO 24H ESTANDAR"
-            ),
-        "2" => array(
-                "servicode" => "13",
-                "product"   => "2" ,
-                "name"      => "SEUR PORTO 72H ESTANDAR"
-            ),
-        "3" => array(
-                "servicode" => "15",
-                "product"   => "2",
-                "name"      => "SEUR PORTO 48H ESTANDAR"
-            ),
-        "4" => array(
-                "servicode" => "17",
-                "product"   => "2",
-                "name"      => "SEUR PORTO MARITIMO ESTANDAR"
-            ),
-        "5" => array(
-                "servicode" => "3",
-                "product"   => "4",
-                "name"      => "SEUR PORTO 10 ESTANDAR"
-            ),
-        "6" => array(
-                "servicode" => "31",
-                "product"   => "2",
-                "name"      => "PARTICULARES PORTO 24H ESTANDAR"
-            ),
-        "7" => array(
-                "servicode" => "83",
-                "product"   => "2",
-                "name"      => "SEUR PORTO 8:30 ESTANDAR"
-            ),
-        "8" => array(
-                "servicode" => "9",
-                "product"   => "2",
-                "name"      => "SEUR PORTO 13:30 ESTANDAR"
-            ),
-
-        // International Shipping
-
-        "9" => array(
-                "servicode" => "7",
-                "product"   => "108",
-                "name"      => "COURIER PORTO INT AEREO PAQUETERIA"
-            ),
-        "10" => array(
-                "servicode" => "7",
-                "product"   => "54",
-                "name"      => "COURIER PORTO INT AEREO DOCUMENTOS"
-            ),
-        "11" => array(
-                "servicode" => "77",
-                "product"   => "70",
-                "name"      => "CLASSIC PORTO INT TERRESTRE"
-            ),
-        "12" => array(
-                "servicode" => "19",
-                "product"   => "70",
-                "name"      => "NETEXPRESS PORTO INT TERRESTRE"
-            ),
-        );
-
-    private $packaging = array(
-        "01" => array(
-                    "name"   => "SEUR Letter",
-                    "length" => "12.5",
-                    "width"  => "9.5",
-                    "height" => "0.25",
-                    "weight" => "0.5"
-                ),
-        "03" => array(
-                    "name"   => "Tube",
-                    "length" => "38",
-                    "width"  => "6",
-                    "height" => "6",
-                    "weight" => "100" // no limit, but use 100
-                ),
-        "24" => array(
-                    "name"   => "25KG Box",
-                    "length" => "19.375",
-                    "width"  => "17.375",
-                    "height" => "14",
-                    "weight" => "55.1156"
-                ),
-        "25" => array(
-                    "name"   => "10KG Box",
-                    "length" => "16.5",
-                    "width"  => "13.25",
-                    "height" => "10.75",
-                    "weight" => "22.0462"
-                ),
-        "2a" => array(
-                    "name"   => "Small Express Box",
-                    "length" => "13",
-                    "width"  => "11",
-                    "height" => "2",
-                    "weight" => "100" // no limit, but use 100
-                ),
-        "2b" => array(
-                    "name"   => "Medium Express Box",
-                    "length" => "15",
-                    "width"  => "11",
-                    "height" => "3",
-                    "weight" => "100" // no limit, but use 100
-                ),
-        "2c" => array(
-                    "name"   => "Large Express Box",
-                    "length" => "18",
-                    "width"  => "13",
-                    "height" => "3",
-                    "weight" => "30"
-                )
-    );
-
     /**
      * __construct function.
      *
@@ -290,18 +100,6 @@ class WC_Shipping_SEUR extends WC_Shipping_Method {
         $this->weight_unit          = 'KGS';
         $this->dim_unit             = 'CM';
 
-        /**
-         * If no origin country / state saved / exists, set it to store base country:
-         */
-
-        if ( ! $this->origin_country_state ) {
-            $origin               = wc_get_base_location();
-            $this->origin_country = $origin['country'];
-            $this->origin_state   = $origin['state'];
-        } else {
-            $this->split_country_state( $this->origin_country_state );
-        }
-
         return true;
     }
 
@@ -375,55 +173,12 @@ class WC_Shipping_SEUR extends WC_Shipping_Method {
     }
 
     /**
-     * environment_check function.
-     *
-     * @access public
-     * @return void
-     */
-    private function environment_check() {
-        $error_message = '';
-
-        // Check environment only on shipping instance page.
-        if ( 0 < $this->instance_id ) {
-            // If user has selected to pack into boxes,
-            // Check if at least one SEUR packaging is chosen, or a custom box is defined
-            if ( 'box_packing' === $this->packing_method ) {
-                if ( empty( $this->seur_packaging )  && empty( $this->boxes ) ) {
-                    $error_message .= '<p>SEUR is enabled, and Parcel Packing Method is set to \'Pack into boxes\', but no SEUR Packaging is selected and there are no custom boxes defined. Items will be packed individually.</p>';
-                }
-            }
-
-            // Check for at least one service enabled
-            $ctr = 0;
-            if ( isset($this->custom_services ) && is_array( $this->custom_services ) ) {
-                foreach ( $this->custom_services as $key => $values ) {
-                    if ( $values['enabled'] == 1 ) {
-                        $ctr++;
-                    }
-                }
-            }
-            if ( $ctr == 0 ) {
-                $error_message .= '<p>' . __( 'SEUR is enabled, but there are no services enabled.', 'seur' ) . '</p>';
-            }
-        }
-
-        if ( ! $error_message == '' ) {
-            echo '<div class="error">';
-            echo $error_message;
-            echo '</div>';
-        }
-    }
-
-    /**
      * admin_options function.
      *
      * @access public
      * @return void
      */
     public function admin_options() {
-        // Check users environment supports this method
-        $this->environment_check();
-
         // Show settings
         parent::admin_options();
     }
@@ -752,7 +507,7 @@ function seur_coupon_free_shipping( $rates, $package ) {
             else {
                 if ( $rate->method_id == 'seur' || $rate->method_id == 'seurlocal' ) {
                 // Append rate label titles (free)
-	                $rates[$rate_key]->label .= ' ' . __(' (free)', 'seur');
+	           //     $rates[$rate_key]->label .= ' ' . __(' (free)', 'seur');
 
 	                // Set rate cost
 	                $rates[$rate_key]->cost = 0;

@@ -1,41 +1,47 @@
 <?php
 
+
 if ( ! defined( 'ABSPATH' ) ) {
-	exit; // Exit if accessed directly
+    exit; // Exit if accessed directly
 }
-$localpickup_is_active = get_option( 'seur_activate_local_pickup_field' );
 
-function seur_local_shipping_method() {
-	if ( ! class_exists( 'Seur_Local_Shipping_Method' ) ) {
-		class Seur_Local_Shipping_Method extends WC_Shipping_Method {
-			/**
-			* Constructor for your shipping class
-			*
-			* @access public
-			* @return void
-			*/
-			public function __construct() {
-				$this->id                 = 'seurlocal';
-				$this->method_title       = __( 'SEUR Local Pickup', 'seur' );
-				$this->method_description = __( 'SEUR Local Pickup Shipping Method, Please configure SEUR data in <code>SEUR -> Settings</code>', 'seur' );
-				$this->offer_rates        = $this->get_option( 'offer_rates', 'all' );
-				// Availability & Countries
-				$this->availability = 'including';
-				$this->countries    = array(
-					'ES',
-					'AD',
-					'PT',
-				);
-			}
+/**
+ * Seur_Local_Shipping_Method class.
+ *
+ * @class 		Seur_Local_Shipping_Method
+ * @version		1.0.0
+ * @category	Class
+ * @author 		Jose Conti Softwares
+ */
+class Seur_Local_Shipping_Method extends WC_Shipping_Method {
 
-			/**
-			* This function is used to calculate the shipping cost. Within this function we can check for weights, dimensions and other parameters.
-			*
-			* @access public
-			* @param mixed $package
-			* @return void
-			*/
-			public function calculate_shipping( $package = array() ) {
+	/**
+	 * Constructor. The instance ID is passed to this.
+	 */
+	public function __construct( $instance_id = 0 ) {
+		$this->id                    = 'seurlocal';
+		$this->instance_id           = absint( $instance_id );
+		$this->method_title          = __( 'SEUR Local Pickup', 'seur' );
+		$this->method_description    = __( 'SEUR Local Pickup Shipping Method, Please configure SEUR data in <code>SEUR -> Settings</code>', 'seur' );
+		$this->supports              = array(
+			'shipping-zones',
+			'instance-settings',
+		);
+		$this->instance_form_fields = array(
+			'title' => array(
+				'title' 		=> __( 'Method Title' ),
+				'type' 			=> 'text',
+				'description' 	=> __( 'This controls the title which the user sees during checkout.' ),
+				'default'		=> __( 'SEUR Local Pickup' ),
+				'desc_tip'		=> true
+			)
+		);
+		$this->title                = $this->get_option( 'title' );
+
+		add_action( 'woocommerce_update_options_shipping_' . $this->id, array( $this, 'process_admin_options' ) );
+	}
+
+	public function calculate_shipping( $package = array() ) {
 				global $woocommerce, $postcode_seur;
 
 				$rates                 = array();
@@ -48,7 +54,7 @@ function seur_local_shipping_method() {
 					$this->debug( __( 'SEUR: Country not supplied. Rates not requested.', 'seur' ) );
 					return;
 				}
-				if ( 1 !== $localpickup_is_active ) {
+				if ( '1' !== $localpickup_is_active ) {
 					return;
 				}
 				if ( 'price' === $rates_type ) {
@@ -100,51 +106,21 @@ function seur_local_shipping_method() {
 				} //foreach ( $package_requests )
 				// Add rates
 				if ( $rates ) {
-					if ( 'all' === $this->offer_rates ) {
 						uasort( $rates, array( $this, 'sort_rates' ) );
 						foreach ( $rates as $key => $rate ) {
 							$this->add_rate( $rate );
-						}
-					} elseif ( 'cheapest' === $this->offer_rates ) {
-						$cheapest_rate = '';
-						foreach ( $rates as $key => $rate ) {
-							if ( ! $cheapest_rate || $cheapest_rate['cost'] > $rate['cost'] ) {
-								$cheapest_rate = $rate;
-							}
-						}
-						$this->add_rate( $cheapest_rate );
-					} elseif ( 'expensive' === $this->offer_rates ) {
-						$expensive_rate = '';
-						foreach ( $rates as $key => $rate ) {
-							if ( ! $expensive_rate || $expensive_rate['cost'] < $rate['cost'] ) {
-								$expensive_rate = $rate;
-							}
-						}
-						$this->add_rate( $expensive_rate );
-					} else {
-						uasort( $rates, array( $this, 'sort_rates' ) );
-						foreach ( $rates as $key => $rate ) {
-							$this->add_rate( $rate );
-						}
 					}
 					// Fallback
 				}
 			}
-			public function sort_rates( $a, $b ) {
-				if ( $a['sort'] === $b['sort'] ) {
-					return 0;
-				}
-				return ( $a['sort'] < $b['sort'] ) ? -1 : 1;
-			}
+
+	public function sort_rates( $a, $b ) {
+		if ( $a['sort'] === $b['sort'] ) {
+			return 0;
 		}
+		return ( $a['sort'] < $b['sort'] ) ? -1 : 1;
 	}
 }
-
-function add_seur_local_shipping_method( $methods ) {
-	$methods[] = 'seur_local_shipping_method';
-	return $methods;
-}
-
 function seur_local_validate_order( $posted ) {
 	$packages       = WC()->shipping->get_packages();
 	$chosen_methods = WC()->session->get( 'chosen_shipping_methods' );
@@ -431,14 +407,16 @@ function seur_add_2shop_data_to_order( $order_id ) {
 		update_post_meta( $order_id, '_seur_2shop_timetable', $timetable );
 	}
 }
+$localpickup_is_active = get_option( 'seur_activate_local_pickup_field' );
 
 if ( '1' === $localpickup_is_active ) {
-	add_filter( 'woocommerce_shipping_methods', 'add_seur_local_shipping_method' );
-	add_action( 'woocommerce_shipping_init', 'seur_local_shipping_method' );
+
 	add_action( 'woocommerce_review_order_before_cart_contents', 'seur_local_validate_order', 10 );
 	add_action( 'woocommerce_after_checkout_validation', 'seur_local_validate_order', 10 );
+	add_action( 'woocommerce_after_shipping_rate', 'seur_after_seur_2shop_shipping_rate', 10, 2 );
 	add_action( 'wp_enqueue_scripts', 'seur_map_checkout_load_js' );
 	add_action( 'wp_footer', 'seur_add_map_type_select2' );
 	add_action( 'woocommerce_checkout_update_order_meta', 'seur_add_2shop_data_to_order' );
 	add_action( 'woocommerce_checkout_process', 'seur_validation_2shop_fields' );
-}
+	}
+

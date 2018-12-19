@@ -52,6 +52,7 @@ class WC_Shipping_SEUR_Init {
 			add_filter( 'plugin_action_links_' . plugin_basename( __FILE__ ), array( $this, 'plugin_links' ) );
 			add_action( 'woocommerce_shipping_init', array( $this, 'includes' ) );
 			add_filter( 'woocommerce_shipping_methods', array( $this, 'add_method' ) );
+			add_filter( 'woocommerce_shipping_methods', array( $this, 'add_method_localseur' ) );
 			add_action( 'admin_notices', array( $this, 'upgrade_notice' ) );
 			add_action( 'wp_ajax_seur_dismiss_upgrade_notice', array( $this, 'dismiss_upgrade_notice' ) );
 		} else {
@@ -64,6 +65,7 @@ class WC_Shipping_SEUR_Init {
 	 */
 	public function includes() {
 		include_once( dirname( __FILE__ ) . '/includes/class-wc-shipping-seur.php' );
+		include_once( dirname( __FILE__ ) . '/includes/class-seur_local_shipping_method.php' );
 	}
 
 	/**
@@ -75,6 +77,10 @@ class WC_Shipping_SEUR_Init {
 	 */
 	public function add_method( $methods ) {
 			$methods['seur'] = 'WC_Shipping_SEUR';
+		return $methods;
+	}
+	public function add_method_localseur( $methods ) {
+			$methods[ 'seurlocal' ] = 'Seur_Local_Shipping_Method';
 		return $methods;
 	}
 
