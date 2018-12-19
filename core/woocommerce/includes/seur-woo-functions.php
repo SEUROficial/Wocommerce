@@ -583,18 +583,6 @@ function seur_filter_price_rate_weight( $package_price, $raterate, $ratepricerat
     return $ratepricerate;
 }
 
-// Hide free_shipping method because has to be set with seur shipping method
-function seur_hide_standard_free_shipping( $available_methods ) {
-	$free_shipping = get_option( 'seur_deactivate_free_shipping_field' );
-	if ( ! $free_shipping || '1' === $free_shipping ) {
-		unset( $available_methods['free_shipping'] );
-		return $available_methods;
-		} else {
-			return $available_methods;
-			}
-}
-add_filter( 'woocommerce_shipping_methods', 'seur_hide_standard_free_shipping' , 10, 1 );
-
 //defining the filter that will be used to select posts by 'post formats'
 function seur_post_formats_filter_to_woo_order_administration(){
 	global $post_type;

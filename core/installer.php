@@ -628,7 +628,6 @@ function seur_add_avanced_settings_preset() {
 	$seur_add = get_option( 'seur_add_advanced_settings_field_pre' );
 
 	if ( '1' === $seur_add ) {
-		update_option( 'seur_deactivate_free_shipping_field', '1' );
 		update_option( 'seur_add_advanced_settings_field_pre', '2' );
 	}
 	if ( ! $seur_add ) {
@@ -643,6 +642,5 @@ function seur_add_avanced_settings_preset() {
 		update_option( 'seur_id_mercancia_field', '400' );
 		update_option( 'seur_descripcion_field', 'MANUFACTURAS DIVERSAS' );
 		update_option( 'seur_add_advanced_settings_field_pre', '1' );
-		update_option( 'seur_deactivate_free_shipping_field', '1' );
 	}
 }

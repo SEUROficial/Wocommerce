@@ -460,84 +460,7 @@ class WC_Shipping_SEUR extends WC_Shipping_Method {
      */
     public function generate_services_html() {
         ob_start();
-        ?>
-        <tr valign="top" id="service_options">
-            <th scope="row" class="titledesc"><?php _e( 'Services', 'seur' ); ?></th>
-            <td class="forminp">
-                <table class="seur_services widefat">
-                    <thead>
-                        <th class="sort">&nbsp;</th>
-                        <th><?php _e( 'Service Code', 'seur' ); ?></th>
-                        <th><?php _e( 'Product', 'seur' ); ?></th>
-                        <th><?php _e( 'Name', 'seur' ); ?></th>
-                        <th><?php _e( 'Enabled', 'seur' ); ?></th>
-                        <th><?php echo sprintf( __( 'Price Adjustment (%s)', 'seur' ), get_woocommerce_currency_symbol() ); ?></th>
-                        <th><?php _e( 'Price Adjustment (%)', 'seur' ); ?></th>
-                    </thead>
-                    <tfoot>
-                    <?php if( !$this->origin_country == 'PL' && !in_array( $this->origin_country, $this->pt_array ) ) : ?>
-                        <tr>
-                            <th colspan="6">
-                                <small class="description"><strong>Domestic Rates</strong>: Next Day Air, 2nd Day Air, Ground, 3 Day Select, Next Day Air Saver, Next Day Air Early AM, 2nd Day Air AM'</small><br/>
-                                <small class="description">International Rates</strong>: Worldwide Express, Worldwide Expedited, Standard, Worldwide Express Plus, SEUR Saver</small>
-                            </th>
-                        </tr>
-                    <?php endif ?>
-                    </tfoot>
-                    <tbody>
-                        <?php
-                            $sort = 0;
-                            $this->ordered_services = array();
 
-                            if ( in_array( $this->origin_country, $this->pt_array ) ) {
-                                $use_services = $this->ptservices;
-                            } else {
-                                $use_services = $this->services;
-                            }
-
-                            foreach ( $use_services as $code => $product ) { // $this->seur_packaging as $key => $box_code
-
-                                if ( isset( $this->custom_services[ $code ]['order'] ) ) {
-                                    $sort = $this->custom_services[ $code ]['order'];
-                                }
-
-                                while ( isset( $this->ordered_services[ $sort ] ) ) {
-                                    $sort++;
-                                }
-                                $servicod = $product['servicode'];
-                                $productp = $product['product'];
-                                $productn = $product['name'];
-                                $this->ordered_services[ $sort ] = array( $code, $servicod, $productp, $productn );
-
-                                $sort++;
-                            }
-
-                            ksort( $this->ordered_services );
-
-                            foreach ( $this->ordered_services as $value ) {
-                                $code = $value[0];
-                                $servicod = $value[1];
-                                $productp = $value[2];
-                                $productn = $value[3];
-                                ?>
-                                <tr>
-                                    <td class="sort"><input type="hidden" class="order" name="seur_service[<?php echo $code; ?>][order]" value="<?php echo isset( $this->custom_services[ $code ]['order'] ) ? $this->custom_services[ $code ]['order'] : ''; ?>" /></td>
-                                    <td><strong><?php echo $servicod; ?></strong></td>
-                                    <td><strong><?php echo $productp; ?></strong></td>
-                                    <td><input type="text" name="seur_service[<?php echo $code; ?>][name]" placeholder="<?php echo $productn; ?> (<?php echo $this->title; ?>)" value="<?php echo $productn; ?>" size="50" /></td>
-
-                                    <td><input type="checkbox" name="seur_service[<?php echo $code; ?>][enabled]" <?php checked( ( ! isset( $this->custom_services[ $code ]['enabled'] ) || ! empty( $this->custom_services[ $code ]['enabled'] ) ), true ); ?> /></td>
-                                    <td><input type="text" name="seur_service[<?php echo $code; ?>][adjustment]" placeholder="N/A" value="<?php echo isset( $this->custom_services[ $code ]['adjustment'] ) ? $this->custom_services[ $code ]['adjustment'] : ''; ?>" size="4" /></td>
-                                    <td><input type="text" name="seur_service[<?php echo $code; ?>][adjustment_percent]" placeholder="N/A" value="<?php echo isset( $this->custom_services[ $code ]['adjustment_percent'] ) ? $this->custom_services[ $code ]['adjustment_percent'] : ''; ?>" size="4" /></td>
-                                </tr>
-                                <?php
-                            }
-                        ?>
-                    </tbody>
-                </table>
-            </td>
-        </tr>
-        <?php
         return ob_get_clean();
     }
 
@@ -604,7 +527,7 @@ class WC_Shipping_SEUR extends WC_Shipping_Method {
     public function init_form_fields() {
         $this->instance_form_fields = array(
             'core'           => array(
-                'title'           => __( 'Method & Origin Settings', 'seur' ),
+                'title'           => __( 'Method', 'seur' ),
                 'type'            => 'title',
                 'description'     => '',
                 'class'           => 'seur-section-title',
@@ -615,32 +538,6 @@ class WC_Shipping_SEUR extends WC_Shipping_Method {
                 'description'     => __( 'This controls the title which the user sees during checkout.', 'seur' ),
                 'default'         => __( 'SEUR', 'seur' ),
                 'desc_tip' => true
-            ),
-            'origin_city'         => array(
-                'title'           => __( 'Origin City', 'seur' ),
-                'type'            => 'text',
-                'description'     => __( 'Enter the city for the <strong>sender</strong>.', 'seur' ),
-                'default'         => '',
-                'desc_tip' => true
-            ),
-            'origin_postcode'     => array(
-                'title'           => __( 'Origin Postcode', 'seur' ),
-                'type'            => 'text',
-                'description'     => __( 'Enter the zip/postcode for the <strong>sender</strong>.', 'seur' ),
-                'default'         => '',
-                'desc_tip' => true
-            ),
-            'origin_country_state' => array(
-                'type'            => 'single_select_country',
-            ),
-            'services_packaging'  => array(
-                'title'           => __( 'Services and Packaging', 'seur' ),
-                'type'            => 'title',
-                'description'     => __( 'Please enable all of the different services you\'d like to offer customers.', 'seur' ) . ' <em>' . __( 'By enabling a service, it doesn\'t gaurantee that it will be offered, as the plugin will only offer the available rates based on the package, the origin and the destination.', 'seur' ) . '</em>',
-                'class'           => 'seur-section-title',
-            ),
-            'services'  => array(
-                'type'            => 'services'
             ),
             'offer_rates'   => array(
                 'title'           => __( 'Offer Rates', 'seur' ),
@@ -655,54 +552,7 @@ class WC_Shipping_SEUR extends WC_Shipping_Method {
             ),
         );
 
-        $this->form_fields = array(
-        /*  'api'           => array(
-                'title'           => __( 'API Settings', 'seur' ),
-                'type'            => 'title',
-                'description'     => sprintf( __( 'You need to obtain SEUR account credentials by registering on %svia their website%s.', 'seur' ), '<a href="https://www.seur.com/seurdeveloperkit">', '</a>' ),
-                'class'           => 'seur-section-title seur-api-title',
-            ),
-            'user_id'           => array(
-                'title'           => __( 'SEUR User ID', 'seur' ),
-                'type'            => 'text',
-                'description'     => __( 'Obtained from SEUR after getting an account.', 'seur' ),
-                'default'         => '',
-                'class'           => 'seur-api-setting',
-                'desc_tip' => true
-            ),
-            'password'            => array(
-                'title'           => __( 'SEUR Password', 'seur' ),
-                'type'            => 'password',
-                'description'     => __( 'Obtained from SEUR after getting an account.', 'seur' ),
-                'default'         => '',
-                'class'           => 'seur-api-setting',
-                'desc_tip' => true
-            ),
-            'access_key'          => array(
-                'title'           => __( 'SEUR Access Key', 'seur' ),
-                'type'            => 'text',
-                'description'     => __( 'Obtained from SEUR after getting an account.', 'seur' ),
-                'default'         => '',
-                'class'           => 'seur-api-setting',
-                'desc_tip' => true
-            ),
-            'shipper_number'      => array(
-                'title'           => __( 'SEUR Account Number', 'seur' ),
-                'type'            => 'text',
-                'description'     => __( 'Obtained from SEUR after getting an account.', 'seur' ),
-                'default'         => '',
-                'class'           => 'seur-api-setting',
-                'desc_tip' => true
-            ),
-            'debug'  => array(
-                'title'           => __( 'Debug Mode', 'seur' ),
-                'label'           => __( 'Enable debug mode', 'seur' ),
-                'type'            => 'checkbox',
-                'default'         => 'no',
-                'description'     => __( 'Enable debug mode to show debugging information on your cart/checkout.', 'seur' ),
-                'desc_tip' => true
-            ), */
-        );
+        $this->form_fields = array();
     }
 
     public function seur_option_woocommerce_cod_settings( $value ) {
@@ -747,13 +597,6 @@ class WC_Shipping_SEUR extends WC_Shipping_Method {
             $this->debug( __( 'SEUR: Country not supplied. Rates not requested.', 'seur' ) );
             return;
         }
-
-        // If no origin postcode set, throw an error and stop the calculation
-        if ( ! $this->origin_postcode ) {
-            $this->debug( sprintf( __( 'SEUR: No Origin Postcode has been set. Please %sadd one%s so rates can be calculated!', 'seur' ), '<a href="' . admin_url( 'admin.php?page=wc-settings&tab=shipping&section=wc_shipping_seur' ) . '">', '</a>' ), 'error' );
-            return;
-        }
-
                 if ( $rates_type == 'price' ) {
                     $price = $package['contents_cost'];
                 } else {
@@ -881,5 +724,49 @@ class WC_Shipping_SEUR extends WC_Shipping_Method {
         if ( $a['sort'] == $b['sort'] ) return 0;
         return ( $a['sort'] < $b['sort'] ) ? -1 : 1;
     }
+}
 
+add_filter( 'woocommerce_package_rates', 'seur_coupon_free_shipping', 20, 2 );
+function seur_coupon_free_shipping( $rates, $package ) {
+    $has_free_shipping = false;
+
+    $applied_coupons = WC()->cart->get_applied_coupons();
+    foreach( $applied_coupons as $coupon_code ){
+        $coupon = new WC_Coupon( $coupon_code );
+        if ( $coupon->get_free_shipping() ) {
+            $has_free_shipping = true;
+            break;
+        }
+    }
+
+    foreach( $rates as $rate_key => $rate ) {
+        if ( $has_free_shipping ) {
+            // For "free shipping" method (enabled), remove it
+            if ( $rate->method_id == 'free_shipping' ) {
+	            $free_shipping = get_option( 'seur_activate_free_shipping_field' );
+                if ( '1' !== $free_shipping ) {
+                	unset( $rates[$rate_key] );
+                	}
+            }
+            // For other shipping methods
+            else {
+                if ( $rate->method_id == 'seur' || $rate->method_id == 'seurlocal' ) {
+                // Append rate label titles (free)
+	                $rates[$rate_key]->label .= ' ' . __(' (free)', 'seur');
+
+	                // Set rate cost
+	                $rates[$rate_key]->cost = 0;
+
+	                // Set taxes rate cost (if enabled)
+	                $taxes = array();
+	                foreach ( $rates[$rate_key]->taxes as $key => $tax ) {
+	                    if( $rates[$rate_key]->taxes[$key] > 0 )
+	                        $taxes[$key] = 0;
+	                }
+	                $rates[$rate_key]->taxes = $taxes;
+                }
+            }
+        }
+    }
+    return $rates;
 }

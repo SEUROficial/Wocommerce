@@ -5,9 +5,9 @@ function seur_activate_local_pickup_field(){ ?>
      <input type="checkbox" class="js-switch-pickup" title="<?php _e('Activate Local Pickup', 'seur' ); ?>" name="seur_activate_local_pickup_field" value="1" <?php checked(1, get_option('seur_activate_local_pickup_field'), true); ?>/>
     <?php }
 
-function seur_deactivate_free_shipping_field(){ ?>
+function seur_activate_free_shipping_field(){ ?>
 
-     <input type="checkbox" class="js-switch-free-shipping" title="<?php _e('Deactivate WooCommerce Free Shipping', 'seur' ); ?>" name="seur_deactivate_free_shipping_field" value="1" <?php checked(1, get_option('seur_deactivate_free_shipping_field'), true); ?>/>
+     <input type="checkbox" class="js-switch-free-shipping" title="<?php _e('Show WooCommerce Free Shipping at Checkout', 'seur' ); ?>" name="seur_activate_free_shipping_field" value="1" <?php checked(1, get_option('seur_activate_free_shipping_field'), true); ?>/>
     <?php }
 
 function seur_google_maps_api_field(){ ?>
@@ -94,7 +94,7 @@ function display_seur_advanced_settings_panel_fields(){
 
     add_settings_section( 'seur-advanced-settings-section', NULL, NULL, 'seur-advanced-settings-options' );
 
-    add_settings_field( 'seur_deactivate_free_shipping_field', __('Disable WooCommerce Free Shipping (by default SEUR disable the Free Shipping)', 'seur'), 'seur_deactivate_free_shipping_field', 'seur-advanced-settings-options', 'seur-advanced-settings-section' );
+    add_settings_field( 'seur_activate_free_shipping_field', __('Show WooCommerce Free Shipping at Checkout (by default SEUR hide the Free Shipping)', 'seur'), 'seur_activate_free_shipping_field', 'seur-advanced-settings-options', 'seur-advanced-settings-section' );
     add_settings_field( 'seur_after_get_label_field', __('What to do after get order label', 'seur'), 'seur_after_get_label_field', 'seur-advanced-settings-options', 'seur-advanced-settings-section' );
     add_settings_field( 'seur_activate_local_pickup_field', __('Activate Local Pickup', 'seur'), 'seur_activate_local_pickup_field', 'seur-advanced-settings-options', 'seur-advanced-settings-section' );
     add_settings_field( 'seur_google_maps_api_field', __('Google Maps API Key', 'seur'), 'seur_google_maps_api_field', 'seur-advanced-settings-options', 'seur-advanced-settings-section' );
@@ -110,7 +110,7 @@ function display_seur_advanced_settings_panel_fields(){
 
     // register all setings
 
-    register_setting('seur-advanced-settings-section', 'seur_deactivate_free_shipping_field' );
+    register_setting('seur-advanced-settings-section', 'seur_activate_free_shipping_field' );
     register_setting('seur-advanced-settings-section', 'seur_preaviso_notificar_field' );
     register_setting('seur-advanced-settings-section', 'seur_activate_local_pickup_field' );
     register_setting('seur-advanced-settings-section', 'seur_google_maps_api_field' );

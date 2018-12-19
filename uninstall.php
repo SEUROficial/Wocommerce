@@ -83,6 +83,7 @@ $options = array(
     'seur_72h_custom_name_field',
     'seur_cit_custom_name_field',
     'seur_2SHOP_custom_name_field',
+    'seur_activate_free_shipping_field',
     'seur_deactivate_free_shipping_field',
 	'seur_courier_int_aereo_paqueteria_custom_name_field',
 	'seur_courier_int_aereo_documentos_custom_name_field',
