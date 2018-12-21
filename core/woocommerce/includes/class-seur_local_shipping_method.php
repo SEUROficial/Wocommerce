@@ -417,6 +417,6 @@ if ( '1' === $localpickup_is_active ) {
 	add_action( 'wp_enqueue_scripts', 'seur_map_checkout_load_js' );
 	add_action( 'wp_footer', 'seur_add_map_type_select2' );
 	add_action( 'woocommerce_checkout_update_order_meta', 'seur_add_2shop_data_to_order' );
-	add_action( 'woocommerce_checkout_process', 'seur_validation_2shop_fields' );
+	add_action( 'woocommerce_after_checkout_validation', 'seur_validation_2shop_fields' );
 	}
 
