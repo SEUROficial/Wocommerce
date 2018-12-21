@@ -2,8 +2,8 @@
 Contributors: j.conti, seuroficial
 Tags: woocommerce, shipping, seur, logistica, enviar paquete, pedidos, entregas
 Requires at least: 4.0
-Tested up to: 5.0.1
-Stable tag: 1.1.0
+Tested up to: 5.0
+Stable tag: 1.2.2
 WC requires at least: 3.0
 WC tested up to: 3.5
 License: GPLv2 or later
@@ -93,6 +93,16 @@ The "SEUR > Shipments" menu includes the option to track your shipment and see t
 
 
 == Changelog ==
+
+== 1.2.2 ==
+* Improved checkout validation
+
+== 1.2.1 ==
+* Fixed a little problem with coupons
+
+== 1.2.0 ==
+* NEW: Added compatibility with Coupons, now you can apply a free shipping coupon to SEUR.
+* Fixed a problem with SEUR Local Pickup, now works.
 
 == 1.1.0 ==
 * NEW: Added Local Pickup
