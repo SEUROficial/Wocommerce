@@ -257,6 +257,10 @@ function seur_datepicker_js(){
     wp_enqueue_script( 'seur-datepicker', SEUR_PLUGIN_URL . 'assets/js/seur-datepicker.js', array( 'jquery', 'jquery-ui-datepicker'), SEUR_OFFICIAL_VERSION );
 }
 
+function seur_status_js(){
+    wp_enqueue_script( 'seur-status', SEUR_PLUGIN_URL . 'assets/js/seur-report.js', array( 'jquery' ), SEUR_OFFICIAL_VERSION );
+}
+
 function seur_labels_view_pdf_js() {
     global $post_type;
     if( 'seur' == $post_type ){
@@ -278,16 +282,19 @@ function seur_labels_view_pdf_js() {
 add_action( 'admin_print_scripts-post.php', 'seur_labels_view_pdf_js', 11 );
 
 function seur_styles_css($hook){
-    global $seuraddform, $seurrates, $seurcreaterate, $seurdeleterate, $seurupdatecustomrate, $seureditcustomrate;
+    global $seuraddform, $seurrates, $seurcreaterate, $seurdeleterate, $seurupdatecustomrate, $seureditcustomrate, $seur_status;
 
-    if( $seuraddform != $hook && $seurrates != $hook && $seurcreaterate != $hook && $seurdeleterate != $hook && $seurupdatecustomrate != $hook && $seureditcustomrate != $hook ) {
-        return; } else {
+    if( $seuraddform != $hook && $seurrates != $hook && $seurcreaterate != $hook && $seurdeleterate != $hook && $seurupdatecustomrate != $hook && $seureditcustomrate != $hook && $seur_status != $hook ) {
+        return;
+        } else {
         wp_register_style( 'seurCSS',           SEUR_PLUGIN_URL . 'assets/css/seur-addform-rates.css',  array(), SEUR_OFFICIAL_VERSION );
         wp_register_style( 'seurSelect2',       SEUR_PLUGIN_URL . 'assets/css/select2.css',             array(), SEUR_OFFICIAL_VERSION );
         wp_register_style( 'seurSelect2Custom', SEUR_PLUGIN_URL . 'assets/css/select2custom.css',       array(), SEUR_OFFICIAL_VERSION );
+        wp_register_style( 'seurStatus', SEUR_PLUGIN_URL . 'assets/css/status.css',       array(), SEUR_OFFICIAL_VERSION );
         wp_enqueue_style( 'seurCSS' );
         wp_enqueue_style( 'seurSelect2' );
         wp_enqueue_style( 'seurSelect2Custom' );
+        wp_enqueue_style( 'seurStatus' );
     }
 }
 add_action( 'admin_enqueue_scripts', 'seur_styles_css' );

@@ -1,0 +1,254 @@
+#seur-dashboard .seur-system-status tr td:first-child, #seur-dashboard.seur-status .widefat tr td:first-child {
+    white-space: nowrap
+}
+
+#seur-dashboard .notice:not(.seur-dashboard-notice), #seur-dashboard .woocommerce-message {
+    display: none !important
+}
+
+#seur-dashboard .notice {
+    box-sizing: border-box;
+    overflow: hidden;
+    padding: 0 50px 0 20px;
+    margin: 16px 0
+}
+
+#seur-dashboard .notice-dismiss {
+    top: 50%;
+    right: 10px;
+    margin-top: -18px
+}
+
+#seur-dashboard {
+    margin: 0 32px 0 12px;
+    padding: 0;
+    max-width: 1060px;
+    font-size: 14px;
+    line-height: 1.5em;
+    color: #444
+}
+
+#seur-dashboard h1 {
+    margin: 32px 0 16px;
+    padding: 0;
+    color: #32373c;
+    line-height: 1em;
+    font-size: 32px;
+    font-weight: 400
+}
+
+#seur-dashboard h2 {
+    margin: 16px 0;
+    padding: 0;
+    color: #23282d;
+    font-size: 21px;
+    line-height: 1em;
+    font-weight: 400
+}
+
+#seur-dashboard .seur-column h3 {
+    margin: 16px 0;
+    padding: 0;
+    color: #23282d;
+    font-size: 16px;
+    line-height: 1.5em;
+    font-weight: 600
+}
+
+#seur-dashboard p {
+    margin: 16px 0;
+    padding: 0;
+    font-size: 14px;
+    line-height: 1.5em
+}
+
+#seur-dashboard ul {
+    margin: 0;
+    padding: 0
+}
+
+#seur-dashboard .seur-postbox li {
+    margin: 16px 0
+}
+
+#seur-dashboard code {
+    border-radius: 3px;
+    margin: 0;
+    padding: 3px 5px 2px;
+    background: rgba(0, 0, 0, .07);
+    font-size: 13px
+}
+
+#seur-dashboard .seur-with-subtitle {
+    margin-bottom: 0
+}
+
+#seur-dashboard .seur-subtitle {
+    margin: 0 0 16px;
+    color: #555d66;
+    font-size: 16px;
+    line-height: 1.5em
+}
+
+#seur-dashboard .status-good {
+    background: #27ae60;
+    color: #fff
+}
+
+#seur-dashboard .status-okay {
+    background: #e67e22;
+    color: #fff
+}
+
+#seur-dashboard .status-bad {
+    background: #e74c3c;
+    color: #fff
+}
+
+#seur-dashboard .seur-welcome {
+    position: relative;
+    box-sizing: border-box;
+    min-height: 120px;
+    padding: 0 130px 0 0;
+    margin: 16px 0;
+    overflow: hidden
+}
+
+#seur-dashboard .seur-welcome h1 {
+    margin-top: 16px
+}
+
+#seur-dashboard .seur-logo {
+    position: absolute;
+    right: 0;
+    top: 50%;
+    margin-top: -60px;
+    width: 100px;
+    height: 120px;
+    background: url(../images/seur-logo.png) center top / 100px 100px no-repeat
+}
+
+#seur-dashboard .seur-version {
+    position: absolute;
+    width: 100%;
+    bottom: 0;
+    text-align: center;
+    color: #72777c;
+    line-height: 1em
+}
+
+#seur-dashboard .seur-postbox {
+    padding: 8px 24px;
+    margin: 16px 0;
+    border: 1px solid #e5e5e5;
+    -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, .04);
+    box-shadow: 0 1px 1px rgba(0, 0, 0, .04);
+    background: #fff
+}
+
+#seur-dashboard .seur-links a {
+    text-decoration: none
+}
+
+#seur-dashboard .seur-column-container {
+    overflow: hidden;
+    margin: 0 -12px
+}
+
+#seur-dashboard .seur-column {
+    float: left;
+    box-sizing: border-box;
+    width: 50%;
+    padding: 0 12px
+}
+#seur-dashboard .seur-table-full  {
+    float: left;
+    box-sizing: border-box;
+    width: 100%;
+    padding: 0 12px
+}
+
+#seur-dashboard #seur_purchase_code {
+    display: inline-block;
+    width: 90%;
+    margin-top: 4px
+}
+
+#seur-dashboard #theme-registration code {
+    font-size: 11px;
+    margin: 0
+}
+
+#seur-dashboard .seur-system-status {
+    margin: 0 -12px
+}
+
+#seur-dashboard .seur-code, #seur-dashboard .seur-tip {
+    display: inline-block;
+    margin-top: 4px
+}
+
+#seur-dashboard .seur-system-status td {
+    padding: 12px;
+    vertical-align: top
+}
+
+#seur-dashboard .seur-tip {
+    font-size: 12px
+}
+
+#seur-dashboard .wp-list-table p {
+    margin: 0;
+    font-size: 13px;
+    line-height: 1.5em
+}
+
+#seur-dashboard.seur-status .widefat {
+    margin: 16px 0;
+    border: 1px solid #e5e5e5;
+    -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, .04);
+    box-shadow: 0 1px 1px rgba(0, 0, 0, .04);
+    background: #fff
+}
+
+#seur-dashboard .error {
+	color:red;
+	font-weight: bold;
+}
+
+@media screen and (max-width:870px) {
+    #seur-dashboard .seur-column, #seur-dashboard .seur-system-status td {
+        display: block;
+        float: none;
+        width: 100% !important
+    }
+
+    #seur-dashboard .seur-column {
+        margin-top: 32px
+    }
+
+    #seur-dashboard .seur-column:first-child, #seur-dashboard.seur-status .seur-column {
+        margin-top: 16px
+    }
+
+    #seur-dashboard .seur-system-status tr td:first-child {
+        padding-bottom: 0
+    }
+}
+
+#seur-debug-report {
+    display: none
+}
+
+#seur-debug-report textarea {
+    font-family: monospace;
+    width: 100%;
+    margin: 0;
+    height: 300px;
+    padding: 20px;
+    border-radius: 0;
+    resize: none;
+    font-size: 12px;
+    line-height: 20px;
+    outline: 0
+}

@@ -52,11 +52,7 @@ function seur_cpt_labels() {
         'exclude_from_search'   => true,
         'publicly_queryable'    => false,
         'rewrite'               => false,
-        'capability_type'       => 'post',
-        'capabilities' => array(
-                        'create_posts' => false, // Removes support for the "Add New" function ( use 'do_not_allow' instead of false for multisite set ups )
-                        ),
-        'map_meta_cap' => true,
+        'capability_type'       => 'shop_order',
     );
     register_post_type( 'seur_labels', $args );
 

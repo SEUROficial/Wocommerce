@@ -94,6 +94,10 @@ The "SEUR > Shipments" menu includes the option to track your shipment and see t
 
 == Changelog ==
 
+== 1.3.0 ==
+* Now shop_manager can manage Labels
+* New Status page with Seur Status and Scripts
+
 == 1.2.2 ==
 * Improved checkout validation
 

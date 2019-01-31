@@ -17,6 +17,7 @@ include_once( SEUR_PLUGIN_PATH . 'core/pages/rates/seur-update.php'         );
 include_once( SEUR_PLUGIN_PATH . 'core/pages/rates/seur-edit-form.php'      );
 include_once( SEUR_PLUGIN_PATH . 'core/pages/rates/seur-country-state-process.php'  );
 include_once( SEUR_PLUGIN_PATH . 'core/help/seur-help-tabs.php' );
+include_once SEUR_PLUGIN_PATH . 'core/pages/status.php';
 if ( defined( 'SEUR_WOOCOMMERCE_PART' ) ) {
     include_once( SEUR_PLUGIN_PATH . 'core/woocommerce/includes/pages/seur-process-label.php');
     }
@@ -30,7 +31,7 @@ add_action( 'admin_enqueue_scripts', 'seur_load_custom_icon_styles' );
     // Adding custom menu for WordPress
 
 function seur_menu() {
-    global $seurrates, $seurmanifest, $seurnomenclator, $seurproductsservices, $seurconfig, $seurabout, $seuraddform, $seurcreaterate, $seurdeleterate, $seurupdatecustomrate, $seureditcustomrate, $seuraddlabelwoocommerce, $seur_get_labels;
+    global $seurrates, $seurmanifest, $seurnomenclator, $seurproductsservices, $seurconfig, $seurabout, $seuraddform, $seurcreaterate, $seurdeleterate, $seurupdatecustomrate, $seureditcustomrate, $seuraddlabelwoocommerce, $seur_get_labels, $seur_status;
 
     $nif                = 	get_option( 'seur_nif_field' );
     $page_title         =   __( 'SEUR', 'seur');
@@ -41,26 +42,33 @@ function seur_menu() {
     $icon_url           =   NULL;
     $position           =   NULL;
 
-    add_menu_page( $page_title, $menu_title, $capability, $menu_slug, $function, $icon_url, $position );
+    add_menu_page( $page_title, $menu_title, 'edit_shop_orders', $menu_slug, $function, $icon_url, $position );
     if( $nif ){
-        $seurconfig             = add_submenu_page( $menu_slug, __( 'Settings',              'seur' ), __( 'Settings',              'seur' ), $capability, $menu_slug );
-        $seurrates              = add_submenu_page( $menu_slug, __( 'Rates',                 'seur' ), __( 'Rates',                 'seur' ), $capability, 'seur_rates_prices',          'seur_rates_prices' );
-        $seurmanifest           = add_submenu_page( $menu_slug, __( 'Manifest',              'seur' ), __( 'Manifest',              'seur' ), $capability, 'seur_donwload_data',         'seur_donwload_data' );
-        $seurnomenclator        = add_submenu_page( $menu_slug, __( 'Nomenclator',           'seur' ), __( 'Nomenclator',           'seur' ), $capability, 'seur_search_nomenclator',    'seur_search_nomenclator' );
-        $seurproductsservices   = add_submenu_page( $menu_slug, __( 'Products & Services',   'seur' ), __( 'Products & Services',   'seur' ), $capability, 'seur_products_services',     'seur_products_services' );
-        $seurabout              = add_submenu_page( $menu_slug, __( 'About',                 'seur' ), __( 'About',                 'seur' ), $capability, 'seur_about_page',             'seur_about_page' );
-        $seuraddform            = add_submenu_page( $menu_slug, __( 'Add Form',              'seur' ), __( 'Add Form',              'seur' ), $capability, 'seur_add_form',               'seur_add_form' );
-        $seurcreaterate         = add_submenu_page( $menu_slug, __( 'Create Rate',           'seur' ), __( 'Create Rate',           'seur' ), $capability, 'seur_create_custom_rate',     'seur_create_custom_rate' );
-        $seurdeleterate         = add_submenu_page( $menu_slug, __( 'Delete Rate',           'seur' ), __( 'Delete Rate',           'seur' ), $capability, 'seur_delete_rate',        'seur_delete_rate' );
-        $seurupdatecustomrate   = add_submenu_page( $menu_slug, __( 'Update Rate',           'seur' ), __( 'Update Rate',           'seur' ), $capability, 'seur_update_custom_rate', 'seur_update_custom_rate' );
-        $seureditcustomrate     = add_submenu_page( $menu_slug, __( 'Edit Rate',             'seur' ), __( 'Edit Rate',             'seur' ), $capability, 'seur_edit_rate',             'seur_edit_rate' );
-        $seurcountrystateprocess= add_submenu_page( $menu_slug, __( 'Process Country State', 'seur' ), __( 'Process Country State', 'seur' ), $capability, 'seur_country_state_process', 'seur_country_state_process' );
+        $seurconfig              = add_submenu_page( $menu_slug, __( 'Settings',              'seur' ), __( 'Settings',              'seur' ), $capability, $menu_slug );
+        $seurrates               = add_submenu_page( $menu_slug, __( 'Rates',                 'seur' ), __( 'Rates',                 'seur' ), $capability, 'seur_rates_prices',          'seur_rates_prices' );
+        $seurmanifest            = add_submenu_page( $menu_slug, __( 'Manifest',              'seur' ), __( 'Manifest',              'seur' ), $capability, 'seur_donwload_data',         'seur_donwload_data' );
+        $seurnomenclator         = add_submenu_page( $menu_slug, __( 'Nomenclator',           'seur' ), __( 'Nomenclator',           'seur' ), $capability, 'seur_search_nomenclator',    'seur_search_nomenclator' );
+        $seurproductsservices    = add_submenu_page( $menu_slug, __( 'Products & Services',   'seur' ), __( 'Products & Services',   'seur' ), $capability, 'seur_products_services',     'seur_products_services' );
+        $seurabout               = add_submenu_page( $menu_slug, __( 'About',                 'seur' ), __( 'About',                 'seur' ), $capability, 'seur_about_page',             'seur_about_page' );
+        $seuraddform             = add_submenu_page( $menu_slug, __( 'Add Form',              'seur' ), __( 'Add Form',              'seur' ), $capability, 'seur_add_form',               'seur_add_form' );
+        $seurcreaterate          = add_submenu_page( $menu_slug, __( 'Create Rate',           'seur' ), __( 'Create Rate',           'seur' ), $capability, 'seur_create_custom_rate',     'seur_create_custom_rate' );
+        $seurdeleterate          = add_submenu_page( $menu_slug, __( 'Delete Rate',           'seur' ), __( 'Delete Rate',           'seur' ), $capability, 'seur_delete_rate',        'seur_delete_rate' );
+        $seurupdatecustomrate    = add_submenu_page( $menu_slug, __( 'Update Rate',           'seur' ), __( 'Update Rate',           'seur' ), $capability, 'seur_update_custom_rate', 'seur_update_custom_rate' );
+        $seureditcustomrate      = add_submenu_page( $menu_slug, __( 'Edit Rate',             'seur' ), __( 'Edit Rate',             'seur' ), $capability, 'seur_edit_rate',             'seur_edit_rate' );
+        $seurcountrystateprocess = add_submenu_page( $menu_slug, __( 'Process Country State', 'seur' ), __( 'Process Country State', 'seur' ), $capability, 'seur_country_state_process', 'seur_country_state_process' );
         if ( defined( 'SEUR_WOOCOMMERCE_PART' ) ) {
             $seuraddlabelwoocommerce = add_submenu_page( $menu_slug, __( 'Get Label', 'seur' ), __( 'Get Label', 'seur' ), $capability, 'seur_process_label_woocommerce', 'seur_process_label_woocommerce' );
         }
-        $seurlabelslist         = add_submenu_page( $menu_slug, __( 'Shipments', 'seur' ), __( 'Shipments',   'seur' ), 'edit_posts', 'edit.php?post_type=seur_labels');
-        $seur_pickup            = add_submenu_page( $menu_slug, __( 'Collection', 'seur' ), __( 'Collection',                     'seur' ), $capability, 'seur_pickup',     'seur_pickup' );
-        $seur_get_labels        = add_submenu_page( $menu_slug, __( 'Get labels from order', 'seur' ), __( 'Get labels from order',     'seur' ), $capability, 'seur_get_labels_from_order',      'seur_get_labels_from_order' );
+        $seurlabelslist          = add_submenu_page( $menu_slug, __( 'Shipments', 'seur' ), __( 'Shipments',   'seur' ), 'edit_shop_orders', 'edit.php?post_type=seur_labels');
+        $seur_pickup             = add_submenu_page( $menu_slug, __( 'Collection', 'seur' ), __( 'Collection',                     'seur' ), $capability, 'seur_pickup',     'seur_pickup' );
+        $seur_get_labels         = add_submenu_page( $menu_slug, __( 'Get labels from order', 'seur' ), __( 'Get labels from order',     'seur' ), $capability, 'seur_get_labels_from_order',      'seur_get_labels_from_order' );
+        $seur_status             = add_submenu_page( $menu_slug, __( 'Status', 'seur' ), __( 'Status',     'seur' ), $capability, 'seur_status_page',      'seur_status_page' );
+
+        // remove submenu SEUR for shop_manger role
+        $woouser = wp_get_current_user();
+        if ( in_array( 'shop_manager', (array) $woouser->roles ) ) {
+            remove_submenu_page( $menu_slug, $menu_slug );
+        }
 
         //add_action for add scripts to different screens
 
@@ -83,6 +91,7 @@ function seur_menu() {
         add_action("admin_print_scripts-$seureditcustomrate",       'seur_auto_country_state_js'    );
         add_action("admin_print_scripts-$seurconfig",               'seur_settings_load_js'         );
         add_action("admin_print_scripts-$seurproductsservices",     'seur_settings_load_js'         );
+        add_action("admin_print_scripts-$seur_status",     'seur_status_js'         );
 
         // admin help tabs
 
