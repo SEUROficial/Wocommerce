@@ -422,14 +422,38 @@ function seur_check_service_names ( $services ) {
 					<td><code><?php echo SEUR_PLUGIN_URL; ?></code></td>
 				</tr>
 				<tr>
+					<td data-export-label="wp-content is writable"><?php _e( 'wp-content is writable:', 'seur' ); ?></td>
+						<?php
+						$writable = wp_is_writable( WP_CONTENT_DIR );
+						if ( $writable ) { ?>
+							<td><span class="yes"> &#10004;</span></td>
+						<?php
+							} else { ?>
+							<td><span class="error">No.</span></td>
+						<?php	}
+						?>
+                </tr>
+				<tr>
 					<td data-export-label="Seur Upload Path"><?php _e( 'Seur Upload Path:', 'seur' ); ?></td>
 					<td><code><?php echo SEUR_UPLOADS_PATH; ?></code></td>
 				</tr>
-				<tr>
+                <tr>
 					<td data-export-label="Check for Seur Upload Path"><?php _e( 'Check for Seur Upload Path:', 'seur' ); ?></td>
 						<?php
 						$path_upload = SEUR_UPLOADS_PATH;
 						if ( file_exists( $path_upload ) ) { ?>
+							<td><span class="yes">&#10004;</span></td>
+						<?php
+							} else { ?>
+							<td><span class="error">No.</span></td>
+						<?php	}
+						?>
+                </tr>
+                <tr>
+					<td data-export-label="Seur Upload Path is writable"><?php _e( 'Seur Upload Path is writable:', 'seur' ); ?></td>
+						<?php
+						$writable = wp_is_writable( SEUR_UPLOADS_PATH );
+						if ( $writable ) { ?>
 							<td><span class="yes">&#10004;</span></td>
 						<?php
 							} else { ?>
@@ -446,10 +470,22 @@ function seur_check_service_names ( $services ) {
                     <td><code><?php echo SEUR_UPLOADS_LABELS_PATH; ?></code></td>
                 </tr>
                 <tr>
-                    <td data-export-label="Check for Seur Upload Labels"><?php _e( 'Check for Seur Upload Labels:', 'seur' ); ?></td>
+                    <td data-export-label="Check for Seur Upload Labels Path"><?php _e( 'Check for Seur Upload Labels Path:', 'seur' ); ?></td>
 						<?php
 						$path_upload = SEUR_UPLOADS_LABELS_PATH;
 						if ( file_exists( $path_upload ) ) { ?>
+							<td><span class="yes">&#10004;</span></td>
+						<?php
+							} else { ?>
+							<td><span class="error">No.</span></td>
+						<?php	}
+						?>
+                </tr>
+                <tr>
+					<td data-export-label="Seur Upload Labels Path is writable"><?php _e( 'Seur Upload Labels Path is writable:', 'seur' ); ?></td>
+						<?php
+						$writable = wp_is_writable( SEUR_UPLOADS_LABELS_PATH );
+						if ( $writable ) { ?>
 							<td><span class="yes">&#10004;</span></td>
 						<?php
 							} else { ?>
@@ -466,10 +502,22 @@ function seur_check_service_names ( $services ) {
                     <td><code><?php echo SEUR_UPLOADS_MANIFEST_PATH; ?></code></td>
                 </tr>
                 <tr>
-                    <td data-export-label="Check for Seur Upload Manifest"><?php _e( 'Check for Seur Upload Manifest:', 'seur' ); ?></td>
+                    <td data-export-label="Check for Seur Upload Manifest Path"><?php _e( 'Check for Seur Upload Manifest Path:', 'seur' ); ?></td>
 						<?php
 						$path_upload = SEUR_UPLOADS_MANIFEST_PATH;
 						if ( file_exists( $path_upload ) ) { ?>
+							<td><span class="yes">&#10004;</span></td>
+						<?php
+							} else { ?>
+							<td><span class="error">No.</span></td>
+						<?php	}
+						?>
+                </tr>
+                <tr>
+					<td data-export-label="Seur Upload Manifest Path is writable"><?php _e( 'Seur Upload Manifest Path is writable:', 'seur' ); ?></td>
+						<?php
+						$writable = wp_is_writable( SEUR_UPLOADS_MANIFEST_PATH );
+						if ( $writable ) { ?>
 							<td><span class="yes">&#10004;</span></td>
 						<?php
 							} else { ?>
@@ -542,7 +590,7 @@ function seur_check_service_names ( $services ) {
 							<td data-export-label="SEUR 10 Estándar">SEUR 10 Estándar</td>
 							<?php
 							$service = 'SEUR 10 Estándar';
-							$exist = seur_check_service_names ( $service );
+							$exist   = seur_check_service_names ( $service );
 							if ( $exist ) { ?>
 								<td><span class="yes">&#10004;</span></td>
 								<?php
@@ -555,7 +603,7 @@ function seur_check_service_names ( $services ) {
 							<td data-export-label="SEUR 10 Frío">SEUR 10 Frío</td>
 							<?php
 							$service = 'SEUR 10 Frío';
-							$exist = seur_check_service_names ( $service );
+							$exist   = seur_check_service_names ( $service );
 							if ( $exist ) { ?>
 								<td><span class="yes">&#10004;</span></td>
 								<?php
@@ -568,7 +616,7 @@ function seur_check_service_names ( $services ) {
 							<td data-export-label="SEUR 13:30 Estándar">SEUR 13:30 Estándar</td>
 							<?php
 							$service = 'SEUR 13:30 Estándar';
-							$exist = seur_check_service_names ( $service );
+							$exist   = seur_check_service_names ( $service );
 							if ( $exist ) { ?>
 								<td><span class="yes">&#10004;</span></td>
 								<?php
@@ -581,7 +629,7 @@ function seur_check_service_names ( $services ) {
 							<td data-export-label="SEUR 13:30 Frío">SEUR 13:30 Frío</td>
 							<?php
 							$service = 'SEUR 13:30 Frío';
-							$exist = seur_check_service_names ( $service );
+							$exist   = seur_check_service_names ( $service );
 							if ( $exist ) { ?>
 								<td><span class="yes">&#10004;</span></td>
 								<?php
@@ -607,7 +655,7 @@ function seur_check_service_names ( $services ) {
 							<td data-export-label="SEUR 72H Estándar">SEUR 72H Estándar</td>
 							<?php
 							$service = 'SEUR 72H Estándar';
-							$exist = seur_check_service_names ( $service );
+							$exist   = seur_check_service_names ( $service );
 							if ( $exist ) { ?>
 								<td><span class="yes">&#10004;</span></td>
 								<?php
@@ -620,7 +668,7 @@ function seur_check_service_names ( $services ) {
 							<td data-export-label="Classic Internacional Terrestre">Classic Internacional Terrestre</td>
 							<?php
 							$service = 'Classic Internacional Terrestre';
-							$exist = seur_check_service_names ( $service );
+							$exist   = seur_check_service_names ( $service );
 							if ( $exist ) { ?>
 								<td><span class="yes">&#10004;</span></td>
 								<?php
@@ -633,7 +681,7 @@ function seur_check_service_names ( $services ) {
 							<td data-export-label="SEUR 2SHOP">SEUR 2SHOP</td>
 							<?php
 							$service = 'SEUR 2SHOP';
-							$exist = seur_check_service_names ( $service );
+							$exist   = seur_check_service_names ( $service );
 							if ( $exist ) { ?>
 								<td><span class="yes">&#10004;</span></td>
 								<?php
@@ -646,7 +694,7 @@ function seur_check_service_names ( $services ) {
 							<td data-export-label="COURIER INT AEREO PAQUETERIA">COURIER INT AEREO PAQUETERIA</td>
 							<?php
 							$service = 'COURIER INT AEREO PAQUETERIA';
-							$exist = seur_check_service_names ( $service );
+							$exist   = seur_check_service_names ( $service );
 							if ( $exist ) { ?>
 								<td><span class="yes">&#10004;</span></td>
 								<?php
@@ -659,7 +707,7 @@ function seur_check_service_names ( $services ) {
 							<td data-export-label="COURIER INT AEREO DOCUMENTOS">COURIER INT AEREO DOCUMENTOS</td>
 							<?php
 							$service = 'COURIER INT AEREO DOCUMENTOS';
-							$exist = seur_check_service_names ( $service );
+							$exist   = seur_check_service_names ( $service );
 							if ( $exist ) { ?>
 								<td><span class="yes">&#10004;</span></td>
 								<?php
@@ -672,7 +720,7 @@ function seur_check_service_names ( $services ) {
 							<td data-export-label="NETEXPRESS INT TERRESTRE">NETEXPRESS INT TERRESTRE</td>
 							<?php
 							$service = 'NETEXPRESS INT TERRESTRE';
-							$exist = seur_check_service_names ( $service );
+							$exist   = seur_check_service_names ( $service );
 							if ( $exist ) { ?>
 								<td><span class="yes">&#10004;</span></td>
 								<?php
@@ -686,15 +734,237 @@ function seur_check_service_names ( $services ) {
 			</div>
 			<div class="seur-column seur-column-double">
 				<table class="seur-status-table widefat" cellspacing="0">
+					<?php
+						$seur_cit_codigo_field      = get_option('seur_cit_codigo_field');
+						$seur_cit_usuario_field     = get_option('seur_cit_usuario_field');
+						$seur_cit_contra_field      = get_option('seur_cit_contra_field');
+						$seur_ccc_field             = get_option('seur_ccc_field');
+						$seur_int_ccc_field         = get_option('seur_int_ccc_field');
+						$seur_franquicia_field      = get_option('seur_franquicia_field');
+						$seur_seurcom_usuario_field = get_option('seur_seurcom_usuario_field');
+						$seur_seurcom_contra_field  = get_option('seur_seurcom_contra_field');
+					?>
 					<thead>
 						<tr>
-							<th colspan="3" data-export-label="Seur Information"><?php _e( 'Seur Information', 'seur' ); ?></th>
+							<th colspan="3" data-export-label="Seur User Settings"><?php _e( 'Seur User Settings', 'seur' ); ?></th>
 						</tr>
 					</thead>
 					<tbody>
 						<tr>
-							<td data-export-label="Current Seur Version"><?php _e( 'Current Plugins Version:', 'seur' ); ?></td>
-							<td><?php echo SEUR_OFFICIAL_VERSION; ?></td>
+							<td data-export-label="CIT code"><?php _e( 'CIT code:', 'seur' ); ?></td>
+							<?php if ( $seur_cit_codigo_field ) { ?>
+								<td><?php echo $seur_cit_codigo_field; ?></td>
+								<?php
+								} else { ?>
+								<td><span class="error">No.</span></td>
+								<?php } ?>
+						</tr>
+						<tr>
+							<td data-export-label="CIT user"><?php _e( 'CIT user:', 'seur' ); ?></td>
+							<?php if ( $seur_cit_usuario_field ) { ?>
+								<td><?php echo $seur_cit_usuario_field; ?></td>
+								<?php
+								} else { ?>
+								<td><span class="error">No.</span></td>
+								<?php } ?>
+						</tr>
+						<tr>
+							<td data-export-label="CIT password"><?php _e( 'CIT password:', 'seur' ); ?></td>
+							<?php if ( $seur_cit_contra_field ) { ?>
+								<td><?php echo $seur_cit_contra_field; ?></td>
+								<?php
+								} else { ?>
+								<td><span class="error">No.</span></td>
+								<?php } ?>
+						</tr>
+						<tr>
+							<td data-export-label="CCC"><?php _e( 'CCC:', 'seur' ); ?></td>
+							<?php if ( $seur_ccc_field ) { ?>
+								<td><?php echo $seur_ccc_field; ?></td>
+								<?php
+								} else { ?>
+								<td><span class="error">No.</span></td>
+								<?php } ?>
+						</tr>
+						<tr>
+							<td data-export-label="International CCC"><?php _e( 'International CCC:', 'seur' ); ?></td>
+							<?php if ( $seur_int_ccc_field ) { ?>
+								<td><?php echo $seur_int_ccc_field; ?></td>
+								<?php
+								} else { ?>
+								<td><span class="error">No.</span></td>
+								<?php } ?>
+						</tr>
+						<tr>
+							<td data-export-label="Franchise"><?php _e( 'Franchise:', 'seur' ); ?></td>
+							<?php if ( $seur_franquicia_field ) { ?>
+								<td><?php echo $seur_franquicia_field; ?></td>
+								<?php
+								} else { ?>
+								<td><span class="error">No.</span></td>
+								<?php } ?>
+						</tr>
+						<tr>
+							<td data-export-label="SEUR.com user"><?php _e( 'SEUR.com user:', 'seur' ); ?></td>
+							<?php if ( $seur_seurcom_usuario_field ) { ?>
+								<td><?php echo $seur_seurcom_usuario_field; ?></td>
+								<?php
+								} else { ?>
+								<td><span class="error">No.</span></td>
+								<?php } ?>
+						</tr>
+						<tr>
+							<td data-export-label="SEUR.com password"><?php _e( 'SEUR.com password:', 'seur' ); ?></td>
+							<?php if ( $seur_seurcom_contra_field ) { ?>
+								<td><?php echo $seur_seurcom_contra_field; ?></td>
+								<?php
+								} else { ?>
+								<td><span class="error">No.</span></td>
+								<?php } ?>
+						</tr>
+					</tbody>
+				</table>
+
+
+
+				<table class="seur-status-table widefat" cellspacing="0">
+					<?php
+						$seur_activate_free_shipping_field = get_option( 'seur_activate_free_shipping_field' );
+						$seur_activate_local_pickup_field  = get_option('seur_activate_local_pickup_field');
+						$seur_google_maps_api_field        = get_option( 'seur_google_maps_api_field' );
+						$seur_after_get_label_field        = get_option( 'seur_after_get_label_field' );
+						$seur_preaviso_notificar_field     = get_option( 'seur_preaviso_notificar_field' );
+						$seur_reparto_notificar_field      = get_option( 'seur_reparto_notificar_field' );
+						$seur_tipo_notificacion_field      = get_option( 'seur_tipo_notificacion_field' );
+						$seur_tipo_etiqueta_field          = get_option( 'seur_tipo_etiqueta_field' );
+						$seur_aduana_origen_field          = get_option( 'seur_aduana_origen_field' );
+						$seur_aduana_destino_field         = get_option( 'seur_aduana_destino_field' );
+						$seur_tipo_mercancia_field         = get_option( 'seur_tipo_mercancia_field' );
+						$seur_id_mercancia_field           = get_option( 'seur_id_mercancia_field' );
+						$seur_descripcion_field            = get_option( 'seur_descripcion_field' );
+					?>
+					<thead>
+						<tr>
+							<th colspan="3" data-export-label="Seur Advanced Settings"><?php _e( 'Seur Advanced Settings', 'seur' ); ?></th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td data-export-label="Show WooCommerce Free Shipping at Checkout"><?php _e( 'Show WooCommerce Free Shipping at Checkout:', 'seur' ); ?></td>
+							<?php if ( $seur_activate_free_shipping_field ) { ?>
+								<td><?php echo $seur_activate_free_shipping_field; ?></td>
+								<?php
+								} else { ?>
+								<td><span><?php esc_html_e( 'No', 'seur' ); ?></span></td>
+								<?php } ?>
+						</tr>
+						<tr>
+							<td data-export-label="What to do after get order label"><?php _e( 'What to do after get order label:', 'seur' ); ?></td>
+							<?php if ( $seur_after_get_label_field ) { ?>
+								<td><?php echo $seur_after_get_label_field; ?></td>
+								<?php
+								} else { ?>
+								<td><span class="error">No.</span></td>
+								<?php } ?>
+						</tr>
+						<tr>
+							<td data-export-label="Activate Local Pickup"><?php _e( 'Activate Local Pickup:', 'seur' ); ?></td>
+							<?php if ( '1' === $seur_activate_local_pickup_field ) { ?>
+								<td><span><?php esc_html_e( 'Yes', 'seur' ); ?></span></td>
+								<?php
+								} else { ?>
+								<td><span><?php esc_html_e( 'No', 'seur' ); ?></span></td>
+								<?php } ?>
+						</tr>
+						<tr>
+							<td data-export-label="Google Maps API Key"><?php _e( 'Google Maps API Key:', 'seur' ); ?></td>
+							<?php if ( $seur_google_maps_api_field ) { ?>
+								<td><?php echo $seur_google_maps_api_field; ?></td>
+								<?php
+								} else { ?>
+								<td><span class="error">No.</span></td>
+								<?php } ?>
+						</tr>
+						<tr>
+							<td data-export-label="Notify collection"><?php _e( 'Notify collection:', 'seur' ); ?></td>
+							<?php if ( '1' === $seur_preaviso_notificar_field ) { ?>
+								<td><span><?php esc_html_e( 'Yes', 'seur' ); ?></span></td>
+								<?php
+								} else { ?>
+								<td><span><?php esc_html_e( 'No', 'seur' ); ?></span></td>
+								<?php } ?>
+						</tr>
+						<tr>
+							<td data-export-label="Notify distribution"><?php _e( 'Notify distribution:', 'seur' ); ?></td>
+							<?php if ( '1' === $seur_reparto_notificar_field ) { ?>
+								<td><span><?php esc_html_e( 'Yes', 'seur' ); ?></span></td>
+								<?php
+								} else { ?>
+								<td><span><?php esc_html_e( 'No', 'seur' ); ?></span></td>
+								<?php } ?>
+						</tr>
+						<tr>
+							<td data-export-label="Notifications by SMS or Email"><?php _e( 'Notifications by SMS or Email:', 'seur' ); ?></td>
+							<?php if ( $seur_tipo_notificacion_field ) { ?>
+								<td><?php echo $seur_tipo_notificacion_field; ?></td>
+								<?php
+								} else { ?>
+								<td><span class="error">No.</span></td>
+								<?php } ?>
+						</tr>
+						<tr>
+							<td data-export-label="Type of label"><?php _e( 'Type of label:', 'seur' ); ?></td>
+							<?php if ( $seur_tipo_etiqueta_field ) { ?>
+								<td><?php echo $seur_tipo_etiqueta_field; ?></td>
+								<?php
+								} else { ?>
+								<td><span class="error">No.</span></td>
+								<?php } ?>
+						</tr>
+						<tr>
+							<td data-export-label="Customs of origin"><?php _e( 'Customs of origin:', 'seur' ); ?></td>
+							<?php if ( $seur_aduana_origen_field ) { ?>
+								<td><?php echo $seur_aduana_origen_field; ?></td>
+								<?php
+								} else { ?>
+								<td><span class="error">No.</span></td>
+								<?php } ?>
+						</tr>
+						<tr>
+							<td data-export-label="Customs of destination"><?php _e( 'Customs of destination:', 'seur' ); ?></td>
+							<?php if ( $seur_aduana_destino_field ) { ?>
+								<td><?php echo $seur_aduana_destino_field; ?></td>
+								<?php
+								} else { ?>
+								<td><span class="error">No.</span></td>
+								<?php } ?>
+						</tr>
+						<tr>
+							<td data-export-label="Type of goods"><?php _e( 'Type of goods:', 'seur' ); ?></td>
+							<?php if ( $seur_tipo_mercancia_field ) { ?>
+								<td><?php echo $seur_tipo_mercancia_field; ?></td>
+								<?php
+								} else { ?>
+								<td><span class="error">No.</span></td>
+								<?php } ?>
+						</tr>
+						<tr>
+							<td data-export-label="ID of goods"><?php _e( 'ID of goods:', 'seur' ); ?></td>
+							<?php if ( $seur_id_mercancia_field ) { ?>
+								<td><?php echo $seur_id_mercancia_field; ?></td>
+								<?php
+								} else { ?>
+								<td><span class="error">No.</span></td>
+								<?php } ?>
+						</tr>
+						<tr>
+							<td data-export-label="International description"><?php _e( 'International description:', 'seur' ); ?></td>
+							<?php if ( $seur_descripcion_field ) { ?>
+								<td><?php echo $seur_descripcion_field; ?></td>
+								<?php
+								} else { ?>
+								<td><span class="error">No.</span></td>
+								<?php } ?>
 						</tr>
 					</tbody>
 				</table>
