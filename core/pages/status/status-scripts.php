@@ -119,4 +119,3 @@ echo '<textarea class="code" readonly="readonly" cols="80" rows="16">
 		exit;
 	}
 </textarea>';
-
