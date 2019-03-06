@@ -39,7 +39,11 @@ function seur_settings() { ?>
         </form>
         <script type="text/javascript">
 
-              var preavisonotificar = document.querySelector( '.js-switch-preavisonotificar' );
+              var geolabel = document.querySelector( '.js-switch-geolabel' );
+              if ( geolabel ) {
+                  var switchery = new Switchery(geolabel, { size: 'small' } );
+                  }
+            var preavisonotificar = document.querySelector( '.js-switch-preavisonotificar' );
               if ( preavisonotificar ) {
                   var switchery = new Switchery(preavisonotificar, { size: 'small' } );
                   }

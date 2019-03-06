@@ -1003,6 +1003,7 @@ function seur_get_advanced_settings() {
     if ( get_option( 'seur_tipo_mercancia_field' ) )         { $seur_tipo_mercancia_field         = get_option( 'seur_tipo_mercancia_field'         ); } else { $seur_tipo_mercancia_field         = ''; }
     if ( get_option( 'seur_id_mercancia_field' ) )           { $seur_id_mercancia_field           = get_option( 'seur_id_mercancia_field'           ); } else { $seur_id_mercancia_field           = ''; }
     if ( get_option( 'seur_descripcion_field' ) )            { $seur_descripcion_field            = get_option( 'seur_descripcion_field'            ); } else { $seur_descripcion_field            = ''; }
+    if ( get_option( 'seur_activate_geolabel_field' ) )      { $seur_activate_geolabel_field      = get_option( 'seur_activate_geolabel_field'      ); } else { $seur_activate_geolabel_field      = ''; }
 
     $option = array(
                 'preaviso_notificar',
@@ -1013,7 +1014,9 @@ function seur_get_advanced_settings() {
                 'aduana_destino',
                 'tipo_mercancia',
                 'id_mercancia',
-                'descripcion'
+                'descripcion',
+                'geolabel',
+
                 );
 
     $value = array(
@@ -1025,7 +1028,8 @@ function seur_get_advanced_settings() {
                 $seur_aduana_destino_field,
                 $seur_tipo_mercancia_field,
                 $seur_id_mercancia_field,
-                $seur_descripcion_field
+                $seur_descripcion_field,
+                $seur_activate_geolabel_field,
             );
 
     $seur_advanced_settings[] = array_combine( $option, $value );
@@ -1318,6 +1322,21 @@ function seur_get_label( $order_id, $numpackages = '1', $weight = '1', $post_wei
 
     // User settings
 
+    $empresa                 = $user_data[0]['empresa'];
+    $viatipo                 = $user_data[0]['viatipo'];
+    $vianombre               = $user_data[0]['vianombre'];
+    $vianumero               = $user_data[0]['vianumero'];
+    $escalera                = $user_data[0]['escalera'];
+    $piso                    = $user_data[0]['piso'];
+    $puerta                  = $user_data[0]['puerta'];
+    $postalcode              = $user_data[0]['postalcode'];
+	$poblacion               = $user_data[0]['poblacion'];
+	$provincia               = $user_data[0]['provincia'];
+	$pais                    = $user_data[0]['pais'];
+	$telefono                = $user_data[0]['telefono'];
+	$email                   = $user_data[0]['email'];
+	$contacto_nombre         = $user_data[0]['contacto_nombre'];
+	$contacto_apellidos      = $user_data[0]['contacto_apellidos'];
     $cit_pass                = $user_data[0]['cit_codigo'];
     $cit_user                = $user_data[0]['cit_usuario'];
     $cit_contra              = $user_data[0]['cit_contra'];
@@ -1330,6 +1349,7 @@ function seur_get_label( $order_id, $numpackages = '1', $weight = '1', $post_wei
 
     // Advanced User Settings
 
+    $geolabel                = $advanced_data[0]['geolabel'];
     $aduana_origen           = $advanced_data[0]['aduana_origen'];
     $aduana_destino          = $advanced_data[0]['aduana_destino'];
     $tipo_mercancia          = $advanced_data[0]['tipo_mercancia'];
@@ -1646,7 +1666,72 @@ function seur_get_label( $order_id, $numpackages = '1', $weight = '1', $post_wei
 
     $Datasend = $DatosEnvioInicio . $complete_xml . $DatosEnvioFin;
 
-    if ( $tipo_etiqueta == 'PDF' ) {
+    if ( '1' === $geolabel && ( 'ES' !== $customer_country && 'AD' !== $customer_country && 'PT' !== $customer_country ) ) {
+	    // Se usa GeoLabel.
+	    $requestGeolabel =
+
+			[
+			  "customerBussinesUnit" => $franquicia,
+			  "customerCode" => $int_ccc,
+			  "customerReference" => $order_id_seur,
+			  "service" => $seur_service,
+			  "product" => $seur_product,
+			  "senderNIF" => $nif,
+			  "senderName" => $empresa,
+			  "senderStreet" => $vianombre,
+			  "senderStreetType" => $viatipo,
+			  "senderStreetNumType" => "I",
+			  "senderStreetNumber" => $vianumero,
+			  "senderDoorway" => $escalera,
+			  "senderFloor" => $piso,
+			  "senderGate" => $puerta,
+			  "senderStair" => "",
+			  "senderCity" => $poblacion,
+			  "senderPostcode" => $postalcode,
+			  "senderCountry" => $pais,
+			  "senderPhone" => $telefono,
+			  "consigneeName" => $customer_first_name . ' ' . $customer_last_name,
+			  "consigneeStreet" => $customer_address_1 . ' ' . $customer_address_2,
+			  "consigneeStreetType" => 'CL',
+			  "consigneeStreetNumType" => "",
+			  "consigneeStreetNumber" => "",
+			  "consigneeDoorway" => "",
+			  "consigneeFloor" => "",
+			  "consgineeGate" => "",
+			  "consigneeStair" => "",
+			  "consigneeCity" => $customercity,
+			  "consigneePostcode" => $customerpostcode,
+			  "consigneeCountry" => $customer_country,
+			  "consigneePhone" => $customer_phone,
+			  "consigneeContact" => "",
+			  "chargesKey" => "",
+			  "proofReceiptKey" => "",
+			  "cargoType" => "",
+			  "refundKey" => "",
+			  "refundAmount" => 0,
+			  "insuranceKey" => "",
+			  "insuranceAmount" => 0,
+			  "declaredValues" => 0,
+			  "declaredValueCurrency" => "",
+			  "recordBookCheck" => "",
+			  "exchangeKey" => "",
+			  "saturdayCheck" => "",
+			  "coments" => $customer_order_notes,
+			  "proposedDate" => "",
+			  "notificationCheck" => "",
+			  "distributionCheck" => "",
+			  "comunicationTypeCheck" => "",
+			  "mobilePhone" => "",
+			  "email" => "",
+			  "pudoID" => "",
+			  "createShipment" => "Y",
+			  "collection" => "N",
+			  "createShipmentReturn" => "N",
+			  "printLabels" => "Y"
+			];
+    } else {
+    	// No se usa GeoLabel.
+    	if ( $tipo_etiqueta == 'PDF' ) {
 
     $params = array(
         'in0' => $cit_user,
@@ -1896,5 +1981,6 @@ function seur_get_label( $order_id, $numpackages = '1', $weight = '1', $post_wei
                 echo '<div class="notice notice notice-error">' . $message . '</div>';
 
             }
+    }
     }
 }
