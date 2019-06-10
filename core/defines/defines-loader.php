@@ -19,6 +19,7 @@
     define( 'SEUR_PLUGIN_SVPR',             'seur_svpr'                         );
     define( 'SEUR_TBL_SCR',                 'seur_custom_rates'                 );
     define( 'SEUR_CLASSES',                 SEUR_PLUGIN_PATH . 'core/classes/'  );
+    define( 'SEUR_URL_GEOLABEL' , 'https://apipre.seur.com/geolabel/api/shipment/addShipment' );
 
     if ( ! defined('SEUR_DEBUG') ) define ('SEUR_DEBUG', false);
 
