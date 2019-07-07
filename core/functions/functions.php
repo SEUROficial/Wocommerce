@@ -1636,8 +1636,13 @@ function seur_get_label( $order_id, $numpackages = '1', $weight = '1', $post_wei
         }
     } else {
 
-        $seur_sms = '<test_sms>N</test_sms>';
-        $seur_sms_mobile = '';
+        if ( '1' === $geolabel ) {
+            $seur_sms = 'N';
+            $seur_sms_mobile = '';
+        } else {
+            $seur_sms = '<test_sms>N</test_sms>';
+            $seur_sms_mobile = '';
+        }
     }
 
     if ( $order_data[0]['code_centro_2shop'] ) {
@@ -1768,9 +1773,9 @@ function seur_get_label( $order_id, $numpackages = '1', $weight = '1', $post_wei
 				"saturdayCheck": "",
 				"coments": "' . $customer_order_notes . '",
 				"proposedDate": "",
-				"notificationCheck": "",
-				"distributionCheck": "",
-				"comunicationTypeCheck": "",
+				"notificationCheck": "' . $preaviso_notificar . '",
+				"distributionCheck": "' . $reparto_notificar . '",
+				"comunicationTypeCheck": "' . $seur_sms . $seur_email . '",
 				"mobilePhone": "' . $seur_sms_mobile . '",
 				"email": "' . $customer_email . '",
 				"pudoID": "",
@@ -1837,13 +1842,13 @@ function seur_get_label( $order_id, $numpackages = '1', $weight = '1', $post_wei
 							$seur_label_type = 'termica';
 						} else {
 							// Se utiliza Geolabel, es envío internacional, y es PDF
-							$txtlabel = seur_from_terminca_to_pdf( $txtlabel );
-							$seur_txt_label  ='label_order_id_' . $order_id . '_' . $date . '.pdf';
+							$txtlabel        = seur_from_terminca_to_pdf( $txtlabel );
+							$seur_txt_label  = 'label_order_id_' . $order_id . '_' . $date . '.pdf';
 							$seur_label_type = 'pdf';
 						}
 						
-						$upload_path     = $upload_dir . '/' . $seur_txt_label;
-						$url_to_label    = $upload_url . '/' . $seur_txt_label;
+						$upload_path  = $upload_dir . '/' . $seur_txt_label;
+						$url_to_label = $upload_url . '/' . $seur_txt_label;
 						
 						file_put_contents( $upload_path, $txtlabel );
 						
@@ -1923,7 +1928,6 @@ function seur_get_label( $order_id, $numpackages = '1', $weight = '1', $post_wei
 				}
 			}
 		} else {
-			// Es envío nacional Geolabel
 			$params = array(
 				'in0' => $cit_user,
 				'in1' => $cit_contra,
