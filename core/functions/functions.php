@@ -1551,7 +1551,7 @@ function seur_get_label( $order_id, $numpackages = '1', $weight = '1', $post_wei
         $reparto_sms = 'N';
     }
 
-    if ( $tipo_aviso == 'EMAIL' && $preaviso_notificar == 'S' ){
+    if ( $tipo_aviso == 'EMAIL' && $preaviso_notificar == 'S' ) {
         $preaviso_email = 'S';
     } else {
         $preaviso_email = 'N';
@@ -1563,52 +1563,76 @@ function seur_get_label( $order_id, $numpackages = '1', $weight = '1', $post_wei
         $reparto_email = 'N';
     }
 
-    if ( $preaviso_notificar == 'S' ){
-
-        $preaviso_notificar = '<test_preaviso>S</test_preaviso>';
-
+    if ( $preaviso_notificar == 'S' ) {
+        if ( '1' === $geolabel ) {
+            $preaviso_notificar = 'S';
+        } else {
+            $preaviso_notificar = '<test_preaviso>S</test_preaviso>';
+        }
     } else {
-
-        $preaviso_notificar = '<test_preaviso>N</test_preaviso>';
-
+        if ( '1' === $geolabel ) {
+            $preaviso_notificar = 'N';
+        } else {
+            $preaviso_notificar = '<test_preaviso>N</test_preaviso>';
+        }
     }
 
-    if ( $reparto_notificar == 'S' ){
-
-        $reparto_notificar = '<test_reparto>S</test_reparto>';
-
+    if ( $reparto_notificar == 'S'  ){
+        if ( '1' === $geolabel ) {
+            $reparto_notificar = 'S';
+        } else {
+            $reparto_notificar = '<test_reparto>S</test_reparto>';
+        }
     } else {
-
-        $reparto_notificar = '<test_reparto>N</test_reparto>';
-
+        if ( '1' === $geolabel ) {
+            $reparto_notificar = 'N';
+        } else {
+            $reparto_notificar = '<test_reparto>N</test_reparto>';
+        }
     }
 
-    if ( $preaviso_sms == 'S' || $reparto_sms == 'S' ){
-
-        $seur_sms = '<test_sms>S</test_sms>';
-
+    if ( $preaviso_sms == 'S' || $reparto_sms == 'S' ) {
+        if ( '1' === $geolabel ) {
+            $seur_sms = 'S';
+        } else {
+            $seur_sms = '<test_sms>S</test_sms>';
+        }
     } else {
-
-        $seur_sms = '<test_sms>N</test_sms>';
-
+        if ( '1' === $geolabel ) {
+            $seur_sms = 'N';
+        } else {
+            $seur_sms = '<test_sms>N</test_sms>';
+        }
     }
 
-    if ( $preaviso_email == 'S' || $reparto_email == 'S' ){
-
-        $seur_email = '<test_email>S</test_email>';
-
+    if ( $preaviso_email == 'S' || $reparto_email == 'S' ) {
+        if ( '1' === $geolabel ) {
+            $seur_email = '<test_email>S</test_email>';
+        } else {
+            $seur_email = 'S';
+        }
     } else {
-
-        $seur_email = '<test_email>N</test_email>';
-
+        if ( '1' === $geolabel ) {
+            $seur_email = 'N';
+        } else {
+            $seur_email = '<test_email>N</test_email>';
+        }
     }
 
-    if ( ( $mobile_shipping || $mobile_billing ) ){
+    if ( ( $mobile_shipping || $mobile_billing ) ) {
 
         if ( $mobile_shipping ) {
-            $seur_sms_mobile = '<sms_consignatario>' . $mobile_shipping . '</sms_consignatario>';
+           if ( '1' === $geolabel ) {
+               $seur_sms_mobile = $mobile_shipping;
+            } else {
+                $seur_sms_mobile = '<sms_consignatario>' . $mobile_shipping . '</sms_consignatario>';
+            }
         } else {
-            $seur_sms_mobile = '<sms_consignatario>' . $mobile_billing . '</sms_consignatario>';
+            if ( '1' === $geolabel ) {
+                $seur_sms_mobile = $mobile_billing;
+            } else {
+                $seur_sms_mobile = '<sms_consignatario>' . $mobile_billing . '</sms_consignatario>';
+            }
         }
     } else {
 
@@ -1706,7 +1730,7 @@ function seur_get_label( $order_id, $numpackages = '1', $weight = '1', $post_wei
 				"senderName": "' . $contacto_nombre . ' ' . $contacto_apellidos . '",
 				"senderStreet": "' . $vianombre . '",
 				"senderStreetType": "' . $viatipo . '",
-				"senderStreetNumType": "I",
+				"senderStreetNumType": "N",
 				"senderStreetNumber": "' . $vianumero . '",
 				"senderDoorway": "' . $puerta . '",
 				"senderFloor": "' . $piso . '",
@@ -1719,7 +1743,7 @@ function seur_get_label( $order_id, $numpackages = '1', $weight = '1', $post_wei
 				"consigneeName": "' . $customer_first_name . ' ' . $customer_last_name . '",
 				"consigneeStreet": "' . $customer_address_1 . ' ' . $customer_address_2 . '",
 				"consigneeStreetType": "",
-				"consigneeStreetNumType": "I",
+				"consigneeStreetNumType": "N",
 				"consigneeStreetNumber": "",
 				"consigneeDoorway": "",
 				"consigneeFloor": "",
@@ -1742,12 +1766,12 @@ function seur_get_label( $order_id, $numpackages = '1', $weight = '1', $post_wei
 				"recordBookCheck": "",
 				"exchangeKey": "",
 				"saturdayCheck": "",
-				"coments": "Comentario",
-				"proposedDate": "2019-03-27",
+				"coments": "' . $customer_order_notes . '",
+				"proposedDate": "",
 				"notificationCheck": "",
 				"distributionCheck": "",
 				"comunicationTypeCheck": "",
-				"mobilePhone": "",
+				"mobilePhone": "' . $seur_sms_mobile . '",
 				"email": "' . $customer_email . '",
 				"pudoID": "",
 				"createShipment": "Y",
@@ -1757,15 +1781,15 @@ function seur_get_label( $order_id, $numpackages = '1', $weight = '1', $post_wei
 				"integratedCustomer": "string",
 				"parcels": [
 					{
-					"senderReference": "REFERENCIA",
-					"partnerReference": "REFERENCIA P",
+					"senderReference": "' . $order_id_seur . '",
+					"partnerReference": "",
 					"parcelNumber": "",
 					"ecb": "",
 					"parcelWeight": 0,
 					"parcelLength": 0,
 					"parcelWidth": 0,
 					"parcelHeight": 0,
-					"coments": "Comebntario ultiomo" 
+					"coments": "" 
 					}
 				],
 				"consigneePhone2": "",
@@ -1786,13 +1810,14 @@ function seur_get_label( $order_id, $numpackages = '1', $weight = '1', $post_wei
 				'headers'      => array(
 				'Content-Type' => 'application/json',
 					'Accept'   => 'application/json',
-					'user'     => 'SOPORTEINTEG',
-					'password' => 'SOPORTEINTEG',
+					'user'     => $usercom,
+					'password' => $passcom,
 				),
 				'body' => $requestGeolabel,
 				// 'cookies' => array()
 				)
-			);
+            );
+
 			$log->add( 'seur', '$redsponse: ' . print_r( $response ) );
 			$body = wp_remote_retrieve_body( $response );
 			$log->add( 'seur', '$body: ' . $body );
