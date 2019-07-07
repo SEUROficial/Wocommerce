@@ -1723,7 +1723,6 @@ function seur_get_label( $order_id, $numpackages = '1', $weight = '1', $post_wei
 			// Se utiliza Geolabel, es envío internacional, y es Térmica
 			$log = new WC_Logger();
 			
-			$numero = wp_rand( 1, 100000000 );
 			$requestGeolabel =
 				'{
 				"customerBussinesUnit": ' . $franquicia . ',
