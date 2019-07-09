@@ -3,7 +3,7 @@ Contributors: j.conti, seuroficial
 Tags: woocommerce, shipping, seur, logistica, enviar paquete, pedidos, entregas
 Requires at least: 4.0
 Tested up to: 5.2
-Stable tag: 1.4.0
+Stable tag: 1.3.0
 WC requires at least: 3.0
 WC tested up to: 3.6
 License: GPLv2 or later
@@ -93,6 +93,9 @@ The "SEUR > Shipments" menu includes the option to track your shipment and see t
 
 
 == Changelog ==
+
+== 1.4.0 ==
+* New: Added GeoLabel, the new standard for European labels.
 
 == 1.3.0 ==
 * Now shop_manager role can manage Labels

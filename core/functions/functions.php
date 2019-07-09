@@ -1802,7 +1802,8 @@ function seur_get_label( $order_id, $numpackages = '1', $weight = '1', $post_wei
 				}';
 			
 			$log->add( 'seur', $requestGeolabel );
-			$url      = 'https://apipre.seur.com/geolabel/api/shipment/addShipment';
+			// $url      = 'https://apipre.seur.com/geolabel/api/shipment/addShipment'; URL test
+			$url      = 'https://api.seur.com/geolabel/api/shipment/addShipment;'; // URL produccion
 			$log->add( 'seur', 'calling to ' . $url );
 			$response = wp_remote_post( $url, array(
 				'method'       => 'POST',
