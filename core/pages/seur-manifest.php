@@ -42,7 +42,7 @@ function seur_donwload_data( $post ) {
                     return;
                 }
 
-                $fecha =  substr( $date, 4, 4 ) . '-' . substr( $date, 2, 2 ) . '-' . substr( $date, 0, 2 ) . 'T' . substr( $_POST['horadesde'], 0, 2 ) . ':' . substr( $_POST['horadesde'], 2, 2 ) . ':' . substr( $_POST['horadesde'], 4, 2 ) . ':000Z';
+                $fecha =  substr( $date, 4, 4 ) . '-' . substr( $date, 0, 2 ) . '-' . substr( $date, 2, 2 ) . 'T' . substr( $_POST['horadesde'], 0, 2 ) . ':' . substr( $_POST['horadesde'], 2, 2 ) . ':' . substr( $_POST['horadesde'], 4, 2 ) . ':000Z'
 
                 $parametros = array(
                     'in0' => $nif,
