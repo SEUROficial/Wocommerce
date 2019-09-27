@@ -379,7 +379,7 @@ class WC_Shipping_SEUR extends WC_Shipping_Method {
             if ( ! $rate_requests ) {
                 $this->debug( __( 'SEUR: No Services are enabled in admin panel.', 'seur' ) );
             }
-        if ( $rate_requests ){
+        if ( $rate_requests ) {
 
             // parse the results
             foreach ( $rate_requests as $rate ) {
@@ -398,7 +398,7 @@ class WC_Shipping_SEUR extends WC_Shipping_Method {
                     if ( $rates_type == 'price' ) {
                             $ratepricerate = $ratepricerate;
                         } else {
-                            $ratepricerate = seur_filter_price_rate_weight( $package_price, $raterate, $ratepricerate );
+                            $ratepricerate = seur_filter_price_rate_weight( $package_price, $raterate, $ratepricerate, $countryrate );
                         }
 
                     $rate_name = seur_get_custom_rate_name( $raterate );

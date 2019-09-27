@@ -1114,7 +1114,7 @@ function seur_get_order_data( $post_id ) {
     return $seur_order_data;
 }
 
-function seur_get_all_shipping_products(){
+function seur_get_all_shipping_products() {
     global $wpdb;
 
     $tabla     = $wpdb->prefix . SEUR_PLUGIN_SVPR;
@@ -1124,7 +1124,7 @@ function seur_get_all_shipping_products(){
     return $registros;
 }
 
-function seur_return_shipping_product_id( $shipping_product ){
+function seur_return_shipping_product_id( $shipping_product ) {
 
     $products = seur_get_all_shipping_products();
 
@@ -1136,17 +1136,25 @@ function seur_return_shipping_product_id( $shipping_product ){
     return $product_id;
 }
 
-function seur_get_service_product_shipping_product( $method_id ){
+function seur_get_service_product_shipping_product( $method_id, $customer_country = null ){
 
     $service_product = array();
 
     $products = seur_get_all_shipping_products();
+    
+    $shipping_product = 'SEUR 13:30 Frío';
+    $frio_id          = seur_return_shipping_product_id( $shipping_product );
 
     foreach ( $products as $product1 ){
         if ( $product1->ID == $method_id ) {
 
             $service = $product1->ser;
             $product = $product1->pro;
+            
+            if ( $product1->ID === $frio_id && $customer_country == 'FR' ) {
+	            $service = '77';
+	            $product = '114';
+            }
         }
     }
     $option = array(
@@ -1328,7 +1336,8 @@ function seur_get_label( $order_id, $numpackages = '1', $weight = '1', $post_wei
 	$order_data               = seur_get_order_data( $order_id );
 	$user_data                = seur_get_user_settings();
 	$advanced_data            = seur_get_advanced_settings();
-	$product_service_seur     = seur_get_service_product_shipping_product( $seur_shipping_method_id );
+	$customer_country         = $order_data[0]['country'];
+	$product_service_seur     = seur_get_service_product_shipping_product( $seur_shipping_method_id, $customer_country );
 	
 	// User settings
 	
@@ -1424,7 +1433,6 @@ function seur_get_label( $order_id, $numpackages = '1', $weight = '1', $post_wei
 
     // Customer/Order Data
 
-    $customer_country        = $order_data[0]['country'];
     $customercity            = seur_clean_data( $order_data[0]['city'] );
     $customerpostcode        = $order_data[0]['postcode'];
 
@@ -1564,85 +1572,56 @@ function seur_get_label( $order_id, $numpackages = '1', $weight = '1', $post_wei
     }
 
     if ( $preaviso_notificar == 'S' ) {
-        if ( '1' === $geolabel ) {
-            $preaviso_notificar = 'S';
-        } else {
+            $preaviso_notificar_geo = 'S';
             $preaviso_notificar = '<test_preaviso>S</test_preaviso>';
-        }
     } else {
-        if ( '1' === $geolabel ) {
-            $preaviso_notificar = 'N';
-        } else {
+            $preaviso_notificar_geo = 'N';
             $preaviso_notificar = '<test_preaviso>N</test_preaviso>';
-        }
     }
 
     if ( $reparto_notificar == 'S'  ){
-        if ( '1' === $geolabel ) {
-            $reparto_notificar = 'S';
-        } else {
+            $reparto_notificar_geo = 'S';
             $reparto_notificar = '<test_reparto>S</test_reparto>';
-        }
     } else {
-        if ( '1' === $geolabel ) {
-            $reparto_notificar = 'N';
-        } else {
+            $reparto_notificar_geo = 'N';
             $reparto_notificar = '<test_reparto>N</test_reparto>';
-        }
     }
 
     if ( $preaviso_sms == 'S' || $reparto_sms == 'S' ) {
-        if ( '1' === $geolabel ) {
-            $seur_sms = 'S';
-        } else {
+            $seur_tcheck_geo = '1';
             $seur_sms = '<test_sms>S</test_sms>';
-        }
     } else {
-        if ( '1' === $geolabel ) {
-            $seur_sms = 'N';
-        } else {
+            $seur_tcheck_geo = '';
             $seur_sms = '<test_sms>N</test_sms>';
-        }
     }
 
     if ( $preaviso_email == 'S' || $reparto_email == 'S' ) {
-        if ( '1' === $geolabel ) {
+            $seur_email_geo = '3';
             $seur_email = '<test_email>S</test_email>';
-        } else {
-            $seur_email = 'S';
-        }
     } else {
-        if ( '1' === $geolabel ) {
-            $seur_email = 'N';
-        } else {
+            $seur_email_geo = '';
             $seur_email = '<test_email>N</test_email>';
-        }
+    }
+    
+    if ( '1' === $seur_tcheck_geo && '3' === $seur_email_geo ) {
+	    $seur_email_geo = '4';
+	    $seur_tcheck_geo = '';
     }
 
     if ( ( $mobile_shipping || $mobile_billing ) ) {
 
         if ( $mobile_shipping ) {
-           if ( '1' === $geolabel ) {
-               $seur_sms_mobile = $mobile_shipping;
-            } else {
-                $seur_sms_mobile = '<sms_consignatario>' . $mobile_shipping . '</sms_consignatario>';
-            }
-        } else {
-            if ( '1' === $geolabel ) {
-                $seur_sms_mobile = $mobile_billing;
-            } else {
+               $seur_sms_mobile_geo = $mobile_shipping;
+                $seur_sms_mobile    = '<sms_consignatario>' . $mobile_shipping . '</sms_consignatario>';
+         } else {
+                $seur_sms_mobile_geo = $mobile_billing;
                 $seur_sms_mobile = '<sms_consignatario>' . $mobile_billing . '</sms_consignatario>';
-            }
         }
     } else {
-
-        if ( '1' === $geolabel ) {
-            $seur_sms = 'N';
-            $seur_sms_mobile = '';
-        } else {
+            $seur_tcheck_geo = 'N';
+            $seur_sms_mobile_geo = '';
             $seur_sms = '<test_sms>N</test_sms>';
             $seur_sms_mobile = '';
-        }
     }
 
     if ( $order_data[0]['code_centro_2shop'] ) {
@@ -1772,10 +1751,10 @@ function seur_get_label( $order_id, $numpackages = '1', $weight = '1', $post_wei
 				"saturdayCheck": "",
 				"coments": "' . $customer_order_notes . '",
 				"proposedDate": "",
-				"notificationCheck": "' . $preaviso_notificar . '",
-				"distributionCheck": "' . $reparto_notificar . '",
-				"comunicationTypeCheck": "' . $seur_sms . $seur_email . '",
-				"mobilePhone": "' . $seur_sms_mobile . '",
+				"notificationCheck": "' . $preaviso_notificar_geo . '",
+				"distributionCheck": "' . $reparto_notificar_geo . '",
+				"comunicationTypeCheck": "' . $seur_tcheck_geo . $seur_email_geo . '",
+				"mobilePhone": "' . $seur_sms_mobile_geo . '",
 				"email": "' . $customer_email . '",
 				"pudoID": "",
 				"createShipment": "Y",
@@ -1802,8 +1781,10 @@ function seur_get_label( $order_id, $numpackages = '1', $weight = '1', $post_wei
 				}';
 			
 			$log->add( 'seur', $requestGeolabel );
-			// $url      = 'https://apipre.seur.com/geolabel/api/shipment/addShipment'; URL test
-			$url      = 'https://api.seur.com/geolabel/api/shipment/addShipment;'; // URL produccion
+			
+			
+			$url      = 'https://apipre.seur.com/geolabel/api/shipment/addShipment'; //URL test
+			//$url      = 'https://api.seur.com/geolabel/api/shipment/addShipment;'; // URL produccion
 			$log->add( 'seur', 'calling to ' . $url );
 			$response = wp_remote_post( $url, array(
 				'method'       => 'POST',
@@ -1823,7 +1804,7 @@ function seur_get_label( $order_id, $numpackages = '1', $weight = '1', $post_wei
 				)
             );
 
-			$log->add( 'seur', '$redsponse: ' . print_r( $response ) );
+			//$log->add( 'seur', '$redsponse: ' . print_r( $response ) );
 			$body = wp_remote_retrieve_body( $response );
 			$log->add( 'seur', '$body: ' . $body );
 			$data = json_decode( $body );
@@ -2071,15 +2052,15 @@ function seur_get_label( $order_id, $numpackages = '1', $weight = '1', $post_wei
 				);
 			
 				$log = new WC_Logger();
-				$log->add( 'seur', 'Parametros: ' . print_r( $params, true  ) );
+				//$log->add( 'seur', 'Parametros: ' . print_r( $params, true  ) );
 				try{
 					$soap_client = new SoapClient('http://cit.seur.com/CIT-war/services/ImprimirECBWebService?wsdl', $sc_options );
 					$response    = $soap_client->impresionIntegracionPDFConECBWS( $params );
 				} catch ( SoapFault $ex ){
 				$log->add( 'seur', $ex->getMessage() );
-				$log->add( 'seur', print_r( $soap_client ->__getLastRequest(), true ) );
+				//$log->add( 'seur', print_r( $soap_client ->__getLastRequest(), true ) );
 				$log->add( 'seur', $response->out->mensaje );
-				$log->add( 'seur', print_r( $response, true  ) );
+				//$log->add( 'seur', print_r( $response, true  ) );
 				}
 			
 			//echo $response->out->mensaje;

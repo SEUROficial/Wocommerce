@@ -448,7 +448,7 @@ function seur_shipping_mobil_phone_fields_display_admin_order_meta( $order ){
     echo '<p><strong>'.__('Shipping Mobile Phone').':</strong> ' . get_post_meta( $order->get_id(), '_shipping_mobile_phone', true ) . '</p>';
 }
 
-function seur_filter_price_rate_weight( $package_price, $raterate, $ratepricerate ){
+function seur_filter_price_rate_weight( $package_price, $raterate, $ratepricerate, $countryrate ) {
 
     $raterate = seur_get_real_rate_name( $raterate );
 
@@ -486,8 +486,8 @@ function seur_filter_price_rate_weight( $package_price, $raterate, $ratepricerat
     if ( $seur_courier_int_aereo_documentos_max_price_field  == '0' || ! $seur_courier_int_aereo_documentos_max_price_field  ) $seur_courier_int_aereo_documentos_max_price_field  = '99999999999';
     if ( $seur_netexpress_int_terrestre_max_price_field  == '0' || ! $seur_netexpress_int_terrestre_max_price_field  ) $seur_netexpress_int_terrestre_max_price_field  = '99999999999';
 
-    if ( $raterate == 'B2C Estándar' ){
-        if( $package_price > $seur_bc2_max_price_field ){
+    if ( $raterate == 'B2C Estándar' ) {
+        if( $package_price > $seur_bc2_max_price_field ) {
             $ratepricerate = '0';
         } else {
             $ratepricerate = $ratepricerate;
@@ -503,7 +503,7 @@ function seur_filter_price_rate_weight( $package_price, $raterate, $ratepricerat
     }
 
     if ( $raterate == 'SEUR 10 Frío' ){
-        if( $package_price > $seur_10ef_max_price_field ){
+        if ( $package_price > $seur_10ef_max_price_field ){
             $ratepricerate = '0';
         } else {
             $ratepricerate = $ratepricerate;
@@ -511,7 +511,7 @@ function seur_filter_price_rate_weight( $package_price, $raterate, $ratepricerat
     }
 
     if ( $raterate == 'SEUR 13:30 Estándar' ){
-        if( $package_price > $seur_13e_max_price_field ){
+        if ( $package_price > $seur_13e_max_price_field ){
             $ratepricerate = '0';
         } else {
             $ratepricerate = $ratepricerate;
@@ -519,7 +519,7 @@ function seur_filter_price_rate_weight( $package_price, $raterate, $ratepricerat
     }
 
     if ( $raterate == 'SEUR 13:30 Frío' ){
-        if( $package_price > $seur_13f_max_price_field ){
+        if ( $package_price > $seur_13f_max_price_field ){
             $ratepricerate = '0';
         } else {
             $ratepricerate = $ratepricerate;
@@ -527,7 +527,7 @@ function seur_filter_price_rate_weight( $package_price, $raterate, $ratepricerat
     }
 
     if ( $raterate == 'SEUR 48H Estándar' ){
-        if( $package_price > $seur_48h_max_price_field ){
+        if ( $package_price > $seur_48h_max_price_field ){
             $ratepricerate = '0';
         } else {
             $ratepricerate = $ratepricerate;
@@ -535,7 +535,7 @@ function seur_filter_price_rate_weight( $package_price, $raterate, $ratepricerat
     }
 
     if ( $raterate == 'SEUR 72H Estándar' ){
-        if( $package_price > $seur_72h_max_price_field ){
+        if ( $package_price > $seur_72h_max_price_field ){
             $ratepricerate = '0';
         } else {
             $ratepricerate = $ratepricerate;
@@ -543,7 +543,7 @@ function seur_filter_price_rate_weight( $package_price, $raterate, $ratepricerat
     }
 
     if ( $raterate == 'Classic Internacional Terrestre' ){
-        if( $package_price > $seur_cit_max_price_field ){
+        if ( $package_price > $seur_cit_max_price_field ){
             $ratepricerate = '0';
         } else {
             $ratepricerate = $ratepricerate;
@@ -551,7 +551,7 @@ function seur_filter_price_rate_weight( $package_price, $raterate, $ratepricerat
     }
 
     if ( $raterate == 'SEUR 2SHOP' ){
-        if( $package_price > $seur_2SHOP_max_price_field ){
+        if ( $package_price > $seur_2SHOP_max_price_field ){
             $ratepricerate = '0';
         } else {
             $ratepricerate = $ratepricerate;
@@ -559,21 +559,21 @@ function seur_filter_price_rate_weight( $package_price, $raterate, $ratepricerat
     }
 
     if ( $raterate == 'COURIER INT AEREO PAQUETERIA' ){
-        if( $package_price > $seur_courier_int_aereo_paqueteria_max_price_field ){
+        if ( $package_price > $seur_courier_int_aereo_paqueteria_max_price_field ){
             $ratepricerate = '0';
         } else {
             $ratepricerate = $ratepricerate;
         }
     }
     if ( $raterate == 'COURIER INT AEREO DOCUMENTOS' ){
-        if( $package_price > $seur_courier_int_aereo_documentos_max_price_field ){
+        if ( $package_price > $seur_courier_int_aereo_documentos_max_price_field ){
             $ratepricerate = '0';
         } else {
             $ratepricerate = $ratepricerate;
         }
     }
     if ( $raterate == 'NETEXPRESS INT TERRESTRE' ){
-        if( $package_price > $seur_netexpress_int_terrestre_max_price_field ){
+        if ( $package_price > $seur_netexpress_int_terrestre_max_price_field ){
             $ratepricerate = '0';
         } else {
             $ratepricerate = $ratepricerate;

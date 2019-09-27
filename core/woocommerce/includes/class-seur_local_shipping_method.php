@@ -92,7 +92,7 @@ class Seur_Local_Shipping_Method extends WC_Shipping_Method {
 							if ( 'price' === $rates_type ) {
 								$ratepricerate = $ratepricerate;
 							} else {
-								$ratepricerate = seur_filter_price_rate_weight( $package_price, $raterate, $ratepricerate );
+								$ratepricerate = seur_filter_price_rate_weight( $package_price, $raterate, $ratepricerate, $countryrate );
 							}
 							$rate_name        = seur_get_custom_rate_name( $raterate );
 							$rates[ $idrate ] = array(

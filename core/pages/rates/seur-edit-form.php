@@ -104,7 +104,7 @@ function seur_edit_rate(){
 						        $countries = array();
                                 $countries = include_once SEUR_PLUGIN_PATH . 'core/places/countries.php';
                                 $countries = asort( $countries );
-                                print_r($countries);
+                                //print_r($countries);
 								echo '<option value="*">' . __( 'All Countries', 'seur' ) . '</option>';
 								foreach ($countries as $country => $value ) {
 

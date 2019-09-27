@@ -42,7 +42,7 @@ function seur_donwload_data( $post ) {
                     return;
                 }
 
-                $fecha =  substr( $date, 4, 4 ) . '-' . substr( $date, 0, 2 ) . '-' . substr( $date, 2, 2 ) . 'T' . substr( $_POST['horadesde'], 0, 2 ) . ':' . substr( $_POST['horadesde'], 2, 2 ) . ':' . substr( $_POST['horadesde'], 4, 2 ) . ':000Z'
+                $fecha =  substr( $date, 4, 4 ) . '-' . substr( $date, 0, 2 ) . '-' . substr( $date, 2, 2 ) . 'T' . substr( $_POST['horadesde'], 0, 2 ) . ':' . substr( $_POST['horadesde'], 2, 2 ) . ':' . substr( $_POST['horadesde'], 4, 2 ) . ':000Z';
 
                 $parametros = array(
                     'in0' => $nif,
@@ -91,7 +91,9 @@ function seur_donwload_data( $post ) {
             file_put_contents( $path, $pdf );
 
             $download_file = SEUR_UPLOADS_MANIFEST_URL . '/' . $file_name;
-            echo '<a href="' . $download_file . '" target="_blank" class="button">' . __(' Open Manifest ', 'seur' ) . '</a>';
+            echo '<a href="' . $download_file . '" target="_blank" class="button">' . __(' Open Manifest ', 'seur' ) . '</a><br />';
+            echo '$date: ' . $date . '<br />';
+            echo '$fecha: ' . $fecha . '<br />';
         } else {
 ?>
         <div class="wp-filter">
@@ -105,10 +107,9 @@ function seur_donwload_data( $post ) {
                 <input type="submit" name="submit" id="submit" class="button button-primary" value="<?php _e('Submit', 'seur' ); ?>">
             </label>
         </div>
-        <p class="description"><?php _e("If you don't have shipments created other days, you don't need to enter a date", 'seur' ); ?></p>
+        <p class="description"><?php _e("If you don't have shipments created other days, you don't need to enter a date", 'seur' ); ?></p
  <?php } ?>
 </div>
 <?php   }
 
 }
-?>

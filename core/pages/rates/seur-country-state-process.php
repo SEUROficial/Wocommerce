@@ -5,7 +5,7 @@ function seur_country_state_process() {
 
 		$rate = $_POST[ "rate" ];
 
-		if ( $rate == 'B2C Estándar' || $rate == 'SEUR 13:30 Estándar' || $rate == 'SEUR 10 Estándar' || $rate == 'SEUR 10 Frío' || $rate == 'SEUR 13:30 Frío' ||  $rate == 'SEUR 2SHOP' ){
+		if ( $rate === 'B2C Estándar' || $rate === 'SEUR 13:30 Estándar' || $rate === 'SEUR 10 Estándar' || $rate === 'SEUR 10 Frío' ||  $rate === 'SEUR 2SHOP' ) {
 			echo '<select class="select country" id="country" title="' . __('Select Country', 'seur' ) . '" name="country">';
 			echo '<option value="NULL">' . __( 'Select', 'seur' ) . '</option>';
 			echo '<option value="AD">' . __('Andorra', 'seur' ) . '</option>';
@@ -13,7 +13,16 @@ function seur_country_state_process() {
 			echo '<option value="ES">' . __('Spain', 'seur' ) . '</option>';
 			echo '</select>';
 
-		} elseif ( $rate == 'SEUR 72H Estándar' || $rate == 'SEUR 48H Estándar' ) {
+		} elseif ( $rate === 'SEUR 13:30 Frío' ) {
+			echo '<select class="select country" id="country" title="' . __('Select Country', 'seur' ) . '" name="country">';
+			echo '<option value="NULL">' . __( 'Select', 'seur' ) . '</option>';
+			echo '<option value="AD">' . __('Andorra', 'seur' ) . '</option>';
+			echo '<option value="FR">' . __('France', 'seur' ) . '</option>';
+			echo '<option value="PT">' . __('Portugal', 'seur' ) . '</option>';
+			echo '<option value="ES">' . __('Spain', 'seur' ) . '</option>';
+			echo '</select>';
+
+		} elseif ( $rate === 'SEUR 72H Estándar' || $rate == 'SEUR 48H Estándar' ) {
 
 				echo '<select class="select country" id="country" title="' . __('Select Country', 'seur' ) . '" name="country">';
 				echo '<option value="NULL">' . __('Select Country', 'seur' ) . '</option>';

@@ -3,9 +3,9 @@ Contributors: j.conti, seuroficial
 Tags: woocommerce, shipping, seur, logistica, enviar paquete, pedidos, entregas
 Requires at least: 4.0
 Tested up to: 5.2
-Stable tag: 1.3.0
+Stable tag: 1.4.2.1
 WC requires at least: 3.0
-WC tested up to: 3.6
+WC tested up to: 3.7
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -93,6 +93,19 @@ The "SEUR > Shipments" menu includes the option to track your shipment and see t
 
 
 == Changelog ==
+
+== 1.4.2.1 ==
+* Removed some debug lines
+
+== 1.4.2 ==
+* Fixed a problem with 13:30 Frío and France
+* Fixed a validation with Notify Collection
+* Compatibility declared with WooCommerce 3.7
+* Added an admin notice
+
+== 1.4.1 ==
+* Fixed a problem with dates in Manifest
+* Added 13:30 Frío to France rates
 
 == 1.4.0 ==
 * New: Added GeoLabel, the new standard for European labels.
