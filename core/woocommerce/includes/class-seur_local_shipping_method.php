@@ -1,6 +1,5 @@
 <?php
 
-
 if ( ! defined( 'ABSPATH' ) ) {
     exit; // Exit if accessed directly
 }
@@ -86,7 +85,6 @@ class Seur_Local_Shipping_Method extends WC_Shipping_Method {
 						$postcoderate  = $rate['postcode'];
 						$raterate      = $rate['rate'];
 						$ratepricerate = $rate['rateprice'];
-
 						if ( $rate && 'SEUR 2SHOP' === $raterate ) {
 							$sort = 999;
 							if ( 'price' === $rates_type ) {
@@ -141,7 +139,6 @@ function seur_local_validate_order( $posted ) {
 			if ( $weight > $weightlimit ) {
 				$message     = sprintf( __( 'Sorry, %1$d kg exceeds the maximum weight of %2$d kg for %3$s', 'seur' ), $weight, $weightlimit, $seur_local_shipping_method->method_title );
 				$messagetype = 'error';
-
 				if ( ! wc_has_notice( $message, $messagetype ) ) {
 					wc_add_notice( $message, $messagetype );
 				}
@@ -161,51 +158,106 @@ function seur_map_checkout_load_js() {
 	}
 }
 
-function seur_get_local_pickups( $postcode ) {
-	$user_data   = seur_get_user_settings();
-	$usercom     = $user_data[0]['seurcom_usuario'];
-	$passcom     = $user_data[0]['seurcom_contra'];
-	$sc_options  = array(
-		'connection_timeout' => 30,
-	);
-	$soap_client = new SoapClient( 'https://ws.seur.com/WSEcatalogoPublicos/servlet/XFireServlet/WSServiciosWebPublicos?wsdl', $sc_options );
-	$xml         = '
-								<CAMPOS>
-                	<CODIGO_POSTAL>' . $postcode . '</CODIGO_POSTAL>
-                	<NOM_CORTO></NOM_CORTO>
-                	<LATITUD></LATITUD>
-                	<LONGITUD></LONGITUD>
-                	<NOM_POBLACION></NOM_POBLACION>
-                	<COD_SERVICIO></COD_SERVICIO>
-                	<COD_PRODUCTO></COD_PRODUCTO>
-                	<USUARIO>' . $usercom . '</USUARIO>
-                	<PASSWORD>' . $passcom . '</PASSWORD>
-            		</CAMPOS>';
-	$data        = array( 'in0' => strtoupper( $xml ) );
-	$response    = $soap_client->puntosDeVentaStr( $data );
-	$xml         = simplexml_load_string( utf8_decode( $response->out ) );
-	$centro      = array();
-	$num         = (int) $xml->attributes()->NUM[0];
-
-	for ( $i = 1; $i <= $num; $i++ ) {
-		$name     = 'REG' . $i;
-		$centro[] = array(
-			'id'        => $i,
-			'company'   => (string) $xml->$name->NOM_CENTRO_SEUR,
-			'codCentro' => (string) $xml->$name->COD_CENTRO_SEUR,
-			'city'      => (string) $xml->$name->NOM_POBLACION,
-			'post_code' => (string) $xml->$name->CODIGO_POSTAL,
-			'phone'     => (string) $xml->$name->TELEFONO_1,
-			'tipovia'   => (string) $xml->$name->COD_TIPO_VIA,
-			'nomcorto'  => (string) $xml->$name->NOM_CORTO,
-			'numvia'    => (string) $xml->$name->NUM_VIA,
-			'nompoblac' => (string) $xml->$name->NOM_POBLACION,
-			'lat'       => (float) $xml->$name->LATITUD,
-			'lng'       => (float) $xml->$name->LONGITUD,
-			'timetable' => (string) $xml->$name->HORARIO,
+function seur_get_local_pickups( $country , $city, $postcode ) {
+	
+	echo $country;
+	if ( 'ES' === $country || 'PT' === $country || 'AR' === $country ) {
+		$user_data   = seur_get_user_settings();
+		$usercom     = $user_data[0]['seurcom_usuario'];
+		$passcom     = $user_data[0]['seurcom_contra'];
+		$sc_options  = array(
+			'connection_timeout' => 30,
 		);
+		$soap_client = new SoapClient( 'https://ws.seur.com/WSEcatalogoPublicos/servlet/XFireServlet/WSServiciosWebPublicos?wsdl', $sc_options );
+		$xml         = '
+				<CAMPOS>
+					<CODIGO_POSTAL>' . $postcode . '</CODIGO_POSTAL>
+					<NOM_CORTO></NOM_CORTO>
+					<LATITUD></LATITUD>
+					<LONGITUD></LONGITUD>
+					<NOM_POBLACION></NOM_POBLACION>
+					<COD_SERVICIO></COD_SERVICIO>
+					<COD_PRODUCTO></COD_PRODUCTO>
+					<USUARIO>' . $usercom . '</USUARIO>
+					<PASSWORD>' . $passcom . '</PASSWORD>
+				</CAMPOS>';
+		$data        = array( 'in0' => strtoupper( $xml ) );
+		$response    = $soap_client->puntosDeVentaStr( $data );
+		$xml         = simplexml_load_string( utf8_decode( $response->out ) );
+		$centro      = array();
+		$num         = (int) $xml->attributes()->NUM[0];
+		//print_r( $xml );
+	
+		for ( $i = 1; $i <= $num; $i++ ) {
+			$name     = 'REG' . $i;
+			$centro[] = array(
+				'id'        => $i,
+				'company'   => (string) $xml->$name->NOM_CENTRO_SEUR,
+				'codCentro' => (string) $xml->$name->COD_CENTRO_SEUR,
+				'city'      => (string) $xml->$name->NOM_POBLACION,
+				'post_code' => (string) $xml->$name->CODIGO_POSTAL,
+				'phone'     => (string) $xml->$name->TELEFONO_1,
+				'tipovia'   => (string) $xml->$name->COD_TIPO_VIA,
+				'nomcorto'  => (string) $xml->$name->NOM_CORTO,
+				'numvia'    => (string) $xml->$name->NUM_VIA,
+				'nompoblac' => (string) $xml->$name->NOM_POBLACION,
+				'lat'       => (float) $xml->$name->LATITUD,
+				'lng'       => (float) $xml->$name->LONGITUD,
+				'timetable' => (string) $xml->$name->HORARIO,
+			);
+		}
+		return $centro;
+	} else {
+		$user_data  = seur_get_user_settings();
+		$usercom    = $user_data[0]['seurcom_usuario'];
+		$passcom    = $user_data[0]['seurcom_contra'];
+		$sc_options = array(
+			'connection_timeout' => 30,
+		);
+		$soap_client = new SoapClient( 'http://ws.seur.com/WSEcatalogoPublicos/servlet/XFireServlet/WSServiciosWebPublicosImpl?wsdl', $sc_options );
+		$data = array(
+			'address'             => '',
+			'countrycode'         => '',
+			'requestID'           => '',
+			'date_from'           => '',
+			'max_pudo_number'     => '',
+			'max_distance_search' => '',
+			'weight'              => '',
+			'category'            => '',
+			'holiday_tolerant'    => '',
+			'zipCode'             => strtoupper( $postcode ),
+			'city'                => strtoupper( $city ),
+			'userLDAP'            => strtoupper( $usercom ),
+			'passLDAP'            => strtoupper( $passcom ),
+		);
+		$response = $soap_client->getPudoListStr( $data );
+		$xml      = simplexml_load_string( utf8_decode( $response->out ) );
+		$xmljs    = json_decode( json_encode($xml) , 1);
+		$centro   = array();
+		$i        = 0;
+		foreach ( $xml as  $element ) {
+			$num = $element->count();
+			++$i;
+		}
+		for ( $i = 0; $i+1 <= $num; $i++ ) {
+			$centro[] = array(
+				'id'        => $i,
+				'company'   => $xmljs['PUDO_ITEMS']['PUDO_ITEM'][$i]['NAME'],
+				'codCentro' => $xmljs['PUDO_ITEMS']['PUDO_ITEM'][$i]['PUDO_ID'],
+				'city'      => $xmljs['PUDO_ITEMS']['PUDO_ITEM'][$i]['CITY'],
+				'post_code' => $xmljs['PUDO_ITEMS']['PUDO_ITEM'][$i]['ZIPCODE'],
+				'phone'     => '',
+				'tipovia'   => '',
+				'nomcorto'  => $xmljs['PUDO_ITEMS']['PUDO_ITEM'][$i]['ADDRESS1'],
+				'numvia'    => $xmljs['PUDO_ITEMS']['PUDO_ITEM'][$i]['STREETNUM'],
+				'nompoblac' => $xmljs['PUDO_ITEMS']['PUDO_ITEM'][$i]['CITY'],
+				'lat'       => $xmljs['PUDO_ITEMS']['PUDO_ITEM'][$i]['LATITUDE'],
+				'lng'       => $xmljs['PUDO_ITEMS']['PUDO_ITEM'][$i]['LONGITUDE'],
+				'timetable' => '',
+			);
+		}
+		return $centro;
 	}
-	return $centro;
 }
 
 function seur_after_seur_2shop_shipping_rate( $method, $index ) {
@@ -214,23 +266,38 @@ function seur_after_seur_2shop_shipping_rate( $method, $index ) {
 	$custom_name_seur_2shop = get_option( 'seur_2SHOP_custom_name_field' );
 	$chosen_methods         = WC()->session->get( 'chosen_shipping_methods' );
 	$chosen_shipping        = $chosen_methods[0];
-
+	
 	if ( isset( $_POST['post_data'] ) ) {
 		parse_str( $_POST['post_data'], $post_data );
+		//print_r( $_POST['post_data'] );
 	} else {
 		$post_data = $_POST; // fallback for final checkout (non-ajax)
 	}
-	if ( isset( $post_data['billing_postcode'] ) && ! $postcode_seur ) {
+
+	if ( isset( $post_data['shipping_postcode'] ) && '' !== $post_data['shipping_postcode'] ) {
+		$postcode_seur = $post_data['shipping_postcode'];
+	} else {
 		$postcode_seur = $post_data['billing_postcode'];
 	}
-	if ( isset( $post_data['shipping_postcode'] ) && ! $postcode_seur ) {
-		$postcode_seur = $post_data['shipping_postcode'];
+
+	if ( isset( $post_data['shipping_country'] ) && '' !== $post_data['shipping_country'] ) {
+		$country_seur = $post_data['shipping_country'];
+	} else {
+		$country_seur = $post_data['billing_country'];
 	}
+
+	if ( isset( $post_data['shipping_city'] ) && '' !== $post_data['shipping_city']  ) {
+		$city = $post_data['shipping_city'];
+	} else {
+		$city = $post_data['billing_city'];
+	}
+	
 	if ( ! empty( $custom_name_seur_2shop ) ) {
 		$custom_name_seur_2shop = $custom_name_seur_2shop;
 	} else {
 		$custom_name_seur_2shop = 'SEUR 2SHOP';
 	}
+	
 	if ( isset( $post_data['seur_pickup'] ) ) {
 		if ( 'all' === $post_data['seur_pickup'] ) {
 			$option_selected = '500000';
@@ -240,112 +307,116 @@ function seur_after_seur_2shop_shipping_rate( $method, $index ) {
 	} else {
 		$option_selected = '0';
 	}
-	if ( ( $method->label === $custom_name_seur_2shop ) && ( $method->id === $chosen_shipping ) && ! is_checkout() ) {
-		echo '<br />';
-		esc_html_e( 'You will have to select a location in the next step', 'seur' );
-	}
-	if ( ( $method->label === $custom_name_seur_2shop ) && ( $method->id === $chosen_shipping ) && is_checkout() ) {
-		ob_start();
-		$local_pickups_array = seur_get_local_pickups( $postcode_seur );
-		for ( $i = 0; $i < count( $local_pickups_array ); $i++ ) {
-			if ( 0 === $i ) {
-				$print_js = '{';
-			} else {
-					$print_js .= '{';
-			}
-			$print_js .= "lat: " . addslashes( $local_pickups_array[$i]['lat'] ) . ",";
-			$print_js .= "lon: " . addslashes( $local_pickups_array[$i]['lng'] ) . ",";
-			$print_js .= "title: '" . addslashes( $local_pickups_array[$i]['company'] ) . "',";
-			$print_js .= "codCentro: '" . addslashes( $local_pickups_array[$i]['codCentro'] ) . "',";
-			$print_js .= "address: '" . addslashes( $local_pickups_array[$i]['nomcorto'] ) . " " . addslashes( $local_pickups_array[$i]['numvia'] ) . "',";
-			$print_js .= "city: '". addslashes( $local_pickups_array[$i]['post_code'] ) . " " . addslashes( $local_pickups_array[$i]['city'] ) ."',";
-			$print_js .= "city_only: '". addslashes( $local_pickups_array[$i]['city'] ) ."',";
-			$print_js .= "post_code: '" . addslashes( $local_pickups_array[$i]['post_code'] ) . "',";
-			$print_js .= "timetable: '" . addslashes( $local_pickups_array[$i]['timetable'] ) . "',";
-			$print_js .= "option: '" . $option_selected . "',";
-			$print_js .= "html: [";
-			$print_js .= "'<h3>" . addslashes( $local_pickups_array[$i]['company'] ) . "</h3>',";
-			$print_js .= "'<p>" . addslashes( $local_pickups_array[$i]['nomcorto'] ) . " " . addslashes( $local_pickups_array[$i]['numvia'] ) . "<br />',";
-			$print_js .= "'" . addslashes( $local_pickups_array[$i]['post_code'] ) . " " . addslashes( $local_pickups_array[$i]['city'] ) . "</p>',";
-			$print_js .= "'<p>" . __('Timetable: ', 'seur' ) . addslashes( $local_pickups_array[$i]['timetable'] ) . "</p>'";
-			$print_js .= "].join(''),";
-			$print_js .= "zoom: 15";
-			$print_js .= '},';
+	
+	if ( ! empty( $country_seur ) &&  ! empty( $city ) && ! empty( $postcode_seur ) ) {	
+	
+		if ( ( $method->label === $custom_name_seur_2shop ) && ( $method->id === $chosen_shipping ) && ! is_checkout() ) {
+			echo '<br />';
+			esc_html_e( 'You will have to select a location in the next step', 'seur' );
 		}
-		echo '<br />';
-		esc_html_e( 'Choose a location:', 'seur' );
-		echo '<div id="controls"></div>';
-		echo '<tr id="seur-map">';
-		echo '<td colspan="2">';
-		echo '<div id="seur-gmap" style="with:300px;height:250px;"></div>';
-		echo '</td>';
-		echo '</tr>';
-		echo "<script type='text/javascript'>
-		jQuery(document).ready(function( $ ){
-			var html_seurdropdown = {
-				activateCurrent: function(index) {
-					this.html_element.find('select.seur-pickup-select2').val(index);
-				},
-				getHtml: function() {
-					var self = this,
-					html = '',
-					title,
-					a;
-					if (this.ln > 1) {
-						html += '<select name=\"seur_pickup\" class=\"seur-pickup-select2' + this.o.controls_cssclass + '\">';
-						if (this.ShowOnMenu(this.view_all_key)) {
-							html += '<option value=\"' + this.view_all_key + '\">' + this.o.view_all_text + '</option>';
-						}
-						for (a = 0; a < this.ln; a += 1) {
-							if (this.ShowOnMenu(a)) {
-								html += '<option value=\"' + (a + 1) + '\">' + (this.o.locations[a].title || ('#' + (a + 1))) + '</option>';
+		if ( ( $method->label === $custom_name_seur_2shop ) && ( $method->id === $chosen_shipping ) && is_checkout() ) {
+			ob_start();
+			$local_pickups_array = seur_get_local_pickups( $country_seur, $city, $postcode_seur );
+			for ( $i = 0; $i < count( $local_pickups_array ); $i++ ) {
+				if ( 0 === $i ) {
+					$print_js = '{';
+				} else {
+					$print_js .= '{';
+				}
+				$print_js .= "lat: " . addslashes( $local_pickups_array[$i]['lat'] ) . ",";
+				$print_js .= "lon: " . addslashes( $local_pickups_array[$i]['lng'] ) . ",";
+				$print_js .= "title: '" . addslashes( $local_pickups_array[$i]['company'] ) . "',";
+				$print_js .= "codCentro: '" . addslashes( $local_pickups_array[$i]['codCentro'] ) . "',";
+				$print_js .= "address: '" . addslashes( $local_pickups_array[$i]['nomcorto'] ) . " " . addslashes( $local_pickups_array[$i]['numvia'] ) . "',";
+				$print_js .= "city: '". addslashes( $local_pickups_array[$i]['post_code'] ) . " " . addslashes( $local_pickups_array[$i]['city'] ) ."',";
+				$print_js .= "city_only: '". addslashes( $local_pickups_array[$i]['city'] ) ."',";
+				$print_js .= "post_code: '" . addslashes( $local_pickups_array[$i]['post_code'] ) . "',";
+				$print_js .= "timetable: '" . addslashes( $local_pickups_array[$i]['timetable'] ) . "',";
+				$print_js .= "option: '" . $option_selected . "',";
+				$print_js .= "html: [";
+				$print_js .= "'<h3>" . addslashes( $local_pickups_array[$i]['company'] ) . "</h3>',";
+				$print_js .= "'<p>" . addslashes( $local_pickups_array[$i]['nomcorto'] ) . " " . addslashes( $local_pickups_array[$i]['numvia'] ) . "<br />',";
+				$print_js .= "'" . addslashes( $local_pickups_array[$i]['post_code'] ) . " " . addslashes( $local_pickups_array[$i]['city'] ) . "</p>',";
+				$print_js .= "'<p>" . __('Timetable: ', 'seur' ) . addslashes( $local_pickups_array[$i]['timetable'] ) . "</p>'";
+				$print_js .= "].join(''),";
+				$print_js .= "zoom: 15";
+				$print_js .= '},';
+			}
+			echo '<br />';
+			esc_html_e( 'Choose a location:', 'seur' );
+			echo '<div id="controls"></div>';
+			echo '<tr id="seur-map">';
+			echo '<td colspan="2">';
+			echo '<div id="seur-gmap" style="with:300px;height:250px;"></div>';
+			echo '</td>';
+			echo '</tr>';
+			echo "<script type='text/javascript'>
+			jQuery(document).ready(function( $ ){
+				var html_seurdropdown = {
+					activateCurrent: function(index) {
+						this.html_element.find('select.seur-pickup-select2').val(index);
+					},
+					getHtml: function() {
+						var self = this,
+						html = '',
+						title,
+						a;
+						if (this.ln > 1) {
+							html += '<select name=\"seur_pickup\" class=\"seur-pickup-select2' + this.o.controls_cssclass + '\">';
+							if (this.ShowOnMenu(this.view_all_key)) {
+								html += '<option value=\"' + this.view_all_key + '\">' + this.o.view_all_text + '</option>';
 							}
-						}
-						html += '</select>';
-						for (a = 0; a < this.ln; a += 1) {
-							if (this.ShowOnMenu(a)) {
-								html += '<input type=\"hidden\" name=\"seur_title_' + (a + 1) + '\" value=\"' + (this.o.locations[a].title || ('#' + (a + 1))) + '\">';
-								html += '<input type=\"hidden\" name=\"seur_codCentro_' + (a + 1) + '\" value=\"' + (this.o.locations[a].codCentro || ('#' + (a + 1))) + '\">';
-								html += '<input type=\"hidden\" name=\"seur_address_' + (a + 1) + '\" value=\"' + (this.o.locations[a].address || ('#' + (a + 1))) + '\">';
-								html += '<input type=\"hidden\" name=\"seur_city_' + (a + 1) + '\" value=\"' + (this.o.locations[a].city_only || ('#' + (a + 1))) + '\">';
-								html += '<input type=\"hidden\" name=\"seur_postcode_' + (a + 1) + '\" value=\"' + (this.o.locations[a].post_code || ('#' + (a + 1))) + '\">';
-								html += '<input type=\"hidden\" name=\"seur_lat_' + (a + 1) + '\" value=\"' + (this.o.locations[a].lat || ('#' + (a + 1))) + '\">';
-								html += '<input type=\"hidden\" name=\"seur_lon_' + (a + 1) + '\" value=\"' + (this.o.locations[a].lon || ('#' + (a + 1))) + '\">';
-								html += '<input type=\"hidden\" name=\"seur_timetable_' + (a + 1) + '\" value=\"' + (this.o.locations[a].timetable || ('#' + (a + 1))) + '\">';
+							for (a = 0; a < this.ln; a += 1) {
+								if (this.ShowOnMenu(a)) {
+									html += '<option value=\"' + (a + 1) + '\">' + (this.o.locations[a].title || ('#' + (a + 1))) + '</option>';
+								}
 							}
+							html += '</select>';
+							for (a = 0; a < this.ln; a += 1) {
+								if (this.ShowOnMenu(a)) {
+									html += '<input type=\"hidden\" name=\"seur_title_' + (a + 1) + '\" value=\"' + (this.o.locations[a].title || ('#' + (a + 1))) + '\">';
+									html += '<input type=\"hidden\" name=\"seur_codCentro_' + (a + 1) + '\" value=\"' + (this.o.locations[a].codCentro || ('#' + (a + 1))) + '\">';
+									html += '<input type=\"hidden\" name=\"seur_address_' + (a + 1) + '\" value=\"' + (this.o.locations[a].address || ('#' + (a + 1))) + '\">';
+									html += '<input type=\"hidden\" name=\"seur_city_' + (a + 1) + '\" value=\"' + (this.o.locations[a].city_only || ('#' + (a + 1))) + '\">';
+									html += '<input type=\"hidden\" name=\"seur_postcode_' + (a + 1) + '\" value=\"' + (this.o.locations[a].post_code || ('#' + (a + 1))) + '\">';
+									html += '<input type=\"hidden\" name=\"seur_lat_' + (a + 1) + '\" value=\"' + (this.o.locations[a].lat || ('#' + (a + 1))) + '\">';
+									html += '<input type=\"hidden\" name=\"seur_lon_' + (a + 1) + '\" value=\"' + (this.o.locations[a].lon || ('#' + (a + 1))) + '\">';
+									html += '<input type=\"hidden\" name=\"seur_timetable_' + (a + 1) + '\" value=\"' + (this.o.locations[a].timetable || ('#' + (a + 1))) + '\">';
+								}
+							}
+							html = $(html).bind('change', function() {
+								self.ViewOnMap(this.value);
+							});
 						}
-						html = $(html).bind('change', function() {
-							self.ViewOnMap(this.value);
-						});
-					}
-					title = this.o.controls_title;
-					if (this.o.controls_title) {
-						title = $('<div class=\"controls_title\"></div>').css(this.o.controls_applycss ? {
-							fontWeight: 'bold',
-							fontSize: this.o.controls_on_map ? '12px' : 'inherit',
-							padding: '3px 10px 5px 0'
-						} : {}).append(this.o.controls_title);
+						title = this.o.controls_title;
+						if (this.o.controls_title) {
+							title = $('<div class=\"controls_title\"></div>').css(this.o.controls_applycss ? {
+								fontWeight: 'bold',
+								fontSize: this.o.controls_on_map ? '12px' : 'inherit',
+								padding: '3px 10px 5px 0'
+							} : {}).append(this.o.controls_title);
+							}
+							this.html_element = $('<div class=\"wrap_controls\"></div>').append(title).append(html);
+							return this.html_element;
 						}
-						this.html_element = $('<div class=\"wrap_controls\"></div>').append(title).append(html);
-						return this.html_element;
-					}
-				};
-				var SeurPickupsLocs = [" .
-				$print_js
-				. "
-			];
-			var maplace = new Maplace();
-			maplace.AddControl('seurdropdown', html_seurdropdown);
-			maplace.Load({
-				locations: SeurPickupsLocs,
-				map_div: '#seur-gmap',
-				start: '" . $option_selected . "',
-				controls_on_map: false,
-				controls_type: 'seurdropdown'
+					};
+					var SeurPickupsLocs = [" .
+					$print_js
+					. "
+				];
+				var maplace = new Maplace();
+				maplace.AddControl('seurdropdown', html_seurdropdown);
+				maplace.Load({
+					locations: SeurPickupsLocs,
+					map_div: '#seur-gmap',
+					start: '" . $option_selected . "',
+					controls_on_map: false,
+					controls_type: 'seurdropdown'
+				});
 			});
-		});
-		</script>";
-		ob_end_flush();
+			</script>";
+			ob_end_flush();
+		}
 	}
 }
 
@@ -418,5 +489,4 @@ if ( '1' === $localpickup_is_active ) {
 	add_action( 'wp_footer', 'seur_add_map_type_select2' );
 	add_action( 'woocommerce_checkout_update_order_meta', 'seur_add_2shop_data_to_order' );
 	add_action( 'woocommerce_after_checkout_validation', 'seur_validation_2shop_fields' );
-	}
-
+}

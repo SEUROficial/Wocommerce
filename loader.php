@@ -31,7 +31,6 @@ define( 'SEUR_POST_UPDATE_URL', 'https://seur-woo.com/2019/09/03/nueva-version-s
 
 require_once SEUR_PLUGIN_PATH . 'core/loader-core.php';
 require_once SEUR_PLUGIN_PATH . 'core/installer.php';
-require_once SEUR_PLUGIN_PATH . 'include/TGMPA/plugin-install.php';
 
 register_activation_hook( __FILE__, 'seur_create_tables_hook' );
 register_activation_hook( __FILE__, 'seur_add_data_to_tables_hook' );
