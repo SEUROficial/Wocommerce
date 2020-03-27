@@ -2,10 +2,10 @@
 Contributors: j.conti, seuroficial
 Tags: woocommerce, shipping, seur, logistica, enviar paquete, pedidos, entregas
 Requires at least: 4.0
-Tested up to: 5.2
-Stable tag: 1.4.2.1
+Tested up to: 5.3
+Stable tag: 1.5.1
 WC requires at least: 3.0
-WC tested up to: 3.7
+WC tested up to: 4.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -93,6 +93,17 @@ The "SEUR > Shipments" menu includes the option to track your shipment and see t
 
 
 == Changelog ==
+
+== 1.5.1 == 
+
+* Fixed a problem with pickup method. The selection of the Pickup method in the checkout produced a duplication of other methods.
+
+== 1.5.0 == 
+
+* Declared compatibility with WordPress 5.3 & WooCommerce 4.0
+* Added International Pickup
+* Removed TGMPA. Many plugins authors doesn't use correctly this plugin causing many problems.
+
 
 == 1.4.2.1 ==
 * Removed some debug lines

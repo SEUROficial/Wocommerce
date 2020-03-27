@@ -160,7 +160,7 @@ function seur_map_checkout_load_js() {
 
 function seur_get_local_pickups( $country , $city, $postcode ) {
 	
-	echo $country;
+	//echo $country;
 	if ( 'ES' === $country || 'PT' === $country || 'AR' === $country ) {
 		$user_data   = seur_get_user_settings();
 		$usercom     = $user_data[0]['seurcom_usuario'];
@@ -315,7 +315,7 @@ function seur_after_seur_2shop_shipping_rate( $method, $index ) {
 			esc_html_e( 'You will have to select a location in the next step', 'seur' );
 		}
 		if ( ( $method->label === $custom_name_seur_2shop ) && ( $method->id === $chosen_shipping ) && is_checkout() ) {
-			ob_start();
+			//ob_start();
 			$local_pickups_array = seur_get_local_pickups( $country_seur, $city, $postcode_seur );
 			for ( $i = 0; $i < count( $local_pickups_array ); $i++ ) {
 				if ( 0 === $i ) {
@@ -345,11 +345,11 @@ function seur_after_seur_2shop_shipping_rate( $method, $index ) {
 			echo '<br />';
 			esc_html_e( 'Choose a location:', 'seur' );
 			echo '<div id="controls"></div>';
-			echo '<tr id="seur-map">';
-			echo '<td colspan="2">';
+		//	echo '<td id="seur-map">';
+		//	echo '<td colspan="2">';
 			echo '<div id="seur-gmap" style="with:300px;height:250px;"></div>';
-			echo '</td>';
-			echo '</tr>';
+		//	echo '</td>';
+		//	echo '</tr>';
 			echo "<script type='text/javascript'>
 			jQuery(document).ready(function( $ ){
 				var html_seurdropdown = {
@@ -415,7 +415,7 @@ function seur_after_seur_2shop_shipping_rate( $method, $index ) {
 				});
 			});
 			</script>";
-			ob_end_flush();
+			//ob_end_flush();
 		}
 	}
 }
@@ -484,7 +484,8 @@ if ( '1' === $localpickup_is_active ) {
 
 	add_action( 'woocommerce_review_order_before_cart_contents', 'seur_local_validate_order', 10 );
 	add_action( 'woocommerce_after_checkout_validation', 'seur_local_validate_order', 10 );
-	add_action( 'woocommerce_after_shipping_rate', 'seur_after_seur_2shop_shipping_rate', 10, 2 );
+	add_action( 'woocommerce_after_shipping_rate', 'seur_after_seur_2shop_shipping_rate', 1, 2 );
+    //add_action( 'woocommerce_review_order_before_order_total', 'seur_after_seur_2shop_shipping_rate');
 	add_action( 'wp_enqueue_scripts', 'seur_map_checkout_load_js' );
 	add_action( 'wp_footer', 'seur_add_map_type_select2' );
 	add_action( 'woocommerce_checkout_update_order_meta', 'seur_add_2shop_data_to_order' );
