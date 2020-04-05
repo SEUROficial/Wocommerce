@@ -2,7 +2,7 @@
 Contributors: j.conti, seuroficial
 Tags: woocommerce, shipping, seur, logistica, enviar paquete, pedidos, entregas
 Requires at least: 4.0
-Tested up to: 5.3
+Tested up to: 5.4
 Stable tag: 1.5.1
 WC requires at least: 3.0
 WC tested up to: 4.0
