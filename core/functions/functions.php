@@ -688,166 +688,154 @@ function seur_seach_allowed_states_filtered_by_countries( $allowedstate, $filter
 	return $filtered_rates_by_state;
 }
 
-function seur_seach_allowed_postcodes_filtered_by_states( $allowedpostcode, $filtered_rates_by_state ){
+function seur_seach_allowed_postcodes_filtered_by_states( $allowedpostcode, $filtered_rates_by_state ) {
+	
+	$filtered_rates_by_postcode = array();
+	foreach ( $filtered_rates_by_state as $allowedrate ) {
+		$postcode = $allowedrate['postcode'];
+		$rateid   = $allowedrate['ID'];
 
-        $filtered_rates_by_postcode = array();
-
-        foreach ( $filtered_rates_by_state as $allowedrate ) {
-
-            $postcode   = $allowedrate['postcode'];
-            $rateid     = $allowedrate['ID'];
-
-            if ( $allowedpostcode == $postcode ) {
-
-                $columns    = array(
-                                'ID',
-                                'country',
-                                'state',
-                                'postcode',
-                                'minprice',
-                                'maxprice',
-                                'minweight',
-                                'maxweight',
-                                'rate',
-                                'rateprice',
-                                'type'
-                            );
-
-                $valors     = array(
-                                $allowedrate['ID'],
-                                $allowedrate['country'],
-                                $allowedrate['state'],
-                                $allowedrate['postcode'],
-                                $allowedrate['minprice'],
-                                $allowedrate['maxprice'],
-                                $allowedrate['minweight'],
-                                $allowedrate['maxweight'],
-                                $allowedrate['rate'],
-                                $allowedrate['rateprice'],
-                                $allowedrate['type']
-                            );
-
-                $filtered_rates_by_postcode[] = array_combine( $columns, $valors );
-
-                }
-        }
-        if ( $filtered_rates_by_postcode ) {
-
-            return $filtered_rates_by_postcode;
-
-            } else {
-
-                foreach ( $filtered_rates_by_state as $allowedrate ) {
-
-                    $postcode   = $allowedrate['postcode'];
-                    $rateid     = $allowedrate['ID'];
-
-                    if ( $postcode == '*' ) {
-
-                        $columns    = array(
-                                        'ID',
-                                        'country',
-                                        'state',
-                                        'postcode',
-                                        'minprice',
-                                        'maxprice',
-                                        'minweight',
-                                        'maxweight',
-                                        'rate',
-                                        'rateprice',
-                                        'type'
-                                    );
-
-                        $valors     = array(
-                                        $allowedrate['ID'],
-                                        $allowedrate['country'],
-                                        $allowedrate['state'],
-                                        $allowedrate['postcode'],
-                                        $allowedrate['minprice'],
-                                        $allowedrate['maxprice'],
-                                        $allowedrate['minweight'],
-                                        $allowedrate['maxweight'],
-                                        $allowedrate['rate'],
-                                        $allowedrate['rateprice'],
-                                        $allowedrate['type']
-                                    );
-
-                        $filtered_rates_by_postcode[] = array_combine( $columns, $valors );
-
-                        }
-                }
-
-            }
-            return $filtered_rates_by_postcode;
+		if ( $allowedpostcode == $postcode ) {
+			$columns = array(
+				'ID',
+				'country',
+				'state',
+				'postcode',
+				'minprice',
+				'maxprice',
+				'minweight',
+				'maxweight',
+				'rate',
+				'rateprice',
+				'type'
+			);
+			$valors = array(
+				$allowedrate['ID'],
+				$allowedrate['country'],
+				$allowedrate['state'],
+				$allowedrate['postcode'],
+				$allowedrate['minprice'],
+				$allowedrate['maxprice'],
+				$allowedrate['minweight'],
+				$allowedrate['maxweight'],
+				$allowedrate['rate'],
+				$allowedrate['rateprice'],
+				$allowedrate['type']
+			);
+			$filtered_rates_by_postcode[] = array_combine( $columns, $valors );
+		}
+	}
+	if ( $filtered_rates_by_postcode ) {
+		return $filtered_rates_by_postcode;
+	} else {
+		foreach ( $filtered_rates_by_state as $allowedrate ) {
+			$postcode = $allowedrate['postcode'];
+			$rateid   = $allowedrate['ID'];
+			if ( $postcode == '*' ) {
+				$columns = array(
+				'ID',
+				'country',
+				'state',
+				'postcode',
+				'minprice',
+				'maxprice',
+				'minweight',
+				'maxweight',
+				'rate',
+				'rateprice',
+				'type'
+				);
+				$valors = array(
+					$allowedrate['ID'],
+					$allowedrate['country'],
+					$allowedrate['state'],
+					$allowedrate['postcode'],
+					$allowedrate['minprice'],
+					$allowedrate['maxprice'],
+					$allowedrate['minweight'],
+					$allowedrate['maxweight'],
+					$allowedrate['rate'],
+					$allowedrate['rateprice'],
+					$allowedrate['type']
+				);
+				$filtered_rates_by_postcode[] = array_combine( $columns, $valors );
+			}
+		}
+	}
+	return $filtered_rates_by_postcode;
 }
 
-function seur_seach_allowed_prices_filtered_by_postcode( $allowedprice, $filtered_rates_by_postcode ){
-
-        $filtered_rates_by_price = array();
-
-        foreach ( $filtered_rates_by_postcode as $allowedrate ) {
-
-            $minprice   = $allowedrate['minprice'];
-            $maxprice   = $allowedrate['maxprice'];
-            $rateid     = $allowedrate['ID'];
-
-            if ( ( $minprice <= $allowedprice ) &&  ( $maxprice > $allowedprice ) ) {
-
-                $columns    = array(
-                                'ID',
-                                'country',
-                                'state',
-                                'postcode',
-                                'minprice',
-                                'maxprice',
-                                'minweight',
-                                'maxweight',
-                                'rate',
-                                'rateprice',
-                                'type'
-                            );
-
-                $valors     = array(
-                                $allowedrate['ID'],
-                                $allowedrate['country'],
-                                $allowedrate['state'],
-                                $allowedrate['postcode'],
-                                $allowedrate['minprice'],
-                                $allowedrate['maxprice'],
-                                $allowedrate['minweight'],
-                                $allowedrate['maxweight'],
-                                $allowedrate['rate'],
-                                $allowedrate['rateprice'],
-                                $allowedrate['type']
-                            );
-
-                $filtered_rates_by_price[] = array_combine( $columns, $valors );
-
-                }
-        }
-    return $filtered_rates_by_price;
+function seur_seach_allowed_prices_filtered_by_postcode( $allowedprice, $filtered_rates_by_postcode ) {
+	$filtered_rates_by_price = array();
+	
+	foreach ( $filtered_rates_by_postcode as $allowedrate ) {
+		$minprice = $allowedrate['minprice'];
+		$maxprice = $allowedrate['maxprice'];
+		$rateid   = $allowedrate['ID'];
+		if ( ( $minprice <= $allowedprice ) &&  ( $maxprice > $allowedprice ) ) {
+			$columns = array(
+				'ID',
+				'country',
+				'state',
+				'postcode',
+				'minprice',
+				'maxprice',
+				'minweight',
+				'maxweight',
+				'rate',
+				'rateprice',
+				'type'
+			);
+			$valors = array(
+				$allowedrate['ID'],
+				$allowedrate['country'],
+				$allowedrate['state'],
+				$allowedrate['postcode'],
+				$allowedrate['minprice'],
+				$allowedrate['maxprice'],
+				$allowedrate['minweight'],
+				$allowedrate['maxweight'],
+				$allowedrate['rate'],
+				$allowedrate['rateprice'],
+				$allowedrate['type']
+			);
+			$filtered_rates_by_price[] = array_combine( $columns, $valors );
+		}
+	}
+	return $filtered_rates_by_price;
 }
 
-function seur_show_availables_rates( $country = NULL, $state = NULL, $postcode = NULL, $price = NULL ){
-
-    if ( ! $country )   $country           = '*';
-    if ( ! $state )     $state             = '*';
-    if ( ! $postcode )  $postcode          = '*';
-    if ( $postcode == '00000' )  $postcode = '*';
-    if ( ! $price  )    $price             = '0';
-
-    $filtered_rates_by_country  = array();
-    $filtered_rates_by_state    = array();
-    $filtered_rates_by_postcode = array();
-    $ratestoscreen              = array();
-
-    $filtered_rates_by_country  = seur_search_allowed_rates_by_country( $country );
-    $filtered_rates_by_state    = seur_seach_allowed_states_filtered_by_countries( $state, $filtered_rates_by_country  );
-    $filtered_rates_by_postcode = seur_seach_allowed_postcodes_filtered_by_states( $postcode, $filtered_rates_by_state );
-    $ratestoscreen              = seur_seach_allowed_prices_filtered_by_postcode( $price, $filtered_rates_by_postcode  );
-
-
-    return $ratestoscreen;
+function seur_show_availables_rates( $country = NULL, $state = NULL, $postcode = NULL, $price = NULL ) {
+	
+	$log           = new WC_Logger();
+	$log->add( 'seur', ' ARRAIVE TO seur_show_availables_rates( $country = NULL, $state = NULL, $postcode = NULL, $price = NULL )' );
+	if ( ! $country ) {
+		$country = '*';
+	}
+	if ( ! $state ) {
+		$state = '*';
+	}
+	if ( ! $postcode ) {
+		$postcode = '*';
+	}
+	if ( $postcode == '00000' ) {
+		$postcode = '*';
+	}
+	if ( ! $price ) {
+		$price = '0';
+	}
+	
+	$filtered_rates_by_country  = array();
+	$filtered_rates_by_state    = array();
+	$filtered_rates_by_postcode = array();
+	$ratestoscreen              = array();
+	
+	$filtered_rates_by_country  = seur_search_allowed_rates_by_country( $country );
+	$filtered_rates_by_state    = seur_seach_allowed_states_filtered_by_countries( $state, $filtered_rates_by_country  );
+	$filtered_rates_by_postcode = seur_seach_allowed_postcodes_filtered_by_states( $postcode, $filtered_rates_by_state );
+	$ratestoscreen              = seur_seach_allowed_prices_filtered_by_postcode( $price, $filtered_rates_by_postcode  );
+	
+	return $ratestoscreen;
 }
 
 function seur_get_user_settings() {
@@ -865,102 +853,186 @@ function seur_get_user_settings() {
 	} else {
 		$seur_empresa_field = '';
 	}
-    if ( get_option( 'seur_viatipo_field' ) )               { $seur_viatipo_field             = get_option( 'seur_viatipo_field'              ); } else { $seur_viatipo_field               = ''; }
-    if ( get_option( 'seur_vianombre_field' ) )             { $seur_vianombre_field           = get_option( 'seur_vianombre_field'            ); } else { $seur_vianombre_field             = ''; }
-    if ( get_option( 'seur_vianumero_field' ) )             { $seur_vianumero_field           = get_option( 'seur_vianumero_field'            ); } else { $seur_vianumero_field             = ''; }
-    if ( get_option( 'seur_escalera_field' ) )              { $seur_escalera_field            = get_option( 'seur_escalera_field'             ); } else { $seur_escalera_field              = ''; }
-    if ( get_option( 'seur_piso_field' ) )                  { $seur_piso_field                = get_option( 'seur_piso_field'                 ); } else { $seur_piso_field                  = ''; }
-    if ( get_option( 'seur_puerta_field' ) )                { $seur_puerta_field              = get_option( 'seur_puerta_field'               ); } else { $seur_puerta_field                = ''; }
-    if ( get_option( 'seur_postal_field' ) )                { $seur_postal_field              = get_option( 'seur_postal_field'               ); } else { $seur_postal_field                = ''; }
-    if ( get_option( 'seur_poblacion_field' ) )             { $seur_poblacion_field           = get_option( 'seur_poblacion_field'            ); } else { $seur_poblacion_field             = ''; }
-    if ( get_option( 'seur_provincia_field' ) )             { $seur_provincia_field           = get_option( 'seur_provincia_field'            ); } else { $seur_provincia_field             = ''; }
-    if ( get_option( 'seur_pais_field' ) )                  { $seur_pais_field                = get_option( 'seur_pais_field'                 ); } else { $seur_pais_field                  = ''; }
-    if ( get_option( 'seur_telefono_field' ) )              { $seur_telefono_field            = get_option( 'seur_telefono_field'             ); } else { $seur_telefono_field              = ''; }
-    if ( get_option( 'seur_email_field' ) )                 { $seur_email_field               = get_option( 'seur_email_field'                ); } else { $seur_email_field                 = ''; }
-    if ( get_option( 'seur_contacto_nombre_field' ) )       { $seur_contacto_nombre_field     = get_option( 'seur_contacto_nombre_field'      ); } else { $seur_contacto_nombre_field       = ''; }
-    if ( get_option( 'seur_contacto_apellidos_field' )  )   { $seur_contacto_apellidos_field  = get_option( 'seur_contacto_apellidos_field'   ); } else { $seur_contacto_apellidos_field    = ''; }
-    if ( get_option( 'seur_cit_codigo_field' ) )            { $seur_cit_codigo_field          = get_option( 'seur_cit_codigo_field'           ); } else { $seur_cit_codigo_field            = ''; }
-    if ( get_option( 'seur_cit_usuario_field' ) )           { $seur_cit_usuario_field         = get_option( 'seur_cit_usuario_field'          ); } else { $seur_cit_usuario_field           = ''; }
-    if ( get_option( 'seur_cit_contra_field' ) )            { $seur_cit_contra_field          = get_option( 'seur_cit_contra_field'           ); } else { $seur_cit_contra_field            = ''; }
-    if ( get_option( 'seur_ccc_field' ) )                   { $seur_ccc_field                 = get_option( 'seur_ccc_field'                  ); } else { $seur_ccc_field                   = ''; }
-    if ( get_option( 'seur_int_ccc_field' ) )               { $seur_int_ccc_field             = get_option( 'seur_int_ccc_field'              ); } else { $seur_int_ccc_field               = ''; }
-
-    if ( get_option( 'seur_franquicia_field' ) )            { $seur_franquicia_field          = get_option( 'seur_franquicia_field'           ); } else { $seur_franquicia_field            = ''; }
-    if ( get_option( 'seur_seurcom_usuario_field' ) )       { $seur_seurcom_usuario_field     = get_option( 'seur_seurcom_usuario_field'      ); } else { $seur_seurcom_usuario_field       = ''; }
-    if ( get_option( 'seur_seurcom_contra_field' ) )        { $seur_seurcom_contra_field      = get_option( 'seur_seurcom_contra_field'       ); } else { $seur_seurcom_contra_field        = ''; }
-
-    if ( $seur_pais_field ) {
-        if ( $seur_pais_field == 'ES') {
-            $seur_pais_field = 'España';
-        }
-        if ( $seur_pais_field == 'PT') {
-            $seur_pais_field = 'Portugal';
-        }
-        if ( $seur_pais_field == 'AD') {
-            $seur_pais_field = 'Andorra';
-        }
-    }
-
-    $option = array(
-                'nif',
-                'empresa',
-                'viatipo',
-                'vianombre',
-                'vianumero',
-                'escalera',
-                'piso',
-                'puerta',
-                'postalcode',
-                'poblacion',
-                'provincia',
-                'pais',
-                'telefono',
-                'email',
-                'contacto_nombre',
-                'contacto_apellidos',
-                'cit_codigo',
-                'cit_usuario',
-                'cit_contra',
-                'ccc',
-                'int_ccc',
-                'franquicia',
-                'seurcom_usuario',
-                'seurcom_contra'
-                );
-
-    $value = array(
-                $seur_nif_field,
-                $seur_empresa_field,
-                $seur_viatipo_field,
-                $seur_vianombre_field,
-                $seur_vianumero_field,
-                $seur_escalera_field,
-                $seur_piso_field,
-                $seur_puerta_field,
-                $seur_postal_field,
-                $seur_poblacion_field,
-                $seur_provincia_field,
-                $seur_pais_field,
-                $seur_telefono_field,
-                $seur_email_field,
-                $seur_contacto_nombre_field,
-                $seur_contacto_apellidos_field,
-                $seur_cit_codigo_field,
-                $seur_cit_usuario_field,
-                $seur_cit_contra_field,
-                $seur_ccc_field,
-                $seur_int_ccc_field,
-                $seur_franquicia_field,
-                $seur_seurcom_usuario_field,
-                $seur_seurcom_contra_field
-            );
-
-    $seur_user_settings[] = array_combine( $option, $value );
-
-    return $seur_user_settings;
-
-
-
+	
+	if ( get_option( 'seur_viatipo_field' ) ) {
+		$seur_viatipo_field = get_option( 'seur_viatipo_field'              );
+	} else {
+		$seur_viatipo_field = '';
+	}
+	if ( get_option( 'seur_vianombre_field' ) ) {
+		$seur_vianombre_field = get_option( 'seur_vianombre_field' );
+	} else {
+		$seur_vianombre_field = '';
+	}
+	if ( get_option( 'seur_vianumero_field' ) ) {
+		$seur_vianumero_field = get_option( 'seur_vianumero_field' );
+	} else {
+		$seur_vianumero_field = '';
+	}
+	if ( get_option( 'seur_escalera_field' ) ) {
+		$seur_escalera_field = get_option( 'seur_escalera_field' );
+	} else {
+		$seur_escalera_field = '';
+	}
+	if ( get_option( 'seur_piso_field' ) ) {
+		$seur_piso_field = get_option( 'seur_piso_field' );
+	} else {
+		$seur_piso_field = '';
+	}
+	if ( get_option( 'seur_puerta_field' ) ) {
+		$seur_puerta_field = get_option( 'seur_puerta_field' );
+	} else {
+		$seur_puerta_field = '';
+	}
+	if ( get_option( 'seur_postal_field' ) ) {
+		$seur_postal_field = get_option( 'seur_postal_field' );
+	} else {
+		$seur_postal_field = '';
+	}
+	if ( get_option( 'seur_poblacion_field' ) ) {
+		$seur_poblacion_field = get_option( 'seur_poblacion_field' );
+	} else {
+		$seur_poblacion_field = '';
+	}
+	if ( get_option( 'seur_provincia_field' ) ) {
+		$seur_provincia_field = get_option( 'seur_provincia_field' );
+	} else {
+		$seur_provincia_field = '';
+	}
+	if ( get_option( 'seur_pais_field' ) ) {
+		$seur_pais_field = get_option( 'seur_pais_field' );
+	} else {
+		$seur_pais_field = '';
+	}
+	if ( get_option( 'seur_telefono_field' ) ) {
+		$seur_telefono_field = get_option( 'seur_telefono_field' );
+	} else {
+		$seur_telefono_field = '';
+	}
+	if ( get_option( 'seur_email_field' ) ) {
+		$seur_email_field = get_option( 'seur_email_field' );
+	} else {
+		$seur_email_field = '';
+	}
+	if ( get_option( 'seur_contacto_nombre_field' ) ) {
+		$seur_contacto_nombre_field = get_option( 'seur_contacto_nombre_field' );
+	} else {
+		$seur_contacto_nombre_field = '';
+	}
+	if ( get_option( 'seur_contacto_apellidos_field' ) ) {
+		$seur_contacto_apellidos_field = get_option( 'seur_contacto_apellidos_field' );
+	} else {
+		$seur_contacto_apellidos_field = '';
+	}
+	if ( get_option( 'seur_cit_codigo_field' ) ) {
+		$seur_cit_codigo_field = get_option( 'seur_cit_codigo_field' );
+	} else {
+		$seur_cit_codigo_field = '';
+	}
+	if ( get_option( 'seur_cit_usuario_field' ) ) {
+		$seur_cit_usuario_field = get_option( 'seur_cit_usuario_field' );
+	} else {
+		$seur_cit_usuario_field = '';
+	}
+	if ( get_option( 'seur_cit_contra_field' ) ) {
+		$seur_cit_contra_field = get_option( 'seur_cit_contra_field' );
+	} else {
+		$seur_cit_contra_field = '';
+	}
+	if ( get_option( 'seur_ccc_field' ) ) {
+		$seur_ccc_field = get_option( 'seur_ccc_field' );
+	} else {
+		$seur_ccc_field = '';
+	}
+	if ( get_option( 'seur_int_ccc_field' ) ) {
+		$seur_int_ccc_field = get_option( 'seur_int_ccc_field' );
+	} else {
+		$seur_int_ccc_field = '';
+	}
+	if ( get_option( 'seur_franquicia_field' ) ) {
+		$seur_franquicia_field = get_option( 'seur_franquicia_field' );
+	} else {
+		$seur_franquicia_field = '';
+	}
+	if ( get_option( 'seur_seurcom_usuario_field' ) ) {
+		$seur_seurcom_usuario_field = get_option( 'seur_seurcom_usuario_field' );
+	} else {
+		$seur_seurcom_usuario_field = '';
+	}
+	if ( get_option( 'seur_seurcom_contra_field' ) ) {
+		$seur_seurcom_contra_field = get_option( 'seur_seurcom_contra_field' );
+	} else {
+		$seur_seurcom_contra_field = '';
+	}
+	
+	if ( $seur_pais_field ) {
+		if ( $seur_pais_field == 'ES') {
+			$seur_pais_field = 'España';
+		}
+		if ( $seur_pais_field == 'PT') {
+			$seur_pais_field = 'Portugal';
+		}
+		if ( $seur_pais_field == 'AD') {
+			$seur_pais_field = 'Andorra';
+		}
+	}
+	
+	$option = array(
+		'nif',
+		'empresa',
+		'viatipo',
+		'vianombre',
+		'vianumero',
+		'escalera',
+		'piso',
+		'puerta',
+		'postalcode',
+		'poblacion',
+		'provincia',
+		'pais',
+		'telefono',
+		'email',
+		'contacto_nombre',
+		'contacto_apellidos',
+		'cit_codigo',
+		'cit_usuario',
+		'cit_contra',
+		'ccc',
+		'int_ccc',
+		'franquicia',
+		'seurcom_usuario',
+		'seurcom_contra'
+	);
+	
+	$value = array(
+		$seur_nif_field,
+		$seur_empresa_field,
+		$seur_viatipo_field,
+		$seur_vianombre_field,
+		$seur_vianumero_field,
+		$seur_escalera_field,
+		$seur_piso_field,
+		$seur_puerta_field,
+		$seur_postal_field,
+		$seur_poblacion_field,
+		$seur_provincia_field,
+		$seur_pais_field,
+		$seur_telefono_field,
+		$seur_email_field,
+		$seur_contacto_nombre_field,
+		$seur_contacto_apellidos_field,
+		$seur_cit_codigo_field,
+		$seur_cit_usuario_field,
+		$seur_cit_contra_field,
+		$seur_ccc_field,
+		$seur_int_ccc_field,
+		$seur_franquicia_field,
+		$seur_seurcom_usuario_field,
+		$seur_seurcom_contra_field
+	);
+	$seur_user_settings[] = array_combine( $option, $value );
+	
+	return $seur_user_settings;
 }
 
 function seur_get_advanced_settings() {
@@ -1219,46 +1291,44 @@ function seur_upload_url( $dir_name = NULL ){
 
 function seur_clean_data( $out ){
 
-    $out = str_replace ( "Á", "A", $out );
-    $out = str_replace ( "À", "A", $out );
-    $out = str_replace ( "Ä", "A", $out );
-    $out = str_replace ( "É", "E", $out );
-    $out = str_replace ( "È", "E", $out );
-    $out = str_replace ( "Ë", "E", $out );
-    $out = str_replace ( "Í", "I", $out );
-    $out = str_replace ( "Ì", "I", $out );
-    $out = str_replace ( "Ï", "I", $out );
-    $out = str_replace ( "Ó", "O", $out );
-    $out = str_replace ( "Ò", "O", $out );
-    $out = str_replace ( "Ö", "O", $out );
-    $out = str_replace ( "Ú", "U", $out );
-    $out = str_replace ( "Ù", "U", $out );
-    $out = str_replace ( "Ü", "U", $out );
-    $out = str_replace ( "&", "-", $out );
-    $out = str_replace ( "<", " ", $out );
-    $out = str_replace ( ">", " ", $out );
-    $out = str_replace ( "/", " ", $out );
-    $out = str_replace ( "\"", " ", $out );
-    $out = str_replace ( "'", " ", $out  );
-    $out = str_replace ( "\"", " ", $out );
-    $out = str_replace ( "?", " ", $out );
-    $out = str_replace ( "¿", " ", $out );
-
-    return $out;
+	$out = str_replace ( "Á", "A", $out );
+	$out = str_replace ( "À", "A", $out );
+	$out = str_replace ( "Ä", "A", $out );
+	$out = str_replace ( "É", "E", $out );
+	$out = str_replace ( "È", "E", $out );
+	$out = str_replace ( "Ë", "E", $out );
+	$out = str_replace ( "Í", "I", $out );
+	$out = str_replace ( "Ì", "I", $out );
+	$out = str_replace ( "Ï", "I", $out );
+	$out = str_replace ( "Ó", "O", $out );
+	$out = str_replace ( "Ò", "O", $out );
+	$out = str_replace ( "Ö", "O", $out );
+	$out = str_replace ( "Ú", "U", $out );
+	$out = str_replace ( "Ù", "U", $out );
+	$out = str_replace ( "Ü", "U", $out );
+	$out = str_replace ( "&", "-", $out );
+	$out = str_replace ( "<", " ", $out );
+	$out = str_replace ( ">", " ", $out );
+	$out = str_replace ( "/", " ", $out );
+	$out = str_replace ( "\"", " ", $out );
+	$out = str_replace ( "'", " ", $out );
+	$out = str_replace ( "\"", " ", $out );
+	$out = str_replace ( "?", " ", $out );
+	$out = str_replace ( "¿", " ", $out );
+	
+	return $out;
 }
 
 function seur_always_kg( $weight ) {
-
-    $weight_unit =  get_option('woocommerce_weight_unit');
-
-    if ( $weight_unit == 'kg'){
-        $weight_kg = $weight;
-        }
-    if ( $weight_unit == 'g') {
-        $weight_kg = (string)( number_format( $weight/1000, 3, '.', '' ) );
-        }
-
-    return $weight_kg;
+	
+	$weight_unit =  get_option( 'woocommerce_weight_unit' );
+	if ( $weight_unit === 'kg'){
+		$weight_kg = $weight;
+	}
+	if ( $weight_unit === 'g' ) {
+		$weight_kg = (string)( number_format( $weight/1000, 3, '.', '' ) );
+	}
+	return $weight_kg;
 }
 
 function seur_create_random_shippping_id() {
@@ -1316,79 +1386,85 @@ function seur_get_label( $order_id, $numpackages = '1', $weight = '1', $post_wei
 	$date                     = date('d-m-Y');
 	$mobile_shipping          = get_post_meta( $order_id, '_shipping_mobile_phone', true );
 	$mobile_billing           = get_post_meta( $order_id, '_billing_mobile_phone', true );
-    $log                      = new WC_Logger();
-
-    $log->add( 'seur', '$order_id: ' . $order_id );
-    $log->add( 'seur', '$numpackages: ' . $numpackages );
-    $log->add( 'seur', '$weight: ' . $weight );
-    $log->add( 'seur', '$post_weight: ' . $post_weight );
+	$log                      = new WC_Logger();
+	
+	$log->add( 'seur', '$order_id: ' . $order_id );
+	$log->add( 'seur', '$numpackages: ' . $numpackages );
+	$log->add( 'seur', '$weight: ' . $weight );
+	$log->add( 'seur', '$post_weight: ' . $post_weight );
 	// All needed Data return Array
 	
 	$order_data               = seur_get_order_data( $order_id );
 	$user_data                = seur_get_user_settings();
 	$advanced_data            = seur_get_advanced_settings();
-    $customer_country         = $order_data[0]['country'];
-    $log->add( 'seur', '$seur_shipping_method_id: ' . $seur_shipping_method_id );
-    $log->add( 'seur', '$pre_id_seur: ' . $pre_id_seur );
-    $log->add( 'seur', '$customer_country: ' . $customer_country );
-    $product_service_seur     = seur_get_service_product_shipping_product( $seur_shipping_method_id, $customer_country );
-    $log->add( 'seur', '$product_service_seur: ' . print_r( $product_service_seur, true ) );
+	$customer_country         = $order_data[0]['country'];
+	$log->add( 'seur', '$seur_shipping_method_id: ' . $seur_shipping_method_id );
+	$log->add( 'seur', '$pre_id_seur: ' . $pre_id_seur );
+	$log->add( 'seur', '$customer_country: ' . $customer_country );
+	$product_service_seur     = seur_get_service_product_shipping_product( $seur_shipping_method_id, $customer_country );
+	$log->add( 'seur', '$product_service_seur: ' . print_r( $product_service_seur, true ) );
 
 	
 	// User settings 
 	
-	$empresa                  = $user_data[0]['empresa'];
-	$viatipo                  = $user_data[0]['viatipo'];
-	$vianombre                = $user_data[0]['vianombre'];
-	$vianumero                = $user_data[0]['vianumero'];
-	$escalera                 = $user_data[0]['escalera'];
-	$piso                     = $user_data[0]['piso'];
-	$puerta                   = $user_data[0]['puerta'];
-	$postalcode               = $user_data[0]['postalcode'];
-	$poblacion                = $user_data[0]['poblacion'];
-	$provincia                = $user_data[0]['provincia'];
-	$pais                     = $user_data[0]['pais'];
-	$telefono                 = $user_data[0]['telefono'];
-	$email                    = $user_data[0]['email'];
-	$contacto_nombre          = $user_data[0]['contacto_nombre'];
-	$contacto_apellidos       = $user_data[0]['contacto_apellidos'];
-	$cit_pass                 = $user_data[0]['cit_codigo'];
-	$cit_user                 = $user_data[0]['cit_usuario'];
-	$cit_contra               = $user_data[0]['cit_contra'];
-	$nif                      = $user_data[0]['nif'];
-	$franquicia               = $user_data[0]['franquicia'];
-	$nat_ccc                  = $user_data[0]['ccc'];
-	$int_ccc                  = $user_data[0]['int_ccc'];
-	$usercom                  = $user_data[0]['seurcom_usuario'];
-	$passcom                  = $user_data[0]['seurcom_contra'];
-    
-    if ( $pais ) {
-        if ( $pais == 'España') {
-            $paisgl = 'ES';
-        }
-        if ( $pais == 'Portugal') {
-            $paisgl = 'PT';
-        }
-        if ( $pais == 'Andorra') {
-            $$paisgl = 'AD';
-        }
-    }
-
-    // Advanced User Settings
-
-    $geolabel                = $advanced_data[0]['geolabel'];
-    $aduana_origen           = $advanced_data[0]['aduana_origen'];
-    $aduana_destino          = $advanced_data[0]['aduana_destino'];
-    $tipo_mercancia          = $advanced_data[0]['tipo_mercancia'];
-    $id_mercancia            = $advanced_data[0]['id_mercancia'];
-    $descripcion             = $advanced_data[0]['descripcion'];
-    $preaviso_notificar      = $advanced_data[0]['preaviso_notificar'];
-    if( $preaviso_notificar  == '1') { $preaviso_notificar = 'S'; } else { $preaviso_notificar = 'N'; }
-    $reparto_notificar       = $advanced_data[0]['reparto_notificar'];
-    if ( $reparto_notificar  == '1' ) { $reparto_notificar = 'S'; } else { $reparto_notificar = 'N'; }
-    $tipo_aviso              = $advanced_data[0]['tipo_notificacion'];
-
-    if ( $tipo_aviso == 'SMS' && $preaviso_notificar == 'S' ) {
+	$empresa            = $user_data[0]['empresa'];
+	$viatipo            = $user_data[0]['viatipo'];
+	$vianombre          = $user_data[0]['vianombre'];
+	$vianumero          = $user_data[0]['vianumero'];
+	$escalera           = $user_data[0]['escalera'];
+	$piso               = $user_data[0]['piso'];
+	$puerta             = $user_data[0]['puerta'];
+	$postalcode         = $user_data[0]['postalcode'];
+	$poblacion          = $user_data[0]['poblacion'];
+	$provincia          = $user_data[0]['provincia'];
+	$pais               = $user_data[0]['pais'];
+	$telefono           = $user_data[0]['telefono'];
+	$email              = $user_data[0]['email'];
+	$contacto_nombre    = $user_data[0]['contacto_nombre'];
+	$contacto_apellidos = $user_data[0]['contacto_apellidos'];
+	$cit_pass           = $user_data[0]['cit_codigo'];
+	$cit_user           = $user_data[0]['cit_usuario'];
+	$cit_contra         = $user_data[0]['cit_contra'];
+	$nif                = $user_data[0]['nif'];
+	$franquicia         = $user_data[0]['franquicia'];
+	$nat_ccc            = $user_data[0]['ccc'];
+	$int_ccc            = $user_data[0]['int_ccc'];
+	$usercom            = $user_data[0]['seurcom_usuario'];
+	$passcom            = $user_data[0]['seurcom_contra'];
+	
+	if ( $pais ) {
+		if ( $pais == 'España') {
+			$paisgl = 'ES';
+		}
+		if ( $pais == 'Portugal') {
+			$paisgl = 'PT';
+		}
+		if ( $pais == 'Andorra') {
+			$$paisgl = 'AD';
+		}
+	}
+	
+	// Advanced User Settings
+	
+	$geolabel           = $advanced_data[0]['geolabel'];
+	$aduana_origen      = $advanced_data[0]['aduana_origen'];
+	$aduana_destino     = $advanced_data[0]['aduana_destino'];
+	$tipo_mercancia     = $advanced_data[0]['tipo_mercancia'];
+	$id_mercancia       = $advanced_data[0]['id_mercancia'];
+	$descripcion        = $advanced_data[0]['descripcion'];
+	$preaviso_notificar = $advanced_data[0]['preaviso_notificar'];
+	
+	if ( $preaviso_notificar  === '1' ) {
+		$preaviso_notificar = 'S';
+	} else {
+		$preaviso_notificar = 'N';
+	}
+	$reparto_notificar       = $advanced_data[0]['reparto_notificar'];
+	
+	if ( $reparto_notificar  == '1' ) { $reparto_notificar = 'S'; } else { $reparto_notificar = 'N'; }
+	$tipo_aviso              = $advanced_data[0]['tipo_notificacion'];
+	
+	if ( $tipo_aviso == 'SMS' && $preaviso_notificar == 'S' ) {
         $preaviso_sms = 'S';
     } else {
         $preaviso_sms = 'N';

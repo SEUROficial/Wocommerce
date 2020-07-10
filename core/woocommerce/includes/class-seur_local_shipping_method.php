@@ -36,6 +36,7 @@ class Seur_Local_Shipping_Method extends WC_Shipping_Method {
 			)
 		);
 		$this->title                = $this->get_option( 'title' );
+		$this->log = new WC_Logger();
 
 		add_action( 'woocommerce_update_options_shipping_' . $this->id, array( $this, 'process_admin_options' ) );
 	}
@@ -48,16 +49,17 @@ class Seur_Local_Shipping_Method extends WC_Shipping_Method {
 				$rate_requests         = array();
 				$rates_type            = get_option( 'seur_rates_type_field' );
 				$localpickup_is_active = get_option( 'seur_activate_local_pickup_field' );
+				$this->log->add( 'seur', 'calculate_shipping( $package = array() ): PROBANDO' );
+				$this->log->add( 'seur', 'calculate_shipping( $package = array() ): ' .print_r( $package, true ) );
 				// Only return rates if the package has a destination including country
 				if ( '' === $package['destination']['country'] ) {
-					$this->debug( __( 'SEUR: Country not supplied. Rates not requested.', 'seur' ) );
 					return;
 				}
 				if ( '1' !== $localpickup_is_active ) {
 					return;
 				}
 				if ( 'price' === $rates_type ) {
-					$price = $package['contents_cost'];
+					$price = $package['cart_subtotal'];
 				} else {
 					$weight        = 0;
 					$cost          = 0;
@@ -71,12 +73,10 @@ class Seur_Local_Shipping_Method extends WC_Shipping_Method {
 					$price = wc_get_weight( $weight, 'kg' );
 				}
 
-				$log = new WC_Logger();
-
-				$log->add( 'seur', '$country: ' . $country );
-				$log->add( 'seur', '$state: ' . $state );
-				$log->add( 'seur', '$postcode_seur: ' . $postcode_seur );
-				$log->add( 'seur', '$price: ' . $price );
+				$this->log->add( 'seur', '$country: ' . $country );
+				$this->log->add( 'seur', '$state: ' . $state );
+				$this->log->add( 'seur', '$postcode_seur: ' . $postcode_seur );
+				$this->log->add( 'seur', '$price: ' . $price );
 				//$price       = $package['contents_cost'];
 				$country       = $package['destination']['country'];
 				$state         = $package['destination']['state'];
