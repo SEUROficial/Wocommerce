@@ -70,6 +70,13 @@ class Seur_Local_Shipping_Method extends WC_Shipping_Method {
 					}
 					$price = wc_get_weight( $weight, 'kg' );
 				}
+
+				$log = new WC_Logger();
+
+				$log->add( 'seur', '$country: ' . $country );
+				$log->add( 'seur', '$state: ' . $state );
+				$log->add( 'seur', '$postcode_seur: ' . $postcode_seur );
+				$log->add( 'seur', '$price: ' . $price );
 				//$price       = $package['contents_cost'];
 				$country       = $package['destination']['country'];
 				$state         = $package['destination']['state'];

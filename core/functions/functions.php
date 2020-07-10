@@ -1117,6 +1117,11 @@ function seur_return_shipping_product_id( $shipping_product ) {
 
 function seur_get_service_product_shipping_product( $method_id, $customer_country = null ){
 
+    $log = new WC_Logger();
+
+    $log->add( 'seur', '$method_id: ' . $method_id );
+    $log->add( 'seur', '$customer_country: ' . $customer_country );
+    
     $service_product = array();
 
     $products = seur_get_all_shipping_products();
@@ -1146,6 +1151,8 @@ function seur_get_service_product_shipping_product( $method_id, $customer_countr
                 );
 
     $service_product[] = array_combine( $option, $value );
+
+    $log->add( 'seur', '$service_product[]: ' . print_r( $service_product, true ) );
 
     return $service_product;
 }
@@ -1309,16 +1316,26 @@ function seur_get_label( $order_id, $numpackages = '1', $weight = '1', $post_wei
 	$date                     = date('d-m-Y');
 	$mobile_shipping          = get_post_meta( $order_id, '_shipping_mobile_phone', true );
 	$mobile_billing           = get_post_meta( $order_id, '_billing_mobile_phone', true );
-	
+    $log                      = new WC_Logger();
+
+    $log->add( 'seur', '$order_id: ' . $order_id );
+    $log->add( 'seur', '$numpackages: ' . $numpackages );
+    $log->add( 'seur', '$weight: ' . $weight );
+    $log->add( 'seur', '$post_weight: ' . $post_weight );
 	// All needed Data return Array
 	
 	$order_data               = seur_get_order_data( $order_id );
 	$user_data                = seur_get_user_settings();
 	$advanced_data            = seur_get_advanced_settings();
-	$customer_country         = $order_data[0]['country'];
-	$product_service_seur     = seur_get_service_product_shipping_product( $seur_shipping_method_id, $customer_country );
+    $customer_country         = $order_data[0]['country'];
+    $log->add( 'seur', '$seur_shipping_method_id: ' . $seur_shipping_method_id );
+    $log->add( 'seur', '$pre_id_seur: ' . $pre_id_seur );
+    $log->add( 'seur', '$customer_country: ' . $customer_country );
+    $product_service_seur     = seur_get_service_product_shipping_product( $seur_shipping_method_id, $customer_country );
+    $log->add( 'seur', '$product_service_seur: ' . print_r( $product_service_seur, true ) );
+
 	
-	// User settings
+	// User settings 
 	
 	$empresa                  = $user_data[0]['empresa'];
 	$viatipo                  = $user_data[0]['viatipo'];
@@ -1472,13 +1489,19 @@ function seur_get_label( $order_id, $numpackages = '1', $weight = '1', $post_wei
     $seur_service            = $product_service_seur[0]['service'];
     $seur_product            = $product_service_seur[0]['product'];
 
+    $log->add( 'seur', '$seur_service: ' . $seur_service );
+    $log->add( 'seur', '$seur_product: ' . $seur_product );
+
     if ( $customer_country == 'ES' || $customer_country == 'PT' || $customer_country == 'AD') {
 
         // shipping is to ES, PT or AD, let's check customer data
 
         $shipping_class = 0;
         $data           = array( 0 => $cit_user, $cit_contra, $customercity, $customerpostcode );
+
+        $log->add( 'seur', '$data: ' . print_r( $data, true ) );
         $fran           = SeurCheckCity( $data );
+        $log->add( 'seur', '$fran: ' . $fran );
 
         if ( ! $fran ) {
 
@@ -1488,10 +1511,14 @@ function seur_get_label( $order_id, $numpackages = '1', $weight = '1', $post_wei
 
             return 'error 1';
             } else { // city and postcode exist
-                    if ( $fran == '74' || $fran == '77' || $fran == '56' || $fran == '35' || $fran == '38' || $fran == '52' || $fran == '60' || $fran == '70' ) $shipping_class = 2;
+                    if ( $fran == '74' || $fran == '77' || $fran == '56' || $fran == '35' || $fran == '38' || $fran == '52' || $fran == '60' || $fran == '70' ) {
+                        $shipping_class = 2;
+                        $log->add( 'seur', '$shipping_class: ' . $shipping_class );
+                    }
                 }
         } else { // shipping is not to ES, PT or AD
             $shipping_class = 1;
+            $log->add( 'seur', '$shipping_class: ' . $shipping_class );
     }
 
     /*****************************************************/
@@ -1510,17 +1537,19 @@ function seur_get_label( $order_id, $numpackages = '1', $weight = '1', $post_wei
 
         if( ( $customer_country == 'ES' || $customer_country == 'AD' || $customer_country == 'PT' ) && ( $seur_service == '3' || $seur_service == '9' ) ){
 
-                $seur_saturday_shipping = '<entrega_sabado>S</entrega_sabado>';
+            $seur_saturday_shipping = '<entrega_sabado>S</entrega_sabado>';
 
-            } else {
-
-                $seur_saturday_shipping = '';
-
-            }
         } else {
 
             $seur_saturday_shipping = '';
+
         }
+    } else {
+
+        $seur_saturday_shipping = '';
+    }
+
+    $log->add( 'seur', '$seur_saturday_shipping: ' . $seur_saturday_shipping );
 
     /*****************************************************/
     /** END Temp data maybe changed in the next release **/
@@ -1678,8 +1707,7 @@ function seur_get_label( $order_id, $numpackages = '1', $weight = '1', $post_wei
 		// Se usa GeoLabel.
 		if ( 'ES' !== $customer_country && 'AD' !== $customer_country && 'PT' !== $customer_country ) {
 			// Se utiliza Geolabel, es envío internacional, y es Térmica
-			$log = new WC_Logger();
-			
+
 			$requestGeolabel =
 				'{
 				"customerBussinesUnit": ' . $franquicia . ',
@@ -1901,18 +1929,24 @@ function seur_get_label( $order_id, $numpackages = '1', $weight = '1', $post_wei
 				'in8' => $franquicia,
 				'in9' => '-1',
 				'in10'=> "wooseuroficial"
-			);
+            );
+            
+            $log->add( 'seur', 'Envio a: España, Portugal o Andora' );
+            $log->add( 'seur', '$params: ' . print_r( $params, true ) );
 			
 			$sc_options = array(
 				'connection_timeout' => 60
 			);
 			
-			$url = 'http://cit.seur.com/CIT-war/services/ImprimirECBWebService?wsdl';
+            $url = 'http://cit.seur.com/CIT-war/services/ImprimirECBWebService?wsdl';
+            $log->add( 'seur', '$url: ' . $url );
 			
 			if ( ! seur_check_url_exists( $url ) ) die( __('We&apos;re sorry, SEUR API is down. Please try again in few minutes', 'seur' ) );
 			
 			$soap_client = new SoapClient('http://cit.seur.com/CIT-war/services/ImprimirECBWebService?wsdl', $sc_options );
-			$respuesta   = $soap_client->impresionIntegracionConECBWS($params);
+            $respuesta   = $soap_client->impresionIntegracionConECBWS($params);
+            
+            $log->add( 'seur', '$respuesta: ' . print_r( $respuesta, true ) );
 			
 			if ( $respuesta->out->mensaje == 'OK' ) {
 				$txtlabel = $respuesta->out->traza;
