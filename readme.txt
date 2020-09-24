@@ -96,7 +96,7 @@ The "SEUR > Shipments" menu includes the option to track your shipment and see t
 
 == 1.6.1 ==
 
-* Allows shop managers (shop_manager role) create order labels
+* Allows shop managers (shop_manager role) to create order labels
 
 == 1.6.0 ==
 
