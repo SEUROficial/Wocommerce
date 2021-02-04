@@ -2134,7 +2134,8 @@ function seur_get_label( $order_id, $numpackages = '1', $weight = '1', $post_wei
 			$url = 'http://cit.seur.com/CIT-war/services/ImprimirECBWebService?wsdl';
 			
 			if ( ! seur_check_url_exists( $url ) ) die( __('We&apos;re sorry, SEUR API is down. Please try again in few minutes', 'seur' ) );
-			
+
+
 			//pedimos las etiquetas
 			$sc_options = array(
 				'connection_timeout' => 60,
@@ -2142,7 +2143,7 @@ function seur_get_label( $order_id, $numpackages = '1', $weight = '1', $post_wei
 				);
 			
 				$log = new WC_Logger();
-				//$log->add( 'seur', 'Parametros: ' . print_r( $params, true  ) );
+				$log->add( 'seur', 'Parametros: ' . print_r( $params, true  ) );
 				try{
 					$soap_client = new SoapClient('http://cit.seur.com/CIT-war/services/ImprimirECBWebService?wsdl', $sc_options );
 					$response    = $soap_client->impresionIntegracionPDFConECBWS( $params );
@@ -2276,8 +2277,17 @@ function seur_get_label( $order_id, $numpackages = '1', $weight = '1', $post_wei
 			
 			if ( ! seur_check_url_exists( $url ) ) die( __('We&apos;re sorry, SEUR API is down. Please try again in few minutes', 'seur' ) );
 			
-			$soap_client = new SoapClient('http://cit.seur.com/CIT-war/services/ImprimirECBWebService?wsdl', $sc_options );
+			$log = new WC_Logger();
+			$log->add( 'seur', 'Parametros: ' . print_r( $params, true  ) );
+			try{
+				$soap_client = new SoapClient('http://cit.seur.com/CIT-war/services/ImprimirECBWebService?wsdl', $sc_options );
 			$respuesta   = $soap_client->impresionIntegracionConECBWS($params);
+			} catch ( SoapFault $ex ){
+				$log->add( 'seur', $ex->getMessage() );
+				//$log->add( 'seur', print_r( $soap_client ->__getLastRequest(), true ) );
+				$log->add( 'seur', $response->out->mensaje );
+				//$log->add( 'seur', print_r( $response, true  ) );
+			}
 			
 			if ( $respuesta->out->mensaje == 'OK' ){
 				$txtlabel = $respuesta->out->traza;
