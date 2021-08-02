@@ -51,6 +51,7 @@ class Seur_Local_Shipping_Method extends WC_Shipping_Method {
 				$localpickup_is_active = get_option( 'seur_activate_local_pickup_field' );
 				$this->log->add( 'seur', 'calculate_shipping( $package = array() ): PROBANDO' );
 				$this->log->add( 'seur', 'calculate_shipping( $package = array() ): ' .print_r( $package, true ) );
+				$this->log->add( 'seur', 'TOTAl Cart: ' . WC()->cart->get_cart_total() );
 				// Only return rates if the package has a destination including country
 				if ( '' === $package['destination']['country'] ) {
 					return;
