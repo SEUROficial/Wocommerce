@@ -334,8 +334,13 @@ class WC_Shipping_SEUR extends WC_Shipping_Method {
 		$seur_response = array();
 		$rate_requests = array();
 		$rates_type    = get_option( 'seur_rates_type_field' );
+		$cart = WC()->session->get( "cart_totals", null );
+		$total_card = $cart['total'];
+		$total_tax  = $cart['total_tax'];
 		$this->log->add( 'seur', 'calculate_shipping( $package = array() ): PROBANDO' );
 		$this->log->add( 'seur', 'calculate_shipping( $package = array() ): ' . print_r( $package, true ) );
+		$this->log->add( 'seur', '$total_card: ' . $total_card );
+		$this->log->add( 'seur', '$total_tax: ' . $total_tax );
 		
 		// Only return rates if the package has a destination including country
 		if ( '' === $package['destination']['country'] ) {
@@ -344,7 +349,10 @@ class WC_Shipping_SEUR extends WC_Shipping_Method {
 		}
 		
 		if ( $rates_type == 'price' ) {
-			$price = $package['contents_cost'];
+			// TODO añadir una opción que deje seleccionar si se quiere antes o después de impuestos.
+			//$price = $package['cart_subtotal']; // antes de impustos
+			$cart = WC()->session->get( "cart_totals", null );
+			$price = $cart['total']; // Después de impustos
 		} else {
 			$weight        = 0;
 			$cost          = 0;

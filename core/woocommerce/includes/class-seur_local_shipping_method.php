@@ -60,7 +60,10 @@ class Seur_Local_Shipping_Method extends WC_Shipping_Method {
 					return;
 				}
 				if ( 'price' === $rates_type ) {
-					$price = $package['cart_subtotal'];
+					// TODO añadir una opción que deje seleccionar si se quiere antes o después de impuestos.
+					//$price = $package['cart_subtotal']; // antes de impustos
+					$cart = WC()->session->get( "cart_totals", null );
+					$price = $cart['total']; // Después de impustos
 				} else {
 					$weight        = 0;
 					$cost          = 0;
