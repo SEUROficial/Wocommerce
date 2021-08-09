@@ -351,7 +351,7 @@ class WC_Shipping_SEUR extends WC_Shipping_Method {
 		if ( $rates_type == 'price' ) {
 			// TODO añadir una opción que deje seleccionar si se quiere antes o después de impuestos.
 			//$price = $package['cart_subtotal']; // antes de impustos
-			$cart = WC()->session->get( "cart_totals", null );
+			$cart = WC()->session->get( 'cart_totals', null );
 			$price = $cart['total']; // Después de impustos
 		} else {
 			$weight        = 0;
