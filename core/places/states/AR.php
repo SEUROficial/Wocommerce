@@ -1,4 +1,8 @@
-<?php if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
+<?php
+
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; // Exit if accessed directly
+}
 
 return array(
 	'C' => 'Ciudad Aut&oacute;noma de Buenos Aires',
@@ -24,5 +28,5 @@ return array(
 	'S' => 'Santa Fe',
 	'G' => 'Santiago del Estero',
 	'V' => 'Tierra del Fuego',
-	'T' => 'Tucum&aacute;n'
+	'T' => 'Tucum&aacute;n',
 );

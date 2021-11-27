@@ -1,4 +1,8 @@
-<?php if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
+<?php
+
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; // Exit if accessed directly
+}
 
 return array(
 	'CN1'  => 'Yunnan / &#20113;&#21335;',
@@ -32,5 +36,5 @@ return array(
 	'CN29' => 'Ningxia Hui / &#23425;&#22799;',
 	'CN30' => 'Macau / &#28595;&#38376;',
 	'CN31' => 'Tibet / &#35199;&#34255;',
-	'CN32' => 'Xinjiang / &#26032;&#30086;'
+	'CN32' => 'Xinjiang / &#26032;&#30086;',
 );

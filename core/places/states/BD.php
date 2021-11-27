@@ -1,4 +1,8 @@
-<?php if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
+<?php
+
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; // Exit if accessed directly
+}
 
 return array(
 	'BAG'  => 'Bagerhat',
@@ -64,5 +68,5 @@ return array(
 	'SUN'  => 'Sunamganj',
 	'SYL'  => 'Sylhet',
 	'TAN'  => 'Tangail',
-	'THA'  => 'Thakurgaon'
+	'THA'  => 'Thakurgaon',
 );

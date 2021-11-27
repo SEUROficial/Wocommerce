@@ -1,4 +1,8 @@
-<?php if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
+<?php
+
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; // Exit if accessed directly
+}
 
 return array(
 	'BAG' => 'Bagmati',
@@ -14,5 +18,5 @@ return array(
 	'NAR' => 'Narayani',
 	'RAP' => 'Rapti',
 	'SAG' => 'Sagarmatha',
-	'SET' => 'Seti'
+	'SET' => 'Seti',
 );

@@ -1,4 +1,8 @@
-<?php if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
+<?php
+
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; // Exit if accessed directly
+}
 
 return array(
 	'AC' => 'Acre',
@@ -27,5 +31,5 @@ return array(
 	'SC' => 'Santa Catarina',
 	'SP' => 'S&atilde;o Paulo',
 	'SE' => 'Sergipe',
-	'TO' => 'Tocantins'
+	'TO' => 'Tocantins',
 );

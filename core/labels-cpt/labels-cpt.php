@@ -1,13 +1,15 @@
 <?php
 
-if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; // Exit if accessed directly.
+}
 
-// Register Custom Post Type
+// Register Custom Post Type.
 function seur_cpt_labels() {
-	
+
 	$labels = array(
 		'name'                  => _x( 'Shipments', 'Post Type General Name', 'seur' ),
-		'singular_name'         => _x( 'Shipment',  'Post Type Singular Name', 'seur' ),
+		'singular_name'         => _x( 'Shipment', 'Post Type Singular Name', 'seur' ),
 		'menu_name'             => __( 'Shipments', 'seur' ),
 		'name_admin_bar'        => __( 'Shipments', 'seur' ),
 		'archives'              => __( 'Labels', 'seur' ),
@@ -34,7 +36,7 @@ function seur_cpt_labels() {
 		'items_list_navigation' => __( 'Labels list navigation', 'seur' ),
 		'filter_items_list'     => __( 'Filter Labels list', 'seur' ),
 	);
-	$args = array(
+	$args   = array(
 		'label'               => __( 'Shipment', 'seur' ),
 		'description'         => __( 'Seur Shipments', 'seur' ),
 		'labels'              => $labels,
@@ -55,14 +57,15 @@ function seur_cpt_labels() {
 		'capability_type'     => 'shop_order',
 	);
 	register_post_type( 'seur_labels', $args );
+
 }
 add_action( 'init', 'seur_cpt_labels', 0 );
 
-// Adding columns to Labels List
+// Adding columns to Labels List.
 
 add_filter( 'manage_seur_labels_posts_columns', 'seur_set_custom_label_columns' );
 function seur_set_custom_label_columns( $columns ) {
-	
+
 	unset( $columns['title'] );
 	unset( $columns['date'] );
 	unset( $columns['taxonomy-labels-product'] );
@@ -77,32 +80,34 @@ function seur_set_custom_label_columns( $columns ) {
 	$columns['seur-tracking']           = __( 'Tracking', 'seur' );
 	$columns['date']                    = __( 'Label Date', 'seur' );
 
-    return $columns;
+	return $columns;
 }
 
 function seur_get_order_tracking( $order_id ) {
-	
+
 	$order_tracking = get_post_meta( $order_id, '_seur_shipping_tracking_state', true );
-	
+
 	if ( ! empty( $order_tracking ) ) {
-		$order_tracking_unse  = maybe_unserialize( $order_tracking );
-		foreach ($order_tracking_unse as $state => $value ) {
+		$order_tracking_unse = maybe_unserialize( $order_tracking );
+
+		foreach ( $order_tracking_unse as $state => $value ) {
+
 			$latest_state = $value['descripcion_cliente'];
 			$date         = $value['fecha_situacion'];
 		}
-		echo $date;
+		echo esc_html( $date );
 		echo '<br />';
-		echo $latest_state;
+		echo esc_html( $latest_state );
 	} else {
-		_e( 'Waiting Collection', 'seur' );
+		esc_html_e( 'Waiting Collection', 'seur' );
 	}
 }
 
-add_action( 'manage_seur_labels_posts_custom_column' , 'seur_custom_label_column_data', 10, 2 );
+add_action( 'manage_seur_labels_posts_custom_column', 'seur_custom_label_column_data', 10, 2 );
 
 function seur_custom_label_column_data( $column, $post_id ) {
 	global $woocommerce;
-	
+
 	$seur_shipping_method = get_post_meta( $post_id, '_seur_shipping_method', true );
 	$weight               = get_post_meta( $post_id, '_seur_shipping_weight', true );
 	$num_packages         = get_post_meta( $post_id, '_seur_shipping_packages', true );
@@ -112,65 +117,63 @@ function seur_custom_label_column_data( $column, $post_id ) {
 	$label_file_name      = get_post_meta( $post_id, '_seur_shipping_order_label_file_name', true );
 	$label_path           = get_post_meta( $post_id, '_seur_shipping_order_label_path_name', true );
 	$label_url            = get_post_meta( $post_id, '_seur_shipping_order_label_url_name', true );
-	$url_to_file_down     = get_site_option('seur_download_file_url');
-	$file_downlo_pass     = get_site_option('seur_pass_for_download');
-	$label_path           = str_replace("\\", "/", $label_path );
+	$url_to_file_down     = get_site_option( 'seur_download_file_url' );
+	$file_downlo_pass     = get_site_option( 'seur_pass_for_download' );
+	$label_path           = str_replace( '\\', '/', $label_path );
 	$file_type            = get_post_meta( $post_id, '_seur_label_type', true );
-	
+
 	if ( ! empty( $order_tracking ) ) {
 		$order_tracking = $order_tracking;
 	} else {
 		$order_tracking = __( 'Waiting Shipping', 'seur' );
 	}
-	$orer_exist = wc_get_order( $order_id );
-	if ( $orer_exist ) {
-		$order        = new WC_Order( $order_id );
-		$product_list = '';
-		$order_item   = $order->get_items();
-		foreach( $order_item as $product ) {
-			$product_name[] = '<li>' . $product['name']." x ".$product['qty'] . '</li>';
-		}
-		$product_list = implode( '', $product_name );
-		
-		
-		switch ( $column ) {
-		
-			case 'order_id' :
-				$link = admin_url( 'post.php?post=' . $order_id . '&action=edit' );
-				echo '<a href="' . $link . '" target="_blank">' . $order_id . '</a>';
+
+	$order        = new WC_Order( $order_id );
+	$product_list = '';
+	$order_item   = $order->get_items();
+	foreach ( $order_item as $product ) {
+				$product_name[] = '<li>' . $product['name'] . ' x ' . $product['qty'] . '</li>';
+
+	}
+	$product_list = implode( '', $product_name );
+
+	switch ( $column ) {
+
+		case 'order_id':
+			$link = admin_url( 'post.php?post=' . $order_id . '&action=edit' );
+			echo '<a href="' . esc_url( $link ) . '" target="_blank">' . esc_html( $order_id ) . '</a>';
 			break;
-			case 'product' :
-				echo '<ul>';
-				echo $product_list;
-				echo '</ul>';
+		case 'product':
+			echo '<ul>';
+			echo esc_html( $product_list );
+			echo '</ul>';
 			break;
-			case 'customer_name' :
-				echo $customer_name;
+		case 'customer_name':
+			echo esc_html( $customer_name );
 			break;
-			case 'customer_comments' :
-				echo $order_comments;
+		case 'customer_comments':
+			echo esc_html( $order_comments );
 			break;
-			
-			case 'seur-tracking' :
-				echo seur_get_order_tracking( $post_id );
+
+		case 'seur-tracking':
+			echo esc_html( seur_get_order_tracking( $post_id ) );
 			break;
-			
-			case 'weight' :
-				echo $weight;
+
+		case 'weight':
+			echo esc_html( $weight );
 			break;
-			
-			case 'print' :
-			//echo '<a href="' . $label_url . '" onClick="window.print();return false">​​​​​​​​​​​​​​​​​print pdf</a>';
-			
-				echo '<a href="' . $url_to_file_down . '?label=' . $label_path . '&label_name=' . $label_file_name . '&pass=' .$file_downlo_pass . '&file_type=' . $file_type . '" class="button" target="_blank">' . __( ' Open ', 'seur' ) . '</a>';
+
+		case 'print':
+			// echo '<a href="' . $label_url . '" onClick="window.print();return false">​​​​​​​​​​​​​​​​​print pdf</a>';
+
+			echo '<a href="' . esc_url( $url_to_file_down ) . '?label=' . esc_html( $label_path ) . '&label_name=' . esc_html( $label_file_name ) . '&pass=' . esc_html( $file_downlo_pass ) . '&file_type=' . esc_html( $file_type ) . '" class="button" target="_blank">' . esc_html__( ' Open ', 'seur' ) . '</a>';
 			break;
-		}
-    }
+	}
 }
 
 // Register Custom Taxonomy
 function seur_add_label_taxonomy() {
-	
+
 	$labels = array(
 		'name'                       => _x( 'Products', 'Taxonomy General Name', 'seur' ),
 		'singular_name'              => _x( 'Product', 'Taxonomy Singular Name', 'seur' ),
@@ -193,8 +196,7 @@ function seur_add_label_taxonomy() {
 		'items_list'                 => __( 'Product list', 'seur' ),
 		'items_list_navigation'      => __( 'Products list navigation', 'seur' ),
 	);
-	
-	$args = array(
+	$args   = array(
 		'labels'            => $labels,
 		'hierarchical'      => false,
 		'public'            => false,
@@ -217,7 +219,7 @@ add_action( 'init', 'seur_add_label_taxonomy', 0 );
  * Register meta box(es).
  */
 function seur_label_register_meta_box() {
-    add_meta_box( 'seurmetaboxlabel', __( 'Data Label', 'seur' ), 'seur_metabox_label_callback', 'seur_labels', 'normal', 'high' );
+	add_meta_box( 'seurmetaboxlabel', __( 'Data Label', 'seur' ), 'seur_metabox_label_callback', 'seur_labels', 'normal', 'high' );
 }
 add_action( 'add_meta_boxes', 'seur_label_register_meta_box' );
 
@@ -228,224 +230,227 @@ add_action( 'add_meta_boxes', 'seur_label_register_meta_box' );
  */
 function seur_metabox_label_callback( $post ) {
 
-    $weight                  = get_post_meta( $post->ID, '_seur_shipping_weight',     true );
-    $order_id                = get_post_meta( $post->ID, '_seur_shipping_order_id',   true );
-    $product                 = get_post_meta( $post->ID, '_seur_product',             true );
-    $customer_name           = get_post_meta( $post->ID, '_seur_label_customer_name', true );
-    $order_data              = seur_get_order_data( $order_id );
-    $mobile_shipping         = get_post_meta( $order_id, '_shipping_mobile_phone',    true );
-    $mobile_billing          = get_post_meta( $order_id, '_billing_mobile_phone',     true );
-    $seur_shipping_method    = seur_get_shipping_method( $order_id );
+	$weight               = get_post_meta( $post->ID, '_seur_shipping_weight', true );
+	$order_id             = get_post_meta( $post->ID, '_seur_shipping_order_id', true );
+	$product              = get_post_meta( $post->ID, '_seur_product', true );
+	$customer_name        = get_post_meta( $post->ID, '_seur_label_customer_name', true );
+	$order_data           = seur_get_order_data( $order_id );
+	$mobile_shipping      = get_post_meta( $order_id, '_shipping_mobile_phone', true );
+	$mobile_billing       = get_post_meta( $order_id, '_billing_mobile_phone', true );
+	$seur_shipping_method = seur_get_shipping_method( $order_id );
 
-    $customer_country        = $order_data[0]['country'];
-    $customercity            = seur_clean_data( $order_data[0]['city'] );
-    $customerpostcode        = $order_data[0]['postcode'];
-    $customer_weight         = $order_data[0]['weight'];
+	$customer_country = $order_data[0]['country'];
+	$customercity     = seur_clean_data( $order_data[0]['city'] );
+	$customerpostcode = $order_data[0]['postcode'];
+	$customer_weight  = $order_data[0]['weight'];
 
-    if ( ! $customer_weight ) $customer_weight = $weight;
+	if ( ! $customer_weight ) {
+		$customer_weight = $weight;
+	}
 
-    $customer_address_1      = seur_clean_data( $order_data[0]['address_1'] );
-    $customer_address_2      = seur_clean_data( $order_data[0]['address_2'] );
-    $customer_email          = seur_clean_data( $order_data[0]['email'] );
-    $customer_phone          = $order_data[0]['phone'];
-    $customer_order_notes    = seur_clean_data( $order_data[0]['order_notes'] );
-    $customer_order_total    = $order_data[0]['order_total'];
+	$customer_address_1   = seur_clean_data( $order_data[0]['address_1'] );
+	$customer_address_2   = seur_clean_data( $order_data[0]['address_2'] );
+	$customer_email       = seur_clean_data( $order_data[0]['email'] );
+	$customer_phone       = $order_data[0]['phone'];
+	$customer_order_notes = seur_clean_data( $order_data[0]['order_notes'] );
+	$customer_order_total = $order_data[0]['order_total'];
 
-    $billing_last_name       = get_post_meta( $order_id, '_billing_last_name',     true );
-    $billing_name            = get_post_meta( $order_id, '_billing_first_name',    true );
-    $billing_email           = get_post_meta( $order_id, '_billing_email',         true );
-    $billing_country         = get_post_meta( $order_id, '_billing_country',       true );
-    $billing_addr_1          = get_post_meta( $order_id, '_billing_address_1',     true );
-    $billing_addr_2          = get_post_meta( $order_id, '_billing_address_2',     true );
-    $billing_postcode        = get_post_meta( $order_id, '_billing_postcode',      true );
-    $billing_city            = get_post_meta( $order_id, '_billing_city',          true );
-    $billing_state           = get_post_meta( $order_id, '_billing_state',         true );
-    $billing_mobile_phone    = get_post_meta( $order_id, '_billing_mobile_phone',  true );
-    $billing_phone           = get_post_meta( $order_id, '_billing_phone',         true );
+	$billing_last_name    = get_post_meta( $order_id, '_billing_last_name', true );
+	$billing_name         = get_post_meta( $order_id, '_billing_first_name', true );
+	$billing_email        = get_post_meta( $order_id, '_billing_email', true );
+	$billing_country      = get_post_meta( $order_id, '_billing_country', true );
+	$billing_addr_1       = get_post_meta( $order_id, '_billing_address_1', true );
+	$billing_addr_2       = get_post_meta( $order_id, '_billing_address_2', true );
+	$billing_postcode     = get_post_meta( $order_id, '_billing_postcode', true );
+	$billing_city         = get_post_meta( $order_id, '_billing_city', true );
+	$billing_state        = get_post_meta( $order_id, '_billing_state', true );
+	$billing_mobile_phone = get_post_meta( $order_id, '_billing_mobile_phone', true );
+	$billing_phone        = get_post_meta( $order_id, '_billing_phone', true );
 
-    if ( $customer_order_notes ) {
-        $customer_order_notes = $customer_order_notes;
-    } else {
-        $customer_order_notes = __( "There aren't comments for this order", 'seur' );
-    }
+	if ( $customer_order_notes ) {
+		$customer_order_notes = $customer_order_notes;
+	} else {
+		$customer_order_notes = __( "There aren't comments for this order", 'seur' );
+	}
 
-    ?>
-    <div id="seur_content_metabox">
+	?>
+	<div id="seur_content_metabox">
 
-        <div id="order_data" class="panel">
+		<div id="order_data" class="panel">
 
-            <h2><?php echo __('Details for Shipment ID #', 'seur' ) . $post->ID; ?> </h2>
+			<h2><?php echo esc_html__( 'Details for Shipment ID #', 'seur' ) . esc_html( $post->ID ); ?> </h2>
 
-            <div class="order_data_column_container">
+			<div class="order_data_column_container">
 
-                <div class="order_data_column">
-                    <h3>
-                        <?php _e('Billing Details', 'seur' ); ?>
-                    </h3>
-                    <div class="address">
-                        <p>
-                            <strong><?php _e('Adress:  ', 'seur' ); ?></strong> <?php echo $billing_name . ' ' . $billing_last_name; ?><br>
-                            <?php echo $billing_name . ' ' . $billing_last_name; ?><br>
-                            <?php echo $billing_addr_1; ?><br>
-                            <?php echo $billing_addr_2 . '<br>'; ?>
-                            <?php echo $billing_postcode . ' ' . $billing_city . '<br>'; ?>
-                            <?php echo $billing_state . '<br>'; ?>
-                            <?php echo $billing_country; ?>
-                        </p>
-                    </div>
-                    <p>
-                        <strong><?php _e('Email: ', 'seur' ); ?></strong><a href="mailto:<?php echo $billing_email; ?>"><?php echo $billing_email; ?></a>
-                    </p>
-                    <p>
-                        <strong><?php _e('Phone: ', 'seur' ); ?></strong> <?php echo $billing_phone; ?>
-                    </p>
-                    <p>
-                        <strong><?php _e('Billing Mobile Phone: ', 'seur' ); ?></strong><?php echo $billing_mobile_phone; ?>
-                    </p>
-                </div>
+				<div class="order_data_column">
+					<h3>
+						<?php esc_html_e( 'Billing Details', 'seur' ); ?>
+					</h3>
+					<div class="address">
+						<p>
+							<strong><?php esc_html_e( 'Adress:  ', 'seur' ); ?></strong> <?php echo esc_html( $billing_name ) . ' ' . esc_html( $billing_last_name ); ?><br>
+							<?php echo esc_html( $billing_name ) . ' ' . esc_html( $billing_last_name ); ?><br>
+							<?php echo esc_html( $billing_addr_1 ); ?><br>
+							<?php echo esc_html( $billing_addr_2 ) . '<br>'; ?>
+							<?php echo esc_html( $billing_postcode ) . ' ' . esc_html( $billing_city ) . '<br>'; ?>
+							<?php echo esc_html( $billing_state ) . '<br>'; ?>
+							<?php echo esc_html( $billing_country ); ?>
+						</p>
+					</div>
+					<p>
+						<strong><?php esc_html_e( 'Email: ', 'seur' ); ?></strong><a href="mailto:<?php echo esc_html( $billing_email ); ?>"><?php echo esc_html( $billing_email ); ?></a>
+					</p>
+					<p>
+						<strong><?php esc_html_e( 'Phone: ', 'seur' ); ?></strong> <?php echo esc_html( $billing_phone ); ?>
+					</p>
+					<p>
+						<strong><?php esc_html_e( 'Billing Mobile Phone: ', 'seur' ); ?></strong><?php echo esc_html( $billing_mobile_phone ); ?>
+					</p>
+				</div>
 
-                <div class="order_data_column">
+				<div class="order_data_column">
 
-                    <h3>
-                        <?php _e('Shipping Details', 'seur' ); ?>
-                    </h3>
-                    <div class="address">
-                        <p>
-                            <strong><?php _e('Adress:  ', 'seur' ); ?></strong> <?php echo $customer_name; ?><br>
-                            <?php echo $customer_name; ?><br>
-                            <?php echo $customer_address_1; ?><br>
-                            <?php echo $customer_address_2 . '<br>'; ?>
-                            <?php echo $customerpostcode . ' ' . $customercity . '<br>'; ?>
-                            <?php echo $customer_country; ?>
-                        </p>
-                    </div>
-                    <p>
-                        <strong><?php _e('Shipping Mobile Phone: ', 'seur' ); ?></strong><?php echo $mobile_shipping; ?>
-                    </p>
-                    <p>
-                        <strong><?php _e('Shipping Method: ', 'seur' ); ?></strong> <?php echo $seur_shipping_method; ?>
-                    </p>
+					<h3>
+						<?php esc_html_e( 'Shipping Details', 'seur' ); ?>
+					</h3>
+					<div class="address">
+						<p>
+							<strong><?php esc_html_e( 'Adress:  ', 'seur' ); ?></strong> <?php echo esc_html( $customer_name ); ?><br>
+							<?php echo esc_html( $customer_name ); ?><br>
+							<?php echo esc_html( $customer_address_1 ); ?><br>
+							<?php echo esc_html( $customer_address_2 ) . '<br>'; ?>
+							<?php echo esc_html( $customerpostcode ) . ' ' . esc_html( $customercity ) . '<br>'; ?>
+							<?php echo esc_html( $customer_country ); ?>
+						</p>
+					</div>
+					<p>
+						<strong><?php esc_html_e( 'Shipping Mobile Phone: ', 'seur' ); ?></strong><?php echo esc_html( $mobile_shipping ); ?>
+					</p>
+					<p>
+						<strong><?php esc_html_e( 'Shipping Method: ', 'seur' ); ?></strong> <?php echo esc_html( $seur_shipping_method ); ?>
+					</p>
 
-                </div>
+				</div>
 
-                <p>
-                    <strong><?php _e('Customer notes about Order: ', 'seur' ); ?></strong><br />
-                    <?php echo $customer_order_notes; ?>
-                </p>
+				<p>
+					<strong><?php esc_html_e( 'Customer notes about Order: ', 'seur' ); ?></strong><br />
+					<?php echo esc_html( $customer_order_notes ); ?>
+				</p>
 
-            </div>
+			</div>
 
-            <div class="clear"></div>
+			<div class="clear"></div>
 
-        </div>
+		</div>
 
-    </div>
+	</div>
 
-<?php }
+	<?php
+}
 
-//add_filter('display_post_states', 'seur_custom_post_states');
+// add_filter('display_post_states', 'seur_custom_post_states');
 
-function seur_custom_post_states($states) {
-    global $post;
-    if( ( 'seur_label' == get_post_type( $post->ID ) ) ){
-        $states[] = '__return_false';
-    }
+function seur_custom_post_states( $states ) {
+	global $post;
+	if ( ( 'seur_label' == get_post_type( $post->ID ) ) ) {
+		$states[] = '__return_false';
+	}
 }
 
 add_filter( 'bulk_actions-edit-seur_labels', 'seur_bulk_actions_labels_screen' );
 
 function seur_bulk_actions_labels_screen( $bulk_actions ) {
 
-  $bulk_actions['download_seur_label']  = __( 'Download  SEUR Labels', 'download_seur_label');
-  $bulk_actions['update_seur_tracking'] = __( 'Update SEUR Tracking', 'update_seur_tracking');
-  return $bulk_actions;
+	$bulk_actions['download_seur_label']  = __( 'Download  SEUR Labels', 'download_seur_label' );
+	$bulk_actions['update_seur_tracking'] = __( 'Update SEUR Tracking', 'update_seur_tracking' );
+	return $bulk_actions;
 }
 
 add_filter( 'handle_bulk_actions-edit-seur_labels', 'seur_bulk_actions_handler', 10, 3 );
 
 function seur_bulk_actions_handler( $redirect_to, $doaction, $post_ids ) {
-  if ( $doaction !== 'download_seur_label' &&  $doaction !== 'update_seur_tracking' ) {
-    return $redirect_to;
-  }
-  if ( $doaction == 'download_seur_label' ) {
+	if ( $doaction !== 'download_seur_label' && $doaction !== 'update_seur_tracking' ) {
+		return $redirect_to;
+	}
+	if ( $doaction == 'download_seur_label' ) {
 
-      $date = date('d-m-Y-H-i-s');
+		$date = date( 'd-m-Y-H-i-s' );
 
-      $bulk_label_name = 'label_bulk_' . $date . '.txt';
+		$bulk_label_name = 'label_bulk_' . $date . '.txt';
 
-      foreach( $post_ids as $post_id ) {
+		foreach ( $post_ids as $post_id ) {
 
-            $label_type = get_post_meta( $post_id, '_seur_label_type', true );
+			$label_type = get_post_meta( $post_id, '_seur_label_type', true );
 
-           if ( $label_type == 'termica' ) {
+			if ( $label_type == 'termica' ) {
 
-              $label_file_name = get_post_meta( $post_id, '_seur_shipping_order_label_file_name',    true );
-              $label_path      = get_post_meta( $post_id, '_seur_shipping_order_label_path_name',    true );
-              $upload_dir      = seur_upload_dir( 'labels' );
-              $upload_path     = $upload_dir . '/' . $bulk_label_name;
-              $label_text      = "\n" . file_get_contents( $label_path, true );
-              $bulk_file_exist = fopen( $upload_path, 'r' );
-              if( $bulk_file_exist ) {
-                  file_put_contents( $upload_path, $label_text, FILE_APPEND | LOCK_EX);
-              } else {
-                  file_put_contents( $upload_path, $label_text );
-              }
-        }
-      }
-      set_transient( get_current_user_id() . '_seur_label_bulk_download', $bulk_label_name );
-      $redirect_to = add_query_arg( 'bulk_download_seur_label', count( $post_ids ), $redirect_to );
-      return $redirect_to;
+				$label_file_name = get_post_meta( $post_id, '_seur_shipping_order_label_file_name', true );
+				$label_path      = get_post_meta( $post_id, '_seur_shipping_order_label_path_name', true );
+				$upload_dir      = seur_upload_dir( 'labels' );
+				$upload_path     = $upload_dir . '/' . $bulk_label_name;
+				$label_text      = "\n" . file_get_contents( $label_path, true );
+				$bulk_file_exist = fopen( $upload_path, 'r' );
+				if ( $bulk_file_exist ) {
+					file_put_contents( $upload_path, $label_text, FILE_APPEND | LOCK_EX );
+				} else {
+					file_put_contents( $upload_path, $label_text );
+				}
+			}
+		}
+		set_transient( get_current_user_id() . '_seur_label_bulk_download', $bulk_label_name );
+		$redirect_to = add_query_arg( 'bulk_download_seur_label', count( $post_ids ), $redirect_to );
+		return $redirect_to;
 
-      } elseif ( $doaction == 'update_seur_tracking' ) {
+	} elseif ( $doaction == 'update_seur_tracking' ) {
 
-          foreach( $post_ids as $post_id ) {
+		foreach ( $post_ids as $post_id ) {
 
-              $tracking_number = get_post_meta( $post_id,  '_seur_shipping_id_number', true );
+			$tracking_number = get_post_meta( $post_id, '_seur_shipping_id_number', true );
 
-              seur_get_tracking_shipment( $post_id, $tracking_number );
+			seur_get_tracking_shipment( $post_id, $tracking_number );
 
-              }
-          set_transient( get_current_user_id() . '_seur_label_bulk_tracking', true );
-          $redirect_to = add_query_arg( 'bulk_tracking_seur', count( $post_ids ), $redirect_to );
-          return $redirect_to;
-      }
+		}
+		set_transient( get_current_user_id() . '_seur_label_bulk_tracking', true );
+		$redirect_to = add_query_arg( 'bulk_tracking_seur', count( $post_ids ), $redirect_to );
+		return $redirect_to;
+	}
 }
 
 
 
 function seur_bulk_actions_success() {
 
-    $screen               = get_current_screen();
-    $file_name            = get_transient( get_current_user_id() . '_seur_label_bulk_download' );
-    $file_downlo_pass     = get_site_option('seur_pass_for_download');
-    $url_to_dir           = seur_upload_url( 'labels' );
-    $upload_dir           = seur_upload_dir( 'labels' );
-    $url_to_txt           = get_site_option('seur_download_file_url');
-    $path_to_txt          = $upload_dir . '/' . $file_name;
-    $label_path_fix       = str_replace("\\", "/", $path_to_txt );
+	$screen           = get_current_screen();
+	$file_name        = get_transient( get_current_user_id() . '_seur_label_bulk_download' );
+	$file_downlo_pass = get_site_option( 'seur_pass_for_download' );
+	$url_to_dir       = seur_upload_url( 'labels' );
+	$upload_dir       = seur_upload_dir( 'labels' );
+	$url_to_txt       = get_site_option( 'seur_download_file_url' );
+	$path_to_txt      = $upload_dir . '/' . $file_name;
+	$label_path_fix   = str_replace( '\\', '/', $path_to_txt );
 
-    if ( $file_name &&  $screen->post_type == 'seur_labels') {
-    ?>
-    <div class="notice notice-success is-dismissible">
-        <p><?php echo __('Bulk Print ready, please press Download Bulk Labels button for download the txt file. ') . '<a href="' . $url_to_txt . '?label=' . $label_path_fix . '&label_name=' . $file_name . '&pass=' . $file_downlo_pass . '&file_type=termica" class="button" target="_blank">' . __( ' Download Bulk Labels ', 'seur' ) . '</a>'; ?></p>
-    </div>
-    <?php
-        }
-    delete_transient( get_current_user_id() . '_seur_label_bulk_download' );
+	if ( $file_name && $screen->post_type == 'seur_labels' ) {
+		?>
+	<div class="notice notice-success is-dismissible">
+		<p><?php echo esc_html__( 'Bulk Print ready, please press Download Bulk Labels button for download the txt file. ' ) . '<a href="' . esc_url( $url_to_txt ) . '?label=' . esc_html( $label_path_fix ) . '&label_name=' . esc_html( $file_name ) . '&pass=' . esc_html( $file_downlo_pass ) . '&file_type=termica" class="button" target="_blank">' . esc_html__( ' Download Bulk Labels ', 'seur' ) . '</a>'; ?></p>
+	</div>
+		<?php
+	}
+	delete_transient( get_current_user_id() . '_seur_label_bulk_download' );
 }
 add_action( 'admin_notices', 'seur_bulk_actions_success' );
 
 function seur_bulk_actions_success_tracking() {
 
-    $screen               = get_current_screen();
-    $file_name            = get_transient( get_current_user_id() . '_seur_label_bulk_tracking' );
-    if ( $file_name &&  $screen->post_type == 'seur_labels') {
-    ?>
-    <div class="notice notice-success is-dismissible">
-        <p><?php _e('All tracking updated', 'seur' ); ?></p>
-    </div>
-    <?php
-        }
-    delete_transient( get_current_user_id() . '_seur_label_bulk_tracking' );
+	$screen    = get_current_screen();
+	$file_name = get_transient( get_current_user_id() . '_seur_label_bulk_tracking' );
+	if ( $file_name && $screen->post_type == 'seur_labels' ) {
+		?>
+	<div class="notice notice-success is-dismissible">
+		<p><?php esc_html_e( 'All tracking updated', 'seur' ); ?></p>
+	</div>
+		<?php
+	}
+	delete_transient( get_current_user_id() . '_seur_label_bulk_tracking' );
 }
 add_action( 'admin_notices', 'seur_bulk_actions_success_tracking' );

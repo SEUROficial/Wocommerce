@@ -1,16 +1,16 @@
 <?php
 
 if ( ! defined( 'ABSPATH' ) ) {
-    exit; // Exit if accessed directly
+	exit; // Exit if accessed directly
 }
 
 /**
  * Seur_Local_Shipping_Method class.
  *
- * @class 		Seur_Local_Shipping_Method
- * @version		1.0.0
- * @category	Class
- * @author 		Jose Conti Softwares
+ * @class Seur_Local_Shipping_Method
+ * @version 1.0.0
+ * @category Class
+ * @author Jose Conti
  */
 class Seur_Local_Shipping_Method extends WC_Shipping_Method {
 
@@ -18,110 +18,105 @@ class Seur_Local_Shipping_Method extends WC_Shipping_Method {
 	 * Constructor. The instance ID is passed to this.
 	 */
 	public function __construct( $instance_id = 0 ) {
-		$this->id                    = 'seurlocal';
-		$this->instance_id           = absint( $instance_id );
-		$this->method_title          = __( 'SEUR Local Pickup', 'seur' );
-		$this->method_description    = __( 'SEUR Local Pickup Shipping Method, Please configure SEUR data in <code>SEUR -> Settings</code>', 'seur' );
-		$this->supports              = array(
+		$this->id                   = 'seurlocal';
+		$this->instance_id          = absint( $instance_id );
+		$this->method_title         = __( 'SEUR Local Pickup', 'seur' );
+		$this->method_description   = __( 'SEUR Local Pickup Shipping Method, Please configure SEUR data in <code>SEUR -> Settings</code>', 'seur' );
+		$this->supports             = array(
 			'shipping-zones',
 			'instance-settings',
 		);
 		$this->instance_form_fields = array(
 			'title' => array(
-				'title' 		=> __( 'Method Title' ),
-				'type' 			=> 'text',
-				'description' 	=> __( 'This controls the title which the user sees during checkout.' ),
-				'default'		=> __( 'SEUR Local Pickup' ),
-				'desc_tip'		=> true
-			)
+				'title'       => __( 'Method Title' ),
+				'type'        => 'text',
+				'description' => __( 'This controls the title which the user sees during checkout.' ),
+				'default'     => __( 'SEUR Local Pickup' ),
+				'desc_tip'    => true,
+			),
 		);
 		$this->title                = $this->get_option( 'title' );
-		$this->log = new WC_Logger();
+		$this->log                  = new WC_Logger();
 
 		add_action( 'woocommerce_update_options_shipping_' . $this->id, array( $this, 'process_admin_options' ) );
 	}
 
 	public function calculate_shipping( $package = array() ) {
-				global $woocommerce, $postcode_seur;
+		global $woocommerce, $postcode_seur;
 
-				$rates                 = array();
-				$seur_response         = array();
-				$rate_requests         = array();
-				$rates_type            = get_option( 'seur_rates_type_field' );
-				$localpickup_is_active = get_option( 'seur_activate_local_pickup_field' );
-				$this->log->add( 'seur', 'calculate_shipping( $package = array() ): PROBANDO' );
-				$this->log->add( 'seur', 'calculate_shipping( $package = array() ): ' .print_r( $package, true ) );
-				$this->log->add( 'seur', 'TOTAl Cart: ' . WC()->cart->get_cart_total() );
-				// Only return rates if the package has a destination including country
-				if ( '' === $package['destination']['country'] ) {
-					return;
-				}
-				if ( '1' !== $localpickup_is_active ) {
-					return;
-				}
-				if ( 'price' === $rates_type ) {
-					// TODO añadir una opción que deje seleccionar si se quiere antes o después de impuestos.
-					//$price = $package['cart_subtotal']; // antes de impustos
-					$cart = WC()->session->get( "cart_totals", null );
-					$price = $cart['total']; // Después de impustos
-				} else {
-					$weight        = 0;
-					$cost          = 0;
-					$country       = $package['destination']['country'];
-					$package_price = $package['contents_cost'];
+		$rates                 = array();
+		$seur_response         = array();
+		$rate_requests         = array();
+		$rates_type            = get_option( 'seur_rates_type_field' );
+		$localpickup_is_active = get_option( 'seur_activate_local_pickup_field' );
+		$this->log->add( 'seur', 'calculate_shipping( $package = array() ): PROBANDO' );
+		$this->log->add( 'seur', 'calculate_shipping( $package = array() ): ' . print_r( $package, true ) ); // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_print_r
+		// Only return rates if the package has a destination including country.
+		if ( '' === $package['destination']['country'] ) {
+			return;
+		}
+		if ( '1' !== $localpickup_is_active ) {
+			return;
+		}
+		if ( 'price' === $rates_type ) {
+			$price = $package['cart_subtotal'];
+		} else {
+			$weight        = 0;
+			$cost          = 0;
+			$country       = $package['destination']['country'];
+			$package_price = $package['contents_cost'];
 
-					foreach ( $package['contents'] as $item_id => $values ) {
-						$_product = $values['data'];
-						$weight   = $weight + $_product->get_weight() * $values['quantity'];
-					}
+			foreach ( $package['contents'] as $item_id => $values ) {
+				$_product = $values['data'];
+				$weight   = $weight + $_product->get_weight() * $values['quantity'];
+			}
 					$price = wc_get_weight( $weight, 'kg' );
-				}
+		}
 
-				$this->log->add( 'seur', '$country: ' . $country );
-				$this->log->add( 'seur', '$state: ' . $state );
-				$this->log->add( 'seur', '$postcode_seur: ' . $postcode_seur );
-				$this->log->add( 'seur', '$price: ' . $price );
-				//$price       = $package['contents_cost'];
-				$country       = $package['destination']['country'];
-				$state         = $package['destination']['state'];
-				$postcode_seur = $package['destination']['postcode'];
-				$rate_requests = seur_show_availables_rates( $country, $state, $postcode_seur, $price );
+		$this->log->add( 'seur', '$country: ' . $country );
+		$this->log->add( 'seur', '$state: ' . $state );
+		$this->log->add( 'seur', '$postcode_seur: ' . $postcode_seur );
+		$this->log->add( 'seur', '$price: ' . $price );
+		$country       = $package['destination']['country'];
+		$state         = $package['destination']['state'];
+		$postcode_seur = $package['destination']['postcode'];
+		$rate_requests = seur_show_availables_rates( $country, $state, $postcode_seur, $price );
 
-				if ( $rate_requests ) {
-					// parse the results
-					foreach ( $rate_requests as $rate ) {
-						$idrate        = $rate['ID'];
-						$countryrate   = $rate['country'];
-						$staterate     = $rate['state'];
-						$postcoderate  = $rate['postcode'];
-						$raterate      = $rate['rate'];
-						$ratepricerate = $rate['rateprice'];
-						if ( $rate && 'SEUR 2SHOP' === $raterate ) {
-							$sort = 999;
-							if ( 'price' === $rates_type ) {
-								$ratepricerate = $ratepricerate;
-							} else {
-								$ratepricerate = seur_filter_price_rate_weight( $package_price, $raterate, $ratepricerate, $countryrate );
-							}
-							$rate_name        = seur_get_custom_rate_name( $raterate );
-							$rates[ $idrate ] = array(
-								'id'    => $idrate,
-								'label' => $rate_name,
-								'cost'  => $ratepricerate,
-								'sort'  => $sort,
-							);
-						}
+		if ( $rate_requests ) {
+			// parse the results
+			foreach ( $rate_requests as $rate ) {
+				$idrate        = $rate['ID'];
+				$countryrate   = $rate['country'];
+				$staterate     = $rate['state'];
+				$postcoderate  = $rate['postcode'];
+				$raterate      = $rate['rate'];
+				$ratepricerate = $rate['rateprice'];
+				if ( $rate && 'SEUR 2SHOP' === $raterate ) {
+					$sort = 999;
+					if ( 'price' === $rates_type ) {
+						$ratepricerate = $ratepricerate;
+					} else {
+						$ratepricerate = seur_filter_price_rate_weight( $package_price, $raterate, $ratepricerate, $countryrate );
 					}
-				} //foreach ( $package_requests )
-				// Add rates
-				if ( $rates ) {
-						uasort( $rates, array( $this, 'sort_rates' ) );
-						foreach ( $rates as $key => $rate ) {
-							$this->add_rate( $rate );
-					}
-					// Fallback
+					$rate_name        = seur_get_custom_rate_name( $raterate );
+					$rates[ $idrate ] = array(
+						'id'    => $idrate,
+						'label' => $rate_name,
+						'cost'  => $ratepricerate,
+						'sort'  => $sort,
+					);
 				}
 			}
+		} //foreach ( $package_requests )
+		// Add rates
+		if ( $rates ) {
+				uasort( $rates, array( $this, 'sort_rates' ) );
+			foreach ( $rates as $key => $rate ) {
+					$this->add_rate( $rate );
+			}
+			// Fallback
+		}
+	}
 
 	public function sort_rates( $a, $b ) {
 		if ( $a['sort'] === $b['sort'] ) {
@@ -169,9 +164,9 @@ function seur_map_checkout_load_js() {
 	}
 }
 
-function seur_get_local_pickups( $country , $city, $postcode ) {
-	
-	//echo $country;
+function seur_get_local_pickups( $country, $city, $postcode ) {
+
+	// echo $country;
 	if ( 'ES' === $country || 'PT' === $country || 'AR' === $country ) {
 		$user_data   = seur_get_user_settings();
 		$usercom     = $user_data[0]['seurcom_usuario'];
@@ -197,8 +192,8 @@ function seur_get_local_pickups( $country , $city, $postcode ) {
 		$xml         = simplexml_load_string( utf8_decode( $response->out ) );
 		$centro      = array();
 		$num         = (int) $xml->attributes()->NUM[0];
-		//print_r( $xml );
-	
+		// print_r( $xml );
+
 		for ( $i = 1; $i <= $num; $i++ ) {
 			$name     = 'REG' . $i;
 			$centro[] = array(
@@ -219,14 +214,14 @@ function seur_get_local_pickups( $country , $city, $postcode ) {
 		}
 		return $centro;
 	} else {
-		$user_data  = seur_get_user_settings();
-		$usercom    = $user_data[0]['seurcom_usuario'];
-		$passcom    = $user_data[0]['seurcom_contra'];
-		$sc_options = array(
+		$user_data   = seur_get_user_settings();
+		$usercom     = $user_data[0]['seurcom_usuario'];
+		$passcom     = $user_data[0]['seurcom_contra'];
+		$sc_options  = array(
 			'connection_timeout' => 30,
 		);
 		$soap_client = new SoapClient( 'http://ws.seur.com/WSEcatalogoPublicos/servlet/XFireServlet/WSServiciosWebPublicosImpl?wsdl', $sc_options );
-		$data = array(
+		$data        = array(
 			'address'             => '',
 			'countrycode'         => '',
 			'requestID'           => '',
@@ -241,29 +236,29 @@ function seur_get_local_pickups( $country , $city, $postcode ) {
 			'userLDAP'            => strtoupper( $usercom ),
 			'passLDAP'            => strtoupper( $passcom ),
 		);
-		$response = $soap_client->getPudoListStr( $data );
-		$xml      = simplexml_load_string( utf8_decode( $response->out ) );
-		$xmljs    = json_decode( json_encode($xml) , 1);
-		$centro   = array();
-		$i        = 0;
+		$response    = $soap_client->getPudoListStr( $data );
+		$xml         = simplexml_load_string( utf8_decode( $response->out ) );
+		$xmljs       = json_decode( wp_json_encode( $xml ), 1 );
+		$centro      = array();
+		$i           = 0;
 		foreach ( $xml as  $element ) {
 			$num = $element->count();
 			++$i;
 		}
-		for ( $i = 0; $i+1 <= $num; $i++ ) {
+		for ( $i = 0; $i + 1 <= $num; $i++ ) {
 			$centro[] = array(
 				'id'        => $i,
-				'company'   => $xmljs['PUDO_ITEMS']['PUDO_ITEM'][$i]['NAME'],
-				'codCentro' => $xmljs['PUDO_ITEMS']['PUDO_ITEM'][$i]['PUDO_ID'],
-				'city'      => $xmljs['PUDO_ITEMS']['PUDO_ITEM'][$i]['CITY'],
-				'post_code' => $xmljs['PUDO_ITEMS']['PUDO_ITEM'][$i]['ZIPCODE'],
+				'company'   => $xmljs['PUDO_ITEMS']['PUDO_ITEM'][ $i ]['NAME'],
+				'codCentro' => $xmljs['PUDO_ITEMS']['PUDO_ITEM'][ $i ]['PUDO_ID'],
+				'city'      => $xmljs['PUDO_ITEMS']['PUDO_ITEM'][ $i ]['CITY'],
+				'post_code' => $xmljs['PUDO_ITEMS']['PUDO_ITEM'][ $i ]['ZIPCODE'],
 				'phone'     => '',
 				'tipovia'   => '',
-				'nomcorto'  => $xmljs['PUDO_ITEMS']['PUDO_ITEM'][$i]['ADDRESS1'],
-				'numvia'    => $xmljs['PUDO_ITEMS']['PUDO_ITEM'][$i]['STREETNUM'],
-				'nompoblac' => $xmljs['PUDO_ITEMS']['PUDO_ITEM'][$i]['CITY'],
-				'lat'       => $xmljs['PUDO_ITEMS']['PUDO_ITEM'][$i]['LATITUDE'],
-				'lng'       => $xmljs['PUDO_ITEMS']['PUDO_ITEM'][$i]['LONGITUDE'],
+				'nomcorto'  => $xmljs['PUDO_ITEMS']['PUDO_ITEM'][ $i ]['ADDRESS1'],
+				'numvia'    => $xmljs['PUDO_ITEMS']['PUDO_ITEM'][ $i ]['STREETNUM'],
+				'nompoblac' => $xmljs['PUDO_ITEMS']['PUDO_ITEM'][ $i ]['CITY'],
+				'lat'       => $xmljs['PUDO_ITEMS']['PUDO_ITEM'][ $i ]['LATITUDE'],
+				'lng'       => $xmljs['PUDO_ITEMS']['PUDO_ITEM'][ $i ]['LONGITUDE'],
 				'timetable' => '',
 			);
 		}
@@ -277,12 +272,12 @@ function seur_after_seur_2shop_shipping_rate( $method, $index ) {
 	$custom_name_seur_2shop = get_option( 'seur_2SHOP_custom_name_field' );
 	$chosen_methods         = WC()->session->get( 'chosen_shipping_methods' );
 	$chosen_shipping        = $chosen_methods[0];
-	
+
 	if ( isset( $_POST['post_data'] ) ) {
 		parse_str( $_POST['post_data'], $post_data );
-		//print_r( $_POST['post_data'] );
+		// print_r( $_POST['post_data'] );
 	} else {
-		$post_data = $_POST; // fallback for final checkout (non-ajax)
+		$post_data = $_POST; // fallback for final checkout (non-ajax).
 	}
 
 	if ( isset( $post_data['shipping_postcode'] ) && '' !== $post_data['shipping_postcode'] ) {
@@ -297,18 +292,18 @@ function seur_after_seur_2shop_shipping_rate( $method, $index ) {
 		$country_seur = $post_data['billing_country'];
 	}
 
-	if ( isset( $post_data['shipping_city'] ) && '' !== $post_data['shipping_city']  ) {
+	if ( isset( $post_data['shipping_city'] ) && '' !== $post_data['shipping_city'] ) {
 		$city = $post_data['shipping_city'];
 	} else {
 		$city = $post_data['billing_city'];
 	}
-	
+
 	if ( ! empty( $custom_name_seur_2shop ) ) {
 		$custom_name_seur_2shop = $custom_name_seur_2shop;
 	} else {
 		$custom_name_seur_2shop = 'SEUR 2SHOP';
 	}
-	
+
 	if ( isset( $post_data['seur_pickup'] ) ) {
 		if ( 'all' === $post_data['seur_pickup'] ) {
 			$option_selected = '500000';
@@ -318,15 +313,15 @@ function seur_after_seur_2shop_shipping_rate( $method, $index ) {
 	} else {
 		$option_selected = '0';
 	}
-	
-	if ( ! empty( $country_seur ) &&  ! empty( $city ) && ! empty( $postcode_seur ) ) {	
-	
+
+	if ( ! empty( $country_seur ) && ! empty( $city ) && ! empty( $postcode_seur ) ) {
+
 		if ( ( $method->label === $custom_name_seur_2shop ) && ( $method->id === $chosen_shipping ) && ! is_checkout() ) {
 			echo '<br />';
 			esc_html_e( 'You will have to select a location in the next step', 'seur' );
 		}
 		if ( ( $method->label === $custom_name_seur_2shop ) && ( $method->id === $chosen_shipping ) && is_checkout() ) {
-			//ob_start();
+			// ob_start();
 			$local_pickups_array = seur_get_local_pickups( $country_seur, $city, $postcode_seur );
 			for ( $i = 0; $i < count( $local_pickups_array ); $i++ ) {
 				if ( 0 === $i ) {
@@ -334,33 +329,33 @@ function seur_after_seur_2shop_shipping_rate( $method, $index ) {
 				} else {
 					$print_js .= '{';
 				}
-				$print_js .= "lat: " . addslashes( $local_pickups_array[$i]['lat'] ) . ",";
-				$print_js .= "lon: " . addslashes( $local_pickups_array[$i]['lng'] ) . ",";
-				$print_js .= "title: '" . addslashes( $local_pickups_array[$i]['company'] ) . "',";
-				$print_js .= "codCentro: '" . addslashes( $local_pickups_array[$i]['codCentro'] ) . "',";
-				$print_js .= "address: '" . addslashes( $local_pickups_array[$i]['nomcorto'] ) . " " . addslashes( $local_pickups_array[$i]['numvia'] ) . "',";
-				$print_js .= "city: '". addslashes( $local_pickups_array[$i]['post_code'] ) . " " . addslashes( $local_pickups_array[$i]['city'] ) ."',";
-				$print_js .= "city_only: '". addslashes( $local_pickups_array[$i]['city'] ) ."',";
-				$print_js .= "post_code: '" . addslashes( $local_pickups_array[$i]['post_code'] ) . "',";
-				$print_js .= "timetable: '" . addslashes( $local_pickups_array[$i]['timetable'] ) . "',";
+				$print_js .= 'lat: ' . addslashes( $local_pickups_array[ $i ]['lat'] ) . ',';
+				$print_js .= 'lon: ' . addslashes( $local_pickups_array[ $i ]['lng'] ) . ',';
+				$print_js .= "title: '" . addslashes( $local_pickups_array[ $i ]['company'] ) . "',";
+				$print_js .= "codCentro: '" . addslashes( $local_pickups_array[ $i ]['codCentro'] ) . "',";
+				$print_js .= "address: '" . addslashes( $local_pickups_array[ $i ]['nomcorto'] ) . ' ' . addslashes( $local_pickups_array[ $i ]['numvia'] ) . "',";
+				$print_js .= "city: '" . addslashes( $local_pickups_array[ $i ]['post_code'] ) . ' ' . addslashes( $local_pickups_array[ $i ]['city'] ) . "',";
+				$print_js .= "city_only: '" . addslashes( $local_pickups_array[ $i ]['city'] ) . "',";
+				$print_js .= "post_code: '" . addslashes( $local_pickups_array[ $i ]['post_code'] ) . "',";
+				$print_js .= "timetable: '" . addslashes( $local_pickups_array[ $i ]['timetable'] ) . "',";
 				$print_js .= "option: '" . $option_selected . "',";
-				$print_js .= "html: [";
-				$print_js .= "'<h3>" . addslashes( $local_pickups_array[$i]['company'] ) . "</h3>',";
-				$print_js .= "'<p>" . addslashes( $local_pickups_array[$i]['nomcorto'] ) . " " . addslashes( $local_pickups_array[$i]['numvia'] ) . "<br />',";
-				$print_js .= "'" . addslashes( $local_pickups_array[$i]['post_code'] ) . " " . addslashes( $local_pickups_array[$i]['city'] ) . "</p>',";
-				$print_js .= "'<p>" . __('Timetable: ', 'seur' ) . addslashes( $local_pickups_array[$i]['timetable'] ) . "</p>'";
+				$print_js .= 'html: [';
+				$print_js .= "'<h3>" . addslashes( $local_pickups_array[ $i ]['company'] ) . "</h3>',";
+				$print_js .= "'<p>" . addslashes( $local_pickups_array[ $i ]['nomcorto'] ) . ' ' . addslashes( $local_pickups_array[ $i ]['numvia'] ) . "<br />',";
+				$print_js .= "'" . addslashes( $local_pickups_array[ $i ]['post_code'] ) . ' ' . addslashes( $local_pickups_array[ $i ]['city'] ) . "</p>',";
+				$print_js .= "'<p>" . __( 'Timetable: ', 'seur' ) . addslashes( $local_pickups_array[ $i ]['timetable'] ) . "</p>'";
 				$print_js .= "].join(''),";
-				$print_js .= "zoom: 15";
+				$print_js .= 'zoom: 15';
 				$print_js .= '},';
 			}
 			echo '<br />';
 			esc_html_e( 'Choose a location:', 'seur' );
 			echo '<div id="controls"></div>';
-		//	echo '<td id="seur-map">';
-		//	echo '<td colspan="2">';
+			// echo '<td id="seur-map">';
+			// echo '<td colspan="2">';
 			echo '<div id="seur-gmap" style="with:300px;height:250px;"></div>';
-		//	echo '</td>';
-		//	echo '</tr>';
+			// echo '</td>';
+			// echo '</tr>';
 			echo "<script type='text/javascript'>
 			jQuery(document).ready(function( $ ){
 				var html_seurdropdown = {
@@ -412,7 +407,7 @@ function seur_after_seur_2shop_shipping_rate( $method, $index ) {
 						}
 					};
 					var SeurPickupsLocs = [" .
-					$print_js
+					esc_js( $print_js )
 					. "
 				];
 				var maplace = new Maplace();
@@ -420,13 +415,13 @@ function seur_after_seur_2shop_shipping_rate( $method, $index ) {
 				maplace.Load({
 					locations: SeurPickupsLocs,
 					map_div: '#seur-gmap',
-					start: '" . $option_selected . "',
+					start: '" . esc_html( $option_selected ) . "',
 					controls_on_map: false,
 					controls_type: 'seurdropdown'
 				});
 			});
 			</script>";
-			//ob_end_flush();
+			// ob_end_flush();
 		}
 	}
 }
@@ -496,7 +491,7 @@ if ( '1' === $localpickup_is_active ) {
 	add_action( 'woocommerce_review_order_before_cart_contents', 'seur_local_validate_order', 10 );
 	add_action( 'woocommerce_after_checkout_validation', 'seur_local_validate_order', 10 );
 	add_action( 'woocommerce_after_shipping_rate', 'seur_after_seur_2shop_shipping_rate', 1, 2 );
-    //add_action( 'woocommerce_review_order_before_order_total', 'seur_after_seur_2shop_shipping_rate');
+	// add_action( 'woocommerce_review_order_before_order_total', 'seur_after_seur_2shop_shipping_rate');.
 	add_action( 'wp_enqueue_scripts', 'seur_map_checkout_load_js' );
 	add_action( 'wp_footer', 'seur_add_map_type_select2' );
 	add_action( 'woocommerce_checkout_update_order_meta', 'seur_add_2shop_data_to_order' );

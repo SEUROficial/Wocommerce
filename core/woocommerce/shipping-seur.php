@@ -2,9 +2,9 @@
 /**
  * Backwards compat.
  *
- *
  * @since 3.2.0
  */
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }

@@ -1,116 +1,149 @@
-<?php if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
+<?php
 
-    function seur_get_labels_from_order( $post ){
-        global $error;
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; // Exit if accessed directly.
+}
 
-        if ( ! current_user_can('edit_shop_orders') )
-        die( __( 'Cheatin&#8217; uh?', 'seur' ) );
+function seur_get_labels_from_order( $post ) {
+	global $error;
 
-        $orderID     = '';
-        $orderID     = absint( sanitize_text_field( $_GET["order_id"] ) );
-        $order_id    = '';
-        $order_id    = sanitize_text_field( $_POST['order-id'] );
-        $weight_unit = '';
-        $weight_unit =  get_option('woocommerce_weight_unit');
-        $weight      = '';
-        $order_data  = seur_get_order_data( $orderID );
-        $weight      = $order_data[0]['weight'];
-        $shop2       = get_post_meta( $orderID, '_seur_2shop_codCentro', true );
-        $packages    = '';
-        $disabled    = ' readonly';
+	if ( ! current_user_can( 'edit_shop_orders' ) ) {
+		die( esc_html__( 'Cheatin&#8217; uh?', 'seur' ) );
+	}
 
-        if ( ! empty( $shop2 ) ) {
-            $value = ' value="1" ';
-        } else {
-            $value = ' value="" ';
-        }
+	$orderID     = '';
+	$orderID     = absint( sanitize_text_field( $_GET['order_id'] ) );
+	$order_id    = '';
+	$order_id    = sanitize_text_field( $_POST['order-id'] );
+	$weight_unit = '';
+	$weight_unit = get_option( 'woocommerce_weight_unit' );
+	$weight      = '';
+	$order_data  = seur_get_order_data( $orderID );
+	$weight      = $order_data[0]['weight'];
+	$shop2       = get_post_meta( $orderID, '_seur_2shop_codCentro', true );
+	$packages    = '';
+	$disabled    = ' readonly';
 
-        if( ! $orderID && ! $order_id ) exit;
-        ?>
+	if ( ! empty( $shop2 ) ) {
+		$value = ' value="1" ';
+	} else {
+		$value = ' value="" ';
+	}
 
-        <div class="wrap">
-        <h1 class="wp-heading-inline"><?php _e( 'Get Labels', 'seur' ); ?></h1>
-        <hr class="wp-header-end">
-        <?php
+	if ( ! $orderID && ! $order_id ) {
+		exit;
+	}
+	?>
 
-        $url = 'https://ws.seur.com/WSEcatalogoPublicos/servlet/XFireServlet/WSServiciosWebPublicos?wsdl';
-        if ( ! seur_check_url_exists( $url ) ) die( __('We&apos;re sorry, SEUR API is down. Please try again in few minutes', 'seur' ) );
+		<div class="wrap">
+		<h1 class="wp-heading-inline"><?php esc_html_e( 'Get Labels', 'seur' ); ?></h1>
+		<hr class="wp-header-end">
+		<?php
 
-        if( $orderID &&  ! $order_id ){ ?>
+		$url = 'https://ws.seur.com/WSEcatalogoPublicos/servlet/XFireServlet/WSServiciosWebPublicos?wsdl';
+		if ( ! seur_check_url_exists( $url ) ) {
+			die( esc_html__( 'We&apos;re sorry, SEUR API is down. Please try again in few minutes', 'seur' ) );
+		}
 
-                <form method="post" name="getlabels">
-                <input type='hidden' name='order-id' class='form-control' value='<?php echo $orderID; ?>' />
+		if ( $orderID && ! $order_id ) {
+			?>
 
-                <label><?php _e( 'Packages Weight', 'seur'); ?></label><br />
-                <?php if ( $weight_unit == 'kg' ) { ?>
-                <input title="<?php _e('Weight', 'seur' ); ?>" type='text' name='seur-weight' class='form-control' placeholder='<?php _e( 'EX: 0.300', 'seur' ); ?>' value='<?php if ( $weight ) echo $weight; ?>' required='' /> <?php } elseif ( $weight_unit == 'g' ) { ?>
-                <input title="<?php _e('Weight', 'seur' ); ?>" type='text' name='seur-weight' class='form-control' placeholder='<?php _e( 'EX: 300', 'seur' ); ?>' value='<?php if ( $weight ) echo $weight; ?>' required='' /> <?php } ?>
-                <br />
-                <label><?php _e( 'Number of Packages', 'seur'); ?></label><br />
-                <input title="<?php _e('Number of Packages', 'seur' ); ?>" type='text' name='seur-number-packages' class='form-control' placeholder='<?php _e( 'EX: 2', 'seur' ); ?>' <?php echo $value; ?> required="" <?php if ( ! empty( $shop2 ) ) { echo $disabled; } ?>/><br />
-                <?php wp_nonce_field( 'seur_get_label_action', 'seur_get_label_nonce_field' ); ?>
-                <input type="submit" class="seur_label_submit button button-primary" value="<?php _e( 'Get labels', 'seur' ); ?>" />
-            </form>
-            <br />
-            <a class="button" href="#" onclick="self.parent.tb_remove(); self.parent.location.reload()"><?php _e('Close', 'seur'); ?></a>
+				<form method="post" name="getlabels">
+				<input type='hidden' name='order-id' class='form-control' value='<?php echo esc_html( $orderID ); ?>' />
 
-        <?php   } elseif ( $order_id ) {
+				<label><?php esc_html_e( 'Packages Weight', 'seur' ); ?></label><br />
+				<?php if ( $weight_unit == 'kg' ) { ?>
+				<input title="<?php esc_html_e( 'Weight', 'seur' ); ?>" type='text' name='seur-weight' class='form-control' placeholder='<?php esc_html_e( 'EX: 0.300', 'seur' ); ?>' value='
+					<?php
+					if ( $weight ) {
+						echo esc_html( $weight );}
+					?>
+				' required='' /> <?php } elseif ( $weight_unit == 'g' ) { ?>
+				<input title="<?php esc_html_e( 'Weight', 'seur' ); ?>" type='text' name='seur-weight' class='form-control' placeholder='<?php esc_html_e( 'EX: 300', 'seur' ); ?>' value='
+					<?php
+					if ( $weight ) {
+						echo esc_html( $weight );
+					}
+					?>
+				' required='' /> <?php } ?>
+				<br />
+				<label><?php esc_html_e( 'Number of Packages', 'seur' ); ?></label><br />
+				<input title="<?php esc_html_e( 'Number of Packages', 'seur' ); ?>" type='text' name='seur-number-packages' class='form-control' placeholder='<?php esc_html_e( 'EX: 2', 'seur' ); ?>' <?php echo esc_html( $value ); ?> required="" 
+					<?php
+					if ( ! empty( $shop2 ) ) {
+						echo esc_html( $disabled );
+					}
+					?>
+				/><br />
+				<?php wp_nonce_field( 'seur_get_label_action', 'seur_get_label_nonce_field' ); ?>
+				<input type="submit" class="seur_label_submit button button-primary" value="<?php esc_html_e( 'Get labels', 'seur' ); ?>" />
+			</form>
+			<br />
+			<a class="button" href="#" onclick="self.parent.tb_remove(); self.parent.location.reload()"><?php esc_html_e( 'Close', 'seur' ); ?></a>
 
-                    $order_id    = sanitize_text_field( $_POST['order-id'] );
-                    $weight      = sanitize_text_field( $_POST['seur-weight'] );
-                    $numpackages = sanitize_text_field( $_POST['seur-number-packages'] );
-                    $has_label   = '';
-                    $label_id    = '';
+			<?php
+		} elseif ( $order_id ) {
 
-                    if ( ! empty( $shop2 ) && $weight > 20 ) {
-	                    $message = __( 'Max Weight 20 Kg', 'seur' );
-                        die( $message );
-                    }
+			$order_id    = sanitize_text_field( $_POST['order-id'] );
+			$weight      = sanitize_text_field( $_POST['seur-weight'] );
+			$numpackages = sanitize_text_field( $_POST['seur-number-packages'] );
+			$has_label   = '';
+			$label_id    = '';
 
-                    if ( empty( $weight ) ) {
-                        $message = __( 'Weight is needed', 'seur' );
-                        die( $message );
-                        }
+			if ( ! empty( $shop2 ) && $weight > 20 ) {
+				$message = __( 'Max Weight 20 Kg', 'seur' );
+				die( esc_html( $message ) );
+			}
 
-                    if ( empty( $numpackages ) ) {
-                        $message = __( 'Package number is needed', 'seur' );
-                        die( $message );
-                        }
+			if ( empty( $weight ) ) {
+				$message = __( 'Weight is needed', 'seur' );
+				die( esc_html( $message ) );
+			}
 
-                    if ( ! isset( $_POST['seur_get_label_nonce_field'] ) || ! wp_verify_nonce( $_POST['seur_get_label_nonce_field'], 'seur_get_label_action' ) ) {
-                        exit;
-                        }
+			if ( empty( $numpackages ) ) {
+				$message = __( 'Package number is needed', 'seur' );
+				die( esc_html( $message ) );
+			}
 
-                    $new_status  = seur_after_get_label();
-                    $has_label   = get_post_meta( $order_id, '_seur_shipping_order_label_downloaded', true );
+			if ( ! isset( $_POST['seur_get_label_nonce_field'] ) || ! wp_verify_nonce( $_POST['seur_get_label_nonce_field'], 'seur_get_label_action' ) ) {
+				exit;
+			}
 
-                    if ( $has_label != 'yes' ) {
+			$new_status = seur_after_get_label();
+			$has_label  = get_post_meta( $order_id, '_seur_shipping_order_label_downloaded', true );
 
-                        $label  = seur_get_label( $order_id, $numpackages, $weight, true );
+			if ( $has_label != 'yes' ) {
 
-                        $label_result  = $label[0]['result'];
-                        $labelID       = $label[0]['labelID'];
-                        $label_message = $label[0]['message'];
+				$label = seur_get_label( $order_id, $numpackages, $weight, true );
 
-                        if( $label_result ){
+				$label_result  = $label[0]['result'];
+				$labelID       = $label[0]['labelID'];
+				$label_message = $label[0]['message'];
 
-                            $order = wc_get_order( $order_id );
-                            $order->update_status( $new_status, __( 'Label have been created:', 'seur' ), true );
-                            add_post_meta( $order_id,'_seur_shipping_order_label_downloaded',  'yes', true );
-                            add_post_meta( $order_id,'_seur_shipping_label_id',  $labelID, true );
-                            $order->add_order_note( 'The Label for Order #' . $order_id . ' have been downloaded', 0, true);
-                            echo __('Label dowloaded, the Label ID is ', 'seur' ) . $labelID; ?>
-                            <br />
-                            <a class="button" href="#" onclick="self.parent.tb_remove(); self.parent.location.reload()"><?php _e('Close', 'seur'); ?></a>
-                            <?php
-                        } else {
-                            echo 'There was an error: ' . $label_message;
-                        }
-                    } else {
-                        _e('The Order already has a label', 'seur' ); ?>
-                        <br />
-                        <a class="button" href="#" onclick="self.parent.tb_remove(); self.parent.location.reload()"><?php _e('Close', 'seur'); ?></a>
-                   <?php }
-        } ?>
-        </div>
-<?php   }
+				if ( $label_result ) {
+
+					$order = wc_get_order( $order_id );
+					$order->update_status( $new_status, __( 'Label have been created:', 'seur' ), true );
+					add_post_meta( $order_id, '_seur_shipping_order_label_downloaded', 'yes', true );
+					add_post_meta( $order_id, '_seur_shipping_label_id', $labelID, true );
+					$order->add_order_note( 'The Label for Order #' . $order_id . ' have been downloaded', 0, true );
+					echo esc_html__( 'Label dowloaded, the Label ID is ', 'seur' ) . esc_html( $labelID );
+					?>
+							<br />
+							<a class="button" href="#" onclick="self.parent.tb_remove(); self.parent.location.reload()"><?php esc_html_e( 'Close', 'seur' ); ?></a>
+							<?php
+				} else {
+					echo 'There was an error: ' . esc_html( $label_message );
+				}
+			} else {
+				esc_html_e( 'The Order already has a label', 'seur' );
+				?>
+				<br />
+				<a class="button" href="#" onclick="self.parent.tb_remove(); self.parent.location.reload()"><?php esc_html_e( 'Close', 'seur' ); ?></a>
+				<?php
+			}
+		}
+		?>
+		</div>
+	<?php
+}

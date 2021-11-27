@@ -1,4 +1,8 @@
-<?php if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
+<?php
+
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; // Exit if accessed directly
+}
 
 return array(
 	'AG' => 'Agrigento',
@@ -110,5 +114,5 @@ return array(
 	'VR' => 'Verona',
 	'VV' => 'Vibo Valentia',
 	'VI' => 'Vicenza',
-	'VT' => 'Viterbo'
+	'VT' => 'Viterbo',
 );

@@ -1,4 +1,8 @@
-<?php if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
+<?php
+
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; // Exit if accessed directly
+}
 
 return array(
 	'BK' => 'Bács-Kiskun',
@@ -20,5 +24,5 @@ return array(
 	'TO' => 'Tolna',
 	'VA' => 'Vas',
 	'VE' => 'Veszprém',
-	'ZA' => 'Zala'
+	'ZA' => 'Zala',
 );

@@ -1,4 +1,8 @@
-<?php if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
+<?php
+
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; // Exit if accessed directly
+}
 
 return array(
 	'ACT' => 'Australian Capital Territory',
@@ -8,5 +12,5 @@ return array(
 	'SA'  => 'South Australia',
 	'TAS' => 'Tasmania',
 	'VIC' => 'Victoria',
-	'WA'  => 'Western Australia'
+	'WA'  => 'Western Australia',
 );

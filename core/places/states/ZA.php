@@ -1,4 +1,8 @@
-<?php if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
+<?php
+
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; // Exit if accessed directly
+}
 
 return array(
 	'EC'  => 'Eastern Cape',
@@ -9,5 +13,5 @@ return array(
 	'MP'  => 'Mpumalanga',
 	'NC'  => 'Northern Cape',
 	'NW'  => 'North West',
-	'WC'  => 'Western Cape'
+	'WC'  => 'Western Cape',
 );

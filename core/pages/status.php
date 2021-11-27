@@ -1,6 +1,6 @@
 <?php
 if ( ! defined( 'ABSPATH' ) ) {
-	exit; // Exit if accessed directly
+	exit; // Exit if accessed directly.
 }
 
 function seur_status_page() {
@@ -20,7 +20,7 @@ function seur_status_page() {
 	</div>
 	<?php
 	if ( 'status_seur' === $active_tab ) {
-	include_once 'status/status-check.php';
+		include_once 'status/status-check.php';
 	} else {
 		?>
 		<p>

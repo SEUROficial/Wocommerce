@@ -1,4 +1,8 @@
-<?php if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
+<?php
+
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; // Exit if accessed directly
+}
 
 return array(
 	'KHZ' => 'Khuzestan  (خوزستان)',
@@ -31,5 +35,5 @@ return array(
 	'MZN' => 'Mazandaran (مازندران)',
 	'MKZ' => 'Markazi (مرکزی)',
 	'HRZ' => 'Hormozgan (هرمزگان)',
-	'SBN' => 'Sistan and Baluchestan (سیستان و بلوچستان)'
+	'SBN' => 'Sistan and Baluchestan (سیستان و بلوچستان)',
 );

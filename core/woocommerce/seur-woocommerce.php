@@ -3,20 +3,20 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define('SEUR_WOOCOMMERCE_PART', '1.0.0');
+define( 'SEUR_WOOCOMMERCE_PART', '1.0.0' );
 /**
  * Plugin activation check
  */
-function wc_seur_activation_check(){
+function wc_seur_activation_check() {
 	if ( ! function_exists( 'simplexml_load_string' ) ) {
-        deactivate_plugins( basename( __FILE__ ) );
-        wp_die( "Sorry, but you can't run this plugin, it requires the SimpleXML library installed on your server/hosting to function." );
+		deactivate_plugins( basename( __FILE__ ) );
+		wp_die( "Sorry, but you can't run this plugin, it requires the SimpleXML library installed on your server/hosting to function." );
 	}
 }
 register_activation_hook( __FILE__, 'wc_seur_activation_check' );
 
-include_once ( 'includes/seur-woo-functions.php' );
-include_once ( 'includes/metabox/seur-metabox.php' );
+require_once 'includes/seur-woo-functions.php';
+require_once 'includes/metabox/seur-metabox.php';
 
 /**
  * WC_Shipping_SEUR_Init Class
@@ -39,7 +39,7 @@ class WC_Shipping_SEUR_Init {
 	 * Get the class instance
 	 */
 	public static function get_instance() {
-		return null === self::$instance ? ( self::$instance = new self ) : self::$instance;
+		return null === self::$instance ? ( self::$instance = new self() ) : self::$instance;
 	}
 
 	/**
@@ -64,8 +64,8 @@ class WC_Shipping_SEUR_Init {
 	 * Include needed files
 	 */
 	public function includes() {
-		include_once( dirname( __FILE__ ) . '/includes/class-wc-shipping-seur.php' );
-		include_once( dirname( __FILE__ ) . '/includes/class-seur_local_shipping_method.php' );
+		include_once dirname( __FILE__ ) . '/includes/class-wc-shipping-seur.php';
+		include_once dirname( __FILE__ ) . '/includes/class-seur_local_shipping_method.php';
 	}
 
 	/**
@@ -73,14 +73,13 @@ class WC_Shipping_SEUR_Init {
 	 *
 	 * @access public
 	 * @param mixed $methods
-	 * @return void
 	 */
 	public function add_method( $methods ) {
 			$methods['seur'] = 'WC_Shipping_SEUR';
 		return $methods;
 	}
 	public function add_method_localseur( $methods ) {
-			$methods[ 'seurlocal' ] = 'Seur_Local_Shipping_Method';
+			$methods['seurlocal'] = 'Seur_Local_Shipping_Method';
 		return $methods;
 	}
 
@@ -106,7 +105,7 @@ class WC_Shipping_SEUR_Init {
 	 * WooCommerce not installed notice
 	 */
 	public function wc_deactivated() {
-		echo '<div class="error"><p>' . sprintf( __( 'WooCommerce SEUR Shipping requires %s to be installed and active.', 'seur' ), '<a href="http://www.woothemes.com/woocommerce/" target="_blank">WooCommerce</a>' ) . '</p></div>';
+		echo '<div class="error"><p>' . sprintf( esc_html__( 'WooCommerce SEUR Shipping requires %s to be installed and active.', 'seur' ), '<a href="http://www.woothemes.com/woocommerce/" target="_blank">WooCommerce</a>' ) . '</p></div>';
 	}
 
 	/**
@@ -122,9 +121,9 @@ class WC_Shipping_SEUR_Init {
 		// settings to shipping zone instance
 		$doing_ajax = defined( 'DOING_AJAX' ) && DOING_AJAX;
 		if ( ! $doing_ajax
-		     && ! defined( 'IFRAME_REQUEST' )
-		     && version_compare( WC_VERSION, '2.6.0', '>=' )
-		     && version_compare( get_option( 'wc_seur_version' ), '3.2.0', '<' ) ) {
+			 && ! defined( 'IFRAME_REQUEST' )
+			 && version_compare( WC_VERSION, '2.6.0', '>=' )
+			 && version_compare( get_option( 'wc_seur_version' ), '3.2.0', '<' ) ) {
 
 			$this->install();
 
@@ -181,11 +180,14 @@ class WC_Shipping_SEUR_Init {
 			return;
 		}
 
-		$query_args = array( 'page' => 'wc-settings', 'tab' => 'shipping' );
+		$query_args      = array(
+			'page' => 'wc-settings',
+			'tab'  => 'shipping',
+		);
 		$zones_admin_url = add_query_arg( $query_args, get_admin_url() . 'admin.php' );
 		?>
 		<div class="notice notice-success is-dismissible wc-seur-notice">
-			<p><?php echo sprintf( __( 'SEUR now supports shipping zones. The zone settings were added to a new SEUR method on the "Rest of the World" Zone. See the zones %shere%s ', 'seur' ),'<a href="' .$zones_admin_url. '">','</a>' ); ?></p>
+			<p><?php echo sprintf( esc_html__( 'SEUR now supports shipping zones. The zone settings were added to a new SEUR method on the "Rest of the World" Zone. See the zones %1$shere%2$s ', 'seur' ), '<a href="' . esc_url( $zones_admin_url ) . '">', '</a>' ); ?></p>
 		</div>
 
 		<script type="application/javascript">
@@ -198,6 +200,7 @@ class WC_Shipping_SEUR_Init {
 
 	/**
 	 * Turn of the dismisable upgrade notice.
+	 *
 	 * @since 3.2.0
 	 */
 	public function dismiss_upgrade_notice() {
@@ -220,4 +223,4 @@ class WC_Shipping_SEUR_Init {
 	}
 }
 
-add_action( 'plugins_loaded' , array( 'WC_Shipping_SEUR_Init' , 'get_instance' ), 0 );
+add_action( 'plugins_loaded', array( 'WC_Shipping_SEUR_Init', 'get_instance' ), 0 );

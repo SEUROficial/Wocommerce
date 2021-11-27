@@ -1,4 +1,8 @@
-<?php if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
+<?php
+
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; // Exit if accessed directly
+}
 
 return array(
 	'AP' => 'Andhra Pradesh',
@@ -36,5 +40,5 @@ return array(
 	'DD' => 'Daman and Diu',
 	'DL' => 'Delhi',
 	'LD' => 'Lakshadeep',
-	'PY' => 'Pondicherry (Puducherry)'
+	'PY' => 'Pondicherry (Puducherry)',
 );
