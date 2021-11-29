@@ -1,5 +1,12 @@
-<?php if ( ! defined( 'ABSPATH' ) ) {
-	exit; // Exit if accessed directly
+<?php
+/**
+ * Tracking back
+ *
+ * @package SEUR
+ */
+
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; // Exit if accessed directly.
 }
 
 /**
@@ -75,7 +82,7 @@ function seur_metabox_tracking_callback( $post ) {
 /**
  * Save meta box content.
  *
- * @param int $post_id Post ID
+ * @param int $post_id Post ID.
  */
 function seur_save_tracking_meta_box( $post_id ) {
 
@@ -109,13 +116,13 @@ function seur_get_tracking_shipment( $label_order_id, $tracking_number = false )
 	$usercom        = $user_data[0]['seurcom_usuario'];
 	$passcom        = $user_data[0]['seurcom_contra'];
 	$get_date       = get_the_date( 'Y-m-d', $label_order_id );
-	$label_date_A   = new DateTime( $get_date );
+	$label_date_a   = new DateTime( $get_date );
 	$label_date_str = get_the_date( 'd-m-Y', $label_order_id );
 	$label_date     = new DateTime( $label_date_str );
-	$now_str        = date( 'd-m-Y', current_time( 'timestamp', 0 ) );
+	$now_str        = date( 'd-m-Y', current_time( 'timestamp', 0 ) ); // phpcs:ignore WordPress.DateTime.CurrentTimeTimestamp.Requested,WordPress.DateTime.RestrictedFunctions.date_date
 	$now            = new DateTime( $now_str );
-	$diff           = $label_date_A->diff( $now );
-	$label_date_A->add( new DateInterval( 'P' . $diff->days . 'D' ) );
+	$diff           = $label_date_a->diff( $now );
+	$label_date_a->add( new DateInterval( 'P' . $diff->days . 'D' ) );
 
 	if ( $diff->days <= 15 ) {
 		$now = $now_str;
@@ -151,25 +158,25 @@ function seur_get_tracking_shipment( $label_order_id, $tracking_number = false )
 	$howmany = $xml->attributes()->NUM;
 
 	if ( $howmany > 0 ) {
-		foreach ( $xml->EXPEDICION->SITUACIONES->SITUACION as $item ) {
-			 delete_post_meta( $label_order_id, '_seur_shipping_tracking_state' );
-			 $expedition[] = array(
-				 'descripcion_cliente_ingles'    => (string) $item->DESCRIPCION_CLIENTE_INGLES,
-				 'descripcion_cliente_frances'   => (string) $item->DESCRIPCION_CLIENTE_FRANCES,
-				 'sit1'                          => (string) $item->SIT1,
-				 'descripcion_cliente_ingles'    => (string) $item->SIT2,
-				 'sit2'                          => (string) $item->ESTADO_CRM,
-				 'area'                          => (string) $item->AREA,
-				 'descripcion_cliente'           => (string) $item->DESCRIPCION_CLIENTE,
-				 'descripcion_cliente_portugues' => (string) $item->DESCRIPCION_CLIENTE_PORTUGUES,
-				 'fecha_situacion'               => (string) $item->FECHA_SITUACION,
-				 'situacion_crm'                 => (string) $item->SITUACION_CRM,
-				 'activa'                        => (string) $item->ACTIVA,
-				 'transito'                      => (string) $item->TRANSITO,
-			 );
+		foreach ( $xml->EXPEDICION->SITUACIONES->SITUACION as $item ) { // phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
+			delete_post_meta( $label_order_id, '_seur_shipping_tracking_state' );
+			$expedition[] = array(
+				'descripcion_cliente_ingles'    => (string) $item->DESCRIPCION_CLIENTE_INGLES, // phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
+				'descripcion_cliente_frances'   => (string) $item->DESCRIPCION_CLIENTE_FRANCES, // phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
+				'sit1'                          => (string) $item->SIT1, // phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
+				'descripcion_cliente_ingles'    => (string) $item->SIT2, // phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
+				'sit2'                          => (string) $item->ESTADO_CRM, // phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
+				'area'                          => (string) $item->AREA, // phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
+				'descripcion_cliente'           => (string) $item->DESCRIPCION_CLIENTE, // phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
+				'descripcion_cliente_portugues' => (string) $item->DESCRIPCION_CLIENTE_PORTUGUES, // phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
+				'fecha_situacion'               => (string) $item->FECHA_SITUACION, // phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
+				'situacion_crm'                 => (string) $item->SITUACION_CRM, // phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
+				'activa'                        => (string) $item->ACTIVA, // phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
+				'transito'                      => (string) $item->TRANSITO, // phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
+			);
 
 		}
-			 $all_expedition = maybe_serialize( $expedition );
+			$all_expedition = maybe_serialize( $expedition );
 
 	} else {
 		$order_tracking = get_post_meta( $order_id, '_seur_shipping_tracking_state', true );
