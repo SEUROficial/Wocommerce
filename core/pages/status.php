@@ -1,14 +1,23 @@
 <?php
+/**
+ * SEUR Status
+ *
+ * @package SEUR
+ */
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
 
+/**
+ * SEUR Status Page
+ */
 function seur_status_page() {
 	?>
 	<div class="wrap">
 		<?php
-		if ( isset( $_GET['tab'] ) ) {
-			$active_tab = $_GET['tab'];
+		if ( isset( $_GET['tab'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+			$active_tab = sanitize_text_field( wp_unslash( $_GET['tab'] ) ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 		} else {
 			$active_tab = 'status_seur';
 		}

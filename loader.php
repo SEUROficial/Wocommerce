@@ -44,20 +44,27 @@ register_activation_hook( __FILE__, 'seur_create_upload_folder_hook' );
 register_activation_hook( __FILE__, 'seur_add_avanced_settings_preset' );
 register_activation_hook( __FILE__, 'seur_create_download_files' );
 
-// SEUR Localization.
-
+/**
+ * SEUR Localization.
+ */
 function seur_official_init() {
 	load_plugin_textdomain( 'seur', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
 }
 add_action( 'init', 'seur_official_init' );
 
-// SEUR Get Parent Page.
+/**
+ * SEUR Get Parent Page.
+ */
 function seur_get_parent_page() {
-	$seur_parent = basename( $_SERVER['SCRIPT_NAME'] );
-	return $seur_parent;
+	if ( isset( $_SERVER['SCRIPT_NAME'] ) ) {
+		$seur_parent = basename( sanitize_text_field( wp_unslash( $_SERVER['SCRIPT_NAME'] ) ) );
+		return $seur_parent;
+	}
 }
 
-// SEUR Redirect to Welcome/About Page.
+/**
+ * SEUR Redirect to Welcome/About Page.
+ */
 function seur_welcome_splash() {
 	$seur_parent = seur_get_parent_page();
 	if ( get_option( 'seur-official-version' ) === SEUR_OFFICIAL_VERSION ) {
@@ -75,13 +82,16 @@ function seur_welcome_splash() {
 }
 add_action( 'admin_init', 'seur_welcome_splash', 1 );
 
+/**
+ * SEUR Add notice new version.
+ */
 function seur_add_notice_new_version() {
 
 	$version = get_option( 'hide-new-version-seur-notice' );
 
-	if ( $version !== SEUR_OFFICIAL_VERSION ) {
-		if ( isset( $_REQUEST['seur-hide-new-version'] ) && 'hide-new-version-seur' === $_REQUEST['seur-hide-new-version'] ) {
-			$nonce = $_REQUEST['_seur_hide_new_version_nonce'];
+	if ( SEUR_OFFICIAL_VERSION !== $version ) {
+		if ( isset( $_REQUEST['_seur_hide_new_version_nonce'] ) && isset( $_REQUEST['seur-hide-new-version'] ) && 'hide-new-version-seur' === $_REQUEST['seur-hide-new-version'] ) {
+			$nonce = sanitize_text_field( wp_unslash( $_REQUEST['_seur_hide_new_version_nonce'] ) ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 			if ( wp_verify_nonce( $nonce, 'seur_hide_new_version_nonce' ) ) {
 				update_option( 'hide-new-version-seur-notice', SEUR_OFFICIAL_VERSION );
 			}
@@ -92,8 +102,11 @@ function seur_add_notice_new_version() {
 				<p>
 					<?php echo esc_html__( 'SEUR has been updated to version', 'woocommerce-seur' ) . ' ' . esc_html( SEUR_OFFICIAL_VERSION ); ?>
 				</p>
-				<p>
-					<?php printf( esc_html__( 'Discover the improvements that have been made in this version, and how to take advantage of them <a href="%s" target="_blank">here</a>', 'woocommerce-seur' ), esc_url( SEUR_POST_UPDATE_URL ) ); ?>
+				<p> 
+					<?php
+					// translators: Link to SEUR website with new features.
+					printf( esc_html__( 'Discover the improvements that have been made in this version, and how to take advantage of them <a href="%s" target="_blank">here</a>', 'woocommerce-seur' ), esc_url( SEUR_POST_UPDATE_URL ) );
+					?>
 				</p>
 			</div>
 			<?php
@@ -102,6 +115,9 @@ function seur_add_notice_new_version() {
 }
 add_action( 'admin_notices', 'seur_add_notice_new_version' );
 
+/**
+ * SEUR Notice Style.
+ */
 function seur_notice_style() {
 	wp_register_style( 'seur_notice_css', SEUR_PLUGIN_URL . 'assets/css/seur-notice.css', false, SEUR_OFFICIAL_VERSION );
 	wp_enqueue_style( 'seur_notice_css' );

@@ -1,10 +1,17 @@
 <?php
+/**
+ * CPT Labels
+ *
+ * @package SEUR.
+ */
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
 
-// Register Custom Post Type.
+/**
+ * Register Custom Post Type.
+ */
 function seur_cpt_labels() {
 
 	$labels = array(
@@ -63,7 +70,12 @@ add_action( 'init', 'seur_cpt_labels', 0 );
 
 // Adding columns to Labels List.
 
-add_filter( 'manage_seur_labels_posts_columns', 'seur_set_custom_label_columns' );
+
+/**
+ * SEUR set custom label columns.
+ *
+ * @param array $columns add new columns.
+ */
 function seur_set_custom_label_columns( $columns ) {
 
 	unset( $columns['title'] );
@@ -83,6 +95,11 @@ function seur_set_custom_label_columns( $columns ) {
 	return $columns;
 }
 
+/**
+ * SEUR get order tracking.
+ *
+ * @param int $order_id get order tracking by Order ID.
+ */
 function seur_get_order_tracking( $order_id ) {
 
 	$order_tracking = get_post_meta( $order_id, '_seur_shipping_tracking_state', true );
@@ -102,9 +119,14 @@ function seur_get_order_tracking( $order_id ) {
 		esc_html_e( 'Waiting Collection', 'seur' );
 	}
 }
+add_filter( 'manage_seur_labels_posts_columns', 'seur_set_custom_label_columns' );
 
-add_action( 'manage_seur_labels_posts_custom_column', 'seur_custom_label_column_data', 10, 2 );
-
+/**
+ * SEUR get order tracking.
+ *
+ * @param string $column Colum name.
+ * @param int    $post_id Post ID.
+ */
 function seur_custom_label_column_data( $column, $post_id ) {
 	global $woocommerce;
 
@@ -164,14 +186,16 @@ function seur_custom_label_column_data( $column, $post_id ) {
 			break;
 
 		case 'print':
-			// echo '<a href="' . $label_url . '" onClick="window.print();return false">​​​​​​​​​​​​​​​​​print pdf</a>';
-
+			// echo '<a href="' . $label_url . '" onClick="window.print();return false">​​​​​​​​​​​​​​​​​print pdf</a>';.
 			echo '<a href="' . esc_url( $url_to_file_down ) . '?label=' . esc_html( $label_path ) . '&label_name=' . esc_html( $label_file_name ) . '&pass=' . esc_html( $file_downlo_pass ) . '&file_type=' . esc_html( $file_type ) . '" class="button" target="_blank">' . esc_html__( ' Open ', 'seur' ) . '</a>';
 			break;
 	}
 }
+add_action( 'manage_seur_labels_posts_custom_column', 'seur_custom_label_column_data', 10, 2 );
 
-// Register Custom Taxonomy
+/**
+ * Register Custom Taxonomy.
+ */
 function seur_add_label_taxonomy() {
 
 	$labels = array(
@@ -211,9 +235,9 @@ function seur_add_label_taxonomy() {
 }
 add_action( 'init', 'seur_add_label_taxonomy', 0 );
 
-/***************************************************/
-/************* Metabox Labels SEUR *****************/
-/***************************************************/
+/**
+ * Metabox Labels SEUR
+ */
 
 /**
  * Register meta box(es).
@@ -348,33 +372,47 @@ function seur_metabox_label_callback( $post ) {
 	<?php
 }
 
-// add_filter('display_post_states', 'seur_custom_post_states');
+// add_filter( 'display_post_states', 'seur_custom_post_states' );.
 
+/**
+ * SEUR Custom Post States
+ *
+ * @param string $states Post Status.
+ */
 function seur_custom_post_states( $states ) {
 	global $post;
-	if ( ( 'seur_label' == get_post_type( $post->ID ) ) ) {
+	if ( ( 'seur_label' === get_post_type( $post->ID ) ) ) {
 		$states[] = '__return_false';
 	}
 }
 
-add_filter( 'bulk_actions-edit-seur_labels', 'seur_bulk_actions_labels_screen' );
-
+/**
+ * Seur Bulk Actions Handler
+ *
+ * @param array $bulk_actions PBulk actions.
+ */
 function seur_bulk_actions_labels_screen( $bulk_actions ) {
 
 	$bulk_actions['download_seur_label']  = __( 'Download  SEUR Labels', 'download_seur_label' );
 	$bulk_actions['update_seur_tracking'] = __( 'Update SEUR Tracking', 'update_seur_tracking' );
 	return $bulk_actions;
 }
+add_filter( 'bulk_actions-edit-seur_labels', 'seur_bulk_actions_labels_screen' );
 
-add_filter( 'handle_bulk_actions-edit-seur_labels', 'seur_bulk_actions_handler', 10, 3 );
-
+/**
+ * Seur Bulk Actions Handler
+ *
+ * @param string $redirect_to url.
+ * @param string $doaction action to do.
+ * @param array  $post_ids Post IDs.
+ */
 function seur_bulk_actions_handler( $redirect_to, $doaction, $post_ids ) {
-	if ( $doaction !== 'download_seur_label' && $doaction !== 'update_seur_tracking' ) {
+	if ( 'download_seur_label' !== $doaction && 'update_seur_tracking' !== $doaction ) {
 		return $redirect_to;
 	}
-	if ( $doaction == 'download_seur_label' ) {
+	if ( 'download_seur_label' === $doaction ) {
 
-		$date = date( 'd-m-Y-H-i-s' );
+		$date = date( 'd-m-Y-H-i-s' ); // phpcs:ignore WordPress.DateTime.RestrictedFunctions.date_date
 
 		$bulk_label_name = 'label_bulk_' . $date . '.txt';
 
@@ -382,18 +420,18 @@ function seur_bulk_actions_handler( $redirect_to, $doaction, $post_ids ) {
 
 			$label_type = get_post_meta( $post_id, '_seur_label_type', true );
 
-			if ( $label_type == 'termica' ) {
+			if ( 'termica' === $label_type ) {
 
 				$label_file_name = get_post_meta( $post_id, '_seur_shipping_order_label_file_name', true );
 				$label_path      = get_post_meta( $post_id, '_seur_shipping_order_label_path_name', true );
 				$upload_dir      = seur_upload_dir( 'labels' );
 				$upload_path     = $upload_dir . '/' . $bulk_label_name;
 				$label_text      = "\n" . file_get_contents( $label_path, true );
-				$bulk_file_exist = fopen( $upload_path, 'r' );
+				$bulk_file_exist = fopen( $upload_path, 'r' ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_read_fopen
 				if ( $bulk_file_exist ) {
-					file_put_contents( $upload_path, $label_text, FILE_APPEND | LOCK_EX );
+					file_put_contents( $upload_path, $label_text, FILE_APPEND | LOCK_EX ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_read_file_put_contents
 				} else {
-					file_put_contents( $upload_path, $label_text );
+					file_put_contents( $upload_path, $label_text ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_read_file_put_contents
 				}
 			}
 		}
@@ -401,7 +439,7 @@ function seur_bulk_actions_handler( $redirect_to, $doaction, $post_ids ) {
 		$redirect_to = add_query_arg( 'bulk_download_seur_label', count( $post_ids ), $redirect_to );
 		return $redirect_to;
 
-	} elseif ( $doaction == 'update_seur_tracking' ) {
+	} elseif ( 'update_seur_tracking' === $doaction ) {
 
 		foreach ( $post_ids as $post_id ) {
 
@@ -415,9 +453,11 @@ function seur_bulk_actions_handler( $redirect_to, $doaction, $post_ids ) {
 		return $redirect_to;
 	}
 }
+add_filter( 'handle_bulk_actions-edit-seur_labels', 'seur_bulk_actions_handler', 10, 3 );
 
-
-
+/**
+ * Seur Bulk Actions Success.
+ */
 function seur_bulk_actions_success() {
 
 	$screen           = get_current_screen();
@@ -429,7 +469,7 @@ function seur_bulk_actions_success() {
 	$path_to_txt      = $upload_dir . '/' . $file_name;
 	$label_path_fix   = str_replace( '\\', '/', $path_to_txt );
 
-	if ( $file_name && $screen->post_type == 'seur_labels' ) {
+	if ( $file_name && 'seur_labels' === $screen->post_type ) {
 		?>
 	<div class="notice notice-success is-dismissible">
 		<p><?php echo esc_html__( 'Bulk Print ready, please press Download Bulk Labels button for download the txt file. ' ) . '<a href="' . esc_url( $url_to_txt ) . '?label=' . esc_html( $label_path_fix ) . '&label_name=' . esc_html( $file_name ) . '&pass=' . esc_html( $file_downlo_pass ) . '&file_type=termica" class="button" target="_blank">' . esc_html__( ' Download Bulk Labels ', 'seur' ) . '</a>'; ?></p>
@@ -440,11 +480,14 @@ function seur_bulk_actions_success() {
 }
 add_action( 'admin_notices', 'seur_bulk_actions_success' );
 
+/**
+ * Seur Bulk actions success tracking.
+ */
 function seur_bulk_actions_success_tracking() {
 
 	$screen    = get_current_screen();
 	$file_name = get_transient( get_current_user_id() . '_seur_label_bulk_tracking' );
-	if ( $file_name && $screen->post_type == 'seur_labels' ) {
+	if ( $file_name && 'seur_labels' === $screen->post_type ) {
 		?>
 	<div class="notice notice-success is-dismissible">
 		<p><?php esc_html_e( 'All tracking updated', 'seur' ); ?></p>

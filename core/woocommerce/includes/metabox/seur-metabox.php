@@ -1,4 +1,11 @@
-<?php if ( ! defined( 'ABSPATH' ) ) {
+<?php
+/**
+ * SEUR Metabox
+ *
+ * @package SEUR
+ */
+
+if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
 
@@ -19,28 +26,28 @@ function seur_metabox_callback( $post ) {
 
 	$weight           = '';
 	$has_label        = '';
-	$labelID          = '';
+	$labelid2         = '';
 	$has_label        = get_post_meta( $post->ID, '_seur_shipping_order_label_downloaded', true );
-	$labelID          = get_post_meta( $post->ID, '_seur_shipping_label_id', true );
+	$labelid2         = get_post_meta( $post->ID, '_seur_shipping_label_id', true );
 	$url_to_file_down = get_site_option( 'seur_download_file_url' );
-	$label_path       = get_post_meta( $labelID, '_seur_shipping_order_label_path_name', true );
+	$label_path       = get_post_meta( $labelid2, '_seur_shipping_order_label_path_name', true );
 	$label_path       = str_replace( '\\', '/', $label_path );
-	$label_file_name  = get_post_meta( $labelID, '_seur_shipping_order_label_file_name', true );
+	$label_file_name  = get_post_meta( $labelid2, '_seur_shipping_order_label_file_name', true );
 	$file_downlo_pass = get_site_option( 'seur_pass_for_download' );
-	$file_type        = get_post_meta( $labelID, '_seur_label_type', true );
+	$file_type        = get_post_meta( $labelid2, '_seur_label_type', true );
 
 	?> <div id="seur_content_metabox"> 
 	<?php
 
 	if ( ! $has_label ) {
-		$url                    = esc_url( admin_url( add_query_arg( array( 'page' => 'seur_get_labels_from_order' ), 'admin.php' ) ) );
-		$arrayUrl            = array(
+		$url                 = esc_url( admin_url( add_query_arg( array( 'page' => 'seur_get_labels_from_order' ), 'admin.php' ) ) );
+		$arrayurl            = array(
 			'order_id'   => $post->ID,
 			'?TB_iframe' => 'true',
 			'width'      => '400',
 			'height'     => '300',
 		);
-		$final_get_label_url = esc_url( add_query_arg( $arrayUrl, $url ) );
+		$final_get_label_url = esc_url( add_query_arg( $arrayurl, $url ) );
 		add_thickbox();
 		?>
 		<img src="<?php echo esc_url( SEUR_PLUGIN_URL ); ?>assets/img/icon-96x37.png" alt="SEUR Image" width="96" height="37" />
@@ -61,7 +68,7 @@ function seur_metabox_callback( $post ) {
 /**
  * Save meta box content.
  *
- * @param int $post_id Post ID
+ * @param int $post_id Post ID.
  */
 function seur_save_meta_box( $post_id ) {
 
@@ -77,7 +84,7 @@ function seur_save_meta_box( $post_id ) {
 		return $post_id;
 	}
 
-	if ( ! isset( $_POST['seur_get_label_metabox_nonce_field'] ) || ! wp_verify_nonce( $_POST['seur_get_label_metabox_nonce_field'], 'seur_get_label_metabox_action' ) ) {
+	if ( ! isset( $_POST['seur_get_label_metabox_nonce_field'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['seur_get_label_metabox_nonce_field'] ) ), 'seur_get_label_metabox_action' ) ) {
 		return $post_id;
 	}
 	$numpackages = esc_html( sanitize_text_field( wp_unslash( $_POST['seur-number-packages'] ) ) );
@@ -85,12 +92,12 @@ function seur_save_meta_box( $post_id ) {
 	$new_status  = 'seur-shipment';
 	$has_label   = get_post_meta( $post_id, '_seur_shipping_order_label_downloaded', true );
 
-	if ( $has_label !== 'yes' ) {
+	if ( 'yes' !== $has_label ) {
 
 		$label = seur_get_label( $post_id, $numpackages, $weight );
 
 		$label_result  = $label[0]['result'];
-		$labelID       = $label[0]['labelID'];
+		$labelid2      = $label[0]['labelID'];
 		$label_message = $label[0]['message'];
 
 		if ( $label_result ) {
@@ -102,19 +109,20 @@ function seur_save_meta_box( $post_id ) {
 			$order->add_order_note( 'The Label for Order #' . $post_id . ' have been downloaded', 0, true );
 
 		} else {
-
-			// error
+			echo 'error.';
 		}
 	}
 }
 add_action( 'save_post_shop_order', 'seur_save_meta_box', 999 );
 
+/**
+ * SEUR metabox save buttom
+ */
 function seur_metabox_save_buttom() {
 	global $post_type;
 
-	if ( $post_type == 'shop_order' ) {
-
-		 wp_enqueue_script( 'seurshoporderssavemeta', SEUR_PLUGIN_URL . 'assets/js/seur-shop-orders-cpt.js', array(), SEUR_OFFICIAL_VERSION );
+	if ( 'shop_order' === $post_type ) {
+		wp_enqueue_script( 'seurshoporderssavemeta', SEUR_PLUGIN_URL . 'assets/js/seur-shop-orders-cpt.js', array(), SEUR_OFFICIAL_VERSION, true );
 	}
 
 }

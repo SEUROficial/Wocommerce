@@ -1,9 +1,19 @@
 <?php
+/**
+ * SEUR Proucts Service
+ *
+ * @package SEUR
+ */
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
 
+/**
+ * SEUR Products service
+ *
+ * @param WP_Post $post Post Data.
+ */
 function seur_products_services( $post ) {
 	global $wpdb;
 	?>
@@ -26,7 +36,7 @@ function seur_products_services( $post ) {
 			<?php
 				$tabla     = $wpdb->prefix . SEUR_PLUGIN_SVPR;
 				$sql       = "SELECT * FROM $tabla";
-				$registros = $wpdb->get_results( $sql );
+				$registros = $wpdb->get_results( "SELECT * FROM {$wpdb->prefix}SEUR_PLUGIN_SVPR" );
 
 			foreach ( $registros as $valor ) {
 				echo '<tr id="post-2" class="iedit author-self level-0 post-2 type-page status-publish hentry">';
@@ -36,7 +46,6 @@ function seur_products_services( $post ) {
 				echo '<td class="author column-author" data-colname="Description">' . esc_html( $valor->descripcion ) . '</td>';
 				echo '</tr>';
 			}
-
 			?>
 		</tbody>
 		<tfoot>

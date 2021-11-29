@@ -1,15 +1,26 @@
 <?php
+/**
+ * SEUR Pickup
+ *
+ * @package SEUR
+ */
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
 
+/**
+ * SEUR Pickup
+ *
+ * @param WP_Post $post Post Data.
+ */
 function seur_pickup( $post ) {
 
 	// Declarando $wpdb global y usarlo para ejecutar una sentencia de consulta SQL.
 	global $wpdb;
 
-	$date          = date( 'y' ) . date( 'm' ) . date( 'd' ); // yy/mm/dd.
+	// yy/mm/dd.
+	$date          = date( 'y' ) . date( 'm' ) . date( 'd' ); // phpcs:ignore WordPress.DateTime.RestrictedFunctions.date_date
 	$bloquear      = '';
 	$bultos        = '';
 	$kilos         = '';
@@ -19,7 +30,7 @@ function seur_pickup( $post ) {
 <div class="wrap">
 	<h1 class="wp-heading-inline"><?php esc_html_e( 'Collection', 'seur' ); ?></h1>
 	<hr class="wp-header-end">
-	<?php _e( 'Generate an order for us to pick up your customers orders.', 'seur' ); ?>
+	<?php esc_html_e( 'Generate an order for us to pick up your customers orders.', 'seur' ); ?>
 	<form method="post"  name="formulario" width="100%">
 	<?php
 
@@ -66,10 +77,10 @@ function seur_pickup( $post ) {
 
 		$usuarioseurcom    = $usercom;
 		$contrasenaseurcom = $passcom;
-		$Md                = $manana_desde;
-		$Mh                = $manana_hasta;
-		$Td                = $tarde_desde;
-		$Th                = $tarde_hasta;
+		$md                = $manana_desde;
+		$mh                = $manana_hasta;
+		$td                = $tarde_desde;
+		$th                = $tarde_hasta;
 
 		echo '<form>';
 		echo "<input type='hidden' name='usuarioseurcom' value='" . esc_textarea( $usercom ) . "'>";
@@ -98,79 +109,74 @@ function seur_pickup( $post ) {
 
 	} else {
 
-		if ( ! isset( $_POST['seur_pickup_nonce_field'] ) || ! wp_verify_nonce( $_POST['seur_pickup_nonce_field'], 'seur_pickup_action' ) ) {
-
+		if ( ! isset( $_POST['seur_pickup_nonce_field'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['seur_pickup_nonce_field'] ) ), 'seur_pickup_action' ) ) {
 			print 'Sorry, your nonce did not verify.';
 			exit;
-
 		} else {
 
 			$bultos            = sanitize_text_field( wp_unslash( $_POST['bultos'] ) );
-			$kilos             = sanitize_text_field( wp_unslash( $_POST['kilos'] ) );
-			$Md                = sanitize_text_field( wp_unslash( $_POST['Md'] ) );
-			$Mh                = sanitize_text_field( wp_unslash( $_POST['Mh'] ) );
-			$Td                = sanitize_text_field( wp_unslash( $_POST['Td'] ) );
-			$Th                = sanitize_text_field( wp_unslash( $_POST['Th'] ) );
+			$kilos             = sanitize_text_field( wp_unslash( $_POST['kilos'] ) ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotValidated
+			$md                = sanitize_text_field( wp_unslash( $_POST['Md'] ) ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotValidated
+			$mh                = sanitize_text_field( wp_unslash( $_POST['Mh'] ) ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotValidated
+			$td                = sanitize_text_field( wp_unslash( $_POST['Td'] ) ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotValidated
+			$th                = sanitize_text_field( wp_unslash( $_POST['Th'] ) ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotValidated
 			$bloquear          = 'readonly';
-			$usuarioseurcom    = sanitize_text_field( wp_unslash( $_POST['usuarioseurcom'] ) );
-			$contrasenaseurcom = sanitize_text_field( wp_unslash( $_POST['contrasenaseurcom'] ) );
+			$usuarioseurcom    = sanitize_text_field( wp_unslash( $_POST['usuarioseurcom'] ) ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotValidated
+			$contrasenaseurcom = sanitize_text_field( wp_unslash( $_POST['contrasenaseurcom'] ) ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotValidated
 
 		}
 	}
 
-	// ************************************************************************
-	// Comprobar si tiene una recogida para hoy y mostrar sus situaciones
-	// *************************************************************************
-
+	/**
+	 * Comprobar si tiene una recogida para hoy y mostrar sus situaciones
+	 */
 	$last_date     = get_option( 'seur_date_localizador' );
-	$now           = date( 'y' ) . date( 'm' ) . date( 'd' );
+	$now           = date( 'y' ) . date( 'm' ) . date( 'd' ); // phpcs:ignore WordPress.DateTime.RestrictedFunctions.date_date
 	$identificador = get_option( 'seur_num_localizador' );
 
-	if ( $last_date == $now ) {
+	if ( $last_date === $now ) {
 
 		echo "<div style='color:#e53920;font-weight:bold; font-size:12px;'>";
-		echo __( 'You have a collection for today', 'seur' );
+		echo esc_html__( 'You have a collection for today', 'seur' );
 		echo '<br>';
-		echo __( 'IDENTIFIER: ', 'seur' ) . $identificador;
+		echo esc_html__( 'IDENTIFIER: ', 'seur' ) . esc_html( $identificador );
 		echo '</div>';
 
-		// situaciones de la recogida
+		// situaciones de la recogida.
 
 		$sc_options = array(
 			'connection_timeout' => 30,
 		);
 
-			$params = array(
-				'in0' => $identificador,
-				'in1' => '',
-				'in2' => $usuarioseurcom,
-				'in3' => $contrasenaseurcom,
-			);
+		$params = array(
+			'in0' => $identificador,
+			'in1' => '',
+			'in2' => $usuarioseurcom,
+			'in3' => $contrasenaseurcom,
+		);
 
-			// pedimos las etiquetas
-			$cliente   = new SoapClient( 'https://ws.seur.com/webseur/services/WSConsultaRecogidas?wsdl', $sc_options );
-			$respuesta = $cliente->consultaDetallesRecogidasStr( $params );
-			$xml       = simplexml_load_string( $respuesta->out );
-			echo "<div style='color:#0074a2;font-weight:bold; font-size:12px;'>";
-			echo '<HR>RECOGER EN:<BR>';
-			echo $xml->RECOGIDA->DONDE_NOMBRE;
-			echo '<br>';
-			echo $xml->RECOGIDA->DONDE_VIA_NOMBRE;
-			echo '<br>';
-			echo $xml->RECOGIDA->DONDE_POBLACION;
-			echo '<br>';
-			echo $xml->RECOGIDA->DONDE_PROVINCIA;
-			echo '<hr>';
-			foreach ( $xml->RECOGIDA->SITUACIONES->SITUACION as $contenido ) {
+		// pedimos las etiquetas.
+		$cliente   = new SoapClient( 'https://ws.seur.com/webseur/services/WSConsultaRecogidas?wsdl', $sc_options );
+		$respuesta = $cliente->consultaDetallesRecogidasStr( $params );
+		$xml       = simplexml_load_string( $respuesta->out );
+		echo "<div style='color:#0074a2;font-weight:bold; font-size:12px;'>";
+		echo '<HR>RECOGER EN:<BR>';
+		echo esc_html( $xml->RECOGIDA->DONDE_NOMBRE ); // phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
+		echo '<br>';
+		echo esc_html( $xml->RECOGIDA->DONDE_VIA_NOMBRE ); // phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
+		echo '<br>';
+		echo esc_html( $xml->RECOGIDA->DONDE_POBLACION ); // phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
+		echo '<br>';
+		echo esc_html( $xml->RECOGIDA->DONDE_PROVINCIA ); // phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
+		echo '<hr>';
+		foreach ( $xml->RECOGIDA->SITUACIONES->SITUACION as $contenido ) { // phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
 
-				echo $contenido->FECHA_SITUACION . ' ';
-				echo $contenido->DESCRIPCION_CLIENTE . '<br>';
+			echo esc_html( $contenido->FECHA_SITUACION ) . ' '; // phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
+			echo esc_html( $contenido->DESCRIPCION_CLIENTE ) . '<br>'; // phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
 
-			}
-
-			echo '</div>';
-
-			return;
+		}
+		echo '</div>';
+		return;
 	}
 
 	// -------------------------------------------------
@@ -187,164 +193,170 @@ function seur_pickup( $post ) {
 		<td>
 		<table width='50%'>
 			<tr>
-				<td colspan="2"><?php _e( 'COLLECTION', 'seur' ); ?></div><hr></td></tr>
-		<tr><td colspan="2"><?php _e( 'Enter an approximate value for Bulk and Kilos.', 'seur' ); ?></div></td></tr>
+				<td colspan="2"><?php esc_html_e( 'COLLECTION', 'seur' ); ?></div><hr></td></tr>
+		<tr><td colspan="2"><?php esc_html_e( 'Enter an approximate value for Bulk and Kilos.', 'seur' ); ?></div></td></tr>
 		</tr>
 	<tr>
-	<td><?php _e( 'Bulk:', 'seur' ); ?>&nbsp;&nbsp;&nbsp;
+	<td><?php esc_html_e( 'Bulk:', 'seur' ); ?>&nbsp;&nbsp;&nbsp;
 	<?php
 	if ( strlen( $bultos ) < 1 ) {
 		$bultos = 1;
 	}  if ( strlen( $kilos ) < 1 ) {
 		$kilos = 1;}
 	?>
-	<input style="text-align:right" type="text" name="bultos" value="<?php echo $bultos; ?>" size="1" maxlength="3"  <?php echo $bloquear; ?> >
-	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?php _e( 'Kilos:', 'seur' ); ?>&nbsp;&nbsp;&nbsp;
-	<input style="text-align:right" type="text" name="kilos" value="<?php echo $kilos; ?>" size="1" maxlength="4"   <?php echo $bloquear; ?>>
+	<input style="text-align:right" type="text" name="bultos" value="<?php echo esc_html( $bultos ); ?>" size="1" maxlength="3"  <?php echo esc_html( $bloquear ); ?> >
+	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?php esc_html_e( 'Kilos:', 'seur' ); ?>&nbsp;&nbsp;&nbsp;
+	<input style="text-align:right" type="text" name="kilos" value="<?php echo esc_html( $kilos ); ?>" size="1" maxlength="4"   <?php echo esc_html( $bloquear ); ?>>
 	</td>
 	</tr>
-	<tr><td colslpan="2"><br><?php _e( 'Enter a schedule for Collection', 'seur' ); ?><br />
-	<?php _e( 'The minimum margin between each schedule has to be 2 hours.', 'seur' ); ?></div></td></tr>
+	<tr><td colslpan="2"><br><?php esc_html_e( 'Enter a schedule for Collection', 'seur' ); ?><br />
+	<?php esc_html_e( 'The minimum margin between each schedule has to be 2 hours.', 'seur' ); ?></div></td></tr>
 	<tr>
-	<td><?php _e( 'Morning from:', 'seur' ); ?>&nbsp;&nbsp;&nbsp;
+	<td><?php esc_html_e( 'Morning from:', 'seur' ); ?>&nbsp;&nbsp;&nbsp;
 	<select id="manana_desde_type" name="Md">
-	   <option value="" 
-	   <?php
-		if ( $Md == '' ) {
-			echo ' selected';}
+		<option value="" 
+		<?php
+		if ( '' === $md ) {
+			echo ' selected';
+		}
 		?>
-		><?php _e( 'None', 'seur' ); ?></option>
-	   <option value="09:00" 
-	   <?php
-		if ( $Md == '09:00' ) {
-			echo ' selected';}
+		>
+		<?php
+		esc_html_e( 'None', 'seur' );
+		?>
+		</option>
+		<option value="09:00" 
+		<?php
+		if ( '09:00' === $md ) {
+			echo ' selected';
+		}
 		?>
 		>09:00</option>
-	   <option value="10:00" 
-	   <?php
-		if ( $Md == '10:00' ) {
+		<option value="10:00" 
+		<?php
+		if ( '10:00' === $md ) {
 			echo ' selected';}
 		?>
 		>10:00</option>
-	   <option value="11:00" 
-	   <?php
-		if ( $Md == '11:00' ) {
+		<option value="11:00" 
+		<?php
+		if ( '11:00' === $md ) {
 			echo ' selected';}
 		?>
 		>11:00</option>
-	   <option value="12:00" 
-	   <?php
-		if ( $Md == '12:00' ) {
+		<option value="12:00" 
+		<?php
+		if ( '12:00' === $md ) {
 			echo ' selected';}
 		?>
 		>12:00</option>
 	</select>
 	&nbsp;&nbsp;&nbsp;
-	<?php _e( 'to', 'seur' ); ?>&nbsp;&nbsp;&nbsp;
-   <select id="manana_hasta_type" name="Mh">
-	   <option value="" 
-	   <?php
-		if ( $Mh == '' ) {
+	<?php esc_html_e( 'to', 'seur' ); ?>&nbsp;&nbsp;&nbsp;
+	<select id="manana_hasta_type" name="Mh">
+		<option value="" 
+		<?php
+		if ( '' === $mh ) {
 			echo ' selected';}
 		?>
-		><?php _e( 'None', 'seur' ); ?></option>
-	   <option value="11:00" 
-	   <?php
-		if ( $Mh == '11:00' ) {
+		><?php esc_html_e( 'None', 'seur' ); ?></option>
+		<option value="11:00" 
+		<?php
+		if ( '11:00' === $mh ) {
 			echo ' selected';}
 		?>
 		>11:00</option>
-	   <option value="12:00" 
-	   <?php
-		if ( $Mh == '12:00' ) {
+		<option value="12:00" 
+		<?php
+		if ( '12:00' === $mh ) {
 			echo ' selected';}
 		?>
 		>12:00</option>
-	   <option value="13:00" 
-	   <?php
-		if ( $Mh == '13:00' ) {
+		<option value="13:00" 
+		<?php
+		if ( '13:00' === $mh ) {
 			echo ' selected';}
 		?>
 		>13:00</option>
-	   <option value="14:00" 
-	   <?php
-		if ( $Mh == '14:00' ) {
+		<option value="14:00" 
+		<?php
+		if ( '14:00' === $mh ) {
 			echo ' selected';}
 		?>
 		>14:00</option>
 	</select>
 	</td></tr><tr>
-	<td><?php _e( 'Afternoon From:', 'seur' ); ?>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-   <select id="tarde_desde_type" name="Td">
-	   <option value="" 
-	   <?php
-		if ( $Td == '' ) {
+	<td><?php esc_html_e( 'Afternoon From:', 'seur' ); ?>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	<select id="tarde_desde_type" name="Td">
+		<option value="" 
+		<?php
+		if ( '' === $td ) {
 			echo ' selected';}
 		?>
-		><?php _e( 'None', 'seur' ); ?></option>
-	   <option value="15:00" 
-	   <?php
-		if ( $Td == '15:00' ) {
+		><?php esc_html_e( 'None', 'seur' ); ?></option>
+		<option value="15:00" 
+		<?php
+		if ( '15:00' === $td ) {
 			echo ' selected';}
 		?>
 		>15:00</option>
-	   <option value="16:00" 
-	   <?php
-		if ( $Td == '16:00' ) {
+		<option value="16:00" 
+		<?php
+		if ( '16:00' === $td ) {
 			echo ' selected';}
 		?>
 		>16:00</option>
-	   <option value="17:00" 
-	   <?php
-		if ( $Td == '17:00' ) {
+		<option value="17:00" 
+		<?php
+		if ( '17:00' === $td ) {
 			echo ' selected';}
 		?>
 		>17:00</option>
-	   <option value="18:00" 
-	   <?php
-		if ( $Td == '18:00' ) {
+		<option value="18:00" 
+		<?php
+		if ( '18:00' === $td ) {
 			echo ' selected';}
 		?>
 		>18:00</option>
 	</select>
 	&nbsp;&nbsp;&nbsp;
-	<?php _e( 'to', 'seur' ); ?>&nbsp;&nbsp;&nbsp;
-   <select id="tarde_hasta_type" name="Th">
-	   <option value="" 
-	   <?php
-		if ( $Th == '' ) {
+	<?php esc_html_e( 'to', 'seur' ); ?>&nbsp;&nbsp;&nbsp;
+	<select id="tarde_hasta_type" name="Th">
+		<option value="" 
+		<?php
+		if ( '' === $th ) {
 			echo ' selected';}
 		?>
-		><?php _e( 'None', 'seur' ); ?></option>
-	   <option value="17:00" 
-	   <?php
-		if ( $Th == '17:00' ) {
+		><?php esc_html_e( 'None', 'seur' ); ?></option>
+		<option value="17:00" 
+		<?php
+		if ( '17:00' === $th ) {
 			echo ' selected';}
 		?>
 		>17:00</option>
-	   <option value="18:00" 
-	   <?php
-		if ( $Th == '18:00' ) {
+		<option value="18:00" 
+		<?php
+		if ( '18:00' === $th ) {
 			echo ' selected';}
 		?>
 		>18:00</option>
-	   <option value="19:00" 
-	   <?php
-		if ( $Th == '19:00' ) {
+		<option value="19:00" 
+		<?php
+		if ( '19:00' === $th ) {
 			echo ' selected';}
 		?>
 		>19:00</option>
-	   <option value="20:00" 
-	   <?php
-		if ( $Th == '20:00' ) {
+		<option value="20:00" 
+		<?php
+		if ( '20:00' === $th ) {
 			echo ' selected';}
 		?>
 		>20:00</option>
 	</select>
 	</td>
 	</tr>
-	<tr><td colslpan=2><br><?php _e( 'If the schedule is only of mornings, leave the afternoon schedules with null.', 'seur' ); ?>
-		<br><?php _e( 'If schedule is only of afternoon leave the morning hours with null.', 'seur' ); ?>
+	<tr><td colslpan=2><br><?php esc_html_e( 'If the schedule is only of mornings, leave the afternoon schedules with null.', 'seur' ); ?>
+		<br><?php esc_html_e( 'If schedule is only of afternoon leave the morning hours with null.', 'seur' ); ?>
 		</div></td></tr>
 
 	</tr>
@@ -355,89 +367,89 @@ function seur_pickup( $post ) {
 
 	<?php
 
-	// Si no está setado, boton Solicitar
+	// Si no está setado, boton Solicitar.
 	if ( ! isset( $_POST['bultos'] ) ) {
 		submit_button( __( 'Request', 'seur' ) );
 		return;
 	}
 
-	// Retorno del boton solicitar
-	// Formamos la recogida
-	$TRAMA_KILOS = '1;1;1;' . $_POST['kilos'] . ';0';
+	// Retorno del boton solicitar.
+	// Formamos la recogida.
+	$trama_kilos = '1;1;1;' . sanitize_text_field( wp_unslash( $_POST['kilos'] ) ) . ';0'; // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotValidated
 
-	$DatosRecogida = '' .
+	$datos_recogida = '' .
 		'<recogida>' .
-		'<usuario>' . $_POST['usuario'] . '</usuario>' .
-		'<password>' . $_POST['contra'] . '</password>' .
-		'<razonSocial>' . seur_clean_data( $_POST['empresa'] ) . '</razonSocial>' .
-		'<nombreEmpresa>' . seur_clean_data( $_POST['empresa'] ) . '</nombreEmpresa>' .
-		'<nombreContactoOrdenante>' . seur_clean_data( $_POST['contacton'] ) . '</nombreContactoOrdenante>' .
-		'<apellidosContactoOrdenante>' . seur_clean_data( $_POST['contactoa'] ) . '</apellidosContactoOrdenante>' .
+		'<usuario>' . sanitize_text_field( wp_unslash( $_POST['usuario'] ) ) . '</usuario>' . // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotValidated
+		'<password>' . sanitize_text_field( wp_unslash( $_POST['contra'] ) ) . '</password>' . // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotValidated
+		'<razonSocial>' . seur_clean_data( sanitize_text_field( wp_unslash( $_POST['empresa'] ) ) ) . '</razonSocial>' . // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotValidated
+		'<nombreEmpresa>' . seur_clean_data( sanitize_text_field( wp_unslash( $_POST['empresa'] ) ) ) . '</nombreEmpresa>' . // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotValidated
+		'<nombreContactoOrdenante>' . seur_clean_data( sanitize_text_field( wp_unslash( $_POST['contacton'] ) ) ) . '</nombreContactoOrdenante>' . // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotValidated
+		'<apellidosContactoOrdenante>' . seur_clean_data( sanitize_text_field( wp_unslash( $_POST['contactoa'] ) ) ) . '</apellidosContactoOrdenante>' . // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotValidated
 		'<prefijoTelefonoOrdenante>34</prefijoTelefonoOrdenante>' .
-		'<telefonoOrdenante>' . $_POST['telefono'] . '</telefonoOrdenante>' .
+		'<telefonoOrdenante>' . sanitize_text_field( wp_unslash( $_POST['telefono'] ) ) . '</telefonoOrdenante>' . // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotValidated
 		'<prefijoFaxOrdenante></prefijoFaxOrdenante>' .
 		'<faxOrdenante></faxOrdenante>' .
-		'<nifOrdenante>' . $_POST['nif'] . '</nifOrdenante>' .
+		'<nifOrdenante>' . sanitize_text_field( wp_unslash( $_POST['nif'] ) ) . '</nifOrdenante>' . // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotValidated
 		'<paisNifOrdenante>ES</paisNifOrdenante>' .
-		'<mailOrdenante>' . $_POST['email'] . '</mailOrdenante>' .
-		'<tipoViaOrdenante>' . $_POST['viatip'] . '</tipoViaOrdenante>' .
-		'<calleOrdenante>' . seur_clean_data( $_POST['vianom'] ) . '</calleOrdenante>' .
+		'<mailOrdenante>' . sanitize_text_field( wp_unslash( $_POST['email'] ) ) . '</mailOrdenante>' . // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotValidated
+		'<tipoViaOrdenante>' . sanitize_text_field( wp_unslash( $_POST['viatip'] ) ) . '</tipoViaOrdenante>' . // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotValidated
+		'<calleOrdenante>' . seur_clean_data( sanitize_text_field( wp_unslash( $_POST['vianom'] ) ) ) . '</calleOrdenante>' . // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotValidated
 		'<tipoNumeroOrdenante>N.</tipoNumeroOrdenante>' .
-		'<numeroOrdenante>' . $_POST['vianum'] . '</numeroOrdenante>' .
-		'<escaleraOrdenante>' . $_POST['escalera'] . '</escaleraOrdenante>' .
-		'<pisoOrdenante>' . $_POST['piso'] . '</pisoOrdenante>' .
-		'<puertaOrdenante>' . $_POST['puerta'] . '</puertaOrdenante>' .
-		'<codigoPostalOrdenante>' . $_POST['postal'] . '</codigoPostalOrdenante>' .
-		'<poblacionOrdenante>' . seur_clean_data( $_POST['poblacion'] ) . '</poblacionOrdenante>' .
-		'<provinciaOrdenante>' . seur_clean_data( $_POST['provincia'] ) . '</provinciaOrdenante>' .
+		'<numeroOrdenante>' . sanitize_text_field( wp_unslash( $_POST['vianum'] ) ) . '</numeroOrdenante>' . // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotValidated
+		'<escaleraOrdenante>' . sanitize_text_field( wp_unslash( $_POST['escalera'] ) ) . '</escaleraOrdenante>' . // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotValidated
+		'<pisoOrdenante>' . sanitize_text_field( wp_unslash( $_POST['piso'] ) ) . '</pisoOrdenante>' . // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotValidated
+		'<puertaOrdenante>' . sanitize_text_field( wp_unslash( $_POST['puerta'] ) ) . '</puertaOrdenante>' . // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotValidated
+		'<codigoPostalOrdenante>' . sanitize_text_field( wp_unslash( $_POST['postal'] ) ) . '</codigoPostalOrdenante>' . // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotValidated
+		'<poblacionOrdenante>' . seur_clean_data( sanitize_text_field( wp_unslash( $_POST['poblacion'] ) ) ) . '</poblacionOrdenante>' . // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotValidated
+		'<provinciaOrdenante>' . seur_clean_data( sanitize_text_field( wp_unslash( $_POST['provincia'] ) ) ) . '</provinciaOrdenante>' . // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotValidated
 		'<paisOrdenante>ES</paisOrdenante>' .
 
-		'<diaRecogida>' . date( 'd' ) . '</diaRecogida>' .
-		'<mesRecogida>' . date( 'm' ) . '</mesRecogida>' .
-		'<anioRecogida>' . date( 'Y' ) . '</anioRecogida>' .
+		'<diaRecogida>' . date( 'd' ) . '</diaRecogida>' . // phpcs:ignore WordPress.DateTime.RestrictedFunctions.date_date
+		'<mesRecogida>' . date( 'm' ) . '</mesRecogida>' . // phpcs:ignore WordPress.DateTime.RestrictedFunctions.date_date
+		'<anioRecogida>' . date( 'Y' ) . '</anioRecogida>' . // phpcs:ignore WordPress.DateTime.RestrictedFunctions.date_date
 		'<servicio>1</servicio>' .
-		'<horaMananaDe>' . $_POST['Md'] . '</horaMananaDe>' .
-		'<horaMananaA>' . $_POST['Mh'] . '</horaMananaA>' .
-		'<numeroBultos>' . $_POST['bultos'] . '</numeroBultos>' .
+		'<horaMananaDe>' . sanitize_text_field( wp_unslash( $_POST['Md'] ) ) . '</horaMananaDe>' . // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotValidated
+		'<horaMananaA>' . sanitize_text_field( wp_unslash( $_POST['Mh'] ) ) . '</horaMananaA>' . // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotValidated
+		'<numeroBultos>' . sanitize_text_field( wp_unslash( $_POST['bultos'] ) ) . '</numeroBultos>' . // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotValidated
 		'<mercancia>2</mercancia>' .
-		'<horaTardeDe>' . $_POST['Td'] . '</horaTardeDe>' .
-		'<horaTardeA>' . $_POST['Th'] . '</horaTardeA>' .
+		'<horaTardeDe>' . sanitize_text_field( wp_unslash( $_POST['Td'] ) ) . '</horaTardeDe>' . // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotValidated
+		'<horaTardeA>' . sanitize_text_field( wp_unslash( $_POST['Th'] ) ) . '</horaTardeA>' . // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotValidated
 		'<tipoPorte>P</tipoPorte>' .
 		'<observaciones></observaciones>' .
 		'<tipoAviso>EMAIL</tipoAviso>' .
 		'<idiomaContactoOrdenante>ES</idiomaContactoOrdenante>' .
 
-		'<razonSocialDestino>' . seur_clean_data( $_POST['empresa'] ) . '</razonSocialDestino>' .
-		'<nombreContactoDestino>' . seur_clean_data( $_POST['contacton'] ) . '</nombreContactoDestino>' .
-		'<apellidosContactoDestino>' . seur_clean_data( $_POST['contactoa'] ) . '</apellidosContactoDestino>' .
-		'<telefonoDestino>' . $_POST['telefono'] . '</telefonoDestino>' .
-		'<tipoViaDestino>' . $_POST['viatip'] . '</tipoViaDestino>' .
-		'<calleDestino>' . seur_clean_data( $_POST['vianom'] ) . '</calleDestino>' .
+		'<razonSocialDestino>' . seur_clean_data( sanitize_text_field( wp_unslash( $_POST['empresa'] ) ) ) . '</razonSocialDestino>' . // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotValidated
+		'<nombreContactoDestino>' . seur_clean_data( sanitize_text_field( wp_unslash( $_POST['contacton'] ) ) ) . '</nombreContactoDestino>' . // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotValidated
+		'<apellidosContactoDestino>' . seur_clean_data( sanitize_text_field( wp_unslash( $_POST['contactoa'] ) ) ) . '</apellidosContactoDestino>' . // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotValidated
+		'<telefonoDestino>' . sanitize_text_field( wp_unslash( $_POST['telefono'] ) ) . '</telefonoDestino>' . // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotValidated
+		'<tipoViaDestino>' . sanitize_text_field( wp_unslash( $_POST['viatip'] ) ) . '</tipoViaDestino>' . // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotValidated
+		'<calleDestino>' . seur_clean_data( sanitize_text_field( wp_unslash( $_POST['vianom'] ) ) ) . '</calleDestino>' . // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotValidated
 		'<tipoNumeroDestino>N.</tipoNumeroDestino>' .
-		'<numeroDestino>' . $_POST['vianum'] . '</numeroDestino>' .
-		'<escaleraDestino>' . $_POST['escalera'] . '</escaleraDestino>' .
-		'<pisoDestino>' . $_POST['piso'] . '</pisoDestino>' .
-		'<puertaDestino>' . $_POST['puerta'] . '</puertaDestino>' .
-		'<codigoPostalDestino>' . $_POST['postal'] . '</codigoPostalDestino>' .
-		'<poblacionDestino>' . seur_clean_data( $_POST['poblacion'] ) . '</poblacionDestino>' .
-		'<provinciaDestino>' . seur_clean_data( $_POST['provincia'] ) . '</provinciaDestino>' .
+		'<numeroDestino>' . sanitize_text_field( wp_unslash( $_POST['vianum'] ) ) . '</numeroDestino>' . // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotValidated
+		'<escaleraDestino>' . sanitize_text_field( wp_unslash( $_POST['escalera'] ) ) . '</escaleraDestino>' . // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotValidated
+		'<pisoDestino>' . sanitize_text_field( wp_unslash( $_POST['piso'] ) ) . '</pisoDestino>' . // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotValidated
+		'<puertaDestino>' . sanitize_text_field( wp_unslash( $_POST['puerta'] ) ) . '</puertaDestino>' . // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotValidated
+		'<codigoPostalDestino>' . sanitize_text_field( wp_unslash( $_POST['postal'] ) ) . '</codigoPostalDestino>' . // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotValidated
+		'<poblacionDestino>' . seur_clean_data( sanitize_text_field( wp_unslash( $_POST['poblacion'] ) ) ) . '</poblacionDestino>' . // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotValidated
+		'<provinciaDestino>' . seur_clean_data( sanitize_text_field( wp_unslash( $_POST['provincia'] ) ) ) . '</provinciaDestino>' . // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotValidated
 		'<paisDestino>ES</paisDestino>' .
 		'<prefijoTelefonoDestino>34</prefijoTelefonoDestino>' .
 
-		'<razonSocialOrigen>' . seur_clean_data( $_POST['empresa'] ) . '</razonSocialOrigen>' .
-		'<nombreContactoOrigen>' . seur_clean_data( $_POST['contacton'] ) . '</nombreContactoOrigen>' .
-		'<apellidosContactoOrigen>' . seur_clean_data( $_POST['contactoa'] ) . '</apellidosContactoOrigen>' .
-		'<telefonoRecogidaOrigen>' . $_POST['telefono'] . '</telefonoRecogidaOrigen>' .
-		'<tipoViaOrigen>' . $_POST['viatip'] . '</tipoViaOrigen>' .
-		'<calleOrigen>' . seur_clean_data( $_POST['vianom'] ) . '</calleOrigen>' .
+		'<razonSocialOrigen>' . seur_clean_data( sanitize_text_field( wp_unslash( $_POST['empresa'] ) ) ) . '</razonSocialOrigen>' . // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotValidated
+		'<nombreContactoOrigen>' . seur_clean_data( sanitize_text_field( wp_unslash( $_POST['contacton'] ) ) ) . '</nombreContactoOrigen>' . // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotValidated
+		'<apellidosContactoOrigen>' . seur_clean_data( sanitize_text_field( wp_unslash( $_POST['contactoa'] ) ) ) . '</apellidosContactoOrigen>' . // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotValidated
+		'<telefonoRecogidaOrigen>' . sanitize_text_field( wp_unslash( $_POST['telefono'] ) ) . '</telefonoRecogidaOrigen>' . // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotValidated
+		'<tipoViaOrigen>' . sanitize_text_field( wp_unslash( $_POST['viatip'] ) ) . '</tipoViaOrigen>' . // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotValidated
+		'<calleOrigen>' . seur_clean_data( sanitize_text_field( wp_unslash( $_POST['vianom'] ) ) ) . '</calleOrigen>' . // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotValidated
 		'<tipoNumeroOrigen>N.</tipoNumeroOrigen>' .
-		'<numeroOrigen>' . $_POST['vianum'] . '</numeroOrigen>' .
-		'<escaleraOrigen>' . $_POST['escalera'] . '</escaleraOrigen>' .
-		'<pisoOrigen>' . $_POST['piso'] . '</pisoOrigen>' .
-		'<puertaOrigen>' . $_POST['puerta'] . '</puertaOrigen>' .
-		'<codigoPostalOrigen>' . $_POST['postal'] . '</codigoPostalOrigen>' .
-		'<poblacionOrigen>' . seur_clean_data( $_POST['poblacion'] ) . '</poblacionOrigen>' .
-		'<provinciaOrigen>' . seur_clean_data( $_POST['provincia'] ) . '</provinciaOrigen>' .
+		'<numeroOrigen>' . sanitize_text_field( wp_unslash( $_POST['vianum'] ) ) . '</numeroOrigen>' . // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotValidated
+		'<escaleraOrigen>' . sanitize_text_field( wp_unslash( $_POST['escalera'] ) ) . '</escaleraOrigen>' . // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotValidated
+		'<pisoOrigen>' . sanitize_text_field( wp_unslash( $_POST['piso'] ) ) . '</pisoOrigen>' . // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotValidated
+		'<puertaOrigen>' . sanitize_text_field( wp_unslash( $_POST['puerta'] ) ) . '</puertaOrigen>' . // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotValidated
+		'<codigoPostalOrigen>' . sanitize_text_field( wp_unslash( $_POST['postal'] ) ) . '</codigoPostalOrigen>' . // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotValidated
+		'<poblacionOrigen>' . seur_clean_data( sanitize_text_field( wp_unslash( $_POST['poblacion'] ) ) ) . '</poblacionOrigen>' . // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotValidated
+		'<provinciaOrigen>' . seur_clean_data( sanitize_text_field( wp_unslash( $_POST['provincia'] ) ) ) . '</provinciaOrigen>' . // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotValidated
 		'<paisOrigen>ES</paisOrigen>' .
 		'<prefijoTelefonoOrigen>34</prefijoTelefonoOrigen>' .
 
@@ -448,8 +460,8 @@ function seur_pickup( $post ) {
 		'<valorDeclarado>0</valorDeclarado>' .
 		// "<listaBultos>1;1;1;1;1/</listaBultos>".
 
-		'<listaBultos>' . $TRAMA_KILOS . '/</listaBultos>' .
-		'<cccOrdenante>' . $_POST['ccc'] . '-' . $_POST['franquicia'] . '</cccOrdenante>' .
+		'<listaBultos>' . esc_html( $trama_kilos ) . '/</listaBultos>' .
+		'<cccOrdenante>' . sanitize_text_field( wp_unslash( $_POST['ccc'] ) ) . '-' . sanitize_text_field( wp_unslash( $_POST['franquicia'] ) ) . '</cccOrdenante>' . // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotValidated
 		'<numeroReferencia></numeroReferencia>' .
 		'<ultimaRecogidaDia></ultimaRecogidaDia>' .
 		'<nifOrigen></nifOrigen>' .
@@ -465,25 +477,25 @@ function seur_pickup( $post ) {
 		);
 
 		$soap_client = new SoapClient( 'https://ws.seur.com/webseur/services/WSCrearRecogida?wsdl', $sc_options );
-		$parametros  = array( 'in0' => $DatosRecogida );
+		$parametros  = array( 'in0' => $datos_recogida );
 		$respuesta   = $soap_client->crearRecogida( $parametros );
 		$xml         = simplexml_load_string( $respuesta->out );
 		$codigo      = '';
-		$codigo      = $xml->CODIGO;
+		$codigo      = $xml->CODIGO; // phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
 
 		if ( strlen( $codigo ) > 1 ) {
-			echo __( 'AN ERROR HAS OCCURRED', 'seur' ) . '</div>';
-			echo $xml->DESCRIPCION;
+			echo esc_html__( 'AN ERROR HAS OCCURRED', 'seur' ) . '</div>';
+			echo esc_html( $xml->DESCRIPCION ); // phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
 			echo "<hr><a href='javascript:javascript:history.go(-1)'>";
-			echo "<img src='" . SEUR_IMAGENES . '/volver.jpg' . "'></img>";
+			echo "<img src='" . esc_html( SEUR_IMAGENES ) . '/volver.jpg' . "'></img>";
 			echo '</a>';
 
-			if ( defined( 'SEUR_DEBUG' ) && SEUR_DEBUG == true ) {
+			if ( defined( 'SEUR_DEBUG' ) && SEUR_DEBUG === true ) {
 				?>
 
 			<textarea rows="20" cols="40" style="border:none;">
 					<?php
-					echo $DatosRecogida;
+					echo esc_html( $datos_recogida );
 					?>
 			</textarea>
 
@@ -492,24 +504,23 @@ function seur_pickup( $post ) {
 
 			return;
 		} else {
-			$locali_num = (string) $xml->LOCALIZADOR;
-			echo __( 'The Collection have been created', 'seur' );
+			$locali_num = (string) $xml->LOCALIZADOR; // phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
+			echo esc_html__( 'The Collection have been created', 'seur' );
 			echo '<br />';
-			echo __( 'Identifier: ' ) . $locali_num . '</div>';
+			echo esc_html__( 'Identifier: ' ) . esc_html( $locali_num ) . '</div>';
 
-			// Destruirmos la variable para que no pueda crear mas recogidas en esta vista actual
+			// Destruirmos la variable para que no pueda crear mas recogidas en esta vista actual.
 			unset( $_POST['bultos'] );
-			// Grabamos que se ha creado la recogida para accesos del día muestre situaciones
+			// Grabamos que se ha creado la recogida para accesos del día muestre situaciones.
 			update_option( 'seur_date_localizador', $date );
 			update_option( 'seur_num_localizador', $locali_num );
-			// $resultado=$wpdb->query($sql);
-			if ( $resultado != 1 ) {
+			if ( 1 !== $resultado ) {
 				echo '</div>';
 			}
 			return;
 		}
 
 		?>
-		 </div> 
+		</div> 
 	<?php
 }

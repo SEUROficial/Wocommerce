@@ -1,4 +1,9 @@
 <?php
+/**
+ * SEUR Menu.
+ *
+ * @package SEUR
+ */
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
@@ -24,14 +29,18 @@ if ( defined( 'SEUR_WOOCOMMERCE_PART' ) ) {
 	include_once SEUR_PLUGIN_PATH . 'core/woocommerce/includes/pages/seur-process-label.php';
 }
 
+/**
+ * SEUR load custom icon Styles.
+ */
 function seur_load_custom_icon_styles() {
 	wp_register_style( 'seur_dashicons', SEUR_PLUGIN_URL . 'assets/css/menu.css', false, SEUR_OFFICIAL_VERSION );
 	wp_enqueue_style( 'seur_dashicons' );
 }
 add_action( 'admin_enqueue_scripts', 'seur_load_custom_icon_styles' );
 
-	// Adding custom menu for WordPress.
-
+/**
+ * SEUR Adding custom menu for WordPress.
+ */
 function seur_menu() {
 	global $seurrates, $seurmanifest, $seurnomenclator, $seurproductsservices, $seurconfig, $seurabout, $seuraddform, $seurcreaterate, $seurdeleterate, $seurupdatecustomrate, $seureditcustomrate, $seuraddlabelwoocommerce, $seur_get_labels, $seur_status;
 
@@ -68,12 +77,11 @@ function seur_menu() {
 
 		// remove submenu SEUR for shop_manger role.
 		$woouser = wp_get_current_user();
-		if ( in_array( 'shop_manager', (array) $woouser->roles ) ) {
+		if ( in_array( 'shop_manager', (array) $woouser->roles, true ) ) {
 			remove_submenu_page( $menu_slug, $menu_slug );
 		}
 
 		// add_action for add scripts to different screens.
-
 		add_action( "admin_print_scripts-$seurrates", 'seur_custom_rates_load_js' );
 		add_action( "admin_print_scripts-$seurrates", 'seur_select2_load_js' );
 		add_action( "admin_print_scripts-$seurrates", 'seur_select2_custom_load_js' );
@@ -112,13 +120,18 @@ function seur_menu() {
 }
 add_action( 'admin_menu', 'seur_menu' );
 
+/**
+ * SEUR Menu Hierarchy Correction
+ *
+ * @param string $parent_file modify parent menu.
+ */
 function seur_menu_hierarchy_correction( $parent_file ) {
 
 	global $current_screen, $parent_file, $self;
 
 	$current = $current_screen->post_type;
 
-	if ( 'seur_labels' == $current_screen->post_type ) {
+	if ( 'seur_labels' === $current_screen->post_type ) {
 		// Do something in the edit screen of this post type.
 		$parent_file = 'seur'; // phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited
 	}

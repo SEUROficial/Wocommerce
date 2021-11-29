@@ -1,9 +1,17 @@
 <?php
+/**
+ * Seur Installer
+ *
+ * @package SEUR
+ */
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
 
+/**
+ * Seur Create Tables Hook
+ */
 function seur_create_tables_hook() {
 	global $wpdb;
 
@@ -76,13 +84,16 @@ function seur_create_tables_hook() {
 	}
 }
 
+/**
+ * Seur Add Date to Table Hook.
+ */
 function seur_add_data_to_tables_hook() {
 	global $wpdb;
 
 	$seur_table_version_saved = '';
 	$seur_table_version_saved = get_option( 'seur_table_version' );
 
-	if ( ! empty( $seur_table_version_saved ) && $seur_table_version_saved === '1.0.1' ) {
+	if ( ! empty( $seur_table_version_saved ) && '1.0.1' === $seur_table_version_saved ) {
 
 		$table_name = $wpdb->prefix . 'seur_svpr';
 
@@ -117,7 +128,7 @@ function seur_add_data_to_tables_hook() {
 		update_option( 'seur_table_version', SEUR_TABLE_VERSION );
 	}
 
-	if ( ! empty( $seur_table_version_saved ) && $seur_table_version_saved === '1.0.0' ) {
+	if ( ! empty( $seur_table_version_saved ) && '1.0.0' === $seur_table_version_saved ) {
 
 		$table_name = $wpdb->prefix . 'seur_svpr';
 
@@ -161,7 +172,7 @@ function seur_add_data_to_tables_hook() {
 		update_option( 'seur_table_version', SEUR_TABLE_VERSION );
 	}
 
-	if ( ! $seur_table_version_saved || $seur_table_version_saved === '' ) {
+	if ( ! $seur_table_version_saved || '' === $seur_table_version_saved ) {
 
 		$table_name = $wpdb->prefix . 'seur_svpr';
 
@@ -506,6 +517,9 @@ function seur_add_data_to_tables_hook() {
 	}
 }
 
+/**
+ * Seur Create Random String.
+ */
 function seur_create_random_string() {
 
 	$characters           = 'abcdefghijklmnopqrstuvwxyz0123456789';
@@ -518,6 +532,9 @@ function seur_create_random_string() {
 	return $string;
 }
 
+/**
+ * Seur Create upload flder Hook.
+ */
 function seur_create_upload_folder_hook() {
 
 	$seur_upload_dir = get_option( 'seur_uploads_dir' );
@@ -550,14 +567,17 @@ function seur_create_upload_folder_hook() {
 	}
 }
 
+/**
+ * Seur Create Content for Download.
+ */
 function seur_create_content_for_download() {
 
 	$create_password = get_site_option( 'seur_pass_for_download' );
 
 	if ( ! empty( $create_password ) ) {
-		 $create_password = $create_password;
+		$create_password = $create_password;
 	} else {
-		 $create_password = seur_create_random_string();
+		$create_password = seur_create_random_string();
 	}
 
 	$content  = '<?php' . PHP_EOL;
@@ -595,6 +615,9 @@ function seur_create_content_for_download() {
 	return $content;
 }
 
+/**
+ * Seur Create download files.
+ */
 function seur_create_download_files() {
 	global $wp_filesystem;
 
@@ -618,12 +641,15 @@ function seur_create_download_files() {
 	$wp_filesystem->put_contents(
 		$full_path_file,
 		$content_add,
-		FS_CHMOD_FILE // predefined mode settings for WP files
+		FS_CHMOD_FILE // predefined mode settings for WP files.
 	);
 	update_site_option( 'seur_download_file_url', $full_url_file );
 	update_site_option( 'seur_download_file_path', $full_path_file );
 }
 
+/**
+ * Seur add avanced settings preset.
+ */
 function seur_add_avanced_settings_preset() {
 
 	$seur_add = get_option( 'seur_add_advanced_settings_field_pre' );

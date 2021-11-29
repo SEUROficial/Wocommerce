@@ -1,16 +1,27 @@
 <?php
+/**
+ * SEUR Nomenclator
+ *
+ * @package SEUR.
+ */
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
 
+/**
+ * SEUR search nomenclator.
+ *
+ * @param WP_Post $post Post data.
+ */
 function seur_search_nomenclator( $post ) { ?>
 
 <div class="wrap">
-	<h1 class="wp-heading-inline"><?php _e( 'Nomenclator', 'seur' ); ?></h1>
+	<h1 class="wp-heading-inline"><?php esc_html_e( 'Nomenclator', 'seur' ); ?></h1>
 	<?php
 	if ( isset( $_POST['codigo_postal'] ) ) {
 		?>
-		<a href="admin.php?page=seur_search_nomenclator" class="page-title-action"><?php _e( 'New Search', 'seur' ); ?></a>
+		<a href="admin.php?page=seur_search_nomenclator" class="page-title-action"><?php esc_html_e( 'New Search', 'seur' ); ?></a>
 		<?php
 	}
 	?>
@@ -24,11 +35,11 @@ function seur_search_nomenclator( $post ) { ?>
 		<form method="post" name="formulario" width="100%">
 		<?php
 		if ( isset( $_POST['codigo_postal'] ) ) {
-			if ( ! isset( $_POST['nomenclator_seur_nonce_field'] ) || ! wp_verify_nonce( $_POST['nomenclator_seur_nonce_field'], 'nomenclator_seur' ) ) {
+			if ( ! isset( $_POST['nomenclator_seur_nonce_field'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['nomenclator_seur_nonce_field'] ) ), 'nomenclator_seur' ) ) {
 				print 'Sorry, your nonce did not verify.';
 				exit;
 			} else {
-				$unsafe_zipcode = trim( $_POST['codigo_postal'] );
+				$unsafe_zipcode = trim( sanitize_text_field( wp_unslash( $_POST['codigo_postal'] ) ) );
 				if ( ! $unsafe_zipcode ) {
 					$safe_zipcode = '';
 				} else {
@@ -65,7 +76,7 @@ function seur_search_nomenclator( $post ) { ?>
 					);
 					$seurdata    = $soap_client->infoPoblacionesCortoStr( $param );
 					if ( is_soap_fault( $seurdata ) ) {
-						trigger_error( 'SOAP Fault: (faultcode: { $seurdata->faultcode }, faultstring: { $seurdata->faultstring } )', E_USER_ERROR );
+						trigger_error( 'SOAP Fault: (faultcode: { $seurdata->faultcode }, faultstring: { $seurdata->faultstring } )', E_USER_ERROR ); // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_trigger_error
 					} else {
 						$string_xml     = htmlspecialchars_decode( $seurdata->out );
 						$strxml         = iconv( 'UTF-8', 'ISO-8859-1', $string_xml );
@@ -101,18 +112,18 @@ function seur_search_nomenclator( $post ) { ?>
 								<?php
 								for ( $ele = 1; $ele <= $howmanyresults; $ele++ ) {
 									$registro = 'REG' . $ele;
-									echo '<tr><td><a href="https://www.google.es/maps/search/' . esc_html( $xml->$registro->NOM_POBLACION ) . ',+' . esc_html( $xml->$registro->NOM_PROVINCIA ) . '+' . esc_html( $xml->$registro->CODIGO_POSTAL ) . '+seur" target="_blank">' . esc_html( $xml->$registro->CODIGO_POSTAL ) . '</a>';
+									echo '<tr><td><a href="https://www.google.es/maps/search/' . esc_html( $xml->$registro->NOM_POBLACION ) . ',+' . esc_html( $xml->$registro->NOM_PROVINCIA ) . '+' . esc_html( $xml->$registro->CODIGO_POSTAL ) . '+seur" target="_blank">' . esc_html( $xml->$registro->CODIGO_POSTAL ) . '</a>'; // phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
 									echo '</td>';
-									echo '<td>' . esc_html( $xml->$registro->NOM_POBLACION ) . '</td>';
-									echo '<td>' . esc_html( $xml->$registro->NOM_PROVINCIA ) . '</td></tr>';
+									echo '<td>' . esc_html( $xml->$registro->NOM_POBLACION ) . '</td>'; // phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
+									echo '<td>' . esc_html( $xml->$registro->NOM_PROVINCIA ) . '</td></tr>'; // phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
 								}
 								?>
 
 					<tfoot>
 						<tr>
-							<td class="manage-column"><?php _e( 'POSTCODE', 'seur' ); ?></td>
-							<td class="manage-column"><?php _e( 'CITY', 'seur' ); ?></td>
-							<td class="manage-column"><?php _e( 'STATE/PROVINCE', 'seur' ); ?></td>
+							<td class="manage-column"><?php esc_html_e( 'POSTCODE', 'seur' ); ?></td>
+							<td class="manage-column"><?php esc_html_e( 'CITY', 'seur' ); ?></td>
+							<td class="manage-column"><?php esc_html_e( 'STATE/PROVINCE', 'seur' ); ?></td>
 						</tr>
 					</tfoot>
 			</table>
@@ -129,12 +140,12 @@ function seur_search_nomenclator( $post ) { ?>
 			?>
 	<div class="wp-filter">
 		<label>
-			<span class="screen-reader-text"><?php _e( 'City', 'seur' ); ?></span>
-			<input type='text' name='nombre_poblacion' class="wp-filter-search" placeholder="<?php _e( 'City', 'seur' ); ?>" value=''>
+			<span class="screen-reader-text"><?php esc_html_e( 'City', 'seur' ); ?></span>
+			<input type='text' name='nombre_poblacion' class="wp-filter-search" placeholder="<?php esc_html_e( 'City', 'seur' ); ?>" value=''>
 		</label>
 		<label>
-			<span class="screen-reader-text"><?php _e( 'Postal code', 'seur' ); ?></span>
-			<input type='text' name='codigo_postal' class="wp-filter-search" placeholder="<?php _e( 'Postalcode', 'seur' ); ?>" value='' size="12">
+			<span class="screen-reader-text"><?php esc_html_e( 'Postal code', 'seur' ); ?></span>
+			<input type='text' name='codigo_postal' class="wp-filter-search" placeholder="<?php esc_html_e( 'Postalcode', 'seur' ); ?>" value='' size="12">
 		</label>
 		<label>
 			<input type="submit" name="submit" id="submit" class="button button-primary" value="Search">

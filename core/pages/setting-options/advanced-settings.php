@@ -1,25 +1,28 @@
 <?php
+/**
+ * SEUR Advanced Settings.
+ *
+ * @package SEUR
+ */
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
 
-function seur_activate_geolabel_field() { ?>
-
+function seur_activate_geolabel_field() {
+	?>
 	<input type="checkbox" class="js-switch-geolabel" title="<?php esc_html_e( 'Activate GeoLabel', 'seur' ); ?>" name="seur_activate_geolabel_field" value="1" <?php checked( 1, get_option( 'seur_activate_geolabel_field' ), true ); ?>/>
 	<?php
 }
 
 function seur_activate_local_pickup_field() {
 	?>
-
 	<input type="checkbox" class="js-switch-pickup" title="<?php esc_html_e( 'Activate Local Pickup', 'seur' ); ?>" name="seur_activate_local_pickup_field" value="1" <?php checked( 1, get_option( 'seur_activate_local_pickup_field' ), true ); ?>/>
 	<?php
 }
 
 function seur_activate_free_shipping_field() {
 	?>
-
 	<input type="checkbox" class="js-switch-free-shipping" title="<?php esc_html_e( 'Show WooCommerce Free Shipping at Checkout', 'seur' ); ?>" name="seur_activate_free_shipping_field" value="1" <?php checked( 1, get_option( 'seur_activate_free_shipping_field' ), true ); ?>/>
 	<?php
 }
@@ -51,7 +54,6 @@ function seur_after_get_label_field() {
 }
 
 function seur_preaviso_notificar_field() {
-
 	?>
 	<input type="checkbox" class="js-switch-preavisonotificar" title="<?php esc_html_e( 'SEUR field description', 'seur' ); ?>" name="seur_preaviso_notificar_field" value="1" <?php checked( 1, get_option( 'seur_preaviso_notificar_field' ), true ); ?>/>
 	<?php
@@ -203,7 +205,6 @@ function seur_descripcion_field() {
 function display_seur_advanced_settings_panel_fields() {
 
 	add_settings_section( 'seur-advanced-settings-section', null, null, 'seur-advanced-settings-options' );
-
 	add_settings_field( 'seur_activate_geolabel_field', __( 'Activate GeoLabel', 'seur' ), 'seur_activate_geolabel_field', 'seur-advanced-settings-options', 'seur-advanced-settings-section' );
 	add_settings_field( 'seur_activate_free_shipping_field', __( 'Show WooCommerce Free Shipping at Checkout (by default SEUR hide the Free Shipping)', 'seur' ), 'seur_activate_free_shipping_field', 'seur-advanced-settings-options', 'seur-advanced-settings-section' );
 	add_settings_field( 'seur_after_get_label_field', __( 'What to do after get order label', 'seur' ), 'seur_after_get_label_field', 'seur-advanced-settings-options', 'seur-advanced-settings-section' );
@@ -220,7 +221,6 @@ function display_seur_advanced_settings_panel_fields() {
 	add_settings_field( 'seur_descripcion_field', __( 'International description', 'seur' ), 'seur_descripcion_field', 'seur-advanced-settings-options', 'seur-advanced-settings-section' );
 
 	// register all setings.
-
 	register_setting( 'seur-advanced-settings-section', 'seur_activate_geolabel_field' );
 	register_setting( 'seur-advanced-settings-section', 'seur_activate_free_shipping_field' );
 	register_setting( 'seur-advanced-settings-section', 'seur_preaviso_notificar_field' );
@@ -238,5 +238,4 @@ function display_seur_advanced_settings_panel_fields() {
 	register_setting( 'seur-advanced-settings-section', 'seur_descripcion_field' );
 
 }
-
 add_action( 'admin_init', 'display_seur_advanced_settings_panel_fields' );

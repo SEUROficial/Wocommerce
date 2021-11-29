@@ -1,8 +1,19 @@
 <?php
+/**
+ * SEUR Manifest
+ *
+ * @package SEUR.
+ */
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
 
+/**
+ * SEUR download data
+ *
+ * @param WP_Post $post Post dats sent.
+ */
 function seur_donwload_data( $post ) {
 	global $wpdb;
 	?>
@@ -12,12 +23,11 @@ function seur_donwload_data( $post ) {
 	<form method='post'  name='formulario' width='100%'>
 
 	<?php
-	if ( isset( $_POST['fechadesde'] ) && ( ! isset( $_POST['seur_manifest_nonce_field'] ) || ! wp_verify_nonce( $_POST['seur_manifest_nonce_field'], 'seur_manifest_action' ) ) ) {
+	if ( isset( $_POST['fechadesde'] ) && ( ! isset( $_POST['seur_manifest_nonce_field'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['seur_manifest_nonce_field'] ) ), 'seur_manifest_action' ) ) ) {
 		print 'Sorry, your nonce did not verify.';
 		exit;
 
 	} else {
-
 		$usuario           = get_option( 'seur_cit_usuario_field' );
 		$clave             = get_option( 'seur_cit_contra_field' );
 		$nif               = get_option( 'seur_nif_field' );
@@ -27,7 +37,7 @@ function seur_donwload_data( $post ) {
 
 		if ( isset( $_POST['fechadesde'] ) ) {
 
-			$date        = str_replace( '/', '', $_POST['fechadesde'] );
+			$date        = str_replace( '/', '', sanitize_text_field( wp_unslash( $_POST['fechadesde'] ) ) );
 			$sc_options  = array( 'connection_timeout' => 30 );
 			$soap_client = new SoapClient( 'http://cit.seur.com/CIT-war/services/DetalleBultoPDFWebService?wsdl', $sc_options );
 
@@ -35,12 +45,12 @@ function seur_donwload_data( $post ) {
 			if ( $date > 0 ) {
 
 				// Si los datos no tienen la longitud esperada, error.
-				if ( $date < 8 or strlen( $_POST['horadesde'] ) < 6 ) {
+				if ( $date < 8 || ( isset( $_POST['horadesde'] ) && strlen( sanitize_text_field( wp_unslash( $_POST['horadesde'] ) ) ) < 6 ) ) {
 					echo 'Fecha/Hora no están en el formato adecuado</div>';
 					return;
 				}
 
-				$fecha = substr( $date, 4, 4 ) . '-' . substr( $date, 0, 2 ) . '-' . substr( $date, 2, 2 ) . 'T' . substr( $_POST['horadesde'], 0, 2 ) . ':' . substr( $_POST['horadesde'], 2, 2 ) . ':' . substr( $_POST['horadesde'], 4, 2 ) . ':000Z';
+				$fecha = substr( $date, 4, 4 ) . '-' . substr( $date, 0, 2 ) . '-' . substr( $date, 2, 2 ) . 'T' . substr( sanitize_text_field( wp_unslash( $_POST['horadesde'] ) ), 0, 2 ) . ':' . substr( sanitize_text_field( wp_unslash( $_POST['horadesde'] ) ), 2, 2 ) . ':' . substr( sanitize_text_field( wp_unslash( $_POST['horadesde'] ) ), 4, 2 ) . ':000Z';
 
 				$parametros = array(
 					'in0' => $nif,
@@ -65,23 +75,23 @@ function seur_donwload_data( $post ) {
 
 			// Respuesta del servicio.
 			$error = strpos( $respuesta->out, 'USUARIO' );
-			if ( $error != 0 ) {
+			if ( 0 !== $error ) {
 				echo esc_html( $respuesta->out );
 				echo '</div>';
 				return;
 			}
 
 			$nohaydatos = strpos( $respuesta->out, 'RECUPERAR' );
-			if ( $nohaydatos != 0 ) {
+			if ( 0 !== $nohaydatos ) {
 				echo esc_html( $respuesta->out );
 				echo '</div>';
 				return;
 			}
 
-			$pdf       = base64_decode( $respuesta->out );
-			$file_name = 'manifiesto_' . date( 'd-m-Y' ) . '.pdf';
+			$pdf       = base64_decode( $respuesta->out ); // phpcs:ignore WordPress.PHP.DiscouragedPHPFunctions.obfuscation_base64_decode
+			$file_name = 'manifiesto_' . date( 'd-m-Y' ) . '.pdf'; // phpcs:ignore WordPress.DateTime.RestrictedFunctions.date_date
 			$path      = SEUR_UPLOADS_MANIFEST_PATH . '/' . $file_name;
-			file_put_contents( $path, $pdf );
+			file_put_contents( $path, $pdf ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_read_file_put_contents
 
 			$download_file = SEUR_UPLOADS_MANIFEST_URL . '/' . $file_name;
 			echo '<a href="' . esc_url( $download_file ) . '" target="_blank" class="button">' . esc_html__( ' Open Manifest ', 'seur' ) . '</a><br />';

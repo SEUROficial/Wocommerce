@@ -1,9 +1,17 @@
 <?php
+/**
+ * Seur help Tabs
+ *
+ * @package SEUR.
+ */
 
 if ( ! defined( 'ABSPATH' ) ) {
-	exit; // Exit if accessed directly
+	exit; // Exit if accessed directly.
 }
 
+/**
+ * Seur settings add help tab.
+ */
 function seur_settings_add_help_tab() {
 	$screen = get_current_screen();
 
@@ -25,6 +33,9 @@ function seur_settings_add_help_tab() {
 	);
 }
 
+/**
+ * Seur rates add help tab.
+ */
 function seur_rates_add_help_tab() {
 	$screen = get_current_screen();
 
@@ -48,10 +59,13 @@ function seur_rates_add_help_tab() {
 	);
 }
 
+/**
+ * Seur manifest add help tab.
+ */
 function seur_manifests_add_help_tab() {
 	$screen = get_current_screen();
 
-	// Add my_help_tab if current screen is My Admin Page
+	// Add my_help_tab if current screen is My Admin Page.
 	$screen->add_help_tab(
 		array(
 			'id'      => 'seur_manifest_help_tab',
@@ -62,6 +76,9 @@ function seur_manifests_add_help_tab() {
 	);
 }
 
+/**
+ * Seur Nomenclator add help tab.
+ */
 function seur_nomenclator_add_help_tab() {
 	$screen = get_current_screen();
 
@@ -75,6 +92,9 @@ function seur_nomenclator_add_help_tab() {
 	);
 }
 
+/**
+ * Seur product service add help tab.
+ */
 function seur_product_service_add_help_tab() {
 	$screen = get_current_screen();
 
@@ -88,35 +108,42 @@ function seur_product_service_add_help_tab() {
 	);
 }
 
+/**
+ * Seur pickups add help tab.
+ */
 function seur_pickup_add_help_tab() {
 	$screen = get_current_screen();
 
-	// Add my_help_tab if current screen is My Admin Page
+	// Add my_help_tab if current screen is My Admin Page.
 	$screen->add_help_tab(
 		array(
 			'id'      => 'seur_pickupe_help_tab',
 			'title'   => __( 'Collection', 'seur' ),
 			'content' => '<p>' . __( 'Request that we go by to collect a package whenever you may need it.', 'seur' ) . '</p>
-						<p>' . __( 'Remember to specify the number of packages and kilos that you are going to deliver, and when selecting the schedule, give us two-hour window for collecting a package.', 'seur' ) . '</p>
-						<p>' . __( 'For example, if it&apos;s now 3 p.m., you could request that we come by to collect a package between 5 p.m. and 7 p.m', 'seur' ) . '</p>',
+				<p>' . __( 'Remember to specify the number of packages and kilos that you are going to deliver, and when selecting the schedule, give us two-hour window for collecting a package.', 'seur' ) . '</p>
+				<p>' . __( 'For example, if it&apos;s now 3 p.m., you could request that we come by to collect a package between 5 p.m. and 7 p.m', 'seur' ) . '</p>',
 		)
 	);
 }
 
 add_action( 'admin_head', 'seur_label_list_add_help_tab' );
+
+/**
+ * Seur label list add help tab.
+ */
 function seur_label_list_add_help_tab() {
 	global $post_ID;
 	$screen = get_current_screen();
 
-	if ( isset( $_GET['post_type'] ) ) {
-		$post_type = $_GET['post_type'];
+	if ( isset( $_GET['post_type'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+		$post_type = sanitize_text_field( wp_unslash( $_GET['post_type'] ) ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 	} else {
 		$post_type = get_post_type( $post_ID );
 	}
 
-	if ( $post_type == 'seur_labels' ) {
+	if ( 'seur_labels' === $post_type ) {
 
-		// Add my_help_tab if current screen is My Admin Page
+		// Add my_help_tab if current screen is My Admin Page.
 		$screen->add_help_tab(
 			array(
 				'id'      => 'seur_label_help_tab',
@@ -127,20 +154,22 @@ function seur_label_list_add_help_tab() {
 	}
 }
 
-add_action( 'admin_head', 'seur_woocommercel_order_list_add_help_tab' );
+/**
+ * Seur WooCommerce order list list add help tab.
+ */
 function seur_woocommercel_order_list_add_help_tab() {
 	global $post_ID;
 	$screen = get_current_screen();
 
-	if ( isset( $_GET['post_type'] ) ) {
-		$post_type = $_GET['post_type'];
+	if ( isset( $_GET['post_type'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+		$post_type = sanitize_text_field( wp_unslash( $_GET['post_type'] ) ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 	} else {
 		$post_type = get_post_type( $post_ID );
 	}
 
-	if ( $post_type == 'shop_order' ) {
+	if ( 'shop_order' === $post_type ) {
 
-		// Add my_help_tab if current screen is My Admin Page
+		// Add my_help_tab if current screen is My Admin Page.
 		$screen->add_help_tab(
 			array(
 				'id'      => 'seur_woocommerce_order_help_tab',
@@ -150,3 +179,4 @@ function seur_woocommercel_order_list_add_help_tab() {
 		);
 	}
 }
+add_action( 'admin_head', 'seur_woocommercel_order_list_add_help_tab' );
