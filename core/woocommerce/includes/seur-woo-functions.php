@@ -1,11 +1,13 @@
-<?php if ( ! defined( 'ABSPATH' ) ) {
+<?php
+
+if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
 
 function seur_after_get_label() {
 	$seur_do = get_option( 'seur_after_get_label_field' );
 
-	if ( $seur_do == 'shipping' ) {
+	if ( 'shipping' === $seur_do ) {
 		$return = 'seur-shipment';
 
 	} else {
@@ -34,7 +36,7 @@ function seur_add_cart_weight( $order_id ) {
 	$seur_48h_custom_name                          = '';
 	$seur_72h_custom_name                          = '';
 	$seur_cit_custom_name                          = '';
-	$seur_2SHOP_custom_name                        = '';
+	$seur_2shop_custom_name                        = '';
 	$seur_courier_int_aereo_paqueteria_custom_name = '';
 	$seur_courier_int_aereo_documentos_custom_name = '';
 	$seur_netexpress_int_terrestre_custom_name     = '';
@@ -47,7 +49,7 @@ function seur_add_cart_weight( $order_id ) {
 	$seur_48h_custom_name                          = get_option( 'seur_48h_custom_name_field' );
 	$seur_72h_custom_name                          = get_option( 'seur_72h_custom_name_field' );
 	$seur_cit_custom_name                          = get_option( 'seur_cit_custom_name_field' );
-	$seur_2SHOP_custom_name                        = get_option( 'seur_2SHOP_custom_name_field' );
+	$seur_2shop_custom_name                        = get_option( 'seur_2SHOP_custom_name_field' );
 	$seur_courier_int_aereo_paqueteria_custom_name = get_option( 'seur_courier_int_aereo_paqueteria_custom_name_field' );
 	$seur_courier_int_aereo_documentos_custom_name = get_option( 'seur_courier_int_aereo_documentos_custom_name_field' );
 	$seur_netexpress_int_terrestre_custom_name     = get_option( 'seur_netexpress_int_terrestre_custom_name_field' );
@@ -84,10 +86,10 @@ function seur_add_cart_weight( $order_id ) {
 		$seur_cit_custom_name = $seur_cit_custom_name;
 	} else {
 		$seur_cit_custom_name = 'Classic Internacional Terrestre'; }
-	if ( ! empty( $seur_2SHOP_custom_name ) ) {
-		$seur_2SHOP_custom_name = $seur_2SHOP_custom_name;
+	if ( ! empty( $seur_2shop_custom_name ) ) {
+		$seur_2shop_custom_name = $seur_2shop_custom_name;
 	} else {
-		$seur_2SHOP_custom_name = 'SEUR 2SHOP'; }
+		$seur_2shop_custom_name = 'SEUR 2SHOP'; }
 	if ( ! empty( $seur_courier_int_aereo_paqueteria_custom_name ) ) {
 		$seur_courier_int_aereo_paqueteria_custom_name = $seur_courier_int_aereo_paqueteria_custom_name;
 	} else {
@@ -110,7 +112,7 @@ function seur_add_cart_weight( $order_id ) {
 		$seur_48h_custom_name,
 		$seur_72h_custom_name,
 		$seur_cit_custom_name,
-		$seur_2SHOP_custom_name,
+		$seur_2shop_custom_name,
 		$seur_courier_int_aereo_paqueteria_custom_name,
 		$seur_courier_int_aereo_documentos_custom_name,
 		$seur_netexpress_int_terrestre_custom_name,
@@ -127,7 +129,7 @@ function seur_add_cart_weight( $order_id ) {
 	update_post_meta( $order_id, '_seur_cart_weight', $weight );
 }
 
-// Add order new column in administration
+// Add order new column in administration.
 add_filter( 'manage_edit-shop_order_columns', 'seur_order_weight_column', 20 );
 function seur_order_weight_column( $columns ) {
 	$offset          = 8;
@@ -137,7 +139,7 @@ function seur_order_weight_column( $columns ) {
 	return $updated_columns;
 }
 
-// Populate weight column
+// Populate weight column.
 add_action( 'manage_shop_order_posts_custom_column', 'seur_custom_order_weight_column', 2 );
 function seur_custom_order_weight_column( $column ) {
 	global $post;
@@ -178,11 +180,11 @@ function seur_add_awaiting_shipment_status( $wc_statuses_arr ) {
 
 	$new_statuses_arr = array();
 
-	// add new order status after processing
+	// add new order status after processing.
 	foreach ( $wc_statuses_arr as $id => $label ) {
 		$new_statuses_arr[ $id ] = $label;
 
-		if ( 'wc-processing' === $id ) { // after "Completed" status
+		if ( 'wc-processing' === $id ) { // after "Completed" status.
 			$new_statuses_arr['wc-seur-shipment'] = 'Awaiting SEUR Shipment';
 		}
 	}
@@ -215,11 +217,11 @@ function seur_add_awaiting_labels_status( $wc_statuses_arr ) {
 
 	$new_statuses_arr = array();
 
-	// add new order status after processing
+	// add new order status after processing.
 	foreach ( $wc_statuses_arr as $id => $label ) {
 		$new_statuses_arr[ $id ] = $label;
 
-		if ( 'wc-processing' === $id ) { // after "Completed" status
+		if ( 'wc-processing' === $id ) { // after "Completed" status.
 			$new_statuses_arr['wc-seur-label'] = 'Awaiting SEUR Label';
 		}
 	}
@@ -231,7 +233,7 @@ add_filter( 'wc_order_statuses', 'seur_add_awaiting_labels_status' );
 function seur_add_order_meta_box_action( $actions ) {
 	global $theorder;
 
-	// add "mark printed" custom action
+	// add "mark printed" custom action.
 	$actions['wc_custom_order_action'] = __( 'Mark as printed for packaging', 'seur' );
 	return $actions;
 }
@@ -254,12 +256,12 @@ add_action( 'init', 'seur_register_awaiting_shipment_status_list' );
 
 function seur_process_order_meta_box_action( $order ) {
 
-	// add the order note
-	// translators: Placeholders: %s is a user's display name
+	// add the order note.
+	// translators: Placeholders: %s is a user's display name.
 	$message = sprintf( __( 'Order information printed by %s for packaging.', 'seur' ), wp_get_current_user()->display_name );
 	$order->add_order_note( $message );
 
-	// add the flag
+	// add the flag.
 	update_post_meta( $order->get_id(), '_wc_order_marked_printed_for_packaging', 'yes' );
 }
 add_action( 'woocommerce_order_action_wc_custom_order_action', 'seur_process_order_meta_box_action' );
@@ -273,14 +275,14 @@ function seur_custom_bulk_admin_footer() {
 	if ( $post_type == 'shop_order' ) {
 		?>
 	<script type="text/javascript">
-	  jQuery(document).ready(function() {
-		jQuery('<option>').val('mark_seur-label').text('<?php _e( 'Mark Awaiting SEUR Label', 'seur' ); ?>').appendTo("select[name='action']");
-		jQuery('<option>').val('mark_seur-shipment').text('<?php _e( 'Mark Awaiting SEUR Shipment', 'seur' ); ?>').appendTo("select[name='action']");
-		jQuery('<option>').val('mark_seur-label').text('<?php _e( 'Mark Awaiting SEUR Label', 'seur' ); ?>').appendTo("select[name='action2']");
-		jQuery('<option>').val('mark_seur-shipment').text('<?php _e( 'Mark Awaiting SEUR Shipment', 'seur' ); ?>').appendTo("select[name='action2']");
-		jQuery('<option>').val('seur-createlabel').text('<?php _e( 'Create SEUR Label (Only 1 label per order)', 'seur' ); ?>').appendTo("select[name='action']");
-		jQuery('<option>').val('seur-createlabel').text('<?php _e( 'Create SEUR Label (Only 1 label per order)', 'seur' ); ?>').appendTo("select[name='action2']");
-	  });
+		jQuery(document).ready(function() {
+			jQuery('<option>').val('mark_seur-label').text('<?php esc_html_e( 'Mark Awaiting SEUR Label', 'seur' ); ?>').appendTo("select[name='action']");
+			jQuery('<option>').val('mark_seur-shipment').text('<?php esc_html_e( 'Mark Awaiting SEUR Shipment', 'seur' ); ?>').appendTo("select[name='action']");
+			jQuery('<option>').val('mark_seur-label').text('<?php esc_html_e( 'Mark Awaiting SEUR Label', 'seur' ); ?>').appendTo("select[name='action2']");
+			jQuery('<option>').val('mark_seur-shipment').text('<?php esc_html_e( 'Mark Awaiting SEUR Shipment', 'seur' ); ?>').appendTo("select[name='action2']");
+			jQuery('<option>').val('seur-createlabel').text('<?php esc_html_e( 'Create SEUR Label (Only 1 label per order)', 'seur' ); ?>').appendTo("select[name='action']");
+			jQuery('<option>').val('seur-createlabel').text('<?php esc_html_e( 'Create SEUR Label (Only 1 label per order)', 'seur' ); ?>').appendTo("select[name='action2']");
+		});
 	</script>
 		<?php
 	}
@@ -297,13 +299,11 @@ function seur_woo_bulk_action() {
 		return;
 	}
 
-	// check_admin_referer('bulk-posts');
-
 	$post_ids      = array_map( 'absint', (array) $_REQUEST['post'] );
 	$report_action = 'marked_seur-createlabel';
 
 	switch ( $action ) {
-		// 3. Perform the action
+		// 3. Perform the action.
 		case 'seur-createlabel':
 			$new_status = seur_after_get_label();
 			$exported   = 0;
@@ -317,29 +317,23 @@ function seur_woo_bulk_action() {
 					$label = seur_get_label( $post_id, '1' );
 
 					$label_result  = $label[0]['result'];
-					$labelID       = $label[0]['labelID'];
+					$label_id      = $label[0]['labelID'];
 					$label_message = $label[0]['message'];
 
 					if ( $label_result ) {
-
 						$order = wc_get_order( $post_id );
 						$order->update_status( $new_status, __( 'Label have been created:', 'seur' ), true );
 						add_post_meta( $post_id, '_seur_shipping_order_label_downloaded', 'yes', true );
-						add_post_meta( $post_id, '_seur_shipping_label_id', $labelID, true );
+						add_post_meta( $post_id, '_seur_shipping_label_id', $label_id, true );
 						$order->add_order_note( 'The Label for Order #' . $post_id . ' have been downloaded', 0, true );
-						// do_action( 'woocommerce_order_edit_status', $post_id, $new_status );
-
 					} else {
-
 						set_transient( get_current_user_id() . '_seur_woo_bulk_action_pending_notice', 'The order ID ' . $post_id . ' has an Error: ' . $label_message );
-
 					}
 				}
-
 				$exported++;
 			}
 
-			// build the redirect url
+			// build the redirect url.
 			$sendback = add_query_arg(
 				array(
 					'post_type'    => 'shop_order',
@@ -352,7 +346,6 @@ function seur_woo_bulk_action() {
 				),
 				''
 			);
-
 			break;
 		default:
 			return;
@@ -362,7 +355,7 @@ function seur_woo_bulk_action() {
 			$sendback = add_query_arg( 'post_status', sanitize_text_field( $_GET['post_status'] ), $sendback );
 	}
 
-	// 4. Redirect client
+	// 4. Redirect client.
 	wp_redirect( esc_url_raw( $sendback ) );
 
 	exit();
@@ -376,103 +369,94 @@ add_filter( 'woocommerce_admin_order_actions', 'seur_add_label_order_actions_but
 function seur_add_label_order_actions_button( $actions, $the_order ) {
 
 	$has_label = get_post_meta( $the_order->get_id(), '_seur_shipping_order_label_downloaded', true );
-	if ( $has_label != 'yes' ) { // if order has not label
+	if ( $has_label != 'yes' ) { // if order has not label.
 		$actions['cancel'] = array(
 			'url'    => wp_nonce_url( admin_url( 'admin-ajax.php?action=seur_get_label&order_id=' . $the_order->get_id() ), 'woocommerce-mark-order-status' ),
 			'name'   => __( 'Get SEUR Label (Only 1 label per order)', 'seur' ),
-			'action' => 'view label', // setting "view" for proper button CSS
+			'action' => 'view label', // setting "view" for proper button CSS.
 		);
 	}
 	return $actions;
 }
 add_action( 'admin_head', 'seur_add_label_order_actions_button_css' );
 function seur_add_label_order_actions_button_css() {
-	echo '<style>.view.label::after {
-							content: "\e000" !important;
-							font-family: seur-font;
-							speak: none;
-							font-weight: 400;
-							font-variant: normal;
-							text-transform: none;
-							line-height: 1;
-							-webkit-font-smoothing: antialiased;
-							margin-top: 6px;
-							text-indent: 0;
-							position: absolute;
-							top: 0;
-							left: 0;
-							width: 100%;
-							height: 100%;
-							text-align: center;
-						}
-			   .widefat .column-wc_actions a.view.label::after {
-							content: "\e000" !important;
-							font-family: seur-font;
-							speak: none;
-							font-weight: 400;
-							font-variant: normal;
-							text-transform: none;
-							line-height: 1;
-							-webkit-font-smoothing: antialiased;
-							margin-top: 6px;
-							text-indent: 0;
-							position: absolute;
-							top: 0;
-							left: 0;
-							width: 100%;
-							height: 100%;
-							text-align: center;
-						}
-		  </style>';
+	echo '<style>
+		.view.label::after {
+			content: "\e000" !important;
+			font-family: seur-font;
+			speak: none;
+			font-weight: 400;
+			font-variant: normal;
+			text-transform: none;
+			line-height: 1;
+			-webkit-font-smoothing: antialiased;
+			margin-top: 6px;
+			text-indent: 0;
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			text-align: center;
+		}
+		.widefat .column-wc_actions a.view.label::after {
+			content: "\e000" !important;
+			font-family: seur-font;
+			speak: none;
+			font-weight: 400;
+			font-variant: normal;
+			text-transform: none;
+			line-height: 1;
+			-webkit-font-smoothing: antialiased;
+			margin-top: 6px;
+			text-indent: 0;
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			text-align: center;
+		}
+	</style>';
 }
 
 function seur_get_label_ajax() {
 
-		 $order_id = absint( $_GET['order_id'] );
+	$order_id  = absint( $_GET['order_id'] ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotValidated
+	$has_label = get_post_meta( $order_id, '_seur_shipping_order_label_downloaded', true );
 
-		 $has_label = get_post_meta( $order_id, '_seur_shipping_order_label_downloaded', true );
-
-	if ( $has_label != 'yes' ) {
-
+	if ( 'yes' !== $has_label ) {
 		if ( current_user_can( 'edit_shop_orders' ) && check_admin_referer( 'woocommerce-mark-order-status' ) ) {
-
-				$label = seur_get_label( $order_id, '1' );
-
-				$label_result  = $label[0]['result'];
-				$labelID       = $label[0]['labelID'];
-				$label_message = $label[0]['message'];
-
-				$new_status = seur_after_get_label();
-
+			$label         = seur_get_label( $order_id, '1' );
+			$label_result  = $label[0]['result'];
+			$label_id      = $label[0]['labelID'];
+			$label_message = $label[0]['message'];
+			$new_status    = seur_after_get_label();
 			if ( $label_result ) {
 				$order = wc_get_order( $order_id );
 				$order->update_status( $new_status, __( 'Label have been created:', 'seur' ), true );
 				add_post_meta( $order_id, '_seur_shipping_order_label_downloaded', 'yes', true );
-				add_post_meta( $order_id, '_seur_shipping_label_id', $labelID, true );
+				add_post_meta( $order_id, '_seur_shipping_label_id', $label_id, true );
 				$order->add_order_note( 'The Label for Order #' . $order_id . ' have been downloaded', 0, true );
-				// add_action( 'woocommerce_order_edit_status', $order_id, $new_status );
-
 			} else {
 				set_transient( get_current_user_id() . '_seur_woo_bulk_action_pending_notice', 'The order ID ' . $order_id . ' has an Error: ' . $label_message );
 			}
 		}
 	}
-
-		wp_safe_redirect( wp_get_referer() ? wp_get_referer() : admin_url( 'edit.php?post_type=shop_order' ) );
-		die();
+	wp_safe_redirect( wp_get_referer() ? wp_get_referer() : admin_url( 'edit.php?post_type=shop_order' ) );
+	die();
 }
 
 add_action( 'wp_ajax_seur_get_label', 'seur_get_label_ajax' );
-
 add_filter( 'woocommerce_checkout_fields', 'seur_billing_mobil_phone_fields' );
 
 function seur_billing_mobil_phone_fields( $fields ) {
 
 	$fields['billing']['billing_mobile_phone'] = array(
-		'label'        => __( 'Mobile Phone', 'seur' ),  // Add custom field label
-		'placeholder'  => _x( 'Mobile Phone', 'placeholder', 'seur' ),  // Add custom field placeholder
-		'required'     => false,             // if field is required or not
-		'class'        => array( 'billing-mobile-phone-field' ),      // add class name
+		'label'        => __( 'Mobile Phone', 'seur' ),  // Add custom field label.
+		'placeholder'  => _x( 'Mobile Phone', 'placeholder', 'seur' ),  // Add custom field placeholder.
+		'required'     => false,             // if field is required or not.
+		'class'        => array( 'billing-mobile-phone-field' ),      // add class name.
 		'autocomplete' => 'mobile',
 		'clear'        => true,
 	);
@@ -491,10 +475,10 @@ add_filter( 'woocommerce_checkout_fields', 'seur_shipping_mobil_phone_fields' );
 function seur_shipping_mobil_phone_fields( $fields ) {
 
 	$fields['shipping']['shipping_mobile_phone'] = array(
-		'label'        => __( 'Mobile Phone', 'seur' ),  // Add custom field label
-		'placeholder'  => _x( 'Mobile Phone', 'placeholder', 'seur' ),  // Add custom field placeholder
-		'required'     => false,             // if field is required or not
-		'class'        => array( 'shipping-mobile-phone-field' ),      // add class name
+		'label'        => __( 'Mobile Phone', 'seur' ),  // Add custom field label.
+		'placeholder'  => _x( 'Mobile Phone', 'placeholder', 'seur' ),  // Add custom field placeholder.
+		'required'     => false,             // if field is required or not.
+		'class'        => array( 'shipping-mobile-phone-field' ),      // add class name.
 		'autocomplete' => 'mobile',
 		'clear'        => true,
 	);
@@ -505,7 +489,7 @@ function seur_shipping_mobil_phone_fields( $fields ) {
 add_action( 'woocommerce_admin_order_data_after_shipping_address', 'seur_shipping_mobil_phone_fields_display_admin_order_meta', 10, 1 );
 
 function seur_shipping_mobil_phone_fields_display_admin_order_meta( $order ) {
-	echo '<p><strong>' . __( 'Shipping Mobile Phone' ) . ':</strong> ' . get_post_meta( $order->get_id(), '_shipping_mobile_phone', true ) . '</p>';
+	echo '<p><strong>' . esc_html__( 'Shipping Mobile Phone' ) . ':</strong> ' . get_post_meta( $order->get_id(), '_shipping_mobile_phone', true ) . '</p>';
 }
 
 function seur_filter_price_rate_weight( $package_price, $raterate, $ratepricerate, $countryrate ) {
@@ -661,7 +645,7 @@ function seur_filter_price_rate_weight( $package_price, $raterate, $ratepricerat
 	return $ratepricerate;
 }
 
-// defining the filter that will be used to select posts by 'post formats'
+// defining the filter that will be used to select posts by 'post formats'.
 function seur_post_formats_filter_to_woo_order_administration() {
 	global $post_type;
 
@@ -674,7 +658,7 @@ function seur_post_formats_filter_to_woo_order_administration() {
 		$seur_48h_custom_name                          = '';
 		$seur_72h_custom_name                          = '';
 		$seur_cit_custom_name                          = '';
-		$seur_2SHOP_custom_name                        = '';
+		$seur_2shop_custom_name                        = '';
 		$seur_courier_int_aereo_paqueteria_custom_name = '';
 		$seur_courier_int_aereo_documentos_custom_name = '';
 		$seur_netexpress_int_terrestre_custom_name     = '';
@@ -686,7 +670,7 @@ function seur_post_formats_filter_to_woo_order_administration() {
 		$seur_48h_custom_name                          = get_option( 'seur_48h_custom_name_field' );
 		$seur_72h_custom_name                          = get_option( 'seur_72h_custom_name_field' );
 		$seur_cit_custom_name                          = get_option( 'seur_cit_custom_name_field' );
-		$seur_2SHOP_custom_name                        = get_option( 'seur_2SHOP_custom_name_field' );
+		$seur_2shop_custom_name                        = get_option( 'seur_2SHOP_custom_name_field' );
 		$seur_courier_int_aereo_paqueteria_custom_name = get_option( 'seur_courier_int_aereo_paqueteria_custom_name_field' );
 		$seur_courier_int_aereo_documentos_custom_name = get_option( 'seur_courier_int_aereo_documentos_custom_name_field' );
 		$seur_netexpress_int_terrestre_custom_name     = get_option( 'seur_netexpress_int_terrestre_custom_name_field' );
@@ -723,10 +707,10 @@ function seur_post_formats_filter_to_woo_order_administration() {
 			$seur_cit_custom_name = $seur_cit_custom_name;
 		} else {
 			$seur_cit_custom_name = 'Classic Internacional Terrestre'; }
-		if ( ! empty( $seur_2SHOP_custom_name ) ) {
-			$seur_2SHOP_custom_name = $seur_2SHOP_custom_name;
+		if ( ! empty( $seur_2shop_custom_name ) ) {
+			$seur_2shop_custom_name = $seur_2shop_custom_name;
 		} else {
-			$seur_2SHOP_custom_name = 'SEUR 2SHOP'; }
+			$seur_2shop_custom_name = 'SEUR 2SHOP'; }
 
 		if ( ! empty( $seur_courier_int_aereo_paqueteria_custom_name ) ) {
 			$seur_courier_int_aereo_paqueteria_custom_name = $seur_courier_int_aereo_paqueteria_custom_name;
@@ -750,7 +734,7 @@ function seur_post_formats_filter_to_woo_order_administration() {
 			$seur_48h_custom_name,
 			$seur_72h_custom_name,
 			$seur_cit_custom_name,
-			$seur_2SHOP_custom_name,
+			$seur_2shop_custom_name,
 			$seur_courier_int_aereo_paqueteria_custom_name,
 			$seur_courier_int_aereo_documentos_custom_name,
 			$seur_netexpress_int_terrestre_custom_name,
@@ -759,22 +743,21 @@ function seur_post_formats_filter_to_woo_order_administration() {
 
 		<label for="dropdown_shop_order_seur_shipping_method" class="screen-reader-text"><?php _e( 'Seur Shippments', 'seur' ); ?></label>
 		<select name="_shop_order_seur_shipping_method" id="dropdown_shop_order_seur_shipping_method">
-			<option value=""><?php _e( 'All', 'seur' ); ?></option>
+			<option value=""><?php esc_html_e( 'All', 'seur' ); ?></option>
 			<option value="seur" 
 			<?php
 			if ( ( esc_attr( isset( $_GET['_shop_order_seur_shipping_method'] ) ) ) && ( esc_attr( $_GET['_shop_order_seur_shipping_method'] ) == 'seur' ) ) {
 				echo 'selected'; }
 			?>
-			><?php _e( 'All Seur Shipping', 'seur' ); ?></option>
-<!--            <option value="all_seur"><?php _e( 'All Seur Shippments', 'seur' ); ?></option> -->
+			><?php esc_html_e( 'All Seur Shipping', 'seur' ); ?></option>
+<!--            <option value="all_seur"><?php esc_html_e( 'All Seur Shippments', 'seur' ); ?></option> -->
 		<?php
 		foreach ( $seur_shipments as $shippment ) :
 				$shippment_sani = sanitize_title( $shippment );
 			?>
-			  <option value="<?php echo esc_attr( $shippment_sani ); ?>" <?php echo esc_attr( isset( $_GET['_shop_order_seur_shipping_method'] ) ? selected( $shippment_sani, $_GET['_shop_order_seur_shipping_method'], false ) : '' ); ?>>
-					<?php echo esc_html( $shippment ); ?>
-			  </option>
-
+			<option value="<?php echo esc_attr( $shippment_sani ); ?>" <?php echo esc_attr( isset( $_GET['_shop_order_seur_shipping_method'] ) ? selected( $shippment_sani, $_GET['_shop_order_seur_shipping_method'], false ) : '' ); ?>>
+				<?php echo esc_html( $shippment ); ?>
+			</option>
 		<?php endforeach; ?>
 		</select>
 		<?php
@@ -786,7 +769,6 @@ function seur_filter_orders_by_shipping_method_query( $vars ) {
 	global $typenow;
 
 	if ( 'shop_order' === $typenow && isset( $_GET['_shop_order_seur_shipping_method'] ) ) {
-
 		$seur_bc2_custom_name                          = '';
 		$seur_10e_custom_name                          = '';
 		$seur_10ef_custom_name                         = '';
@@ -795,11 +777,10 @@ function seur_filter_orders_by_shipping_method_query( $vars ) {
 		$seur_48h_custom_name                          = '';
 		$seur_72h_custom_name                          = '';
 		$seur_cit_custom_name                          = '';
-		$seur_2SHOP_custom_name                        = '';
+		$seur_2shop_custom_name                        = '';
 		$seur_courier_int_aereo_paqueteria_custom_name = '';
 		$seur_courier_int_aereo_documentos_custom_name = '';
 		$seur_netexpress_int_terrestre_custom_name     = '';
-
 		$seur_bc2_custom_name                          = get_option( 'seur_bc2_custom_name_field' );
 		$seur_10e_custom_name                          = get_option( 'seur_10e_custom_name_field' );
 		$seur_10ef_custom_name                         = get_option( 'seur_10ef_custom_name_field' );
@@ -808,7 +789,7 @@ function seur_filter_orders_by_shipping_method_query( $vars ) {
 		$seur_48h_custom_name                          = get_option( 'seur_48h_custom_name_field' );
 		$seur_72h_custom_name                          = get_option( 'seur_72h_custom_name_field' );
 		$seur_cit_custom_name                          = get_option( 'seur_cit_custom_name_field' );
-		$seur_2SHOP_custom_name                        = get_option( 'seur_2SHOP_custom_name_field' );
+		$seur_2shop_custom_name                        = get_option( 'seur_2SHOP_custom_name_field' );
 		$seur_courier_int_aereo_paqueteria_custom_name = get_option( 'seur_courier_int_aereo_paqueteria_custom_name_field' );
 		$seur_courier_int_aereo_documentos_custom_name = get_option( 'seur_courier_int_aereo_documentos_custom_name_field' );
 		$seur_netexpress_int_terrestre_custom_name     = get_option( 'seur_netexpress_int_terrestre_custom_name_field' );
@@ -845,10 +826,10 @@ function seur_filter_orders_by_shipping_method_query( $vars ) {
 			$seur_cit_custom_name = $seur_cit_custom_name;
 		} else {
 			$seur_cit_custom_name = 'Classic Internacional Terrestre'; }
-		if ( ! empty( $seur_2SHOP_custom_name ) ) {
-			$seur_2SHOP_custom_name = $seur_2SHOP_custom_name;
+		if ( ! empty( $seur_2shop_custom_name ) ) {
+			$seur_2shop_custom_name = $seur_2shop_custom_name;
 		} else {
-			$seur_2SHOP_custom_name = 'SEUR 2SHOP'; }
+			$seur_2shop_custom_name = 'SEUR 2SHOP'; }
 
 		if ( ! empty( $seur_courier_int_aereo_paqueteria_custom_name ) ) {
 			$seur_courier_int_aereo_paqueteria_custom_name = $seur_courier_int_aereo_paqueteria_custom_name;
@@ -861,8 +842,8 @@ function seur_filter_orders_by_shipping_method_query( $vars ) {
 		if ( ! empty( $seur_netexpress_int_terrestre_custom_name ) ) {
 			$seur_netexpress_int_terrestre_custom_name = $seur_netexpress_int_terrestre_custom_name;
 		} else {
-			$seur_netexpress_int_terrestre_custom_name = 'NETEXPRESS INT TERRESTRE'; }
-
+			$seur_netexpress_int_terrestre_custom_name = 'NETEXPRESS INT TERRESTRE';
+		}
 		$seur_shipments = array(
 			$seur_bc2_custom_name,
 			$seur_10e_custom_name,
@@ -872,18 +853,16 @@ function seur_filter_orders_by_shipping_method_query( $vars ) {
 			$seur_48h_custom_name,
 			$seur_72h_custom_name,
 			$seur_cit_custom_name,
-			$seur_2SHOP_custom_name,
+			$seur_2shop_custom_name,
 			$seur_courier_int_aereo_paqueteria_custom_name,
 			$seur_courier_int_aereo_documentos_custom_name,
 			$seur_netexpress_int_terrestre_custom_name,
 		);
-
 		foreach ( $seur_shipments as $shippment ) {
-			if ( sanitize_title( $shippment ) == $_GET['_shop_order_seur_shipping_method'] ) {
-				// $shop_order_seur_shipping_method = $shippment;
+			if ( sanitize_title( $shippment ) === $_GET['_shop_order_seur_shipping_method'] ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 				$vars['meta_key']   = '_seur_shipping_method_service';
 				$vars['meta_value'] = sanitize_title( $shippment );
-			} elseif ( 'seur' == $_GET['_shop_order_seur_shipping_method'] ) {
+			} elseif ( 'seur' === $_GET['_shop_order_seur_shipping_method'] ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 				$vars['meta_key']   = '_seur_shipping';
 				$vars['meta_value'] = 'seur';
 			}
