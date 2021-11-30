@@ -1,4 +1,10 @@
 <?php
+/**
+ * SEUR Custom Rates
+ *
+ * @package SEUR
+ */
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
@@ -14,7 +20,7 @@ $rates_type = get_option( 'seur_rates_type_field' );
 	<button class="button" type="button" id="btn-view"><?php esc_html_e( 'View Custom Rates', 'seur' ); ?></button>
 	<hr>
 	<?php
-	if ( $rates_type == 'price' ) {
+	if ( 'price' === $rates_type ) {
 		?>
 	<div class="content-loader">
 		<table class="wp-list-table widefat fixed striped pages">
@@ -35,8 +41,8 @@ $rates_type = get_option( 'seur_rates_type_field' );
 			<tbody>
 				<?php
 					$output_type = 'OBJECT';
-					$type        = 'price';
-					$getrates    = seur_get_custom_rates( $output_type, $type );
+					$type2       = 'price';
+					$getrates    = seur_get_custom_rates( $output_type, $type2 );
 				if ( ! $getrates ) {
 					echo '<tr class="no-items"><td class="colspanchange" colspan="9"><br /><center><b>' . esc_html__( 'No custom rates found, please add your Custom Rates', 'seur' ) . '</b></center><br /></td></tr>';
 				} else {
@@ -45,23 +51,23 @@ $rates_type = get_option( 'seur_rates_type_field' );
 							?>
 							<tr>
 							<?php
-							if ( $getrate->country == 'ALL' ) {
+							if ( 'ALL' === $getrate->country ) {
 								$country = __( 'ALL', 'seur' );
 							} else {
 										$country = $getrate->country;
 							}
-							if ( $getrate->country == 'REST' ) {
+							if ( 'REST' === $getrate->country ) {
 								$country = __( 'REST', 'seur' );
 							} else {
 								$country = $getrate->country;
 							}
 
-							if ( $getrate->rateprice == '0' ) {
+							if ( '0' === $getrate->rateprice ) {
 								$rateprice = __( 'FREE', 'seur' );
 							} else {
 								$rateprice = $getrate->rateprice;
 							}
-							if ( $getrate->maxprice == '9999999' ) {
+							if ( '9999999' === $getrate->maxprice ) {
 								$maxrateprice = __( 'No limit', 'seur' );
 							} else {
 								$maxrateprice = $getrate->maxprice;
@@ -76,8 +82,8 @@ $rates_type = get_option( 'seur_rates_type_field' );
 							<td><?php echo esc_html( $maxrateprice ); ?></td>
 							<td><?php echo esc_html( $rateprice ); ?></td>
 							<td><a id="<?php echo esc_html( $getrate->ID ); ?>" class="edit-link icon-pencil" href="#"></a></td>
-							<td><a id="<?php echo esc_html( $getrate->ID ); ?>" class="delete-link icon-cross" href="#"></a></td
-								</tr>
+							<td><a id="<?php echo esc_html( $getrate->ID ); ?>" class="delete-link icon-cross" href="#"></a></td>
+							</tr>
 							<?php
 						}
 					}
@@ -120,8 +126,8 @@ $rates_type = get_option( 'seur_rates_type_field' );
 			<tbody>
 			<?php
 				$output_type = 'OBJECT';
-				$type        = 'weight';
-				$getrates    = seur_get_custom_rates( $output_type, $type );
+				$type2       = 'weight';
+				$getrates    = seur_get_custom_rates( $output_type, $type2 );
 			if ( ! $getrates ) {
 				echo '<tr class="no-items"><td class="colspanchange" colspan="9"><br /><center><b>' . esc_html__( 'No custom rates found, please add your Custom Rates', 'seur' ) . '</b></center><br /></td></tr>';
 			} else {
@@ -130,22 +136,22 @@ $rates_type = get_option( 'seur_rates_type_field' );
 						?>
 							<tr>
 							<?php
-							if ( $getrate->country == 'ALL' ) {
+							if ( 'ALL' === $getrate->country ) {
 								$country = __( 'ALL', 'seur' );
 							} else {
 								$country = $getrate->country;
 							}
-							if ( $getrate->country == 'REST' ) {
+							if ( 'REST' === $getrate->country ) {
 								$country = __( 'REST', 'seur' );
 							} else {
 								$country = $getrate->country;
 							}
-							if ( $getrate->rateprice == '0' ) {
+							if ( '0' === $getrate->rateprice ) {
 								$rateprice = __( 'FREE', 'seur' );
 							} else {
 								$rateprice = $getrate->rateprice;
 							}
-							if ( $getrate->maxprice == '9999999' ) {
+							if ( '9999999' === $getrate->maxprice ) {
 								$maxrateprice = __( 'No limit', 'seur' );
 							} else {
 								$maxrateprice = $getrate->maxprice;

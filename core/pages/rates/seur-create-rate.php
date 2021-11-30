@@ -1,27 +1,36 @@
-<?php if ( ! defined( 'ABSPATH' ) ) {
+<?php
+/**
+ * SEUR Create Rate
+ *
+ * @package SEUR
+ */
+
+if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
+
+/**
+ * SEUR Create Custom Rate
+ */
 function seur_create_custom_rate() {
 
-	if ( ! isset( $_POST['new_seur_rate_nonce_field'] ) || ! wp_verify_nonce( $_POST['new_seur_rate_nonce_field'], 'add_new_seur_rate' ) ) {
-
+	if ( ! isset( $_POST['new_seur_rate_nonce_field'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['new_seur_rate_nonce_field'] ) ), 'add_new_seur_rate' ) ) {
 		print 'Sorry, your nonce did not verify.';
 		exit;
-
 	} else {
 		if ( $_POST ) {
 			global $wpdb;
 
 			$table = $wpdb->prefix . 'seur_custom_rates';
 
-			$seur_rate      = sanitize_text_field( wp_unslash( $_POST['rate'] ) );
-			$seur_country   = sanitize_text_field( wp_unslash( $_POST['country'] ) );
-			$seur_state     = sanitize_text_field( wp_unslash( $_POST['state'] ) );
-			$seur_minprice  = sanitize_text_field( wp_unslash( $_POST['minprice'] ) );
-			$seur_maxprice  = sanitize_text_field( wp_unslash( $_POST['maxprice'] ) );
-			$seur_rateprice = sanitize_text_field( wp_unslash( $_POST['rateprice'] ) );
-			$seur_rate_type = sanitize_text_field( wp_unslash( $_POST['rate_type'] ) );
-			$seur_postcode  = seur_sanitize_postcode( wp_unslash( $_POST['postcode'] ), $seur_country );
+			$seur_rate      = sanitize_text_field( wp_unslash( $_POST['rate'] ) ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotValidated
+			$seur_country   = sanitize_text_field( wp_unslash( $_POST['country'] ) ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotValidated
+			$seur_state     = sanitize_text_field( wp_unslash( $_POST['state'] ) ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotValidated
+			$seur_minprice  = sanitize_text_field( wp_unslash( $_POST['minprice'] ) ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotValidated
+			$seur_maxprice  = sanitize_text_field( wp_unslash( $_POST['maxprice'] ) ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotValidated
+			$seur_rateprice = sanitize_text_field( wp_unslash( $_POST['rateprice'] ) ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotValidated
+			$seur_rate_type = sanitize_text_field( wp_unslash( $_POST['rate_type'] ) ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotValidated
+			$seur_postcode  = seur_sanitize_postcode( sanitize_text_field( wp_unslash( $_POST['postcode'] ) ), $seur_country ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotValidated
 
 			if ( empty( $seur_city ) ) {
 				$seur_city = '*';
@@ -29,7 +38,7 @@ function seur_create_custom_rate() {
 			if ( empty( $seur_minprice ) ) {
 				$seur_minprice = '0';
 			}
-			if ( empty( $seur_postcode ) || $seur_postcode == '00000' || $seur_postcode == '0000' || $seur_postcode == '*' ) {
+			if ( empty( $seur_postcode ) || '00000' === $seur_postcode || '0000' === $seur_postcode || '*' === $seur_postcode ) {
 				$seur_postcode = '*';
 			}
 			if ( empty( $seur_rateprice ) ) {
@@ -41,7 +50,7 @@ function seur_create_custom_rate() {
 			if ( empty( $seur_country ) ) {
 				$seur_country = '*';
 			}
-			if ( empty( $seur_maxprice ) || $seur_maxprice == '*' || $seur_maxprice > '9999999' ) {
+			if ( empty( $seur_maxprice ) || '*' === $seur_maxprice || $seur_maxprice > '9999999' ) {
 				$seur_maxprice = '9999999';
 			}
 
@@ -79,4 +88,3 @@ function seur_create_custom_rate() {
 		}
 	}
 }
-

@@ -93,10 +93,10 @@ function seur_save_tracking_meta_box( $post_id ) {
 		return $post_id;
 	}
 
-	if ( ! isset( $_POST['seur_tracking_nonce_field'] ) || ! wp_verify_nonce( $_POST['seur_tracking_nonce_field'], 'seur_tracking_action' ) ) {
+	if ( ! isset( $_POST['seur_tracking_nonce_field'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['seur_tracking_nonce_field'] ) ), 'seur_tracking_action' ) ) {
 		return $post_id;
 	}
-	$seur_tracking_number = sanitize_text_field( $_POST['seur-tracking-code'] );
+	$seur_tracking_number = sanitize_text_field( wp_unslash( $_POST['seur-tracking-code'] ) );
 
 	if ( ! empty( $seur_tracking_number ) ) {
 		$label_id = get_post_meta( $post_id, '_seur_label_id_number', true );
@@ -106,7 +106,12 @@ function seur_save_tracking_meta_box( $post_id ) {
 }
 add_action( 'save_post', 'seur_save_tracking_meta_box', 999 );
 
-
+/**
+ * Save meta box content.
+ *
+ * @param int $label_order_id Label ID.
+ * @param int $tracking_number Trackin munber.
+ */
 function seur_get_tracking_shipment( $label_order_id, $tracking_number = false ) {
 
 	$shipping_id    = get_post_meta( $label_order_id, '_seur_shipping_id_number', true );

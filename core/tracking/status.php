@@ -1,4 +1,10 @@
 <?php
+/**
+ * Status
+ *
+ * @package SEUR
+ */
+
 $status = array(
 	array(
 		'COD_TIPO_SITU' => 'C',

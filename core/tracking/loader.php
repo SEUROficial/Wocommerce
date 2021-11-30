@@ -1,4 +1,9 @@
 <?php
+/**
+ * Loader
+ *
+ * @package SEUR
+ */
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.

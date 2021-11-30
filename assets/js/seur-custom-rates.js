@@ -63,8 +63,7 @@ jQuery(document).ready(function($){
 	     return false;
     });
 	/* Data Insert Ends Here */
-
-
+	
 	/* Data Delete Starts Here */
 	$(".delete-link").click(function()
 	{

@@ -1,21 +1,25 @@
 <?php
+/**
+ * Class seur local shipping method.
+ *
+ * @package SEUR
+ */
 
 if ( ! defined( 'ABSPATH' ) ) {
-	exit; // Exit if accessed directly
+	exit; // Exit if accessed directly.
 }
 
 /**
  * Seur_Local_Shipping_Method class.
  *
  * @class Seur_Local_Shipping_Method
- * @version 1.0.0
- * @category Class
- * @author Jose Conti
  */
 class Seur_Local_Shipping_Method extends WC_Shipping_Method {
 
 	/**
 	 * Constructor. The instance ID is passed to this.
+	 *
+	 * @param int $instance_id Intance ID.
 	 */
 	public function __construct( $instance_id = 0 ) {
 		$this->id                   = 'seurlocal';
@@ -41,6 +45,11 @@ class Seur_Local_Shipping_Method extends WC_Shipping_Method {
 		add_action( 'woocommerce_update_options_shipping_' . $this->id, array( $this, 'process_admin_options' ) );
 	}
 
+	/**
+	 * Calculate Rate
+	 *
+	 * @param array $package Array package.
+	 */
 	public function calculate_shipping( $package = array() ) {
 		global $woocommerce, $postcode_seur;
 
@@ -166,7 +175,6 @@ function seur_map_checkout_load_js() {
 
 function seur_get_local_pickups( $country, $city, $postcode ) {
 
-	// echo $country;
 	if ( 'ES' === $country || 'PT' === $country || 'AR' === $country ) {
 		$user_data   = seur_get_user_settings();
 		$usercom     = $user_data[0]['seurcom_usuario'];
@@ -176,40 +184,39 @@ function seur_get_local_pickups( $country, $city, $postcode ) {
 		);
 		$soap_client = new SoapClient( 'https://ws.seur.com/WSEcatalogoPublicos/servlet/XFireServlet/WSServiciosWebPublicos?wsdl', $sc_options );
 		$xml         = '
-				<CAMPOS>
-					<CODIGO_POSTAL>' . $postcode . '</CODIGO_POSTAL>
-					<NOM_CORTO></NOM_CORTO>
-					<LATITUD></LATITUD>
-					<LONGITUD></LONGITUD>
-					<NOM_POBLACION></NOM_POBLACION>
-					<COD_SERVICIO></COD_SERVICIO>
-					<COD_PRODUCTO></COD_PRODUCTO>
-					<USUARIO>' . $usercom . '</USUARIO>
-					<PASSWORD>' . $passcom . '</PASSWORD>
-				</CAMPOS>';
+			<CAMPOS>
+				<CODIGO_POSTAL>' . $postcode . '</CODIGO_POSTAL>
+				<NOM_CORTO></NOM_CORTO>
+				<LATITUD></LATITUD>
+				<LONGITUD></LONGITUD>
+				<NOM_POBLACION></NOM_POBLACION>
+				<COD_SERVICIO></COD_SERVICIO>
+				<COD_PRODUCTO></COD_PRODUCTO>
+				<USUARIO>' . $usercom . '</USUARIO>
+				<PASSWORD>' . $passcom . '</PASSWORD>
+			</CAMPOS>';
 		$data        = array( 'in0' => strtoupper( $xml ) );
 		$response    = $soap_client->puntosDeVentaStr( $data );
 		$xml         = simplexml_load_string( utf8_decode( $response->out ) );
 		$centro      = array();
 		$num         = (int) $xml->attributes()->NUM[0];
-		// print_r( $xml );
 
 		for ( $i = 1; $i <= $num; $i++ ) {
 			$name     = 'REG' . $i;
 			$centro[] = array(
 				'id'        => $i,
-				'company'   => (string) $xml->$name->NOM_CENTRO_SEUR,
-				'codCentro' => (string) $xml->$name->COD_CENTRO_SEUR,
-				'city'      => (string) $xml->$name->NOM_POBLACION,
-				'post_code' => (string) $xml->$name->CODIGO_POSTAL,
-				'phone'     => (string) $xml->$name->TELEFONO_1,
-				'tipovia'   => (string) $xml->$name->COD_TIPO_VIA,
-				'nomcorto'  => (string) $xml->$name->NOM_CORTO,
-				'numvia'    => (string) $xml->$name->NUM_VIA,
-				'nompoblac' => (string) $xml->$name->NOM_POBLACION,
-				'lat'       => (float) $xml->$name->LATITUD,
-				'lng'       => (float) $xml->$name->LONGITUD,
-				'timetable' => (string) $xml->$name->HORARIO,
+				'company'   => (string) $xml->$name->NOM_CENTRO_SEUR, // phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
+				'codCentro' => (string) $xml->$name->COD_CENTRO_SEUR, // phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
+				'city'      => (string) $xml->$name->NOM_POBLACION, // phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
+				'post_code' => (string) $xml->$name->CODIGO_POSTAL, // phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
+				'phone'     => (string) $xml->$name->TELEFONO_1, // phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
+				'tipovia'   => (string) $xml->$name->COD_TIPO_VIA, // phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
+				'nomcorto'  => (string) $xml->$name->NOM_CORTO, // phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
+				'numvia'    => (string) $xml->$name->NUM_VIA, // phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
+				'nompoblac' => (string) $xml->$name->NOM_POBLACION, // phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
+				'lat'       => (float) $xml->$name->LATITUD, // phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
+				'lng'       => (float) $xml->$name->LONGITUD, // phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
+				'timetable' => (string) $xml->$name->HORARIO, // phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
 			);
 		}
 		return $centro;
@@ -275,9 +282,8 @@ function seur_after_seur_2shop_shipping_rate( $method, $index ) {
 
 	if ( isset( $_POST['post_data'] ) ) {
 		parse_str( $_POST['post_data'], $post_data );
-		// print_r( $_POST['post_data'] );
 	} else {
-		$post_data = $_POST; // fallback for final checkout (non-ajax).
+		$post_data = $_POST; // phpcs:ignore WordPress.Security.NonceVerification.Missing
 	}
 
 	if ( isset( $post_data['shipping_postcode'] ) && '' !== $post_data['shipping_postcode'] ) {
@@ -321,7 +327,6 @@ function seur_after_seur_2shop_shipping_rate( $method, $index ) {
 			esc_html_e( 'You will have to select a location in the next step', 'seur' );
 		}
 		if ( ( $method->label === $custom_name_seur_2shop ) && ( $method->id === $chosen_shipping ) && is_checkout() ) {
-			// ob_start();
 			$local_pickups_array = seur_get_local_pickups( $country_seur, $city, $postcode_seur );
 			for ( $i = 0; $i < count( $local_pickups_array ); $i++ ) {
 				if ( 0 === $i ) {
@@ -351,11 +356,7 @@ function seur_after_seur_2shop_shipping_rate( $method, $index ) {
 			echo '<br />';
 			esc_html_e( 'Choose a location:', 'seur' );
 			echo '<div id="controls"></div>';
-			// echo '<td id="seur-map">';
-			// echo '<td colspan="2">';
 			echo '<div id="seur-gmap" style="with:300px;height:250px;"></div>';
-			// echo '</td>';
-			// echo '</tr>';
 			echo "<script type='text/javascript'>
 			jQuery(document).ready(function( $ ){
 				var html_seurdropdown = {
@@ -421,11 +422,13 @@ function seur_after_seur_2shop_shipping_rate( $method, $index ) {
 				});
 			});
 			</script>";
-			// ob_end_flush();
 		}
 	}
 }
 
+/**
+ * SEUR add map type Select2
+ */
 function seur_add_map_type_select2() {
 	if ( is_checkout() ) {
 		?>
@@ -438,12 +441,15 @@ function seur_add_map_type_select2() {
 	}
 }
 
+/**
+ * SEUR Validate 2shop
+ */
 function seur_validation_2shop_fields() {
 
 	$seur_pickup     = '';
-	$seur_codCentro  = '';
-	$seur_pickup     = $_POST['seur_pickup'];
-	$seur_mobi_phone = $_POST['billing_mobile_phone'];
+	$seur_cod_centro = '';
+	$seur_pickup     = sanitize_text_field( wp_unslash( $_POST['seur_pickup'] ) ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotValidated,WordPress.Security.NonceVerification.Missing
+	$seur_mobi_phone = sanitize_text_field( wp_unslash( $_POST['billing_mobile_phone'] ) ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotValidated,WordPress.Security.NonceVerification.Missing
 
 	if ( ! empty( $seur_pickup ) && 'all' === $seur_pickup ) {
 		wc_add_notice( __( 'You need to select a Local Pickup.', 'seur' ), 'error' );
@@ -453,26 +459,31 @@ function seur_validation_2shop_fields() {
 	}
 }
 
+/**
+ * SEUR add 2shop data to order
+ *
+ * @param int $order_id Order ID.
+ */
 function seur_add_2shop_data_to_order( $order_id ) {
 
 	if ( ! empty( $_POST['seur_pickup'] ) ) {
-		$id             = $_POST['seur_pickup'];
-		$seur_title     = 'seur_title_' . $id;
-		$seur_codcentro = 'seur_codCentro_' . $id;
-		$seur_address   = 'seur_address_' . $id;
-		$seur_city      = 'seur_city_' . $id;
-		$seur_postcode  = 'seur_postcode_' . $id;
-		$seur_lat       = 'seur_lat_' . $id;
-		$seur_lon       = 'seur_lon_' . $id;
-		$seur_timetable = 'seur_timetable_' . $id;
-		$title          = sanitize_text_field( $_POST[ $seur_title ] );
-		$codcentro      = sanitize_text_field( $_POST[ $seur_codcentro ] );
-		$address        = sanitize_text_field( $_POST[ $seur_address ] );
-		$city           = sanitize_text_field( $_POST[ $seur_city ] );
-		$postcode       = sanitize_text_field( $_POST[ $seur_postcode ] );
-		$lat            = sanitize_text_field( $_POST[ $seur_lat ] );
-		$lon            = sanitize_text_field( $_POST[ $seur_lon ] );
-		$timetable      = sanitize_text_field( $_POST[ $seur_timetable ] );
+		$id              = $_POST['seur_pickup'];
+		$seur_title      = 'seur_title_' . $id;
+		$seur_cod_centro = 'seur_codCentro_' . $id;
+		$seur_address    = 'seur_address_' . $id;
+		$seur_city       = 'seur_city_' . $id;
+		$seur_postcode   = 'seur_postcode_' . $id;
+		$seur_lat        = 'seur_lat_' . $id;
+		$seur_lon        = 'seur_lon_' . $id;
+		$seur_timetable  = 'seur_timetable_' . $id;
+		$title           = sanitize_text_field( $_POST[ $seur_title ] );
+		$codcentro       = sanitize_text_field( $_POST[ $seur_cod_centro ] );
+		$address         = sanitize_text_field( $_POST[ $seur_address ] );
+		$city            = sanitize_text_field( $_POST[ $seur_city ] );
+		$postcode        = sanitize_text_field( $_POST[ $seur_postcode ] );
+		$lat             = sanitize_text_field( $_POST[ $seur_lat ] );
+		$lon             = sanitize_text_field( $_POST[ $seur_lon ] );
+		$timetable       = sanitize_text_field( $_POST[ $seur_timetable ] );
 
 		update_post_meta( $order_id, '_seur_2shop_title', $title );
 		update_post_meta( $order_id, '_seur_2shop_codCentro', $codcentro );
