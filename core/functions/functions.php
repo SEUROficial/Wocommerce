@@ -1,8 +1,18 @@
 <?php
+
+/**
+ * SEUR Functions
+ *
+ * @package SEUR
+ */
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
 
+/**
+ * SEUR Debug notice
+ */
 function seur_debug_mode_notice() {
 	$class   = 'notice notice-warning';
 	$message = __( 'SEUR_DEBUG is set to TRUE, please set it to false.', 'seur' );
@@ -11,13 +21,16 @@ function seur_debug_mode_notice() {
 
 // Some action in debug mode.
 
-if ( defined( 'SEUR_DEBUG' ) && SEUR_DEBUG == true ) {
+if ( defined( 'SEUR_DEBUG' ) && true === SEUR_DEBUG ) {
 	// add a notice in WordPress admin.
 	add_action( 'admin_notices', 'seur_debug_mode_notice' );
 }
 
 add_action( 'admin_notices', 'seur_admin_notices' );
 
+/**
+ * SEUR admin Notice
+ */
 function seur_admin_notices() {
 	$message = get_transient( get_current_user_id() . '_seur_woo_bulk_action_pending_notice' );
 	if ( $message ) {
@@ -28,9 +41,14 @@ function seur_admin_notices() {
 
 // Function for check URL's
 
+/**
+ * SEUR Check URL Existe
+ *
+ * @param string $url URL to check.
+ */
 function seur_check_url_exists( $url ) {
 
-	// check, if a valid url is provided
+	// check, if a valid url is provided.
 	$timeout = 10;
 	$ch      = curl_init();
 	curl_setopt( $ch, CURLOPT_URL, $url );
@@ -40,16 +58,21 @@ function seur_check_url_exists( $url ) {
 	$http_respond = trim( strip_tags( $http_respond ) );
 	$http_code    = curl_getinfo( $ch, CURLINFO_HTTP_CODE );
 
-	if ( ( $http_code == '200' ) || ( $http_code == '302' ) ) {
+	if ( ( '200' === $http_code ) || ( '302' === $http_code ) ) {
 		curl_close( $ch );
 		return true;
 	} else {
-		// return $http_code;, possible too
+		// return $http_code;, possible too.
 		curl_close( $ch );
 		return false;
 	}
 }
 
+/**
+ * SEUR Search Number Message Result
+ *
+ * @param int $howmany numbers.
+ */
 function seur_search_number_message_result( $howmany ) {
 
 	if ( $howmany <= 0 ) {
@@ -57,12 +80,13 @@ function seur_search_number_message_result( $howmany ) {
 		return $message;
 	}
 
-	if ( $howmany == 1 ) {
+	if ( 1 === $howmany ) {
 		$message = esc_html_e( '1 Result Found', 'seur' );
 		return $message;
 	}
 
 	if ( $howmany > 1 ) {
+		// translators: Number of results.
 		$message = printf( esc_html__( 'Found %s Results.', 'seur' ), esc_html( $howmany ) );
 		return $message;
 	}
@@ -78,7 +102,7 @@ function seur_get_real_rate_name( $rate_name ) {
 	$seur_48h_custom_name_field                    = '';
 	$seur_72h_custom_name_field                    = '';
 	$seur_cit_custom_name_field                    = '';
-	$seur_2SHOP_custom_name_field                  = '';
+	$seur_2shop_custom_name_field                  = '';
 	$seur_courier_int_aereo_paqueteria_custom_name = '';
 	$seur_courier_int_aereo_documentos_custom_name = '';
 	$seur_netexpress_int_terrestre_custom_name     = '';
@@ -90,7 +114,7 @@ function seur_get_real_rate_name( $rate_name ) {
 	$seur_48h_custom_name_field                    = get_option( 'seur_48h_custom_name_field' );
 	$seur_72h_custom_name_field                    = get_option( 'seur_72h_custom_name_field' );
 	$seur_cit_custom_name_field                    = get_option( 'seur_cit_custom_name_field' );
-	$seur_2SHOP_custom_name_field                  = get_option( 'seur_2SHOP_custom_name_field' );
+	$seur_2shop_custom_name_field                  = get_option( 'seur_2SHOP_custom_name_field' );
 	$seur_courier_int_aereo_paqueteria_custom_name = get_option( 'seur_courier_int_aereo_paqueteria_custom_name_field' );
 	$seur_courier_int_aereo_documentos_custom_name = get_option( 'seur_courier_int_aereo_documentos_custom_name_field' );
 	$seur_netexpress_int_terrestre_custom_name     = get_option( 'seur_netexpress_int_terrestre_custom_name_field' );
@@ -111,7 +135,7 @@ function seur_get_real_rate_name( $rate_name ) {
 		$real_name = 'SEUR 72H Estándar';
 	} elseif ( ! empty( $seur_cit_custom_name_field ) && $rate_name == $seur_cit_custom_name_field ) {
 		$real_name = 'Classic Internacional Terrestre';
-	} elseif ( ! empty( $seur_2SHOP_custom_name_field ) && $rate_name == $seur_2SHOP_custom_name_field ) {
+	} elseif ( ! empty( $seur_2shop_custom_name_field ) && $rate_name == $seur_2shop_custom_name_field ) {
 		$real_name = 'SEUR 2SHOP';
 	} elseif ( ! empty( $seur_courier_int_aereo_paqueteria_custom_name ) && $rate_name == $seur_courier_int_aereo_paqueteria_custom_name ) {
 		$real_name = 'COURIER INT AEREO PAQUETERIA';
@@ -125,6 +149,11 @@ function seur_get_real_rate_name( $rate_name ) {
 	return $real_name;
 }
 
+/**
+ * SEUR get custom reate name
+ *
+ * @param string $rate_name Rate name.
+ */
 function seur_get_custom_rate_name( $rate_name ) {
 
 	$seur_bc2_custom_name_field                    = '';
@@ -135,7 +164,7 @@ function seur_get_custom_rate_name( $rate_name ) {
 	$seur_48h_custom_name_field                    = '';
 	$seur_72h_custom_name_field                    = '';
 	$seur_cit_custom_name_field                    = '';
-	$seur_2SHOP_custom_name_field                  = '';
+	$seur_2shop_custom_name_field                  = '';
 	$seur_courier_int_aereo_paqueteria_custom_name = '';
 	$seur_courier_int_aereo_documentos_custom_name = '';
 	$seur_netexpress_int_terrestre_custom_name     = '';
@@ -147,34 +176,34 @@ function seur_get_custom_rate_name( $rate_name ) {
 	$seur_48h_custom_name_field                    = get_option( 'seur_48h_custom_name_field' );
 	$seur_72h_custom_name_field                    = get_option( 'seur_72h_custom_name_field' );
 	$seur_cit_custom_name_field                    = get_option( 'seur_cit_custom_name_field' );
-	$seur_2SHOP_custom_name_field                  = get_option( 'seur_2SHOP_custom_name_field' );
+	$seur_2shop_custom_name_field                  = get_option( 'seur_2SHOP_custom_name_field' );
 	$seur_courier_int_aereo_paqueteria_custom_name = get_option( 'seur_courier_int_aereo_paqueteria_custom_name_field' );
 	$seur_courier_int_aereo_documentos_custom_name = get_option( 'seur_courier_int_aereo_documentos_custom_name_field' );
 	$seur_netexpress_int_terrestre_custom_name     = get_option( 'seur_netexpress_int_terrestre_custom_name_field' );
 
-	if ( ! empty( $seur_bc2_custom_name_field ) && $rate_name == 'B2C Estándar' ) {
+	if ( ! empty( $seur_bc2_custom_name_field ) && 'B2C Estándar' === $rate_name ) {
 		$custom_name = $seur_bc2_custom_name_field;
-	} elseif ( ! empty( $seur_10e_custom_name_field ) && $rate_name == 'SEUR 10 Estándar' ) {
+	} elseif ( ! empty( $seur_10e_custom_name_field ) && 'SEUR 10 Estándar' === $rate_name ) {
 		$custom_name = $seur_10e_custom_name_field;
-	} elseif ( ! empty( $seur_10ef_custom_name_field ) && $rate_name == 'SEUR 10 Frío' ) {
+	} elseif ( ! empty( $seur_10ef_custom_name_field ) && 'SEUR 10 Frío' === $rate_name ) {
 		$custom_name = $seur_10ef_custom_name_field;
-	} elseif ( ! empty( $seur_13e_custom_name_field ) && $rate_name == 'SEUR 13:30 Estándar' ) {
+	} elseif ( ! empty( $seur_13e_custom_name_field ) && 'SEUR 13:30 Estándar' === $rate_name ) {
 		$custom_name = $seur_13e_custom_name_field;
-	} elseif ( ! empty( $seur_13f_custom_name_field ) && $rate_name == 'SEUR 13:30 Frío' ) {
+	} elseif ( ! empty( $seur_13f_custom_name_field ) && 'SEUR 13:30 Frío' === $rate_name ) {
 		$custom_name = $seur_13f_custom_name_field;
-	} elseif ( ! empty( $seur_48h_custom_name_field ) && $rate_name == 'SEUR 48H Estándar' ) {
+	} elseif ( ! empty( $seur_48h_custom_name_field ) && 'SEUR 48H Estándar' === $rate_name ) {
 		$custom_name = $seur_48h_custom_name_field;
-	} elseif ( ! empty( $seur_72h_custom_name_field ) && $rate_name == 'SEUR 72H Estándar' ) {
+	} elseif ( ! empty( $seur_72h_custom_name_field ) && 'SEUR 72H Estándar' === $rate_name ) {
 		$custom_name = $seur_72h_custom_name_field;
-	} elseif ( ! empty( $seur_cit_custom_name_field ) && $rate_name == 'Classic Internacional Terrestre' ) {
+	} elseif ( ! empty( $seur_cit_custom_name_field ) && 'Classic Internacional Terrestre' === $rate_name ) {
 		$custom_name = $seur_cit_custom_name_field;
-	} elseif ( ! empty( $seur_2SHOP_custom_name_field ) && $rate_name == 'SEUR 2SHOP' ) {
-		$custom_name = $seur_2SHOP_custom_name_field;
-	} elseif ( ! empty( $seur_courier_int_aereo_paqueteria_custom_name ) && $rate_name == 'COURIER INT AEREO PAQUETERIA' ) {
+	} elseif ( ! empty( $seur_2shop_custom_name_field ) && 'SEUR 2SHOP' === $rate_name ) {
+		$custom_name = $seur_2shop_custom_name_field;
+	} elseif ( ! empty( $seur_courier_int_aereo_paqueteria_custom_name ) && 'COURIER INT AEREO PAQUETERIA' === $rate_name ) {
 		$custom_name = $seur_courier_int_aereo_paqueteria_custom_name;
-	} elseif ( ! empty( $seur_courier_int_aereo_documentos_custom_name ) && $rate_name == 'COURIER INT AEREO DOCUMENTOS' ) {
+	} elseif ( ! empty( $seur_courier_int_aereo_documentos_custom_name ) && 'COURIER INT AEREO DOCUMENTOS' === $rate_name ) {
 		$custom_name = $seur_courier_int_aereo_documentos_custom_name;
-	} elseif ( ! empty( $seur_netexpress_int_terrestre_custom_name ) && $rate_name == 'NETEXPRESS INT TERRESTRE' ) {
+	} elseif ( ! empty( $seur_netexpress_int_terrestre_custom_name ) && 'NETEXPRESS INT TERRESTRE' === $rate_name ) {
 		$custom_name = $seur_netexpress_int_terrestre_custom_name;
 	} else {
 		$custom_name = $rate_name;
@@ -182,6 +211,11 @@ function seur_get_custom_rate_name( $rate_name ) {
 	return $custom_name;
 }
 
+/**
+ * Seur Check City
+ *
+ * @param array $datos Data Array.
+ */
 function SeurCheckCity( $datos ) {
 
 	$url = 'https://ws.seur.com/WSEcatalogoPublicos/servlet/XFireServlet/WSServiciosWebPublicos?wsdl';
@@ -207,17 +241,20 @@ function SeurCheckCity( $datos ) {
 
 	$respuesta  = $soap_client->infoPoblacionesCortoStr( $parametros );
 	$string_xml = htmlspecialchars_decode( $respuesta->out );
-	$strXml     = iconv( 'UTF-8', 'ISO-8859-1', $string_xml );
-	$xml        = simplexml_load_string( $strXml );
+	$strxml     = iconv( 'UTF-8', 'ISO-8859-1', $string_xml );
+	$xml        = simplexml_load_string( $strxml );
 	$cuantos    = $xml->attributes()->NUM;
 
-	if ( $cuantos != 1 ) {
+	if ( 1 !== $cuantos ) {
 		return 'ERROR';
 	} else {
-		return $xml->REG1->COD_UNIDAD_ADMIN;
+		return $xml->REG1->COD_UNIDAD_ADMIN; // phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
 	}
 }
 
+/**
+ * SEUR Custom Rates Load JS.
+ */
 function seur_custom_rates_load_js() {
 
 	wp_enqueue_script( 'custom-rates-seur', SEUR_PLUGIN_URL . 'assets/js/custom-rates.js', array(), SEUR_OFFICIAL_VERSION );
@@ -231,31 +268,52 @@ function seur_custom_rates_load_js() {
 	wp_localize_script( 'custom-table-seur-rates', 'custom_table_seur_rates', $seurratesphpfiles );
 }
 
+/**
+ * SEUR select2 load js
+ */
 function seur_select2_load_js() {
 	wp_enqueue_script( 'seur-select2', SEUR_PLUGIN_URL . 'assets/js/select2.js', array( 'jquery', 'jquery-ui-core' ), SEUR_OFFICIAL_VERSION );
 }
 
+/**
+ * SEUR Settings Load JS.
+ */
 function seur_settings_load_js() {
 	wp_enqueue_script( 'seur-tooltip', SEUR_PLUGIN_URL . 'assets/js/tooltip.js', array( 'jquery-ui-tooltip' ), SEUR_OFFICIAL_VERSION );
 	wp_enqueue_script( 'seur-switchery', SEUR_PLUGIN_URL . 'assets/js/switchery.min.js', array(), SEUR_OFFICIAL_VERSION );
 }
 
+/**
+ * SEUR select2 custom load JS.
+ */
 function seur_select2_custom_load_js() {
 	wp_enqueue_script( 'seur-select2custom', SEUR_PLUGIN_URL . 'assets/js/select2custom.js', array( 'seur-select2' ), SEUR_OFFICIAL_VERSION );
 }
 
+/**
+ * SEUR sutom country state JS.
+ */
 function seur_auto_country_state_js() {
 	wp_enqueue_script( 'seur-country-state', SEUR_PLUGIN_URL . 'assets/js/seur-country-state.js', array( 'jquery' ), SEUR_OFFICIAL_VERSION );
 }
 
+/**
+ * SEUR data picker JS.
+ */
 function seur_datepicker_js() {
 	wp_enqueue_script( 'seur-datepicker', SEUR_PLUGIN_URL . 'assets/js/seur-datepicker.js', array( 'jquery', 'jquery-ui-datepicker' ), SEUR_OFFICIAL_VERSION );
 }
 
+/**
+ * SEUR Status JS.
+ */
 function seur_status_js() {
 	wp_enqueue_script( 'seur-status', SEUR_PLUGIN_URL . 'assets/js/seur-report.js', array( 'jquery' ), SEUR_OFFICIAL_VERSION );
 }
 
+/**
+ * SEUR label view PDF JS.
+ */
 function seur_labels_view_pdf_js() {
 	global $post_type;
 
@@ -274,6 +332,11 @@ function seur_labels_view_pdf_js() {
 }
 add_action( 'admin_print_scripts-post.php', 'seur_labels_view_pdf_js', 11 );
 
+/**
+ * SEUR Style CSS
+ *
+ * @param string $hook page.
+ */
 function seur_styles_css( $hook ) {
 	global $seuraddform, $seurrates, $seurcreaterate, $seurdeleterate, $seurupdatecustomrate, $seureditcustomrate, $seur_status;
 
@@ -292,6 +355,11 @@ function seur_styles_css( $hook ) {
 }
 add_action( 'admin_enqueue_scripts', 'seur_styles_css' );
 
+/**
+ * SEUR rates CSS
+ *
+ * @param string $hook page.
+ */
 function seur_rates_css( $hook ) {
 	global $seurrates;
 
@@ -304,6 +372,11 @@ function seur_rates_css( $hook ) {
 }
 add_action( 'admin_enqueue_scripts', 'seur_rates_css' );
 
+/**
+ * SEUR Date picker CSS
+ *
+ * @param string $hook page.
+ */
 function seur_datepicker_css( $hook ) {
 	global $seurmanifest;
 
@@ -316,6 +389,9 @@ function seur_datepicker_css( $hook ) {
 }
 add_action( 'admin_enqueue_scripts', 'seur_datepicker_css' );
 
+/**
+ * SEUR CSS PDF Viewr
+ */
 function seur_css_pdf_viewer() {
 	global $post_type;
 
@@ -327,6 +403,9 @@ function seur_css_pdf_viewer() {
 }
 add_action( 'admin_enqueue_scripts', 'seur_css_pdf_viewer' );
 
+/**
+ * SEUR CSS Custom Post Type view
+ */
 function seur_css_cpt_label_view() {
 	global $post_type;
 
@@ -337,6 +416,11 @@ function seur_css_cpt_label_view() {
 }
 add_action( 'admin_enqueue_scripts', 'seur_css_cpt_label_view' );
 
+/**
+ * SEUR Settings Style CSS.
+ *
+ * @param string $hook page.
+ */
 function seur_settings_styles_css( $hook ) {
 	global $seurconfig, $seuraddform, $seurrates;
 
@@ -349,6 +433,11 @@ function seur_settings_styles_css( $hook ) {
 }
 add_action( 'admin_enqueue_scripts', 'seur_settings_styles_css' );
 
+/**
+ * SEUR Auto State Country Style CSS
+ *
+ * @param string $hook page.
+ */
 function seur_auto_state_country_styles_css( $hook ) {
 	global $seuraddform, $seureditcustomrate;
 
@@ -361,6 +450,11 @@ function seur_auto_state_country_styles_css( $hook ) {
 }
 add_action( 'admin_enqueue_scripts', 'seur_auto_state_country_styles_css' );
 
+/**
+ * SEUR get Label page Style CSS
+ *
+ * @param string $hook page.
+ */
 function seur_get_labels_page_styles_css( $hook ) {
 	global $seur_get_labels;
 
@@ -373,6 +467,11 @@ function seur_get_labels_page_styles_css( $hook ) {
 }
 add_action( 'admin_enqueue_scripts', 'seur_get_labels_page_styles_css' );
 
+/**
+ * SEUR nomenclator Style CSS
+ *
+ * @param string $hook page.
+ */
 function seur_nomenclator_styles_css( $hook ) {
 	global $seurnomenclator, $seurmanifest;
 
@@ -385,6 +484,11 @@ function seur_nomenclator_styles_css( $hook ) {
 }
 add_action( 'admin_enqueue_scripts', 'seur_nomenclator_styles_css' );
 
+/**
+ * SEUR about Style CSS
+ *
+ * @param string $hook page.
+ */
 function seur_about_styles_css( $hook ) {
 	global $seurabout;
 
@@ -399,26 +503,32 @@ add_action( 'admin_enqueue_scripts', 'seur_about_styles_css' );
 
 add_filter( 'custom_menu_order', '__return_true' );
 
+/**
+ * SEUR remove menu Items
+ */
 function seur_remove_menu_items() {
 	global $submenu;
 
 	if ( isset( $submenu['seur'] ) ) {
 		// Remove 'Seur' submenu items
-		// unset( $submenu['seur'][0]  ); // SEUR submenu (same as SEUR settings)
-		unset( $submenu['seur'][6] ); // Add Form
-		unset( $submenu['seur'][7] ); // Create Rate
-		unset( $submenu['seur'][8] ); // Delete Rate
-		unset( $submenu['seur'][9] ); // Update Rate
-		unset( $submenu['seur'][10] ); // Edit Rate
-		unset( $submenu['seur'][11] ); // Process Country State
-		unset( $submenu['seur'][12] ); // Get Label
-		unset( $submenu['seur'][15] ); // Get labels from order
+		// unset( $submenu['seur'][0]  ); // SEUR submenu (same as SEUR settings).
+		unset( $submenu['seur'][6] ); // Add Form.
+		unset( $submenu['seur'][7] ); // Create Rate.
+		unset( $submenu['seur'][8] ); // Delete Rate.
+		unset( $submenu['seur'][9] ); // Update Rate.
+		unset( $submenu['seur'][10] ); // Edit Rate.
+		unset( $submenu['seur'][11] ); // Process Country State.
+		unset( $submenu['seur'][12] ); // Get Label.
+		unset( $submenu['seur'][15] ); // Get labels from order.
 	}
 }
 add_action( 'admin_head', 'seur_remove_menu_items' );
 
 // The next add_action is only for print the Array menu, for developing purpose.
 
+/**
+ * SEUR looks URL
+ */
 function seur_look_url() {
 	global $menu;
 
@@ -433,7 +543,11 @@ function seur_look_url() {
 	}
 }
 
-// Add notices
+// Add notices.
+
+/**
+ * SEUR Check Curl Admin Notice Error
+ */
 function seur_check_curl_admin_notice__error() {
 	?>
 	<div class="notice notice-error">
@@ -445,6 +559,9 @@ if ( ! function_exists( 'curl_version' ) ) {
 	add_action( 'admin_notices', 'seur_check_curl_admin_notice__error' );
 }
 
+/**
+ * SEUR Check SOAP Admin Notice Error
+ */
 function seur_check_soap_admin_notice__error() {
 	?>
 	<div class="notice notice-error">
@@ -456,6 +573,9 @@ if ( ! class_exists( 'SoapClient' ) ) {
 	add_action( 'admin_notices', 'seur_check_soap_admin_notice__error' );
 }
 
+/**
+ * SEUR Check XML Admin Notice Error
+ */
 function seur_check_xml_admin_notice__error() {
 	?>
 	<div class="notice notice-error">
@@ -467,6 +587,12 @@ if ( ! function_exists( 'simplexml_load_string' ) ) {
 	add_action( 'admin_notices', 'seur_check_xml_admin_notice__error' );
 }
 
+/**
+ * SEUR Sanitize Post Code.
+ *
+ * @param string $postcode Post code.
+ * @param string $country Country.
+ */
 function seur_sanitize_postcode( $postcode, $country = null ) {
 
 	$unsafe_zipcode    = '';
@@ -476,6 +602,9 @@ function seur_sanitize_postcode( $postcode, $country = null ) {
 	return $safe_zipcode;
 }
 
+/**
+ * SEUR gets all orders.
+ */
 function seur_gets_all_orders() {
 	global $wpdb;
 
@@ -486,6 +615,9 @@ function seur_gets_all_orders() {
 	return $shop_orders;
 }
 
+/**
+ * SEUR get countries.
+ */
 function seur_get_countries() {
 
 	$countries = array();
@@ -496,6 +628,11 @@ function seur_get_countries() {
 	return $countries;
 }
 
+/**
+ * SEUR Sget countries states.
+ *
+ * @param string $country Country.
+ */
 function seur_get_countries_states( $country ) {
 
 	$states      = array();
@@ -510,6 +647,12 @@ function seur_get_countries_states( $country ) {
 	return $states;
 }
 
+/**
+ * SEUR get custom reates.
+ *
+ * @param object $output_type Object.
+ * @param string $type Based price.
+ */
 function seur_get_custom_rates( $output_type = 'OBJECT', $type = 'price' ) {
 	global $wpdb;
 
@@ -529,7 +672,7 @@ function seur_search_allowed_rates_by_country( $allowedcountry ) {
 		$country = $rate->country;
 		$rateid  = $rate->ID;
 
-		if ( $allowedcountry == $country ) {
+		if ( $allowedcountry === $country ) {
 			$columns                     = array(
 				'ID',
 				'country',
@@ -566,7 +709,7 @@ function seur_search_allowed_rates_by_country( $allowedcountry ) {
 		foreach ( $getrates as $rate ) {
 			$country = $rate->country;
 			$rateid  = $rate->ID;
-			if ( $country == '*' ) {
+			if ( '*' === $country ) {
 				$columns = array(
 					'ID',
 					'country',
@@ -609,7 +752,7 @@ function seur_seach_allowed_states_filtered_by_countries( $allowedstate, $filter
 		$state  = $allowedrate['state'];
 		$rateid = $allowedrate['ID'];
 
-		if ( $allowedstate == $state ) {
+		if ( $allowedstate === $state ) {
 			$columns = array(
 				'ID',
 				'country',
@@ -648,7 +791,7 @@ function seur_seach_allowed_states_filtered_by_countries( $allowedstate, $filter
 			$state  = $allowedrate['state'];
 			$rateid = $allowedrate['ID'];
 
-			if ( $state == '*' ) {
+			if ( '*' === $state ) {
 				$columns = array(
 					'ID',
 					'country',
@@ -690,7 +833,7 @@ function seur_seach_allowed_postcodes_filtered_by_states( $allowedpostcode, $fil
 		$postcode = $allowedrate['postcode'];
 		$rateid   = $allowedrate['ID'];
 
-		if ( $allowedpostcode == $postcode ) {
+		if ( $allowedpostcode === $postcode ) {
 			$columns                      = array(
 				'ID',
 				'country',
@@ -726,7 +869,7 @@ function seur_seach_allowed_postcodes_filtered_by_states( $allowedpostcode, $fil
 		foreach ( $filtered_rates_by_state as $allowedrate ) {
 			$postcode = $allowedrate['postcode'];
 			$rateid   = $allowedrate['ID'];
-			if ( $postcode == '*' ) {
+			if ( '*' === $postcode ) {
 				$columns                      = array(
 					'ID',
 					'country',
@@ -813,7 +956,7 @@ function seur_show_availables_rates( $country = null, $state = null, $postcode =
 	if ( ! $postcode ) {
 		$postcode = '*';
 	}
-	if ( $postcode == '00000' ) {
+	if ( '00000' === $postcode ) {
 		$postcode = '*';
 	}
 	if ( ! $price ) {

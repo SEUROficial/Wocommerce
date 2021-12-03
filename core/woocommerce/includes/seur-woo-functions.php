@@ -369,7 +369,7 @@ add_filter( 'woocommerce_admin_order_actions', 'seur_add_label_order_actions_but
 function seur_add_label_order_actions_button( $actions, $the_order ) {
 
 	$has_label = get_post_meta( $the_order->get_id(), '_seur_shipping_order_label_downloaded', true );
-	if ( $has_label != 'yes' ) { // if order has not label.
+	if ( 'yes' !== $has_label ) { // if order has not label.
 		$actions['cancel'] = array(
 			'url'    => wp_nonce_url( admin_url( 'admin-ajax.php?action=seur_get_label&order_id=' . $the_order->get_id() ), 'woocommerce-mark-order-status' ),
 			'name'   => __( 'Get SEUR Label (Only 1 label per order)', 'seur' ),
