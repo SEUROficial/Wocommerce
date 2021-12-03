@@ -1,4 +1,9 @@
 <?php
+/**
+ * SEUR WooCommerce Functins
+ *
+ * @package SEUR
+ */
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
@@ -420,6 +425,9 @@ function seur_add_label_order_actions_button_css() {
 	</style>';
 }
 
+/**
+ * SEUR get label Ajax
+ */
 function seur_get_label_ajax() {
 
 	$order_id  = absint( $_GET['order_id'] ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotValidated

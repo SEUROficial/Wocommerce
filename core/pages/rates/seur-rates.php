@@ -299,7 +299,7 @@ $texto = __( 'RATES', 'seur' ) . '<br />' . __( 'Calculate rate that SEUR apply 
 				$poblacion,
 				$postal,
 			);
-			if ( 'ERROR' === SeurCheckCity( $datos ) ) {
+			if ( 'ERROR' === seur_check_city( $datos ) ) {
 				echo "<hr><b><font color='#e53920'>";
 				echo '<br>Código Postal y Población no se han encontrado en Nomenclator de SEUR.<br>Consulte Nomenclator y ajuste Población y Postal.<br></font>';
 				echo "<font color='#0074a2'><br>Par no Encontrado:<br>" . esc_html( $postal ) . ' - ' . esc_html( $poblacion );
