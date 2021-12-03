@@ -1102,15 +1102,14 @@ function seur_get_user_settings() {
 	} else {
 		$seur_seurcom_contra_field = '';
 	}
-
 	if ( $seur_pais_field ) {
-		if ( $seur_pais_field == 'ES' ) {
-			$seur_pais_field = 'España';
+		if ( 'ES' === $seur_pais_field ) {
+			'España' === $seur_pais_field;
 		}
-		if ( $seur_pais_field == 'PT' ) {
+		if ( 'PT' === $seur_pais_field ) {
 			$seur_pais_field = 'Portugal';
 		}
-		if ( $seur_pais_field == 'AD' ) {
+		if ( 'AD' === $seur_pais_field ) {
 			$seur_pais_field = 'Andorra';
 		}
 	}
@@ -1231,7 +1230,6 @@ function seur_get_advanced_settings() {
 		'geolabel',
 
 	);
-
 	$value = array(
 		$seur_preaviso_notificar_field,
 		$seur_reparto_notificar_field,
@@ -1273,7 +1271,7 @@ function seur_get_order_data( $post_id ) {
 		$order_total      = get_post_meta( $post_id, '_order_total', true );
 		$order_pay_method = get_post_meta( $post_id, '_payment_method', true );
 
-		// SEUR 2SHOP shipping
+		// SEUR 2SHOP shipping.
 		$address_2hop      = get_post_meta( $post_id, '_seur_2shop_address', true );
 		$postcode_2shop    = get_post_meta( $post_id, '_seur_2shop_postcode', true );
 		$city_2shop        = get_post_meta( $post_id, '_seur_2shop_city', true );
@@ -1302,7 +1300,6 @@ function seur_get_order_data( $post_id ) {
 			'city_2shop',
 			'code_centro_2shop',
 		);
-
 		$value = array(
 			$title,
 			$weight,
@@ -1346,7 +1343,7 @@ function seur_return_shipping_product_id( $shipping_product ) {
 	$products = seur_get_all_shipping_products();
 
 	foreach ( $products as $product ) {
-		if ( $product->descripcion == $shipping_product ) {
+		if ( $product->descripcion === $shipping_product ) {
 			$product_id = $product->ID;
 		}
 	}
@@ -1390,7 +1387,7 @@ function seur_get_service_product_shipping_product( $method_id, $customer_countr
 
 	$service_product[] = array_combine( $option, $value );
 
-	$log->add( 'seur', '$service_product[]: ' . print_r( $service_product, true ) );
+	$log->add( 'seur', '$service_product[]: ' . print_r( $service_product, true ) ); // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_print_r
 
 	return $service_product;
 }
@@ -1410,24 +1407,17 @@ function seur_upload_dir( $dir_name = null ) {
 	// $dir_name can be, NULL, labels or manifests
 
 	if ( $dir_name ) {
-
 		$new_dir_name = '_' . $dir_name;
 	} else {
 		$new_dir_name = '';
 	}
-
 	$seur_upload_dir = get_option( 'seur_uploads_dir' . $new_dir_name );
-
 	if ( $seur_upload_dir ) {
 		$seur_upload_dir = $seur_upload_dir;
-
 	} else {
-
 		seur_create_upload_folder_hook();
 		$seur_upload_dir = get_option( 'seur_uploads_dir' . $new_dir_name );
-
 	}
-
 	return $seur_upload_dir;
 }
 
