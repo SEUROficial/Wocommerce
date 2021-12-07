@@ -372,7 +372,7 @@ function seur_metabox_label_callback( $post ) {
 	<?php
 }
 
-// add_filter( 'display_post_states', 'seur_custom_post_states' );.
+// add_filter( 'display_post_states', 'seur_custom_post_states' );
 
 /**
  * SEUR Custom Post States

@@ -614,7 +614,7 @@ function seur_gets_all_orders() {
 
 	$tabla       = $wpdb->prefix . 'seur_labels';
 	$sql         = "SELECT * FROM $tabla";
-	$shop_orders = $wpdb->get_results( $wpdb->prepare( $sql ) );
+	$shop_orders = $wpdb->get_results( $wpdb->prepare( 'SELECT * FROM %d', $tabla ) );
 
 	return $shop_orders;
 }
@@ -661,7 +661,7 @@ function seur_get_custom_rates( $output_type = 'OBJECT', $type = 'price' ) {
 	global $wpdb;
 
 	$table    = $wpdb->prefix . SEUR_TBL_SCR;
-	$getrates = $wpdb->get_results( "SELECT * FROM $table WHERE type = '$type' ORDER BY ID ASC", $output_type );
+	$getrates = $wpdb->get_results( $wpdb->prepare( 'SELECT * FROM %d WHERE type = %d ORDER BY ID ASC', $table, $type ), $output_type );
 	return $getrates;
 }
 
@@ -1011,6 +1011,9 @@ function seur_show_availables_rates( $country = null, $state = null, $postcode =
 	return $ratestoscreen;
 }
 
+/**
+ * SEUR Get User Settings
+ */
 function seur_get_user_settings() {
 
 	$seur_user_settings = array();
@@ -1207,6 +1210,9 @@ function seur_get_user_settings() {
 	return $seur_user_settings;
 }
 
+/**
+ * SEUR Get Asvanced Settings
+ */
 function seur_get_advanced_settings() {
 
 	$seur_advanced_settings = array();
@@ -1284,6 +1290,11 @@ function seur_get_advanced_settings() {
 
 }
 
+/**
+ * SEUR Get Order Data
+ *
+ * @param int $post_id Post ID.
+ */
 function seur_get_order_data( $post_id ) {
 
 	$post            = get_post( $post_id );
@@ -1363,16 +1374,24 @@ function seur_get_order_data( $post_id ) {
 	return $seur_order_data;
 }
 
+/**
+ * SEUR Get All Shipping Products
+ */
 function seur_get_all_shipping_products() {
 	global $wpdb;
 
 	$tabla     = $wpdb->prefix . SEUR_PLUGIN_SVPR;
 	$sql       = "SELECT * FROM $tabla";
-	$registros = $wpdb->get_results( $sql );
+	$registros = $wpdb->get_results( $wpdb->prepare( 'SELECT * FROM %d', $sql ) );
 
 	return $registros;
 }
 
+/**
+ * SEUR Return Shipping Product ID
+ *
+ * @param string $shipping_product Shiping product.
+ */
 function seur_return_shipping_product_id( $shipping_product ) {
 
 	$products = seur_get_all_shipping_products();
@@ -1385,6 +1404,12 @@ function seur_return_shipping_product_id( $shipping_product ) {
 	return $product_id;
 }
 
+/**
+ * SEUR Get Service Product Shipping Product
+ *
+ * @param int    $method_id Method ID.
+ * @param string $customer_country Country.
+ */
 function seur_get_service_product_shipping_product( $method_id, $customer_country = null ) {
 
 	$log = new WC_Logger();
@@ -1405,7 +1430,7 @@ function seur_get_service_product_shipping_product( $method_id, $customer_countr
 			$service = $product1->ser;
 			$product = $product1->pro;
 
-			if ( $product1->ID === $frio_id && $customer_country == 'FR' ) {
+			if ( $product1->ID === $frio_id && 'FR' === $customer_country ) {
 				$service = '77';
 				$product = '114';
 			}
@@ -1427,6 +1452,11 @@ function seur_get_service_product_shipping_product( $method_id, $customer_countr
 	return $service_product;
 }
 
+/**
+ * SEUR Get Service Method
+ *
+ * @param int $order_id Order ID.
+ */
 function seur_get_shipping_method( $order_id ) {
 
 	$order = new WC_Order( $order_id );
@@ -1437,6 +1467,11 @@ function seur_get_shipping_method( $order_id ) {
 	return $shipping_method_name;
 }
 
+/**
+ * SEUR upload dir
+ *
+ * @param string $dir_name string.
+ */
 function seur_upload_dir( $dir_name = null ) {
 
 	// $dir_name can be, NULL, labels or manifests
@@ -1456,6 +1491,11 @@ function seur_upload_dir( $dir_name = null ) {
 	return $seur_upload_dir;
 }
 
+/**
+ * SEUR upload URL
+ *
+ * @param string $dir_name string.
+ */
 function seur_upload_url( $dir_name = null ) {
 
 	if ( $dir_name ) {
@@ -1473,6 +1513,11 @@ function seur_upload_url( $dir_name = null ) {
 	return $seur_upload_url;
 }
 
+/**
+ * SEUR Clean Data
+ *
+ * @param string $out string to clean.
+ */
 function seur_clean_data( $out ) {
 
 	$out = str_replace( 'Á', 'A', $out );
@@ -1503,18 +1548,26 @@ function seur_clean_data( $out ) {
 	return $out;
 }
 
+/**
+ * SEUR Alyways KG
+ *
+ * @param string $weight Order Weight.
+ */
 function seur_always_kg( $weight ) {
 
 	$weight_unit = get_option( 'woocommerce_weight_unit' );
-	if ( $weight_unit === 'kg' ) {
+	if ( 'kg' === $weight_unit ) {
 		$weight_kg = $weight;
 	}
-	if ( $weight_unit === 'g' ) {
+	if ( 'g' === $weight_unit ) {
 		$weight_kg = (string) ( number_format( $weight / 1000, 3, '.', '' ) );
 	}
 	return $weight_kg;
 }
 
+/**
+ * SEUR Create Randon Shipping ID
+ */
 function seur_create_random_shippping_id() {
 
 	$characters           = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
@@ -1527,6 +1580,11 @@ function seur_create_random_shippping_id() {
 	return $string;
 }
 
+/**
+ * SEUR From Termica to PDF.
+ *
+ * @param string $trama SEUR get trama.
+ */
 function seur_from_terminca_to_pdf( $trama ) {
 
 	$log = new WC_Logger();
@@ -1545,6 +1603,14 @@ function seur_from_terminca_to_pdf( $trama ) {
 	return $trama_pdf;
 }
 
+/**
+ * SEUR Get Label.
+ *
+ * @param int    $order_id Order ID.
+ * @param string $numpackages Num package.
+ * @param string $weight Order Weight.
+ * @param string $post_weight Post Weight.
+ */
 function seur_get_label( $order_id, $numpackages = '1', $weight = '1', $post_weight = false ) {
 	global $error;
 
@@ -1888,7 +1954,7 @@ function seur_get_label( $order_id, $numpackages = '1', $weight = '1', $post_wei
 
 	$encoding           = '<?xml version="1.0" encoding="ISO-8859-1"?>';
 	$datos_envio_inicio = $encoding . '<root><exp>';
-	$DatosEnvioFin      = '</exp></root>';
+	$datos_envio_fin    = '</exp></root>';
 
 	$xml = '<bulto>
 		<ci>' . $cit_pass . '</ci>
@@ -1945,12 +2011,12 @@ function seur_get_label( $order_id, $numpackages = '1', $weight = '1', $post_wei
 		$complete_xml .= $xml;
 	}
 
-	$data_send = $datos_envio_inicio . $complete_xml . $DatosEnvioFin;
+	$data_send = $datos_envio_inicio . $complete_xml . $datos_envio_fin;
 
 	if ( '1' === $geolabel ) {
 		// Se usa GeoLabel.
 		if ( 'ES' !== $customer_country && 'AD' !== $customer_country && 'PT' !== $customer_country ) {
-			// Se utiliza Geolabel, es envío internacional, y es Térmica
+			// Se utiliza Geolabel, es envío internacional, y es Térmica.
 
 			$request_geolabel =
 				'{
