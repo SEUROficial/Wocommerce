@@ -34,9 +34,10 @@ function seur_products_services( $post ) {
 		</thead>
 		<tbody id="the-list">
 			<?php
-				$tabla     = $wpdb->prefix . SEUR_PLUGIN_SVPR;
-				$sql       = "SELECT * FROM $tabla";
-				$registros = $wpdb->get_results( "SELECT * FROM {$wpdb->prefix}SEUR_PLUGIN_SVPR" );
+				$tabla      = $wpdb->prefix . SEUR_PLUGIN_SVPR;
+				$name_table = 'seur_svpr';
+				$sql        = "SELECT * FROM $tabla";
+				$registros  = $wpdb->get_results( "SELECT * FROM {$wpdb->prefix}seur_svpr" );
 
 			foreach ( $registros as $valor ) {
 				echo '<tr id="post-2" class="iedit author-self level-0 post-2 type-page status-publish hentry">';

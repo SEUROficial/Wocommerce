@@ -24,7 +24,7 @@ require_once SEUR_PLUGIN_PATH . 'core/pages/rates/seur-update.php';
 require_once SEUR_PLUGIN_PATH . 'core/pages/rates/seur-edit-form.php';
 require_once SEUR_PLUGIN_PATH . 'core/pages/rates/seur-country-state-process.php';
 require_once SEUR_PLUGIN_PATH . 'core/help/seur-help-tabs.php';
-require_once SEUR_PLUGIN_PATH . 'core/pages/status.php';
+// require_once SEUR_PLUGIN_PATH . 'core/pages/status.php';
 if ( defined( 'SEUR_WOOCOMMERCE_PART' ) ) {
 	include_once SEUR_PLUGIN_PATH . 'core/woocommerce/includes/pages/seur-process-label.php';
 }
@@ -73,7 +73,7 @@ function seur_menu() {
 		$seurlabelslist  = add_submenu_page( $menu_slug, __( 'Shipments', 'seur' ), __( 'Shipments', 'seur' ), 'edit_shop_orders', 'edit.php?post_type=seur_labels' );
 		$seur_pickup     = add_submenu_page( $menu_slug, __( 'Collection', 'seur' ), __( 'Collection', 'seur' ), $capability, 'seur_pickup', 'seur_pickup' );
 		$seur_get_labels = add_submenu_page( $menu_slug, __( 'Get labels from order', 'seur' ), __( 'Get labels from order', 'seur' ), $capability, 'seur_get_labels_from_order', 'seur_get_labels_from_order' );
-		$seur_status     = add_submenu_page( $menu_slug, __( 'Status', 'seur' ), __( 'Status', 'seur' ), $capability, 'seur_status_page', 'seur_status_page' );
+		// $seur_status     = add_submenu_page( $menu_slug, __( 'Status', 'seur' ), __( 'Status', 'seur' ), $capability, 'seur_status_page', 'seur_status_page' );
 
 		// remove submenu SEUR for shop_manger role.
 		$woouser = wp_get_current_user();

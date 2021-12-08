@@ -143,6 +143,7 @@ function seur_custom_label_column_data( $column, $post_id ) {
 	$file_downlo_pass     = get_site_option( 'seur_pass_for_download' );
 	$label_path           = str_replace( '\\', '/', $label_path );
 	$file_type            = get_post_meta( $post_id, '_seur_label_type', true );
+	$url_upload_dir       = get_site_option( 'seur_uploads_url_labels' );
 
 	if ( ! empty( $order_tracking ) ) {
 		$order_tracking = $order_tracking;
@@ -167,7 +168,7 @@ function seur_custom_label_column_data( $column, $post_id ) {
 			break;
 		case 'product':
 			echo '<ul>';
-			echo esc_html( $product_list );
+			echo wp_kses( $product_list, 'data' );
 			echo '</ul>';
 			break;
 		case 'customer_name':
@@ -187,7 +188,7 @@ function seur_custom_label_column_data( $column, $post_id ) {
 
 		case 'print':
 			// echo '<a href="' . $label_url . '" onClick="window.print();return false">​​​​​​​​​​​​​​​​​print pdf</a>';.
-			echo '<a href="' . esc_url( $url_to_file_down ) . '?label=' . esc_html( $label_path ) . '&label_name=' . esc_html( $label_file_name ) . '&pass=' . esc_html( $file_downlo_pass ) . '&file_type=' . esc_html( $file_type ) . '" class="button" target="_blank">' . esc_html__( ' Open ', 'seur' ) . '</a>';
+			echo '<a href="' . $url_upload_dir . '/' . $label_file_name . '" class="button" download>' . esc_html__( ' Open ', 'seur' ) . '</a>';
 			break;
 	}
 }

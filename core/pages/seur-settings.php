@@ -41,7 +41,7 @@ function seur_settings() {
 				<?php
 				settings_fields( 'seur-user-settings-section' );
 				do_settings_sections( 'seur-user-settings-options' );
-				esc_html_e( '(<sup>*</sup>) This data is provided by SEUR', 'seur' );
+				wp_kses_post( _e( '(<sup>*</sup>) This data is provided by SEUR', 'seur' ) );
 			} else {
 				?>
 				<p>

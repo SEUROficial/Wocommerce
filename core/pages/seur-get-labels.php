@@ -62,29 +62,13 @@ function seur_get_labels_from_order( $post ) {
 			<input type='hidden' name='order-id' class='form-control' value='<?php echo esc_html( $orderid2 ); ?>' />
 			<label><?php esc_html_e( 'Packages Weight', 'seur' ); ?></label><br />
 			<?php if ( 'kg' === $weight_unit ) { ?>
-			<input title="<?php esc_html_e( 'Weight', 'seur' ); ?>" type='text' name='seur-weight' class='form-control' placeholder='<?php esc_html_e( 'EX: 0.300', 'seur' ); ?>' value='
-				<?php
-				if ( $weight ) {
-					echo esc_html( $weight );}
-				?>
-				' required='' /> <?php } elseif ( 'g' === $weight_unit ) { ?>
-			<input title="<?php esc_html_e( 'Weight', 'seur' ); ?>" type='text' name='seur-weight' class='form-control' placeholder='<?php esc_html_e( 'EX: 300', 'seur' ); ?>' value='
-				<?php
-				if ( $weight ) {
-					echo esc_html( $weight );
-				}
-				?>
-				' required='' /> <?php } ?>
-				<br />
+				<input title="<?php esc_html_e( 'Weight', 'seur' ); ?>" type='text' name='seur-weight' class='form-control' placeholder='<?php esc_html_e( 'EX: 0.300', 'seur' ); ?>' value='<?php if ( $weight ) { echo esc_html( $weight );} ?>' required='' /> <?php
+			} elseif ( 'g' === $weight_unit ) { ?>
+				<input title="<?php esc_html_e( 'Weight', 'seur' ); ?>" type='text' name='seur-weight' class='form-control' placeholder='<?php esc_html_e( 'EX: 300', 'seur' ); ?>' value='<?php if ( $weight ) { echo esc_html( $weight ); } ?>' required='' />
+			<?php } ?><br />
 			<label><?php esc_html_e( 'Number of Packages', 'seur' ); ?></label><br />
-			<input title="<?php esc_html_e( 'Number of Packages', 'seur' ); ?>" type='text' name='seur-number-packages' class='form-control' placeholder='<?php esc_html_e( 'EX: 2', 'seur' ); ?>' <?php echo esc_html( $value ); ?> required="" 
-				<?php
-				if ( ! empty( $shop2 ) ) {
-					echo esc_html( $disabled );
-				}
-				?>
-				/><br />
-				<?php wp_nonce_field( 'seur_get_label_action', 'seur_get_label_nonce_field' ); ?>
+			<input title="<?php esc_html_e( 'Number of Packages', 'seur' ); ?>" type="text" name="seur-number-packages" class="form-control" placeholder="<?php esc_html_e( 'EX: 2', 'seur' ); ?>" <?php echo $value; ?> required="" <?php if ( ! empty( $shop2 ) ) { echo esc_html( $disabled ); } ?> /><br />
+			<?php wp_nonce_field( 'seur_get_label_action', 'seur_get_label_nonce_field' ); ?>
 			<input type="submit" class="seur_label_submit button button-primary" value="<?php esc_html_e( 'Get labels', 'seur' ); ?>" />
 		</form>
 		<br />
@@ -92,9 +76,9 @@ function seur_get_labels_from_order( $post ) {
 		<?php
 	} elseif ( $order_id ) {
 		if ( isset( $_POST['order-id'] ) && isset( $_POST['seur-weight'] ) && isset( $_POST['seur-number-packages'] ) ) {
-			$order_id    = sanitize_text_field( wp_unslash( $_POST['order-id'] ) );
-			$weight      = sanitize_text_field( wp_unslash( $_POST['seur-weight'] ) );
-			$numpackages = sanitize_text_field( wp_unslash( $_POST['seur-number-packages'] ) );
+			$order_id    = $_POST['order-id'];
+			$weight      = $_POST['seur-weight'];
+			$numpackages = $_POST['seur-number-packages'];
 		} else {
 			$order_id    = '';
 			$weight      = '';

@@ -91,24 +91,12 @@ $texto = __( 'RATES', 'seur' ) . '<br />' . __( 'Calculate rate that SEUR apply 
 	?>
 	<div class="wp-filter">
 		<label>
-			<span class="screen-reader-text"><?php esc_html_e( 'Postalcode', 'seur' ); ?></span>
-			<input type='text' name='postal' class="calculate-rates" placeholder="<?php esc_html_e( 'Postalcode', 'seur' ); ?>" value='
-			<?php
-			if ( ! empty( $postal ) ) {
-				echo esc_html( $postal );
-			}
-			?>
-			'>
+			<span class="screen-reader-text"><?php _e( 'Postalcode', 'seur' ); ?></span>
+			<input type='text' name='postal' class="calculate-rates" placeholder="<?php _e( 'Postalcode', 'seur' ); ?>" value='<?php if ( ! empty( $postal ) ) { echo esc_html( $postal ); } ?>'>
 		</label>
 		<label>
 			<span class="screen-reader-text"><?php esc_html_e( 'City', 'seur' ); ?></span>
-			<input type='text' name='poblacion' class="calculate-rates" placeholder="<?php esc_html_e( 'City', 'seur' ); ?>" value='
-			<?php
-			if ( ! empty( $poblacion ) ) {
-				echo esc_html( $poblacion );
-			}
-			?>
-			' size="12">
+			<input type='text' name='poblacion' class="calculate-rates" placeholder="<?php esc_html_e( 'City', 'seur' ); ?>" value='<?php if ( ! empty( $poblacion ) ) { echo esc_html( $poblacion ); } ?>' size="12">
 		</label>
 		<label>
 			<span class="screen-reader-text"><?php esc_html_e( 'Country', 'seur' ); ?></span>
@@ -134,11 +122,11 @@ $texto = __( 'RATES', 'seur' ) . '<br />' . __( 'Calculate rate that SEUR apply 
 				$selectedes = '';
 				$selectedpt = '';
 			}
-				echo '<option value="NULL">' . esc_html__( 'Select', 'seur' ) . '</option>';
-				echo '<option value="ES" ' . esc_html( $selectedes ) . '>' . esc_html__( 'Spain', 'seur' ) . '</option>';
-				echo '<option value="PT" ' . esc_html( $selectedpt ) . '>' . esc_html__( 'Portugal', 'seur' ) . '</option>';
-				echo '<option value="AD" ' . esc_html( $selectedad ) . '>' . esc_html__( 'Andorra', 'seur' ) . '</option>';
-				$countries = seur_get_countries();
+			echo '<option value="NULL">' . esc_html__( 'Select', 'seur' ) . '</option>';
+			echo '<option value="ES" ' . esc_html( $selectedes ) . '>' . esc_html__( 'Spain', 'seur' ) . '</option>';
+			echo '<option value="PT" ' . esc_html( $selectedpt ) . '>' . esc_html__( 'Portugal', 'seur' ) . '</option>';
+			echo '<option value="AD" ' . esc_html( $selectedad ) . '>' . esc_html__( 'Andorra', 'seur' ) . '</option>';
+			$countries = seur_get_countries();
 			foreach ( $countries as $countrie => $value ) {
 				if ( ! empty( $pais ) && $pais === $countrie ) {
 					$selected = 'selected';
@@ -152,23 +140,19 @@ $texto = __( 'RATES', 'seur' ) . '<br />' . __( 'Calculate rate that SEUR apply 
 		</label>
 		<label>
 			<span class="screen-reader-text"><?php esc_html_e( 'Packages', 'seur' ); ?></span>
-			<input type='text' name='bultos' class="calculate-rates" placeholder="<?php esc_html_e( 'Packages', 'seur' ); ?>" value='
-			<?php
+			<input type='text' name='bultos' class="calculate-rates" placeholder="<?php esc_html_e( 'Packages', 'seur' ); ?>" value='<?php
 			if ( ! empty( $bultos ) ) {
 				echo esc_html( $bultos );
 			}
-			?>
-			' size="12">
+			?>' size="12">
 		</label>
 		<label>
 			<span class="screen-reader-text"><?php esc_html_e( 'Weight', 'seur' ); ?></span>
-			<input type='text' name='kilos' class="calculate-rates" placeholder="<?php esc_html_e( 'Weight Kg, eg 0.1', 'seur' ); ?>" value='
-			<?php
+			<input type='text' name='kilos' class="calculate-rates" placeholder="<?php esc_html_e( 'Weight Kg, eg 0.1', 'seur' ); ?>" value='<?php
 			if ( ! empty( $kilos ) ) {
 				echo esc_html( $kilos );
 			}
-			?>
-			' size="12">
+			?>' size="12">
 		</label>
 		<label>
 			<span class="screen-reader-text"><?php esc_html_e( 'Product/Service', 'seur' ); ?></span>

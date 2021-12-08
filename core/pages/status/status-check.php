@@ -387,7 +387,10 @@ function seur_check_service_names( $services ) {
 			</thead>
 			<tbody>
 				<?php
-					$active_plugins = (array) get_option( 'active_plugins', array() );
+				if ( ! function_exists( 'get_plugin_data' ) ) {
+					require_once ABSPATH . 'wp-admin/includes/plugin.php';
+				}
+				$active_plugins = (array) get_option( 'active_plugins', array() );
 				if ( is_multisite() ) {
 					$active_plugins = array_merge( $active_plugins, get_site_option( 'active_sitewide_plugins', array() ) );
 				}

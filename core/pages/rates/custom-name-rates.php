@@ -49,124 +49,84 @@ if ( ! defined( 'ABSPATH' ) ) {
 					<tbody>
 						<tr>
 							<th scope="row">B2C Estándar</th>
-							<td><input title="<?php esc_html_e( 'Custom Name for ', 'seur' ); ?>B2C Estándar" type="text" name="seur_bc2_custom_name_field" value="
-								<?php
-								if ( $seur_bc2_custom_name ) {
-									echo esc_html( $seur_bc2_custom_name );
-								}
-								?>
-							" size="40"></td>
+							<td><input title="<?php esc_html_e( 'Custom Name for ', 'seur' ); ?>B2C Estándar" type="text" name="seur_bc2_custom_name_field" value="<?php if ( $seur_bc2_custom_name ) { echo esc_html( $seur_bc2_custom_name ); } ?>" size="40"></td>
 						</tr>
 
 						<tr>
 							<th scope="row">SEUR 10 Estándar</th>
-							<td><input title="<?php esc_html_e( 'Custom Name for ', 'seur' ); ?>SEUR 10 Estándar" type="text" name="seur_10e_custom_name_field" value="
-								<?php
-								if ( $seur_10e_custom_name ) {
-									echo esc_html( $seur_10e_custom_name );
-								}
-								?>
-							" size="40"></td>
+							<td><input title="<?php esc_html_e( 'Custom Name for ', 'seur' ); ?>SEUR 10 Estándar" type="text" name="seur_10e_custom_name_field" value="<?php if ( $seur_10e_custom_name ) { echo esc_html( $seur_10e_custom_name ); } ?>" size="40"></td>
 						</tr>
 						<tr>
 							<th scope="row">SEUR 10 Frío</th>
-							<td><input title="<?php esc_html_e( 'Custom Name for ', 'seur' ); ?>SEUR 10 Frío" type="text" name="seur_10ef_custom_name_field" value="
-							<?php
-							if ( $seur_10ef_custom_name ) {
-								echo esc_html( $seur_10ef_custom_name );
-							}
-							?>
-							" size="40"></td>
+							<td><input title="<?php esc_html_e( 'Custom Name for ', 'seur' ); ?>SEUR 10 Frío" type="text" name="seur_10ef_custom_name_field" value="<?php if ( $seur_10ef_custom_name ) { echo esc_html( $seur_10ef_custom_name ); } ?>" size="40"></td>
 						</tr>
 						<tr>
 							<th scope="row">SEUR 13:30 Estándar</th>
-							<td><input title="<?php esc_html_e( 'Custom Name for ', 'seur' ); ?>SEUR 13:30 Estándar" type="text" name="seur_13e_custom_name_field" value="
-							<?php
-							if ( $seur_13e_custom_name ) {
-								echo esc_html( $seur_13e_custom_name );
-							}
-							?>
-							" size="40"></td>
+							<td><input title="<?php esc_html_e( 'Custom Name for ', 'seur' ); ?>SEUR 13:30 Estándar" type="text" name="seur_13e_custom_name_field" value="<?php if ( $seur_13e_custom_name ) { echo esc_html( $seur_13e_custom_name ); } ?>" size="40"></td>
 						</tr>
 						<tr>
 							<th scope="row">SEUR 13:30 Frío</th>
-							<td><input title="<?php esc_html_e( 'Custom Name for ', 'seur' ); ?>SEUR 13:30 Frío" type="text" name="seur_13f_custom_name_field" value="
-							<?php
+							<td><input title="<?php esc_html_e( 'Custom Name for ', 'seur' ); ?>SEUR 13:30 Frío" type="text" name="seur_13f_custom_name_field" value="<?php
 							if ( $seur_13f_custom_name ) {
 								echo esc_html( $seur_13f_custom_name );
 							}
-							?>
-							" size="40"></td>
+							?>" size="40"></td>
 						</tr>
 						<tr>
 							<th scope="row">SEUR 48H Estándar</th>
-							<td><input title="<?php esc_html_e( 'Custom Name for ', 'seur' ); ?>SEUR 48H Estándar" type="text" name="seur_48h_custom_name_field" value="
-							<?php
+							<td><input title="<?php esc_html_e( 'Custom Name for ', 'seur' ); ?>SEUR 48H Estándar" type="text" name="seur_48h_custom_name_field" value="<?php
 							if ( $seur_48h_custom_name ) {
 								echo esc_html( $seur_48h_custom_name );
 							}
-							?>
-							" size="40"></td>
+							?>" size="40"></td>
 						</tr>
 						<tr>
 							<th scope="row">SEUR 72H Estándar</th>
-							<td><input title="<?php esc_html_e( 'Custom Name for ', 'seur' ); ?>SEUR 72H Estándar" type="text" name="seur_72h_custom_name_field" value="
-							<?php
+							<td><input title="<?php esc_html_e( 'Custom Name for ', 'seur' ); ?>SEUR 72H Estándar" type="text" name="seur_72h_custom_name_field" value="<?php
 							if ( $seur_72h_custom_name ) {
 								echo esc_html( $seur_72h_custom_name );
 							}
-							?>
-							" size="40"></td>
+							?>" size="40"></td>
 						</tr>
 						<tr>
 							<th scope="row">Classic Internacional Terrestre</th>
-							<td><input title="<?php esc_html_e( 'Custom Name for ', 'seur' ); ?>Classic Internacional Terrestre" type="text" name="seur_cit_custom_name_field" value="
-							<?php
+							<td><input title="<?php esc_html_e( 'Custom Name for ', 'seur' ); ?>Classic Internacional Terrestre" type="text" name="seur_cit_custom_name_field" value="<?php
 							if ( $seur_cit_custom_name ) {
 								echo esc_html( $seur_cit_custom_name );
 							}
-							?>
-							" size="40"></td>
+							?>" size="40"></td>
 						</tr>
 						<tr>
 							<th scope="row">SEUR 2SHOP</th>
-							<td><input title="<?php esc_html_e( 'Custom Name for ', 'seur' ); ?>SEUR 2SHOP" type="text" name="seur_2SHOP_custom_name_field" value="
-							<?php
+							<td><input title="<?php esc_html_e( 'Custom Name for ', 'seur' ); ?>SEUR 2SHOP" type="text" name="seur_2SHOP_custom_name_field" value="<?php
 							if ( $seur_2shop_custom_name ) {
 								echo esc_html( $seur_2shop_custom_name );
 							}
-							?>
-							" size="40"></td>
+							?>" size="40"></td>
 						</tr>
 						<tr>
 							<th scope="row">COURIER INT AEREO PAQUETERIA</th>
-							<td><input title="<?php esc_html_e( 'Custom Name for ', 'seur' ); ?>COURIER INT AEREO PAQUETERIA" type="text" name="seur_courier_int_aereo_paqueteria_custom_name_field" value="
-							<?php
+							<td><input title="<?php esc_html_e( 'Custom Name for ', 'seur' ); ?>COURIER INT AEREO PAQUETERIA" type="text" name="seur_courier_int_aereo_paqueteria_custom_name_field" value="<?php
 							if ( $seur_courier_int_aereo_paqueteria_custom_name ) {
 								echo esc_html( $seur_courier_int_aereo_paqueteria_custom_name );
 							}
-							?>
-							" size="40"></td>
+							?>" size="40"></td>
 						</tr>
 						<tr>
 							<th scope="row">COURIER INT AEREO DOCUMENTOS</th>
-							<td><input title="<?php esc_html_e( 'Custom Name for ', 'seur' ); ?>COURIER INT AEREO DOCUMENTOS" type="text" name="seur_courier_int_aereo_documentos_custom_name_field" value="
-							<?php
+							<td><input title="<?php esc_html_e( 'Custom Name for ', 'seur' ); ?>COURIER INT AEREO DOCUMENTOS" type="text" name="seur_courier_int_aereo_documentos_custom_name_field" value="<?php
 							if ( $seur_courier_int_aereo_documentos_custom_name ) {
 								echo esc_html( $seur_courier_int_aereo_documentos_custom_name );
 							}
-							?>
-							" size="40"></td>
+							?>" size="40"></td>
 						</tr>
 						<tr>
 							<th scope="row">NETEXPRESS INT TERRESTRE</th>
-							<td><input title="<?php esc_html_e( 'Custom Name for ', 'seur' ); ?>NETEXPRESS INT TERRESTRE" type="text" name="seur_netexpress_int_terrestre_custom_name_field" value="
-							<?php
+							<td><input title="<?php esc_html_e( 'Custom Name for ', 'seur' ); ?>NETEXPRESS INT TERRESTRE" type="text" name="seur_netexpress_int_terrestre_custom_name_field" value="<?php
 							if ( $seur_netexpress_int_terrestre_custom_name ) {
 								echo esc_html( $seur_netexpress_int_terrestre_custom_name );
 							}
-							?>
-							" size="40"></td>
+							?>" size="40"></td>
 						</tr>
 						<input type="hidden" name="seur_custom_name_rates_post" value="true" >
 					<?php wp_nonce_field( 'seur_custom_name_rates', 'seur_custom_name_rates_nonce_field' ); ?>

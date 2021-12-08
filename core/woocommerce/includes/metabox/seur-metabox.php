@@ -35,6 +35,7 @@ function seur_metabox_callback( $post ) {
 	$label_file_name  = get_post_meta( $labelid2, '_seur_shipping_order_label_file_name', true );
 	$file_downlo_pass = get_site_option( 'seur_pass_for_download' );
 	$file_type        = get_post_meta( $labelid2, '_seur_label_type', true );
+	$url_upload_dir   = get_site_option( 'seur_uploads_url_labels' );
 
 	?> <div id="seur_content_metabox"> 
 	<?php
@@ -57,7 +58,7 @@ function seur_metabox_callback( $post ) {
 		?>
 		<img src="<?php echo esc_url( SEUR_PLUGIN_URL ); ?>assets/img/icon-96x37.png" alt="SEUR Image" width="96" height="37" />
 		<?php
-			echo '<a href="' . esc_url( $url_to_file_down ) . '?label=' . esc_html( $label_path ) . '&label_name=' . esc_html( $label_file_name ) . '&pass=' . esc_html( $file_downlo_pass ) . '&file_type=' . esc_html( $file_type ) . '" class="button" target="_blank">' . esc_html__( ' See SEUR Label ', 'seur' ) . '</a>';
+		echo '<a href="' . $url_upload_dir . '/' . $label_file_name . '" download>' . esc_html__( ' See SEUR Label ', 'seur' ) . '</a>';
 
 	}
 	?>

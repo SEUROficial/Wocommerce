@@ -47,22 +47,16 @@ function seur_admin_notices() {
  */
 function seur_check_url_exists( $url ) {
 
-	// check, if a valid url is provided.
-	$timeout = 10;
-	$ch      = curl_init();
-	curl_setopt( $ch, CURLOPT_URL, $url );
-	curl_setopt( $ch, CURLOPT_RETURNTRANSFER, 1 );
-	curl_setopt( $ch, CURLOPT_TIMEOUT, $timeout );
-	$http_respond = curl_exec( $ch );
-	$http_respond = trim( strip_tags( $http_respond ) );
-	$http_code    = curl_getinfo( $ch, CURLINFO_HTTP_CODE );
+	try {
+		$soap_client = new SoapClient( $url );
+	}
 
-	if ( ( '200' === $http_code ) || ( '302' === $http_code ) ) {
-		curl_close( $ch );
+	catch ( Exception $e ) {
+		$exception_message = $e->getMessage();
+	}
+	if ( ! $exception_message ) {
 		return true;
 	} else {
-		// return $http_code;, possible too.
-		curl_close( $ch );
 		return false;
 	}
 }
@@ -661,7 +655,7 @@ function seur_get_custom_rates( $output_type = 'OBJECT', $type = 'price' ) {
 	global $wpdb;
 
 	$table    = $wpdb->prefix . SEUR_TBL_SCR;
-	$getrates = $wpdb->get_results( $wpdb->prepare( 'SELECT * FROM %d WHERE type = %d ORDER BY ID ASC', $table, $type ), $output_type );
+	$getrates = $wpdb->get_results( "SELECT * FROM $table WHERE type = '$type' ORDER BY ID ASC", $output_type ); // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 	return $getrates;
 }
 
@@ -1382,7 +1376,7 @@ function seur_get_all_shipping_products() {
 
 	$tabla     = $wpdb->prefix . SEUR_PLUGIN_SVPR;
 	$sql       = "SELECT * FROM $tabla";
-	$registros = $wpdb->get_results( $wpdb->prepare( 'SELECT * FROM %d', $sql ) );
+	$registros = $wpdb->get_results( "SELECT * FROM $tabla" );
 
 	return $registros;
 }
@@ -1638,6 +1632,10 @@ function seur_get_label( $order_id, $numpackages = '1', $weight = '1', $post_wei
 	$mobile_billing           = get_post_meta( $order_id, '_billing_mobile_phone', true );
 	$log                      = new WC_Logger();
 
+	$log->add( 'seur', '$seur_shipping_method_tmp: ' . $seur_shipping_method_tmp );
+	$log->add( 'seur', '$seur_shipping_method: ' . $seur_shipping_method );
+	$log->add( 'seur', '$seur_shipping_method_id: ' . $seur_shipping_method_id );
+	
 	$log->add( 'seur', '$order_id: ' . $order_id );
 	$log->add( 'seur', '$numpackages: ' . $numpackages );
 	$log->add( 'seur', '$weight: ' . $weight );
