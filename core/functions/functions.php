@@ -49,9 +49,7 @@ function seur_check_url_exists( $url ) {
 
 	try {
 		$soap_client = new SoapClient( $url );
-	}
-
-	catch ( Exception $e ) {
+	} catch ( Exception $e ) {
 		$exception_message = $e->getMessage();
 	}
 	if ( ! $exception_message ) {
@@ -1374,9 +1372,7 @@ function seur_get_order_data( $post_id ) {
 function seur_get_all_shipping_products() {
 	global $wpdb;
 
-	$tabla     = $wpdb->prefix . SEUR_PLUGIN_SVPR;
-	$sql       = "SELECT * FROM $tabla";
-	$registros = $wpdb->get_results( "SELECT * FROM $tabla" );
+	$registros = $wpdb->get_results( "SELECT * FROM {$wpdb->prefix}seur_svpr" );
 
 	return $registros;
 }
@@ -1592,7 +1588,7 @@ function seur_from_terminca_to_pdf( $trama ) {
 	curl_setopt( $curl, CURLOPT_HTTPHEADER, array( 'Accept: application/pdf' ) );
 	$trama_pdf = curl_exec( $curl );
 
-	$log->add( 'seur', 'This is the result ' . $trama_pdf, 'seur' );
+	// $log->add( 'seur', 'This is the result ' . $trama_pdf, 'seur' );
 
 	return $trama_pdf;
 }
@@ -1635,7 +1631,7 @@ function seur_get_label( $order_id, $numpackages = '1', $weight = '1', $post_wei
 	$log->add( 'seur', '$seur_shipping_method_tmp: ' . $seur_shipping_method_tmp );
 	$log->add( 'seur', '$seur_shipping_method: ' . $seur_shipping_method );
 	$log->add( 'seur', '$seur_shipping_method_id: ' . $seur_shipping_method_id );
-	
+
 	$log->add( 'seur', '$order_id: ' . $order_id );
 	$log->add( 'seur', '$numpackages: ' . $numpackages );
 	$log->add( 'seur', '$weight: ' . $weight );
@@ -1683,12 +1679,12 @@ function seur_get_label( $order_id, $numpackages = '1', $weight = '1', $post_wei
 	if ( $pais ) {
 		if ( 'España' === $pais ) {
 			$paisgl = 'ES';
-		}
-		if ( 'Portugal' === $pais ) {
+		} elseif ( 'Portugal' === $pais ) {
 			$paisgl = 'PT';
-		}
-		if ( 'Andorra' === $pais ) {
-			$$paisgl = 'AD';
+		} elseif ( 'Andorra' === $pais ) {
+			$paisgl = 'AD';
+		} else {
+			$paisgl = $pais;
 		}
 	}
 

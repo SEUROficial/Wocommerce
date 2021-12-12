@@ -430,8 +430,7 @@ function seur_after_seur_2shop_shipping_rate( $method, $index ) {
 						}
 					};
 					var SeurPickupsLocs = [" .
-					esc_js( $print_js )
-					. "
+					wp_kses( $print_js, 'data' ) . "
 				];
 				var maplace = new Maplace();
 				maplace.AddControl('seurdropdown', html_seurdropdown);
