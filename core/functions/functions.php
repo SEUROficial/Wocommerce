@@ -1579,18 +1579,18 @@ function seur_from_terminca_to_pdf( $trama ) {
 
 	$log = new WC_Logger();
 	$log->add( 'seur', __( 'Asking to convert from termica to PDF using Labelary API', 'seur' ) );
-
-	$curl = curl_init();
-	curl_setopt( $curl, CURLOPT_URL, 'http://api.labelary.com/v1/printers/8dpmm/labels/4x6/0/' );
-	curl_setopt( $curl, CURLOPT_POST, true );
-	curl_setopt( $curl, CURLOPT_POSTFIELDS, $trama );
-	curl_setopt( $curl, CURLOPT_RETURNTRANSFER, true );
-	curl_setopt( $curl, CURLOPT_HTTPHEADER, array( 'Accept: application/pdf' ) );
-	$trama_pdf = curl_exec( $curl );
-
-	// $log->add( 'seur', 'This is the result ' . $trama_pdf, 'seur' );
-
-	return $trama_pdf;
+	$trama_pdf = wp_remote_post(
+		'http://api.labelary.com/v1/printers/8dpmm/labels/4x6/0/',
+		array(
+			'method'      => 'POST',
+			'headers'     => array( 'Accept' => 'application/pdf' ),
+			'httpversion' => '1.0',
+			'sslverify'   => false,
+			'body'        => $trama,
+		)
+	);
+	$body      = wp_remote_retrieve_body( $trama_pdf );
+	return $body;
 }
 
 /**
@@ -2256,6 +2256,7 @@ function seur_get_label( $order_id, $numpackages = '1', $weight = '1', $post_wei
 
 			if ( 'OK' === $respuesta->out->mensaje ) {
 				$txtlabel = $respuesta->out->traza;
+				$log->add( 'seur', '$txtlabel: ' . $txtlabel );
 				if ( 'PDF' !== $tipo_etiqueta ) {
 					// Se utiliza Geolabel, es envío nacional, y es termica.
 					$seur_txt_label  = 'label_order_id_' . $order_id . '_' . $date . '.txt';

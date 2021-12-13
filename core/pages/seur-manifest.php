@@ -73,20 +73,8 @@ function seur_donwload_data( $post ) {
 				$respuesta  = $soap_client->generacionPDFDetalleNoFechaSepCCC( $parametros );
 			}
 
-			// Respuesta del servicio.
-			$error = strpos( $respuesta->out, 'USUARIO' );
-			if ( 0 !== $error ) {
-				echo esc_html( $respuesta->out );
-				echo '</div>';
-				return;
-			}
-
-			$nohaydatos = strpos( $respuesta->out, 'RECUPERAR' );
-			if ( 0 !== $nohaydatos ) {
-				echo esc_html( $respuesta->out );
-				echo '</div>';
-				return;
-			}
+			$log = new WC_Logger();
+			$log->add( 'seur', '$respuesta:' . print_r( $respuesta, true ) ); // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_print_r
 
 			$pdf       = base64_decode( $respuesta->out ); // phpcs:ignore WordPress.PHP.DiscouragedPHPFunctions.obfuscation_base64_decode
 			$file_name = 'manifiesto_' . date( 'd-m-Y' ) . '.pdf'; // phpcs:ignore WordPress.DateTime.RestrictedFunctions.date_date
@@ -94,9 +82,9 @@ function seur_donwload_data( $post ) {
 			file_put_contents( $path, $pdf ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_read_file_put_contents
 
 			$download_file = SEUR_UPLOADS_MANIFEST_URL . '/' . $file_name;
-			echo '<a href="' . esc_url( $download_file ) . '" target="_blank" class="button">' . esc_html__( ' Open Manifest ', 'seur' ) . '</a><br />';
-			echo '$date: ' . esc_html( $date ) . '<br />';
-			echo '$fecha: ' . esc_html( $fecha ) . '<br />';
+			echo '<a href="' . esc_url( $download_file ) . '" target="_blank" class="button" download>' . esc_html__( ' Open Manifest ', 'seur' ) . '</a><br />';
+			// echo '$date: ' . esc_html( $date ) . '<br />';
+			// echo '$fecha: ' . esc_html( $fecha ) . '<br />';
 		} else {
 			?>
 		<div class="wp-filter">

@@ -91,8 +91,8 @@ $texto = __( 'RATES', 'seur' ) . '<br />' . __( 'Calculate rate that SEUR apply 
 	?>
 	<div class="wp-filter">
 		<label>
-			<span class="screen-reader-text"><?php _e( 'Postalcode', 'seur' ); ?></span>
-			<input type='text' name='postal' class="calculate-rates" placeholder="<?php _e( 'Postalcode', 'seur' ); ?>" value='<?php if ( ! empty( $postal ) ) { echo esc_html( $postal ); } ?>'>
+			<span class="screen-reader-text"><?php esc_html_e( 'Postalcode', 'seur' ); ?></span>
+			<input type='text' name='postal' class="calculate-rates" placeholder="<?php esc_html_e( 'Postalcode', 'seur' ); ?>" value='<?php if ( ! empty( $postal ) ) { echo esc_html( $postal ); } ?>'>
 		</label>
 		<label>
 			<span class="screen-reader-text"><?php esc_html_e( 'City', 'seur' ); ?></span>
@@ -301,18 +301,18 @@ $texto = __( 'RATES', 'seur' ) . '<br />' . __( 'Calculate rate that SEUR apply 
 		if ( strlen( $mensaje ) < 1 ) {
 			$mensaje .= '<br>Servicio Producto sin IDENTIFICAR';
 		}
-		$consulta   = '<REG><USUARIO>' . $usuarioseurcom . '</USUARIO>' .
-			'<PASSWORD>' . $contrasenaseurcom . '</PASSWORD>' .
-			'<NOM_POBLA_DEST>' . $poblacion . '</NOM_POBLA_DEST>' .
-			'<Peso>' . $kilos . '</Peso>' .
-			'<CODIGO_POSTAL_DEST>' . $postal . '</CODIGO_POSTAL_DEST>' .
-			'<CodContableRemitente>' . $ccc . '-' . $franquicia . '</CodContableRemitente>' .
+		$consulta   = '<REG><USUARIO>' . esc_html( $usuarioseurcom ) . '</USUARIO>' .
+			'<PASSWORD>' . esc_html( $contrasenaseurcom ) . '</PASSWORD>' .
+			'<NOM_POBLA_DEST>' . esc_html( $poblacion ) . '</NOM_POBLA_DEST>' .
+			'<Peso>' . esc_html( $kilos ) . '</Peso>' .
+			'<CODIGO_POSTAL_DEST>' . esc_html( $postal ) . '</CODIGO_POSTAL_DEST>' .
+			'<CodContableRemitente>' . esc_html( $ccc ) . '-' . esc_html( $franquicia ) . '</CodContableRemitente>' .
 			'<PesoVolumen>0</PesoVolumen>' .
-			'<Bultos>' . $bultos . '</Bultos>' .
-			'<CodServ>' . $servicio . '</CodServ>' .
-			'<CodProd>' . $producto . '</CodProd>' .
+			'<Bultos>' . esc_html( $bultos ) . '</Bultos>' .
+			'<CodServ>' . esc_html( $servicio ) . '</CodServ>' .
+			'<CodProd>' . esc_html( $producto ) . '</CodProd>' .
 			'<COD_IDIOMA>ES</COD_IDIOMA>' .
-			'<CodPaisIso>' . $pais . '</CodPaisIso>' .
+			'<CodPaisIso>' . esc_html( $pais ) . '</CodPaisIso>' .
 			'</REG>';
 		$sc_options = array(
 			'connection_timeout' => 30,
@@ -337,19 +337,19 @@ $texto = __( 'RATES', 'seur' ) . '<br />' . __( 'Calculate rate that SEUR apply 
 
 			/*
 				Para debug
-				echo '$usuarioseurcom: '    . $usuarioseurcom . '<br />';
-				echo '$contrasenaseurcom: ' . $contrasenaseurcom . '<br />';
-				echo '$poblacion: '         . $poblacion . '<br />';
-				echo '$kilos: '             . $kilos . '<br />';
-				echo '$postal: '            . $postal . '<br />';
-				echo '$ccc: '               . $ccc . '<br />';
-				echo '$franquicia: '        . $franquicia . '<br />';
+				echo '$usuarioseurcom: '    . esc_html( $usuarioseurcom ) . '<br />';
+				echo '$contrasenaseurcom: ' . esc_html( $contrasenaseurcom ) . '<br />';
+				echo '$poblacion: '         . esc_html( $poblacion ) . '<br />';
+				echo '$kilos: '             . esc_html( $kilos ) . '<br />';
+				echo '$postal: '            . esc_html( $postal ) . '<br />';
+				echo '$ccc: '               . esc_html( $ccc ) . '<br />';
+				echo '$franquicia: '        . esc_html( $franquicia ) . '<br />';
 				echo 'PesoVolumen: 0<br />';
-				echo '$bultos: '            . $bultos . '<br />';
-				echo '$servicio: '          . $servicio . '<br />';
-				echo '$producto: '          . $producto . '<br />';
+				echo '$bultos: '            . esc_html( $bultos ) . '<br />';
+				echo '$servicio: '          . esc_html( $servicio ) . '<br />';
+				echo '$producto: '          . esc_html( $producto ) . '<br />';
 				echo 'COD_IDIOMA: ES<br />';
-				echo '$pais: '              . $pais . '<br />';
+				echo '$pais: '              . esc_html( $pais ) . '<br />';
 			*/
 
 			?>

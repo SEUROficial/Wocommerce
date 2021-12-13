@@ -6,7 +6,7 @@
  * Version: 1.7.0
  * Author: José Conti
  * Author URI: https://www.joseconti.com/
- * Tested up to: 5.9
+ * Tested up to: 5.8
  * WC requires at least: 3.0
  * WC tested up to: 5.9
  * Text Domain: seur
@@ -42,7 +42,6 @@ register_activation_hook( __FILE__, 'seur_create_tables_hook' );
 register_activation_hook( __FILE__, 'seur_add_data_to_tables_hook' );
 register_activation_hook( __FILE__, 'seur_create_upload_folder_hook' );
 register_activation_hook( __FILE__, 'seur_add_avanced_settings_preset' );
-register_activation_hook( __FILE__, 'seur_create_download_files' );
 
 /**
  * SEUR Localization.
