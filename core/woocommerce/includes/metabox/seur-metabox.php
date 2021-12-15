@@ -58,7 +58,7 @@ function seur_metabox_callback( $post ) {
 		?>
 		<img src="<?php echo esc_url( SEUR_PLUGIN_URL ); ?>assets/img/icon-96x37.png" alt="SEUR Image" width="96" height="37" />
 		<?php
-		echo '<a href="' . $url_upload_dir . '/' . $label_file_name . '" class="button" download>' . esc_html__( ' See SEUR Label ', 'seur' ) . '</a>';
+		echo '<a href="' . esc_url( $url_upload_dir ) . '/' . esc_html( $label_file_name ) . '" class="button" download>' . esc_html__( ' See SEUR Label ', 'seur' ) . '</a>';
 
 	}
 	?>
