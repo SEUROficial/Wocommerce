@@ -50,7 +50,7 @@ function seur_add_form() {
 						<?php
 							$tabla = $wpdb->prefix . SEUR_PLUGIN_SVPR;
 							$sql   = "SELECT * FROM $tabla";
-							$regs  = $wpdb->get_results( "SELECT * FROM {$wpdb->prefix}SEUR_PLUGIN_SVPR" );
+							$regs  = $wpdb->get_results( "SELECT * FROM {$wpdb->prefix}seur_svpr" );
 						foreach ( $regs as $valor ) {
 							echo '<option value="' . esc_html( $valor->descripcion ) . '">' . esc_html( $valor->descripcion ) . '</option>';
 						}
@@ -59,7 +59,7 @@ function seur_add_form() {
 				</td>
 			</tr>
 			<tr>
-				<td><?php esc_html__e( 'Country', 'seur' ); ?></td>
+				<td><?php esc_html_e( 'Country', 'seur' ); ?></td>
 				<td id="countryid">
 					<select class="select country" id="country" title="<?php esc_html_e( 'Select Country', 'seur' ); ?>" name="country">
 						<?php
