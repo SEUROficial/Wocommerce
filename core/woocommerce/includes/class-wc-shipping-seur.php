@@ -320,7 +320,7 @@ class WC_Shipping_SEUR extends WC_Shipping_Method {
 			return;
 		}
 
-		if ( 'withouttax' === get_option( 'seur_rates_tax_field' ) || get_option( 'seur_rates_tax_field' ) ) {
+		if ( 'withouttax' === get_option( 'seur_rates_tax_field' ) || ! get_option( 'seur_rates_tax_field' ) ) {
 			$price = $package['contents_cost'];
 		} else {
 			$price = $package['cart_subtotal'];

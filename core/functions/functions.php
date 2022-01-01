@@ -753,11 +753,19 @@ function seur_search_allowed_rates_by_country( $allowedcountry ) {
  */
 function seur_seach_allowed_states_filtered_by_countries( $allowedstate, $filtered_rates_by_country ) {
 
+	$log = new WC_Logger();
+	$log->add( 'seur', 'seur_seach_allowed_states_filtered_by_countries()' );
+	$log->add( 'seur', '$allowedstate:' . $allowedstate );
+	$log->add( 'seur', '$filtered_rates_by_country:' . print_r( $filtered_rates_by_country, true ) ); // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_print_r
+
 	$filtered_rates_by_state = array();
 
 	foreach ( $filtered_rates_by_country as $allowedrate ) {
 		$state  = $allowedrate['state'];
 		$rateid = $allowedrate['ID'];
+
+		$log->add( 'seur', '$state:' . $state );
+		$log->add( 'seur', '$rateid:' . $rateid );
 
 		if ( $allowedstate === $state ) {
 			$columns = array(
@@ -841,11 +849,18 @@ function seur_seach_allowed_states_filtered_by_countries( $allowedstate, $filter
  */
 function seur_seach_allowed_postcodes_filtered_by_states( $allowedpostcode, $filtered_rates_by_state ) {
 
+	$log = new WC_Logger();
+	$log->add( 'seur', 'seur_seach_allowed_postcodes_filtered_by_states()' );
+	$log->add( 'seur', '$allowedpostcode:' . $allowedpostcode );
+	$log->add( 'seur', '$filtered_rates_by_state:' . print_r( $filtered_rates_by_state, true ) ); // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_print_r
+
 	$filtered_rates_by_postcode = array();
 	foreach ( $filtered_rates_by_state as $allowedrate ) {
 		$postcode = $allowedrate['postcode'];
 		$rateid   = $allowedrate['ID'];
 
+		$log->add( 'seur', '$postcode: ' . $postcode );
+		$log->add( 'seur', '$rateid:' . $rateid );
 		if ( $allowedpostcode === $postcode ) {
 			$columns                      = array(
 				'ID',
@@ -923,12 +938,23 @@ function seur_seach_allowed_postcodes_filtered_by_states( $allowedpostcode, $fil
  * @param array  $filtered_rates_by_postcode Postcodes.
  */
 function seur_seach_allowed_prices_filtered_by_postcode( $allowedprice, $filtered_rates_by_postcode ) {
+
+	$log = new WC_Logger();
+	$log->add( 'seur', 'seur_seach_allowed_prices_filtered_by_postcode()' );
+	$log->add( 'seur', '$allowedprice:' . $allowedprice );
+	$log->add( 'seur', '$filtered_rates_by_postcode:' . print_r( $filtered_rates_by_postcode, true ) ); // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_print_r
+
 	$filtered_rates_by_price = array();
 
 	foreach ( $filtered_rates_by_postcode as $allowedrate ) {
 		$minprice = $allowedrate['minprice'];
 		$maxprice = $allowedrate['maxprice'];
 		$rateid   = $allowedrate['ID'];
+
+		$log->add( 'seur', '$minprice: ' . $minprice );
+		$log->add( 'seur', '$maxprice: ' . $maxprice );
+		$log->add( 'seur', '$rateid: ' . $rateid );
+
 		if ( ( $minprice <= $allowedprice ) && ( $maxprice > $allowedprice ) ) {
 			$columns                   = array(
 				'ID',
@@ -989,6 +1015,10 @@ function seur_show_availables_rates( $country = null, $state = null, $postcode =
 	if ( ! $price ) {
 		$price = '0';
 	}
+	$log->add( 'seur', '$country:' . $country );
+	$log->add( 'seur', '$state:' . $state );
+	$log->add( 'seur', '$postcode:' . $postcode );
+	$log->add( 'seur', '$price:' . $price );
 
 	$filtered_rates_by_country  = array();
 	$filtered_rates_by_state    = array();
