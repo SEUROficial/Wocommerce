@@ -42,6 +42,30 @@ function seur_rates_type_field() {
 }
 
 /**
+ * SEUR Apply TAX
+ */
+function seur_rates_tax_field() {
+	$option = get_option( 'seur_rates_tax_field' );
+	?>
+
+	<select id="seur_tax_type" name="seur_rates_tax_field">
+		<option value="withtax"  
+		<?php
+		if ( 'withtax' === $option ) {
+			echo ' selected';}
+		?>
+		><?php esc_html_e( 'Check with Tax', 'seur' ); ?></option>
+		<option value="withouttax"  
+		<?php
+		if ( 'withouttax' === $option ) {
+			echo ' selected';}
+		?>
+		><?php esc_html_e( 'Check without Tax', 'seur' ); ?></option>
+	</select>
+	<?php
+}
+
+/**
  * SEUR empresa
  */
 function seur_empresa_field() {
@@ -298,6 +322,7 @@ function display_seur_user_sittings_panel_fields() {
 
 	add_settings_section( 'seur-user-settings-section', null, null, 'seur-user-settings-options' );
 	add_settings_field( 'seur_nif_field', __( 'Tax ID Number', 'seur' ), 'seur_nif_field', 'seur-user-settings-options', 'seur-user-settings-section' );
+	add_settings_field( 'seur_rates_tax_field', __( 'Check price with tax', 'seur' ), 'seur_rates_tax_field', 'seur-user-settings-options', 'seur-user-settings-section' );
 	add_settings_field( 'seur_rates_type_field', __( 'How to apply rates?', 'seur' ), 'seur_rates_type_field', 'seur-user-settings-options', 'seur-user-settings-section' );
 	add_settings_field( 'seur_empresa_field', __( 'Company', 'seur' ), 'seur_empresa_field', 'seur-user-settings-options', 'seur-user-settings-section' );
 	add_settings_field( 'seur_viatipo_field', __( 'Type of road', 'seur' ), 'seur_viatipo_field', 'seur-user-settings-options', 'seur-user-settings-section' );
@@ -325,6 +350,7 @@ function display_seur_user_sittings_panel_fields() {
 
 	// register all setings.
 	register_setting( 'seur-user-settings-section', 'seur_nif_field' );
+	register_setting( 'seur-user-settings-section', 'seur_rates_tax_field' );
 	register_setting( 'seur-user-settings-section', 'seur_rates_type_field' );
 	register_setting( 'seur-user-settings-section', 'seur_empresa_field' );
 	register_setting( 'seur-user-settings-section', 'seur_viatipo_field' );
