@@ -104,7 +104,7 @@ function seur_add_notice_new_version() {
 				<p> 
 					<?php
 					// translators: Link to SEUR website with new features.
-					printf( esc_html__( 'Discover the improvements that have been made in this version, and how to take advantage of them <a href="%s" target="_blank">here</a>', 'woocommerce-seur' ), esc_url( SEUR_POST_UPDATE_URL ) );
+					printf( wp_kses( __( 'Discover the improvements that have been made in this version, and how to take advantage of them <a href="%s" target="_blank">here</a>', 'woocommerce-seur' ), esc_url( SEUR_POST_UPDATE_URL ) ), 'data' );
 					?>
 				</p>
 			</div>
