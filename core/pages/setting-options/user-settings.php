@@ -49,18 +49,18 @@ function seur_rates_tax_field() {
 	?>
 
 	<select id="seur_tax_type" name="seur_rates_tax_field">
-		<option value="withtax"  
-		<?php
-		if ( 'withtax' === $option ) {
-			echo ' selected';}
-		?>
-		><?php esc_html_e( 'Check with Tax', 'seur' ); ?></option>
 		<option value="withouttax"  
 		<?php
 		if ( 'withouttax' === $option ) {
 			echo ' selected';}
 		?>
 		><?php esc_html_e( 'Check without Tax', 'seur' ); ?></option>
+		<option value="withtax"  
+		<?php
+		if ( 'withtax' === $option ) {
+			echo ' selected';}
+		?>
+		><?php esc_html_e( 'Check with Tax', 'seur' ); ?></option>
 	</select>
 	<?php
 }
