@@ -320,13 +320,19 @@ class WC_Shipping_SEUR extends WC_Shipping_Method {
 			return;
 		}
 
-		if ( 'price' === $rates_type ) {
+		if ( 'withouttax' === get_option( 'seur_rates_tax_field' ) || get_option( 'seur_rates_tax_field' ) ) {
 			$price = $package['contents_cost'];
+		} else {
+			$price = $package['cart_subtotal'];
+		}
+
+		if ( 'price' === $rates_type ) {
+			$price = $price;
 		} else {
 			$weight        = 0;
 			$cost          = 0;
 			$country       = $package['destination']['country'];
-			$package_price = $package['cart_subtotal'];
+			$package_price = $price;
 
 			foreach ( $package['contents'] as $item_id => $values ) {
 				$_product = $values['data'];
