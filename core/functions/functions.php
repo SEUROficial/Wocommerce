@@ -115,29 +115,29 @@ function seur_get_real_rate_name( $rate_name ) {
 	$seur_courier_int_aereo_documentos_custom_name = get_option( 'seur_courier_int_aereo_documentos_custom_name_field' );
 	$seur_netexpress_int_terrestre_custom_name     = get_option( 'seur_netexpress_int_terrestre_custom_name_field' );
 
-	if ( ! empty( $seur_bc2_custom_name_field ) && $rate_name == $seur_bc2_custom_name_field ) {
+	if ( ! empty( $seur_bc2_custom_name_field ) && $rate_name === $seur_bc2_custom_name_field ) {
 		$real_name = 'B2C Estándar';
-	} elseif ( ! empty( $seur_10e_custom_name_field ) && $rate_name == $seur_10e_custom_name_field ) {
+	} elseif ( ! empty( $seur_10e_custom_name_field ) && $rate_name === $seur_10e_custom_name_field ) {
 		$real_name = 'SEUR 10 Estándar';
-	} elseif ( ! empty( $seur_10ef_custom_name_field ) && $rate_name == $seur_10ef_custom_name_field ) {
+	} elseif ( ! empty( $seur_10ef_custom_name_field ) && $rate_name === $seur_10ef_custom_name_field ) {
 		$real_name = 'SEUR 10 Frío';
-	} elseif ( ! empty( $seur_13e_custom_name_field ) && $rate_name == $seur_13e_custom_name_field ) {
+	} elseif ( ! empty( $seur_13e_custom_name_field ) && $rate_name === $seur_13e_custom_name_field ) {
 		$real_name = 'SEUR 13:30 Estándar';
-	} elseif ( ! empty( $seur_13f_custom_name_field ) && $rate_name == $seur_13f_custom_name_field ) {
+	} elseif ( ! empty( $seur_13f_custom_name_field ) && $rate_name === $seur_13f_custom_name_field ) {
 		$real_name = 'SEUR 13:30 Frío';
-	} elseif ( ! empty( $seur_48h_custom_name_field ) && $rate_name == $seur_48h_custom_name_field ) {
+	} elseif ( ! empty( $seur_48h_custom_name_field ) && $rate_name === $seur_48h_custom_name_field ) {
 		$real_name = 'SEUR 48H Estándar';
-	} elseif ( ! empty( $seur_72h_custom_name_field ) && $rate_name == $seur_72h_custom_name_field ) {
+	} elseif ( ! empty( $seur_72h_custom_name_field ) && $rate_name === $seur_72h_custom_name_field ) {
 		$real_name = 'SEUR 72H Estándar';
-	} elseif ( ! empty( $seur_cit_custom_name_field ) && $rate_name == $seur_cit_custom_name_field ) {
+	} elseif ( ! empty( $seur_cit_custom_name_field ) && $rate_name === $seur_cit_custom_name_field ) {
 		$real_name = 'Classic Internacional Terrestre';
-	} elseif ( ! empty( $seur_2shop_custom_name_field ) && $rate_name == $seur_2shop_custom_name_field ) {
+	} elseif ( ! empty( $seur_2shop_custom_name_field ) && $rate_name === $seur_2shop_custom_name_field ) {
 		$real_name = 'SEUR 2SHOP';
-	} elseif ( ! empty( $seur_courier_int_aereo_paqueteria_custom_name ) && $rate_name == $seur_courier_int_aereo_paqueteria_custom_name ) {
+	} elseif ( ! empty( $seur_courier_int_aereo_paqueteria_custom_name ) && $rate_name === $seur_courier_int_aereo_paqueteria_custom_name ) {
 		$real_name = 'COURIER INT AEREO PAQUETERIA';
-	} elseif ( ! empty( $seur_courier_int_aereo_documentos_custom_name ) && $rate_name == $seur_courier_int_aereo_documentos_custom_name ) {
+	} elseif ( ! empty( $seur_courier_int_aereo_documentos_custom_name ) && $rate_name === $seur_courier_int_aereo_documentos_custom_name ) {
 		$real_name = 'COURIER INT AEREO DOCUMENTOS';
-	} elseif ( ! empty( $seur_netexpress_int_terrestre_custom_name ) && $rate_name == $seur_netexpress_int_terrestre_custom_name ) {
+	} elseif ( ! empty( $seur_netexpress_int_terrestre_custom_name ) && $rate_name === $seur_netexpress_int_terrestre_custom_name ) {
 		$real_name = 'NETEXPRESS INT TERRESTRE';
 	} else {
 		$real_name = $rate_name;
@@ -336,7 +336,7 @@ add_action( 'admin_print_scripts-post.php', 'seur_labels_view_pdf_js', 11 );
 function seur_styles_css( $hook ) {
 	global $seuraddform, $seurrates, $seurcreaterate, $seurdeleterate, $seurupdatecustomrate, $seureditcustomrate, $seur_status;
 
-	if ( $seuraddform != $hook && $seurrates != $hook && $seurcreaterate != $hook && $seurdeleterate != $hook && $seurupdatecustomrate != $hook && $seureditcustomrate != $hook && $seur_status != $hook ) {
+	if ( $seuraddform !== $hook && $seurrates !== $hook && $seurcreaterate !== $hook && $seurdeleterate !== $hook && $seurupdatecustomrate !== $hook && $seureditcustomrate !== $hook && $seur_status !== $hook ) {
 		return;
 	} else {
 		wp_register_style( 'seurCSS', SEUR_PLUGIN_URL . 'assets/css/seur-addform-rates.css', array(), SEUR_OFFICIAL_VERSION );
@@ -420,7 +420,7 @@ add_action( 'admin_enqueue_scripts', 'seur_css_cpt_label_view' );
 function seur_settings_styles_css( $hook ) {
 	global $seurconfig, $seuraddform, $seurrates;
 
-	if ( $seurconfig != $hook && $seuraddform != $hook && $seurrates != $hook ) {
+	if ( $seurconfig !== $hook && $seuraddform !== $hook && $seurrates !== $hook ) {
 		return;
 	} else {
 		wp_register_style( 'seurSettingsCSS', SEUR_PLUGIN_URL . 'assets/css/seur-setting.css', array(), SEUR_OFFICIAL_VERSION );
@@ -437,7 +437,7 @@ add_action( 'admin_enqueue_scripts', 'seur_settings_styles_css' );
 function seur_auto_state_country_styles_css( $hook ) {
 	global $seuraddform, $seureditcustomrate;
 
-	if ( $seuraddform != $hook && $seureditcustomrate != $hook ) {
+	if ( $seuraddform !== $hook && $seureditcustomrate !== $hook ) {
 		return;
 	} else {
 		wp_register_style( 'seurAutoStateCountryCSS', SEUR_PLUGIN_URL . 'assets/css/seur-auto-state-country.css', array(), SEUR_OFFICIAL_VERSION );
@@ -454,7 +454,7 @@ add_action( 'admin_enqueue_scripts', 'seur_auto_state_country_styles_css' );
 function seur_get_labels_page_styles_css( $hook ) {
 	global $seur_get_labels;
 
-	if ( $seur_get_labels != $hook ) {
+	if ( $seur_get_labels !== $hook ) {
 		return;
 	} else {
 		wp_register_style( 'seurGetLabelsCSS', SEUR_PLUGIN_URL . 'assets/css/get-labels.css', array(), SEUR_OFFICIAL_VERSION );
@@ -471,7 +471,7 @@ add_action( 'admin_enqueue_scripts', 'seur_get_labels_page_styles_css' );
 function seur_nomenclator_styles_css( $hook ) {
 	global $seurnomenclator, $seurmanifest;
 
-	if ( $seurnomenclator != $hook && $seurmanifest != $hook ) {
+	if ( $seurnomenclator !== $hook && $seurmanifest !== $hook ) {
 		return;
 	} else {
 		wp_register_style( 'seurNomenclatorCSS', SEUR_PLUGIN_URL . 'assets/css/seur-nomenclator.css', array(), SEUR_OFFICIAL_VERSION );
@@ -488,7 +488,7 @@ add_action( 'admin_enqueue_scripts', 'seur_nomenclator_styles_css' );
 function seur_about_styles_css( $hook ) {
 	global $seurabout;
 
-	if ( $seurabout != $hook ) {
+	if ( $seurabout !== $hook ) {
 		return;
 	} else {
 		wp_register_style( 'seurAboutCSS', SEUR_PLUGIN_URL . 'assets/css/seur-about.css', array(), SEUR_OFFICIAL_VERSION );
@@ -504,18 +504,23 @@ add_filter( 'custom_menu_order', '__return_true' );
  */
 function seur_remove_menu_items() {
 	global $submenu;
-
-	if ( isset( $submenu['seur'] ) ) {
-		// Remove 'Seur' submenu items
-		// unset( $submenu['seur'][0]  ); // SEUR submenu (same as SEUR settings).
-		unset( $submenu['seur'][6] ); // Add Form.
-		unset( $submenu['seur'][7] ); // Create Rate.
-		unset( $submenu['seur'][8] ); // Delete Rate.
-		unset( $submenu['seur'][9] ); // Update Rate.
-		unset( $submenu['seur'][10] ); // Edit Rate.
-		unset( $submenu['seur'][11] ); // Process Country State.
-		unset( $submenu['seur'][12] ); // Get Label.
-		unset( $submenu['seur'][15] ); // Get labels from order.
+	if ( current_user_can( 'manage_options' ) ) {
+		if ( isset( $submenu['seur'] ) ) {
+			// Remove 'Seur' submenu items.
+			// unset( $submenu['seur'][0]  ); // SEUR submenu (same as SEUR settings).
+			unset( $submenu['seur'][6] ); // Add Form.
+			unset( $submenu['seur'][7] ); // Create Rate.
+			unset( $submenu['seur'][8] ); // Delete Rate.
+			unset( $submenu['seur'][9] ); // Update Rate.
+			unset( $submenu['seur'][10] ); // Edit Rate.
+			unset( $submenu['seur'][11] ); // Process Country State.
+			unset( $submenu['seur'][12] ); // Get Label.
+			unset( $submenu['seur'][15] ); // Get labels from order.
+		}
+	} else {
+		// remove menus is is shop_manager.
+		unset( $submenu['seur'][1] ); // Gel Label.
+		unset( $submenu['seur'][4] ); // Get labels from order.
 	}
 }
 add_action( 'admin_head', 'seur_remove_menu_items' );
@@ -1830,7 +1835,7 @@ function seur_get_label( $order_id, $numpackages = '1', $weight = '1', $post_wei
 		$shop2localcode = '';
 	}
 
-	if ( 'cod' == $order_pay_method ) {
+	if ( 'cod' === $order_pay_method ) {
 		$seur_reembolso = '<claveReembolso>f</claveReembolso><valorReembolso>' . $customer_order_total . '</valorReembolso>';
 	} else {
 		$seur_reembolso = '';

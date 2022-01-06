@@ -84,7 +84,7 @@ function seur_donwload_data( $post ) {
 			$download_file = SEUR_UPLOADS_MANIFEST_URL . '/' . $file_name;
 			echo '<a href="' . esc_url( $download_file ) . '" target="_blank" class="button" download>' . esc_html__( ' Open Manifest ', 'seur' ) . '</a><br />';
 			// echo '$date: ' . esc_html( $date ) . '<br />';
-			// echo '$fecha: ' . esc_html( $fecha ) . '<br />';
+			// echo '$fecha: ' . esc_html( $fecha ) . '<br />';.
 		} else {
 			?>
 		<div class="wp-filter">
