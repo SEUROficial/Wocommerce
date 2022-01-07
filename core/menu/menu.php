@@ -67,7 +67,7 @@ function seur_menu() {
 		$seurupdatecustomrate    = add_submenu_page( $menu_slug, __( 'Update Rate', 'seur' ), __( 'Update Rate', 'seur' ), $capability, 'seur_update_custom_rate', 'seur_update_custom_rate' );
 		$seureditcustomrate      = add_submenu_page( $menu_slug, __( 'Edit Rate', 'seur' ), __( 'Edit Rate', 'seur' ), $capability, 'seur_edit_rate', 'seur_edit_rate' );
 		$seurcountrystateprocess = add_submenu_page( $menu_slug, __( 'Process Country State', 'seur' ), __( 'Process Country State', 'seur' ), $capability, 'seur_country_state_process', 'seur_country_state_process' );
-		if ( defined( 'SEUR_WOOCOMMERCE_PART' ) && current_user_can( 'manage_plugins' ) ) {
+		if ( defined( 'SEUR_WOOCOMMERCE_PART' ) && current_user_can( 'edit_shop_orders' ) ) {
 			$seuraddlabelwoocommerce = add_submenu_page( $menu_slug, __( 'Get Label', 'seur' ), __( 'Get Label', 'seur' ), 'edit_shop_orders', 'seur_process_label_woocommerce', 'seur_process_label_woocommerce' );
 		}
 		$seurlabelslist  = add_submenu_page( $menu_slug, __( 'Shipments', 'seur' ), __( 'Shipments', 'seur' ), 'edit_shop_orders', 'edit.php?post_type=seur_labels' );

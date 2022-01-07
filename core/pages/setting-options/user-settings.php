@@ -62,6 +62,8 @@ function seur_rates_tax_field() {
 		?>
 		><?php esc_html_e( 'Check with Tax', 'seur' ); ?></option>
 	</select>
+	<br />
+	<p class="description"><?php esc_html_e( 'Select how SEUR has to check the final price for apply rate, price after tax or before tax', 'seur' ); ?></p>
 	<?php
 }
 

@@ -94,6 +94,12 @@ The "SEUR > Shipments" menu includes the option to track your shipment and see t
 
 == Changelog ==
 
+== 1.8.0 ==
+
+* NEW: Now you can select is Tax are checked for apply rates.
+* NEW: Now Shops Managers can create & download Labels.
+* Fixed text.
+
 == 1.7.2 ==
 
 * Fixed error with Add rate.
