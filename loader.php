@@ -3,10 +3,10 @@
  * Plugin Name: SEUR Oficial
  * Plugin URI: http://www.seur.com/
  * Description: Add SEUR shipping method to WooCommerce. The SEUR plugin for WooCommerce allows you to manage your order dispatches in a fast and easy way
- * Version: 1.8.0
+ * Version: 1.8.0.1
  * Author: José Conti
  * Author URI: https://www.joseconti.com/
- * Tested up to: 5.8
+ * Tested up to: 5.9
  * WC requires at least: 3.0
  * WC tested up to: 5.9
  * Text Domain: seur
@@ -17,12 +17,12 @@
  * @package Seur Official
  **/
 
-define( 'SEUR_OFFICIAL_VERSION', '1.8.0' );
+define( 'SEUR_OFFICIAL_VERSION', '1.8.0.1' );
 define( 'SEUR_DB_VERSION', '1.0.3' );
 define( 'SEUR_TABLE_VERSION', '1.0.2' );
 define( 'SEUR_PLUGIN_PATH', plugin_dir_path( __FILE__ ) );
 define( 'SEUR_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
-define( 'SEUR_POST_UPDATE_URL', 'https://seur-woo.com/2020/08/18/nueva-version-seur-1-6-0/' );
+define( 'SEUR_POST_UPDATE_URL', 'https://seur-woo.com/2022/01/09/nueva-version-seur-1-8-x/' );
 // live.
 define( 'SEUR_URL', 'https://api.seur.com/geolabel/api/shipment/addShipment' );
 // test.
@@ -104,7 +104,7 @@ function seur_add_notice_new_version() {
 				<p> 
 					<?php
 					// translators: Link to SEUR website with new features.
-					printf( wp_kses( __( 'Discover the improvements that have been made in this version, and how to take advantage of them <a href="%s" target="_blank">here</a>', 'woocommerce-seur' ), esc_url( SEUR_POST_UPDATE_URL ) ), 'data' );
+					printf( wp_kses( __( 'Discover the improvements that have been made in this version, and how to take advantage of them <a href="%s" target="_blank">here</a>', 'woocommerce-seur' ), array( 'a' => array( 'href' => array() ) ) ), esc_url( SEUR_POST_UPDATE_URL ) );
 					?>
 				</p>
 			</div>
