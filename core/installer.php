@@ -537,7 +537,13 @@ function seur_create_random_string() {
  */
 function seur_create_upload_folder_hook() {
 
-	$seur_upload_dir = get_option( 'seur_uploads_dir' );
+	$seur_upload_dir    = get_option( 'seur_uploads_dir' );
+	$seur_download_file = get_site_option( 'seur_download_file_path' );
+
+	if ( $seur_download_file ) {
+		wp_delete_file( $seur_download_file );
+		delete_site_option( 'seur_download_file_path' );
+	}
 
 	if ( $seur_upload_dir && file_exists( $seur_upload_dir ) ) {
 		return;
@@ -591,3 +597,4 @@ function seur_add_avanced_settings_preset() {
 		update_option( 'seur_add_advanced_settings_field_pre', '1' );
 	}
 }
+
