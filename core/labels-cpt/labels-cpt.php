@@ -473,7 +473,8 @@ function seur_bulk_actions_success() {
 	if ( $file_name && 'seur_labels' === $screen->post_type ) {
 		?>
 	<div class="notice notice-success is-dismissible">
-		<p><?php echo esc_html__( 'Bulk Print ready, please press Download Bulk Labels button for download the txt file. ' ) . '<a href="' . esc_url( $url_to_txt ) . '?label=' . esc_html( $label_path_fix ) . '&label_name=' . esc_html( $file_name ) . '&pass=' . esc_html( $file_downlo_pass ) . '&file_type=termica" class="button" target="_blank">' . esc_html__( ' Download Bulk Labels ', 'seur' ) . '</a>'; ?></p>
+		<p><?php echo esc_html__( 'Bulk Print ready, please press Download Bulk Labels button for download the txt file. ' ) . '<a href="' . $url_to_dir . '/' . esc_html( $file_name ) . '" class="button" download>' . esc_html__( ' Download Bulk Labels ', 'seur' ) . '</a>'; ?></p>
+
 	</div>
 		<?php
 	}
