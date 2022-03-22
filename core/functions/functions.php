@@ -667,7 +667,7 @@ function seur_get_custom_rates( $output_type = 'OBJECT', $type = 'price' ) {
  *
  * @param string $allowedcountry Alloweb Country.
  */
-function seur_search_allowed_rates_by_country( $allowedcountry ) {
+function seur_search_allowed_rates_by_country( $allowedcountry, $rate ) {
 
 	$filtered_rates_by_country = array();
 	$rates_type                = get_option( 'seur_rates_type_field' );
@@ -677,8 +677,9 @@ function seur_search_allowed_rates_by_country( $allowedcountry ) {
 	foreach ( $getrates as $rate ) {
 		$country = $rate->country;
 		$rateid  = $rate->ID;
+		$rateid  = $rate->rate;
 
-		if ( $allowedcountry === $country ) {
+		if ( $allowedcountry === $country && 'SEUR 2SHOP' === $rateid && 'SEUR 2SHOP' === $rate ) {
 			$columns                     = array(
 				'ID',
 				'country',
@@ -706,6 +707,33 @@ function seur_search_allowed_rates_by_country( $allowedcountry ) {
 				$rate->type,
 			);
 			$filtered_rates_by_country[] = array_combine( $columns, $valors );
+		} elseif ( $allowedcountry === $country && 'SEUR 2SHOP' !== $rateid && 'SEUR 2SHOP' !== $rate ) {
+			$columns = array(
+				'ID',
+				'country',
+				'state',
+				'postcode',
+				'minprice',
+				'maxprice',
+				'minweight',
+				'maxweight',
+				'rate',
+				'rateprice',
+				'type',
+			);
+			$valors  = array(
+				$rate->ID,
+				$rate->country,
+				$rate->state,
+				$rate->postcode,
+				$rate->minprice,
+				$rate->maxprice,
+				$rate->minweight,
+				$rate->maxweight,
+				$rate->rate,
+				$rate->rateprice,
+				$rate->type,
+			);
 		}
 	}
 
@@ -1001,7 +1029,7 @@ function seur_seach_allowed_prices_filtered_by_postcode( $allowedprice, $filtere
  * @param string $postcode Post Code.
  * @param string $price Price.
  */
-function seur_show_availables_rates( $country = null, $state = null, $postcode = null, $price = null ) {
+function seur_show_availables_rates( $country = null, $state = null, $postcode = null, $price = null, $rate = null ) {
 
 	$log = new WC_Logger();
 	$log->add( 'seur', ' ARRAIVE TO seur_show_availables_rates( $country = NULL, $state = NULL, $postcode = NULL, $price = NULL )' );
@@ -1030,7 +1058,7 @@ function seur_show_availables_rates( $country = null, $state = null, $postcode =
 	$filtered_rates_by_postcode = array();
 	$ratestoscreen              = array();
 
-	$filtered_rates_by_country  = seur_search_allowed_rates_by_country( $country );
+	$filtered_rates_by_country  = seur_search_allowed_rates_by_country( $country, $rate );
 	$filtered_rates_by_state    = seur_seach_allowed_states_filtered_by_countries( $state, $filtered_rates_by_country );
 	$filtered_rates_by_postcode = seur_seach_allowed_postcodes_filtered_by_states( $postcode, $filtered_rates_by_state );
 	$ratestoscreen              = seur_seach_allowed_prices_filtered_by_postcode( $price, $filtered_rates_by_postcode );

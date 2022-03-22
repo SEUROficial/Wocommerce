@@ -93,7 +93,8 @@ class Seur_Local_Shipping_Method extends WC_Shipping_Method {
 		$country       = $package['destination']['country'];
 		$state         = $package['destination']['state'];
 		$postcode_seur = $package['destination']['postcode'];
-		$rate_requests = seur_show_availables_rates( $country, $state, $postcode_seur, $price );
+		$rate_name     = 'SEUR 2SHOP';
+		$rate_requests = seur_show_availables_rates( $country, $state, $postcode_seur, $price, $rate_name );
 
 		if ( $rate_requests ) {
 			// parse the results.
