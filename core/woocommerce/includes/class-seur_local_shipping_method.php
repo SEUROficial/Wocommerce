@@ -59,7 +59,7 @@ class Seur_Local_Shipping_Method extends WC_Shipping_Method {
 		$rates_type            = get_option( 'seur_rates_type_field' );
 		$localpickup_is_active = get_option( 'seur_activate_local_pickup_field' );
 		$this->log->add( 'seur', 'calculate_shipping( $package = array() ): PROBANDO' );
-		$this->log->add( 'seur', 'calculate_shipping( $package = array() ): ' . print_r( $package, true ) ); // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_print_r
+		// $this->log->add( 'seur', 'calculate_shipping( $package = array() ): ' . print_r( $package, true ) ); // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_print_r
 		// Only return rates if the package has a destination including country.
 		if ( '' === $package['destination']['country'] ) {
 			return;
@@ -309,6 +309,10 @@ function seur_get_local_pickups( $country, $city, $postcode ) {
 function seur_after_seur_2shop_shipping_rate( $method, $index ) {
 	global $postcode_seur;
 
+	echo "<script>jQuery('#billing_postcode').on('input', function() { jQuery('body').trigger('update_checkout', { update_shipping_method: true }); });</script>";
+
+	$chosen_methods         = false;
+	$chosen_shipping        = false;
 	$custom_name_seur_2shop = get_option( 'seur_2SHOP_custom_name_field' );
 	$chosen_methods         = WC()->session->get( 'chosen_shipping_methods' );
 	$chosen_shipping        = $chosen_methods[0];

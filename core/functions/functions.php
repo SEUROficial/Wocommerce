@@ -654,9 +654,14 @@ function seur_get_countries_states( $country ) {
  * @param object $output_type Object.
  * @param string $type Based price.
  */
-function seur_get_custom_rates( $output_type = 'OBJECT', $type = 'price' ) {
+function seur_get_custom_rates( $output_type = 'OBJECT', $type = 'price', $rate_pass = false ) {
 	global $wpdb;
 
+	if ( $rate_pass ) {
+		$getrates = $wpdb->get_results( "SELECT * FROM $table WHERE type = '$type' AND rate = '$rate_pass' ORDER BY ID ASC", $output_type ); // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+	} else {
+		$getrates = $wpdb->get_results( "SELECT * FROM $table WHERE type = '$type' AND rate != '$rate_pass' ORDER BY ID ASC", $output_type ); // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+	}
 	$table    = $wpdb->prefix . SEUR_TBL_SCR;
 	$getrates = $wpdb->get_results( "SELECT * FROM $table WHERE type = '$type' ORDER BY ID ASC", $output_type ); // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 	return $getrates;
@@ -667,19 +672,23 @@ function seur_get_custom_rates( $output_type = 'OBJECT', $type = 'price' ) {
  *
  * @param string $allowedcountry Alloweb Country.
  */
-function seur_search_allowed_rates_by_country( $allowedcountry, $rate ) {
+function seur_search_allowed_rates_by_country( $allowedcountry, $rate_pass ) {
 
 	$filtered_rates_by_country = array();
 	$rates_type                = get_option( 'seur_rates_type_field' );
 	$output_type               = 'OBJECT';
-	$getrates                  = seur_get_custom_rates( $output_type, $rates_type );
+	$getrates                  = seur_get_custom_rates( $output_type, $rates_type, $rate_pass );
+	$log                       = new WC_Logger();
 
 	foreach ( $getrates as $rate ) {
 		$country = $rate->country;
 		$rateid  = $rate->ID;
-		$rateid  = $rate->rate;
+		$rate_bd = $rate->rate;
+		$log->add( 'seur', '$rate_pass: ' . $rate_pass );
+		$log->add( 'seur', '$rate_bd: ' . $rate_bd );
+		$log->add( 'seur', '$allowedcountry: ' . $allowedcountry );
 
-		if ( $allowedcountry === $country && 'SEUR 2SHOP' === $rateid && 'SEUR 2SHOP' === $rate ) {
+		if ( $allowedcountry === $country ) {
 			$columns                     = array(
 				'ID',
 				'country',
@@ -707,40 +716,15 @@ function seur_search_allowed_rates_by_country( $allowedcountry, $rate ) {
 				$rate->type,
 			);
 			$filtered_rates_by_country[] = array_combine( $columns, $valors );
-		} elseif ( $allowedcountry === $country && 'SEUR 2SHOP' !== $rateid && 'SEUR 2SHOP' !== $rate ) {
-			$columns = array(
-				'ID',
-				'country',
-				'state',
-				'postcode',
-				'minprice',
-				'maxprice',
-				'minweight',
-				'maxweight',
-				'rate',
-				'rateprice',
-				'type',
-			);
-			$valors  = array(
-				$rate->ID,
-				$rate->country,
-				$rate->state,
-				$rate->postcode,
-				$rate->minprice,
-				$rate->maxprice,
-				$rate->minweight,
-				$rate->maxweight,
-				$rate->rate,
-				$rate->rateprice,
-				$rate->type,
-			);
 		}
 	}
 
 	if ( $filtered_rates_by_country ) {
+		$log->add( 'seur', '$filtered_rates_by_country: ' . print_r( $filtered_rates_by_country, true ) ); // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_print_r
 		return $filtered_rates_by_country;
 	} else {
 		foreach ( $getrates as $rate ) {
+			$log->add( 'seur', 'loop: IS NOT 2SHOP 2' );
 			$country = $rate->country;
 			$rateid  = $rate->ID;
 			if ( '*' === $country ) {
@@ -775,6 +759,7 @@ function seur_search_allowed_rates_by_country( $allowedcountry, $rate ) {
 			}
 		}
 	}
+	$log->add( 'seur', '$filtered_rates_by_country: ' . print_r( $filtered_rates_by_country, true ) ); // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_print_r
 	return $filtered_rates_by_country;
 }
 
@@ -1029,10 +1014,13 @@ function seur_seach_allowed_prices_filtered_by_postcode( $allowedprice, $filtere
  * @param string $postcode Post Code.
  * @param string $price Price.
  */
-function seur_show_availables_rates( $country = null, $state = null, $postcode = null, $price = null, $rate = null ) {
+function seur_show_availables_rates( $country = null, $state = null, $postcode = null, $price = null, $rate = false ) {
 
+	if ( ! $rate ) {
+		$rate = 'false';
+	}
 	$log = new WC_Logger();
-	$log->add( 'seur', ' ARRAIVE TO seur_show_availables_rates( $country = NULL, $state = NULL, $postcode = NULL, $price = NULL )' );
+	$log->add( 'seur', ' ARRAIVE TO seur_show_availables_rates( $country = NULL, $state = NULL, $postcode = NULL, $price = NULL $rate = ' . $rate . ')' );
 	if ( ! $country ) {
 		$country = '*';
 	}
@@ -1057,7 +1045,6 @@ function seur_show_availables_rates( $country = null, $state = null, $postcode =
 	$filtered_rates_by_state    = array();
 	$filtered_rates_by_postcode = array();
 	$ratestoscreen              = array();
-
 	$filtered_rates_by_country  = seur_search_allowed_rates_by_country( $country, $rate );
 	$filtered_rates_by_state    = seur_seach_allowed_states_filtered_by_countries( $state, $filtered_rates_by_country );
 	$filtered_rates_by_postcode = seur_seach_allowed_postcodes_filtered_by_states( $postcode, $filtered_rates_by_state );
