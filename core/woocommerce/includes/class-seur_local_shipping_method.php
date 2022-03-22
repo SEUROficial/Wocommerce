@@ -68,7 +68,11 @@ class Seur_Local_Shipping_Method extends WC_Shipping_Method {
 			return;
 		}
 		if ( 'price' === $rates_type ) {
-			$price = $package['cart_subtotal'];
+			if ( 'withouttax' === get_option( 'seur_rates_tax_field' ) || ! get_option( 'seur_rates_tax_field' ) ) {
+				$price = $package['contents_cost'];
+			} else {
+				$price = $package['cart_subtotal'];
+			}
 		} else {
 			$weight        = 0;
 			$cost          = 0;
