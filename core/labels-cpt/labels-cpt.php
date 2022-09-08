@@ -102,7 +102,7 @@ function seur_set_custom_label_columns( $columns ) {
  */
 function seur_get_order_tracking( $order_id ) {
 
-	$order_tracking = get_post_meta( $order_id, '_seur_shipping_tracking_state', true );
+	$order_tracking = WCRed()->get_order_meta( $order_id, '_seur_shipping_tracking_state', true );
 
 	if ( ! empty( $order_tracking ) ) {
 		$order_tracking_unse = maybe_unserialize( $order_tracking );
@@ -130,19 +130,19 @@ add_filter( 'manage_seur_labels_posts_columns', 'seur_set_custom_label_columns' 
 function seur_custom_label_column_data( $column, $post_id ) {
 	global $woocommerce;
 
-	$seur_shipping_method = get_post_meta( $post_id, '_seur_shipping_method', true );
-	$weight               = get_post_meta( $post_id, '_seur_shipping_weight', true );
-	$num_packages         = get_post_meta( $post_id, '_seur_shipping_packages', true );
-	$order_id             = get_post_meta( $post_id, '_seur_shipping_order_id', true );
-	$customer_name        = get_post_meta( $post_id, '_seur_label_customer_name', true );
-	$order_comments       = get_post_meta( $post_id, '_seur_shipping_order_customer_comments', true );
-	$label_file_name      = get_post_meta( $post_id, '_seur_shipping_order_label_file_name', true );
-	$label_path           = get_post_meta( $post_id, '_seur_shipping_order_label_path_name', true );
-	$label_url            = get_post_meta( $post_id, '_seur_shipping_order_label_url_name', true );
+	$seur_shipping_method = WCRed()->get_order_meta( $post_id, '_seur_shipping_method', true );
+	$weight               = WCRed()->get_order_meta( $post_id, '_seur_shipping_weight', true );
+	$num_packages         = WCRed()->get_order_meta( $post_id, '_seur_shipping_packages', true );
+	$order_id             = WCRed()->get_order_meta( $post_id, '_seur_shipping_order_id', true );
+	$customer_name        = WCRed()->get_order_meta( $post_id, '_seur_label_customer_name', true );
+	$order_comments       = WCRed()->get_order_meta( $post_id, '_seur_shipping_order_customer_comments', true );
+	$label_file_name      = WCRed()->get_order_meta( $post_id, '_seur_shipping_order_label_file_name', true );
+	$label_path           = WCRed()->get_order_meta( $post_id, '_seur_shipping_order_label_path_name', true );
+	$label_url            = WCRed()->get_order_meta( $post_id, '_seur_shipping_order_label_url_name', true );
 	$url_to_file_down     = get_site_option( 'seur_download_file_url' );
 	$file_downlo_pass     = get_site_option( 'seur_pass_for_download' );
 	$label_path           = str_replace( '\\', '/', $label_path );
-	$file_type            = get_post_meta( $post_id, '_seur_label_type', true );
+	$file_type            = WCRed()->get_order_meta( $post_id, '_seur_label_type', true );
 	$url_upload_dir       = get_site_option( 'seur_uploads_url_labels' );
 
 	if ( ! empty( $order_tracking ) ) {
@@ -255,13 +255,13 @@ add_action( 'add_meta_boxes', 'seur_label_register_meta_box' );
  */
 function seur_metabox_label_callback( $post ) {
 
-	$weight               = get_post_meta( $post->ID, '_seur_shipping_weight', true );
-	$order_id             = get_post_meta( $post->ID, '_seur_shipping_order_id', true );
-	$product              = get_post_meta( $post->ID, '_seur_product', true );
-	$customer_name        = get_post_meta( $post->ID, '_seur_label_customer_name', true );
+	$weight               = WCRed()->get_order_meta( $post->ID, '_seur_shipping_weight', true );
+	$order_id             = WCRed()->get_order_meta( $post->ID, '_seur_shipping_order_id', true );
+	$product              = WCRed()->get_order_meta( $post->ID, '_seur_product', true );
+	$customer_name        = WCRed()->get_order_meta( $post->ID, '_seur_label_customer_name', true );
 	$order_data           = seur_get_order_data( $order_id );
-	$mobile_shipping      = get_post_meta( $order_id, '_shipping_mobile_phone', true );
-	$mobile_billing       = get_post_meta( $order_id, '_billing_mobile_phone', true );
+	$mobile_shipping      = WCRed()->get_order_meta( $order_id, '_shipping_mobile_phone', true );
+	$mobile_billing       = WCRed()->get_order_meta( $order_id, '_billing_mobile_phone', true );
 	$seur_shipping_method = seur_get_shipping_method( $order_id );
 
 	$customer_country = $order_data[0]['country'];
@@ -280,17 +280,17 @@ function seur_metabox_label_callback( $post ) {
 	$customer_order_notes = seur_clean_data( $order_data[0]['order_notes'] );
 	$customer_order_total = $order_data[0]['order_total'];
 
-	$billing_last_name    = get_post_meta( $order_id, '_billing_last_name', true );
-	$billing_name         = get_post_meta( $order_id, '_billing_first_name', true );
-	$billing_email        = get_post_meta( $order_id, '_billing_email', true );
-	$billing_country      = get_post_meta( $order_id, '_billing_country', true );
-	$billing_addr_1       = get_post_meta( $order_id, '_billing_address_1', true );
-	$billing_addr_2       = get_post_meta( $order_id, '_billing_address_2', true );
-	$billing_postcode     = get_post_meta( $order_id, '_billing_postcode', true );
-	$billing_city         = get_post_meta( $order_id, '_billing_city', true );
-	$billing_state        = get_post_meta( $order_id, '_billing_state', true );
-	$billing_mobile_phone = get_post_meta( $order_id, '_billing_mobile_phone', true );
-	$billing_phone        = get_post_meta( $order_id, '_billing_phone', true );
+	$billing_last_name    = WCRed()->get_order_meta( $order_id, '_billing_last_name', true );
+	$billing_name         = WCRed()->get_order_meta( $order_id, '_billing_first_name', true );
+	$billing_email        = WCRed()->get_order_meta( $order_id, '_billing_email', true );
+	$billing_country      = WCRed()->get_order_meta( $order_id, '_billing_country', true );
+	$billing_addr_1       = WCRed()->get_order_meta( $order_id, '_billing_address_1', true );
+	$billing_addr_2       = WCRed()->get_order_meta( $order_id, '_billing_address_2', true );
+	$billing_postcode     = WCRed()->get_order_meta( $order_id, '_billing_postcode', true );
+	$billing_city         = WCRed()->get_order_meta( $order_id, '_billing_city', true );
+	$billing_state        = WCRed()->get_order_meta( $order_id, '_billing_state', true );
+	$billing_mobile_phone = WCRed()->get_order_meta( $order_id, '_billing_mobile_phone', true );
+	$billing_phone        = WCRed()->get_order_meta( $order_id, '_billing_phone', true );
 
 	if ( $customer_order_notes ) {
 		$customer_order_notes = $customer_order_notes;
@@ -419,12 +419,12 @@ function seur_bulk_actions_handler( $redirect_to, $doaction, $post_ids ) {
 
 		foreach ( $post_ids as $post_id ) {
 
-			$label_type = get_post_meta( $post_id, '_seur_label_type', true );
+			$label_type = WCRed()->get_order_meta( $post_id, '_seur_label_type', true );
 
 			if ( 'termica' === $label_type ) {
 
-				$label_file_name = get_post_meta( $post_id, '_seur_shipping_order_label_file_name', true );
-				$label_path      = get_post_meta( $post_id, '_seur_shipping_order_label_path_name', true );
+				$label_file_name = WCRed()->get_order_meta( $post_id, '_seur_shipping_order_label_file_name', true );
+				$label_path      = WCRed()->get_order_meta( $post_id, '_seur_shipping_order_label_path_name', true );
 				$upload_dir      = seur_upload_dir( 'labels' );
 				$upload_path     = $upload_dir . '/' . $bulk_label_name;
 				$label_text      = "\n" . file_get_contents( $label_path, true );
@@ -444,7 +444,7 @@ function seur_bulk_actions_handler( $redirect_to, $doaction, $post_ids ) {
 
 		foreach ( $post_ids as $post_id ) {
 
-			$tracking_number = get_post_meta( $post_id, '_seur_shipping_id_number', true );
+			$tracking_number = WCRed()->get_order_meta( $post_id, '_seur_shipping_id_number', true );
 
 			seur_get_tracking_shipment( $post_id, $tracking_number );
 
