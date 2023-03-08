@@ -48,11 +48,9 @@ function seur_add_form() {
 					<select class="select rate" id="rate"  title="<?php esc_html_e( 'Select Rate to apply', 'seur' ); ?>" name="rate">
 						<option value="Select"><?php esc_html_e( 'Select a Rate', 'seur' ); ?></option>
 						<?php
-							$tabla = $wpdb->prefix . SEUR_PLUGIN_SVPR;
-							$sql   = "SELECT * FROM $tabla";
-							$regs  = $wpdb->get_results( "SELECT * FROM {$wpdb->prefix}seur_svpr" );
-						foreach ( $regs as $valor ) {
-							echo '<option value="' . esc_html( $valor->descripcion ) . '">' . esc_html( $valor->descripcion ) . '</option>';
+							$registros = seur()->get_products();
+						foreach ( $registros as $description => $valor ) {
+							echo '<option value="' . esc_html( $description ) . '">' . esc_html( $description ) . '</option>';
 						}
 						?>
 					</select>

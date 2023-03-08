@@ -19,6 +19,8 @@ function seur_create_tables_hook() {
 	$seur_db_version_saved = '';
 	$seur_db_version_saved = get_option( 'seur_db_version' );
 
+	$wpdb->query( "DROP TABLE IF EXISTS {$wpdb->prefix}seur_svpr" );
+
 	if ( $seur_db_version_saved && '1.0.3' !== $seur_db_version_saved && ( '1.0.3' === SEUR_DB_VERSION ) ) {
 
 		require_once ABSPATH . 'wp-admin/includes/upgrade.php';
@@ -46,20 +48,6 @@ function seur_create_tables_hook() {
 	if ( ! $seur_db_version_saved ) {
 
 		require_once ABSPATH . 'wp-admin/includes/upgrade.php';
-		$charset_collate = $wpdb->get_charset_collate();
-
-		$table_name = $wpdb->prefix . 'seur_svpr';
-
-		$sql = 'CREATE TABLE ' . $table_name . " (
-			ID bigint(20) unsigned NOT NULL auto_increment,
-			ser varchar(3) NOT NULL,
-			pro varchar(3) NOT NULL,
-			descripcion varchar(50) NOT NULL,
-			tipo varchar(50) NOT NULL,
-			PRIMARY KEY (ID)
-		) $charset_collate;";
-
-		dbDelta( $sql );
 
 		$table_name = $wpdb->prefix . 'seur_custom_rates';
 
@@ -93,197 +81,7 @@ function seur_add_data_to_tables_hook() {
 	$seur_table_version_saved = '';
 	$seur_table_version_saved = get_option( 'seur_table_version' );
 
-	if ( ! empty( $seur_table_version_saved ) && '1.0.1' === $seur_table_version_saved ) {
-
-		$table_name = $wpdb->prefix . 'seur_svpr';
-
-		$wpdb->insert(
-			$table_name,
-			array(
-				'ser'         => '7',
-				'pro'         => '108',
-				'descripcion' => 'COURIER INT AEREO PAQUETERIA',
-				'tipo'        => 'ESTANDAR',
-			)
-		);
-		$wpdb->insert(
-			$table_name,
-			array(
-				'ser'         => '7',
-				'pro'         => '54',
-				'descripcion' => 'COURIER INT AEREO DOCUMENTOS',
-				'tipo'        => 'ESTANDAR',
-			)
-		);
-		$wpdb->insert(
-			$table_name,
-			array(
-				'ser'         => '19',
-				'pro'         => '70',
-				'descripcion' => 'NETEXPRESS INT TERRESTRE',
-				'tipo'        => 'ESTANDAR',
-			)
-		);
-
-		update_option( 'seur_table_version', SEUR_TABLE_VERSION );
-	}
-
-	if ( ! empty( $seur_table_version_saved ) && '1.0.0' === $seur_table_version_saved ) {
-
-		$table_name = $wpdb->prefix . 'seur_svpr';
-
-		$wpdb->insert(
-			$table_name,
-			array(
-				'ser'         => '1',
-				'pro'         => '48',
-				'descripcion' => 'SEUR 2SHOP',
-				'tipo'        => 'ESTANDAR',
-			)
-		);
-		$wpdb->insert(
-			$table_name,
-			array(
-				'ser'         => '7',
-				'pro'         => '108',
-				'descripcion' => 'COURIER INT AEREO PAQUETERIA',
-				'tipo'        => 'ESTANDAR',
-			)
-		);
-		$wpdb->insert(
-			$table_name,
-			array(
-				'ser'         => '7',
-				'pro'         => '54',
-				'descripcion' => 'COURIER INT AEREO DOCUMENTOS',
-				'tipo'        => 'ESTANDAR',
-			)
-		);
-		$wpdb->insert(
-			$table_name,
-			array(
-				'ser'         => '19',
-				'pro'         => '70',
-				'descripcion' => 'NETEXPRESS INT TERRESTRE',
-				'tipo'        => 'ESTANDAR',
-			)
-		);
-
-		update_option( 'seur_table_version', SEUR_TABLE_VERSION );
-	}
-
 	if ( ! $seur_table_version_saved || '' === $seur_table_version_saved ) {
-
-		$table_name = $wpdb->prefix . 'seur_svpr';
-
-		$wpdb->insert(
-			$table_name,
-			array(
-				'ser'         => '31',
-				'pro'         => '2',
-				'descripcion' => 'B2C Estándar',
-				'tipo'        => 'ESTANDAR',
-			)
-		);
-		$wpdb->insert(
-			$table_name,
-			array(
-				'ser'         => '3',
-				'pro'         => '2',
-				'descripcion' => 'SEUR 10 Estándar',
-				'tipo'        => 'ESTANDAR',
-			)
-		);
-		$wpdb->insert(
-			$table_name,
-			array(
-				'ser'         => '3',
-				'pro'         => '18',
-				'descripcion' => 'SEUR 10 Frío',
-				'tipo'        => 'FRIO',
-			)
-		);
-		$wpdb->insert(
-			$table_name,
-			array(
-				'ser'         => '9',
-				'pro'         => '2',
-				'descripcion' => 'SEUR 13:30 Estándar',
-				'tipo'        => 'ESTANDAR',
-			)
-		);
-		$wpdb->insert(
-			$table_name,
-			array(
-				'ser'         => '9',
-				'pro'         => '18',
-				'descripcion' => 'SEUR 13:30 Frío',
-				'tipo'        => 'FRIO',
-			)
-		);
-		$wpdb->insert(
-			$table_name,
-			array(
-				'ser'         => '15',
-				'pro'         => '2',
-				'descripcion' => 'SEUR 48H Estándar',
-				'tipo'        => 'ESTANDAR',
-			)
-		);
-		$wpdb->insert(
-			$table_name,
-			array(
-				'ser'         => '13',
-				'pro'         => '2',
-				'descripcion' => 'SEUR 72H Estándar',
-				'tipo'        => 'ESTANDAR',
-			)
-		);
-		$wpdb->insert(
-			$table_name,
-			array(
-				'ser'         => '77',
-				'pro'         => '70',
-				'descripcion' => 'Classic Internacional Terrestre',
-				'tipo'        => 'ESTANDAR',
-			)
-		);
-		$wpdb->insert(
-			$table_name,
-			array(
-				'ser'         => '1',
-				'pro'         => '48',
-				'descripcion' => 'SEUR 2SHOP',
-				'tipo'        => 'ESTANDAR',
-			)
-		);
-		$wpdb->insert(
-			$table_name,
-			array(
-				'ser'         => '7',
-				'pro'         => '108',
-				'descripcion' => 'COURIER INT AEREO PAQUETERIA',
-				'tipo'        => 'ESTANDAR',
-			)
-		);
-		$wpdb->insert(
-			$table_name,
-			array(
-				'ser'         => '7',
-				'pro'         => '54',
-				'descripcion' => 'COURIER INT AEREO DOCUMENTOS',
-				'tipo'        => 'ESTANDAR',
-			)
-		);
-		$wpdb->insert(
-			$table_name,
-			array(
-				'ser'         => '19',
-				'pro'         => '70',
-				'descripcion' => 'NETEXPRESS INT TERRESTRE',
-				'tipo'        => 'ESTANDAR',
-			)
-		);
 
 		$table_name = $wpdb->prefix . 'seur_custom_rates';
 

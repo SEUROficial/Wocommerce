@@ -3,12 +3,12 @@
  * Plugin Name: SEUR Oficial
  * Plugin URI: http://www.seur.com/
  * Description: Add SEUR shipping method to WooCommerce. The SEUR plugin for WooCommerce allows you to manage your order dispatches in a fast and easy way
- * Version: 1.8.0.1
+ * Version: 2.1.0
  * Author: José Conti
  * Author URI: https://www.joseconti.com/
- * Tested up to: 5.9
+ * Tested up to: 6.2
  * WC requires at least: 3.0
- * WC tested up to: 5.9
+ * WC tested up to: 7.3
  * Text Domain: seur
  * Domain Path: /languages/
  * License: GNU General Public License v3.0
@@ -17,15 +17,20 @@
  * @package Seur Official
  **/
 
-define( 'SEUR_OFFICIAL_VERSION', '1.8.0.1' );
+define( 'SEUR_OFFICIAL_VERSION', '2.1.0' );
 define( 'SEUR_DB_VERSION', '1.0.3' );
 define( 'SEUR_TABLE_VERSION', '1.0.2' );
 define( 'SEUR_PLUGIN_PATH', plugin_dir_path( __FILE__ ) );
 define( 'SEUR_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
-define( 'SEUR_POST_UPDATE_URL', 'https://seur-woo.com/2022/01/09/nueva-version-seur-1-8-x/' );
-// live.
+define( 'SEUR_POST_UPDATE_URL', 'https://seur-woo.com/2023/01/12/nueva-version-seur-2-1-x/' );
+
 define( 'SEUR_URL', 'https://api.seur.com/geolabel/api/shipment/addShipment' );
-// test.
+define( 'SEUR_TEST_API_ADDRESS', 'https://servicios.apipre.seur.io/' );
+define( 'SEUR_LIVE_API_ADDRESS', 'https://servicios.api.seur.io/' );
+define( 'SEUR_TOKEN', 'pic_token' );
+define( 'SEUR_COLLECTIONS', 'pic/v1/collections' );
+define( 'SEUR_DATA_PATH', SEUR_PLUGIN_PATH . 'data/' );
+
 // define( 'SEUR_URL', 'https://apipre.seur.com/geolabel/api/shipment/addShipment' );.
 
 /**
@@ -33,23 +38,30 @@ define( 'SEUR_URL', 'https://api.seur.com/geolabel/api/shipment/addShipment' );
  */
 
 
-// Including Core and installer.
-
-require_once SEUR_PLUGIN_PATH . 'core/loader-core.php';
-require_once SEUR_PLUGIN_PATH . 'core/installer.php';
-
-register_activation_hook( __FILE__, 'seur_create_tables_hook' );
-register_activation_hook( __FILE__, 'seur_add_data_to_tables_hook' );
-register_activation_hook( __FILE__, 'seur_create_upload_folder_hook' );
-register_activation_hook( __FILE__, 'seur_add_avanced_settings_preset' );
-
 /**
  * SEUR Localization.
  */
 function seur_official_init() {
 	load_plugin_textdomain( 'seur', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
 }
-add_action( 'init', 'seur_official_init' );
+add_action( 'init', 'seur_official_init', 12 );
+
+// Including Core and installer.
+require_once SEUR_PLUGIN_PATH . 'core/installer.php';
+register_activation_hook( __FILE__, 'seur_create_tables_hook' );
+register_activation_hook( __FILE__, 'seur_add_data_to_tables_hook' );
+register_activation_hook( __FILE__, 'seur_create_upload_folder_hook' );
+register_activation_hook( __FILE__, 'seur_add_avanced_settings_preset' );
+
+/**
+ * SEUR Load Code.
+ */
+function seur_load_code() {
+	// Including Core and installer.
+	require_once SEUR_PLUGIN_PATH . 'classes/load-classes.php';
+	require_once SEUR_PLUGIN_PATH . 'core/loader-core.php';
+}
+add_action( 'plugins_loaded', 'seur_load_code', 11 );
 
 /**
  * SEUR Get Parent Page.
@@ -113,6 +125,38 @@ function seur_add_notice_new_version() {
 	}
 }
 add_action( 'admin_notices', 'seur_add_notice_new_version' );
+
+/**
+ * SEUR Add notice v2.
+ */
+function seur_add_notice_new_v2() {
+
+	$version = get_option( 'hide-new-v2-seur-notice' );
+
+	if ( SEUR_OFFICIAL_VERSION !== $version ) {
+		if ( isset( $_REQUEST['_seur_hide_new_v2_nonce'] ) && isset( $_REQUEST['seur-hide-new-v2'] ) && 'hide-new-v2-seur' === $_REQUEST['seur-hide-new-v2'] ) {
+			$nonce = sanitize_text_field( wp_unslash( $_REQUEST['_seur_hide_new_v2_nonce'] ) ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+			if ( wp_verify_nonce( $nonce, 'seur_hide_new_v2_nonce' ) ) {
+				update_option( 'hide-new-v2-seur-notice', SEUR_OFFICIAL_VERSION );
+			}
+		} else {
+			?>
+			<div id="message" class="updated woocommerce-message woocommerce-seur-messages">
+				<a class="woocommerce-message-close notice-dismiss" style="top:0;" href="<?php echo esc_url( wp_nonce_url( add_query_arg( 'seur-hide-new-v2', 'hide-new-v2-seur' ), 'seur_hide_new_v2_nonce', '_seur_hide_new_v2_nonce' ) ); ?>"><?php esc_html_e( 'Dismiss', 'woocommerce-seur' ); ?></a>
+				<p>
+					<?php echo esc_html__( 'WARNING', 'woocommerce-seur' ); ?>
+				</p>
+				<p> 
+					<?php
+					esc_html_e( 'You need to contact to SEUR for new credentials. Call to +34913228380 or email to staci@seur.net', 'woocommerce-seur' );
+					?>
+				</p>
+			</div>
+			<?php
+		}
+	}
+}
+add_action( 'admin_notices', 'seur_add_notice_new_v2' );
 
 /**
  * SEUR Notice Style.

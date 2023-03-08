@@ -2,10 +2,10 @@
 Contributors: j.conti, seuroficial
 Tags: woocommerce, shipping, seur, logistica, enviar paquete, pedidos, entregas
 Requires at least: 4.0
-Tested up to: 5.9
-Stable tag: 1.8.0.1
+Tested up to: 6.2
+Stable tag: 2.1.0
 WC requires at least: 3.0
-WC tested up to: 5.9
+WC tested up to: 7.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -93,6 +93,32 @@ The "SEUR > Shipments" menu includes the option to track your shipment and see t
 
 
 == Changelog ==
+
+== 2.2.0 ==
+
+* FIXED: Fixed $weight in some PHP settings.
+
+== 2.1.0 ==
+
+* NEW: New tracking API
+* FIXED: Fixed Collections
+
+== 2.0.3 ==
+
+* FIXED: Under some circunstances DB tables were not created.
+
+== 2.0.2 ==
+
+* FIXED: Fixed a priority code sequence.
+
+== 2.0.1 ==
+
+* FIXED: Fixed a problem where under some circumstances a correct date was not generated in the pickups.
+
+== 2.0.0 ==
+
+* NEW: New SEUR API
+* Minor fix
 
 == 1.8.0.1 ==
 

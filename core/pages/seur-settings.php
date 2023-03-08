@@ -57,6 +57,14 @@ function seur_settings() {
 			?>
 		</form>
 		<script type="text/javascript">
+			var test = document.querySelector( '.js-switch-test' );
+			if ( test ) {
+				var switchery = new Switchery(test, { size: 'small' } );
+			}
+			var log = document.querySelector( '.js-switch-log' );
+			if ( log ) {
+				var switchery = new Switchery(log, { size: 'small' } );
+			}
 			var geolabel = document.querySelector( '.js-switch-geolabel' );
 			if ( geolabel ) {
 				var switchery = new Switchery(geolabel, { size: 'small' } );

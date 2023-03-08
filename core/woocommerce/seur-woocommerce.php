@@ -57,6 +57,9 @@ class WC_Shipping_SEUR_Init {
 	 */
 	public function __construct() {
 		if ( class_exists( 'WC_Shipping_Method' ) ) {
+			if ( seur()->log_is_acive() ) {
+				// seur()->slog( 'WC_Shipping_SEUR_Init: Exists' );
+			}
 			add_action( 'admin_init', array( $this, 'maybe_install' ), 5 );
 			add_action( 'init', array( $this, 'load_textdomain' ) );
 			add_filter( 'plugin_action_links_' . plugin_basename( __FILE__ ), array( $this, 'plugin_links' ) );
@@ -226,4 +229,5 @@ class WC_Shipping_SEUR_Init {
 		return (int) $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(instance_id) FROM {$wpdb->prefix}woocommerce_shipping_zone_methods WHERE method_id = 'seur' AND zone_id = %d", $zone_id ) ) > 0;
 	}
 }
-add_action( 'plugins_loaded', array( 'WC_Shipping_SEUR_Init', 'get_instance' ), 0 );
+$shipping_seur = new WC_Shipping_SEUR_Init();
+$shipping_seur::get_instance();

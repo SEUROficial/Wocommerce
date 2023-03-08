@@ -56,17 +56,16 @@ function seur_edit_rate() {
 				<td>
 					<select class="select rate" id="rate" title="<?php esc_html_e( 'Select Rate to apply', 'seur' ); ?>" name="rate">
 						<?php
-							$regs = $wpdb->get_results( "SELECT * FROM {$wpdb->prefix}seur_svpr" );
+						$registros = seur()->get_products();
+						foreach ( $registros as $description => $valor ) {
 
-						foreach ( $regs as $valor ) {
-
-							if ( $valor->descripcion === $getrate->rate ) {
+							if ( $description === $getrate->rate ) {
 								$selected = ' selected="selected"';
 							} else {
 								$selected = '';
 							}
 
-							echo '<option value="' . esc_html( $valor->descripcion ) . '"' . esc_html( $selected ) . '>' . esc_html( $valor->descripcion ) . '</option>';
+							echo '<option value="' . esc_html( $description ) . '"' . esc_html( $selected ) . '>' . esc_html( $description ) . '</option>';
 						}
 						?>
 					</select>

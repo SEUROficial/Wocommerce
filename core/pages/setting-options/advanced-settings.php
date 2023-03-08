@@ -14,7 +14,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 function seur_activate_geolabel_field() {
 	?>
-	<input type="checkbox" class="js-switch-geolabel" title="<?php esc_html_e( 'Activate GeoLabel', 'seur' ); ?>" name="seur_activate_geolabel_field" value="1" <?php checked( 1, get_option( 'seur_activate_geolabel_field' ), true ); ?>/>
+	<input type="checkbox" class="js-switch-geolabel" title="<?php esc_html_e( 'Activate GeoLabel', 'seur' ); ?>" name="seur_activate_geolabel_field" value="1" <?php checked( 1, seur()->get_option( 'seur_activate_geolabel_field' ), true ); ?>/>
 	<?php
 }
 
@@ -23,7 +23,7 @@ function seur_activate_geolabel_field() {
  */
 function seur_activate_local_pickup_field() {
 	?>
-	<input type="checkbox" class="js-switch-pickup" title="<?php esc_html_e( 'Activate Local Pickup', 'seur' ); ?>" name="seur_activate_local_pickup_field" value="1" <?php checked( 1, get_option( 'seur_activate_local_pickup_field' ), true ); ?>/>
+	<input type="checkbox" class="js-switch-pickup" title="<?php esc_html_e( 'Activate Local Pickup', 'seur' ); ?>" name="seur_activate_local_pickup_field" value="1" <?php checked( 1, seur()->get_option( 'seur_activate_local_pickup_field' ), true ); ?>/>
 	<?php
 }
 
@@ -32,7 +32,7 @@ function seur_activate_local_pickup_field() {
  */
 function seur_activate_free_shipping_field() {
 	?>
-	<input type="checkbox" class="js-switch-free-shipping" title="<?php esc_html_e( 'Show WooCommerce Free Shipping at Checkout', 'seur' ); ?>" name="seur_activate_free_shipping_field" value="1" <?php checked( 1, get_option( 'seur_activate_free_shipping_field' ), true ); ?>/>
+	<input type="checkbox" class="js-switch-free-shipping" title="<?php esc_html_e( 'Show WooCommerce Free Shipping at Checkout', 'seur' ); ?>" name="seur_activate_free_shipping_field" value="1" <?php checked( 1, seur()->get_option( 'seur_activate_free_shipping_field' ), true ); ?>/>
 	<?php
 }
 
@@ -41,7 +41,7 @@ function seur_activate_free_shipping_field() {
  */
 function seur_google_maps_api_field() {
 	?>
-	<input title="<?php esc_html_e( 'Google Maps API Key', 'seur' ); ?>" type="text" name="seur_google_maps_api_field" value="<?php echo esc_html( get_option( 'seur_google_maps_api_field' ) ); ?>" size="40" />
+	<input title="<?php esc_html_e( 'Google Maps API Key', 'seur' ); ?>" type="text" name="seur_google_maps_api_field" value="<?php echo esc_html( seur()->get_option( 'seur_google_maps_api_field' ) ); ?>" size="40" />
 	<?php
 }
 
@@ -49,7 +49,7 @@ function seur_google_maps_api_field() {
  * SEUR after get label
  */
 function seur_after_get_label_field() {
-	$option = get_option( 'seur_after_get_label_field' );
+	$option = seur()->get_option( 'seur_after_get_label_field' );
 	?>
 	<select id="notification_type" name="seur_after_get_label_field">
 		<option value="shipping" 
@@ -73,7 +73,7 @@ function seur_after_get_label_field() {
  */
 function seur_preaviso_notificar_field() {
 	?>
-	<input type="checkbox" class="js-switch-preavisonotificar" title="<?php esc_html_e( 'SEUR field description', 'seur' ); ?>" name="seur_preaviso_notificar_field" value="1" <?php checked( 1, get_option( 'seur_preaviso_notificar_field' ), true ); ?>/>
+	<input type="checkbox" class="js-switch-preavisonotificar" title="<?php esc_html_e( 'SEUR field description', 'seur' ); ?>" name="seur_preaviso_notificar_field" value="1" <?php checked( 1, seur()->get_option( 'seur_preaviso_notificar_field' ), true ); ?>/>
 	<?php
 }
 
@@ -82,7 +82,7 @@ function seur_preaviso_notificar_field() {
  */
 function seur_reparto_notificar_field() {
 	?>
-	<input type="checkbox" class="js-switch-repartonotificar" title="<?php esc_html_e( 'SEUR field description', 'seur' ); ?>" name="seur_reparto_notificar_field" value="1" <?php checked( 1, get_option( 'seur_reparto_notificar_field' ), true ); ?>/>
+	<input type="checkbox" class="js-switch-repartonotificar" title="<?php esc_html_e( 'SEUR field description', 'seur' ); ?>" name="seur_reparto_notificar_field" value="1" <?php checked( 1, seur()->get_option( 'seur_reparto_notificar_field' ), true ); ?>/>
 	<?php
 }
 
@@ -91,7 +91,7 @@ function seur_reparto_notificar_field() {
  */
 function seur_tipo_notificacion_field() {
 
-	$option = get_option( 'seur_tipo_notificacion_field' );
+	$option = seur()->get_option( 'seur_tipo_notificacion_field' );
 	?>
 	<select id="notification_type" name="seur_tipo_notificacion_field">
 		<option value="SMS" 
@@ -121,7 +121,7 @@ function seur_tipo_notificacion_field() {
  */
 function seur_tipo_etiqueta_field() {
 
-	$option = get_option( 'seur_tipo_etiqueta_field' );
+	$option = seur()->get_option( 'seur_tipo_etiqueta_field' );
 	?>
 	<select id="label_type" name="seur_tipo_etiqueta_field">
 		<option value="PDF" 
@@ -145,7 +145,7 @@ function seur_tipo_etiqueta_field() {
  */
 function seur_aduana_origen_field() {
 
-	$option = get_option( 'seur_aduana_origen_field' );
+	$option = seur()->get_option( 'seur_aduana_origen_field' );
 	?>
 	<select id="seur_aduana_origen_type" name="seur_aduana_origen_field">
 		<option value="D" 
@@ -170,22 +170,11 @@ function seur_aduana_origen_field() {
  */
 function seur_aduana_destino_field() {
 
-	$option = get_option( 'seur_aduana_destino_field' );
+	$option = seur()->get_option( 'seur_aduana_destino_field' );
 	?>
 	<select id="seur_aduana_destino_type" name="seur_aduana_destino_field">
-		<option value="D" 
-		<?php
-		if ( 'D' === $option ) {
-			echo ' selected';}
-		?>
-		>D</option>
-		<option value="F" 
-		<?php
-		if ( 'F' === $option ) {
-			echo ' selected';}
-		?>
-		>F</option>
-
+		<option value="D" <?php if ( $option === 'D') echo ' selected'; ?>>D</option>
+		<option value="F" <?php if ( $option === 'F') echo ' selected'; ?>>F</option>
 	</select>
 	<?php
 }
@@ -195,33 +184,13 @@ function seur_aduana_destino_field() {
  */
 function seur_tipo_mercancia_field() {
 
-	$option = get_option( 'seur_tipo_mercancia_field' );
+	$option = seur()->get_option( 'seur_tipo_mercancia_field' );
 	?>
 	<select id="mercancia_type" name="seur_tipo_mercancia_field">
-		<option value="C" 
-		<?php
-		if ( 'C' === $option ) {
-			echo ' selected';}
-		?>
-		><?php esc_html_e( 'C: Commercial', 'seur' ); ?></option>
-		<option value="D" 
-		<?php
-		if ( 'D' === $option ) {
-			echo ' selected';}
-		?>
-		><?php esc_html_e( 'D: Documents', 'seur' ); ?></option>
-		<option value="N" 
-		<?php
-		if ( 'N' === $option ) {
-			echo ' selected';}
-		?>
-		><?php esc_html_e( 'N: No Commercial', 'seur' ); ?></option>
-		<option value="S" 
-		<?php
-		if ( 'S' === $option ) {
-			echo ' selected';}
-		?>
-		><?php esc_html_e( 'S: Envelopes', 'seur' ); ?></option>
+	<option value="C" <?php if ( $option === 'C') echo ' selected'; ?>><?php esc_html_e( 'C: Commercial', 'seur' ); ?></option>
+		<option value="D" <?php if ( $option === 'D') echo ' selected'; ?>><?php esc_html_e( 'D: Documents', 'seur' ); ?></option>
+		<option value="N" <?php if ( $option === 'N') echo ' selected'; ?>><?php esc_html_e( 'N: No Commercial', 'seur' ); ?></option>
+		<option value="S" <?php if ( $option === 'S') echo ' selected'; ?>><?php esc_html_e( 'S: Envelopes', 'seur' ); ?></option>
 	</select>
 	<?php
 }
@@ -231,7 +200,7 @@ function seur_tipo_mercancia_field() {
  */
 function seur_id_mercancia_field() {
 	?>
-	<input title="<?php esc_html_e( 'SEUR field description', 'seur' ); ?>" type="text" name="seur_id_mercancia_field" value="<?php echo esc_html( get_option( 'seur_id_mercancia_field' ) ); ?>" size="40" />
+	<input title="<?php esc_html_e( 'SEUR field description', 'seur' ); ?>" type="text" name="seur_id_mercancia_field" value="<?php echo esc_html( seur()->get_option( 'seur_id_mercancia_field' ) ); ?>" size="40" />
 	<?php
 }
 
@@ -240,7 +209,7 @@ function seur_id_mercancia_field() {
  */
 function seur_descripcion_field() {
 	?>
-	<input title="<?php esc_html_e( 'SEUR field description', 'seur' ); ?>" type="text" name="seur_descripcion_field" value="<?php echo esc_html( get_option( 'seur_descripcion_field' ) ); ?>" size="40" />
+	<input title="<?php esc_html_e( 'SEUR field description', 'seur' ); ?>" type="text" name="seur_descripcion_field" value="<?php echo esc_html( seur()->get_option( 'seur_descripcion_field' ) ); ?>" size="40" />
 	<?php
 }
 
@@ -250,20 +219,20 @@ function seur_descripcion_field() {
 function display_seur_advanced_settings_panel_fields() {
 
 	add_settings_section( 'seur-advanced-settings-section', null, null, 'seur-advanced-settings-options' );
-	add_settings_field( 'seur_activate_geolabel_field', __( 'Activate GeoLabel', 'seur' ), 'seur_activate_geolabel_field', 'seur-advanced-settings-options', 'seur-advanced-settings-section' );
-	add_settings_field( 'seur_activate_free_shipping_field', __( 'Show WooCommerce Free Shipping at Checkout (by default SEUR hide the Free Shipping)', 'seur' ), 'seur_activate_free_shipping_field', 'seur-advanced-settings-options', 'seur-advanced-settings-section' );
-	add_settings_field( 'seur_after_get_label_field', __( 'What to do after get order label', 'seur' ), 'seur_after_get_label_field', 'seur-advanced-settings-options', 'seur-advanced-settings-section' );
-	add_settings_field( 'seur_activate_local_pickup_field', __( 'Activate Local Pickup', 'seur' ), 'seur_activate_local_pickup_field', 'seur-advanced-settings-options', 'seur-advanced-settings-section' );
-	add_settings_field( 'seur_google_maps_api_field', __( 'Google Maps API Key', 'seur' ), 'seur_google_maps_api_field', 'seur-advanced-settings-options', 'seur-advanced-settings-section' );
-	add_settings_field( 'seur_preaviso_notificar_field', __( 'Notify collection', 'seur' ), 'seur_preaviso_notificar_field', 'seur-advanced-settings-options', 'seur-advanced-settings-section' );
-	add_settings_field( 'seur_reparto_notificar_field', __( 'Notify distribution', 'seur' ), 'seur_reparto_notificar_field', 'seur-advanced-settings-options', 'seur-advanced-settings-section' );
-	add_settings_field( 'seur_tipo_notificacion_field', __( 'Notifications by SMS or Email', 'seur' ), 'seur_tipo_notificacion_field', 'seur-advanced-settings-options', 'seur-advanced-settings-section' );
-	add_settings_field( 'seur_tipo_etiqueta_field', __( 'Type of label', 'seur' ), 'seur_tipo_etiqueta_field', 'seur-advanced-settings-options', 'seur-advanced-settings-section' );
-	add_settings_field( 'seur_aduana_origen_field', __( 'Customs of origin', 'seur' ), 'seur_aduana_origen_field', 'seur-advanced-settings-options', 'seur-advanced-settings-section' );
-	add_settings_field( 'seur_aduana_destino_field', __( 'Customs of destination', 'seur' ), 'seur_aduana_destino_field', 'seur-advanced-settings-options', 'seur-advanced-settings-section' );
-	add_settings_field( 'seur_tipo_mercancia_field', __( 'Type of goods', 'seur' ), 'seur_tipo_mercancia_field', 'seur-advanced-settings-options', 'seur-advanced-settings-section' );
-	add_settings_field( 'seur_id_mercancia_field', __( 'ID of goods', 'seur' ), 'seur_id_mercancia_field', 'seur-advanced-settings-options', 'seur-advanced-settings-section' );
-	add_settings_field( 'seur_descripcion_field', __( 'International description', 'seur' ), 'seur_descripcion_field', 'seur-advanced-settings-options', 'seur-advanced-settings-section' );
+	add_settings_field( 'seur_activate_geolabel_field', esc_html__( 'Activate GeoLabel', 'seur' ), 'seur_activate_geolabel_field', 'seur-advanced-settings-options', 'seur-advanced-settings-section' );
+	add_settings_field( 'seur_activate_free_shipping_field', esc_html__( 'Show WooCommerce Free Shipping at Checkout (by default SEUR hide the Free Shipping)', 'seur' ), 'seur_activate_free_shipping_field', 'seur-advanced-settings-options', 'seur-advanced-settings-section' );
+	add_settings_field( 'seur_after_get_label_field', esc_html__( 'What to do after get order label', 'seur' ), 'seur_after_get_label_field', 'seur-advanced-settings-options', 'seur-advanced-settings-section' );
+	add_settings_field( 'seur_activate_local_pickup_field', esc_html__( 'Activate Local Pickup', 'seur' ), 'seur_activate_local_pickup_field', 'seur-advanced-settings-options', 'seur-advanced-settings-section' );
+	add_settings_field( 'seur_google_maps_api_field', esc_html__( 'Google Maps API Key', 'seur' ), 'seur_google_maps_api_field', 'seur-advanced-settings-options', 'seur-advanced-settings-section' );
+	add_settings_field( 'seur_preaviso_notificar_field', esc_html__( 'Notify collection', 'seur' ), 'seur_preaviso_notificar_field', 'seur-advanced-settings-options', 'seur-advanced-settings-section' );
+	add_settings_field( 'seur_reparto_notificar_field', esc_html__( 'Notify distribution', 'seur' ), 'seur_reparto_notificar_field', 'seur-advanced-settings-options', 'seur-advanced-settings-section' );
+	add_settings_field( 'seur_tipo_notificacion_field', esc_html__( 'Notifications by SMS or Email', 'seur' ), 'seur_tipo_notificacion_field', 'seur-advanced-settings-options', 'seur-advanced-settings-section' );
+	add_settings_field( 'seur_tipo_etiqueta_field', esc_html__( 'Type of label', 'seur' ), 'seur_tipo_etiqueta_field', 'seur-advanced-settings-options', 'seur-advanced-settings-section' );
+	add_settings_field( 'seur_aduana_origen_field', esc_html__( 'Customs of origin', 'seur' ), 'seur_aduana_origen_field', 'seur-advanced-settings-options', 'seur-advanced-settings-section' );
+	add_settings_field( 'seur_aduana_destino_field', esc_html__( 'Customs of destination', 'seur' ), 'seur_aduana_destino_field', 'seur-advanced-settings-options', 'seur-advanced-settings-section' );
+	add_settings_field( 'seur_tipo_mercancia_field', esc_html__( 'Type of goods', 'seur' ), 'seur_tipo_mercancia_field', 'seur-advanced-settings-options', 'seur-advanced-settings-section' );
+	add_settings_field( 'seur_id_mercancia_field', esc_html__( 'ID of goods', 'seur' ), 'seur_id_mercancia_field', 'seur-advanced-settings-options', 'seur-advanced-settings-section' );
+	add_settings_field( 'seur_descripcion_field', esc_html__( 'International description', 'seur' ), 'seur_descripcion_field', 'seur-advanced-settings-options', 'seur-advanced-settings-section' );
 
 	// register all setings.
 	register_setting( 'seur-advanced-settings-section', 'seur_activate_geolabel_field' );

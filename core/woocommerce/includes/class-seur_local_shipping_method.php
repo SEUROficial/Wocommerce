@@ -59,7 +59,7 @@ class Seur_Local_Shipping_Method extends WC_Shipping_Method {
 		$rates_type            = get_option( 'seur_rates_type_field' );
 		$localpickup_is_active = get_option( 'seur_activate_local_pickup_field' );
 		$this->log->add( 'seur', 'calculate_shipping( $package = array() ): PROBANDO' );
-		// $this->log->add( 'seur', 'calculate_shipping( $package = array() ): ' . print_r( $package, true ) ); // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_print_r
+		$this->log->add( 'seur', 'calculate_shipping( $package = array() ): ' . print_r( $package, true ) ); // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_print_r
 		// Only return rates if the package has a destination including country.
 		if ( '' === $package['destination']['country'] ) {
 			return;
@@ -68,11 +68,7 @@ class Seur_Local_Shipping_Method extends WC_Shipping_Method {
 			return;
 		}
 		if ( 'price' === $rates_type ) {
-			if ( 'withouttax' === get_option( 'seur_rates_tax_field' ) || ! get_option( 'seur_rates_tax_field' ) ) {
-				$price = $package['contents_cost'];
-			} else {
-				$price = $package['cart_subtotal'];
-			}
+			$price = $package['cart_subtotal'];
 		} else {
 			$weight        = 0;
 			$cost          = 0;
@@ -81,7 +77,7 @@ class Seur_Local_Shipping_Method extends WC_Shipping_Method {
 
 			foreach ( $package['contents'] as $item_id => $values ) {
 				$_product = $values['data'];
-				$weight   = $weight + $_product->get_weight() * $values['quantity'];
+				$weight   = (int) $weight + (int) $_product->get_weight() * (int) $values['quantity'];
 			}
 					$price = wc_get_weight( $weight, 'kg' );
 		}
@@ -93,8 +89,7 @@ class Seur_Local_Shipping_Method extends WC_Shipping_Method {
 		$country       = $package['destination']['country'];
 		$state         = $package['destination']['state'];
 		$postcode_seur = $package['destination']['postcode'];
-		$rate_name     = 'SEUR 2SHOP';
-		$rate_requests = seur_show_availables_rates( $country, $state, $postcode_seur, $price, $rate_name );
+		$rate_requests = seur_show_availables_rates( $country, $state, $postcode_seur, $price );
 
 		if ( $rate_requests ) {
 			// parse the results.
@@ -202,102 +197,52 @@ function seur_map_checkout_load_js() {
  */
 function seur_get_local_pickups( $country, $city, $postcode ) {
 
-	if ( 'ES' === $country || 'PT' === $country || 'AR' === $country ) {
-		$user_data   = seur_get_user_settings();
-		$usercom     = $user_data[0]['seurcom_usuario'];
-		$passcom     = $user_data[0]['seurcom_contra'];
-		$sc_options  = array(
-			'connection_timeout' => 30,
-		);
-		$soap_client = new SoapClient( 'https://ws.seur.com/WSEcatalogoPublicos/servlet/XFireServlet/WSServiciosWebPublicos?wsdl', $sc_options );
-		$xml         = '
-			<CAMPOS>
-				<CODIGO_POSTAL>' . $postcode . '</CODIGO_POSTAL>
-				<NOM_CORTO></NOM_CORTO>
-				<LATITUD></LATITUD>
-				<LONGITUD></LONGITUD>
-				<NOM_POBLACION></NOM_POBLACION>
-				<COD_SERVICIO></COD_SERVICIO>
-				<COD_PRODUCTO></COD_PRODUCTO>
-				<USUARIO>' . $usercom . '</USUARIO>
-				<PASSWORD>' . $passcom . '</PASSWORD>
-			</CAMPOS>';
-		$data        = array( 'in0' => strtoupper( $xml ) );
-		$response    = $soap_client->puntosDeVentaStr( $data );
-		$xml         = simplexml_load_string( utf8_decode( $response->out ) );
-		$centro      = array();
-		$num         = (int) $xml->attributes()->NUM[0];
+	$seur_adr = seur()->get_api_addres() . 'pic/v1/pickups?countryCode=' . $country . '&postalCode=' . $postcode . '&cityName=' . $city;
 
-		for ( $i = 1; $i <= $num; $i++ ) {
-			$name     = 'REG' . $i;
-			$centro[] = array(
-				'id'        => $i,
-				'company'   => (string) $xml->$name->NOM_CENTRO_SEUR, // phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
-				'codCentro' => (string) $xml->$name->COD_CENTRO_SEUR, // phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
-				'city'      => (string) $xml->$name->NOM_POBLACION, // phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
-				'post_code' => (string) $xml->$name->CODIGO_POSTAL, // phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
-				'phone'     => (string) $xml->$name->TELEFONO_1, // phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
-				'tipovia'   => (string) $xml->$name->COD_TIPO_VIA, // phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
-				'nomcorto'  => (string) $xml->$name->NOM_CORTO, // phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
-				'numvia'    => (string) $xml->$name->NUM_VIA, // phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
-				'nompoblac' => (string) $xml->$name->NOM_POBLACION, // phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
-				'lat'       => (float) $xml->$name->LATITUD, // phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
-				'lng'       => (float) $xml->$name->LONGITUD, // phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
-				'timetable' => (string) $xml->$name->HORARIO, // phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
-			);
-		}
-		return $centro;
-	} else {
-		$user_data   = seur_get_user_settings();
-		$usercom     = $user_data[0]['seurcom_usuario'];
-		$passcom     = $user_data[0]['seurcom_contra'];
-		$sc_options  = array(
-			'connection_timeout' => 30,
+	$data = array(
+		'method'      => 'GET',
+		'timeout'     => 45,
+		'httpversion' => '1.0',
+		'user-agent'  => 'WooCommerce',
+		'headers'     => array(
+			'Content-Type'  => 'application/x-www-form-urlencoded;charset=utf-8',
+			'Authorization' => seur()->get_token_b(),
+		),
+	);
+	seur()->slog( '$seur_adr: ' . $seur_adr );
+	seur()->slog( '$data: ' . print_r( $data, true ) ); // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_print_r
+	$response = wp_remote_post(
+		$seur_adr,
+		$data,
+	);
+	$body     = json_decode( wp_remote_retrieve_body( $response ) );
+	seur()->slog( '$body: ' . print_r( $body, true ) ); // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_print_r
+	$centro = array();
+	$i      = 1;
+	foreach ( $body->data as $data ) {
+
+		$centro[] = array(
+			'id'        => $i,
+			'depot'     => (string) $data->depot, // phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
+			'post_code' => $data->postalCode, // phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
+			'codCentro' => (string) $data->code, // phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
+			'company'   => (string) $data->name, // phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
+			'type'      => $data->type,
+			'address'   => (string) $data->address, // phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
+			'city'      => (string) $data->cityName, // phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
+			'pudoid'    => (string) $data->pudoid,
+			'lat'       => (float) $data->latitude, // phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
+			'lng'       => (float) $data->longitude, // phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
+			'tipovia'   => (string) $data->streetType, // phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
+			'numvia'    => (string) $data->streetNumber, // phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
+			'phone'     => (string) '', // phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
+			'nomcorto'  => (string) '', // phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
+			'timetable' => (string) '', // phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
 		);
-		$soap_client = new SoapClient( 'http://ws.seur.com/WSEcatalogoPublicos/servlet/XFireServlet/WSServiciosWebPublicosImpl?wsdl', $sc_options );
-		$data        = array(
-			'address'             => '',
-			'countrycode'         => '',
-			'requestID'           => '',
-			'date_from'           => '',
-			'max_pudo_number'     => '',
-			'max_distance_search' => '',
-			'weight'              => '',
-			'category'            => '',
-			'holiday_tolerant'    => '',
-			'zipCode'             => strtoupper( $postcode ),
-			'city'                => strtoupper( $city ),
-			'userLDAP'            => strtoupper( $usercom ),
-			'passLDAP'            => strtoupper( $passcom ),
-		);
-		$response    = $soap_client->getPudoListStr( $data );
-		$xml         = simplexml_load_string( utf8_decode( $response->out ) );
-		$xmljs       = json_decode( wp_json_encode( $xml ), 1 );
-		$centro      = array();
-		$i           = 0;
-		foreach ( $xml as  $element ) {
-			$num = $element->count();
-			++$i;
-		}
-		for ( $i = 0; $i + 1 <= $num; $i++ ) {
-			$centro[] = array(
-				'id'        => $i,
-				'company'   => $xmljs['PUDO_ITEMS']['PUDO_ITEM'][ $i ]['NAME'],
-				'codCentro' => $xmljs['PUDO_ITEMS']['PUDO_ITEM'][ $i ]['PUDO_ID'],
-				'city'      => $xmljs['PUDO_ITEMS']['PUDO_ITEM'][ $i ]['CITY'],
-				'post_code' => $xmljs['PUDO_ITEMS']['PUDO_ITEM'][ $i ]['ZIPCODE'],
-				'phone'     => '',
-				'tipovia'   => '',
-				'nomcorto'  => $xmljs['PUDO_ITEMS']['PUDO_ITEM'][ $i ]['ADDRESS1'],
-				'numvia'    => $xmljs['PUDO_ITEMS']['PUDO_ITEM'][ $i ]['STREETNUM'],
-				'nompoblac' => $xmljs['PUDO_ITEMS']['PUDO_ITEM'][ $i ]['CITY'],
-				'lat'       => $xmljs['PUDO_ITEMS']['PUDO_ITEM'][ $i ]['LATITUDE'],
-				'lng'       => $xmljs['PUDO_ITEMS']['PUDO_ITEM'][ $i ]['LONGITUDE'],
-				'timetable' => '',
-			);
-		}
-		return $centro;
+		$i++;
 	}
+	seur()->slog( '$centro: ' . print_r( $centro, true ) );
+	return $centro;
 }
 
 /**
@@ -309,10 +254,6 @@ function seur_get_local_pickups( $country, $city, $postcode ) {
 function seur_after_seur_2shop_shipping_rate( $method, $index ) {
 	global $postcode_seur;
 
-	echo "<script>jQuery('#billing_postcode').on('input', function() { jQuery('body').trigger('update_checkout', { update_shipping_method: true }); });</script>";
-
-	$chosen_methods         = false;
-	$chosen_shipping        = false;
 	$custom_name_seur_2shop = get_option( 'seur_2SHOP_custom_name_field' );
 	$chosen_methods         = WC()->session->get( 'chosen_shipping_methods' );
 	$chosen_shipping        = $chosen_methods[0];
@@ -365,27 +306,35 @@ function seur_after_seur_2shop_shipping_rate( $method, $index ) {
 				} else {
 					$print_js .= '{';
 				}
+
+				$print_js .= "depot: '" . addslashes( $local_pickups_array[ $i ]['depot'] ) . "',";
+				$print_js .= "post_code: '" . addslashes( $local_pickups_array[ $i ]['post_code'] ) . "',";
+				$print_js .= "codCentro: '" . addslashes( $local_pickups_array[ $i ]['codCentro'] ) . "',";
+				$print_js .= "title: '" . addslashes( $local_pickups_array[ $i ]['company'] ) . "',";
+				$print_js .= "type: '" . addslashes( $local_pickups_array[ $i ]['type'] ) . "',";
+				$print_js .= "address2: '" . addslashes( $local_pickups_array[ $i ]['address'] ) . "',";
+				$print_js .= "city_only: '" . addslashes( $local_pickups_array[ $i ]['city'] ) . "',";
+				$print_js .= "pudoid: '" . addslashes( $local_pickups_array[ $i ]['pudoid'] ) . "',";
 				$print_js .= 'lat: ' . addslashes( $local_pickups_array[ $i ]['lat'] ) . ',';
 				$print_js .= 'lon: ' . addslashes( $local_pickups_array[ $i ]['lng'] ) . ',';
-				$print_js .= "title: '" . addslashes( $local_pickups_array[ $i ]['company'] ) . "',";
-				$print_js .= "codCentro: '" . addslashes( $local_pickups_array[ $i ]['codCentro'] ) . "',";
+				$print_js .= "streettype: '" . addslashes( $local_pickups_array[ $i ]['tipovia'] ) . "',";
+				$print_js .= "numvia: '" . addslashes( $local_pickups_array[ $i ]['numvia'] ) . "',";
 				$print_js .= "address: '" . addslashes( $local_pickups_array[ $i ]['nomcorto'] ) . ' ' . addslashes( $local_pickups_array[ $i ]['numvia'] ) . "',";
 				$print_js .= "city: '" . addslashes( $local_pickups_array[ $i ]['post_code'] ) . ' ' . addslashes( $local_pickups_array[ $i ]['city'] ) . "',";
-				$print_js .= "city_only: '" . addslashes( $local_pickups_array[ $i ]['city'] ) . "',";
-				$print_js .= "post_code: '" . addslashes( $local_pickups_array[ $i ]['post_code'] ) . "',";
 				$print_js .= "timetable: '" . addslashes( $local_pickups_array[ $i ]['timetable'] ) . "',";
 				$print_js .= "option: '" . $option_selected . "',";
 				$print_js .= 'html: [';
 				$print_js .= "'<h3>" . addslashes( $local_pickups_array[ $i ]['company'] ) . "</h3>',";
 				$print_js .= "'<p>" . addslashes( $local_pickups_array[ $i ]['nomcorto'] ) . ' ' . addslashes( $local_pickups_array[ $i ]['numvia'] ) . "<br />',";
 				$print_js .= "'" . addslashes( $local_pickups_array[ $i ]['post_code'] ) . ' ' . addslashes( $local_pickups_array[ $i ]['city'] ) . "</p>',";
-				$print_js .= "'<p>" . __( 'Timetable: ', 'seur' ) . addslashes( $local_pickups_array[ $i ]['timetable'] ) . "</p>'";
+				$print_js .= "'<p>" . __( 'Timetable: ', 'woocommerce-seur' ) . addslashes( $local_pickups_array[ $i ]['timetable'] ) . "</p>'";
 				$print_js .= "].join(''),";
 				$print_js .= 'zoom: 15';
 				$print_js .= '},';
+				seur()->slog( '$print_js: ' . $print_js );
 			}
 			echo '<br />';
-			esc_html_e( 'Choose a location:', 'seur' );
+			esc_html_e( 'Choose a location:', 'woocommerce-seur' );
 			echo '<div id="controls"></div>';
 			echo '<div id="seur-gmap" style="with:300px;height:250px;"></div>';
 			echo "<script type='text/javascript'>
@@ -409,16 +358,22 @@ function seur_after_seur_2shop_shipping_rate( $method, $index ) {
 									html += '<option value=\"' + (a + 1) + '\">' + (this.o.locations[a].title || ('#' + (a + 1))) + '</option>';
 								}
 							}
+
 							html += '</select>';
 							for (a = 0; a < this.ln; a += 1) {
 								if (this.ShowOnMenu(a)) {
-									html += '<input type=\"hidden\" name=\"seur_title_' + (a + 1) + '\" value=\"' + (this.o.locations[a].title || ('#' + (a + 1))) + '\">';
-									html += '<input type=\"hidden\" name=\"seur_codCentro_' + (a + 1) + '\" value=\"' + (this.o.locations[a].codCentro || ('#' + (a + 1))) + '\">';
-									html += '<input type=\"hidden\" name=\"seur_address_' + (a + 1) + '\" value=\"' + (this.o.locations[a].address || ('#' + (a + 1))) + '\">';
-									html += '<input type=\"hidden\" name=\"seur_city_' + (a + 1) + '\" value=\"' + (this.o.locations[a].city_only || ('#' + (a + 1))) + '\">';
+									html += '<input type=\"hidden\" name=\"seur_depot_' + (a + 1) + '\" value=\"' + (this.o.locations[a].depot || ('#' + (a + 1))) + '\">';
 									html += '<input type=\"hidden\" name=\"seur_postcode_' + (a + 1) + '\" value=\"' + (this.o.locations[a].post_code || ('#' + (a + 1))) + '\">';
+									html += '<input type=\"hidden\" name=\"seur_codCentro_' + (a + 1) + '\" value=\"' + (this.o.locations[a].codCentro || ('#' + (a + 1))) + '\">';
+									html += '<input type=\"hidden\" name=\"seur_title_' + (a + 1) + '\" value=\"' + (this.o.locations[a].title || ('#' + (a + 1))) + '\">';
+									html += '<input type=\"hidden\" name=\"seur_type_' + (a + 1) + '\" value=\"' + (this.o.locations[a].type || ('#' + (a + 1))) + '\">';
+									html += '<input type=\"hidden\" name=\"seur_address_' + (a + 1) + '\" value=\"' + (this.o.locations[a].address2 || ('#' + (a + 1))) + '\">';
+									html += '<input type=\"hidden\" name=\"seur_city_' + (a + 1) + '\" value=\"' + (this.o.locations[a].city_only || ('#' + (a + 1))) + '\">';
+									html += '<input type=\"hidden\" name=\"seur_pudo_id_' + (a + 1) + '\" value=\"' + (this.o.locations[a].pudoid || ('#' + (a + 1))) + '\">';
 									html += '<input type=\"hidden\" name=\"seur_lat_' + (a + 1) + '\" value=\"' + (this.o.locations[a].lat || ('#' + (a + 1))) + '\">';
 									html += '<input type=\"hidden\" name=\"seur_lon_' + (a + 1) + '\" value=\"' + (this.o.locations[a].lon || ('#' + (a + 1))) + '\">';
+									html += '<input type=\"hidden\" name=\"seur_streettype_' + (a + 1) + '\" value=\"' + (this.o.locations[a].streettype || ('#' + (a + 1))) + '\">';
+									html += '<input type=\"hidden\" name=\"seur_numvia_' + (a + 1) + '\" value=\"' + (this.o.locations[a].numvia || ('#' + (a + 1))) + '\">';
 									html += '<input type=\"hidden\" name=\"seur_timetable_' + (a + 1) + '\" value=\"' + (this.o.locations[a].timetable || ('#' + (a + 1))) + '\">';
 								}
 							}
@@ -497,34 +452,53 @@ function seur_validation_2shop_fields() {
 function seur_add_2shop_data_to_order( $order_id ) {
 
 	if ( ! empty( $_POST['seur_pickup'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Missing
-		$id              = sanitize_text_field( wp_unslash( $_POST['seur_pickup'] ) ); // phpcs:ignore WordPress.Security.NonceVerification.Missing
-		$seur_title      = 'seur_title_' . $id;
+		seur()->slog( '$_POST: ' . print_r( $_POST, true ) ); // phpcs:ignore WordPress.Security.NonceVerification.Missing
+		seur()->slog( '$_POST["seur_pickup"]: ' . print_r( $_POST['seur_pickup'], true ) ); // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_print_r
+		$id                        = sanitize_text_field( wp_unslash( $_POST['seur_pickup'] ) ); // phpcs:ignore WordPress.Security.NonceVerification.Missing
+		$seur_depot      = 'seur_depot_' . $id;
+		$seur_postcode   = 'seur_postcode_' . $id;
 		$seur_cod_centro = 'seur_codCentro_' . $id;
+		$seur_title      = 'seur_title_' . $id;
+		$seur_type       = 'seur_type_' . $id;
 		$seur_address    = 'seur_address_' . $id;
 		$seur_city       = 'seur_city_' . $id;
-		$seur_postcode   = 'seur_postcode_' . $id;
+		$seur_pudo_id    = 'seur_pudo_id_' . $id;
 		$seur_lat        = 'seur_lat_' . $id;
 		$seur_lon        = 'seur_lon_' . $id;
+		$seur_streettype = 'seur_streettype_' . $id;
+		$seur_numvia     = 'seur_numvia_' . $id;
 		$seur_timetable  = 'seur_timetable_' . $id;
-		$title           = sanitize_text_field( wp_unslash( $_POST[ $seur_title ] ) ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotValidated,WordPress.Security.NonceVerification.Missing
-		$codcentro       = sanitize_text_field( wp_unslash( $_POST[ $seur_cod_centro ] ) ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotValidated,WordPress.Security.NonceVerification.Missing
-		$address         = sanitize_text_field( wp_unslash( $_POST[ $seur_address ] ) ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotValidated,WordPress.Security.NonceVerification.Missing
-		$city            = sanitize_text_field( wp_unslash( $_POST[ $seur_city ] ) ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotValidated,WordPress.Security.NonceVerification.Missing
-		$postcode        = sanitize_text_field( wp_unslash( $_POST[ $seur_postcode ] ) ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotValidated,WordPress.Security.NonceVerification.Missing
-		$lat             = sanitize_text_field( wp_unslash( $_POST[ $seur_lat ] ) ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotValidated,WordPress.Security.NonceVerification.Missing
-		$lon             = sanitize_text_field( wp_unslash( $_POST[ $seur_lon ] ) ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotValidated,WordPress.Security.NonceVerification.Missing
-		$timetable       = sanitize_text_field( wp_unslash( $_POST[ $seur_timetable ] ) ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotValidated,WordPress.Security.NonceVerification.Missing
 
+		$depot      = sanitize_text_field( wp_unslash( $_POST[ $seur_depot ] ) ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotValidated,WordPress.Security.NonceVerification.Missing
+		$postcode   = sanitize_text_field( wp_unslash( $_POST[ $seur_postcode ] ) ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotValidated,WordPress.Security.NonceVerification.Missing
+		$cod_centro = sanitize_text_field( wp_unslash( $_POST[ $seur_cod_centro ] ) ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotValidated,WordPress.Security.NonceVerification.Missing
+		$title      = sanitize_text_field( wp_unslash( $_POST[ $seur_title ] ) ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotValidated,WordPress.Security.NonceVerification.Missing
+		$type       = sanitize_text_field( wp_unslash( $_POST[ $seur_type ] ) ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotValidated,WordPress.Security.NonceVerification.Missing
+		$address    = sanitize_text_field( wp_unslash( $_POST[ $seur_address ] ) ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotValidated,WordPress.Security.NonceVerification.Missing
+		$city       = sanitize_text_field( wp_unslash( $_POST[ $seur_city ] ) ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotValidated,WordPress.Security.NonceVerification.Missing
+		$pudoid     = sanitize_text_field( wp_unslash( $_POST[ $seur_pudo_id ] ) ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotValidated,WordPress.Security.NonceVerification.Missing
+		$lat        = sanitize_text_field( wp_unslash( $_POST[ $seur_lat ] ) ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotValidated,WordPress.Security.NonceVerification.Missing
+		$lon        = sanitize_text_field( wp_unslash( $_POST[ $seur_lon ] ) ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotValidated,WordPress.Security.NonceVerification.Missing
+		$streettype = sanitize_text_field( wp_unslash( $_POST[ $seur_streettype ] ) ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotValidated,WordPress.Security.NonceVerification.Missing
+		$numvia     = sanitize_text_field( wp_unslash( $_POST[ $seur_numvia ] ) ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotValidated,WordPress.Security.NonceVerification.Missing
+		$timetable  = sanitize_text_field( wp_unslash( $_POST[ $seur_timetable ] ) ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotValidated,WordPress.Security.NonceVerification.Missing
+
+		update_post_meta( $order_id, '_seur_2shop_depot', str_pad( $depot, 2, '0', STR_PAD_LEFT ) );
+		update_post_meta( $order_id, '_seur_2shop_postcode', $postcode );
+		update_post_meta( $order_id, '_seur_2shop_codCentro', str_pad( $cod_centro, 3, '0', STR_PAD_LEFT ) );
 		update_post_meta( $order_id, '_seur_2shop_title', $title );
-		update_post_meta( $order_id, '_seur_2shop_codCentro', $codcentro );
+		update_post_meta( $order_id, '_seur_2shop_type', $type );
 		update_post_meta( $order_id, '_seur_2shop_address', $address );
 		update_post_meta( $order_id, '_seur_2shop_city', $city );
-		update_post_meta( $order_id, '_seur_2shop_postcode', $postcode );
+		update_post_meta( $order_id, '_seur_2shop_pudo_id', $pudoid );
 		update_post_meta( $order_id, '_seur_2shop_lat', $lat );
 		update_post_meta( $order_id, '_seur_2shop_lon', $lon );
+		update_post_meta( $order_id, '_seur_2shop_streettype', $streettype );
+		update_post_meta( $order_id, '_seur_2shop_numvia', $numvia );
 		update_post_meta( $order_id, '_seur_2shop_timetable', $timetable );
 	}
 }
+
 $localpickup_is_active = get_option( 'seur_activate_local_pickup_field' );
 
 if ( '1' === $localpickup_is_active ) {

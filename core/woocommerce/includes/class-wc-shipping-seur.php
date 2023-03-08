@@ -312,7 +312,7 @@ class WC_Shipping_SEUR extends WC_Shipping_Method {
 		$rate_requests = array();
 		$rates_type    = get_option( 'seur_rates_type_field' );
 		$this->log->add( 'seur', 'calculate_shipping( $package = array() ): PROBANDO' );
-		// $this->log->add( 'seur', 'calculate_shipping( $package = array() ): ' . print_r( $package, true ) ); // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_print_r
+		$this->log->add( 'seur', 'calculate_shipping( $package = array() ): ' . print_r( $package, true ) ); // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_print_r
 
 		// Only return rates if the package has a destination including country.
 		if ( '' === $package['destination']['country'] ) {
@@ -336,14 +336,13 @@ class WC_Shipping_SEUR extends WC_Shipping_Method {
 
 			foreach ( $package['contents'] as $item_id => $values ) {
 				$_product = $values['data'];
-				$weight   = $weight + $_product->get_weight() * $values['quantity'];
+				$weight   = (int) $weight + (int) $_product->get_weight() * (int) $values['quantity'];
 			}
 			$price = wc_get_weight( $weight, 'kg' );
 		}
 		$country       = $package['destination']['country'];
 		$state         = $package['destination']['state'];
 		$postcode      = $package['destination']['postcode'];
-		$rate_name     = 'normal_shipping';
 		$rate_requests = seur_show_availables_rates( $country, $state, $postcode, $price );
 
 		if ( ! $rate_requests ) {
