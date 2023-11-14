@@ -26,9 +26,11 @@ function seur_create_custom_rate() {
 			$seur_rate      = sanitize_text_field( wp_unslash( $_POST['rate'] ) ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotValidated
 			$seur_country   = sanitize_text_field( wp_unslash( $_POST['country'] ) ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotValidated
 			$seur_state     = sanitize_text_field( wp_unslash( $_POST['state'] ) ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotValidated
-			$seur_minprice  = sanitize_text_field( wp_unslash( $_POST['minprice'] ) ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotValidated
-			$seur_maxprice  = sanitize_text_field( wp_unslash( $_POST['maxprice'] ) ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotValidated
-			$seur_rateprice = sanitize_text_field( wp_unslash( $_POST['rateprice'] ) ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotValidated
+			$seur_minprice  = sanitize_text_field( wp_unslash( $_POST['minprice']??'0' ) ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotValidated
+			$seur_maxprice  = sanitize_text_field( wp_unslash( $_POST['maxprice']??'9999999' ) ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotValidated
+            $seur_minweight = sanitize_text_field( wp_unslash( $_POST['minweight']??'0' ) ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotValidated
+            $seur_maxweight = sanitize_text_field( wp_unslash( $_POST['maxweight']??'9999999' ) ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotValidated
+            $seur_rateprice = sanitize_text_field( wp_unslash( $_POST['rateprice'] ) ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotValidated
 			$seur_rate_type = sanitize_text_field( wp_unslash( $_POST['rate_type'] ) ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotValidated
 			$seur_postcode  = seur_sanitize_postcode( sanitize_text_field( wp_unslash( $_POST['postcode'] ) ), $seur_country ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotValidated
 
@@ -38,6 +40,9 @@ function seur_create_custom_rate() {
 			if ( empty( $seur_minprice ) ) {
 				$seur_minprice = '0';
 			}
+            if ( empty( $seur_minweight ) ) {
+                $seur_minweight = '0';
+            }
 			if ( empty( $seur_postcode ) || '00000' === $seur_postcode || '0000' === $seur_postcode || '*' === $seur_postcode ) {
 				$seur_postcode = '*';
 			}
@@ -50,10 +55,13 @@ function seur_create_custom_rate() {
 			if ( empty( $seur_country ) ) {
 				$seur_country = '*';
 			}
-			if ( empty( $seur_maxprice ) || '*' === $seur_maxprice || $seur_maxprice > '9999999' ) {
-				$seur_maxprice = '9999999';
-			}
+            if (empty($seur_maxprice) || '*' === $seur_maxprice || $seur_maxprice > '9999999') {
+                $seur_maxprice = '9999999';
+            }
 
+            if (empty($seur_maxweight) || '*' === $seur_maxweight || $seur_maxweight > '9999999') {
+                $seur_maxweight = '9999999';
+            }
 			$wpdb->insert(
 				$table,
 				array(
@@ -63,6 +71,8 @@ function seur_create_custom_rate() {
 					'postcode'  => $seur_postcode,
 					'minprice'  => $seur_minprice,
 					'maxprice'  => $seur_maxprice,
+                    'minweight'  => $seur_minweight,
+                    'maxweight'  => $seur_maxweight,
 					'rateprice' => $seur_rateprice,
 					'type'      => $seur_rate_type,
 				),
@@ -73,6 +83,8 @@ function seur_create_custom_rate() {
 					'%s',
 					'%f',
 					'%f',
+                    '%f',
+                    '%f',
 					'%f',
 					'%s',
 				)

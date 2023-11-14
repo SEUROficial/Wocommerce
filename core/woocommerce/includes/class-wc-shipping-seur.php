@@ -326,17 +326,12 @@ class WC_Shipping_SEUR extends WC_Shipping_Method {
 			$price = $package['cart_subtotal'];
 		}
 
-		if ( 'price' === $rates_type ) {
-			$price = $price;
-		} else {
-			$weight        = 0;
-			$cost          = 0;
-			$country       = $package['destination']['country'];
+		if ( $rates_type != 'price' ) {
+			$weight        = 0.0;
 			$package_price = $price;
-
 			foreach ( $package['contents'] as $item_id => $values ) {
 				$_product = $values['data'];
-				$weight   = (int) $weight + (int) $_product->get_weight() * (int) $values['quantity'];
+				$weight   = (float) $weight + ((float) $_product->get_weight() * (float) $values['quantity']);
 			}
 			$price = wc_get_weight( $weight, 'kg' );
 		}
@@ -359,14 +354,13 @@ class WC_Shipping_SEUR extends WC_Shipping_Method {
 				$raterate      = $rate['rate'];
 				$ratepricerate = $rate['rateprice'];
 
-				if ( $rate && 'SEUR 2SHOP' !== $raterate ) {
-					$sort = 999;
-					if ( 'price' === $rates_type ) {
-						$ratepricerate = $ratepricerate;
-					} else {
+				if ( $rate && ('SEUR 2SHOP' !== $raterate ||  'CLASSIC 2SHOP' !== $raterate )) {
+                	$sort = 999;
+                    $ratepricerate = $ratepricerate;
+					if ( 'price'  !== $rates_type ) {
 						$ratepricerate = seur_filter_price_rate_weight( $package_price, $raterate, $ratepricerate, $countryrate );
 					}
-					$rate_name        = seur_get_custom_rate_name( $raterate );
+					$rate_name = seur_get_custom_rate_name( $raterate );
 					$rates[ $idrate ] = array(
 						'id'    => $idrate,
 						'label' => $rate_name,

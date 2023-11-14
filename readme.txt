@@ -1,11 +1,11 @@
 === SEUR Oficial ===
-Contributors: j.conti, seuroficial
+Contributors: seuroficial
 Tags: woocommerce, shipping, seur, logistica, enviar paquete, pedidos, entregas
 Requires at least: 4.0
 Tested up to: 6.2
-Stable tag: 2.1.0
+Stable tag: 2.2.4
 WC requires at least: 3.0
-WC tested up to: 7.3
+WC tested up to: 7.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -94,9 +94,38 @@ The "SEUR > Shipments" menu includes the option to track your shipment and see t
 
 == Changelog ==
 
-== 2.2.0 ==
+== 2.2.4 ==
 
-* FIXED: Fixed $weight in some PHP settings.
+* ADDED: Add traking statuses
+* ADDED: PDF massive print
+* ADDED: Add platform name in shipments endpoint
+* ADDED: Add 'change' service
+* FIXED: Fix international pickup
+* FIXED: Fix has_label function warning
+* FIXED: Fix filter orders
+
+== 2.2.3 ==
+
+* ADDED: Check if really has label
+* FIXED: Error while generating manifest
+* FIXED: Incorrect rate computed for items with weight less than 1Kg
+* FIXED: Custom name rates field
+* FIXED: Check shipping method Seur
+* FIXED: Add Classic 2shop as pickup shipping methods to print map
+* FIXED: Termica massive print option
+
+== 2.2.2 ==
+
+* CHANGED: Show Seur metabox only for Seur orders
+* FIXED: Get Seur products/services from data file instead DB in label generation
+
+== 2.2.1 ==
+
+* CHANGED: Change SOAP calls to API Rest in shipments, labels, pickups points and manifesto
+
+== 2.1.1 ==
+
+* FIXED: An error when using weight for rates.
 
 == 2.1.0 ==
 
@@ -152,11 +181,11 @@ The "SEUR > Shipments" menu includes the option to track your shipment and see t
 * Fixed a problem with Free Shipping with different tax.
 * Declared compatibility with WooCommerce 4.3
 
-== 1.5.1 == 
+== 1.5.1 ==
 
 * Fixed a problem with pickup method. The selection of the Pickup method in the checkout produced a duplication of other methods.
 
-== 1.5.0 == 
+== 1.5.0 ==
 
 * Declared compatibility with WordPress 5.3 & WooCommerce 4.0
 * Added International Pickup

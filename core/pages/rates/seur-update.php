@@ -28,6 +28,8 @@ function seur_update_custom_rate() {
 			$seur_state     = sanitize_text_field( wp_unslash( $_POST['state'] ) ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotValidated
 			$seur_minprice  = sanitize_text_field( wp_unslash( $_POST['minprice'] ) ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotValidated
 			$seur_maxprice  = sanitize_text_field( wp_unslash( $_POST['maxprice'] ) ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotValidated
+            $seur_minweight = sanitize_text_field( wp_unslash( $_POST['minweight'] ) ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotValidated
+            $seur_maxweight = sanitize_text_field( wp_unslash( $_POST['maxweight'] ) ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotValidated
 			$seur_rateprice = sanitize_text_field( wp_unslash( $_POST['rateprice'] ) ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotValidated
 			$seur_rate_type = sanitize_text_field( wp_unslash( $_POST['rate_type'] ) ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotValidated
 			$seur_postcode  = sanitize_text_field( wp_unslash( $_POST['postcode'] ), $seur_country ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotValidated
@@ -47,9 +49,15 @@ function seur_update_custom_rate() {
 			if ( empty( $seur_country ) ) {
 				$seur_country = '*';
 			}
-			if ( empty( $seur_maxprice ) || '*' === $seur_maxprice || $seur_maxprice > '9999999' ) {
-				$seur_maxprice = '9999999';
-			}
+
+            if (empty($seur_maxprice) || '*' === $seur_maxprice || $seur_maxprice > '9999999') {
+                $seur_maxprice = '9999999';
+            }
+
+            if (empty($seur_maxweight) || '*' === $seur_maxweight || $seur_maxweight > '9999999') {
+                $seur_maxweight = '9999999';
+            }
+
 			$wpdb->update(
 				$table,
 				array(
@@ -58,6 +66,8 @@ function seur_update_custom_rate() {
 					'state'     => $seur_state,
 					'minprice'  => $seur_minprice,
 					'maxprice'  => $seur_maxprice,
+                    'minweight'  => $seur_minweight,
+                    'maxweight'  => $seur_maxweight,
 					'rateprice' => $seur_rateprice,
 					'postcode'  => $seur_postcode,
 					'type'      => $seur_rate_type,
@@ -69,6 +79,8 @@ function seur_update_custom_rate() {
 					'%s',
 					'%f',
 					'%f',
+                    '%f',
+                    '%f',
 					'%f',
 					'%s',
 					'%s',

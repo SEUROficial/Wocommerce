@@ -67,44 +67,39 @@ class Seur_Local_Shipping_Method extends WC_Shipping_Method {
 		if ( '1' !== $localpickup_is_active ) {
 			return;
 		}
-		if ( 'price' === $rates_type ) {
-			$price = $package['cart_subtotal'];
-		} else {
+        $price = $package['cart_subtotal'];
+		if ( $rates_type != 'price' ) {
 			$weight        = 0;
-			$cost          = 0;
-			$country       = $package['destination']['country'];
 			$package_price = $package['contents_cost'];
 
 			foreach ( $package['contents'] as $item_id => $values ) {
 				$_product = $values['data'];
 				$weight   = (int) $weight + (int) $_product->get_weight() * (int) $values['quantity'];
 			}
-					$price = wc_get_weight( $weight, 'kg' );
+			$price = wc_get_weight( $weight, 'kg' );
 		}
 
-		$this->log->add( 'seur', '$country: ' . $country );
-		$this->log->add( 'seur', '$state: ' . $state );
-		$this->log->add( 'seur', '$postcode_seur: ' . $postcode_seur );
-		$this->log->add( 'seur', '$price: ' . $price );
 		$country       = $package['destination']['country'];
 		$state         = $package['destination']['state'];
 		$postcode_seur = $package['destination']['postcode'];
 		$rate_requests = seur_show_availables_rates( $country, $state, $postcode_seur, $price );
+        $this->log->add( 'seur', '$country: ' . $country );
+        $this->log->add( 'seur', '$state: ' . $state );
+        $this->log->add( 'seur', '$postcode_seur: ' . $postcode_seur );
+        $this->log->add( 'seur', '$price: ' . $price );
 
-		if ( $rate_requests ) {
-			// parse the results.
+        if ( $rate_requests ) {
+            // parse the results.
 			foreach ( $rate_requests as $rate ) {
-				$idrate        = $rate['ID'];
+                $idrate        = $rate['ID'];
 				$countryrate   = $rate['country'];
 				$staterate     = $rate['state'];
 				$postcoderate  = $rate['postcode'];
 				$raterate      = $rate['rate'];
 				$ratepricerate = $rate['rateprice'];
-				if ( $rate && 'SEUR 2SHOP' === $raterate ) {
-					$sort = 999;
-					if ( 'price' === $rates_type ) {
-						$ratepricerate = $ratepricerate;
-					} else {
+				if ( $rate && 'SEUR 2SHOP' === $raterate  ||  $rate && 'CLASSIC 2SHOP' === $raterate ) {
+                    $sort = 999;
+					if ( $rates_type != 'price') {
 						$ratepricerate = seur_filter_price_rate_weight( $package_price, $raterate, $ratepricerate, $countryrate );
 					}
 					$rate_name        = seur_get_custom_rate_name( $raterate );
@@ -116,15 +111,16 @@ class Seur_Local_Shipping_Method extends WC_Shipping_Method {
 					);
 				}
 			}
-		} //foreach ( $package_requests )
-		// Add rates.
-		if ( $rates ) {
-				uasort( $rates, array( $this, 'sort_rates' ) );
-			foreach ( $rates as $key => $rate ) {
-					$this->add_rate( $rate );
-			}
-			// Fallback.
 		}
+
+        // Add rates.
+		if ( $rates ) {
+            uasort($rates, array($this, 'sort_rates'));
+            foreach ($rates as $key => $rate) {
+                $this->add_rate($rate);
+            }
+            // Fallback.
+        }
 	}
 
 	/**
@@ -197,52 +193,53 @@ function seur_map_checkout_load_js() {
  */
 function seur_get_local_pickups( $country, $city, $postcode ) {
 
-	$seur_adr = seur()->get_api_addres() . 'pic/v1/pickups?countryCode=' . $country . '&postalCode=' . $postcode . '&cityName=' . $city;
+    // if ( 'ES' === $country || 'PT' === $country || 'AD' === $country ) {
+        $seur_adr = seur()->get_api_addres() . SEUR_API_PICKUPS . '?countryCode=' . $country . '&postalCode=' . $postcode . '&cityName=' . $city;
 
-	$data = array(
-		'method'      => 'GET',
-		'timeout'     => 45,
-		'httpversion' => '1.0',
-		'user-agent'  => 'WooCommerce',
-		'headers'     => array(
-			'Content-Type'  => 'application/x-www-form-urlencoded;charset=utf-8',
-			'Authorization' => seur()->get_token_b(),
-		),
-	);
-	seur()->slog( '$seur_adr: ' . $seur_adr );
-	seur()->slog( '$data: ' . print_r( $data, true ) ); // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_print_r
-	$response = wp_remote_post(
-		$seur_adr,
-		$data,
-	);
-	$body     = json_decode( wp_remote_retrieve_body( $response ) );
-	seur()->slog( '$body: ' . print_r( $body, true ) ); // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_print_r
-	$centro = array();
-	$i      = 1;
-	foreach ( $body->data as $data ) {
-
-		$centro[] = array(
-			'id'        => $i,
-			'depot'     => (string) $data->depot, // phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
-			'post_code' => $data->postalCode, // phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
-			'codCentro' => (string) $data->code, // phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
-			'company'   => (string) $data->name, // phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
-			'type'      => $data->type,
-			'address'   => (string) $data->address, // phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
-			'city'      => (string) $data->cityName, // phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
-			'pudoid'    => (string) $data->pudoid,
-			'lat'       => (float) $data->latitude, // phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
-			'lng'       => (float) $data->longitude, // phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
-			'tipovia'   => (string) $data->streetType, // phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
-			'numvia'    => (string) $data->streetNumber, // phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
-			'phone'     => (string) '', // phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
-			'nomcorto'  => (string) '', // phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
-			'timetable' => (string) '', // phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
-		);
-		$i++;
-	}
-	seur()->slog( '$centro: ' . print_r( $centro, true ) );
-	return $centro;
+        $data = array(
+            'method' => 'GET',
+            'timeout' => 45,
+            'httpversion' => '1.0',
+            'user-agent' => 'WooCommerce',
+            'headers' => array(
+                'Content-Type' => 'application/x-www-form-urlencoded;charset=utf-8',
+                'Authorization' => seur()->get_token_b(),
+            ),
+        );
+        seur()->slog('$seur_adr: ' . $seur_adr);
+        seur()->slog('$data: ' . print_r($data, true)); // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_print_r
+        $response = wp_remote_post(
+            $seur_adr,
+            $data,
+        );
+        $body = json_decode(wp_remote_retrieve_body($response));
+        seur()->slog('$body: ' . print_r($body, true)); // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_print_r
+        $centro = array();
+        $i = 1;
+        foreach ($body->data as $data) {
+            $centro[] = array(
+                'id' => $i,
+                'depot' => (string)$data->depot, // phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
+                'post_code' => $data->postalCode, // phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
+                'codCentro' => (string)$data->code, // phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
+                'company' => (string)$data->name, // phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
+                'type' => $data->type,
+                'address' => (string)$data->address, // phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
+                'city' => (string)$data->cityName, // phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
+                'pudoId' => (string)$data->pudoId,
+                'lat' => (float)$data->latitude, // phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
+                'lng' => (float)$data->longitude, // phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
+                'tipovia' => (string)$data->streetType, // phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
+                'numvia' => (string)$data->streetNumber, // phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
+                'phone' => (string)'', // phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
+                'nomcorto' => (string)'', // phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
+                'timetable' => (string)'', // phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
+            );
+            $i++;
+        }
+        seur()->slog('$centro: ' . print_r($centro, true));
+        return $centro;
+    //}
 }
 
 /**
@@ -254,7 +251,8 @@ function seur_get_local_pickups( $country, $city, $postcode ) {
 function seur_after_seur_2shop_shipping_rate( $method, $index ) {
 	global $postcode_seur;
 
-	$custom_name_seur_2shop = get_option( 'seur_2SHOP_custom_name_field' );
+	$custom_name_seur_2shop = get_option( 'seur_2shop_custom_name_field' );
+    $custom_name_classic_2shop = get_option( 'seur_classic_int_2shop_custom_name_field' );
 	$chosen_methods         = WC()->session->get( 'chosen_shipping_methods' );
 	$chosen_shipping        = $chosen_methods[0];
 
@@ -263,42 +261,39 @@ function seur_after_seur_2shop_shipping_rate( $method, $index ) {
 	} else {
 		$post_data = $_POST; // phpcs:ignore WordPress.Security.NonceVerification.Missing
 	}
-
-	if ( isset( $post_data['shipping_postcode'] ) && '' !== $post_data['shipping_postcode'] ) {
+    $postcode_seur = $post_data['billing_postcode']??'';
+    if ( isset( $post_data['shipping_postcode'] ) && '' !== $post_data['shipping_postcode'] ) {
 		$postcode_seur = $post_data['shipping_postcode'];
-	} else {
-		$postcode_seur = $post_data['billing_postcode'];
 	}
+    $country_seur = $post_data['billing_country']??'';
 	if ( isset( $post_data['shipping_country'] ) && '' !== $post_data['shipping_country'] ) {
 		$country_seur = $post_data['shipping_country'];
-	} else {
-		$country_seur = $post_data['billing_country'];
 	}
+    $city = $post_data['billing_city']??'';
 	if ( isset( $post_data['shipping_city'] ) && '' !== $post_data['shipping_city'] ) {
 		$city = $post_data['shipping_city'];
-	} else {
-		$city = $post_data['billing_city'];
 	}
-	if ( ! empty( $custom_name_seur_2shop ) ) {
-		$custom_name_seur_2shop = $custom_name_seur_2shop;
-	} else {
+	if ( empty( $custom_name_seur_2shop ) ) {
 		$custom_name_seur_2shop = 'SEUR 2SHOP';
 	}
+    if ( empty( $custom_name_classic_2shop ) ) {
+        $custom_name_classic_2shop = 'CLASSIC 2SHOP';
+    }
+    $option_selected = '0';
 	if ( isset( $post_data['seur_pickup'] ) ) {
+        $option_selected = $post_data['seur_pickup'];
 		if ( 'all' === $post_data['seur_pickup'] ) {
 			$option_selected = '500000';
-		} else {
-			$option_selected = $post_data['seur_pickup'];
 		}
-	} else {
-		$option_selected = '0';
 	}
 	if ( ! empty( $country_seur ) && ! empty( $city ) && ! empty( $postcode_seur ) ) {
-		if ( ( $method->label === $custom_name_seur_2shop ) && ( $method->id === $chosen_shipping ) && ! is_checkout() ) {
+		if ( ( $method->label === $custom_name_seur_2shop || $method->label === $custom_name_classic_2shop )
+              && ( $method->id === $chosen_shipping ) && ! is_checkout() ) {
 			echo '<br />';
 			esc_html_e( 'You will have to select a location in the next step', 'seur' );
 		}
-		if ( ( $method->label === $custom_name_seur_2shop ) && ( $method->id === $chosen_shipping ) && is_checkout() ) {
+		if ( ( $method->label === $custom_name_seur_2shop || $method->label === $custom_name_classic_2shop )
+              && ( $method->id === $chosen_shipping ) && is_checkout() ) {
 			$local_pickups_array = seur_get_local_pickups( $country_seur, $city, $postcode_seur );
 			for ( $i = 0; $i < count( $local_pickups_array ); $i++ ) { // phpcs:ignore Squiz.PHP.DisallowSizeFunctionsInLoops.Found,Generic.CodeAnalysis.ForLoopWithTestFunctionCall.NotAllowed
 				if ( 0 === $i ) {
@@ -314,7 +309,7 @@ function seur_after_seur_2shop_shipping_rate( $method, $index ) {
 				$print_js .= "type: '" . addslashes( $local_pickups_array[ $i ]['type'] ) . "',";
 				$print_js .= "address2: '" . addslashes( $local_pickups_array[ $i ]['address'] ) . "',";
 				$print_js .= "city_only: '" . addslashes( $local_pickups_array[ $i ]['city'] ) . "',";
-				$print_js .= "pudoid: '" . addslashes( $local_pickups_array[ $i ]['pudoid'] ) . "',";
+				$print_js .= "pudoId: '" . addslashes( $local_pickups_array[ $i ]['pudoId'] ) . "',";
 				$print_js .= 'lat: ' . addslashes( $local_pickups_array[ $i ]['lat'] ) . ',';
 				$print_js .= 'lon: ' . addslashes( $local_pickups_array[ $i ]['lng'] ) . ',';
 				$print_js .= "streettype: '" . addslashes( $local_pickups_array[ $i ]['tipovia'] ) . "',";
@@ -369,7 +364,7 @@ function seur_after_seur_2shop_shipping_rate( $method, $index ) {
 									html += '<input type=\"hidden\" name=\"seur_type_' + (a + 1) + '\" value=\"' + (this.o.locations[a].type || ('#' + (a + 1))) + '\">';
 									html += '<input type=\"hidden\" name=\"seur_address_' + (a + 1) + '\" value=\"' + (this.o.locations[a].address2 || ('#' + (a + 1))) + '\">';
 									html += '<input type=\"hidden\" name=\"seur_city_' + (a + 1) + '\" value=\"' + (this.o.locations[a].city_only || ('#' + (a + 1))) + '\">';
-									html += '<input type=\"hidden\" name=\"seur_pudo_id_' + (a + 1) + '\" value=\"' + (this.o.locations[a].pudoid || ('#' + (a + 1))) + '\">';
+									html += '<input type=\"hidden\" name=\"seur_pudo_id_' + (a + 1) + '\" value=\"' + (this.o.locations[a].pudoId || ('#' + (a + 1))) + '\">';
 									html += '<input type=\"hidden\" name=\"seur_lat_' + (a + 1) + '\" value=\"' + (this.o.locations[a].lat || ('#' + (a + 1))) + '\">';
 									html += '<input type=\"hidden\" name=\"seur_lon_' + (a + 1) + '\" value=\"' + (this.o.locations[a].lon || ('#' + (a + 1))) + '\">';
 									html += '<input type=\"hidden\" name=\"seur_streettype_' + (a + 1) + '\" value=\"' + (this.o.locations[a].streettype || ('#' + (a + 1))) + '\">';
@@ -454,7 +449,7 @@ function seur_add_2shop_data_to_order( $order_id ) {
 	if ( ! empty( $_POST['seur_pickup'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Missing
 		seur()->slog( '$_POST: ' . print_r( $_POST, true ) ); // phpcs:ignore WordPress.Security.NonceVerification.Missing
 		seur()->slog( '$_POST["seur_pickup"]: ' . print_r( $_POST['seur_pickup'], true ) ); // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_print_r
-		$id                        = sanitize_text_field( wp_unslash( $_POST['seur_pickup'] ) ); // phpcs:ignore WordPress.Security.NonceVerification.Missing
+		$id              = sanitize_text_field( wp_unslash( $_POST['seur_pickup'] ) ); // phpcs:ignore WordPress.Security.NonceVerification.Missing
 		$seur_depot      = 'seur_depot_' . $id;
 		$seur_postcode   = 'seur_postcode_' . $id;
 		$seur_cod_centro = 'seur_codCentro_' . $id;
@@ -476,7 +471,7 @@ function seur_add_2shop_data_to_order( $order_id ) {
 		$type       = sanitize_text_field( wp_unslash( $_POST[ $seur_type ] ) ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotValidated,WordPress.Security.NonceVerification.Missing
 		$address    = sanitize_text_field( wp_unslash( $_POST[ $seur_address ] ) ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotValidated,WordPress.Security.NonceVerification.Missing
 		$city       = sanitize_text_field( wp_unslash( $_POST[ $seur_city ] ) ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotValidated,WordPress.Security.NonceVerification.Missing
-		$pudoid     = sanitize_text_field( wp_unslash( $_POST[ $seur_pudo_id ] ) ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotValidated,WordPress.Security.NonceVerification.Missing
+        $pudoId     = sanitize_text_field( wp_unslash( $_POST[ $seur_pudo_id ] ) ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotValidated,WordPress.Security.NonceVerification.Missing
 		$lat        = sanitize_text_field( wp_unslash( $_POST[ $seur_lat ] ) ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotValidated,WordPress.Security.NonceVerification.Missing
 		$lon        = sanitize_text_field( wp_unslash( $_POST[ $seur_lon ] ) ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotValidated,WordPress.Security.NonceVerification.Missing
 		$streettype = sanitize_text_field( wp_unslash( $_POST[ $seur_streettype ] ) ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotValidated,WordPress.Security.NonceVerification.Missing
@@ -490,7 +485,7 @@ function seur_add_2shop_data_to_order( $order_id ) {
 		update_post_meta( $order_id, '_seur_2shop_type', $type );
 		update_post_meta( $order_id, '_seur_2shop_address', $address );
 		update_post_meta( $order_id, '_seur_2shop_city', $city );
-		update_post_meta( $order_id, '_seur_2shop_pudo_id', $pudoid );
+		update_post_meta( $order_id, '_seur_2shop_pudo_id', $pudoId );
 		update_post_meta( $order_id, '_seur_2shop_lat', $lat );
 		update_post_meta( $order_id, '_seur_2shop_lon', $lon );
 		update_post_meta( $order_id, '_seur_2shop_streettype', $streettype );

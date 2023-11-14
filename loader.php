@@ -3,12 +3,12 @@
  * Plugin Name: SEUR Oficial
  * Plugin URI: http://www.seur.com/
  * Description: Add SEUR shipping method to WooCommerce. The SEUR plugin for WooCommerce allows you to manage your order dispatches in a fast and easy way
- * Version: 2.1.0
- * Author: José Conti
- * Author URI: https://www.joseconti.com/
+ * Version: 2.2.4
+ * Author: SEUR Oficial
+ * Author URI: http://www.seur.com/
  * Tested up to: 6.2
  * WC requires at least: 3.0
- * WC tested up to: 7.3
+ * WC tested up to: 7.4
  * Text Domain: seur
  * Domain Path: /languages/
  * License: GNU General Public License v3.0
@@ -17,21 +17,35 @@
  * @package Seur Official
  **/
 
-define( 'SEUR_OFFICIAL_VERSION', '2.1.0' );
-define( 'SEUR_DB_VERSION', '1.0.3' );
-define( 'SEUR_TABLE_VERSION', '1.0.2' );
+define( 'SEUR_OFFICIAL_VERSION', '2.2.4' );
+define( 'SEUR_DB_VERSION', '1.0.4' );
+define( 'SEUR_TABLE_VERSION', '1.0.4' );
+
 define( 'SEUR_PLUGIN_PATH', plugin_dir_path( __FILE__ ) );
 define( 'SEUR_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
+define( 'SEUR_DATA_PATH', SEUR_PLUGIN_PATH . 'data/' );
 define( 'SEUR_POST_UPDATE_URL', 'https://seur-woo.com/2023/01/12/nueva-version-seur-2-1-x/' );
 
-define( 'SEUR_URL', 'https://api.seur.com/geolabel/api/shipment/addShipment' );
 define( 'SEUR_TEST_API_ADDRESS', 'https://servicios.apipre.seur.io/' );
 define( 'SEUR_LIVE_API_ADDRESS', 'https://servicios.api.seur.io/' );
+
 define( 'SEUR_TOKEN', 'pic_token' );
 define( 'SEUR_COLLECTIONS', 'pic/v1/collections' );
-define( 'SEUR_DATA_PATH', SEUR_PLUGIN_PATH . 'data/' );
+define( 'SEUR_API_TRACKING', 'pic/v1/tracking-services/simplified' );
 
-// define( 'SEUR_URL', 'https://apipre.seur.com/geolabel/api/shipment/addShipment' );.
+define( 'SEUR_API_CITIES', 'pic/v1/cities' );
+define( 'SEUR_API_BREXIT_INV', 'pic/v1/brexit/invoices' );
+define( 'SEUR_API_BREXIT_TARIF', 'pic/v1/brexit/tariff-item' );
+define( 'SEUR_API_SHIPMENT', 'pic/v1/shipments' );
+define( 'SEUR_API_LABELS', 'pic/v1/labels' );
+define( 'SEUR_API_PICKUPS', 'pic/v1/pickups' );
+define( 'SEUR_API_MANIFEST', 'pic/v1/shipments/delivery-manifest' );
+
+define( 'SHIPMENT_STREETNAME_LENGTH', 70 );
+define( 'SHIPMENT_COMMENT_LENGTH', 50 );
+define( 'SHIPPING_CLASS_NACIONAL', 0); // shipping is to ES, PT or AD
+define( 'SHIPPING_CLASS_INTERNACIONAL', 1); // shipping is NOT to ES, PT or AD
+define( 'SHIPPING_CLASS_NACIONAL_FRANQUICIAS', 2); // shipping is to ES, PT or AD and franquicia is one in the condition
 
 /**
  * More defins here => /core/defines/defines-loader.php
@@ -60,6 +74,16 @@ function seur_load_code() {
 	// Including Core and installer.
 	require_once SEUR_PLUGIN_PATH . 'classes/load-classes.php';
 	require_once SEUR_PLUGIN_PATH . 'core/loader-core.php';
+
+	$seur_db_version_saved = get_option( 'seur_db_version' );
+	if ( $seur_db_version_saved != SEUR_DB_VERSION ) {
+		seur_create_tables_hook();
+	}
+
+	$seur_table_version_saved = get_option( 'seur_table_version' );
+	if ( $seur_table_version_saved != SEUR_TABLE_VERSION ) {
+		seur_add_data_to_tables_hook();
+	}
 }
 add_action( 'plugins_loaded', 'seur_load_code', 11 );
 
@@ -113,7 +137,7 @@ function seur_add_notice_new_version() {
 				<p>
 					<?php echo esc_html__( 'SEUR has been updated to version', 'woocommerce-seur' ) . ' ' . esc_html( SEUR_OFFICIAL_VERSION ); ?>
 				</p>
-				<p> 
+				<p>
 					<?php
 					// translators: Link to SEUR website with new features.
 					printf( wp_kses( __( 'Discover the improvements that have been made in this version, and how to take advantage of them <a href="%s" target="_blank">here</a>', 'woocommerce-seur' ), array( 'a' => array( 'href' => array() ) ) ), esc_url( SEUR_POST_UPDATE_URL ) );
@@ -146,7 +170,7 @@ function seur_add_notice_new_v2() {
 				<p>
 					<?php echo esc_html__( 'WARNING', 'woocommerce-seur' ); ?>
 				</p>
-				<p> 
+				<p>
 					<?php
 					esc_html_e( 'You need to contact to SEUR for new credentials. Call to +34913228380 or email to staci@seur.net', 'woocommerce-seur' );
 					?>

@@ -18,18 +18,12 @@ global $wp_filesystem;
  * @param string $services Services.
  */
 function seur_check_service_names( $services ) {
-	global $wpdb;
-	$tabla     = $wpdb->prefix . SEUR_PLUGIN_SVPR;
-	$sql       = "SELECT * FROM $tabla";
-	$registros = $wpdb->get_results( "SELECT * FROM {$wpdb->prefix}SEUR_PLUGIN_SVPR" );
-
-	foreach ( $registros as $valor ) {
-		if ( $services === $valor->descripcion ) {
-			return true;
-		} else {
-			continue;
-		}
-	}
+    $products = seur()->get_products();
+    foreach ( $products as $code => $product ) {
+        if ($services === $code) {
+            return true;
+        }
+    }
 	return false;
 }
 ?>
@@ -366,17 +360,6 @@ function seur_check_service_names( $services ) {
 					}
 					?>
 				</tr>
-				<tr>
-					<?php $table_name = $wpdb->prefix . 'seur_svpr'; ?>
-					<td data-export-label="Check for <?php echo esc_html( $table_name ); ?>"><?php echo esc_html__( 'Check for', 'seur' ) . ' ' . esc_html( $table_name ); ?></td>
-					<?php
-					if ( $wpdb->get_var( $wpdb->prepare( 'SHOW TABLES LIKE %d', $table_name ) ) === $table_name ) {
-						echo '<td><span class="yes">&#10004;</span></td>';
-					} else {
-						echo '<td><span class="error">No.</span></td>';
-					}
-					?>
-				</tr>
 			</tbody>
 		</table>
 		<table class="seur-status-table widefat" cellspacing="0" id="status">
@@ -614,198 +597,17 @@ function seur_check_service_names( $services ) {
 						</tr>
 					</thead>
 					<tbody>
-						<tr>
-							<td data-export-label="B2C Estándar">B2C Estándar</td>
-							<?php
-							$service = 'B2C Estándar';
-							$exist   = seur_check_service_names( $service );
-							if ( $exist ) {
-								?>
-								<td><span class="yes">&#10004;</span></td>
-								<?php
-							} else {
-								?>
-								<td><span class="error">No.</span></td>
-								<?php
-							}
-							?>
-						</tr>
-						<tr>
-							<td data-export-label="SEUR 10 Estándar">SEUR 10 Estándar</td>
-							<?php
-							$service = 'SEUR 10 Estándar';
-							$exist   = seur_check_service_names( $service );
-							if ( $exist ) {
-								?>
-								<td><span class="yes">&#10004;</span></td>
-								<?php
-							} else {
-								?>
-								<td><span class="error">No.</span></td>
-								<?php
-							}
-							?>
-						</tr>
-						<tr>
-							<td data-export-label="SEUR 10 Frío">SEUR 10 Frío</td>
-							<?php
-							$service = 'SEUR 10 Frío';
-							$exist   = seur_check_service_names( $service );
-							if ( $exist ) {
-								?>
-								<td><span class="yes">&#10004;</span></td>
-								<?php
-							} else {
-								?>
-								<td><span class="error">No.</span></td>
-								<?php
-							}
-							?>
-						</tr>
-						<tr>
-							<td data-export-label="SEUR 13:30 Estándar">SEUR 13:30 Estándar</td>
-							<?php
-							$service = 'SEUR 13:30 Estándar';
-							$exist   = seur_check_service_names( $service );
-							if ( $exist ) {
-								?>
-								<td><span class="yes">&#10004;</span></td>
-								<?php
-							} else {
-								?>
-								<td><span class="error">No.</span></td>
-								<?php
-							}
-							?>
-						</tr>
-						<tr>
-							<td data-export-label="SEUR 13:30 Frío">SEUR 13:30 Frío</td>
-							<?php
-							$service = 'SEUR 13:30 Frío';
-							$exist   = seur_check_service_names( $service );
-							if ( $exist ) {
-								?>
-								<td><span class="yes">&#10004;</span></td>
-								<?php
-							} else {
-								?>
-								<td><span class="error">No.</span></td>
-								<?php
-							}
-							?>
-						</tr>
-						<tr>
-							<td data-export-label="SEUR 48H Estándar">SEUR 48H Estándar</td>
-							<?php
-							$service = 'SEUR 48H Estándar';
-							$exist   = seur_check_service_names( $service );
-							if ( $exist ) {
-								?>
-								<td><span class="yes">&#10004;</span></td>
-								<?php
-							} else {
-								?>
-								<td><span class="error">No.</span></td>
-								<?php
-							}
-							?>
-						</tr>
-						<tr>
-							<td data-export-label="SEUR 72H Estándar">SEUR 72H Estándar</td>
-							<?php
-							$service = 'SEUR 72H Estándar';
-							$exist   = seur_check_service_names( $service );
-							if ( $exist ) {
-								?>
-								<td><span class="yes">&#10004;</span></td>
-								<?php
-							} else {
-								?>
-								<td><span class="error">No.</span></td>
-								<?php
-							}
-							?>
-						</tr>
-						<tr>
-							<td data-export-label="Classic Internacional Terrestre">Classic Internacional Terrestre</td>
-							<?php
-							$service = 'Classic Internacional Terrestre';
-							$exist   = seur_check_service_names( $service );
-							if ( $exist ) {
-								?>
-								<td><span class="yes">&#10004;</span></td>
-								<?php
-							} else {
-								?>
-								<td><span class="error">No.</span></td>
-								<?php
-							}
-							?>
-						</tr>
-						<tr>
-							<td data-export-label="SEUR 2SHOP">SEUR 2SHOP</td>
-							<?php
-							$service = 'SEUR 2SHOP';
-							$exist   = seur_check_service_names( $service );
-							if ( $exist ) {
-								?>
-								<td><span class="yes">&#10004;</span></td>
-								<?php
-							} else {
-								?>
-								<td><span class="error">No.</span></td>
-								<?php
-							}
-							?>
-						</tr>
-						<tr>
-							<td data-export-label="COURIER INT AEREO PAQUETERIA">COURIER INT AEREO PAQUETERIA</td>
-							<?php
-							$service = 'COURIER INT AEREO PAQUETERIA';
-							$exist   = seur_check_service_names( $service );
-							if ( $exist ) {
-								?>
-								<td><span class="yes">&#10004;</span></td>
-								<?php
-							} else {
-								?>
-								<td><span class="error">No.</span></td>
-								<?php
-							}
-							?>
-						</tr>
-						<tr>
-							<td data-export-label="COURIER INT AEREO DOCUMENTOS">COURIER INT AEREO DOCUMENTOS</td>
-							<?php
-							$service = 'COURIER INT AEREO DOCUMENTOS';
-							$exist   = seur_check_service_names( $service );
-							if ( $exist ) {
-								?>
-								<td><span class="yes">&#10004;</span></td>
-								<?php
-							} else {
-								?>
-								<td><span class="error">No.</span></td>
-								<?php
-							}
-							?>
-						</tr>
-						<tr>
-							<td data-export-label="NETEXPRESS INT TERRESTRE">NETEXPRESS INT TERRESTRE</td>
-							<?php
-							$service = 'NETEXPRESS INT TERRESTRE';
-							$exist   = seur_check_service_names( $service );
-							if ( $exist ) {
-								?>
-								<td><span class="yes">&#10004;</span></td>
-								<?php
-							} else {
-								?>
-								<td><span class="error">No.</span></td>
-								<?php
-							}
-							?>
-						</tr>
+                    <?php $products = seur()->get_products();
+                    foreach ( $products as $code => $product ) {
+                        echo '<tr>
+							<td data-export-label="'.$code.'">'.$code.'</td>';
+                        if ( seur_check_service_names($code) ) {
+						    echo '<td><span class="yes">&#10004;</span></td>';
+						} else {
+                            echo '<td><span class="error">No.</span></td>';
+						}
+						echo '</tr>';
+                    } ?>
 					</tbody>
 				</table>
 			</div>
@@ -926,7 +728,7 @@ function seur_check_service_names( $services ) {
 						$seur_aduana_destino_field         = get_option( 'seur_aduana_destino_field' );
 						$seur_tipo_mercancia_field         = get_option( 'seur_tipo_mercancia_field' );
 						$seur_id_mercancia_field           = get_option( 'seur_id_mercancia_field' );
-						$seur_descripcion_field            = get_option( 'seur_descripcion_field' );
+                        $seur_descripcion_field            = get_option( 'seur_descripcion_field' );
 					?>
 					<thead>
 						<tr>
