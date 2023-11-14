@@ -16,22 +16,17 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 function seur_search_nomenclator( $post ) { ?>
 
-<div class="wrap">
-	<h1 class="wp-heading-inline"><?php esc_html_e( 'Nomenclator', 'seur' ); ?></h1>
-	<?php
-	if ( isset( $_POST['codigo_postal'] ) ) {
-		?>
-		<a href="admin.php?page=seur_search_nomenclator" class="page-title-action"><?php esc_html_e( 'New Search', 'seur' ); ?></a>
-		<?php
-	}
-	?>
-	<hr class="wp-header-end">
-	<?php
-	$seur_user = get_option( 'seur_seurcom_usuario_field' );
-	$seur_pass = get_option( 'seur_seurcom_contra_field' );
-
-	?>
-	<?php esc_html_e( 'Check ZIP or city associated to Seur system.', 'seur' ); ?>
+    <div class="wrap">
+        <h1 class="wp-heading-inline"><?php esc_html_e( 'Nomenclator', 'seur' ); ?></h1>
+        <?php
+        if ( isset( $_POST['codigo_postal'] ) ) {
+            ?>
+            <a href="admin.php?page=seur_search_nomenclator" class="page-title-action"><?php esc_html_e( 'New Search', 'seur' ); ?></a>
+            <?php
+        }
+        ?>
+        <hr class="wp-header-end">
+        <?php esc_html_e( 'Check ZIP or city associated to Seur system.', 'seur' ); ?>
 		<form method="post" name="formulario" width="100%">
 		<?php
 		if ( isset( $_POST['codigo_postal'] ) ) {
@@ -46,98 +41,62 @@ function seur_search_nomenclator( $post ) { ?>
 					$safe_zipcode = sanitize_text_field( $unsafe_zipcode );
 				}
 
-				// Getting needed user data.
-				$seur_user        = get_option( 'seur_seurcom_usuario_field' );
-				$seur_pass        = get_option( 'seur_seurcom_contra_field' );
-				$nombre_poblacion = '';
-				$codigo_postal    = '';
-				if ( isset( $_POST['nombre_poblacion'] ) ) {
-					$nombre_poblacion = sanitize_text_field( wp_unslash( $_POST['nombre_poblacion'] ) );
-				} else {
-					$nombre_poblacion = '';
-				}
-				$sc_options = array(
-					'connection_timeout' => 30,
-					'exceptions'         => 0,
-				);
-				$seur_url   = 'https://ws.seur.com/WSEcatalogoPublicos/servlet/XFireServlet/WSServiciosWebPublicos?wsdl';
-				if ( ! seur_check_url_exists( $seur_url ) ) {
+				$urlws = seur()->get_api_addres() . SEUR_API_CITIES;
+				if ( ! seur_api_check_url_exists( $urlws ) ) {
 					esc_html_e( 'There is a problem connecting to SEUR. Please try again later.', 'seur' );
 				} else {
-					$soap_client = new SoapClient( 'https://ws.seur.com/WSEcatalogoPublicos/servlet/XFireServlet/WSServiciosWebPublicos?wsdl', $sc_options );
-					$param       = array(
-						'in0' => '',
-						'in1' => $nombre_poblacion,
-						'in2' => $safe_zipcode,
-						'in3' => '',
-						'in4' => '',
-						'in5' => $seur_user,
-						'in6' => $seur_pass,
-					);
-					$seurdata    = $soap_client->infoPoblacionesCortoStr( $param );
-					if ( is_soap_fault( $seurdata ) ) {
-						trigger_error( 'SOAP Fault: (faultcode: { $seurdata->faultcode }, faultstring: { $seurdata->faultstring } )', E_USER_ERROR ); // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_trigger_error
-					} else {
-						$string_xml     = htmlspecialchars_decode( $seurdata->out );
-						$strxml         = iconv( 'UTF-8', 'ISO-8859-1', $string_xml );
-						$xml            = simplexml_load_string( $strxml );
-						$howmanyresults = $xml->attributes()->NUM;
-						?>
-						<ul class="subsubsub">
-							<li class="all">
-							<?php
-							seur_search_number_message_result( $howmanyresults )
-							?>
-							</li>
-						</ul>
-						<table class="wp-list-table widefat fixed striped pages">
-							<thead>
-								<tr>
-									<td class="manage-column">
-									<?php
-										esc_html_e( 'POSTCODE', 'seur' );
-									?>
-									<td class="manage-column">
-									<?php
-										esc_html_e( 'CITY', 'seur' );
-									?>
-									</td>
-									<td class="manage-column">
-									<?php
-										esc_html_e( 'STATE/PROVINCE', 'seur' );
-									?>
-									</td>
-									</tr>
-								</thead>
-								<?php
-								for ( $ele = 1; $ele <= $howmanyresults; $ele++ ) {
-									$registro = 'REG' . $ele;
-									echo '<tr><td><a href="https://www.google.es/maps/search/' . esc_html( $xml->$registro->NOM_POBLACION ) . ',+' . esc_html( $xml->$registro->NOM_PROVINCIA ) . '+' . esc_html( $xml->$registro->CODIGO_POSTAL ) . '+seur" target="_blank">' . esc_html( $xml->$registro->CODIGO_POSTAL ) . '</a>'; // phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
-									echo '</td>';
-									echo '<td>' . esc_html( $xml->$registro->NOM_POBLACION ) . '</td>'; // phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
-									echo '<td>' . esc_html( $xml->$registro->NOM_PROVINCIA ) . '</td></tr>'; // phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
-								}
-								?>
-
-					<tfoot>
-						<tr>
-							<td class="manage-column"><?php esc_html_e( 'POSTCODE', 'seur' ); ?></td>
-							<td class="manage-column"><?php esc_html_e( 'CITY', 'seur' ); ?></td>
-							<td class="manage-column"><?php esc_html_e( 'STATE/PROVINCE', 'seur' ); ?></td>
-						</tr>
-					</tfoot>
-			</table>
-						<?php
-
-					}
-				}
-				?>
-	</form>
-	</div>
-				<?php
-			}
-		} else { // Aun no esta establecido.
+                    $pais = 'ES';
+                    $datos = [
+                        'countryCode' => $pais,
+                        'postalCode' => $safe_zipcode
+                    ];
+                    $result = seur()->seur_api_check_city( $datos );
+                    if ( $result === false ) {
+                        echo "<hr><b><font color='#e53920'>";
+                        echo '<br>Código postal y país no se han encontrado en Nomenclator de SEUR.<br></font>';
+                        echo "<font color='#0074a2'><br>Par no Encontrado:<br>" . esc_html( $safe_zipcode ) . ' - ' . esc_html( $pais );
+                        return;
+                    }
+                    ?>
+                    <ul class="subsubsub">
+                        <li class="all">
+                            <?php seur_search_number_message_result( count($result) ); ?>
+                        </li>
+                    </ul>
+                    <table class="wp-list-table widefat fixed striped pages">
+                        <thead>
+                            <tr>
+                                <td class="manage-column">
+                                    <?php esc_html_e( 'POSTCODE', 'seur' ); ?>
+                                <td class="manage-column">
+                                    <?php esc_html_e( 'CITY', 'seur' ); ?>
+                                </td>
+                            </tr>
+                        </thead>
+                        <?php
+                        foreach ( $result as $item) {
+                            echo '<tr><td><a href="https://www.google.es/maps/search/' . esc_html( $item->cityName ) . '+' .
+                                esc_html( $item->postalCode ) . '+seur" target="_blank">' . esc_html( $item->postalCode ) . '</a>'; // phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
+                            echo '</td>';
+                            echo '<td>' . esc_html( $item->cityName ) . '</td>'; // phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
+                        }
+                        ?>
+                        <tfoot>
+                            <tr>
+                                <td class="manage-column"><?php esc_html_e( 'POSTCODE', 'seur' ); ?></td>
+                                <td class="manage-column"><?php esc_html_e( 'CITY', 'seur' ); ?></td>
+                            </tr>
+                        </tfoot>
+                    </table>
+					<?php
+                }
+            }
 			?>
+        </form>
+    </div>
+	<?php
+	}
+    ?>
 	<div class="wp-filter">
 		<label>
 			<span class="screen-reader-text"><?php esc_html_e( 'City', 'seur' ); ?></span>
@@ -151,7 +110,6 @@ function seur_search_nomenclator( $post ) { ?>
 			<input type="submit" name="submit" id="submit" class="button button-primary" value="Search">
 		</label>
 	</div>
-			<?php wp_nonce_field( 'nomenclator_seur', 'nomenclator_seur_nonce_field' ); ?>
-			<?php
-		}
+    <?php wp_nonce_field( 'nomenclator_seur', 'nomenclator_seur_nonce_field' ); ?>
+    <?php
 }

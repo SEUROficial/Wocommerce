@@ -47,44 +47,15 @@ $texto = __( 'RATES', 'seur' ) . '<br />' . __( 'Calculate rate that SEUR apply 
 				$postal = '';
 			}
 			if ( isset( $_POST['productservice'] ) ) {
-				$ps = sanitize_text_field( wp_unslash( $_POST['productservice'] ) );
-				if ( 'bc2' === $ps ) {
-					$producto = '2';
-					$servicio = '31';
-				} elseif ( 'seur10e' === $ps ) {
-					$producto = '2';
-					$servicio = '3';
-				} elseif ( 'seur10f' === $ps ) {
-					$producto = '18';
-					$servicio = '3';
-				} elseif ( 'seur1330e' === $ps ) {
-					$producto = '2';
-					$servicio = '9';
-				} elseif ( 'seur1330f' === $ps ) {
-					$producto = '18';
-					$servicio = '9';
-				} elseif ( 'seur48' === $ps ) {
-					$producto = '2';
-					$servicio = '15';
-				} elseif ( 'seur72' === $ps ) {
-					$producto = '2';
-					$servicio = '13';
-				} elseif ( 'seurint' === $ps ) {
-					$producto = '70';
-					$servicio = '77';
-				} elseif ( 'seur2shop' === $ps ) {
-					$producto = '48';
-					$servicio = '1';
-				} elseif ( 'seurintaepaq' === $ps ) {
-					$producto = '108';
-					$servicio = '7';
-				} elseif ( 'seurintaedoc' === $ps ) {
-					$producto = '54';
-					$servicio = '7';
-				} elseif ( 'seurintaeter' === $ps ) {
-					$producto = '19';
-					$servicio = '70';
-				}
+                $ps = sanitize_text_field( wp_unslash( $_POST['productservice'] ) );
+                $products = seur()->get_products();
+                foreach ( $products as $code => $product ) {
+                    if ($ps == $product['field']) {
+                        $producto = $product['product'];
+                        $servicio = $product['service'];
+                        break;
+                    }
+                }
 			}
 		}
 	}
@@ -157,79 +128,16 @@ $texto = __( 'RATES', 'seur' ) . '<br />' . __( 'Calculate rate that SEUR apply 
 		<label>
 			<span class="screen-reader-text"><?php esc_html_e( 'Product/Service', 'seur' ); ?></span>
 			<select name="productservice" id="productservice">
-				<option 
 				<?php
-				if ( isset( $ps ) && ( 'bc2' === $ps ) ) {
-					echo ' selected';}
-				?>
-				value="bc2">B2C Estándar</option>
-				<option 
-				<?php
-				if ( isset( $ps ) && ( 'seur10e' === $ps ) ) {
-					echo ' selected';
-				}
-				?>
-				value="seur10e">SEUR 10 Estándar</option>
-				<option 
-				<?php
-				if ( isset( $ps ) && ( 'seur10f' === $ps ) ) {
-					echo ' selected';}
-				?>
-				value="seur10f">SEUR 10 Frío</option>
-				<option 
-				<?php
-				if ( isset( $ps ) && ( 'seur1330e' === $ps ) ) {
-					echo ' selected';}
-				?>
-				value="seur1330e">SEUR 13:30 Estándar</option>
-				<option 
-				<?php
-				if ( isset( $ps ) && ( 'seur1330f' === $ps ) ) {
-					echo ' selected';}
-				?>
-				value="seur1330f">SEUR 13:30 Frío</option>
-				<option 
-				<?php
-				if ( isset( $ps ) && ( 'seur48' === $ps ) ) {
-					echo ' selected';}
-				?>
-				value="seur48">SEUR 48H Estándar</option>
-				<option 
-				<?php
-				if ( isset( $ps ) && ( 'seur72' === $ps ) ) {
-					echo ' selected';}
-				?>
-				value="seur72">SEUR 72H Estándar</option>
-				<option 
-				<?php
-				if ( isset( $ps ) && ( 'seurint' === $ps ) ) {
-					echo ' selected';}
-				?>
-				value="seurint">Classic Internacional Terrestre</option>
-				<option 
-				<?php
-				if ( isset( $ps ) && ( 'seur2shop' === $ps ) ) {
-					echo ' selected';}
-				?>
-				value="seur2shop">SEUR 2SHOP</option>
-				<option 
-				<?php
-				if ( isset( $ps ) && ( 'seurintaepaq' === $ps ) ) {
-					echo ' selected';}
-				?>
-				value="seurintaepaq">COURIER INT AEREO PAQUETERIA</option>
-				<option 
-				<?php
-				if ( isset( $ps ) && ( 'seurintaedoc' === $ps ) ) {
-					echo ' selected';}
-				?>
-				value="seurintaedoc">COURIER INT AEREO DOCUMENTOS</option>
-				<option 
-				<?php
-				if ( isset( $ps ) && ( 'seurintaeter' === $ps ) ) {
-					echo ' selected';}
-				?>
-				value="seurintaeter">NETEXPRESS INT TERRESTRE</option>
+                $products = seur()->get_products();
+                foreach ( $products as $code => $product ) {
+                    $identifier = $product['field'];
+                    echo '<option ';
+                    if (isset( $ps ) && ( $identifier === $ps )) {
+                        echo ' selected';
+                    }
+                    echo 'value="'.$identifier.'">'.$code.'</option>';
+                } ?>
 			</select>
 		</label>
 		<?php wp_nonce_field( 'seur_rates_seur', 'seur_rates_seur_nonce_field' ); ?>
@@ -277,27 +185,28 @@ $texto = __( 'RATES', 'seur' ) . '<br />' . __( 'Calculate rate that SEUR apply 
 		$franquicia        = $useroptions[0]['franquicia'];
 
 		if ( ( 'ES' === $pais ) || ( 'PT' === $pais ) || ( 'AD' === $pais ) ) {
-			$datos = array(
-				0 => $usuario_cit,
-				$contra_cit,
-				$poblacion,
-				$postal,
-			);
-			if ( 'ERROR' === seur_check_city( $datos ) ) {
+			$datos = [
+                'countryCode' => $pais,
+                'postalCode' => $postal
+            ];
+			if ( false === seur()->seur_api_check_city( $datos ) ) {
 				echo "<hr><b><font color='#e53920'>";
-				echo '<br>Código Postal y Población no se han encontrado en Nomenclator de SEUR.<br>Consulte Nomenclator y ajuste Población y Postal.<br></font>';
-				echo "<font color='#0074a2'><br>Par no Encontrado:<br>" . esc_html( $postal ) . ' - ' . esc_html( $poblacion );
+				echo '<br>Código postal y país no se han encontrado en Nomenclator de SEUR.<br>Consulte Nomenclator y ajuste ambos parámetros.<br></font>';
+				echo "<font color='#0074a2'><br>Par no Encontrado:<br>" . esc_html( $postal ) . ' - ' . esc_html( $pais );
 				return;
 			}
 		} else {
 			$postal    = '08023';
 			$poblacion = 'BARCELONA';
 		}
-		$registros   = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM {$wpdb->prefix}seur_svpr WHERE ser= %d and pro= %d", $servicio, $producto ) );
-		$descripcion = '';
-		foreach ( $registros as $registro_dato ) {
-			$mensaje .= '<br>' . $registro_dato->descripcion;
-		}
+        $mensaje = '';
+        $products = seur()->get_products();
+        foreach ( $products as $code => $product ) {
+            if ($product['product']==$producto && $product['service']==$servicio) {
+                $mensaje .= '<br>' . $code;
+                break;
+            }
+        }
 		if ( strlen( $mensaje ) < 1 ) {
 			$mensaje .= '<br>Servicio Producto sin IDENTIFICAR';
 		}

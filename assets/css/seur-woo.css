@@ -65,3 +65,7 @@ mark.order-status.status-seur-shipment.tips, mark.order-status.status-seur-shipm
   background: #89C4F4;
   color: #446CB3;
 }
+
+
+#seur_content_metabox { display: flex;  flex-flow: column; }
+.button.btn-seur-label { margin: 8px 0 0 0; width: max-content; }

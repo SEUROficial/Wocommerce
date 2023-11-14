@@ -5,6 +5,8 @@
  * @package SEUR.
  */
 
+use PDFMerger\PDFMerger;
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
@@ -139,7 +141,6 @@ function seur_custom_label_column_data( $column, $post_id ) {
 	$order_comments       = get_post_meta( $post_id, '_seur_shipping_order_customer_comments', true );
 	$label_file_name      = get_post_meta( $post_id, '_seur_shipping_order_label_file_name', true );
 	$label_path           = get_post_meta( $post_id, '_seur_shipping_order_label_path_name', true );
-	$label_url            = get_post_meta( $post_id, '_seur_shipping_order_label_url_name', true );
 	$url_to_file_down     = get_site_option( 'seur_download_file_url' );
 	$file_downlo_pass     = get_site_option( 'seur_pass_for_download' );
 	$label_path           = str_replace( '\\', '/', $label_path );
@@ -188,7 +189,6 @@ function seur_custom_label_column_data( $column, $post_id ) {
 			break;
 
 		case 'print':
-			// echo '<a href="' . $label_url . '" onClick="window.print();return false">​​​​​​​​​​​​​​​​​print pdf</a>';.
 			echo '<a href="' . $url_upload_dir . '/' . $label_file_name . '" class="button" download>' . esc_html__( ' Open ', 'seur' ) . '</a>';
 			break;
 	}
@@ -266,8 +266,8 @@ function seur_metabox_label_callback( $post ) {
 	$seur_shipping_method = seur_get_shipping_method( $order_id );
 
 	$customer_country = $order_data[0]['country'];
-	$customercity     = seur_clean_data( $order_data[0]['city'] );
-	$customerpostcode = $order_data[0]['postcode'];
+	$customer_city     = seur_clean_data( $order_data[0]['city'] );
+	$customer_postcode = $order_data[0]['postcode'];
 	$customer_weight  = $order_data[0]['weight'];
 
 	if ( ! $customer_weight ) {
@@ -345,7 +345,7 @@ function seur_metabox_label_callback( $post ) {
 							<?php echo esc_html( $customer_name ); ?><br>
 							<?php echo esc_html( $customer_address_1 ); ?><br>
 							<?php echo esc_html( $customer_address_2 ) . '<br>'; ?>
-							<?php echo esc_html( $customerpostcode ) . ' ' . esc_html( $customercity ) . '<br>'; ?>
+							<?php echo esc_html( $customer_postcode ) . ' ' . esc_html( $customer_city ) . '<br>'; ?>
 							<?php echo esc_html( $customer_country ); ?>
 						</p>
 					</div>
@@ -408,50 +408,69 @@ add_filter( 'bulk_actions-edit-seur_labels', 'seur_bulk_actions_labels_screen' )
  * @param string $doaction action to do.
  * @param array  $post_ids Post IDs.
  */
-function seur_bulk_actions_handler( $redirect_to, $doaction, $post_ids ) {
-	if ( 'download_seur_label' !== $doaction && 'update_seur_tracking' !== $doaction ) {
+function seur_bulk_actions_handler( $redirect_to, $doaction, $labels_ids ) {
+    if ( 'download_seur_label' !== $doaction && 'update_seur_tracking' !== $doaction ) {
 		return $redirect_to;
 	}
 	if ( 'download_seur_label' === $doaction ) {
 
 		$date = date( 'd-m-Y-H-i-s' ); // phpcs:ignore WordPress.DateTime.RestrictedFunctions.date_date
+		$type = seur_get_file_type(seur()->get_option( 'seur_tipo_etiqueta_field' ));
+        $bulk_label_name = 'label_bulk_' . $date . ($type == 'TERMICA' ? '.txt' : '.pdf' );
+        $upload_dir      = seur_upload_dir( 'labels' );
+        $upload_path     = $upload_dir . '/' . $bulk_label_name;
+        $fp = '';
 
-		$bulk_label_name = 'label_bulk_' . $date . '.txt';
+        foreach ( $labels_ids as $label_id ) {
+            if (!isset($pdf)) {
+                $pdf = new PDFMerger;
+            }
+            $label_type      = seur_get_file_type(get_post_meta( $label_id, '_seur_label_type', true ));
+            $label_type      = ($label_type == 'ZPL' ? 'TERMICA' : $label_type);
+            $label_file_name = get_post_meta( $label_id, '_seur_shipping_order_label_file_name', true );
+            $label_path      = get_post_meta( $label_id, '_seur_shipping_order_label_path_name', true );
 
-		foreach ( $post_ids as $post_id ) {
+            if ( $label_type != $type || !file_exists($label_path) || empty($label_file_name)) {
+                // #TODO: revisar creación de etiqueta si no existe el fichero o ha cambiado el tipo de impresora
+                /*$order_id    = get_post_meta( $label_id, '_seur_shipping_order_id', true );
+                $numpackages = get_post_meta( $label_id, '_seur_shipping_packages', true );
+                $weigth      = get_post_meta( $label_id, '_seur_shipping_weight', true );
+                $result = seur_api_get_label($order_id, $numpackages, $weigth, false);
+                if (!isset($result['result'][0]['labelID'])) {
+                    continue;
+                }
+                $label_id = $result['result'][0]['labelID'];
+                $label_file_name = get_post_meta( $label_id, '_seur_shipping_order_label_file_name', true );
+                $label_path      = get_post_meta( $label_id, '_seur_shipping_order_label_path_name', true );
+                */
+            }
 
-			$label_type = get_post_meta( $post_id, '_seur_label_type', true );
-
-			if ( 'termica' === $label_type ) {
-
-				$label_file_name = get_post_meta( $post_id, '_seur_shipping_order_label_file_name', true );
-				$label_path      = get_post_meta( $post_id, '_seur_shipping_order_label_path_name', true );
-				$upload_dir      = seur_upload_dir( 'labels' );
-				$upload_path     = $upload_dir . '/' . $bulk_label_name;
-				$label_text      = "\n" . file_get_contents( $label_path, true );
-				$bulk_file_exist = fopen( $upload_path, 'r' ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_read_fopen
-				if ( $bulk_file_exist ) {
-					file_put_contents( $upload_path, $label_text, FILE_APPEND | LOCK_EX ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_read_file_put_contents
-				} else {
-					file_put_contents( $upload_path, $label_text ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_read_file_put_contents
-				}
-			}
+            if ($label_type == $type) {
+                if ($type == 'TERMICA') {
+                    $fp .= "\n" . file_get_contents($label_path, true);
+                } else {
+                    $pdf->addPDF($upload_dir . '/' . $label_file_name);
+                }
+            }
 		}
+
+        if ($type=='TERMICA') {
+            file_put_contents( $upload_path, $fp);
+        } else {
+            $pdf->merge('file', $upload_path);
+        }
+
 		set_transient( get_current_user_id() . '_seur_label_bulk_download', $bulk_label_name );
-		$redirect_to = add_query_arg( 'bulk_download_seur_label', count( $post_ids ), $redirect_to );
+		$redirect_to = add_query_arg( 'bulk_download_seur_label', count( $labels_ids ), $redirect_to );
 		return $redirect_to;
 
 	} elseif ( 'update_seur_tracking' === $doaction ) {
 
-		foreach ( $post_ids as $post_id ) {
-
-			$tracking_number = get_post_meta( $post_id, '_seur_shipping_id_number', true );
-
-			seur_get_tracking_shipment( $post_id, $tracking_number );
-
+		foreach ( $labels_ids as $label_id ) {
+			seur_get_tracking_shipment( $label_id );
 		}
 		set_transient( get_current_user_id() . '_seur_label_bulk_tracking', true );
-		$redirect_to = add_query_arg( 'bulk_tracking_seur', count( $post_ids ), $redirect_to );
+		$redirect_to = add_query_arg( 'bulk_tracking_seur', count( $labels_ids ), $redirect_to );
 		return $redirect_to;
 	}
 }
@@ -474,7 +493,7 @@ function seur_bulk_actions_success() {
 	if ( $file_name && 'seur_labels' === $screen->post_type ) {
 		?>
 	<div class="notice notice-success is-dismissible">
-		<p><?php echo esc_html__( 'Bulk Print ready, please press Download Bulk Labels button for download the txt file. ' ) . '<a href="' . $url_to_dir . '/' . esc_html( $file_name ) . '" class="button" download>' . esc_html__( ' Download Bulk Labels ', 'seur' ) . '</a>'; ?></p>
+		<p><?php echo esc_html__( 'Bulk Print ready, please press Download Bulk Labels button for download the file. ' ) . '<a href="' . $url_to_dir . '/' . esc_html( $file_name ) . '" class="button" download>' . esc_html__( ' Download Bulk Labels ', 'seur' ) . '</a>'; ?></p>
 	</div>
 		<?php
 	}

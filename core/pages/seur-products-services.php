@@ -42,10 +42,10 @@ function seur_products_services( $post ) {
 				$pais_p      = '';
 				$provincia_p = '';
 				foreach ( $valor['pais'] as $pais ) {
-					$pais_p .= $pais . ', ';
+					$pais_p .= (strlen($pais_p)>0?', ':''). $pais;
 				}
 				foreach ( $valor['provincia'] as $provincia ) {
-					$provincia_p .= $provincia . ', ';
+					$provincia_p .= (strlen($provincia_p)>0?', ':''). $provincia;
 				}
 				echo '<tr id="post-2" class="iedit author-self level-0 post-2 type-page status-publish hentry">';
 				echo '<td class="author column-author" data-colname="Description">' . esc_html( $description ) . '</td>';

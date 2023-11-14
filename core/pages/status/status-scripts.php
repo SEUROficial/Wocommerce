@@ -19,15 +19,7 @@ global $wpdb;
 $sitetableprefix  = $wpdb->base_prefix;
 $charset_collate2 = $wpdb->get_charset_collate();
 echo "<textarea class='code' readonly='readonly' cols='80' rows='16'>
-CREATE TABLE " . esc_html( $sitetableprefix ) . 'seur_svpr (
-	ID bigint(20) unsigned NOT NULL auto_increment,
-	ser varchar(3) NOT NULL,
-	pro varchar(3) NOT NULL,
-	descripcion varchar(50) NOT NULL,
-	tipo varchar(50) NOT NULL,
-	PRIMARY KEY (ID)
-	) ' . esc_html( $charset_collate2 ) . ';
-CREATE TABLE ' . esc_html( $sitetableprefix ) . "seur_custom_rates (
+CREATE TABLE " . esc_html( $sitetableprefix ) . "seur_custom_rates (
 	ID bigint(20) unsigned NOT NULL auto_increment,
 	type varchar(50) NOT NULL default 'price',
 	country varchar(50) NOT NULL default '',
@@ -42,27 +34,7 @@ CREATE TABLE ' . esc_html( $sitetableprefix ) . "seur_custom_rates (
 	PRIMARY KEY (ID)
 	) " . esc_html( $charset_collate2 ) . ';
 </textarea>';
-$table_name = $wpdb->prefix . 'seur_svpr';
-?>
-<p><?php echo esc_html__( 'Copy this code and use phpMyAdmin to create Seur content. Table: ', 'seur' ) . '<code>' . esc_html( $table_name ) . '</code>'; ?></p>
 
-<?php
-
-
-echo "<textarea class='code' readonly='readonly' cols='80' rows='16'>
-INSERT INTO `" . esc_html( $table_name ) . "` (`ser`,`pro`,`descripcion`,`tipo`) VALUES ('31','2','B2C Estándar','ESTANDAR');
-INSERT INTO `" . esc_html( $table_name ) . "` (`ser`,`pro`,`descripcion`,`tipo`) VALUES ('3','2','SEUR 10 Estándar','ESTANDAR');
-INSERT INTO `" . esc_html( $table_name ) . "` (`ser`,`pro`,`descripcion`,`tipo`) VALUES ('3','18','SEUR 10 Frío','FRIO');
-INSERT INTO `" . esc_html( $table_name ) . "` (`ser`,`pro`,`descripcion`,`tipo`) VALUES ('9','2','SEUR 13:30 Estándar','ESTANDAR');
-INSERT INTO `" . esc_html( $table_name ) . "` (`ser`,`pro`,`descripcion`,`tipo`) VALUES ('9','18','SEUR 13:30 Frío','FRIO');
-INSERT INTO `" . esc_html( $table_name ) . "` (`ser`,`pro`,`descripcion`,`tipo`) VALUES ('15','2','SEUR 48H Estándar','ESTANDAR');
-INSERT INTO `" . esc_html( $table_name ) . "` (`ser`,`pro`,`descripcion`,`tipo`) VALUES ('13','2','SEUR 72H Estándar','ESTANDAR');
-INSERT INTO `" . esc_html( $table_name ) . "` (`ser`,`pro`,`descripcion`,`tipo`) VALUES ('77','70','Classic Internacional Terrestre','ESTANDAR');
-INSERT INTO `" . esc_html( $table_name ) . "` (`ser`,`pro`,`descripcion`,`tipo`) VALUES ('1','48','SEUR 2SHOP','ESTANDAR');
-INSERT INTO `" . esc_html( $table_name ) . "` (`ser`,`pro`,`descripcion`,`tipo`) VALUES ('7','108','COURIER INT AEREO PAQUETERIA','ESTANDAR');
-INSERT INTO `" . esc_html( $table_name ) . "` (`ser`,`pro`,`descripcion`,`tipo`) VALUES ('7','54','COURIER INT AEREO DOCUMENTOS','ESTANDAR');
-INSERT INTO `" . esc_html( $table_name ) . "` (`ser`,`pro`,`descripcion`,`tipo`) VALUES ('19','70','NETEXPRESS INT TERRESTRE','ESTANDAR');
-</textarea>";
 $table_name = $wpdb->prefix . 'seur_custom_rates';
 ?>
 <p><?php echo esc_html__( 'Copy this code and use phpMyAdmin to create Seur content. Table: ', 'seur' ) . '<code>' . esc_html( $table_name ) . '</code>'; ?></p>

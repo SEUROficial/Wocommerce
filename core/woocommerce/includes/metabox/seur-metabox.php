@@ -24,45 +24,56 @@ add_action( 'add_meta_boxes_shop_order', 'seur_register_meta_boxes', 999 );
  */
 function seur_metabox_callback( $post ) {
 
-	$weight           = '';
-	$has_label        = '';
-	$labelid2         = '';
-	$has_label        = get_post_meta( $post->ID, '_seur_shipping_order_label_downloaded', true );
-	$labelid2         = get_post_meta( $post->ID, '_seur_shipping_label_id', true );
-	$url_to_file_down = get_site_option( 'seur_download_file_url' );
-	$label_path       = get_post_meta( $labelid2, '_seur_shipping_order_label_path_name', true );
-	$label_path       = str_replace( '\\', '/', $label_path );
-	$label_file_name  = get_post_meta( $labelid2, '_seur_shipping_order_label_file_name', true );
-	$file_downlo_pass = get_site_option( 'seur_pass_for_download' );
-	$file_type        = get_post_meta( $labelid2, '_seur_label_type', true );
-	$url_upload_dir   = get_site_option( 'seur_uploads_url_labels' );
+    if (!seur()->is_seur_order($post->ID)) {
+        remove_meta_box( 'seurmetabox','shop_order', 'side' );
+        return '';
+    }
+	$has_label      = seur()->has_label($post->ID);
+    ?>
 
-	?> <div id="seur_content_metabox"> 
-	<?php
-
-	if ( ! $has_label ) {
-		$url                 = esc_url( admin_url( add_query_arg( array( 'page' => 'seur_get_labels_from_order' ), 'admin.php' ) ) );
-		$arrayurl            = array(
-			'order_id'   => $post->ID,
-			'?TB_iframe' => 'true',
-			'width'      => '400',
-			'height'     => '300',
-		);
-		$final_get_label_url = esc_url( add_query_arg( $arrayurl, $url ) );
-		add_thickbox();
-		?>
+    <div id="seur_content_metabox">
+	<?php if ( !$has_label ) {
+		$url             = esc_url( admin_url( add_query_arg( array( 'page' => 'seur_get_labels_from_order' ), 'admin.php' ) ) );
+		$arrayiframe     = array(
+            '?TB_iframe' => 'true',
+            'width'      => '400',
+            'height'     => '300',
+        );
+        add_thickbox();
+        echo '<img src="'. esc_url( SEUR_PLUGIN_URL ) .'assets/img/icon-96x37.png" alt="SEUR Image" width="96" height="37" />';
+        for ($k=0;$k<=1;$k++) {
+            $arrayurl = array(
+                'order_id' => $post->ID,
+                'change' => $k
+            );
+            $arrayurl = array_merge( $arrayurl, $arrayiframe );
+            $final_get_label_url = esc_url( add_query_arg( $arrayurl, $url ) );
+            $text = 'Get SEUR'.($k==1?' CHANGE':'').' Label'.($k==1?'s':'');
+            ?>
+            <a class='thickbox button btn-seur-label' title='<?php esc_html_e( $text, 'seur' ); ?>'
+               alt='<?php esc_html_e( $text, 'seur' ); ?>'
+               href='<?php echo esc_html( $final_get_label_url ); ?>'>
+                <?php esc_html_e( $text, 'seur' ); ?>
+            </a>
+            <?php
+        }
+    } else { ?>
 		<img src="<?php echo esc_url( SEUR_PLUGIN_URL ); ?>assets/img/icon-96x37.png" alt="SEUR Image" width="96" height="37" />
-		<a class='thickbox button' title='<?php esc_html_e( 'Get SEUR Label', 'seur' ); ?>' alt='<?php esc_html_e( 'Get SEUR Label', 'seur' ); ?>' href='<?php echo esc_html( $final_get_label_url ); ?>'><?php esc_html_e( 'Get SEUR Label', 'seur' ); ?></a>
-		<?php
-	} else {
-		?>
-		<img src="<?php echo esc_url( SEUR_PLUGIN_URL ); ?>assets/img/icon-96x37.png" alt="SEUR Image" width="96" height="37" />
-		<?php
-		echo '<a href="' . esc_url( $url_upload_dir ) . '/' . esc_html( $label_file_name ) . '" class="button" download>' . esc_html__( ' See SEUR Label ', 'seur' ) . '</a>';
-
-	}
-	?>
-</div>
+        <?php
+        $url_upload_dir = get_site_option( 'seur_uploads_url_labels' );
+        $label_ids = seur_get_labels_ids($post->ID);
+        $cont           = 1;
+        foreach($label_ids as $labelid) {
+            $label_file_name  = get_post_meta( $labelid, '_seur_shipping_order_label_file_name', true );
+            //$file_type        = get_post_meta( $labelid2, '_seur_label_type', true );
+            $suffix = count($label_ids) > 1 ? (esc_html__('for package', 'seur') . "  {$cont} ") : '';
+            $cont++;
+            ?>
+            <a href="<?= esc_url( $url_upload_dir ) . '/' . esc_html( $label_file_name ) ?> " class="button btn-seur-label" download> <?= esc_html__( ' See SEUR Label ', 'seur' ) . $suffix ?> </a>
+            <?php
+        }
+    } ?>
+    </div>
 	<?php
 }
 
@@ -90,27 +101,17 @@ function seur_save_meta_box( $post_id ) {
 	}
 	$numpackages = esc_html( sanitize_text_field( wp_unslash( $_POST['seur-number-packages'] ) ) );
 	$weight      = esc_html( sanitize_text_field( wp_unslash( $_POST['seur-weight'] ) ) );
-	$new_status  = 'seur-shipment';
-	$has_label   = get_post_meta( $post_id, '_seur_shipping_order_label_downloaded', true );
+    $changeService = isset($_POST['seur-change-service']);
+
+	$has_label   = seur()->has_label($post_id);
 
 	if ( 'yes' !== $has_label ) {
+		$label = seur_api_get_label( $post_id, $numpackages, $weight, false, $changeService );
+		$new_status  = 'seur-shipment';
+		seur_api_set_label_result( $post_id, $label, $new_status);
 
-		$label = seur_get_label( $post_id, $numpackages, $weight );
-
-		$label_result  = $label[0]['result'];
-		$labelid2      = $label[0]['labelID'];
-		$label_message = $label[0]['message'];
-
-		if ( $label_result ) {
-
-			$order = wc_get_order( $post_id );
-			$order->update_status( $new_status, __( 'Label have been created:', 'seur' ), true );
-			add_post_meta( $post_id, '_seur_shipping_order_label_downloaded', 'yes', true );
-			add_post_meta( $post_id, '_seur_shipping_label_id', $label_id, true );
-			$order->add_order_note( 'The Label for Order #' . $post_id . ' have been downloaded', 0, true );
-
-		} else {
-			echo 'error.';
+		if (! $label['status'] ) {
+			echo 'There was an error: ' . esc_html( $label['message'] );
 		}
 	}
 }

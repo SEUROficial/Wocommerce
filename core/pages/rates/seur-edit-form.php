@@ -19,52 +19,39 @@ function seur_edit_rate() {
 
 		$id        = sanitize_text_field( wp_unslash( $_GET['edit_id'] ) ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 		$getrate   = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM {$wpdb->prefix}seur_custom_rates WHERE ID = %d", $id ) );
-		$max_price = $getrate->maxprice;
-		if ( '9999999' === $max_price ) {
-			$max_price = '*';
-		} else {
-			$max_price = $max_price;
+		$min_value = ($getrate->type=='price'? $getrate->minprice: $getrate->minweight);
+        $max_value = ($getrate->type=='price'? $getrate->maxprice: $getrate->maxweight);
+        if ( '9999999' === $max_value ) {
+            $max_value = '*';
 		}
 	}
 	$rates_type = get_option( 'seur_rates_type_field' );
-	if ( 'price' === $rates_type ) {
-		$min       = __( 'Min Price (=)', 'seur' );
-		$title_min = __( 'The product price is equal or mayor of this field', 'seur' );
-		$max       = __( 'Max Price (<)', 'seur' );
-		$title_max = __( 'The product price is minor of this field', 'seur' );
-	} else {
-		$min       = __( 'Min Weight (=)', 'seur' );
-		$title_min = __( 'The product Weight is equal or mayor of this field', 'seur' );
-		$max       = __( 'Max Weight (<)', 'seur' );
-		$title_max = __( 'The product Weight is minor of this field', 'seur' );
-	}
-
-	?>
+    $min       = __( 'Min '.$rates_type.' (=)', 'seur' );
+    $title_min = __( 'The product '.$rates_type.' is equal or mayor of this field', 'seur' );
+    $max       = __( 'Max '.$rates_type.' (<)', 'seur' );
+    $title_max = __( 'The product '.$rates_type.' is minor of this field', 'seur' );
+    ?>
 	<style type="text/css">
 	#dis{
 		display:none;
 	}
 	</style>
-		<div id="dis">
-		</div>
-		<form method='post' id='emp-UpdateForm' action='#'>
+    <div id="dis">
+    </div>
+    <form method='post' id='emp-UpdateForm' action='#'>
 		<table class='table table-bordered'>
 			<input type='hidden' name='id' value='<?php echo esc_html( $getrate->ID ); ?>' />
 			<tr>
 				<td><?php esc_html_e( 'Rate', 'seur' ); ?></td>
-
 				<td>
 					<select class="select rate" id="rate" title="<?php esc_html_e( 'Select Rate to apply', 'seur' ); ?>" name="rate">
 						<?php
 						$registros = seur()->get_products();
 						foreach ( $registros as $description => $valor ) {
-
+                            $selected = '';
 							if ( $description === $getrate->rate ) {
 								$selected = ' selected="selected"';
-							} else {
-								$selected = '';
 							}
-
 							echo '<option value="' . esc_html( $description ) . '"' . esc_html( $selected ) . '>' . esc_html( $description ) . '</option>';
 						}
 						?>
@@ -73,7 +60,6 @@ function seur_edit_rate() {
 			</tr>
 			<tr>
 				<td><?php esc_html_e( 'Country', 'seur' ); ?></td>
-
 				<td id="countryid">
 					<select class="select country" value="Select" id="country" title="<?php esc_html_e( 'Select Country', 'seur' ); ?>" name="country">
 						<?php
@@ -100,10 +86,9 @@ function seur_edit_rate() {
 							$countries = asort( $countries );
 							echo '<option value="*">' . esc_html__( 'All Countries', 'seur' ) . '</option>';
 							foreach ( $countries as $country => $value ) {
+                                $selected = '';
 								if ( $getrate->country === $value ) {
 									$selected = ' selected="selected"';
-								} else {
-									$selected = '';
 								}
 								echo '<option value="' . esc_html( $country ) . '"' . esc_html( $selected ) . '>' . esc_html( $value ) . '</option>';
 							}
@@ -116,11 +101,10 @@ function seur_edit_rate() {
 				<td><?php esc_html_e( 'State', 'seur' ); ?></td>
 				<td id="states">
 					<?php
-						$country = $getrate->country;
+                    $country = $getrate->country;
+                    $states = false;
 					if ( $country && '*' !== $country ) {
 						$states = seur_get_countries_states( $country );
-					} else {
-						$states = false;
 					}
 					if ( $states && '*' !== $states ) {
 						echo '<select value="Select" title="' . esc_html__( 'Select State', 'seur' ) . '" name="state">';
@@ -129,10 +113,9 @@ function seur_edit_rate() {
 						// Display city dropdown based on country name.
 						if ( $currentstate && '*' !== $currentstate ) {
 							foreach ( $states as $state => $value ) {
+                                $selected = '';
 								if ( $currentstate === $state ) {
 									$selected = ' selected="selected"';
-								} else {
-									$selected = '';
 								}
 								echo '<option value="' . esc_html( $state ) . '"' . esc_html( $selected ) . '>' . esc_html( $value ) . '</option>';
 							}
@@ -144,7 +127,6 @@ function seur_edit_rate() {
 						echo '<input title="' . esc_html__( 'State', 'seur' ) . '" type="text" name="state" class="form-control" placeholder="' . esc_html__( 'State', 'seur' ) . '" value="' . esc_html( $currentstate ) . '">';
 					}
 					if ( '*' === $country ) {
-						// campo.
 						echo '<input title="' . esc_html__( 'No needed', 'seur' ) . '" type="text" name="state" class="form-control" placeholder="' . esc_html__( 'No needed', 'seur' ) . '" value="*" readonly>';
 					}
 					?>
@@ -156,11 +138,11 @@ function seur_edit_rate() {
 			</tr>
 			<tr>
 				<td><?php echo esc_html( $min ); ?></td>
-				<td><input title="<?php echo esc_html( $title_min ); ?>" type='text' name='minprice' value='<?php echo esc_html( $getrate->minprice ); ?>' class='form-control' placeholder='EX : 0.50' required=""></td>
+				<td><input title="<?php echo esc_html( $title_min ); ?>" type='text' name='min<?php echo $rates_type; ?>' value='<?php echo esc_html( $min_value ); ?>' class='form-control' placeholder='EX : 0.50' required=""></td>
 			</tr>
 			<tr>
 				<td><?php echo esc_html( $max ); ?></td>
-				<td><input title="<?php echo esc_html( $title_max ); ?>" type='text' name='maxprice' value='<?php echo esc_html( $max_price ); ?>' class='form-control' placeholder='EX : 100.34' required=""></td>
+				<td><input title="<?php echo esc_html( $title_max ); ?>" type='text' name='max<?php echo $rates_type; ?>' value='<?php echo esc_html( $max_value ); ?>' class='form-control' placeholder='EX : 100.34' required=""></td>
 			</tr>
 			<tr>
 				<td><?php esc_html_e( 'Rate Price', 'seur' ); ?></td>

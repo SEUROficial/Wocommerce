@@ -52,13 +52,13 @@ function seur_after_get_label_field() {
 	$option = seur()->get_option( 'seur_after_get_label_field' );
 	?>
 	<select id="notification_type" name="seur_after_get_label_field">
-		<option value="shipping" 
+		<option value="shipping"
 		<?php
 		if ( 'shipping' === $option ) {
 			echo ' selected';}
 		?>
 		><?php esc_html_e( 'Mark as Shipping', 'seur' ); ?></option>
-		<option value="complete" 
+		<option value="complete"
 		<?php
 		if ( 'complete' === $option ) {
 			echo ' selected';}
@@ -94,19 +94,19 @@ function seur_tipo_notificacion_field() {
 	$option = seur()->get_option( 'seur_tipo_notificacion_field' );
 	?>
 	<select id="notification_type" name="seur_tipo_notificacion_field">
-		<option value="SMS" 
+		<option value="SMS"
 		<?php
 		if ( 'SMS' === $option ) {
 			echo ' selected';}
 		?>
 		><?php esc_html_e( 'SMS (this option has an extra cost)', 'seur' ); ?></option>
-		<option value="EMAIL" 
+		<option value="EMAIL"
 		<?php
 		if ( 'EMAIL' === $option ) {
 			echo ' selected';}
 		?>
 		><?php esc_html_e( 'Email', 'seur' ); ?></option>
-		<option value="both" 
+		<option value="both"
 		<?php
 		if ( 'both' === $option ) {
 			echo ' selected';}
@@ -124,13 +124,13 @@ function seur_tipo_etiqueta_field() {
 	$option = seur()->get_option( 'seur_tipo_etiqueta_field' );
 	?>
 	<select id="label_type" name="seur_tipo_etiqueta_field">
-		<option value="PDF" 
+		<option value="PDF"
 		<?php
 		if ( 'PDF' === $option ) {
 			echo ' selected';}
 		?>
 		>PDF</option>
-		<option value="TERMICA" 
+		<option value="TERMICA"
 		<?php
 		if ( 'TERMICA' === $option ) {
 			echo ' selected';}
@@ -148,13 +148,13 @@ function seur_aduana_origen_field() {
 	$option = seur()->get_option( 'seur_aduana_origen_field' );
 	?>
 	<select id="seur_aduana_origen_type" name="seur_aduana_origen_field">
-		<option value="D" 
+		<option value="D"
 		<?php
 		if ( 'D' === $option ) {
 			echo ' selected';}
 		?>
 		>D</option>
-		<option value="F" 
+		<option value="F"
 		<?php
 		if ( 'F' === $option ) {
 			echo ' selected';}
@@ -187,7 +187,7 @@ function seur_tipo_mercancia_field() {
 	$option = seur()->get_option( 'seur_tipo_mercancia_field' );
 	?>
 	<select id="mercancia_type" name="seur_tipo_mercancia_field">
-	<option value="C" <?php if ( $option === 'C') echo ' selected'; ?>><?php esc_html_e( 'C: Commercial', 'seur' ); ?></option>
+	<option value="C" <?php if ( $option === 'C') {echo ' selected';} ?>><?php esc_html_e( 'C: Commercial', 'seur' ); ?></option>
 		<option value="D" <?php if ( $option === 'D') echo ' selected'; ?>><?php esc_html_e( 'D: Documents', 'seur' ); ?></option>
 		<option value="N" <?php if ( $option === 'N') echo ' selected'; ?>><?php esc_html_e( 'N: No Commercial', 'seur' ); ?></option>
 		<option value="S" <?php if ( $option === 'S') echo ' selected'; ?>><?php esc_html_e( 'S: Envelopes', 'seur' ); ?></option>
