@@ -1,4 +1,13 @@
-<?php if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
+<?php
+/**
+ * State TZ
+ *
+ * @package SEUR
+ */
+
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; // Exit if accessed directly.
+}
 
 return array(
 	'TH-37' => 'Amnat Charoen (&#3629;&#3635;&#3609;&#3634;&#3592;&#3648;&#3592;&#3619;&#3636;&#3597;)',
@@ -77,5 +86,5 @@ return array(
 	'TH-61' => 'Uthai Thani (&#3629;&#3640;&#3607;&#3633;&#3618;&#3608;&#3634;&#3609;&#3637;)',
 	'TH-53' => 'Uttaradit (&#3629;&#3640;&#3605;&#3619;&#3604;&#3636;&#3605;&#3606;&#3660;)',
 	'TH-95' => 'Yala (&#3618;&#3632;&#3621;&#3634;)',
-	'TH-35' => 'Yasothon (&#3618;&#3650;&#3626;&#3608;&#3619;)'
+	'TH-35' => 'Yasothon (&#3618;&#3650;&#3626;&#3608;&#3619;)',
 );

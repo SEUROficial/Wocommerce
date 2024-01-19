@@ -1,22 +1,28 @@
 <?php
+/**
+ * SEUR WooCommerce
+ *
+ * @package SEUR
+ */
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define('SEUR_WOOCOMMERCE_PART', '1.0.0');
+define( 'SEUR_WOOCOMMERCE_PART', '1.0.0' );
 /**
  * Plugin activation check
  */
-function wc_seur_activation_check(){
+function wc_seur_activation_check() {
 	if ( ! function_exists( 'simplexml_load_string' ) ) {
-        deactivate_plugins( basename( __FILE__ ) );
-        wp_die( "Sorry, but you can't run this plugin, it requires the SimpleXML library installed on your server/hosting to function." );
+		deactivate_plugins( basename( __FILE__ ) );
+		wp_die( "Sorry, but you can't run this plugin, it requires the SimpleXML library installed on your server/hosting to function." );
 	}
 }
 register_activation_hook( __FILE__, 'wc_seur_activation_check' );
 
-include_once ( 'includes/seur-woo-functions.php' );
-include_once ( 'includes/metabox/seur-metabox.php' );
+require_once 'includes/seur-woo-functions.php';
+require_once 'includes/metabox/seur-metabox.php';
 
 /**
  * WC_Shipping_SEUR_Init Class
@@ -32,14 +38,18 @@ class WC_Shipping_SEUR_Init {
 	 */
 	public static $version = '1.0.0';
 
-	/** @var object Class Instance */
+	/**
+	 * Static Instance.
+	 *
+	 * @var object Class Instance
+	 */
 	private static $instance;
 
 	/**
 	 * Get the class instance
 	 */
 	public static function get_instance() {
-		return null === self::$instance ? ( self::$instance = new self ) : self::$instance;
+		return null === self::$instance ? ( self::$instance = new self() ) : self::$instance;
 	}
 
 	/**
@@ -47,6 +57,9 @@ class WC_Shipping_SEUR_Init {
 	 */
 	public function __construct() {
 		if ( class_exists( 'WC_Shipping_Method' ) ) {
+			if ( seur()->log_is_acive() ) {
+				// seur()->slog( 'WC_Shipping_SEUR_Init: Exists' );
+			}
 			add_action( 'admin_init', array( $this, 'maybe_install' ), 5 );
 			add_action( 'init', array( $this, 'load_textdomain' ) );
 			add_filter( 'plugin_action_links_' . plugin_basename( __FILE__ ), array( $this, 'plugin_links' ) );
@@ -64,23 +77,27 @@ class WC_Shipping_SEUR_Init {
 	 * Include needed files
 	 */
 	public function includes() {
-		include_once( dirname( __FILE__ ) . '/includes/class-wc-shipping-seur.php' );
-		include_once( dirname( __FILE__ ) . '/includes/class-seur_local_shipping_method.php' );
+		include_once dirname( __FILE__ ) . '/includes/class-wc-shipping-seur.php';
+		include_once dirname( __FILE__ ) . '/includes/class-seur_local_shipping_method.php';
 	}
 
 	/**
-	 * wc_seur_add_method function.
+	 * Wc_seur_add_method function.
 	 *
-	 * @access public
-	 * @param mixed $methods
-	 * @return void
+	 * @param mixed $methods methods.
 	 */
 	public function add_method( $methods ) {
 			$methods['seur'] = 'WC_Shipping_SEUR';
 		return $methods;
 	}
+
+	/**
+	 * Add_method_localseur.
+	 *
+	 * @param array $methods methods.
+	 */
 	public function add_method_localseur( $methods ) {
-			$methods[ 'seurlocal' ] = 'Seur_Local_Shipping_Method';
+			$methods['seurlocal'] = 'Seur_Local_Shipping_Method';
 		return $methods;
 	}
 
@@ -93,6 +110,8 @@ class WC_Shipping_SEUR_Init {
 
 	/**
 	 * Plugin page links
+	 *
+	 * @param string $links Plugin Links.
 	 */
 	public function plugin_links( $links ) {
 		$plugin_links = array(
@@ -106,66 +125,54 @@ class WC_Shipping_SEUR_Init {
 	 * WooCommerce not installed notice
 	 */
 	public function wc_deactivated() {
-		echo '<div class="error"><p>' . sprintf( __( 'WooCommerce SEUR Shipping requires %s to be installed and active.', 'seur' ), '<a href="http://www.woothemes.com/woocommerce/" target="_blank">WooCommerce</a>' ) . '</p></div>';
+		echo '<div class="error"><p>' . sprintf( esc_html__( 'WooCommerce SEUR Shipping requires %s to be installed and active.', 'seur' ), '<a href="http://www.woothemes.com/woocommerce/" target="_blank">WooCommerce</a>' ) . '</p></div>';
 	}
 
 	/**
 	 * Checks the plugin version
 	 *
-	 * @access public
-	 * @since 3.2.0
-	 * @version 3.2.0
 	 * @return bool
 	 */
 	public function maybe_install() {
 		// only need to do this for versions less than 3.2.0 to migrate
-		// settings to shipping zone instance
+		// settings to shipping zone instance.
 		$doing_ajax = defined( 'DOING_AJAX' ) && DOING_AJAX;
 		if ( ! $doing_ajax
-		     && ! defined( 'IFRAME_REQUEST' )
-		     && version_compare( WC_VERSION, '2.6.0', '>=' )
-		     && version_compare( get_option( 'wc_seur_version' ), '3.2.0', '<' ) ) {
+			&& ! defined( 'IFRAME_REQUEST' )
+			&& version_compare( WC_VERSION, '2.6.0', '>=' )
+			&& version_compare( get_option( 'wc_seur_version' ), '3.2.0', '<' ) ) {
 
 			$this->install();
-
 		}
-
 		return true;
 	}
 
 	/**
 	 * Update/migration script
-	 *
-	 * @since 3.2.0
-	 * @version 3.2.0
-	 * @access public
-	 * @return bool
 	 */
 	public function install() {
-		// get all saved settings and cache it
+		// get all saved settings and cache it.
 		$seur_settings = get_option( 'woocommerce_seur_settings', false );
 
-		// settings exists
+		// settings exists.
 		if ( $seur_settings ) {
 			global $wpdb;
 
-			// unset un-needed settings
+			// unset un-needed settings.
 			unset( $seur_settings['enabled'] );
 			unset( $seur_settings['availability'] );
 			unset( $seur_settings['countries'] );
 
-			// first add it to the "rest of the world" zone when no seur
+			// first add it to the "rest of the world" zone when no seur.
 			// instance.
 			if ( ! $this->is_zone_has_seur( 0 ) ) {
 				$wpdb->query( $wpdb->prepare( "INSERT INTO {$wpdb->prefix}woocommerce_shipping_zone_methods ( zone_id, method_id, method_order, is_enabled ) VALUES ( %d, %s, %d, %d )", 0, 'seur', 1, 1 ) );
-				// add settings to the newly created instance to options table
+				// add settings to the newly created instance to options table.
 				$instance = $wpdb->insert_id;
 				add_option( 'woocommerce_seur_' . $instance . '_settings', $seur_settings );
 			}
-
 			update_option( 'woocommerce_seur_show_upgrade_notice', 'yes' );
 		}
-
 		update_option( 'wc_seur_version', self::$version );
 	}
 
@@ -180,12 +187,14 @@ class WC_Shipping_SEUR_Init {
 		if ( 'yes' !== $show_notice ) {
 			return;
 		}
-
-		$query_args = array( 'page' => 'wc-settings', 'tab' => 'shipping' );
+		$query_args      = array(
+			'page' => 'wc-settings',
+			'tab'  => 'shipping',
+		);
 		$zones_admin_url = add_query_arg( $query_args, get_admin_url() . 'admin.php' );
 		?>
 		<div class="notice notice-success is-dismissible wc-seur-notice">
-			<p><?php echo sprintf( __( 'SEUR now supports shipping zones. The zone settings were added to a new SEUR method on the "Rest of the World" Zone. See the zones %shere%s ', 'seur' ),'<a href="' .$zones_admin_url. '">','</a>' ); ?></p>
+			<p><?php echo sprintf( esc_html__( 'SEUR now supports shipping zones. The zone settings were added to a new SEUR method on the "Rest of the World" Zone. See the zones %1$shere%2$s ', 'seur' ), '<a href="' . esc_url( $zones_admin_url ) . '">', '</a>' ); ?></p>
 		</div>
 
 		<script type="application/javascript">
@@ -198,6 +207,7 @@ class WC_Shipping_SEUR_Init {
 
 	/**
 	 * Turn of the dismisable upgrade notice.
+	 *
 	 * @since 3.2.0
 	 */
 	public function dismiss_upgrade_notice() {
@@ -209,9 +219,9 @@ class WC_Shipping_SEUR_Init {
 	 *
 	 * @since 3.2.0
 	 *
-	 * @param int $zone_id Zone ID
+	 * @param int $zone_id Zone ID.
 	 *
-	 * @return bool True if given zone_id has seur method instance
+	 * @return bool True if given zone_id has seur method instance.
 	 */
 	public function is_zone_has_seur( $zone_id ) {
 		global $wpdb;
@@ -219,5 +229,5 @@ class WC_Shipping_SEUR_Init {
 		return (int) $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(instance_id) FROM {$wpdb->prefix}woocommerce_shipping_zone_methods WHERE method_id = 'seur' AND zone_id = %d", $zone_id ) ) > 0;
 	}
 }
-
-add_action( 'plugins_loaded' , array( 'WC_Shipping_SEUR_Init' , 'get_instance' ), 0 );
+$shipping_seur = new WC_Shipping_SEUR_Init();
+$shipping_seur::get_instance();

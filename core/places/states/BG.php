@@ -1,4 +1,13 @@
-<?php if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
+<?php
+/**
+ * State BG
+ *
+ * @package SEUR
+ */
+
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; // Exit if accessed directly.
+}
 
 return array(
 	'BG-01' => 'Blagoevgrad',

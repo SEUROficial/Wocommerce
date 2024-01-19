@@ -1,4 +1,13 @@
-<?php if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
+<?php
+/**
+ * State ID
+ *
+ * @package SEUR
+ */
+
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; // Exit if accessed directly.
+}
 
 return array(
 	'AC' => 'Daerah Istimewa Aceh',
@@ -34,5 +43,5 @@ return array(
 	'MA' => 'Maluku',
 	'MU' => 'Maluku Utara',
 	'PA' => 'Papua',
-	'PB' => 'Papua Barat'
+	'PB' => 'Papua Barat',
 );

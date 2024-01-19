@@ -1,4 +1,13 @@
-<?php if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
+<?php
+/**
+ * State PE
+ *
+ * @package SEUR
+ */
+
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; // Exit if accessed directly.
+}
 
 return array(
 	'CAL' => 'El Callao',
@@ -26,5 +35,5 @@ return array(
 	'SAM' => 'San Mart&iacute;n',
 	'TAC' => 'Tacna',
 	'TUM' => 'Tumbes',
-	'UCA' => 'Ucayali'
+	'UCA' => 'Ucayali',
 );

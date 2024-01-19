@@ -1,9 +1,19 @@
-<?php if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
+<?php
+/**
+ * SEUR list labels
+ *
+ * @package SEUR.
+ */
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; // Exit if accessed directly.
+}
 
-function seur_list_labels_page(){
+/**
+ * SEUR list labels page.
+ */
+function seur_list_labels_page() {
 
-	include_once( SEUR_CLASSES . 'seur-list-labels-class.php' );
-
-	echo SEUR_CLASSES . 'seur-list-labels-class.php';
+	include_once SEUR_CLASSES . 'seur-list-labels-class.php';
+	echo esc_html( SEUR_CLASSES ) . 'seur-list-labels-class.php';
 }

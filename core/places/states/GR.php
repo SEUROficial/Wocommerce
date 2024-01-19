@@ -1,4 +1,13 @@
-<?php if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
+<?php
+/**
+ * State GR
+ *
+ * @package SEUR
+ */
+
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; // Exit if accessed directly.
+}
 
 return array(
 	'I' => 'Αττική',
@@ -13,5 +22,5 @@ return array(
 	'J' => 'Πελοπόννησος',
 	'K' => 'Βόρειο Αιγαίο',
 	'L' => 'Νότιο Αιγαίο',
-	'M' => 'Κρήτη'
+	'M' => 'Κρήτη',
 );

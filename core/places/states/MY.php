@@ -1,4 +1,13 @@
-<?php if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
+<?php
+/**
+ * State MY
+ *
+ * @package SEUR
+ */
+
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; // Exit if accessed directly.
+}
 
 return array(
 	'JHR' => 'Johor',
@@ -16,5 +25,5 @@ return array(
 	'SGR' => 'Selangor',
 	'TRG' => 'Terengganu',
 	'PJY' => 'Putrajaya',
-	'KUL' => 'Kuala Lumpur'
+	'KUL' => 'Kuala Lumpur',
 );

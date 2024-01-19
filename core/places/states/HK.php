@@ -1,7 +1,16 @@
-<?php if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
+<?php
+/**
+ * State HK
+ *
+ * @package SEUR
+ */
+
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; // Exit if accessed directly.
+}
 
 return array(
 	'HONG KONG'       => 'Hong Kong Island',
 	'KOWLOON'         => 'Kowloon',
-	'NEW TERRITORIES' => 'New Territories'
+	'NEW TERRITORIES' => 'New Territories',
 );

@@ -1,14 +1,23 @@
 <?php
+/**
+ * SEUR Status
+ *
+ * @package SEUR
+ */
+
 if ( ! defined( 'ABSPATH' ) ) {
-	exit; // Exit if accessed directly
+	exit; // Exit if accessed directly.
 }
 
+/**
+ * SEUR Status Page
+ */
 function seur_status_page() {
 	?>
 	<div class="wrap">
 		<?php
-		if ( isset( $_GET['tab'] ) ) {
-			$active_tab = $_GET['tab'];
+		if ( isset( $_GET['tab'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+			$active_tab = sanitize_text_field( wp_unslash( $_GET['tab'] ) ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 		} else {
 			$active_tab = 'status_seur';
 		}
@@ -20,7 +29,7 @@ function seur_status_page() {
 	</div>
 	<?php
 	if ( 'status_seur' === $active_tab ) {
-	include_once 'status/status-check.php';
+		include_once 'status/status-check.php';
 	} else {
 		?>
 		<p>

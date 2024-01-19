@@ -1,419 +1,220 @@
-<?php if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
-
-function seur_pickup( $post ) {
-
-    // Declarando $wpdb global y usarlo para ejecutar una sentencia de consulta SQL
-    global $wpdb;
-
-    $date          = date("y") . date("m") . date("d"); //yy/mm/dd
-    $bloquear      = '';
-    $bultos        = '';
-    $kilos         = '';
-    $identificador = '';
-
-?>
-<div class="wrap">
-    <h1 class="wp-heading-inline"><?php _e( 'Collection', 'seur' ) ?></h1>
-    <hr class="wp-header-end">
-    <?php _e( 'Generate an order for us to pick up your customers orders.', 'seur' ); ?>
-    <form method="post"  name="formulario" width="100%">
 <?php
+/**
+ * SEUR Pickup
+ *
+ * @package SEUR
+ */
 
-
-    // Si no está seteado bultos, no ha cargado el formulario aún o ha creado recogida en actual carga
-    if ( ! isset( $_POST["bultos"] ) ) {
-
-    // *****************************************
-    // ** RECUPERAR LOS DATOS DEL COMERCIANTE **
-    // *****************************************
-
-    $user_data              = array();
-    $advanced_data          = array();
-    $user_data              = seur_get_user_settings();
-    $advanced_data          = seur_get_advanced_settings();
-
-    // User settings
-
-    $cit_pass               = $user_data[0]['cit_codigo'];
-    $cit_user               = $user_data[0]['cit_usuario'];
-    $cit_contra             = $user_data[0]['cit_contra'];
-    $nif                    = $user_data[0]['nif'];
-    $franquicia             = $user_data[0]['franquicia'];
-    $ccc                    = $user_data[0]['ccc'];
-    $int_ccc                = $user_data[0]['int_ccc'];
-    $usercom                = $user_data[0]['seurcom_usuario'];
-    $passcom                = $user_data[0]['seurcom_contra'];
-    $empresa                = $user_data[0]['empresa'];
-    $viatipo                = $user_data[0]['viatipo'];
-    $vianombre              = $user_data[0]['vianombre'];
-    $vianumero              = $user_data[0]['vianumero'];
-    $escalera               = $user_data[0]['escalera'];
-    $piso                   = $user_data[0]['piso'];
-    $puerta                 = $user_data[0]['puerta'];
-    $postalcode             = $user_data[0]['postalcode'];
-    $poblacion              = $user_data[0]['poblacion'];
-    $provincia              = $user_data[0]['provincia'];
-    $pais                   = $user_data[0]['pais'];
-    $telefono               = $user_data[0]['telefono'];
-    $email                  = $user_data[0]['email'];
-    $contacto_nombre        = $user_data[0]['contacto_nombre'];
-    $contacto_apellidos     = $user_data[0]['contacto_apellidos'];
-
-    // Advanced User Settings
-
-    $usuarioseurcom          = $usercom;
-    $contrasenaseurcom       = $passcom;
-    $Md                      = $manana_desde;
-    $Mh                      = $manana_hasta;
-    $Td                      = $tarde_desde;
-    $Th                      = $tarde_hasta;
-
-    echo "<form>";
-    echo "<input type='hidden' name='usuarioseurcom' value='" . $usercom . "'>";
-    echo "<input type='hidden' name='contrasenaseurcom' value='" . $passcom. "'>";
-    echo "<input type='hidden' name='nif' value='" . $nif . "'>";
-    echo "<input type='hidden' name='ccc' value='" . $ccc . "'>";
-    echo "<input type='hidden' name='franquicia' value='" . $franquicia . "'>";
-    echo "<input type='hidden' name='empresa' value='" . $empresa . "'>";
-    echo "<input type='hidden' name='viatip' value='" . $viatipo . "'>";
-    echo "<input type='hidden' name='vianom' value='" . $vianombre . "'>";
-    echo "<input type='hidden' name='vianum' value='" . $vianumero . "'>";
-    echo "<input type='hidden' name='esc' value='" . $escalera . "'>";
-    echo "<input type='hidden' name='piso' value='" . $piso . "'>";
-    echo "<input type='hidden' name='puerta' value='" . $puerta . "'>";
-    echo "<input type='hidden' name='postal' value='" . $postalcode . "'>";
-    echo "<input type='hidden' name='poblacion' value='" . $poblacion . "'>";
-    echo "<input type='hidden' name='provincia' value='" . $provincia . "'>";
-    echo "<input type='hidden' name='pais' value='" . $pais . "'>";
-    echo "<input type='hidden' name='telefono' value='" . $telefono . "'>";
-    echo "<input type='hidden' name='email' value='" . $email . "'>";
-    echo "<input type='hidden' name='contacton' value='" . $contacto_nombre . "'>";
-    echo "<input type='hidden' name='contactoa' value='" . $contacto_apellidos . "'>";
-    echo "<input type='hidden' name='usuario' value='" . $usercom . "'>";
-    echo "<input type='hidden' name='contra' value='" . $passcom. "'>";
-    wp_nonce_field( 'seur_pickup_action', 'seur_pickup_nonce_field' );
-
-
-} else {
-
-    if ( ! isset( $_POST['seur_pickup_nonce_field'] ) || ! wp_verify_nonce( $_POST['seur_pickup_nonce_field'], 'seur_pickup_action' ) ) {
-
-   print 'Sorry, your nonce did not verify.';
-   exit;
-
-    } else {
-
-        $bultos             = $_POST["bultos"];
-        $kilos              = $_POST["kilos"];
-        $Md                 = $_POST["Md"];
-        $Mh                 = $_POST["Mh"];
-        $Td                 = $_POST["Td"];
-        $Th                 = $_POST["Th"];
-        $bloquear           = "readonly";
-        $usuarioseurcom     = $_POST["usuarioseurcom"];
-        $contrasenaseurcom  = $_POST["contrasenaseurcom"];
-
-    }
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; // Exit if accessed directly.
 }
 
+/**
+ * SEUR Pickup
+ *
+ * @param WP_Post $post Post Data.
+ */
+function seur_pickup( $post ) {
 
+	?>
+	<div class="wrap">
+	<h1 class="wp-heading-inline"><?php esc_html_e( 'Collection', 'seur' ); ?></h1>
+	<hr class="wp-header-end">
+	<?php esc_html_e( 'Generate an order for us to pick up your customers orders.', 'seur' ); ?>
+	<form method="post"  name="formulario" width="100%">
+		<?php
+		if ( ! isset( $_POST['type'] ) ) {
+			wp_nonce_field( 'seur_pickup_action', 'seur_pickup_nonce_field' );
+		} else {
+			if ( ! isset( $_POST['seur_pickup_nonce_field'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['seur_pickup_nonce_field'] ) ), 'seur_pickup_action' ) ) {
+				print 'Sorry, your nonce did not verify.';
+				exit;
+			} else {
 
-//************************************************************************
-// Comprobar si tiene una recogida para hoy y mostrar sus situaciones
-//*************************************************************************
+				$tipo            = sanitize_text_field( wp_unslash( $_POST['type'] ) );
+				$md              = sanitize_text_field( wp_unslash( $_POST['Md'] ) ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotValidated
+				$mh              = sanitize_text_field( wp_unslash( $_POST['Mh'] ) ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotValidated
+				$td              = sanitize_text_field( wp_unslash( $_POST['Td'] ) ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotValidated
+				$th              = sanitize_text_field( wp_unslash( $_POST['Th'] ) ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotValidated
+				$now             = date( 'Y-m-d' ); // phpcs:ignore WordPress.DateTime.RestrictedFunctions.date_date
+				$ref             = $tipo . seur()->get_option( 'seur_accountnumber_field' ) . gmdate( 'ymdHis' ); // . gmdate( 'm' ) . gmdate( 'd' ) . gmdate( 'H' ) . gmdate( 'i' ) . gmdate( 's' );
+				$data            = array();
+				$data['type']    = $tipo; // cold, normal.
+				$data['date']    = $now; // '2021-09-08-12:00:00.000'.
+				$data['mfrom']   = $md; // '09:00:00'
+				$data['mto']     = $mh; // '13:00:00'
+				$data['efrom']   = $td; // '16:00:00'
+				$data['eto']     = $th; // '19:00:00'
+				$data['comment'] = ''; // 'ENVIO DE PRUEBA'
+				$data['ref']     = $ref;
+				$result          = seur_collections( $data );
+				if ( $data ) {
+					$collectionref = $result['data']['collectionRef'];
+					$reference     = $result['data']['reference'];
+					if ( strpos( $reference, 'normal' ) !== false ) {
+						seur()->slog( 'Es recogida normal' );
+						seur()->save_collection( $collectionref, 'normal' );
+						seur()->save_reference( $reference, 'normal' );
+						seur()->save_date_normal( seur()->today() );
 
-    $last_date      = get_option( 'seur_date_localizador' );
-    $now            = date("y"). date("m") . date("d");
-    $identificador  = get_option( 'seur_num_localizador' );
+					}
+					if ( strpos( $reference, 'cold' ) !== false ) {
+						seur()->slog( 'Es recogida frio' );
+						seur()->slog( 'Es recogida normal' );
+						seur()->save_collection( $collectionref, 'cold' );
+						seur()->save_reference( $reference, 'cold' );
+						seur()->save_date_cold( seur()->today() );
+					}
+					if ( seur()->log_is_acive() ) {
+						seur()->slog( '$result: ' . print_r( $result, true ) ); // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_print_r
+						seur()->slog( '$collectionRef: ' . $collectionref );
+						seur()->slog( '$reference: ' . $reference );
+					}
+				} else {
+					if ( seur()->log_is_acive() ) {
+						seur()->slog( '$result: Ha habido un problema' );
+					}
+				}
+			}
+		}
 
+		/**
+		 * Comprobar si tiene una recogida para hoy y mostrar sus situaciones
+		 */
 
- if ( $last_date == $now ) {
+		$date              = seur()->today();
+		$collection_normal = seur()->get_collection( 'normal' );
+		$collection_cold   = seur()->get_collection( 'cold' );
+		$reference_normal  = seur()->get_reference( 'normal' );
+		$reference_cold    = seur()->get_reference( 'cold' );
+		$date_normal       = seur()->get_date_normal();
+		$date_cold         = seur()->get_date_cold();
+		$normal            = false;
+		$cold              = false;
 
-    echo "<div style='color:#e53920;font-weight:bold; font-size:12px;'>";
-    echo __('You have a collection for today', 'seur' );
-    echo '<br>';
-    echo __('IDENTIFIER: ', 'seur' ) . $identificador;
-    echo '</div>';
+		if ( $date === $date_normal ) {
 
-    // situaciones de la recogida
+			echo "<div style='color:#e53920;font-weight:bold; font-size:12px;'>";
+			echo esc_html__( 'You have a collection today', 'seur' );
+			echo '<br>';
+			echo esc_html__( 'Reference: ', 'seur' ) . esc_html( $reference_normal );
+			echo '<br>';
+			echo esc_html__( 'Collection: ', 'seur' ) . esc_html( $collection_normal );
+			echo '</div>';
+			$normal = true;
+		}
+		if ( $date === $date_cold ) {
 
-    $sc_options = array(
-                'connection_timeout' => 30
-            );
+			echo "<div style='color:#e53920;font-weight:bold; font-size:12px;'>";
+			echo esc_html__( 'You have a Cold collection today', 'seur' );
+			echo '<br>';
+			echo esc_html__( 'Cold Reference: ', 'seur' ) . esc_html( $reference_cold );
+			echo '<br>';
+			echo esc_html__( 'Cold Collection: ', 'seur' ) . esc_html( $collection_cold );
+			echo '</div>';
+			$cold = true;
+		}
 
-            $params = array(
-	            'in0' => $identificador,
-	            'in1' => "",
-	            'in2' => $usuarioseurcom,
-	            'in3' => $contrasenaseurcom
-	            );
+		if ( $date === $date_normal && $date === $date_cold ) {
+			return;
+		}
 
-            //pedimos las etiquetas
-            $cliente   = new SoapClient( 'https://ws.seur.com/webseur/services/WSConsultaRecogidas?wsdl', $sc_options );
-            $respuesta = $cliente->consultaDetallesRecogidasStr( $params );
-            $xml       = simplexml_load_string($respuesta->out);
-            echo "<div style='color:#0074a2;font-weight:bold; font-size:12px;'>";
-            echo "<HR>RECOGER EN:<BR>" ;
-            echo $xml->RECOGIDA->DONDE_NOMBRE;
-            echo "<br>";
-            echo $xml->RECOGIDA->DONDE_VIA_NOMBRE;
-            echo "<br>";
-            echo $xml->RECOGIDA->DONDE_POBLACION;
-            echo "<br>";
-            echo $xml->RECOGIDA->DONDE_PROVINCIA;
-            echo "<hr>";
-            foreach( $xml->RECOGIDA->SITUACIONES->SITUACION as $contenido ) {
+		// -------------------------------------------------
+		// NO TIENE RECOGIDA -> CONTINUA EL PROCESO
+		// -------------------------------------------------
 
-                echo $contenido->FECHA_SITUACION . " ";
-                echo $contenido->DESCRIPCION_CLIENTE ."<br>";
+		// ********************************************
+		// ** PARAMETROS INFORMATIVOS DE LA RECOGIDA **
+		// ********************************************
+		?>
+		<table width='100%' style='color:ed734d;font-weight:bold; font-size:12px;'>
 
-                }
+			<tr>
+				<td>
+					<table width='50%'>
+						<tr>
+							<td colspan="2"><?php esc_html_e( 'COLLECTION', 'seur' ); ?></div><hr></td>
+						</tr>
+						<tr>
+							<td colspan="2"><?php esc_html_e( 'Select type.', 'seur' ); ?></div></td></tr>
+						</tr>
+						<tr>
+							<td>
+								<?php esc_html_e( 'Type:', 'seur' ); ?>&nbsp;&nbsp;&nbsp;
+								<select id="manana_desde_type" name="type">
+								<?php
+								if ( ! $cold ) {
+									?>
+									<option value="cold"><?php esc_html_e( 'Cold Shipping', 'seur' ); ?></option>
+									<?php
+								}
+								if ( ! $normal ) {
+									?>
+									<option value="normal"><?php esc_html_e( 'Normal Shipping', 'seur' ); ?></option>
+									<?php
+								}
+								?>
+								</select>
+							</td>
+						</td>
+					</tr>
+					<tr>
+				<td colslpan="2"><br><?php esc_html_e( 'Enter a schedule for Collection', 'seur' ); ?><br />
+				<?php esc_html_e( 'The minimum margin between each schedule has to be 2 hours.', 'seur' ); ?></div></td></tr>
+			<tr>
+			<td>
+				<?php esc_html_e( 'Morning from:', 'seur' ); ?>&nbsp;&nbsp;&nbsp;
+				<select id="manana_desde_type" name="Md">
+				<option value="none"<?php if ( 'none' === $md ) { echo ' selected'; } // phpcs:ignore Squiz.ControlStructures.ControlSignature.NewlineAfterOpenBrace ?>><?php esc_html_e( 'None', 'seur' ); ?></option>
+				<option value="09:00:00"<?php if ( '09:00:00' === $md ) { echo ' selected'; } // phpcs:ignore Squiz.ControlStructures.ControlSignature.NewlineAfterOpenBrace ?>>09:00</option> 
+				<option value="10:01:00"<?php if ( '10:01:00' === $md ) { echo ' selected'; } // phpcs:ignore Squiz.ControlStructures.ControlSignature.NewlineAfterOpenBrace ?>>10:00</option>
+				<option value="11:02:00"<?php if ( '11:02:00' === $md ) { echo ' selected'; } // phpcs:ignore Squiz.ControlStructures.ControlSignature.NewlineAfterOpenBrace ?>>11:00</option>
+				<option value="12:03:00"<?php if ( '12:03:00' === $md ) { echo ' selected'; } // phpcs:ignore Squiz.ControlStructures.ControlSignature.NewlineAfterOpenBrace ?>>12:00</option>
+			</select>
+			&nbsp;&nbsp;&nbsp;
+			<?php esc_html_e( 'to', 'seur' ); ?>&nbsp;&nbsp;&nbsp;
+			<select id="manana_hasta_type" name="Mh">
+				<option value="none"<?php if ( 'none' === $mh ) { echo ' selected'; } // phpcs:ignore Squiz.ControlStructures.ControlSignature.NewlineAfterOpenBrace ?>><?php esc_html_e( 'None', 'seur' ); ?></option>
+				<option value="11:00:00"<?php if ( '11:00:00' === $mh ) { echo ' selected'; } // phpcs:ignore Squiz.ControlStructures.ControlSignature.NewlineAfterOpenBrace ?>>11:00</option>
+				<option value="12:01:00"<?php if ( '12:01:00' === $mh ) { echo ' selected'; } // phpcs:ignore Squiz.ControlStructures.ControlSignature.NewlineAfterOpenBrace ?>>12:00</option>
+				<option value="13:02:00"<?php if ( '13:02:00' === $mh ) { echo ' selected'; } // phpcs:ignore Squiz.ControlStructures.ControlSignature.NewlineAfterOpenBrace ?>>13:00</option>
+				<option value="14:03:00"<?php if ( '14:03:00' === $mh ) { echo ' selected'; } // phpcs:ignore Squiz.ControlStructures.ControlSignature.NewlineAfterOpenBrace ?>>14:00</option>
+				<option value="15:04:00"<?php if ( '15:04:00' === $mh ) { echo ' selected'; } // phpcs:ignore Squiz.ControlStructures.ControlSignature.NewlineAfterOpenBrace ?>>15:00</option>
+			</select>
+			</td></tr><tr>
+			<td><?php esc_html_e( 'Afternoon From:', 'seur' ); ?>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			<select id="tarde_desde_type" name="Td">
+				<option value="none"<?php if ( 'none' === $td ) { echo ' selected'; } // phpcs:ignore Squiz.ControlStructures.ControlSignature.NewlineAfterOpenBrace ?>><?php esc_html_e( 'None', 'seur' ); ?></option>
+				<option value="15:00:00"<?php if ( '15:00:00' === $td ) { echo ' selected'; } // phpcs:ignore Squiz.ControlStructures.ControlSignature.NewlineAfterOpenBrace ?>>15:00</option>
+				<option value="16:01:00"<?php if ( '16:01:00' === $td ) { echo ' selected'; } // phpcs:ignore Squiz.ControlStructures.ControlSignature.NewlineAfterOpenBrace ?>>16:00</option>
+				<option value="17:02:00"<?php if ( '17:02:00' === $td ) { echo ' selected'; } // phpcs:ignore Squiz.ControlStructures.ControlSignature.NewlineAfterOpenBrace ?>>17:00</option>
+				<option value="18:03:00"<?php if ( '18:03:00' === $td ) { echo ' selected'; } // phpcs:ignore Squiz.ControlStructures.ControlSignature.NewlineAfterOpenBrace ?>>18:00</option>
+			</select>
+			&nbsp;&nbsp;&nbsp;
+			<?php esc_html_e( 'to', 'seur' ); ?>&nbsp;&nbsp;&nbsp;
+			<select id="tarde_hasta_type" name="Th">
+				<option value="none"<?php if ( 'none' === $th ) { echo ' selected'; } // phpcs:ignore Squiz.ControlStructures.ControlSignature.NewlineAfterOpenBrace ?>><?php esc_html_e( 'None', 'seur' ); ?></option>
+				<option value="17:00:00"<?php if ( '17:00:00' === $th ) { echo ' selected'; } // phpcs:ignore Squiz.ControlStructures.ControlSignature.NewlineAfterOpenBrace ?>>17:00</option>
+				<option value="18:01:00"<?php if ( '18:01:00' === $th ) { echo ' selected'; } // phpcs:ignore Squiz.ControlStructures.ControlSignature.NewlineAfterOpenBrace ?>>18:00</option>
+				<option value="19:02:00"<?php if ( '19:02:00' === $th ) { echo ' selected'; } // phpcs:ignore Squiz.ControlStructures.ControlSignature.NewlineAfterOpenBrace ?>>19:00</option>
+				<option value="20:03:00"<?php if ( '20:03:00' === $th ) { echo ' selected'; } // phpcs:ignore Squiz.ControlStructures.ControlSignature.NewlineAfterOpenBrace ?>>20:00</option>
+			</select>
+			</td>
+			</tr>
+			<tr><td colslpan=2><br><?php esc_html_e( 'If the schedule is only of mornings, leave the afternoon schedules with null.', 'seur' ); ?>
+				<br><?php esc_html_e( 'If schedule is only of afternoon leave the morning hours with null.', 'seur' ); ?>
+				</div></td></tr>
+			</tr>
+		</table>
+	</form>
+	<?php
 
-            echo "</div>";
-
-            return;
-    }
-
-// -------------------------------------------------
-// NO TIENE RECOGIDA -> CONTINUA EL PROCESO
-// -------------------------------------------------
-
-
-
-
-// ********************************************
-// ** PARAMETROS INFORMATIVOS DE LA RECOGIDA **
-// ********************************************
-?>
-<table width='100%' style='color:ed734d;font-weight:bold; font-size:12px;'>
-
-    <tr>
-	    <td>
-	    <table width='50%'>
-	    	<tr>
-		    	<td colspan="2"><?php _e('COLLECTION','seur'); ?></div><hr></td></tr>
-	    <tr><td colspan="2"><?php _e( 'Enter an approximate value for Bulk and Kilos.', 'seur' ); ?></div></td></tr>
-	    </tr>
-	<tr>
-    <td><?php _e( 'Bulk:', 'seur' ); ?>&nbsp;&nbsp;&nbsp;
-    <?php if ( strlen( $bultos ) < 1 ) $bultos = 1;  if ( strlen( $kilos ) < 1 ) $kilos = 1;?>
-    <input style="text-align:right" type="text" name="bultos" value="<?php echo $bultos;?>" size="1" maxlength="3"  <?php echo $bloquear; ?> >
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?php _e( 'Kilos:', 'seur' ); ?>&nbsp;&nbsp;&nbsp;
-    <input style="text-align:right" type="text" name="kilos" value="<?php echo $kilos;?>" size="1" maxlength="4"   <?php echo $bloquear; ?>>
-    </td>
-    </tr>
-    <tr><td colslpan="2"><br><?php _e( 'Enter a schedule for Collection', 'seur' ); ?><br />
-    <?php _e( 'The minimum margin between each schedule has to be 2 hours.', 'seur'); ?></div></td></tr>
-    <tr>
-    <td><?php _e( 'Morning from:', 'seur' ); ?>&nbsp;&nbsp;&nbsp;
-	<select id="manana_desde_type" name="Md">
-       <option value="" <?php if ( $Md == '') echo ' selected'; ?>><?php _e( 'None', 'seur'); ?></option>
-       <option value="09:00" <?php if ( $Md == '09:00') echo ' selected'; ?>>09:00</option>
-       <option value="10:00" <?php if ( $Md == '10:00') echo ' selected'; ?>>10:00</option>
-       <option value="11:00" <?php if ( $Md == '11:00') echo ' selected'; ?>>11:00</option>
-       <option value="12:00" <?php if ( $Md == '12:00') echo ' selected'; ?>>12:00</option>
-    </select>
-    &nbsp;&nbsp;&nbsp;
-    <?php _e( 'to', 'seur' ); ?>&nbsp;&nbsp;&nbsp;
-   <select id="manana_hasta_type" name="Mh">
-       <option value="" <?php if ( $Mh == '') echo ' selected'; ?>><?php _e( 'None', 'seur'); ?></option>
-       <option value="11:00" <?php if ( $Mh == '11:00') echo ' selected'; ?>>11:00</option>
-       <option value="12:00" <?php if ( $Mh == '12:00') echo ' selected'; ?>>12:00</option>
-       <option value="13:00" <?php if ( $Mh == '13:00') echo ' selected'; ?>>13:00</option>
-       <option value="14:00" <?php if ( $Mh == '14:00') echo ' selected'; ?>>14:00</option>
-    </select>
-    </td></tr><tr>
-    <td><?php _e( 'Afternoon From:', 'seur' ); ?>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-   <select id="tarde_desde_type" name="Td">
-       <option value="" <?php if ( $Td == '') echo ' selected'; ?>><?php _e( 'None', 'seur'); ?></option>
-       <option value="15:00" <?php if ( $Td == '15:00') echo ' selected'; ?>>15:00</option>
-       <option value="16:00" <?php if ( $Td == '16:00') echo ' selected'; ?>>16:00</option>
-       <option value="17:00" <?php if ( $Td == '17:00') echo ' selected'; ?>>17:00</option>
-       <option value="18:00" <?php if ( $Td == '18:00') echo ' selected'; ?>>18:00</option>
-    </select>
-    &nbsp;&nbsp;&nbsp;
-    <?php _e( 'to', 'seur' ); ?>&nbsp;&nbsp;&nbsp;
-   <select id="tarde_hasta_type" name="Th">
-       <option value="" <?php if ( $Th == '') echo ' selected'; ?>><?php _e( 'None', 'seur'); ?></option>
-       <option value="17:00" <?php if ( $Th == '17:00') echo ' selected'; ?>>17:00</option>
-       <option value="18:00" <?php if ( $Th == '18:00') echo ' selected'; ?>>18:00</option>
-       <option value="19:00" <?php if ( $Th == '19:00') echo ' selected'; ?>>19:00</option>
-       <option value="20:00" <?php if ( $Th == '20:00') echo ' selected'; ?>>20:00</option>
-    </select>
-    </td>
-    </tr>
-    <tr><td colslpan=2><br><?php _e( 'If the schedule is only of mornings, leave the afternoon schedules with null.', 'seur' ); ?>
-	    <br><?php _e( 'If schedule is only of afternoon leave the morning hours with null.', 'seur' ); ?>
-	    </div></td></tr>
-
-    </tr>
-
-    </table>
-    </form>
-
-
-<?php
-
-// Si no está setado, boton Solicitar
-if( !isset( $_POST["bultos"] ) )
-    {
-    submit_button( __( 'Request', 'seur' ) );
-    return;
-    }
-
- // Retorno del boton solicitar
- // Formamos la recogida
- $TRAMA_KILOS="1;1;1;".$_POST["kilos"].";0";
-
-
-
-  $DatosRecogida= "".
-        "<recogida>".
-        "<usuario>" .$_POST["usuario"]. "</usuario>" .
-        "<password>" .$_POST["contra"] ."</password>" .
-        "<razonSocial>" . seur_clean_data($_POST["empresa"]) . "</razonSocial>" .
-        "<nombreEmpresa>" .seur_clean_data($_POST["empresa"]) ."</nombreEmpresa>" .
-        "<nombreContactoOrdenante>" . seur_clean_data($_POST["contacton"]) . "</nombreContactoOrdenante>" .
-        "<apellidosContactoOrdenante>" .seur_clean_data($_POST["contactoa"]). "</apellidosContactoOrdenante>" .
-        "<prefijoTelefonoOrdenante>34</prefijoTelefonoOrdenante>".
-        "<telefonoOrdenante>" . $_POST["telefono"] . "</telefonoOrdenante>" .
-        "<prefijoFaxOrdenante></prefijoFaxOrdenante>".
-        "<faxOrdenante></faxOrdenante>".
-        "<nifOrdenante>" . $_POST["nif"] . "</nifOrdenante>".
-        "<paisNifOrdenante>ES</paisNifOrdenante>".
-        "<mailOrdenante>" .$_POST["email"] . "</mailOrdenante>".
-        "<tipoViaOrdenante>" . $_POST["viatip"] . "</tipoViaOrdenante>".
-        "<calleOrdenante>" . seur_clean_data($_POST["vianom"]) . "</calleOrdenante>".
-        "<tipoNumeroOrdenante>N.</tipoNumeroOrdenante>".
-        "<numeroOrdenante>" . $_POST["vianum"] . "</numeroOrdenante>".
-        "<escaleraOrdenante>". $_POST["escalera"]. "</escaleraOrdenante>" .
-        "<pisoOrdenante>" . $_POST["piso"]."</pisoOrdenante>" .
-        "<puertaOrdenante>" . $_POST["puerta"] . "</puertaOrdenante>".
-        "<codigoPostalOrdenante>" . $_POST["postal"] . "</codigoPostalOrdenante>".
-        "<poblacionOrdenante>" . seur_clean_data($_POST["poblacion"]) . "</poblacionOrdenante>".
-        "<provinciaOrdenante>" . seur_clean_data($_POST["provincia"]) . "</provinciaOrdenante>".
-        "<paisOrdenante>ES</paisOrdenante>" .
-
-
-
-        "<diaRecogida>" . date("d") . "</diaRecogida>".
-        "<mesRecogida>" . date("m") . "</mesRecogida>".
-        "<anioRecogida>" . date("Y") . "</anioRecogida>".
-        "<servicio>1</servicio>".
-        "<horaMananaDe>" . $_POST["Md"] ."</horaMananaDe>".
-        "<horaMananaA>" . $_POST["Mh"] ."</horaMananaA>".
-        "<numeroBultos>". $_POST["bultos"] ."</numeroBultos>".
-        "<mercancia>2</mercancia>".
-        "<horaTardeDe>" . $_POST["Td"]. "</horaTardeDe>".
-        "<horaTardeA>" . $_POST["Th"] . "</horaTardeA>".
-        "<tipoPorte>P</tipoPorte>".
-        "<observaciones></observaciones>".
-        "<tipoAviso>EMAIL</tipoAviso>".
-        "<idiomaContactoOrdenante>ES</idiomaContactoOrdenante>".
-
-
-        "<razonSocialDestino>" . seur_clean_data($_POST["empresa"]) . "</razonSocialDestino>".
-        "<nombreContactoDestino>" . seur_clean_data($_POST["contacton"]) . "</nombreContactoDestino>".
-        "<apellidosContactoDestino>" . seur_clean_data($_POST["contactoa"]) . "</apellidosContactoDestino>".
-        "<telefonoDestino>" . $_POST["telefono"] . "</telefonoDestino>".
-        "<tipoViaDestino>" . $_POST["viatip"]. "</tipoViaDestino>".
-        "<calleDestino>" . seur_clean_data($_POST["vianom"]) . "</calleDestino>".
-        "<tipoNumeroDestino>N.</tipoNumeroDestino>".
-        "<numeroDestino>" . $_POST["vianum"]. "</numeroDestino>".
-        "<escaleraDestino>". $_POST["escalera"] . "</escaleraDestino>" .
-        "<pisoDestino>".$_POST["piso"] ."</pisoDestino>".
-        "<puertaDestino>".$_POST["puerta"] . "</puertaDestino>".
-        "<codigoPostalDestino>" . $_POST["postal"] . "</codigoPostalDestino>".
-        "<poblacionDestino>" . seur_clean_data($_POST["poblacion"]) . "</poblacionDestino>".
-        "<provinciaDestino>" . seur_clean_data($_POST["provincia"]) . "</provinciaDestino>".
-        "<paisDestino>ES</paisDestino>".
-        "<prefijoTelefonoDestino>34</prefijoTelefonoDestino>".
-
-        "<razonSocialOrigen>" . seur_clean_data($_POST["empresa"]) . "</razonSocialOrigen>".
-        "<nombreContactoOrigen>" . seur_clean_data($_POST["contacton"]) . "</nombreContactoOrigen>".
-        "<apellidosContactoOrigen>" .seur_clean_data($_POST["contactoa"]) . "</apellidosContactoOrigen>".
-        "<telefonoRecogidaOrigen>" . $_POST["telefono"] . "</telefonoRecogidaOrigen>".
-        "<tipoViaOrigen>" . $_POST["viatip"]. "</tipoViaOrigen>".
-        "<calleOrigen>" .seur_clean_data($_POST["vianom"]) . "</calleOrigen>".
-        "<tipoNumeroOrigen>N.</tipoNumeroOrigen>".
-        "<numeroOrigen>" . $_POST["vianum"]. "</numeroOrigen>".
-        "<escaleraOrigen>". $_POST["escalera"] . "</escaleraOrigen>" .
-        "<pisoOrigen>".$_POST["piso"] . "</pisoOrigen>".
-        "<puertaOrigen>".$_POST["puerta"]."</puertaOrigen>".
-        "<codigoPostalOrigen>" . $_POST["postal"] . "</codigoPostalOrigen>".
-        "<poblacionOrigen>" . seur_clean_data($_POST["poblacion"]) . "</poblacionOrigen>".
-        "<provinciaOrigen>" . seur_clean_data($_POST["provincia"]) . "</provinciaOrigen>".
-        "<paisOrigen>ES</paisOrigen>".
-        "<prefijoTelefonoOrigen>34</prefijoTelefonoOrigen>".
-
-
-        "<producto>2</producto>".
-        "<entregaSabado>N</entregaSabado>".
-        "<entregaNave>N</entregaNave>".
-        "<tipoEnvio>N</tipoEnvio>".
-        "<valorDeclarado>0</valorDeclarado>".
-        //"<listaBultos>1;1;1;1;1/</listaBultos>".
-
-        "<listaBultos>". $TRAMA_KILOS."/</listaBultos>".
-        "<cccOrdenante>". $_POST["ccc"] . "-" . $_POST["franquicia"]. "</cccOrdenante>".
-        "<numeroReferencia></numeroReferencia>".
-        "<ultimaRecogidaDia></ultimaRecogidaDia>".
-        "<nifOrigen></nifOrigen>".
-        "<paisNifOrigen></paisNifOrigen>".
-        "<aviso>N</aviso>".
-        "<cccDonde></cccDonde>".
-        "<cccAdonde></cccAdonde>".
-        "<tipoRecogida></tipoRecogida>".
-        "</recogida>";
-
-        $sc_options = array(
-                'connection_timeout' => 30
-            );
-
-        $soap_client	= new SoapClient('https://ws.seur.com/webseur/services/WSCrearRecogida?wsdl', $sc_options);
-        $parametros		= array( 'in0' => $DatosRecogida );
-        $respuesta		= $soap_client->crearRecogida( $parametros );
-        $xml			= simplexml_load_string( $respuesta->out );
-        $codigo			= "";
-        $codigo			= $xml->CODIGO;
-
-        if ( strlen( $codigo ) > 1 ) {
-            echo __( 'AN ERROR HAS OCCURRED', 'seur' ) . '</div>';
-            echo $xml->DESCRIPCION;
-            echo "<hr><a href='javascript:javascript:history.go(-1)'>";
-            echo "<img src='" . SEUR_IMAGENES . "/volver.jpg" . "'></img>";
-            echo "</a>";
-
-        if ( defined( 'SEUR_DEBUG' ) && SEUR_DEBUG == true ) { ?>
-
-	        <textarea rows="20" cols="40" style="border:none;">
-		        <?php
-		        echo $DatosRecogida;
-		        ?>
-	        </textarea>
-
-        <?php }
-
-            return;
-        }
-        else
-        {
-        $locali_num = (string)$xml->LOCALIZADOR;
-        echo __('The Collection have been created', 'seur');
-        echo '<br />';
-        echo __('Identifier: ') . $locali_num . '</div>';
-
-        // Destruirmos la variable para que no pueda crear mas recogidas en esta vista actual
-         unset($_POST["bultos"]);
-        // Grabamos que se ha creado la recogida para accesos del día muestre situaciones
-         update_option( 'seur_date_localizador', $date );
-         update_option( 'seur_num_localizador', $locali_num );
-         //$resultado=$wpdb->query($sql);
-         if ($resultado!=1)
-                echo "</div>";
-        return;
-        }
-
-
-?> </div> <?php
+	// Si no está setado, boton Solicitar.
+	if ( ! isset( $_POST['type'] ) ) {
+		submit_button( __( 'Request', 'seur' ) );
+		return;
+	}
+	?>
+	</div> 
+	<?php
 }

@@ -1,4 +1,13 @@
-<?php if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
+<?php
+/**
+ * State CA
+ *
+ * @package SEUR
+ */
+
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; // Exit if accessed directly.
+}
 
 return array(
 	'AB' => 'Alberta',
@@ -13,5 +22,5 @@ return array(
 	'PE' => 'Prince Edward Island',
 	'QC' => 'Quebec',
 	'SK' => 'Saskatchewan',
-	'YT' => 'Yukon Territory'
+	'YT' => 'Yukon Territory',
 );

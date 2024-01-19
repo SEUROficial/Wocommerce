@@ -1,4 +1,13 @@
-<?php if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
+<?php
+/**
+ * State ES
+ *
+ * @package SEUR
+ */
+
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; // Exit if accessed directly.
+}
 
 return array(
 	'C'  => 'A Coru&ntilde;a',
@@ -52,5 +61,5 @@ return array(
 	'VA' => 'Valladolid',
 	'BI' => 'Bizkaia',
 	'ZA' => 'Zamora',
-	'Z'  => 'Zaragoza'
+	'Z'  => 'Zaragoza',
 );
