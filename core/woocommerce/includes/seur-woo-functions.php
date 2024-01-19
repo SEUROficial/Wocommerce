@@ -453,7 +453,8 @@ add_action( 'restrict_manage_posts', 'seur_post_formats_filter_to_woo_order_admi
 function seur_filter_orders_by_shipping_method_query( $vars ) {
 	global $typenow;
 
-	if ( 'shop_order' === $typenow && isset( $_GET['_shop_order_seur_shipping_method'] ) ) {
+	if ( 'shop_order' === $typenow && isset( $_GET['_shop_order_seur_shipping_method'] )
+        && !empty($_GET['_shop_order_seur_shipping_method']) ) {
         $products = seur()->get_products();
         $vars['meta_key']   = '_seur_shipping';
         $vars['meta_value'] = 'seur';

@@ -1,0 +1,2258 @@
+# Translation of Plugins - SEUR Oficial - Stable (latest release) in Spanish (Spain)
+# This file is distributed under the same license as the Plugins - SEUR Oficial - Stable (latest release) package.
+msgid ""
+msgstr ""
+"Project-Id-Version: Plugins - SEUR Oficial - Stable (latest release)\n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: 2023-06-05 16:48+0200\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: es\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Poedit 3.0.1\n"
+
+#: loader.php:150
+msgid "You need to contact to SEUR for new credentials. Call to +34913228380 or email to staci@seur.net"
+msgstr "Tienes que contactar con SEUR para activar las nuevas credenciales. Llama al +34913228380 o envía un correo electrónico a staci@seur.net"
+
+#: loader.php:146
+msgid "WARNING"
+msgstr "ADVERTENCIA"
+
+#: core/pages/seur-pickup.php:153
+msgid "Normal Shipping"
+msgstr "Envío normal"
+
+#: core/pages/seur-pickup.php:148
+msgid "Cold Shipping"
+msgstr "Envío de refrigerados"
+
+#: core/pages/seur-pickup.php:143
+msgid "Type:"
+msgstr "Tipo:"
+
+#: core/pages/seur-pickup.php:139
+msgid "Select type."
+msgstr "Seleccionar tipo."
+
+#: core/pages/seur-pickup.php:113
+msgid "Cold Collection: "
+msgstr "Recogida de refrigerados: "
+
+#: core/pages/seur-pickup.php:111
+msgid "Cold Reference: "
+msgstr "Referencia de refrigerados: "
+
+#: core/pages/seur-pickup.php:109
+msgid "You have a Cold collection today"
+msgstr "Tienes una recogida de refrigerados hoy"
+
+#: core/pages/seur-pickup.php:102
+msgid "Collection: "
+msgstr "Recogida: "
+
+#: core/pages/seur-pickup.php:100
+msgid "Reference: "
+msgstr "Referencia: "
+
+#: core/pages/setting-options/user-settings.php:388
+msgid "accountNumber<sup>*</sup>"
+msgstr "accountNumber<sup>*</sup>"
+
+#: core/pages/setting-options/user-settings.php:387
+msgid "Client id<sup>*</sup>"
+msgstr "ID de cliente<sup>*</sup>"
+
+#: core/pages/setting-options/user-settings.php:386
+msgid "Password<sup>*</sup>"
+msgstr "Contraseña<sup>*</sup>"
+
+#: core/pages/setting-options/user-settings.php:385
+msgid "User<sup>*</sup>"
+msgstr "Usuario<sup>*</sup>"
+
+#: core/pages/setting-options/user-settings.php:384
+msgid "Client Secret<sup>*</sup>"
+msgstr "Clave secreta de cliente<sup>*</sup>"
+
+#: core/pages/setting-options/user-settings.php:247
+msgid "accountNumber"
+msgstr "accountNumber"
+
+#: core/pages/setting-options/user-settings.php:241
+msgid "Client id"
+msgstr "ID de cliente"
+
+#: core/pages/setting-options/user-settings.php:235
+msgid "Password"
+msgstr "Contraseña"
+
+#: core/pages/setting-options/user-settings.php:229
+msgid "User"
+msgstr "Usuario"
+
+#: core/pages/setting-options/user-settings.php:223
+msgid "Client Secret"
+msgstr "Clave secreta de cliente"
+
+#: core/pages/setting-options/user-settings.php:144
+#: core/pages/setting-options/user-settings.php:365
+msgid "Enable Logs"
+msgstr "Activar los registros"
+
+#: core/pages/setting-options/user-settings.php:138
+#: core/pages/setting-options/user-settings.php:364
+msgid "Test Mode"
+msgstr "Modo de pruebas"
+
+#: core/pages/setting-options/user-settings.php:367
+msgid "Check price with tax"
+msgstr "Comprobar precio con impuestos"
+
+#: core/pages/setting-options/user-settings.php:66
+msgid "Select how SEUR has to check the final price for apply rate, price after tax or before tax"
+msgstr "Selecciona cómo SEUR debe comprobar el precio final para aplicar el coste de envío, precio antes de impuestos o después de impuestos"
+
+#: core/pages/setting-options/user-settings.php:63
+msgid "Check with Tax"
+msgstr "Comprobar con impuestos"
+
+#: core/pages/setting-options/user-settings.php:57
+msgid "Check without Tax"
+msgstr "Comprobar sin impuestos"
+
+#. translators: Link to SEUR website with new features.
+#: loader.php:118
+msgid "Discover the improvements that have been made in this version, and how to take advantage of them <a href=\"%s\" target=\"_blank\">here</a>"
+msgstr "Descubre las mejoras de esta versión y cómo aprovecharte de ellas <a href=\"%s\" target=\"_blank\">aquí</a>"
+
+#: loader.php:113
+msgid "SEUR has been updated to version"
+msgstr "SEUR se ha actualizado a la versión"
+
+#: loader.php:111 loader.php:144
+msgid "Dismiss"
+msgstr "Descartar"
+
+#: core/functions/functions.php:1616
+msgid "Asking to convert from termica to PDF using Labelary API"
+msgstr "Solicitando convertir de térmica a PDF usando a API Labelary "
+
+#: core/pages/rates/seur-country-state-process.php:26
+msgid "France"
+msgstr "Francia"
+
+#: core/pages/setting-options/advanced-settings.php:17
+#: core/pages/setting-options/advanced-settings.php:222
+msgid "Activate GeoLabel"
+msgstr "Activar GeoLabel"
+
+#: core/pages/status.php:37
+msgid "Use this scripts for fix plugin settings and options"
+msgstr "Usa estos scripts para corregir los ajustes del plugin y las opciones"
+
+#: core/pages/status.php:27
+msgid "Code File & Scripts"
+msgstr "Archivo de código y scripts"
+
+#: core/pages/status.php:26
+msgid "Status Seur"
+msgstr "Estado de SEUR"
+
+#: core/pages/status/status-check.php:1058
+msgid "International description:"
+msgstr "Descripción internacional:"
+
+#: core/pages/status/status-check.php:1048
+msgid "ID of goods:"
+msgstr "ID de las mercancías:"
+
+#: core/pages/status/status-check.php:1038
+msgid "Type of goods:"
+msgstr "Tipo de mercancías:"
+
+#: core/pages/status/status-check.php:1028
+msgid "Customs of destination:"
+msgstr "Aduana de destino:"
+
+#: core/pages/status/status-check.php:1018
+msgid "Customs of origin:"
+msgstr "Aduana de origen:"
+
+#: core/pages/status/status-check.php:1008
+msgid "Type of label:"
+msgstr "Tipo de etiqueta:"
+
+#: core/pages/status/status-check.php:998
+msgid "Notifications by SMS or Email:"
+msgstr "Notificaciones por SMS o Email:"
+
+#: core/pages/status/status-check.php:988
+msgid "Notify distribution:"
+msgstr "Notificar distribución:"
+
+#: core/pages/status/status-check.php:978
+msgid "Notify collection:"
+msgstr "Notificar recogida"
+
+#: core/pages/status/status-check.php:968
+msgid "Google Maps API Key:"
+msgstr "Clave de API de Google Maps"
+
+#: core/pages/status/status-check.php:960
+#: core/pages/status/status-check.php:980
+#: core/pages/status/status-check.php:990
+msgid "Yes"
+msgstr "Sí"
+
+#: core/pages/status/status-check.php:958
+msgid "Activate Local Pickup:"
+msgstr "Activar la recogida local:"
+
+#: core/pages/status/status-check.php:948
+msgid "What to do after get order label:"
+msgstr "Qué hacer después de obtener la etiqueta de pedido:"
+
+#: core/pages/status/status-check.php:944
+#: core/pages/status/status-check.php:964
+#: core/pages/status/status-check.php:984
+#: core/pages/status/status-check.php:994
+msgid "No"
+msgstr "No"
+
+#: core/pages/status/status-check.php:938
+msgid "Show WooCommerce Free Shipping at Checkout:"
+msgstr "Mostrar el envío gratuito de WooCommerce al finalizar la compra:"
+
+#: core/pages/status/status-check.php:933
+msgid "Seur Advanced Settings"
+msgstr "Ajustes avanzados de SEUR"
+
+#: core/pages/status/status-check.php:901
+msgid "SEUR.com password:"
+msgstr "Contraseña de SEUR.com:"
+
+#: core/pages/status/status-check.php:891
+msgid "SEUR.com user:"
+msgstr "Usuario de SEUR.com:"
+
+#: core/pages/status/status-check.php:881
+msgid "Franchise:"
+msgstr "Franquicia:"
+
+#: core/pages/status/status-check.php:871
+msgid "International CCC:"
+msgstr "CCC internacional:"
+
+#: core/pages/status/status-check.php:861
+msgid "CCC:"
+msgstr "CCC:"
+
+#: core/pages/status/status-check.php:851
+msgid "CIT password:"
+msgstr "Contraseña CIT:"
+
+#: core/pages/status/status-check.php:841
+msgid "CIT user:"
+msgstr "Usuario CIT:"
+
+#: core/pages/status/status-check.php:831
+msgid "CIT code:"
+msgstr "Código CIT:"
+
+#: core/pages/status/status-check.php:826
+msgid "Seur User Settings"
+msgstr "Ajustes de usuario de SEUR"
+
+#: core/pages/status/status-check.php:613
+msgid "Seur Services"
+msgstr "Servicios SEUR"
+
+#: core/pages/status/status-check.php:600
+msgid "Seur Download Password:"
+msgstr "Contraseña de descarga de SEUR:"
+
+#: core/pages/status/status-check.php:585
+msgid "Check for seur Download File:"
+msgstr "Comprobar archivo de descarga de SEUR:"
+
+#: core/pages/status/status-check.php:578
+msgid "Seur Download File Path:"
+msgstr "Ruta del archivo de descarga de SEUR:"
+
+#: core/pages/status/status-check.php:571
+msgid "Seur Download File URL:"
+msgstr "URL del archivo de descarga de SEUR:"
+
+#: core/pages/status/status-check.php:567
+msgid "Seur Upload Manifest URL:"
+msgstr "URL del manifiesto de subida de SEUR:"
+
+#: core/pages/status/status-check.php:552
+msgid "Seur Upload Manifest Path is writable:"
+msgstr "La ruta del Manifiesto de Subida de SEUR es escribible."
+
+#: core/pages/status/status-check.php:537
+msgid "Check for Seur Upload Manifest Path:"
+msgstr "Verificar la ruta del Manifiesto de Subida de SEUR:"
+
+#: core/pages/status/status-check.php:533
+msgid "Seur Upload Manifest Path:"
+msgstr "Ruta del Manifiesto de Subida de SEUR:"
+
+#: core/pages/status/status-check.php:529
+msgid "Seur Upload Labels URL:"
+msgstr "URL de las Etiquetas de Subida de SEUR:"
+
+#: core/pages/status/status-check.php:514
+msgid "Seur Upload Labels Path is writable:"
+msgstr "La ruta de las Etiquetas de Subida de SEUR de escribible."
+
+#: core/pages/status/status-check.php:499
+msgid "Check for Seur Upload Labels Path:"
+msgstr "Verifificar la Ruta de Etiquetas de Subida de SEUR:"
+
+#: core/pages/status/status-check.php:495
+msgid "Seur Upload Labels Path:"
+msgstr "Ruta de las Etiquetas de Subida de SEUR:"
+
+#: core/pages/status/status-check.php:491
+msgid "Seur Upload URL:"
+msgstr "URL de subida de SEUR:"
+
+#: core/pages/status/status-check.php:476
+msgid "Seur Upload Path is writable:"
+msgstr "La ruta de subida de Seur tiene permisos de escritura:"
+
+#: core/pages/status/status-check.php:461
+msgid "Check for Seur Upload Path:"
+msgstr "Comprobar la ruta de subida de SEUR:"
+
+#: core/pages/status/status-check.php:457
+msgid "Seur Upload Path:"
+msgstr "Ruta de subida de Seur"
+
+#: core/pages/status/status-check.php:442
+msgid "wp-content is writable:"
+msgstr "wp-content tiene permisos de escritura:"
+
+#: core/pages/status/status-check.php:438
+msgid "Installation Plugin URL:"
+msgstr "URL de instalación del plugin:"
+
+#: core/pages/status/status-check.php:434
+msgid "Installation Path:"
+msgstr "Ruta de instalación:"
+
+#: core/pages/status/status-check.php:429
+msgid "Seur Directories & URLs"
+msgstr "Directorios y URLs de Seur"
+
+#. translators: Name of plugin Author.
+#: core/pages/status/status-check.php:414
+msgctxt "admin status"
+msgid "by %s"
+msgstr "de %s"
+
+#: core/pages/status/status-check.php:406
+msgid "Visit plugin homepage"
+msgstr "Visitar la página de inicio del plugin"
+
+#: core/pages/status/status-check.php:385
+msgid "Active Plugins"
+msgstr "Plugins activos"
+
+#: core/pages/status/status-check.php:360
+#: core/pages/status/status-check.php:371
+msgid "Check for"
+msgstr "Comprobar"
+
+#: core/pages/status/status-check.php:355
+msgid "WordPress Table Prefix:"
+msgstr "Prefijo de las tablas de WordPress:"
+
+#: core/pages/status/status-check.php:350
+msgid "Seur Tables"
+msgstr "Tablas de Seur"
+
+#. translators: Ajax URL.
+#: core/pages/status/status-check.php:340
+msgid "<span class=\"error\">No</span><br> Seems that your server is blocking connections to your own site. It may brake theme db update process and lead to style corruption. Please, make sure that remote requests to %s are not blocked."
+msgstr "<span class=\"error\">No</span><br> Parece que tu servidor está bloqueando las conexiones a tu propio sitio. Puede frenar el proceso de actualización de la base de datos de temas y llevar a la corrupción de estilos. Por favor, asegúrate de que las peticiones remotas a %s no sean bloqueadas."
+
+#: core/pages/status/status-check.php:331
+msgid "Ajax calls with wp_remote_post:"
+msgstr "Peticiones Ajax con wp_remote_post:"
+
+#: core/pages/status/status-check.php:327
+msgid "Current Table Version:"
+msgstr "Versión actual de la tabla:"
+
+#: core/pages/status/status-check.php:323
+msgid "Current DB Version:"
+msgstr "Versión actual de la BDD:"
+
+#: core/pages/status/status-check.php:319
+msgid "Current Plugin Version:"
+msgstr "Versión actual del Plugin:"
+
+#: core/pages/status/status-check.php:292
+msgid "SOAP:"
+msgstr "SOAP:"
+
+#: core/pages/status/status-check.php:276
+msgid "SimpleXML:"
+msgstr "SimpleXML:"
+
+#: core/pages/status/status-check.php:266
+msgid "Not Enabled"
+msgstr "No activado"
+
+#: core/pages/status/status-check.php:263
+msgid "cURL:"
+msgstr "cURL:"
+
+#: core/pages/status/status-check.php:252
+msgid "Installed"
+msgstr "Instalado"
+
+#: core/pages/status/status-check.php:247
+msgid "GD Library:"
+msgstr "GD Library:"
+
+#: core/pages/status/status-check.php:243
+msgid "Max Upload Size:"
+msgstr "Tamaño máximo de subida:"
+
+#: core/pages/status/status-check.php:236
+msgid "MySQL Version:"
+msgstr "Versión de MySQL:"
+
+#: core/pages/status/status-check.php:232
+msgid "ZipArchive:"
+msgstr "ZipArchive:"
+
+#: core/pages/status/status-check.php:220
+msgid "Suhosin Post Max Value Length:"
+msgstr "Longitud máxima de publicación Suhosin"
+
+#: core/pages/status/status-check.php:197
+msgid "Suhosin Request Max Vars:"
+msgstr "Suhosin Request Max Vars:"
+
+#: core/pages/status/status-check.php:175
+msgid "Suhosin Post Max Vars:"
+msgstr "Suhosin Post Max Vars:"
+
+#: core/pages/status/status-check.php:170
+msgid "SUHOSIN Installed:"
+msgstr "SUHOSIN instalado:"
+
+#: core/pages/status/status-check.php:148
+msgid "PHP Max Input Vars:"
+msgstr "Máximas entradas de variables de PHP:"
+
+#: core/pages/status/status-check.php:139
+msgid "PHP Time Limit:"
+msgstr "Límite de tiempo de PHP:"
+
+#: core/pages/status/status-check.php:135
+msgid "PHP Post Max Size:"
+msgstr "Tamaño máximo de envíos PHP:"
+
+#: core/pages/status/status-check.php:124
+msgid "PHP Version:"
+msgstr "Versión PHP:"
+
+#: core/pages/status/status-check.php:120
+msgid "Server Info:"
+msgstr "Información del servidor:"
+
+#: core/pages/status/status-check.php:115
+msgid "Server Environment"
+msgstr "Entorno del servidor"
+
+#: core/pages/status/status-check.php:107
+msgid "Language:"
+msgstr "Idioma:"
+
+#: core/pages/status/status-check.php:97
+msgid "WP Debug Mode:"
+msgstr "Modo de depuración de WP:"
+
+#: core/pages/status/status-check.php:87
+msgid "FS Accessible:"
+msgstr "FS Accesible:"
+
+#: core/pages/status/status-check.php:78
+msgid "WP Memory Limit:"
+msgstr "Límite de memoria de WP:"
+
+#: core/pages/status/status-check.php:68
+msgid "WP Multisite:"
+msgstr "WP Multisitio:"
+
+#: core/pages/status/status-check.php:64
+msgid "WP Version:"
+msgstr "Versión de WP:"
+
+#: core/pages/status/status-check.php:60
+msgid "Site URL:"
+msgstr "URL del sitio:"
+
+#: core/pages/status/status-check.php:56
+msgid "Home URL:"
+msgstr "URL de inicio:"
+
+#: core/pages/status/status-check.php:51
+msgid "WordPress Environment"
+msgstr "Entorno de WordPress"
+
+#: core/pages/status/status-check.php:45 core/pages/status/status-check.php:314
+msgid "Seur Information"
+msgstr "Información de SEUR"
+
+#: core/pages/status/status-check.php:41
+msgid "Please press Ctrl/Cmd+C to copy."
+msgstr "Pulsa Ctrl/Cmd+C para copiar."
+
+#: core/pages/status/status-check.php:38
+msgid "Get system report"
+msgstr "Obtener el informe del sistema"
+
+#: core/pages/status/status-check.php:37
+msgid "Please copy and paste this information in your ticket when contacting support:"
+msgstr "Por favor, copia y pega esta información en tu ticket cuando contactes con soporte:"
+
+#: core/pages/status/status-scripts.php:47
+#: core/pages/status/status-scripts.php:68
+msgid "Copy this code and use phpMyAdmin to create Seur content. Table: "
+msgstr "Copia este código y usa phpMyAdmin para crear la tabla de contenido de SEUR:"
+
+#: core/pages/status/status-scripts.php:17
+msgid "Copy this code and use phpMyAdmin to create Seur Tables."
+msgstr "Copia este código y usa phpMyAdmin para crear Tablas de SEUR."
+
+#: core/pages/status/status-scripts.php:13
+msgid "Seur Scripts"
+msgstr "Scripts de SEUR"
+
+#: core/woocommerce/includes/class-wc-shipping-seur.php:247
+msgid "Method"
+msgstr "Método"
+
+#: core/pages/setting-options/advanced-settings.php:223
+msgid "Show WooCommerce Free Shipping at Checkout (by default SEUR hide the Free Shipping)"
+msgstr "Mostrar Gastos de Envío gratis de WooCommerce al Pagar (por defecto SEUR oculta envío gratis)"
+
+#: core/pages/setting-options/advanced-settings.php:35
+msgid "Show WooCommerce Free Shipping at Checkout"
+msgstr "Mostrar Gastos de Envío Gratis de WooCoomerce al Pagar."
+
+#: core/woocommerce/includes/seur-woo-functions.php:255
+msgid "Awaiting SEUR Shipment <span class=\"count\">(%s)</span>"
+msgstr "Esperando SEUR Shipment <span class=\"count\">(%s)</span>"
+
+#: core/woocommerce/includes/seur-woo-functions.php:210
+msgid "Awaiting SEUR Label <span class=\"count\">(%s)</span>"
+msgstr "Esperando la etiqueta SEUR <span class=\"count\">(%s)</span>"
+
+#: core/woocommerce/includes/seur-woo-functions.php:173
+msgid "Awaiting SEUR shipment <span class=\"count\">(%s)</span>"
+msgstr "Esperando el envío de SEUR <span class=\"count\">(%s)</span>"
+
+#: core/woocommerce/includes/class-wc-shipping-seur.php:30
+msgid "<p>You need to add shipping prices at Seur > Rates.</p><p>Please, configure SEUR data in <code>SEUR -> Settings</code></p>"
+msgstr "<p>Necesitas añadir los precios de envío en Seur > Tarifas.</p><p>Por favor, configura los datos de SEUR en <code>SEUR -> Ajustes</code></p>"
+
+#: core/pages/rates/seur-rates.php:244
+msgid "Please fill in the Country field."
+msgstr "Por favor, rellena el campo del país."
+
+#: core/pages/seur-get-labels.php:91
+msgid "Max Weight 20 Kg"
+msgstr "Peso máximo 20 Kg"
+
+#: core/pages/setting-options/advanced-settings.php:44
+#: core/pages/setting-options/advanced-settings.php:226
+msgid "Google Maps API Key"
+msgstr "Clave de la API de Google Maps"
+
+#: core/pages/setting-options/advanced-settings.php:26
+#: core/pages/setting-options/advanced-settings.php:225
+msgid "Activate Local Pickup"
+msgstr "Activar la recogida local"
+
+#: core/pages/setting-options/user-settings.php:393
+msgid "International CCC<sup>*</sup>"
+msgstr "CCC Internacional<sup>*</sup>"
+
+#: core/pages/setting-options/user-settings.php:354
+msgid "Access password seur.com (given by SEUR)"
+msgstr "Contraseña de acceso a seur.com (facilitado por SEUR)"
+
+#: core/pages/setting-options/user-settings.php:345
+msgid "User access to seur.com (given by SEUR)"
+msgstr "Usuario de acceso a seur.com (facilitado por SEUR)"
+
+#: core/pages/setting-options/user-settings.php:336
+msgid "Two-digit numeric code (given by SEUR)"
+msgstr "Código numérico de dos dígitos (facilitado por SEUR)"
+
+#: core/pages/setting-options/user-settings.php:327
+msgid "International Account Code with SEUR (given by SEUR)"
+msgstr "Código de cuenta internacional con SEUR (proporcionado por SEUR)"
+
+#: core/pages/setting-options/user-settings.php:318
+msgid "Country Account Code with SEUR (given by SEUR)"
+msgstr "Código de cuenta de país con SEUR (proporcionado por SEUR)"
+
+#: core/pages/setting-options/user-settings.php:309
+msgid "Password to generate the labels (given by SEUR)"
+msgstr "Clave para generar las etiquetas (proporcionado por SEUR)"
+
+#: core/pages/setting-options/user-settings.php:300
+msgid "User to generate labels (given by SEUR)"
+msgstr "Usuario para generar las etiquetas (proporcionado por SEUR)"
+
+#: core/pages/setting-options/user-settings.php:291
+msgid "Integrated client code (given by SEUR)"
+msgstr "Código integrado de cliente (proporcionado por SEUR)"
+
+#: core/pages/setting-options/user-settings.php:170
+msgid "For Spain 5 digits, for Portugal 4 digits"
+msgstr "Para España 5 dígitos, para Portugal 4 dígitos."
+
+#: core/pages/setting-options/user-settings.php:104
+msgid "Street"
+msgstr "Calle"
+
+#: core/pages/setting-options/user-settings.php:98
+msgid "Square"
+msgstr "Plaza"
+
+#: core/pages/setting-options/user-settings.php:92
+msgid "Avenue"
+msgstr "Avenida"
+
+#: core/woocommerce/includes/class-seur_local_shipping_method.php:479
+msgid "Mobile phone for selected shipping method is needed."
+msgstr "Se necesita un teléfono móvil para el método de envío seleccionado."
+
+#: core/woocommerce/includes/class-seur_local_shipping_method.php:476
+msgid "You need to select a Local Pickup."
+msgstr "Tienes que seleccionar un local de recogida."
+
+#: core/woocommerce/includes/class-seur_local_shipping_method.php:379
+msgid "Choose a location:"
+msgstr "Elige una ubicación:"
+
+#: core/woocommerce/includes/class-seur_local_shipping_method.php:373
+msgid "Timetable: "
+msgstr "Horario:"
+
+#: core/woocommerce/includes/class-seur_local_shipping_method.php:349
+msgid "You will have to select a location in the next step"
+msgstr "Tendrás que seleccionar una ubicación en el siguiente paso"
+
+#. translators: weight, weight limit and  Method name.
+#: core/woocommerce/includes/class-seur_local_shipping_method.php:167
+msgid "Sorry, %1$d kg exceeds the maximum weight of %2$d kg for %3$s"
+msgstr "Lo siento, %1$d Kg supera el peso máximo de %2$d Kg para %3$s"
+
+#: core/woocommerce/includes/class-seur_local_shipping_method.php:28
+msgid "SEUR Local Pickup Shipping Method, Please configure SEUR data in <code>SEUR -> Settings</code>"
+msgstr "Método de envío de recogida local de SEUR, por favor, configura los datos de SEUR en <code>SEUR -> Configuración</code>"
+
+#: core/woocommerce/includes/class-seur_local_shipping_method.php:27
+#: core/woocommerce/includes/class-seur_local_shipping_method.php:38
+msgid "SEUR Local Pickup"
+msgstr "Recogida local de SEUR"
+
+#: core/pages/rates/seur-rates.php:328
+msgid "There was an error getting rate."
+msgstr "Ha habido un error al obtener la tarifa."
+
+#: core/pages/rates/seur-rates.php:256
+msgid "Please fill in the kilos field."
+msgstr "Por favor, rellena el campo de los kilos."
+
+#: core/pages/rates/seur-rates.php:151
+msgid "Weight Kg, eg 0.1"
+msgstr "Peso en Kg, por ejemplo, 0.1"
+
+#: core/pages/rates/seur-rates.php:20
+msgid "Sorry, your nonce did not verify."
+msgstr "Lo siento, tu nonce no se ha verificado."
+
+#: core/pages/rates/seur-rates.php:12
+msgid "Calculate rate that SEUR apply to you"
+msgstr "Calcula la tarifa que te aplica SEUR"
+
+#: core/pages/rates/seur-rates.php:12
+msgid "RATES"
+msgstr "TARIFAS"
+
+#. Description of the plugin
+msgid "Add SEUR shipping method to WooCommerce. The SEUR plugin for WooCommerce allows you to manage your order dispatches in a fast and easy way"
+msgstr "Añade el método de envio de SEUR a WooCommerce. El plugin de SEUR para WooCommerce te permite gestionar la entrega de tus pedidos de una forma rápida y sencilla."
+
+#. Author URI of the plugin
+msgid "https://www.joseconti.com/"
+msgstr "https://www.joseconti.com/"
+
+#. Author of the plugin
+msgid "SEUR"
+msgstr "SEUR"
+
+#. Plugin URI of the plugin
+msgid "http://www.seur.com/"
+msgstr "http://www.seur.com/"
+
+#. Plugin Name of the plugin
+msgid "SEUR Oficial"
+msgstr "SEUR Oficial"
+
+#: core/pages/status/status-check.php:250
+msgid "Not Installed"
+msgstr "No Instalado"
+
+#: core/woocommerce/seur-woocommerce.php:197
+msgid "SEUR now supports shipping zones. The zone settings were added to a new SEUR method on the \"Rest of the World\" Zone. See the zones %1$shere%2$s "
+msgstr "SEUR ahora admite zonas de envío. Los ajustes de zona se han añadido a un nuevo método de SEUR en la zona «Resto del mundo». Mira las zonas %1$saquí%2$s "
+
+#: core/woocommerce/seur-woocommerce.php:128
+msgid "WooCommerce SEUR Shipping requires %s to be installed and active."
+msgstr "El método de envío WooCommerce SEUR requiere que sea instalado y activado %s."
+
+#: core/woocommerce/seur-woocommerce.php:119
+msgid "Docs"
+msgstr "Documentación"
+
+#: core/woocommerce/seur-woocommerce.php:118
+msgid "Support"
+msgstr "Soporte"
+
+#: core/woocommerce/includes/seur-woo-functions.php:761
+msgid "All Seur Shippments"
+msgstr "Todos los envios de Seur"
+
+#: core/woocommerce/includes/seur-woo-functions.php:760
+msgid "All Seur Shipping"
+msgstr "Todos los envíos de Seur"
+
+#: core/woocommerce/includes/seur-woo-functions.php:754
+msgid "All"
+msgstr "Todo"
+
+#: core/woocommerce/includes/seur-woo-functions.php:752
+msgid "Seur Shippments"
+msgstr "Envios SEUR"
+
+#: core/woocommerce/includes/seur-woo-functions.php:500
+msgid "Shipping Mobile Phone"
+msgstr "Teléfono móvil para el envio"
+
+#: core/woocommerce/includes/seur-woo-functions.php:478
+msgid "Billing Mobile Phone"
+msgstr "Teléfono móvil de facturación"
+
+#: core/woocommerce/includes/seur-woo-functions.php:465
+#: core/woocommerce/includes/seur-woo-functions.php:487
+msgctxt "placeholder"
+msgid "Mobile Phone"
+msgstr "Teléfono móvil"
+
+#: core/woocommerce/includes/seur-woo-functions.php:464
+#: core/woocommerce/includes/seur-woo-functions.php:486
+msgid "Mobile Phone"
+msgstr "Teléfono móvil"
+
+#: core/woocommerce/includes/seur-woo-functions.php:380
+msgid "Get SEUR Label (Only 1 label per order)"
+msgstr "Obtener etiqueta de SEUR (solo 1 etiqueta por pedido)"
+
+#: core/woocommerce/includes/seur-woo-functions.php:288
+#: core/woocommerce/includes/seur-woo-functions.php:289
+msgid "Create SEUR Label (Only 1 label per order)"
+msgstr "Crear etiqueta de SEUR (solo 1 etiqueta por pedido)"
+
+#: core/woocommerce/includes/seur-woo-functions.php:285
+#: core/woocommerce/includes/seur-woo-functions.php:287
+msgid "Mark Awaiting SEUR Shipment"
+msgstr "Marcar como esperando envío de SEUR"
+
+#: core/woocommerce/includes/seur-woo-functions.php:284
+#: core/woocommerce/includes/seur-woo-functions.php:286
+msgid "Mark Awaiting SEUR Label"
+msgstr "Marcar cómo esperando etiqueta de SEUR"
+
+#. translators: Placeholders: %s is a user's display name.
+#: core/woocommerce/includes/seur-woo-functions.php:266
+msgid "Order information printed by %s for packaging."
+msgstr "Información impresa por %s para el embalaje del pedido."
+
+#: core/woocommerce/includes/seur-woo-functions.php:242
+msgid "Mark as printed for packaging"
+msgstr "Marcar como imprimido para empaquetado"
+
+#: core/woocommerce/includes/metabox/seur-metabox.php:61
+msgid " See SEUR Label "
+msgstr " Ver etiqueta de SEUR "
+
+#: core/woocommerce/includes/metabox/seur-metabox.php:55
+msgid "Get SEUR Label"
+msgstr "Crear etiqueta de SEUR"
+
+#: core/woocommerce/includes/metabox/seur-metabox.php:16
+msgid "SEUR Labels"
+msgstr "Etiquetas SEUR"
+
+#: core/woocommerce/includes/class-wc-shipping-seur.php:418
+msgid "SEUR: Using Fallback setting."
+msgstr "SEUR: Usando configuración de compatibilidad."
+
+#: core/woocommerce/includes/class-wc-shipping-seur.php:349
+msgid "SEUR: No Services are enabled in admin panel."
+msgstr "SEUR: No se han configurado servicios en el panel de control."
+
+#: core/woocommerce/includes/class-wc-shipping-seur.php:319
+msgid "SEUR: Country not supplied. Rates not requested."
+msgstr "SEUR: País no suministrado. Tarifas no solicitada."
+
+#: core/woocommerce/includes/class-wc-shipping-seur.php:267
+msgid "Offer the customer the expensive rate only"
+msgstr "Ofrecer al cliente solo la tarifa más cara"
+
+#: core/woocommerce/includes/class-wc-shipping-seur.php:266
+msgid "Offer the customer the cheapest rate only"
+msgstr "Ofrecer al cliente solo la tarifa más barata"
+
+#: core/woocommerce/includes/class-wc-shipping-seur.php:265
+msgid "Offer the customer all returned rates"
+msgstr "Ofrecer al cliente todos las tarifas devueltas"
+
+#: core/woocommerce/includes/class-wc-shipping-seur.php:260
+msgid "Offer Rates"
+msgstr "Ofrecer tarifas"
+
+#: core/woocommerce/includes/class-seur_local_shipping_method.php:37
+#: core/woocommerce/includes/class-wc-shipping-seur.php:255
+msgid "This controls the title which the user sees during checkout."
+msgstr "Título que tus clientes verán al finalizar la compra."
+
+#: core/woocommerce/includes/class-seur_local_shipping_method.php:35
+#: core/woocommerce/includes/class-wc-shipping-seur.php:253
+msgid "Method Title"
+msgstr "Título del método"
+
+#: core/woocommerce/includes/class-wc-shipping-seur.php:178
+msgid "Choose a country&hellip;"
+msgstr "Selecciona un país&hellip;"
+
+#: core/woocommerce/includes/class-wc-shipping-seur.php:175
+msgid "Origin Country"
+msgstr "País Origen"
+
+#: core/tracking/front/tracking-front.php:44
+msgid "Waiting shippment"
+msgstr "Esperando el envío"
+
+#: core/tracking/front/tracking-front.php:40
+msgid "Click here"
+msgstr "Haz clic aquí"
+
+#: core/tracking/front/tracking-front.php:19
+msgid "Where is my Order?"
+msgstr "¿Dónde está mi pedido?"
+
+#: core/tracking/back/tracking-back.php:71
+msgid "added on"
+msgstr "añadido el"
+
+#: core/tracking/back/tracking-back.php:57
+msgid "Waiting Collection or update tracking"
+msgstr "Esperando la recogida o la actualización del seguimiento"
+
+#: core/tracking/back/tracking-back.php:46
+msgid "Waiting Seur Label"
+msgstr "Esperando la etiqueta de SEUR"
+
+#: core/tracking/back/tracking-back.php:33
+msgid "Tracking ID"
+msgstr "ID de seguimiento"
+
+#: core/tracking/back/tracking-back.php:16
+msgid "SEUR Tracking"
+msgstr "Seguimiento SEUR"
+
+#: core/pages/seur-settings.php:49
+msgid "Please specify if you want Notifications, time for pickups, type of labels generated and customs information."
+msgstr "Por favor, especifica si quieres avisos, tiempo para las recogidas, tipo de etiquetas generadas e información de aduanas."
+
+#: core/pages/seur-settings.php:44
+msgid "(<sup>*</sup>) This data is provided by SEUR"
+msgstr "(<sup>*</sup>) Estos datos son proporcionados por SEUR"
+
+#: core/pages/seur-settings.php:38
+msgid "Configuration data. Contact SEUR if you do not have them."
+msgstr "Datos de configuración. Contacta con SEUR si no los tienes."
+
+#: core/pages/seur-settings.php:27
+msgid "User Settings"
+msgstr "Ajustes de usuario"
+
+#: core/pages/seur-settings.php:18
+msgid "SEUR Settings"
+msgstr "Ajustes de SEUR"
+
+#: core/pages/seur-rates.php:38
+msgid "Rate Weight Settings"
+msgstr "Configuración tarifas por peso"
+
+#: core/pages/seur-rates.php:36
+msgid "Custom Name Rates"
+msgstr "Nombres personalizados de tarifas"
+
+#: core/pages/seur-rates.php:25
+msgid "SEUR Rates"
+msgstr "Tarifas SEUR"
+
+#: core/pages/seur-products-services.php:32
+#: core/pages/seur-products-services.php:57
+msgid "Description"
+msgstr "Descripción"
+
+#: core/pages/seur-products-services.php:30
+#: core/pages/seur-products-services.php:55
+msgid "Service"
+msgstr "Servicio"
+
+#: core/pages/seur-products-services.php:29
+#: core/pages/seur-products-services.php:54
+msgid "ID"
+msgstr "ID"
+
+#: core/pages/seur-products-services.php:25
+msgid "List of combinations of SEUR Services and Products available in the plugin."
+msgstr "Lista de combinaciones de Servicios y Productos SEUR disponibles en el plugin."
+
+#: core/pages/seur-products-services.php:24
+msgid "These services and products might not be available in your commercial proposal. Please verify with your SEUR sales contact that you have all combinations enabled."
+msgstr "Estos servicios y productos podrían no estar disponibles en tu propuesta comercial. Por favor, verifica con tu contacto de ventas de SEUR que tienes todas las combinaciones habilitadas."
+
+#: core/pages/seur-products-services.php:23
+msgid "Products / Services List"
+msgstr "Lista Productos / Servicios"
+
+#: core/pages/seur-products-services.php:21
+msgid "Products / Services"
+msgstr "Productos / Servicios"
+
+#: core/pages/seur-pickup.php:214
+msgid "Request"
+msgstr "Solicitar"
+
+#: core/pages/seur-pickup.php:205
+msgid "If schedule is only of afternoon leave the morning hours with null."
+msgstr "Si el horario es sólo de tarde dejar horas de la mañana con null."
+
+#: core/pages/seur-pickup.php:204
+msgid "If the schedule is only of mornings, leave the afternoon schedules with null."
+msgstr "Si el horario es sólo de mañanas, dejo los horarios por la tarde con null."
+
+#: core/pages/seur-pickup.php:185
+msgid "Afternoon From:"
+msgstr "Tardes desde:"
+
+#: core/pages/seur-pickup.php:175 core/pages/seur-pickup.php:194
+msgid "to"
+msgstr "a"
+
+#: core/pages/seur-pickup.php:168 core/pages/seur-pickup.php:177
+#: core/pages/seur-pickup.php:187 core/pages/seur-pickup.php:196
+msgid "None"
+msgstr "Nada"
+
+#: core/pages/seur-pickup.php:166
+msgid "Morning from:"
+msgstr "Mañanas desde:"
+
+#: core/pages/seur-pickup.php:163
+msgid "The minimum margin between each schedule has to be 2 hours."
+msgstr "El margen mínimo entre cada horario tiene que ser de 2 horas."
+
+#: core/pages/seur-pickup.php:162
+msgid "Enter a schedule for Collection"
+msgstr "Introduzca unas horas para las recogidas"
+
+#: core/pages/seur-pickup.php:136
+msgid "COLLECTION"
+msgstr "RECOGIDA"
+
+#: core/pages/seur-pickup.php:98
+msgid "You have a collection today"
+msgstr "Tienes una recogida hoy"
+
+#: core/pages/seur-pickup.php:23
+msgid "Generate an order for us to pick up your customers orders."
+msgstr "Genera un pedido para que recojamos los pedidos de tus clientes."
+
+#: core/pages/seur-nomenclator.php:147
+msgid "Postal code"
+msgstr "Código postal"
+
+#: core/pages/seur-nomenclator.php:107 core/pages/seur-nomenclator.php:126
+msgid "STATE/PROVINCE"
+msgstr "ESTADO / PROVINCIA"
+
+#: core/pages/seur-nomenclator.php:102 core/pages/seur-nomenclator.php:125
+msgid "CITY"
+msgstr "POBLACIÓN"
+
+#: core/pages/seur-nomenclator.php:98 core/pages/seur-nomenclator.php:124
+msgid "POSTCODE"
+msgstr "CODIGO POSTAL"
+
+#: core/pages/seur-nomenclator.php:65
+msgid "There is a problem connecting to SEUR. Please try again later."
+msgstr "Hay un problema conectando con SEUR. Por favor, inténtalo de nuevo más tarde."
+
+#: core/pages/seur-nomenclator.php:34
+msgid "Check ZIP or city associated to Seur system."
+msgstr "Comprueba el código postal y la población asociada al sistema de SEUR."
+
+#: core/pages/seur-manifest.php:101
+msgid "If you don't have shipments created other days, you don't need to enter a date"
+msgstr "Si no tienes envíos creados otros días, no necesitas introducir una fecha."
+
+#: core/pages/seur-manifest.php:98
+msgid "Submit"
+msgstr "Enviar"
+
+#: core/pages/seur-manifest.php:92 core/pages/seur-manifest.php:93
+msgid "From Date"
+msgstr "Desde fecha"
+
+#: core/pages/seur-manifest.php:85
+msgid " Open Manifest "
+msgstr " Abrir manifiesto "
+
+msgid " Manifest does not include any delivery "
+msgstr " El manifiesto no incluye ninguna entrega "
+
+#: core/pages/seur-manifest.php:22
+msgid "Generate the cargo manifest of your deliveries and print two copies for the carrier."
+msgstr "Genera el manifiesto de carga de tus entregas e imprime dos copias para el transportista."
+
+#: core/pages/seur-manifest.php:21
+msgid "SEUR Manifest"
+msgstr "Manifiesto de SEUR"
+
+#: core/pages/seur-get-labels.php:136
+msgid "The Order already has a label"
+msgstr "El pedido ya tiene una etiqueta"
+
+#: core/pages/seur-get-labels.php:127
+msgid "Label dowloaded, the Label ID is "
+msgstr "Etiqueta descargada, el ID de la etiqueta es "
+
+#: core/pages/seur-get-labels.php:123
+#: core/woocommerce/includes/metabox/seur-metabox.php:107
+#: core/woocommerce/includes/seur-woo-functions.php:330
+#: core/woocommerce/includes/seur-woo-functions.php:445
+msgid "Label have been created:"
+msgstr "La etiqueta se ha creado:"
+
+#: core/pages/seur-get-labels.php:101
+msgid "Package number is needed"
+msgstr "Número de paquete es necesario"
+
+#: core/pages/seur-get-labels.php:96
+msgid "Weight is needed"
+msgstr "El peso es necesario"
+
+#: core/pages/seur-get-labels.php:75 core/pages/seur-get-labels.php:130
+#: core/pages/seur-get-labels.php:139
+msgid "Close"
+msgstr "Cerrar"
+
+#: core/pages/seur-get-labels.php:72
+msgid "Get labels"
+msgstr "Obtener etiquetas"
+
+#: core/pages/seur-get-labels.php:70
+msgid "EX: 2"
+msgstr "Ej: 2"
+
+#: core/pages/seur-get-labels.php:69 core/pages/seur-get-labels.php:70
+msgid "Number of Packages"
+msgstr "Número de bultos"
+
+#: core/pages/seur-get-labels.php:67
+msgid "EX: 300"
+msgstr "Ej: 300"
+
+#: core/pages/seur-get-labels.php:65
+msgid "EX: 0.300"
+msgstr "Ej: 0.300"
+
+#: core/pages/seur-get-labels.php:63
+msgid "Packages Weight"
+msgstr "Peso de paquetes"
+
+#: core/pages/seur-get-labels.php:51
+msgid "Get Labels"
+msgstr "Obtener etiquetas"
+
+#: core/pages/seur-get-labels.php:21
+msgid "Cheatin&#8217; uh?"
+msgstr "Haciendo trampa, ¿eh?"
+
+#: core/pages/setting-options/user-settings.php:396
+msgid "SEUR.com password<sup>*</sup>"
+msgstr "SEUR.com contraseña<sup>*</sup>"
+
+#: core/pages/setting-options/user-settings.php:395
+msgid "SEUR.com user<sup>*</sup>"
+msgstr "Usuario SEUR.com<sup>*</sup>"
+
+#: core/pages/setting-options/user-settings.php:394
+msgid "Franchise<sup>*</sup>"
+msgstr "Franquicia<sup>*</sup>"
+
+#: core/pages/setting-options/user-settings.php:392
+msgid "CCC<sup>*</sup>"
+msgstr "CCC<sup>*</sup>"
+
+#: core/pages/setting-options/user-settings.php:391
+msgid "CIT password<sup>*</sup>"
+msgstr "Contraseña CIT<sup>*</sup>"
+
+#: core/pages/setting-options/user-settings.php:390
+msgid "CIT user<sup>*</sup>"
+msgstr "Usuario CIT<sup>*</sup>"
+
+#: core/pages/setting-options/user-settings.php:389
+msgid "CIT code<sup>*</sup>"
+msgstr "Código CIT<sup>*</sup>"
+
+#: core/pages/setting-options/user-settings.php:383
+msgid "Surnames"
+msgstr "Apellidos"
+
+#: core/pages/setting-options/user-settings.php:382
+msgid "Name"
+msgstr "Nombre"
+
+#: core/pages/setting-options/user-settings.php:381
+msgid "E-mail"
+msgstr "Correo electrónico"
+
+#: core/pages/setting-options/user-settings.php:380
+msgid "Telephone"
+msgstr "Teléfono"
+
+#: core/pages/setting-options/user-settings.php:378
+msgid "Town/City"
+msgstr "Ciudad/Población"
+
+#: core/pages/setting-options/user-settings.php:377
+msgid "Province"
+msgstr "Provincia"
+
+#: core/pages/setting-options/user-settings.php:375
+msgid "Door"
+msgstr "Puerta"
+
+#: core/pages/setting-options/user-settings.php:374
+msgid "Floor"
+msgstr "Planta"
+
+#: core/pages/setting-options/user-settings.php:373
+msgid "Stairwell"
+msgstr "Escalera"
+
+#: core/pages/setting-options/user-settings.php:372
+msgid "Road number"
+msgstr "Número de la vía"
+
+#: core/pages/setting-options/user-settings.php:371
+msgid "Road name"
+msgstr "Nombre de la vía"
+
+#: core/pages/setting-options/user-settings.php:370
+msgid "Type of road"
+msgstr "Tipo de Vía"
+
+#: core/pages/setting-options/user-settings.php:368
+msgid "How to apply rates?"
+msgstr "¿Cómo aplicar las tarifas?"
+
+#: core/pages/setting-options/user-settings.php:282
+msgid "Contact Surnames"
+msgstr "Apellidos de contacto"
+
+#: core/pages/setting-options/user-settings.php:273
+msgid "Contact name"
+msgstr "Nombre de contacto"
+
+#: core/pages/setting-options/user-settings.php:264
+msgid "Contact email"
+msgstr "Correo electrónico de contacto"
+
+#: core/pages/setting-options/user-settings.php:255
+msgid "Contact phone"
+msgstr "Teléfono de contacto"
+
+#: core/pages/setting-options/user-settings.php:114
+#: core/pages/setting-options/user-settings.php:123
+#: core/pages/setting-options/user-settings.php:132
+#: core/pages/setting-options/user-settings.php:152
+#: core/pages/setting-options/user-settings.php:161
+#: core/pages/setting-options/user-settings.php:178
+#: core/pages/setting-options/user-settings.php:187
+msgid "Pickup Address"
+msgstr "Dirección de recogida"
+
+#: core/pages/setting-options/user-settings.php:75
+#: core/pages/setting-options/user-settings.php:369
+msgid "Company"
+msgstr "Empresa"
+
+#: core/pages/setting-options/user-settings.php:39
+msgid "By Weight"
+msgstr "Por peso"
+
+#: core/pages/setting-options/user-settings.php:33
+msgid "By Price"
+msgstr "Por precio"
+
+#: core/pages/setting-options/user-settings.php:16
+#: core/pages/setting-options/user-settings.php:366
+msgid "Tax ID Number"
+msgstr "Número de identificación fiscal"
+
+#: core/pages/setting-options/advanced-settings.php:235
+msgid "International description"
+msgstr "Descripción internacional"
+
+#: core/pages/setting-options/advanced-settings.php:234
+msgid "ID of goods"
+msgstr "ID de mercancía"
+
+#: core/pages/setting-options/advanced-settings.php:233
+msgid "Type of goods"
+msgstr "Tipo de mercancías"
+
+#: core/pages/setting-options/advanced-settings.php:232
+msgid "Customs of destination"
+msgstr "Aduana de destino"
+
+#: core/pages/setting-options/advanced-settings.php:231
+msgid "Customs of origin"
+msgstr "Aduana de origen"
+
+#: core/pages/setting-options/advanced-settings.php:230
+msgid "Type of label"
+msgstr "Tipo de etiqueta"
+
+#: core/pages/setting-options/advanced-settings.php:229
+msgid "Notifications by SMS or Email"
+msgstr "Notificaciones por SMS o correo electrónico"
+
+#: core/pages/setting-options/advanced-settings.php:228
+msgid "Notify distribution"
+msgstr "Notificar distribución"
+
+#: core/pages/setting-options/advanced-settings.php:227
+msgid "Notify collection"
+msgstr "Notificar recogida"
+
+#: core/pages/setting-options/advanced-settings.php:224
+msgid "What to do after get order label"
+msgstr "Qué hacer después de crear la etiqueta del pedido"
+
+#: core/pages/setting-options/advanced-settings.php:193
+msgid "S: Envelopes"
+msgstr "S: Sobres"
+
+#: core/pages/setting-options/advanced-settings.php:192
+msgid "N: No Commercial"
+msgstr "N: No comercial"
+
+#: core/pages/setting-options/advanced-settings.php:191
+msgid "D: Documents"
+msgstr "D: documentos"
+
+#: core/pages/setting-options/advanced-settings.php:190
+msgid "C: Commercial"
+msgstr "C: comercial"
+
+#: core/pages/setting-options/advanced-settings.php:114
+msgid "Both (this option has an extra cost)"
+msgstr "Ambos (esta opción tiene un coste extra)"
+
+#: core/pages/setting-options/advanced-settings.php:108
+msgid "Email"
+msgstr "Correo electrónico"
+
+#: core/pages/setting-options/advanced-settings.php:102
+msgid "SMS (this option has an extra cost)"
+msgstr "SMS (esta opción tiene un coste extra)"
+
+#: core/pages/setting-options/advanced-settings.php:66
+msgid "Mark as Complete"
+msgstr "Marcar como Completado"
+
+#: core/pages/setting-options/advanced-settings.php:60
+msgid "Mark as Shipping"
+msgstr "Marcar como envío"
+
+#: core/pages/rates/seur-update.php:81
+msgid "There was and error at rate update, please try again"
+msgstr "Ha ocurrido un error actualizando la tarifa, por favor inténtalo de nuevo"
+
+#: core/pages/rates/seur-update.php:79
+msgid "Rate successfully updated"
+msgstr "Tarifa actualizada con éxito"
+
+#: core/pages/rates/seur-rates.php:250
+msgid "Please fill in the Packages field."
+msgstr "Por favor, rellena el campo Paquetes."
+
+#: core/pages/seur-nomenclator.php:24
+msgid "New Search"
+msgstr "Nueva búsqueda"
+
+#: core/pages/rates/seur-rates.php:142 core/pages/rates/seur-rates.php:143
+msgid "Packages"
+msgstr "Paquetes"
+
+#: core/pages/rates/seur-rates.php:98 core/pages/rates/seur-rates.php:99
+#: core/pages/seur-nomenclator.php:143 core/pages/seur-nomenclator.php:144
+msgid "City"
+msgstr "Ciudad"
+
+#: core/pages/rates/seur-rates.php:94 core/pages/rates/seur-rates.php:95
+#: core/pages/seur-nomenclator.php:148
+msgid "Postalcode"
+msgstr "Código postal"
+
+#: core/pages/rates/seur-rates.php:16
+msgid "Calculate the rate that SEUR will apply for a specific town or postcode."
+msgstr "Calcular la tarifa que aplicará a SEUR para una ciudad específica o código postal."
+
+#: core/pages/rates/seur-custom-rates.php:120
+#: core/pages/rates/seur-custom-rates.php:184
+msgid "Max Weight"
+msgstr "Peso max"
+
+#: core/pages/rates/seur-custom-rates.php:119
+#: core/pages/rates/seur-custom-rates.php:183
+msgid "Min Weight"
+msgstr "Peso mín"
+
+#: core/pages/rates/seur-custom-rates.php:71
+#: core/pages/rates/seur-custom-rates.php:155
+msgid "No limit"
+msgstr "Sin límite"
+
+#: core/pages/rates/seur-custom-rates.php:66
+#: core/pages/rates/seur-custom-rates.php:150
+msgid "FREE"
+msgstr "GRATIS"
+
+#: core/pages/rates/seur-custom-rates.php:60
+#: core/pages/rates/seur-custom-rates.php:145
+msgid "REST"
+msgstr "RESTO"
+
+#: core/pages/rates/seur-custom-rates.php:55
+#: core/pages/rates/seur-custom-rates.php:140
+msgid "ALL"
+msgstr "TODO"
+
+#: core/pages/rates/seur-custom-rates.php:47
+#: core/pages/rates/seur-custom-rates.php:132
+msgid "No custom rates found, please add your Custom Rates"
+msgstr "No se han encontrado tarifas, por favor, añade tarifas personalizadas"
+
+#: core/pages/rates/seur-custom-rates.php:38
+#: core/pages/rates/seur-custom-rates.php:103
+#: core/pages/rates/seur-custom-rates.php:123
+#: core/pages/rates/seur-custom-rates.php:187
+msgid "delete"
+msgstr "borrar"
+
+#: core/pages/rates/seur-custom-rates.php:37
+#: core/pages/rates/seur-custom-rates.php:102
+#: core/pages/rates/seur-custom-rates.php:122
+#: core/pages/rates/seur-custom-rates.php:186
+msgid "edit"
+msgstr "editar"
+
+#: core/pages/rates/seur-custom-rates.php:35
+#: core/pages/rates/seur-custom-rates.php:100
+msgid "Max Price"
+msgstr "Precio Máx"
+
+#: core/pages/rates/seur-custom-rates.php:34
+#: core/pages/rates/seur-custom-rates.php:99
+msgid "Min Price"
+msgstr "Precio Min"
+
+#: core/pages/rates/seur-custom-rates.php:20
+msgid "View Custom Rates"
+msgstr "Ver tarifas personalizadas"
+
+#: core/pages/rates/seur-custom-rates.php:19
+msgid "Add Custom Rate"
+msgstr "Agregar tarifa personalizada"
+
+#: core/pages/rates/seur-custom-rates.php:17
+msgid "Please, set based rates price here"
+msgstr "Por favor, configura el precio de tarifas base aquí"
+
+#: core/pages/rates/seur-custom-rates.php:16
+msgid "Your rates are based on"
+msgstr "Las tarifas se basan en"
+
+#: core/pages/rates/seur-create-rate.php:86
+#: core/woocommerce/includes/pages/seur-process-label.php:70
+msgid "Sorry, you didn't post data."
+msgstr "Lo sentimos, no has enviado datos."
+
+#: core/pages/rates/seur-create-rate.php:83
+#: core/woocommerce/includes/pages/seur-process-label.php:67
+msgid "There was and error adding the new rate, please try again"
+msgstr "Ha ocurrido un error añadiendo la tarifa, por favor inténtalo de nuevo"
+
+#: core/pages/rates/seur-create-rate.php:81
+#: core/woocommerce/includes/pages/seur-process-label.php:65
+msgid "New rate successfully added"
+msgstr "Nueva tarifa añadida con éxito"
+
+#: core/pages/rates/seur-country-state-process.php:103
+#: core/pages/rates/seur-edit-form.php:156
+#: core/pages/rates/seur-edit-form.php:168
+#: core/pages/setting-options/advanced-settings.php:76
+#: core/pages/setting-options/advanced-settings.php:85
+#: core/pages/setting-options/advanced-settings.php:203
+#: core/pages/setting-options/advanced-settings.php:212
+msgid "SEUR field description"
+msgstr "Descripción del campo SEUR"
+
+#: core/pages/rates/seur-country-state-process.php:100
+#: core/pages/rates/seur-edit-form.php:149
+msgid "No needed"
+msgstr "No se requiere ningún"
+
+#: core/pages/rates/seur-country-state-process.php:82
+msgid "Santa Cruz de Tenerife"
+msgstr "Santa Cruz de Tenerife"
+
+#: core/pages/rates/seur-country-state-process.php:81
+msgid "Las Palmas"
+msgstr "Las Palmas"
+
+#: core/pages/rates/seur-country-state-process.php:76
+msgid "Melilla"
+msgstr "Melilla"
+
+#: core/pages/rates/seur-country-state-process.php:75
+msgid "Ceuta"
+msgstr "Ceuta"
+
+#: core/pages/rates/seur-country-state-process.php:74
+msgid "Baleares"
+msgstr "Baleares"
+
+#: core/pages/rates/seur-country-state-process.php:69
+#: core/pages/rates/seur-country-state-process.php:103
+msgid "EX : State"
+msgstr "Ej: Estado"
+
+#: core/pages/rates/seur-country-state-process.php:69
+msgid "Type State"
+msgstr "Escribir estado"
+
+#: core/pages/rates/seur-country-state-process.php:62
+#: core/pages/rates/seur-country-state-process.php:91
+#: core/pages/rates/seur-edit-form.php:128
+msgid "All States"
+msgstr "Todos los estados"
+
+#: core/pages/rates/seur-country-state-process.php:61
+#: core/pages/rates/seur-country-state-process.php:73
+#: core/pages/rates/seur-country-state-process.php:80
+#: core/pages/rates/seur-country-state-process.php:90
+#: core/pages/rates/seur-edit-form.php:127
+msgid "Select State"
+msgstr "Selecciona un Estado"
+
+#: core/pages/rates/seur-country-state-process.php:39
+#: core/pages/rates/seur-edit-form.php:102
+msgid "All Countries"
+msgstr "Todos los paises"
+
+#: core/pages/rates/seur-country-state-process.php:19
+#: core/pages/rates/seur-country-state-process.php:27
+#: core/pages/rates/seur-edit-form.php:89
+#: core/pages/rates/seur-edit-form.php:91 core/pages/rates/seur-rates.php:127
+#: core/pages/setting-options/user-settings.php:210
+msgid "Portugal"
+msgstr "Portugal"
+
+#: core/pages/rates/seur-country-state-process.php:18
+#: core/pages/rates/seur-country-state-process.php:25
+#: core/pages/rates/seur-edit-form.php:94
+#: core/pages/rates/seur-edit-form.php:96 core/pages/rates/seur-rates.php:128
+#: core/pages/setting-options/user-settings.php:216
+msgid "Andorra"
+msgstr "Andorra"
+
+#: core/pages/rates/seur-country-state-process.php:17
+#: core/pages/rates/seur-country-state-process.php:24
+#: core/pages/rates/seur-country-state-process.php:38
+#: core/pages/rates/seur-rates.php:125
+msgid "Select"
+msgstr "Seleccionar"
+
+#: core/pages/rates/seur-add-form.php:97
+msgid "Save this Record"
+msgstr "Guardar este registro"
+
+#: core/pages/rates/seur-add-form.php:92
+msgid "Apply this price to the rate"
+msgstr "Aplicar este precio a la tarifa"
+
+#: core/pages/rates/seur-add-form.php:91
+#: core/pages/rates/seur-custom-rates.php:36
+#: core/pages/rates/seur-custom-rates.php:101
+#: core/pages/rates/seur-custom-rates.php:121
+#: core/pages/rates/seur-custom-rates.php:185
+#: core/pages/rates/seur-edit-form.php:167
+msgid "Rate Price"
+msgstr "Precio tarifa"
+
+#: core/pages/rates/seur-add-form.php:80
+msgid "Type a Postcode"
+msgstr "Escriba un código postal"
+
+#: core/pages/rates/seur-add-form.php:79
+#: core/pages/rates/seur-custom-rates.php:33
+#: core/pages/rates/seur-custom-rates.php:98
+#: core/pages/rates/seur-custom-rates.php:118
+#: core/pages/rates/seur-custom-rates.php:182
+#: core/pages/rates/seur-edit-form.php:155
+#: core/pages/setting-options/user-settings.php:376
+msgid "Postcode"
+msgstr "Código postal"
+
+#: core/pages/rates/seur-add-form.php:73
+#: core/pages/rates/seur-custom-rates.php:32
+#: core/pages/rates/seur-custom-rates.php:97
+#: core/pages/rates/seur-custom-rates.php:117
+#: core/pages/rates/seur-custom-rates.php:181
+#: core/pages/rates/seur-edit-form.php:117
+#: core/pages/rates/seur-edit-form.php:145
+msgid "State"
+msgstr "Estado"
+
+#: core/pages/rates/seur-add-form.php:67
+#: core/pages/rates/seur-country-state-process.php:20
+#: core/pages/rates/seur-country-state-process.php:28
+#: core/pages/rates/seur-country-state-process.php:33
+#: core/pages/rates/seur-edit-form.php:84
+#: core/pages/rates/seur-edit-form.php:86 core/pages/rates/seur-rates.php:126
+#: core/pages/setting-options/user-settings.php:204
+msgid "Spain"
+msgstr "España"
+
+#: core/pages/rates/seur-add-form.php:66 core/pages/rates/seur-add-form.php:75
+msgid "Select a Country"
+msgstr "Selecciona un país"
+
+#: core/pages/rates/seur-add-form.php:64
+#: core/pages/rates/seur-country-state-process.php:16
+#: core/pages/rates/seur-country-state-process.php:23
+#: core/pages/rates/seur-country-state-process.php:31
+#: core/pages/rates/seur-country-state-process.php:32
+#: core/pages/rates/seur-country-state-process.php:36
+#: core/pages/rates/seur-edit-form.php:79 core/pages/rates/seur-rates.php:103
+msgid "Select Country"
+msgstr "Seleccione país"
+
+#: core/pages/rates/seur-add-form.php:62
+#: core/pages/rates/seur-custom-rates.php:31
+#: core/pages/rates/seur-custom-rates.php:96
+#: core/pages/rates/seur-custom-rates.php:116
+#: core/pages/rates/seur-custom-rates.php:180
+#: core/pages/rates/seur-edit-form.php:76 core/pages/rates/seur-rates.php:102
+#: core/pages/setting-options/user-settings.php:379
+msgid "Country"
+msgstr "Pais"
+
+#: core/pages/rates/seur-add-form.php:49
+msgid "Select a Rate"
+msgstr "Seleccione una tarifa"
+
+#: core/pages/rates/seur-add-form.php:48 core/pages/rates/seur-edit-form.php:57
+msgid "Select Rate to apply"
+msgstr "Seleccione la tarifa a aplicar"
+
+#: core/pages/rates/seur-add-form.php:46
+#: core/pages/rates/seur-custom-rates.php:30
+#: core/pages/rates/seur-custom-rates.php:95
+#: core/pages/rates/seur-custom-rates.php:115
+#: core/pages/rates/seur-custom-rates.php:179
+#: core/pages/rates/seur-edit-form.php:54
+msgid "Rate"
+msgstr "Tarifa"
+
+#: core/pages/rates/seur-add-form.php:43
+#: core/pages/rates/seur-custom-rates.php:15
+msgid "Include the rates of the transport options that your customers can choose"
+msgstr "Incluye las opciones de tarifas de transporte que tus clientes pueden seleccionar"
+
+#: core/pages/rates/seur-add-form.php:28 core/pages/rates/seur-edit-form.php:39
+msgid "The product Weight is minor of this field"
+msgstr "El peso del producto es menor de este campo"
+
+#: core/pages/rates/seur-add-form.php:27 core/pages/rates/seur-edit-form.php:38
+msgid "Max Weight (<)"
+msgstr "Peso máx (<)"
+
+#: core/pages/rates/seur-add-form.php:26 core/pages/rates/seur-edit-form.php:37
+msgid "The product Weight is equal or mayor of this field"
+msgstr "El peso del producto es igual o mayor que este campo"
+
+#: core/pages/rates/seur-add-form.php:25 core/pages/rates/seur-edit-form.php:36
+msgid "Min Weight (=)"
+msgstr "Peso mínimo (=)"
+
+#: core/pages/rates/seur-add-form.php:23 core/pages/rates/seur-edit-form.php:34
+msgid "The product price is minor of this field"
+msgstr "El precio del producto es menor a este campo"
+
+#: core/pages/rates/seur-add-form.php:22 core/pages/rates/seur-edit-form.php:33
+msgid "Max Price (<)"
+msgstr "Precio máximo (<)"
+
+#: core/pages/rates/seur-add-form.php:21 core/pages/rates/seur-edit-form.php:32
+msgid "The product price is equal or mayor of this field"
+msgstr "El precio del producto es igual o mayor de este campo"
+
+#: core/pages/rates/seur-add-form.php:20 core/pages/rates/seur-edit-form.php:31
+msgid "Min Price (=)"
+msgstr "Precio mínimo (=)"
+
+#: core/pages/rates/limit-price-weight-rates.php:50
+#: core/pages/rates/limit-price-weight-rates.php:60
+#: core/pages/rates/limit-price-weight-rates.php:70
+#: core/pages/rates/limit-price-weight-rates.php:80
+#: core/pages/rates/limit-price-weight-rates.php:90
+#: core/pages/rates/limit-price-weight-rates.php:100
+#: core/pages/rates/limit-price-weight-rates.php:110
+#: core/pages/rates/limit-price-weight-rates.php:120
+#: core/pages/rates/limit-price-weight-rates.php:130
+#: core/pages/rates/limit-price-weight-rates.php:140
+#: core/pages/rates/limit-price-weight-rates.php:150
+#: core/pages/rates/limit-price-weight-rates.php:160
+msgid "Max package price for "
+msgstr "Precio del paquete máximo para "
+
+#: core/pages/rates/limit-price-weight-rates.php:15
+msgid "Max package price for apply rate price based on weight"
+msgstr "Precio de paquete máximo para aplicar precio de tarifa basado en peso"
+
+#: core/pages/rates/custom-name-rates.php:135
+#: core/pages/rates/custom-name-rates.php:312
+msgid "Update Options"
+msgstr "Actualizar opciones"
+
+#: core/pages/rates/custom-name-rates.php:52
+#: core/pages/rates/custom-name-rates.php:57
+#: core/pages/rates/custom-name-rates.php:61
+#: core/pages/rates/custom-name-rates.php:65
+#: core/pages/rates/custom-name-rates.php:69
+#: core/pages/rates/custom-name-rates.php:77
+#: core/pages/rates/custom-name-rates.php:85
+#: core/pages/rates/custom-name-rates.php:93
+#: core/pages/rates/custom-name-rates.php:101
+#: core/pages/rates/custom-name-rates.php:109
+#: core/pages/rates/custom-name-rates.php:117
+#: core/pages/rates/custom-name-rates.php:125
+#: core/pages/rates/custom-name-rates.php:189
+#: core/pages/rates/custom-name-rates.php:200
+#: core/pages/rates/custom-name-rates.php:210
+#: core/pages/rates/custom-name-rates.php:220
+#: core/pages/rates/custom-name-rates.php:230
+#: core/pages/rates/custom-name-rates.php:240
+#: core/pages/rates/custom-name-rates.php:250
+#: core/pages/rates/custom-name-rates.php:260
+#: core/pages/rates/custom-name-rates.php:270
+#: core/pages/rates/custom-name-rates.php:280
+#: core/pages/rates/custom-name-rates.php:290
+#: core/pages/rates/custom-name-rates.php:300
+msgid "Custom Name for "
+msgstr "Nombre personalizado para "
+
+#: core/pages/rates/custom-name-rates.php:15
+msgid "Custom Names for Seur Rates"
+msgstr "Nombres personalizados para las tarifas de SEUR"
+
+#: core/pages/about.php:42
+msgid "Go to SEUR Settings"
+msgstr "Ir a la configuración de SEUR"
+
+#: core/pages/about.php:40
+msgid "And what does SEUR have that others don&apos;t? In-depth knowledge of the e-commerce sector, where we are leaders with a market share of over 30%. Your customer is ours as well, and we know what they want: to be the owner of their time, to have control over their deliveries and to have a personalised experience. That&apos;s why we&apos;ve developed a series of innovative and simple solutions to facilitate and provide a more flexible package shipping and delivery process."
+msgstr "¿Y qué tiene SEUR que otros no tienen? Un profundo conocimiento del sector del comercio electrónico, donde somos líderes con una cuota de mercado de más del 30%. Tu cliente es también el nuestro, y sabemos lo que quiere: ser dueño de su tiempo, tener control sobre sus entregas y tener una experiencia personalizada. Por eso hemos desarrollado una serie de soluciones innovadoras y sencillas para facilitar y proporcionar un proceso de envío y entrega de paquetes más flexible."
+
+#: core/pages/about.php:38
+msgid "Did you know that 52% of on-line shoppers consider delivery to be a key element when choosing between one e-commerce and another? At SEUR, we want to contribute to ensuring that the clients choose you. To do so, we&apos;ve designed new services and solutions that make the customer the focal point, thereby guaranteeing the best experience during the delivery process"
+msgstr "¿Sabías que el 52% de los compradores en línea consideran que la entrega es un elemento clave al elegir entre un comercio electrónico y otro? En SEUR, queremos contribuir a que los clientes te elijan. Para ello, hemos diseñado nuevos servicios y soluciones que hacen del cliente el centro de atención, garantizando así la mejor experiencia durante el proceso de entrega."
+
+#: core/pages/about.php:37
+msgid "SEUR Shipping Method."
+msgstr "Método de envío SEUR."
+
+#. translators: Seur version.
+#: core/pages/about.php:31
+msgid "Version %s"
+msgstr "Versión %s"
+
+#. translators: SEUR Version.
+#: core/pages/about.php:25
+msgid "Thank you for install Seur %s!"
+msgstr "Gracias por instalar SEUR %s!"
+
+#. translators: SEUR Version.
+#: core/pages/about.php:19
+msgid "Welcome to SEUR %s"
+msgstr "Bienvenido a SEUR %s"
+
+#: core/menu/menu.php:75
+msgid "Get labels from order"
+msgstr "Crear etiquetas del pedido"
+
+#: core/menu/menu.php:71
+msgid "Get Label"
+msgstr "Crear etiqueta"
+
+#: core/menu/menu.php:69
+msgid "Process Country State"
+msgstr "Procesar pays estado"
+
+#: core/menu/menu.php:68
+msgid "Edit Rate"
+msgstr "Editar tarifa"
+
+#: core/menu/menu.php:67
+msgid "Update Rate"
+msgstr "Actualizar tarifa"
+
+#: core/menu/menu.php:66
+msgid "Delete Rate"
+msgstr "Eliminar tarifa"
+
+#: core/menu/menu.php:65
+msgid "Create Rate"
+msgstr "Crear tarifa"
+
+#: core/menu/menu.php:64
+msgid "Add Form"
+msgstr "Añadir Formualario"
+
+#: core/menu/menu.php:63 core/menu/menu.php:114
+msgid "About"
+msgstr "Acerca de"
+
+#: core/menu/menu.php:62
+msgid "Products & Services"
+msgstr "Productos y servicios"
+
+#: core/menu/menu.php:59
+msgid "Rates"
+msgstr "Tarifas"
+
+#: core/menu/menu.php:58 core/menu/menu.php:112
+msgid "Settings"
+msgstr "Configuraciones"
+
+#: core/menu/menu.php:48 core/pages/about.php:35
+#: core/woocommerce/includes/class-wc-shipping-seur.php:29
+#: core/woocommerce/includes/class-wc-shipping-seur.php:256
+msgid "SEUR"
+msgstr "SEUR"
+
+#: core/labels-cpt/labels-cpt.php:495
+msgid "All tracking updated"
+msgstr "Todos los seguimientos actualizados"
+
+#: core/labels-cpt/labels-cpt.php:477
+msgid " Download Bulk Labels "
+msgstr "Descargar etiquetas en masa"
+
+#: core/labels-cpt/labels-cpt.php:477
+msgid "Bulk Print ready, please press Download Bulk Labels button for download the txt file. "
+msgstr "Impresión por lotes lista, por favor presiona el botón Descargar etiquetas en lotes para descargar el archivo txt. "
+
+#: core/labels-cpt/labels-cpt.php:399
+msgid "Update SEUR Tracking"
+msgstr "Actualizar seguimiento SEUR"
+
+#: core/labels-cpt/labels-cpt.php:398
+msgid "Download  SEUR Labels"
+msgstr "Descargar Etiquetas de SEUR"
+
+#: core/labels-cpt/labels-cpt.php:362
+msgid "Customer notes about Order: "
+msgstr "Notas del cliente sobre el pedido: "
+
+#: core/labels-cpt/labels-cpt.php:356
+msgid "Shipping Method: "
+msgstr "Método de envío: "
+
+#: core/labels-cpt/labels-cpt.php:353
+msgid "Shipping Mobile Phone: "
+msgstr "Teléfono móvil envío: "
+
+#: core/labels-cpt/labels-cpt.php:340
+msgid "Shipping Details"
+msgstr "Detalles de envío"
+
+#: core/labels-cpt/labels-cpt.php:333
+msgid "Billing Mobile Phone: "
+msgstr "Teléfono móvil facturación: "
+
+#: core/labels-cpt/labels-cpt.php:330
+msgid "Phone: "
+msgstr "Teléfono: "
+
+#: core/labels-cpt/labels-cpt.php:327
+msgid "Email: "
+msgstr "Correo electrónico: "
+
+#: core/labels-cpt/labels-cpt.php:317 core/labels-cpt/labels-cpt.php:344
+msgid "Adress:  "
+msgstr "Dirección:  "
+
+#: core/labels-cpt/labels-cpt.php:313
+msgid "Billing Details"
+msgstr "Información de facturación"
+
+#: core/labels-cpt/labels-cpt.php:307
+msgid "Details for Shipment ID #"
+msgstr "Los datos del envío con ID #"
+
+#: core/labels-cpt/labels-cpt.php:299
+msgid "There aren't comments for this order"
+msgstr "No hay comentarios para este pedido"
+
+#: core/labels-cpt/labels-cpt.php:248
+msgid "Data Label"
+msgstr "Fecha etiqueta"
+
+#: core/labels-cpt/labels-cpt.php:223
+msgid "Products list navigation"
+msgstr "Navegación de productos"
+
+#: core/labels-cpt/labels-cpt.php:222
+msgid "Product list"
+msgstr "Lista de productos"
+
+#: core/labels-cpt/labels-cpt.php:221
+msgid "No Products"
+msgstr "Sin roductos"
+
+#: core/labels-cpt/labels-cpt.php:220
+msgid "Not Found"
+msgstr "No Encontrado"
+
+#: core/labels-cpt/labels-cpt.php:219
+msgid "Search Products"
+msgstr "Buscar Productos"
+
+#: core/labels-cpt/labels-cpt.php:218
+msgid "Popular Products"
+msgstr "Productos Populares"
+
+#: core/labels-cpt/labels-cpt.php:217
+msgid "Choose from the most used"
+msgstr "Elegir entre los más utilizados"
+
+#: core/labels-cpt/labels-cpt.php:216
+msgid "Add or remove Products"
+msgstr "Agregar o quitar productos"
+
+#: core/labels-cpt/labels-cpt.php:215
+msgid "Separate Products with commas"
+msgstr "Separa los productos con comas"
+
+#: core/labels-cpt/labels-cpt.php:214
+msgid "View Product"
+msgstr "Ver producto"
+
+#: core/labels-cpt/labels-cpt.php:213
+msgid "Update Product"
+msgstr "Actualizar Producto"
+
+#: core/labels-cpt/labels-cpt.php:212
+msgid "Edit Product"
+msgstr "Editar producto"
+
+#: core/labels-cpt/labels-cpt.php:211
+msgid "Add new product"
+msgstr "Añadir nuevo producto"
+
+#: core/labels-cpt/labels-cpt.php:210
+msgid "New Product"
+msgstr "Nuevo producto"
+
+#: core/labels-cpt/labels-cpt.php:208
+msgid "Parent Item"
+msgstr "Elemento principal"
+
+#: core/labels-cpt/labels-cpt.php:207
+msgid "All products"
+msgstr "Todos los productos"
+
+#: core/labels-cpt/labels-cpt.php:205
+msgctxt "Taxonomy Singular Name"
+msgid "Product"
+msgstr "Producto"
+
+#: core/labels-cpt/labels-cpt.php:204
+msgctxt "Taxonomy General Name"
+msgid "Products"
+msgstr "Productos"
+
+#: core/labels-cpt/labels-cpt.php:192
+msgid " Open "
+msgstr " Abrir "
+
+#: core/labels-cpt/labels-cpt.php:152
+msgid "Waiting Shipping"
+msgstr "Esperando envío"
+
+#: core/labels-cpt/labels-cpt.php:120
+msgid "Waiting Collection"
+msgstr "Esperando la recogida"
+
+#: core/labels-cpt/labels-cpt.php:93
+msgid "Label Date"
+msgstr "Fecha de la etiqueta"
+
+#: core/labels-cpt/labels-cpt.php:92
+msgid "Tracking"
+msgstr "Seguimiento"
+
+#: core/labels-cpt/labels-cpt.php:91
+msgid "Serv/Prod"
+msgstr "Prod/serv"
+
+#: core/labels-cpt/labels-cpt.php:90
+msgid "Print/Download"
+msgstr "Imprimir/descargar"
+
+#: core/labels-cpt/labels-cpt.php:89 core/pages/rates/seur-rates.php:150
+#: core/pages/seur-get-labels.php:65 core/pages/seur-get-labels.php:67
+#: core/woocommerce/includes/seur-woo-functions.php:142
+msgid "Weight"
+msgstr "Peso"
+
+#: core/labels-cpt/labels-cpt.php:88
+msgid "Customer Comments"
+msgstr "Comentarios de clientes"
+
+#: core/labels-cpt/labels-cpt.php:87
+msgid "Customer Name"
+msgstr "Nombre del cliente"
+
+#: core/labels-cpt/labels-cpt.php:86 core/labels-cpt/labels-cpt.php:206
+#: core/pages/seur-products-services.php:31
+#: core/pages/seur-products-services.php:56
+msgid "Product"
+msgstr "Producto"
+
+#: core/labels-cpt/labels-cpt.php:85
+msgid "Order ID"
+msgstr "ID Pedido"
+
+#: core/labels-cpt/labels-cpt.php:84
+msgid "Shipment ID"
+msgstr "ID Envío"
+
+#: core/labels-cpt/labels-cpt.php:48
+msgid "Seur Shipments"
+msgstr "Envíos de SEUR"
+
+#: core/labels-cpt/labels-cpt.php:47
+msgid "Shipment"
+msgstr "Envío"
+
+#: core/labels-cpt/labels-cpt.php:44
+msgid "Filter Labels list"
+msgstr "Filtrar lista etiquetas"
+
+#: core/labels-cpt/labels-cpt.php:43
+msgid "Labels list navigation"
+msgstr "Lista navegación de etiquetas"
+
+#: core/labels-cpt/labels-cpt.php:42
+msgid "Labels list"
+msgstr "Listado de etiquetas"
+
+#: core/labels-cpt/labels-cpt.php:41
+msgid "Uploaded to this Label"
+msgstr "Subido a esta etiqueta"
+
+#: core/labels-cpt/labels-cpt.php:40
+msgid "Insert into Label"
+msgstr "Insertar en la etiqueta"
+
+#: core/labels-cpt/labels-cpt.php:39
+msgid "Use as featured image"
+msgstr "Usar como imagen destacada"
+
+#: core/labels-cpt/labels-cpt.php:38
+msgid "Remove featured image"
+msgstr "Eliminar la imagen destacada"
+
+#: core/labels-cpt/labels-cpt.php:37
+msgid "Set featured image"
+msgstr "Asignar imagen destacada"
+
+#: core/labels-cpt/labels-cpt.php:36
+msgid "Featured Image"
+msgstr "Imagen destacada"
+
+#: core/labels-cpt/labels-cpt.php:35
+msgid "Not found in Trash"
+msgstr "No encontrado en la papelera"
+
+#: core/labels-cpt/labels-cpt.php:34
+msgid "Not found"
+msgstr "Sin resultados"
+
+#: core/labels-cpt/labels-cpt.php:33
+msgid "Search Shipment"
+msgstr "Buscar Envío"
+
+#: core/labels-cpt/labels-cpt.php:31 core/labels-cpt/labels-cpt.php:32
+msgid "View Shipment"
+msgstr "Ver envío"
+
+#: core/labels-cpt/labels-cpt.php:30
+msgid "Update Shipment"
+msgstr "Actualización del Envío"
+
+#: core/labels-cpt/labels-cpt.php:29
+msgid "Shipment Data"
+msgstr "Datos de envío"
+
+#: core/labels-cpt/labels-cpt.php:28
+msgid "New Shipment"
+msgstr "Nuevo envío"
+
+#: core/labels-cpt/labels-cpt.php:27
+msgid "Add New"
+msgstr "Añadir nuevo"
+
+#: core/labels-cpt/labels-cpt.php:26
+msgid "Add New Shipment"
+msgstr "Añadir nuevo envío"
+
+#: core/labels-cpt/labels-cpt.php:25
+msgid "All Labels"
+msgstr "Todas las etiquetas"
+
+#: core/labels-cpt/labels-cpt.php:24 core/labels-cpt/labels-cpt.php:209
+msgid "Parent Item:"
+msgstr "Elemento Principal:"
+
+#: core/labels-cpt/labels-cpt.php:23
+msgid "Shipments Atributte"
+msgstr "Atributos de envío"
+
+#: core/labels-cpt/labels-cpt.php:22
+msgid "Labels"
+msgstr "Etiquetas"
+
+#: core/labels-cpt/labels-cpt.php:20 core/labels-cpt/labels-cpt.php:21
+#: core/menu/menu.php:73
+msgid "Shipments"
+msgstr "Envíos"
+
+#: core/labels-cpt/labels-cpt.php:19
+msgctxt "Post Type Singular Name"
+msgid "Shipment"
+msgstr "Envío"
+
+#: core/labels-cpt/labels-cpt.php:18
+msgctxt "Post Type General Name"
+msgid "Shipments"
+msgstr "Envíos"
+
+#: core/help/seur-help-tabs.php:177
+msgid "Help about WooCommerce SEUR Options."
+msgstr "Ayuda sobre las opciones de SEUR para WooCommerce."
+
+#: core/help/seur-help-tabs.php:176
+msgid "SEUR Options"
+msgstr "Opciones SEUR"
+
+#: core/help/seur-help-tabs.php:151
+msgid "From this screen you can get the order labels requested from menu WooCommerce > Orders."
+msgstr "Desde esta pantalla puedes obtener las etiquetas de pedidos solicitadas desde el menú WooCommerce > Pedidos."
+
+#: core/help/seur-help-tabs.php:150
+msgid "Label List"
+msgstr "Lista de etiquetas"
+
+#: core/help/seur-help-tabs.php:124
+msgid "For example, if it&apos;s now 3 p.m., you could request that we come by to collect a package between 5 p.m. and 7 p.m"
+msgstr "Por ejemplo, si ahora son las 3 p.m., podrías solicitar que pasemos a recoger un paquete entre las 5 p.m. y las 7 p.m."
+
+#: core/help/seur-help-tabs.php:123
+msgid "Remember to specify the number of packages and kilos that you are going to deliver, and when selecting the schedule, give us two-hour window for collecting a package."
+msgstr "Recuerda especificar el número de paquetes y kilos que vas a entregar, y cuando selecciones el horario, danos un plazo de dos horas para recoger un paquete."
+
+#: core/help/seur-help-tabs.php:122
+msgid "Request that we go by to collect a package whenever you may need it."
+msgstr "Solicita que pasemos a recoger un paquete cuando lo necesites."
+
+#: core/help/seur-help-tabs.php:121 core/menu/menu.php:74
+#: core/pages/seur-pickup.php:21
+msgid "Collection"
+msgstr "Recogida"
+
+#: core/help/seur-help-tabs.php:106
+msgid "Consult the combinations of available SEUR Services and Products in WooCommerce."
+msgstr "Consulta las combinaciones de servicios y productos disponibles de SEUR en WooCommerce."
+
+#: core/help/seur-help-tabs.php:105 core/pages/rates/seur-rates.php:158
+msgid "Product/Service"
+msgstr "Producto/Servicio"
+
+#: core/help/seur-help-tabs.php:90
+msgid "Consult the Postcode and Towns in the SEUR database."
+msgstr "Consulta el código postal y población en la base de datos de SEUR."
+
+#: core/help/seur-help-tabs.php:89 core/menu/menu.php:61
+#: core/pages/seur-nomenclator.php:20
+msgid "Nomenclator"
+msgstr "Nomenclator"
+
+#: core/help/seur-help-tabs.php:74
+msgid "If you must hand over a list to the carrier, remember to print two copies: one for you and one for the carrier"
+msgstr "Si debes entregar una lista al transportista, recuerda imprimir dos copias: una para ti y otra para el transportista."
+
+#: core/help/seur-help-tabs.php:73
+msgid "Download the list of packages with the content of the deliveries notified to SEUR as from the date you choose."
+msgstr "Descarga una lista de paquetes con el contenido notificado a SEUR desde la fecha que hayas seleccionado."
+
+#: core/help/seur-help-tabs.php:72 core/menu/menu.php:60
+msgid "Manifest"
+msgstr "Manifiesto"
+
+#: core/help/seur-help-tabs.php:57
+msgid "Remember that you can edit or eliminate previously created rates from the main, Custom Rates screen."
+msgstr "Recuerda que puedes editar o eliminar las tarifas creadas anteriormente desde la pantalla principal de tarifas personalizadas."
+
+#: core/help/seur-help-tabs.php:56
+msgid "To create a rate, click on Add Custom Rate, and select the type of Service/Product, the Country, the Province and, if you wish, the Postcode (add an * so that any one applies). Then indicate the shopping cart price range within which the rate must be applied and the amount of euros that your customers must pay in the Rate Price field."
+msgstr "Para crear una tarifa, haz clic en «Añadir tarifa personalizada» y selecciona el tipo de servicio/producto, el país, la provincia y, si lo deseas, el código postal (añade un * para que se aplique a cualquiera). A continuación, indica en el campo «Precio de la tarifa» el rango de precios del carrito dentro del que debe aplicarse la tarifa y el importe en euros que deben pagar tus clientes."
+
+#: core/help/seur-help-tabs.php:55
+msgid "With the information on the associated SEUR rate from the Calculate Rates menu, you have a better idea of the rates to pose to your customers. On this screen, you&apos;ll be able to create the rates that your customers can select for their shipments."
+msgstr "Con la información en una tarifa asociada a SEUR desde el menú Calcular tarifas, tienes una idea mejor de la tasa a cobrar a tus clientes. En esta pantalla, podrás crear tasas que tus clientes pueden seleccionar un el envío."
+
+#: core/help/seur-help-tabs.php:54 core/pages/seur-rates.php:35
+msgid "Custom Rates"
+msgstr "Tarifas personalizadas"
+
+#: core/help/seur-help-tabs.php:48
+msgid "Simply specify the postcode, town/city, country, number of packages and number of kilos, and we&apos;ll provide you with the corresponding rate that you have agreed."
+msgstr "Tan solo especifica un código postal, ciudad/población, país, número de paquetes y numero de quilos y te mostraremos la tarifa correspondiente que hayas acordado."
+
+#: core/help/seur-help-tabs.php:47
+msgid "It calculates the rates that you have agreed with SEUR for a specific destination."
+msgstr "Calcula las tarifas que has acordado con SEUR para un destino específico."
+
+#: core/help/seur-help-tabs.php:46 core/pages/seur-rates.php:34
+msgid "Calculate Rates"
+msgstr "Calcular tarifa"
+
+#: core/help/seur-help-tabs.php:31
+msgid "From this screen, you&apos;ll be able to set up advanced options, such as the type of notification to your customers, the type of transport label generated and customs and international control data."
+msgstr "Desde esta pantalla, podrás configurar las opciones avanzadas, como el tipo de notificaciones a tus clientes, el tipo de etiqueta de transporte y datos de control internacional y aduanas."
+
+#: core/help/seur-help-tabs.php:30 core/pages/seur-settings.php:28
+msgid "Advanced Settings"
+msgstr "Configuraciones avanzadas"
+
+#: core/help/seur-help-tabs.php:24
+msgid "If you have any questions or need to add any additional information, you can contact your Sales Advisor for assistance."
+msgstr "Si tienes cualquier pregunta o necesitas información adicional, puedes contactar con contactar con tu consejero de ventas para ayuda."
+
+#: core/help/seur-help-tabs.php:23
+msgid "From this screen, you&apos;ll be able to set up all the identifying details of your business."
+msgstr "Desde esta pantalla, podrás configurar los datos de identificación de tu negocio."
+
+#: core/help/seur-help-tabs.php:22
+msgid "Users Settings"
+msgstr "Configuraciones de usuario"
+
+#: core/functions/functions.php:583
+msgid "XML (simplexml_load_string) is needed by SEUR Plugin, please ask for XML to your hosting provider"
+msgstr "EL Plugin SEUR necesita XML (simplexml_load_string), por favor, pide a tu proveedor de alojamiento que lo active"
+
+#: core/functions/functions.php:569
+msgid "SOAP is needed by SEUR Plugin, please ask for SOAP to your hosting provider"
+msgstr "EL Plugin SEUR necesita SOAP, por favor, pide a tu proveedor de alojamiento que lo active"
+
+#: core/functions/functions.php:555
+msgid "CURL is needed by SEUR Plugin, please ask for CURL to your hosting provider"
+msgstr "EL Plugin SEUR necesita cURL, por favor, pide a tu proveedor de alojamiento que lo active"
+
+#: core/functions/functions.php:219 core/functions/functions.php:2284
+#: core/functions/functions.php:2403 core/functions/functions.php:2536
+#: core/pages/seur-get-labels.php:56
+msgid "We&apos;re sorry, SEUR API is down. Please try again in few minutes"
+msgstr "Lo sentimos, La API de SEUR está caída. Por favor, inténtalo de nuevo en unos minutos"
+
+#. translators: Number of results.
+#: core/functions/functions.php:81
+msgid "Found %s Results."
+msgstr "Encontrados %s resultados."
+
+#: core/functions/functions.php:75
+msgid "1 Result Found"
+msgstr "Se ha encontrado 1 resultado"
+
+#: core/functions/functions.php:70
+msgid "No Matches Found"
+msgstr "No se han encontrado coincidencias"
+
+#: core/functions/functions.php:17
+msgid "SEUR_DEBUG is set to TRUE, please set it to false."
+msgstr "SEUR_DEBUG está configurado como TRUE, por favor, configurado como FALSE."
+
+msgid "for package"
+msgstr "para el bulto"
+
+msgid "Change service enabled"
+msgstr "Servicio 'cambio' activo"
+
+msgid "Change service enabled:"
+msgstr "Servicio 'cambio' activo"
+
+msgid "Activate Change Service"
+msgstr "Activar el servicio 'cambio'"

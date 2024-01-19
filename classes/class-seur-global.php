@@ -782,7 +782,7 @@ class Seur_Global {
                 if ($is_pdf) {
                     $content = base64_decode($data->pdf);
                 } else {
-                    $content .= $data->label;
+                    $content = $data->label;
                 }
 
 				// When merging labels, all labels are written to the same file. A suffix is added in other case.

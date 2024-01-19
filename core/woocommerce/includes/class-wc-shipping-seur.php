@@ -380,7 +380,7 @@ class WC_Shipping_SEUR extends WC_Shipping_Method {
 			} elseif ( 'cheapest' === $this->offer_rates ) {
 				$cheapest_rate = '';
 				foreach ( $rates as $key => $rate ) {
-					if ( ! $cheapest_rate || $cheapest_rate['cost'] > $rate['cost'] ) {
+					if ( ! $cheapest_rate || $cheapest_rate['cost'] >= $rate['cost'] ) {
 						$cheapest_rate = $rate;
 					}
 				}
@@ -388,7 +388,7 @@ class WC_Shipping_SEUR extends WC_Shipping_Method {
 			} elseif ( 'expensive' === $this->offer_rates ) {
 				$expensive_rate = '';
 				foreach ( $rates as $key => $rate ) {
-					if ( ! $expensive_rate || $expensive_rate['cost'] < $rate['cost'] ) {
+					if ( ! $expensive_rate || $expensive_rate['cost'] <= $rate['cost'] ) {
 						$expensive_rate = $rate;
 					}
 				}

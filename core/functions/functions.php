@@ -1078,21 +1078,6 @@ function seur_get_user_settings() {
 	} else {
 		$seur_contacto_apellidos_field = '';
 	}
-	if ( get_option( 'seur_cit_codigo_field' ) ) {
-		$seur_cit_codigo_field = get_option( 'seur_cit_codigo_field' );
-	} else {
-		$seur_cit_codigo_field = '';
-	}
-	if ( get_option( 'seur_cit_usuario_field' ) ) {
-		$seur_cit_usuario_field = get_option( 'seur_cit_usuario_field' );
-	} else {
-		$seur_cit_usuario_field = '';
-	}
-	if ( get_option( 'seur_cit_contra_field' ) ) {
-		$seur_cit_contra_field = get_option( 'seur_cit_contra_field' );
-	} else {
-		$seur_cit_contra_field = '';
-	}
 	if ( get_option( 'seur_ccc_field' ) ) {
 		$seur_ccc_field = get_option( 'seur_ccc_field' );
 	} else {
@@ -1107,16 +1092,6 @@ function seur_get_user_settings() {
 		$seur_franquicia_field = get_option( 'seur_franquicia_field' );
 	} else {
 		$seur_franquicia_field = '';
-	}
-	if ( get_option( 'seur_seurcom_usuario_field' ) ) {
-		$seur_seurcom_usuario_field = get_option( 'seur_seurcom_usuario_field' );
-	} else {
-		$seur_seurcom_usuario_field = '';
-	}
-	if ( get_option( 'seur_seurcom_contra_field' ) ) {
-		$seur_seurcom_contra_field = get_option( 'seur_seurcom_contra_field' );
-	} else {
-		$seur_seurcom_contra_field = '';
 	}
 	if ( $seur_pais_field ) {
 		if ( 'ES' === $seur_pais_field ) {
@@ -1147,14 +1122,9 @@ function seur_get_user_settings() {
 		'email',
 		'contacto_nombre',
 		'contacto_apellidos',
-		'cit_codigo',
-		'cit_usuario',
-		'cit_contra',
 		'ccc',
 		'int_ccc',
 		'franquicia',
-		'seurcom_usuario',
-		'seurcom_contra',
 	);
 
 	$value                = array(
@@ -1174,14 +1144,9 @@ function seur_get_user_settings() {
 		$seur_email_field,
 		$seur_contacto_nombre_field,
 		$seur_contacto_apellidos_field,
-		$seur_cit_codigo_field,
-		$seur_cit_usuario_field,
-		$seur_cit_contra_field,
 		$seur_ccc_field,
 		$seur_int_ccc_field,
 		$seur_franquicia_field,
-		$seur_seurcom_usuario_field,
-		$seur_seurcom_contra_field,
 	);
 	$seur_user_settings[] = array_combine( $option, $value );
 
@@ -1673,15 +1638,10 @@ function seur_api_preprare_label_data($order_id, $numpackages = '1', $weight = '
 	$preparedData['email']              = $user_data[0]['email'];
 	$preparedData['contacto_nombre']    = $user_data[0]['contacto_nombre'];
 	$preparedData['contacto_apellidos'] = $user_data[0]['contacto_apellidos'];
-	$preparedData['cit_pass']           = $user_data[0]['cit_codigo'];
-	$preparedData['cit_user']           = $user_data[0]['cit_usuario'];
-	$preparedData['cit_contra']         = $user_data[0]['cit_contra'];
 	$preparedData['nif']                = $user_data[0]['nif'];
 	$preparedData['franquicia']         = $user_data[0]['franquicia'];
 	$preparedData['nat_ccc']            = $user_data[0]['ccc'];
 	$preparedData['int_ccc']            = $user_data[0]['int_ccc'];
-	$preparedData['usercom']            = $user_data[0]['seurcom_usuario'];
-	$preparedData['passcom']            = $user_data[0]['seurcom_contra'];
 
 	$paisgl  = $user_data[0]['pais'];
 	if ( 'España' === $paisgl ) {

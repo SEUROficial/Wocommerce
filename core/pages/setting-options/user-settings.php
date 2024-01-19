@@ -284,33 +284,6 @@ function seur_contacto_apellidos_field() {
 }
 
 /**
- * SEUR CIT código
- */
-function seur_cit_codigo_field() {
-	?>
-	<input title="<?php esc_html_e( 'Integrated client code (given by SEUR)', 'seur' ); ?>" type="text" name="seur_cit_codigo_field" value="<?php echo esc_html( seur()->get_option( 'seur_cit_codigo_field' ) ); ?>" size="40" />
-	<?php
-}
-
-/**
- * SEUR CIT usuario
- */
-function seur_cit_usuario_field() {
-	?>
-	<input title="<?php esc_html_e( 'User to generate labels (given by SEUR)', 'seur' ); ?>" type="text" name="seur_cit_usuario_field" value="<?php echo esc_html( seur()->get_option( 'seur_cit_usuario_field' ) ); ?>" size="40" />
-	<?php
-}
-
-/**
- * SEUR CIT contraseña
- */
-function seur_cit_contra_field() {
-	?>
-	<input title="<?php esc_html_e( 'Password to generate the labels (given by SEUR)', 'seur' ); ?>" type="text" name="seur_cit_contra_field" value="<?php echo esc_html( seur()->get_option( 'seur_cit_contra_field' ) ); ?>" size="40" />
-	<?php
-}
-
-/**
  * SEUR CCC
  */
 function seur_ccc_field() {
@@ -334,24 +307,6 @@ function seur_int_ccc_field() {
 function seur_franquicia_field() {
 	?>
 	<input title="<?php esc_html_e( 'Two-digit numeric code (given by SEUR)', 'seur' ); ?>" type="text" name="seur_franquicia_field" value="<?php echo esc_html( seur()->get_option( 'seur_franquicia_field' ) ); ?>" size="40" maxlength="2" />
-	<?php
-}
-
-/**
- * SEUR seurcom usuario
- */
-function seur_seurcom_usuario_field() {
-	?>
-	<input title="<?php esc_html_e( 'User access to seur.com (given by SEUR)', 'seur' ); ?>" type="text" name="seur_seurcom_usuario_field" value="<?php echo esc_html( seur()->get_option( 'seur_seurcom_usuario_field' ) ); ?>" size="40" />
-	<?php
-}
-
-/**
- * SEUR seurcom contraseña
- */
-function seur_seurcom_contra_field() {
-	?>
-	<input title="<?php esc_html_e( 'Access password seur.com (given by SEUR)', 'seur' ); ?>" type="text" name="seur_seurcom_contra_field" value="<?php echo esc_html( seur()->get_option( 'seur_seurcom_contra_field' ) ); ?>" size="40" />
 	<?php
 }
 
@@ -386,14 +341,9 @@ function display_seur_user_sittings_panel_fields() {
 	add_settings_field( 'seur_password_field', __( 'Password<sup>*</sup>', 'seur' ), 'seur_password_field', 'seur-user-settings-options', 'seur-user-settings-section' );
 	add_settings_field( 'seur_client_id_field', __( 'Client id<sup>*</sup>', 'seur' ), 'seur_client_id_field', 'seur-user-settings-options', 'seur-user-settings-section' );
 	add_settings_field( 'seur_accountnumber_field', __( 'accountNumber<sup>*</sup>', 'seur' ), 'seur_accountnumber_field', 'seur-user-settings-options', 'seur-user-settings-section' );
-	add_settings_field( 'seur_cit_codigo_field', __( 'CIT code<sup>*</sup>', 'seur' ), 'seur_cit_codigo_field', 'seur-user-settings-options', 'seur-user-settings-section' );
-	add_settings_field( 'seur_cit_usuario_field', __( 'CIT user<sup>*</sup>', 'seur' ), 'seur_cit_usuario_field', 'seur-user-settings-options', 'seur-user-settings-section' );
-	add_settings_field( 'seur_cit_contra_field', __( 'CIT password<sup>*</sup>', 'seur' ), 'seur_cit_contra_field', 'seur-user-settings-options', 'seur-user-settings-section' );
 	add_settings_field( 'seur_ccc_field', __( 'CCC<sup>*</sup>', 'seur' ), 'seur_ccc_field', 'seur-user-settings-options', 'seur-user-settings-section' );
 	add_settings_field( 'seur_int_ccc_field', __( 'International CCC<sup>*</sup>', 'seur' ), 'seur_int_ccc_field', 'seur-user-settings-options', 'seur-user-settings-section' );
 	add_settings_field( 'seur_franquicia_field', __( 'Franchise<sup>*</sup>', 'seur' ), 'seur_franquicia_field', 'seur-user-settings-options', 'seur-user-settings-section' );
-	add_settings_field( 'seur_seurcom_usuario_field', __( 'SEUR.com user<sup>*</sup>', 'seur' ), 'seur_seurcom_usuario_field', 'seur-user-settings-options', 'seur-user-settings-section' );
-	add_settings_field( 'seur_seurcom_contra_field', __( 'SEUR.com password<sup>*</sup>', 'seur' ), 'seur_seurcom_contra_field', 'seur-user-settings-options', 'seur-user-settings-section' );
 
 	// register all setings.
 	register_setting( 'seur-user-settings-section', 'seur_test_field' );
@@ -421,14 +371,8 @@ function display_seur_user_sittings_panel_fields() {
 	register_setting( 'seur-user-settings-section', 'seur_password_field' );
 	register_setting( 'seur-user-settings-section', 'seur_client_id_field' );
 	register_setting( 'seur-user-settings-section', 'seur_accountnumber_field' );
-	register_setting( 'seur-user-settings-section', 'seur_cit_codigo_field' );
-	register_setting( 'seur-user-settings-section', 'seur_cit_usuario_field' );
-	register_setting( 'seur-user-settings-section', 'seur_cit_contra_field' );
 	register_setting( 'seur-user-settings-section', 'seur_ccc_field' );
 	register_setting( 'seur-user-settings-section', 'seur_int_ccc_field' );
 	register_setting( 'seur-user-settings-section', 'seur_franquicia_field' );
-	register_setting( 'seur-user-settings-section', 'seur_seurcom_usuario_field' );
-	register_setting( 'seur-user-settings-section', 'seur_seurcom_contra_field' );
-
 }
 add_action( 'admin_init', 'display_seur_user_sittings_panel_fields' );
