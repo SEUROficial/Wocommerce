@@ -100,6 +100,7 @@ The "SEUR > Shipments" menu includes the option to track your shipment and see t
 * ADDED: PDF massive print
 * ADDED: Add platform name in shipments endpoint
 * ADDED: Add 'change' service
+* ADDED: Add accountId in manifest endpoint
 * FIXED: Fix international pickup
 * FIXED: Fix has_label function warning
 * FIXED: Fix filter orders
