@@ -67,26 +67,25 @@ class Seur_Local_Shipping_Method extends WC_Shipping_Method {
 		if ( '1' !== $localpickup_is_active ) {
 			return;
 		}
-        $price = $package['cart_subtotal'];
+        $package_price = $package['contents_cost'];
 		if ( $rates_type != 'price' ) {
 			$weight        = 0;
-			$package_price = $package['contents_cost'];
 
 			foreach ( $package['contents'] as $item_id => $values ) {
 				$_product = $values['data'];
 				$weight   = (int) $weight + (int) $_product->get_weight() * (int) $values['quantity'];
 			}
-			$price = wc_get_weight( $weight, 'kg' );
+            $package_price = wc_get_weight( $weight, 'kg' );
 		}
 
 		$country       = $package['destination']['country'];
 		$state         = $package['destination']['state'];
 		$postcode_seur = $package['destination']['postcode'];
-		$rate_requests = seur_show_availables_rates( $country, $state, $postcode_seur, $price );
+		$rate_requests = seur_show_availables_rates( $country, $state, $postcode_seur, $package_price );
         $this->log->add( 'seur', '$country: ' . $country );
         $this->log->add( 'seur', '$state: ' . $state );
         $this->log->add( 'seur', '$postcode_seur: ' . $postcode_seur );
-        $this->log->add( 'seur', '$price: ' . $price );
+        $this->log->add( 'seur', '$price: ' . $package_price );
 
         if ( $rate_requests ) {
             // parse the results.

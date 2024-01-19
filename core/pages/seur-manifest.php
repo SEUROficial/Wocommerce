@@ -24,10 +24,8 @@ function seur_donwload_data( $post ) {
             die ('Sorry, your nonce did not verify.</div>');
         }
 
-        $nif               = get_option( 'seur_nif_field' );
-        $codigo_franquicia = get_option( 'seur_franquicia_field' );
-        $accountId = get_option( 'seur_ccc_field' );
-        $fecha_desde       = '';
+        $nif = get_option( 'seur_nif_field' );
+        $ccc = get_option( 'seur_ccc_field' );
 
         if ( isset( $_POST['fechadesde'] ) ) {
 
@@ -60,10 +58,9 @@ function seur_donwload_data( $post ) {
 
             $data = [
                 'nif' => $nif,
-                'franchise' => $codigo_franquicia,
                 'dateFrom' => $fromdate,
                 'dateTo' => $todate,
-                'accountId' => $accountId
+                'ccc' => $ccc
             ];
 
             $response = seur()->sendCurl($urlws, $headers, $data, "GET");

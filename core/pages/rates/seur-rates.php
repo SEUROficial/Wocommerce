@@ -176,10 +176,6 @@ $texto = __( 'RATES', 'seur' ) . '<br />' . __( 'Calculate rate that SEUR apply 
 		// *****************************************
 		$useroptions       = seur_get_user_settings();
 		$advancedoptions   = seur_get_advanced_settings();
-		$usuario_cit       = $useroptions[0]['cit_usuario'];
-		$contra_cit        = $useroptions[0]['cit_contra'];
-		$usuarioseurcom    = $useroptions[0]['seurcom_usuario'];
-		$contrasenaseurcom = $useroptions[0]['seurcom_contra'];
 		$ccc               = $useroptions[0]['ccc'];
 		$int_ccc           = $useroptions[0]['int_ccc'];
 		$franquicia        = $useroptions[0]['franquicia'];
@@ -210,19 +206,9 @@ $texto = __( 'RATES', 'seur' ) . '<br />' . __( 'Calculate rate that SEUR apply 
 		if ( strlen( $mensaje ) < 1 ) {
 			$mensaje .= '<br>Servicio Producto sin IDENTIFICAR';
 		}
-		$consulta   = '<REG><USUARIO>' . esc_html( $usuarioseurcom ) . '</USUARIO>' .
-			'<PASSWORD>' . esc_html( $contrasenaseurcom ) . '</PASSWORD>' .
-			'<NOM_POBLA_DEST>' . esc_html( $poblacion ) . '</NOM_POBLA_DEST>' .
-			'<Peso>' . esc_html( $kilos ) . '</Peso>' .
-			'<CODIGO_POSTAL_DEST>' . esc_html( $postal ) . '</CODIGO_POSTAL_DEST>' .
-			'<CodContableRemitente>' . esc_html( $ccc ) . '-' . esc_html( $franquicia ) . '</CodContableRemitente>' .
-			'<PesoVolumen>0</PesoVolumen>' .
-			'<Bultos>' . esc_html( $bultos ) . '</Bultos>' .
-			'<CodServ>' . esc_html( $servicio ) . '</CodServ>' .
-			'<CodProd>' . esc_html( $producto ) . '</CodProd>' .
-			'<COD_IDIOMA>ES</COD_IDIOMA>' .
-			'<CodPaisIso>' . esc_html( $pais ) . '</CodPaisIso>' .
-			'</REG>';
+
+        /*
+        $consulta = '';
 		$sc_options = array(
 			'connection_timeout' => 30,
 		);
@@ -233,33 +219,18 @@ $texto = __( 'RATES', 'seur' ) . '<br />' . __( 'Calculate rate that SEUR apply 
 		$respuesta  = $cliente->tarificacionPrivadaStr( $parametros );
 
 		if ( empty( $respuesta->out ) || ( isset( $respuesta->error ) && ! empty( $respuesta->error ) ) ) {
+        */
 			echo '<div class="error notice"><p>';
 			esc_html_e( 'There was an error getting rate.', 'seur' );
+            echo '<br>'; esc_html_e( 'Deprecated SOAP Service.', 'seur' );
 			echo '</p>';
 			echo '</div>';
 			return;
-		} else {
+		/* } else {
 			$xml         = simplexml_load_string( $respuesta->out );
 			$lineasantes = ( $xml->attributes()->NUM );
 			$lineas      = (int) $lineasantes - 1;
 			$total       = 0;
-
-			/*
-				Para debug
-				echo '$usuarioseurcom: '    . esc_html( $usuarioseurcom ) . '<br />';
-				echo '$contrasenaseurcom: ' . esc_html( $contrasenaseurcom ) . '<br />';
-				echo '$poblacion: '         . esc_html( $poblacion ) . '<br />';
-				echo '$kilos: '             . esc_html( $kilos ) . '<br />';
-				echo '$postal: '            . esc_html( $postal ) . '<br />';
-				echo '$ccc: '               . esc_html( $ccc ) . '<br />';
-				echo '$franquicia: '        . esc_html( $franquicia ) . '<br />';
-				echo 'PesoVolumen: 0<br />';
-				echo '$bultos: '            . esc_html( $bultos ) . '<br />';
-				echo '$servicio: '          . esc_html( $servicio ) . '<br />';
-				echo '$producto: '          . esc_html( $producto ) . '<br />';
-				echo 'COD_IDIOMA: ES<br />';
-				echo '$pais: '              . esc_html( $pais ) . '<br />';
-			*/
 
 			?>
 				<table width='25%' style='color:ed734d;font-weight:bold; font-size:14px;'>
@@ -285,7 +256,7 @@ $texto = __( 'RATES', 'seur' ) . '<br />' . __( 'Calculate rate that SEUR apply 
 			</table>
 			<?php
 			return;
-		}
+		} */
 	}
 	?>
 </form>

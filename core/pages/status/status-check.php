@@ -614,14 +614,9 @@ function seur_check_service_names( $services ) {
 			<div class="seur-column seur-column-double">
 				<table class="seur-status-table widefat" cellspacing="0">
 					<?php
-						$seur_cit_codigo_field      = get_option( 'seur_cit_codigo_field' );
-						$seur_cit_usuario_field     = get_option( 'seur_cit_usuario_field' );
-						$seur_cit_contra_field      = get_option( 'seur_cit_contra_field' );
 						$seur_ccc_field             = get_option( 'seur_ccc_field' );
 						$seur_int_ccc_field         = get_option( 'seur_int_ccc_field' );
 						$seur_franquicia_field      = get_option( 'seur_franquicia_field' );
-						$seur_seurcom_usuario_field = get_option( 'seur_seurcom_usuario_field' );
-						$seur_seurcom_contra_field  = get_option( 'seur_seurcom_contra_field' );
 					?>
 					<thead>
 						<tr>
@@ -629,36 +624,6 @@ function seur_check_service_names( $services ) {
 						</tr>
 					</thead>
 					<tbody>
-						<tr>
-							<td data-export-label="CIT code"><?php esc_html_e( 'CIT code:', 'seur' ); ?></td>
-							<?php if ( $seur_cit_codigo_field ) { ?>
-								<td><?php echo esc_html( $seur_cit_codigo_field ); ?></td>
-								<?php
-							} else {
-								?>
-								<td><span class="error">No.</span></td>
-								<?php } ?>
-						</tr>
-						<tr>
-							<td data-export-label="CIT user"><?php esc_html_e( 'CIT user:', 'seur' ); ?></td>
-							<?php if ( $seur_cit_usuario_field ) { ?>
-								<td><?php echo esc_html( $seur_cit_usuario_field ); ?></td>
-								<?php
-							} else {
-								?>
-								<td><span class="error">No.</span></td>
-								<?php } ?>
-						</tr>
-						<tr>
-							<td data-export-label="CIT password"><?php esc_html_e( 'CIT password:', 'seur' ); ?></td>
-							<?php if ( $seur_cit_contra_field ) { ?>
-								<td><?php echo esc_html( $seur_cit_contra_field ); ?></td>
-								<?php
-							} else {
-								?>
-								<td><span class="error">No.</span></td>
-								<?php } ?>
-						</tr>
 						<tr>
 							<td data-export-label="CCC"><?php esc_html_e( 'CCC:', 'seur' ); ?></td>
 							<?php if ( $seur_ccc_field ) { ?>
@@ -683,26 +648,6 @@ function seur_check_service_names( $services ) {
 							<td data-export-label="Franchise"><?php esc_html_e( 'Franchise:', 'seur' ); ?></td>
 							<?php if ( $seur_franquicia_field ) { ?>
 								<td><?php echo esc_html( $seur_franquicia_field ); ?></td>
-								<?php
-							} else {
-								?>
-								<td><span class="error">No.</span></td>
-								<?php } ?>
-						</tr>
-						<tr>
-							<td data-export-label="SEUR.com user"><?php esc_html_e( 'SEUR.com user:', 'seur' ); ?></td>
-							<?php if ( $seur_seurcom_usuario_field ) { ?>
-								<td><?php echo esc_html( $seur_seurcom_usuario_field ); ?></td>
-								<?php
-							} else {
-								?>
-								<td><span class="error">No.</span></td>
-								<?php } ?>
-						</tr>
-						<tr>
-							<td data-export-label="SEUR.com password"><?php esc_html_e( 'SEUR.com password:', 'seur' ); ?></td>
-							<?php if ( $seur_seurcom_contra_field ) { ?>
-								<td><?php echo esc_html( $seur_seurcom_contra_field ); ?></td>
 								<?php
 							} else {
 								?>
