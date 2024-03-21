@@ -1,5 +1,9 @@
 (function($) {
 	$( function() {
-    $( "#datepicker" ).datepicker();
-  } );
-  })(jQuery);
+        $( "#datepicker" ).datepicker({
+            dateFormat: 'yy/mm/dd',
+            changeYear: true,
+            changeMonth: true
+        });
+    });
+})(jQuery);

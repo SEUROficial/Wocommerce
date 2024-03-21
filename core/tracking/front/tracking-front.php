@@ -19,7 +19,8 @@ function seur_order_details_tracking( $order_id ) {
 	<h2><?php esc_html_e( 'Where is my Order?', 'seur' ); ?></h2>
 
 	<?php
-    $ref = get_post_meta( $order_id, '_seur_shipping_id_number', true );
+    $order = seur_get_order( $order_id );
+    $ref = $order->get_meta('_seur_shipping_id_number', true );
     $label_ids = seur_get_labels_ids($order_id);
     foreach ($label_ids as $label_id) {
         $order_tracking = get_post_meta($label_id, '_seur_shipping_tracking_state', true);

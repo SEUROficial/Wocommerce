@@ -218,18 +218,18 @@ function seur_get_local_pickups( $country, $city, $postcode ) {
         foreach ($body->data as $data) {
             $centro[] = array(
                 'id' => $i,
-                'depot' => (string)$data->depot, // phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
+                'depot' => (string)(property_exists($data,'depot')?$data->depot:''), // phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
                 'post_code' => $data->postalCode, // phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
-                'codCentro' => (string)$data->code, // phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
+                'codCentro' => (string)(property_exists($data,'code')?$data->code:''), // phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
                 'company' => (string)$data->name, // phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
-                'type' => $data->type,
+                'type' => (property_exists($data,'type')?$data->type:''),
                 'address' => (string)$data->address, // phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
                 'city' => (string)$data->cityName, // phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
                 'pudoId' => (string)$data->pudoId,
                 'lat' => (float)$data->latitude, // phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
                 'lng' => (float)$data->longitude, // phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
-                'tipovia' => (string)$data->streetType, // phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
-                'numvia' => (string)$data->streetNumber, // phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
+                'tipovia' => (string)(property_exists($data,'streetType')?$data->streetType:''), // phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
+                'numvia' => (string)trim($data->streetNumber??''), // phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
                 'phone' => (string)'', // phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
                 'nomcorto' => (string)'', // phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
                 'timetable' => (string)'', // phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
@@ -477,19 +477,21 @@ function seur_add_2shop_data_to_order( $order_id ) {
 		$numvia     = sanitize_text_field( wp_unslash( $_POST[ $seur_numvia ] ) ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotValidated,WordPress.Security.NonceVerification.Missing
 		$timetable  = sanitize_text_field( wp_unslash( $_POST[ $seur_timetable ] ) ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotValidated,WordPress.Security.NonceVerification.Missing
 
-		update_post_meta( $order_id, '_seur_2shop_depot', str_pad( $depot, 2, '0', STR_PAD_LEFT ) );
-		update_post_meta( $order_id, '_seur_2shop_postcode', $postcode );
-		update_post_meta( $order_id, '_seur_2shop_codCentro', str_pad( $cod_centro, 3, '0', STR_PAD_LEFT ) );
-		update_post_meta( $order_id, '_seur_2shop_title', $title );
-		update_post_meta( $order_id, '_seur_2shop_type', $type );
-		update_post_meta( $order_id, '_seur_2shop_address', $address );
-		update_post_meta( $order_id, '_seur_2shop_city', $city );
-		update_post_meta( $order_id, '_seur_2shop_pudo_id', $pudoId );
-		update_post_meta( $order_id, '_seur_2shop_lat', $lat );
-		update_post_meta( $order_id, '_seur_2shop_lon', $lon );
-		update_post_meta( $order_id, '_seur_2shop_streettype', $streettype );
-		update_post_meta( $order_id, '_seur_2shop_numvia', $numvia );
-		update_post_meta( $order_id, '_seur_2shop_timetable', $timetable );
+        $order = seur_get_order($order_id);
+		$order->update_meta_data('_seur_2shop_depot', str_pad( $depot, 2, '0', STR_PAD_LEFT ) );
+        $order->update_meta_data('_seur_2shop_postcode', $postcode );
+        $order->update_meta_data('_seur_2shop_codCentro', str_pad( $cod_centro, 3, '0', STR_PAD_LEFT ) );
+        $order->update_meta_data('_seur_2shop_title', $title );
+        $order->update_meta_data('_seur_2shop_type', $type );
+        $order->update_meta_data('_seur_2shop_address', $address );
+        $order->update_meta_data('_seur_2shop_city', $city );
+        $order->update_meta_data('_seur_2shop_pudo_id', $pudoId );
+        $order->update_meta_data('_seur_2shop_lat', $lat );
+        $order->update_meta_data('_seur_2shop_lon', $lon );
+        $order->update_meta_data('_seur_2shop_streettype', $streettype );
+        $order->update_meta_data('_seur_2shop_numvia', $numvia );
+        $order->update_meta_data('_seur_2shop_timetable', $timetable );
+        $order->save_meta_data();
 	}
 }
 

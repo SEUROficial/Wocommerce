@@ -14,5 +14,6 @@ require 'class-seur-global.php';
 require 'class-seur-scheduled-actions.php';
 require 'class-seur-collections.php';
 require 'class-seur-seguimiento.php';
+require 'PrinterType.php';
 require 'ProductType.php';
 require 'PDFMerger.php';

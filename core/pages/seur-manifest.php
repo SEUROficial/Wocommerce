@@ -14,9 +14,8 @@ if ( ! defined( 'ABSPATH' ) ) {
  *
  * @param WP_Post $post Post dats sent.
  */
-function seur_donwload_data( $post ) {
-	global $wpdb;	?>
-
+function seur_donwload_data( $post )
+{ ?>
     <div class="wrap">
 	    <h1 class="wp-heading-inline"><?php esc_html_e( 'SEUR Manifest', 'seur' ); ?></h1>
 	    <?php esc_html_e( 'Generate the cargo manifest of your deliveries and print two copies for the carrier.', 'seur' );
@@ -28,14 +27,13 @@ function seur_donwload_data( $post ) {
         $ccc = get_option( 'seur_ccc_field' );
 
         if ( isset( $_POST['fechadesde'] ) ) {
-
-            $date = str_replace( '/', '', sanitize_text_field( wp_unslash( $_POST['fechadesde'] ) ) );
-
+            $date = strlen(str_replace( '/', '', sanitize_text_field( wp_unslash( $_POST['fechadesde'] ))));
             $fromdate = str_replace('+00:00','', date('c', strtotime(date('Y-m-d')))) .'Z';
 	        $todate = str_replace('+00:00','', date('c', strtotime(date('Y-m-dT23:59:59')))) .'Z';
             // Manifiesto con fecha.
             if ( $date > 0 ) {
-                if ( $date < 8 || ( isset( $_POST['horadesde'] ) && strlen( sanitize_text_field( wp_unslash( $_POST['horadesde'] ) ) ) < 6 ) ) {
+                if ( $date < 8 ||
+                   ( isset( $_POST['horadesde'] ) && strlen( sanitize_text_field( wp_unslash( $_POST['horadesde'] ) ) ) < 6 ) ) {
                     die ( 'Fecha/Hora no están en el formato adecuado</div>');
                 }
                 $fromdate = str_replace('+00:00','', date('c', strtotime($_POST['fechadesde']))) .'Z';
@@ -94,7 +92,7 @@ function seur_donwload_data( $post ) {
                 <div class="wp-filter">
                     <label>
                         <span class="screen-reader-text"><?php esc_html_e( 'From Date', 'seur' ); ?></span>
-                        <input id="datepicker" type='text' name='fechadesde' class="wp-filter-search" placeholder="<?php esc_html_e( 'From Date', 'seur' ); ?>" value=''>
+                        <input id="datepicker" type='text' name='fechadesde' class="wp-filter-search" placeholder="<?php esc_html_e( 'From Date', 'seur' ); ?> (Y/m/d)" value='' >
                     </label>
                     <input type='hidden' name='horadesde' value='000000'>
                     <?php wp_nonce_field( 'seur_manifest_action', 'seur_manifest_nonce_field' ); ?>

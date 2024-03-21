@@ -28,23 +28,18 @@ function seur_get_labels_from_order( $post ) {
 	$order_id = '';
 	if ( isset( $_POST['order-id'] ) ) {
 		$order_id = sanitize_text_field( wp_unslash( $_POST['order-id'] ) );
-
 	}
+    if ( ! $orderid2 && ! $order_id ) {
+        exit;
+    }
     $change_service = isset($_GET['change'])?$_GET['change']:'0';
 	$weight_unit = get_option( 'woocommerce_weight_unit' );
-	$order_data  = seur_get_order_data( $orderid2 );
-	$weight      = $order_data[0]['weight'];
-	$shop2       = get_post_meta( $orderid2, '_seur_2shop_codCentro', true );
+    $wc_order2 = wc_get_order( $orderid2 );
+	$weight      = $wc_order2->get_meta('_seur_cart_weight', true );
+	$shop2       = $wc_order2->get_meta('_seur_2shop_codCentro', true );
 	$disabled    = ' readonly';
 
-	if ( ! empty( $shop2 ) ) {
-		$value = '1';
-	} else {
-		$value = '';
-	}
-	if ( ! $orderid2 && ! $order_id ) {
-		exit;
-	}
+    $value = (empty($shop2) ? '' : '1');
 	?>
 	<div class="wrap">
 	<h1 class="wp-heading-inline"><?php esc_html_e( 'Get Labels', 'seur' ); ?></h1>
@@ -100,7 +95,7 @@ function seur_get_labels_from_order( $post ) {
 			exit;
 		}
 
-		$has_label  = seur()->has_label($order_id);
+        $has_label  = seur()->has_label($order_id);
 
 		if ( 'yes' !== $has_label ) {
             $label = seur_api_get_label( $order_id, $numpackages, $weight, true, $changeService );

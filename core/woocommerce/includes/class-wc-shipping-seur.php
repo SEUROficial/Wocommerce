@@ -473,3 +473,23 @@ function seur_coupon_free_shipping( $rates, $package ) {
 	return $rates;
 }
 add_filter( 'woocommerce_package_rates', 'seur_coupon_free_shipping', 20, 2 );
+
+
+/**
+ *
+ * @param string $label Current label
+ * @param WC_Shipping_Rate $method Transport method details
+ *
+ * @return string
+ */
+function seur_add_0_to_shipping_label(string $label, WC_Shipping_Rate $method): string
+{
+    // if shipping rate is 0, concatenate ": $0.00" to the label
+	if ( floatval($method->cost) <= 0  ) {
+		$label .= ': ' . wc_price(0) . ' - ' . __( 'Free shipping', 'woocommerce' );
+	}
+
+    // return original or edited shipping label
+	return $label;
+}
+add_filter( 'woocommerce_cart_shipping_method_full_label', 'seur_add_0_to_shipping_label', 10, 2 );

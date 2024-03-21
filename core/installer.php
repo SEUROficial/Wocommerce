@@ -56,7 +56,8 @@ function createTableSeurStatus() {
 
 function updateMetaSeurShippingMethodService() {
     global $wpdb;
-    $products = seur()->get_products();
+    include_once SEUR_DATA_PATH . 'seur-products.php';
+    $products = get_seur_product();
 
     $sql = "SELECT option_name, option_value as custom_name
             FROM ".$wpdb->prefix."options 
@@ -83,7 +84,10 @@ function updateMetaSeurShippingMethodService() {
         if (!empty($customName)) {
             $rateName = $customName[0];
         }
-        update_post_meta($orderShippingMethod->order_id, '_seur_shipping_method_service_real_name', $rateName);
+        //update_post_meta($orderShippingMethod->order_id, '_seur_shipping_method_service_real_name', $rateName);
+        $order = seur_get_order($orderShippingMethod->order_id);
+        $order->update_meta_data('_seur_shipping_method_service_real_name', $rateName);
+        $order->save_meta_data();
     }
 }
 

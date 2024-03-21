@@ -91,8 +91,15 @@ The "SEUR > Shipments" menu includes the option to track your shipment and see t
 
 == Screenshots ==
 
-
 == Changelog ==
+
+== 2.2.6 ==
+
+* ADDED: Clean phone numbers
+* ADDED: Add A4_3 printer format
+* ADDED: Free shipping message when cost is 0
+* ADDED: HPOS compatibility
+* ADDED: Default values for international pudo info
 
 == 2.2.5 ==
 
