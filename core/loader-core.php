@@ -12,11 +12,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 // Load defines.
 require_once 'defines/defines-loader.php';
 
-// Load Tracking.
-require_once 'tracking/loader.php';
-
 // Load functions.
 require_once 'functions/functions.php';
+
+// Load Tracking.
+require_once 'tracking/loader.php';
 
 // Load WooCommerce functions if WooCommerce is active.
 if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ), true ) ) {

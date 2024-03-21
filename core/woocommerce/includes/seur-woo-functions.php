@@ -36,19 +36,24 @@ function seur_add_cart_weight( $order_id ) {
     foreach ( $products as $code => $product ) {
         $custom_name = get_option($product['field'].'_custom_name_field')?get_option($product['field'].'_custom_name_field'):$code;
         if ($custom_name == $product_name) {
-            update_post_meta( $order_id, '_seur_shipping', 'seur' );
-            update_post_meta( $order_id, '_seur_shipping_method_service_real_name', $code );
-            update_post_meta( $order_id, '_seur_shipping_method_service', sanitize_title( $product_name ) );
+            $order->update_meta_data('_seur_shipping', 'seur' );
+            $order->update_meta_data('_seur_shipping_method_service_real_name', $code );
+            $order->update_meta_data('_seur_shipping_method_service', sanitize_title( $product_name ) );
             break;
         }
     }
 
 	$weight = WC()->cart->cart_contents_weight;
-	update_post_meta( $order_id, '_seur_cart_weight', $weight );
+    $order->update_meta_data('_seur_cart_weight', $weight );
+    $order->save_meta_data();
 }
 
 // Add order new column in administration.
-add_filter( 'manage_edit-shop_order_columns', 'seur_order_weight_column', 20 );
+if (seur_is_wc_order_hpos_enabled()) {
+    add_filter( 'manage_woocommerce_page_wc-orders_columns', 'seur_order_weight_column', 20 );
+} else {
+    add_filter( 'manage_edit-shop_order_columns', 'seur_order_weight_column', 20 );
+}
 function seur_order_weight_column( $columns ) {
 	$offset          = 8;
 	$updated_columns = array_slice( $columns, 0, $offset, true ) +
@@ -58,18 +63,32 @@ function seur_order_weight_column( $columns ) {
 }
 
 // Populate weight column.
-add_action( 'manage_shop_order_posts_custom_column', 'seur_custom_order_weight_column', 2 );
+if (seur_is_wc_order_hpos_enabled()) {
+    add_action( 'manage_woocommerce_page_wc-orders_custom_column', 'seur_custom_order_weight_column_hpos',  2, 2 );
+}
+else {
+    add_action( 'manage_shop_order_posts_custom_column', 'seur_custom_order_weight_column', 2 );
+}
 function seur_custom_order_weight_column( $column ) {
-	global $post;
-
+    global $post;
 	if ( $column == 'total_weight' ) {
-		$weight = get_post_meta( $post->ID, '_seur_cart_weight', true );
+        $weight = get_post_meta( $post->ID, '_seur_cart_weight', true );
 		if ( $weight > 0 ) {
 			print $weight . ' ' . esc_attr( get_option( 'woocommerce_weight_unit' ) );
 		} else {
 			print 'N/A';
 		}
 	}
+}
+function seur_custom_order_weight_column_hpos( $column, $order) {
+    if ( $column == 'total_weight' ) {
+        $weight = $order->get_meta(  '_seur_cart_weight', true );
+        if ( $weight > 0 ) {
+            print $weight . ' ' . esc_attr( get_option( 'woocommerce_weight_unit' ) );
+        } else {
+            print 'N/A';
+        }
+    }
 }
 
 /**
@@ -180,7 +199,9 @@ function seur_process_order_meta_box_action( $order ) {
 	$order->add_order_note( $message );
 
 	// add the flag.
-	update_post_meta( $order->get_id(), '_wc_order_marked_printed_for_packaging', 'yes' );
+	//update_post_meta( $order->get_id(), '_wc_order_marked_printed_for_packaging', 'yes' );
+    $order->update_meta_data('_wc_order_marked_printed_for_packaging', 'yes' );
+    $order->save_meta_data();
 }
 add_action( 'woocommerce_order_action_wc_custom_order_action', 'seur_process_order_meta_box_action' );
 
@@ -189,8 +210,9 @@ add_action( 'admin_footer-edit.php', 'seur_custom_bulk_admin_footer' );
 function seur_custom_bulk_admin_footer() {
 
 	global $post_type;
+    global $page;
 
-	if ( $post_type == 'shop_order' ) {
+	if ( $post_type == 'shop_order'  || get_current_screen()->id == 'wc-orders' ) {
 		?>
 	<script type="text/javascript">
 		jQuery(document).ready(function() {
@@ -246,6 +268,7 @@ function seur_woo_bulk_action() {
 			$sendback = add_query_arg(
 				array(
 					'post_type'    => 'shop_order',
+                    'page'         => 'wc-orders',
 					$report_action => true,
 					'changed'      => $changed,
 					'ids'          => join(
@@ -349,7 +372,8 @@ function seur_get_label_ajax() {
 			}
 		}
 	}
-	wp_safe_redirect( wp_get_referer() ? wp_get_referer() : admin_url( 'edit.php?post_type=shop_order' ) );
+
+	wp_safe_redirect( wp_get_referer() ? wp_get_referer() : admin_url( seur_get_admin_url() ) );
 	die();
 }
 
@@ -373,7 +397,7 @@ function seur_billing_mobil_phone_fields( $fields ) {
 add_action( 'woocommerce_admin_order_data_after_billing_address', 'seur_billing_mobil_phone_fields_display_admin_order_meta', 10, 1 );
 
 function seur_billing_mobil_phone_fields_display_admin_order_meta( $order ) {
-	echo '<p><strong>' . __( 'Billing Mobile Phone' ) . ':</strong> ' . get_post_meta( $order->get_id(), '_billing_mobile_phone', true ) . '</p>';
+	echo '<p><strong>' . __( 'Billing Mobile Phone' ) . ':</strong> ' . $order->get_meta( '_billing_mobile_phone', true ) . '</p>';
 }
 
 add_filter( 'woocommerce_checkout_fields', 'seur_shipping_mobil_phone_fields' );
@@ -395,7 +419,7 @@ function seur_shipping_mobil_phone_fields( $fields ) {
 add_action( 'woocommerce_admin_order_data_after_shipping_address', 'seur_shipping_mobil_phone_fields_display_admin_order_meta', 10, 1 );
 
 function seur_shipping_mobil_phone_fields_display_admin_order_meta( $order ) {
-	echo '<p><strong>' . esc_html__( 'Shipping Mobile Phone' ) . ':</strong> ' . get_post_meta( $order->get_id(), '_shipping_mobile_phone', true ) . '</p>';
+	echo '<p><strong>' . esc_html__( 'Shipping Mobile Phone' ) . ':</strong> ' . $order->get_meta(  '_shipping_mobile_phone', true ) . '</p>';
 }
 
 function seur_filter_price_rate_weight( $package_price, $raterate, $ratepricerate, $countryrate ) {
@@ -423,7 +447,7 @@ function seur_filter_price_rate_weight( $package_price, $raterate, $ratepricerat
 function seur_post_formats_filter_to_woo_order_administration() {
 	global $post_type;
 
-	if ( 'shop_order' === $post_type ) { ?>
+    if (seur_is_order_page($post_type)) { ?>
 		<label for="dropdown_shop_order_seur_shipping_method" class="screen-reader-text"><?php _e( 'Seur Shippments', 'seur' ); ?></label>
 		<select name="_shop_order_seur_shipping_method" id="dropdown_shop_order_seur_shipping_method">
 			<option value=""><?php esc_html_e( 'All', 'seur' ); ?></option>
@@ -448,13 +472,18 @@ function seur_post_formats_filter_to_woo_order_administration() {
 		<?php
 	}
 }
-add_action( 'restrict_manage_posts', 'seur_post_formats_filter_to_woo_order_administration' );
+if (seur_is_wc_order_hpos_enabled()) {
+    add_action( 'woocommerce_order_list_table_restrict_manage_orders', 'seur_post_formats_filter_to_woo_order_administration' );
+} else {
+    add_action('restrict_manage_posts', 'seur_post_formats_filter_to_woo_order_administration');
+}
 
 function seur_filter_orders_by_shipping_method_query( $vars ) {
 	global $typenow;
 
-	if ( 'shop_order' === $typenow && isset( $_GET['_shop_order_seur_shipping_method'] )
-        && !empty($_GET['_shop_order_seur_shipping_method']) ) {
+    if ( seur_is_order_page($typenow) &&
+         isset( $_GET['_shop_order_seur_shipping_method'] ) &&
+         !empty($_GET['_shop_order_seur_shipping_method']) ) {
         $products = seur()->get_products();
         $vars['meta_key']   = '_seur_shipping';
         $vars['meta_value'] = 'seur';
@@ -464,12 +493,17 @@ function seur_filter_orders_by_shipping_method_query( $vars ) {
             if ( $shippment_sani == $_GET['_shop_order_seur_shipping_method']) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
                 $vars['meta_key'] = '_seur_shipping_method_service_real_name';
                 $vars['meta_value'] = $code;
+                break;
             }
         }
-	}
+    }
 	return $vars;
 }
-add_filter( 'request', 'seur_filter_orders_by_shipping_method_query' );
+if (seur_is_wc_order_hpos_enabled()) {
+    add_filter( 'woocommerce_order_query_args', 'seur_filter_orders_by_shipping_method_query' );
+} else {
+    add_filter( 'request', 'seur_filter_orders_by_shipping_method_query' );
+}
 
 /**
  * Register new status with ID "wc-seur-shipment" and label "Awaiting shipment"

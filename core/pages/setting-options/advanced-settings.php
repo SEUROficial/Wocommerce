@@ -122,20 +122,13 @@ function seur_tipo_notificacion_field() {
 function seur_tipo_etiqueta_field() {
 
 	$option = seur()->get_option( 'seur_tipo_etiqueta_field' );
+    $type = new PrinterType();
+    $types = $type->getOptions();
 	?>
 	<select id="label_type" name="seur_tipo_etiqueta_field">
-		<option value="PDF"
-		<?php
-		if ( 'PDF' === $option ) {
-			echo ' selected';}
-		?>
-		>PDF</option>
-		<option value="TERMICA"
-		<?php
-		if ( 'TERMICA' === $option ) {
-			echo ' selected';}
-		?>
-		>TERMICA</option>
+        <?php foreach ($types as $value => $label) : ?>
+            <option value="<?php echo $value; ?>" <?php if ( $option === $value) {echo ' selected';} ?>><?php echo $label; ?></option>
+        <?php endforeach; ?>
 	</select>
 	<?php
 }

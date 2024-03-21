@@ -96,6 +96,7 @@ function seur_set_custom_label_columns( $columns ) {
 
 	return $columns;
 }
+add_filter( 'manage_seur_labels_posts_columns', 'seur_set_custom_label_columns' );
 
 /**
  * SEUR get order tracking.
@@ -109,86 +110,61 @@ function seur_get_order_tracking( $order_id ) {
 		seur()->slog( '$order_id: ', $order_id ); // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_print_r
 	}
 
-	$order_tracking = get_post_meta( $order_id, '_seur_shipping_tracking_state', true );
+    $order = seur_get_order($order_id);
+    $order_tracking = $order->get_meta( '_seur_shipping_tracking_state', true );
 
 	if ( seur()->log_is_acive() ) {
 		seur()->slog( '$order_tracking: ' . $order_tracking );
 	}
 
 	if ( ! empty( $order_tracking ) ) {
-		echo '<br />';
-		echo esc_html( $order_tracking );
-	} else {
-		esc_html_e( 'Waiting Collection', 'seur' );
-	}
+        return '<br />' . $order_tracking;
+    }
+	return __( 'Waiting Collection', 'seur' );
 }
-add_filter( 'manage_seur_labels_posts_columns', 'seur_set_custom_label_columns' );
 
 /**
  * SEUR get order tracking.
  *
  * @param string $column Colum name.
- * @param int    $post_id Post ID.
+ * @param int    $label_id Post ID.
  */
-function seur_custom_label_column_data( $column, $post_id ) {
-	global $woocommerce;
-
-	$seur_shipping_method = get_post_meta( $post_id, '_seur_shipping_method', true );
-	$weight               = get_post_meta( $post_id, '_seur_shipping_weight', true );
-	$num_packages         = get_post_meta( $post_id, '_seur_shipping_packages', true );
-	$order_id             = get_post_meta( $post_id, '_seur_shipping_order_id', true );
-	$customer_name        = get_post_meta( $post_id, '_seur_label_customer_name', true );
-	$order_comments       = get_post_meta( $post_id, '_seur_shipping_order_customer_comments', true );
-	$label_file_name      = get_post_meta( $post_id, '_seur_shipping_order_label_file_name', true );
-	$label_path           = get_post_meta( $post_id, '_seur_shipping_order_label_path_name', true );
-	$url_to_file_down     = get_site_option( 'seur_download_file_url' );
-	$file_downlo_pass     = get_site_option( 'seur_pass_for_download' );
-	$label_path           = str_replace( '\\', '/', $label_path );
-	$file_type            = get_post_meta( $post_id, '_seur_label_type', true );
-	$url_upload_dir       = get_site_option( 'seur_uploads_url_labels' );
-
-	if ( ! empty( $order_tracking ) ) {
-		$order_tracking = $order_tracking;
-	} else {
-		$order_tracking = __( 'Waiting Shipping', 'seur' );
-	}
-
-	$order        = new WC_Order( $order_id );
-	$product_list = '';
-	$order_item   = $order->get_items();
-	foreach ( $order_item as $product ) {
-				$product_name[] = '<li>' . $product['name'] . ' x ' . $product['qty'] . '</li>';
-
-	}
-	$product_list = implode( '', $product_name );
+function seur_custom_label_column_data( $column, $label_id )
+{
+    $order_id = get_post_meta($label_id, '_seur_shipping_order_id', true);
+    $order = seur_get_order($order_id);
 
 	switch ( $column ) {
-
 		case 'order_id':
 			$link = admin_url( 'post.php?post=' . $order_id . '&action=edit' );
 			echo '<a href="' . esc_url( $link ) . '" target="_blank">' . esc_html( $order_id ) . '</a>';
 			break;
 		case 'product':
+            $order_item   = $order->get_items();
+            $product_name = array();
+            foreach ( $order_item as $product ) {
+                $product_name[] = '<li>' . $product['name'] . ' x ' . $product['qty'] . '</li>';
+            }
+            $product_list = implode( '', $product_name );
 			echo '<ul>';
 			echo wp_kses( $product_list, 'data' );
 			echo '</ul>';
 			break;
 		case 'customer_name':
-			echo esc_html( $customer_name );
+			echo esc_html( get_post_meta($label_id, '_seur_label_customer_name', true ) );
 			break;
 		case 'customer_comments':
-			echo esc_html( $order_comments );
+			echo esc_html( get_post_meta($label_id, '_seur_shipping_order_customer_comments', true ) );
 			break;
-
 		case 'seur-tracking':
-			echo esc_html( seur_get_order_tracking( $post_id ) );
+			echo esc_html( seur_get_order_tracking( $order_id ) );
 			break;
-
 		case 'weight':
-			echo esc_html( $weight );
+			echo esc_html( get_post_meta($label_id, '_seur_shipping_weight', true) );
 			break;
-
 		case 'print':
+            $url_upload_dir  = get_site_option( 'seur_uploads_url_labels' );
+            $label_file_name = get_post_meta($label_id, '_seur_shipping_order_label_file_name', true );
 			echo '<a href="' . $url_upload_dir . '/' . $label_file_name . '" class="button" download>' . esc_html__( ' Open ', 'seur' ) . '</a>';
 			break;
 	}
@@ -254,15 +230,14 @@ add_action( 'add_meta_boxes', 'seur_label_register_meta_box' );
  *
  * @param WP_Post $post Current post object.
  */
-function seur_metabox_label_callback( $post ) {
-
-	$weight               = get_post_meta( $post->ID, '_seur_shipping_weight', true );
-	$order_id             = get_post_meta( $post->ID, '_seur_shipping_order_id', true );
-	$product              = get_post_meta( $post->ID, '_seur_product', true );
-	$customer_name        = get_post_meta( $post->ID, '_seur_label_customer_name', true );
-	$order_data           = seur_get_order_data( $order_id );
-	$mobile_shipping      = get_post_meta( $order_id, '_shipping_mobile_phone', true );
-	$mobile_billing       = get_post_meta( $order_id, '_billing_mobile_phone', true );
+function seur_metabox_label_callback( $post )
+{
+	$weight               = get_post_meta($post->ID,'_seur_shipping_weight', true );
+	$order_id             = get_post_meta($post->ID,'_seur_shipping_order_id', true );
+	$customer_name        = get_post_meta($post->ID,'_seur_label_customer_name', true );
+    $order = seur_get_order($order_id);
+    $order_data           = seur_get_order_data( $order_id );
+    $mobile_shipping      = $order->get_meta('_shipping_mobile_phone', true );
 	$seur_shipping_method = seur_get_shipping_method( $order_id );
 
 	$customer_country = $order_data[0]['country'];
@@ -276,26 +251,21 @@ function seur_metabox_label_callback( $post ) {
 
 	$customer_address_1   = seur_clean_data( $order_data[0]['address_1'] );
 	$customer_address_2   = seur_clean_data( $order_data[0]['address_2'] );
-	$customer_email       = seur_clean_data( $order_data[0]['email'] );
-	$customer_phone       = $order_data[0]['phone'];
 	$customer_order_notes = seur_clean_data( $order_data[0]['order_notes'] );
-	$customer_order_total = $order_data[0]['order_total'];
 
-	$billing_last_name    = get_post_meta( $order_id, '_billing_last_name', true );
-	$billing_name         = get_post_meta( $order_id, '_billing_first_name', true );
-	$billing_email        = get_post_meta( $order_id, '_billing_email', true );
-	$billing_country      = get_post_meta( $order_id, '_billing_country', true );
-	$billing_addr_1       = get_post_meta( $order_id, '_billing_address_1', true );
-	$billing_addr_2       = get_post_meta( $order_id, '_billing_address_2', true );
-	$billing_postcode     = get_post_meta( $order_id, '_billing_postcode', true );
-	$billing_city         = get_post_meta( $order_id, '_billing_city', true );
-	$billing_state        = get_post_meta( $order_id, '_billing_state', true );
-	$billing_mobile_phone = get_post_meta( $order_id, '_billing_mobile_phone', true );
-	$billing_phone        = get_post_meta( $order_id, '_billing_phone', true );
+	$billing_last_name    = $order->get_billing_last_name();
+	$billing_name         = $order->get_billing_first_name();
+	$billing_email        = $order->get_billing_email();
+	$billing_country      = $order->get_billing_country();
+	$billing_addr_1       = $order->get_billing_address_1();
+	$billing_addr_2       = $order->get_billing_address_2();
+	$billing_postcode     = $order->get_billing_postcode();
+	$billing_city         = $order->get_billing_city();
+	$billing_state        = $order->get_billing_state();
+	$billing_phone        = $order->get_billing_phone();
+    $billing_mobile_phone = $order->get_meta('_billing_mobile_phone', true );
 
-	if ( $customer_order_notes ) {
-		$customer_order_notes = $customer_order_notes;
-	} else {
+	if ( !$customer_order_notes ) {
 		$customer_order_notes = __( "There aren't comments for this order", 'seur' );
 	}
 
@@ -374,20 +344,6 @@ function seur_metabox_label_callback( $post ) {
 	<?php
 }
 
-// add_filter( 'display_post_states', 'seur_custom_post_states' );
-
-/**
- * SEUR Custom Post States
- *
- * @param string $states Post Status.
- */
-function seur_custom_post_states( $states ) {
-	global $post;
-	if ( ( 'seur_label' === get_post_type( $post->ID ) ) ) {
-		$states[] = '__return_false';
-	}
-}
-
 /**
  * Seur Bulk Actions Handler
  *
@@ -416,7 +372,7 @@ function seur_bulk_actions_handler( $redirect_to, $doaction, $labels_ids ) {
 
 		$date = date( 'd-m-Y-H-i-s' ); // phpcs:ignore WordPress.DateTime.RestrictedFunctions.date_date
 		$type = seur_get_file_type(seur()->get_option( 'seur_tipo_etiqueta_field' ));
-        $bulk_label_name = 'label_bulk_' . $date . ($type == 'TERMICA' ? '.txt' : '.pdf' );
+        $bulk_label_name = 'label_bulk_' . $date . seur_get_file_type_extension($type);
         $upload_dir      = seur_upload_dir( 'labels' );
         $upload_path     = $upload_dir . '/' . $bulk_label_name;
         $fp = '';
@@ -426,7 +382,6 @@ function seur_bulk_actions_handler( $redirect_to, $doaction, $labels_ids ) {
                 $pdf = new PDFMerger;
             }
             $label_type      = seur_get_file_type(get_post_meta( $label_id, '_seur_label_type', true ));
-            $label_type      = ($label_type == 'ZPL' ? 'TERMICA' : $label_type);
             $label_file_name = get_post_meta( $label_id, '_seur_shipping_order_label_file_name', true );
             $label_path      = get_post_meta( $label_id, '_seur_shipping_order_label_path_name', true );
 
@@ -479,22 +434,15 @@ add_filter( 'handle_bulk_actions-edit-seur_labels', 'seur_bulk_actions_handler',
 /**
  * Seur Bulk Actions Success.
  */
-function seur_bulk_actions_success() {
-
+function seur_bulk_actions_success()
+{
 	$screen           = get_current_screen();
 	$file_name        = get_transient( get_current_user_id() . '_seur_label_bulk_download' );
-	$file_downlo_pass = get_site_option( 'seur_pass_for_download' );
-	$url_to_dir       = seur_upload_url( 'labels' );
-	$upload_dir       = seur_upload_dir( 'labels' );
-	$url_to_txt       = get_site_option( 'seur_download_file_url' );
-	$path_to_txt      = $upload_dir . '/' . $file_name;
-	$label_path_fix   = str_replace( '\\', '/', $path_to_txt );
-
 	if ( $file_name && 'seur_labels' === $screen->post_type ) {
-		?>
-	<div class="notice notice-success is-dismissible">
-		<p><?php echo esc_html__( 'Bulk Print ready, please press Download Bulk Labels button for download the file. ' ) . '<a href="' . $url_to_dir . '/' . esc_html( $file_name ) . '" class="button" download>' . esc_html__( ' Download Bulk Labels ', 'seur' ) . '</a>'; ?></p>
-	</div>
+        $url_to_dir       = seur_upload_url( 'labels' ); ?>
+        <div class="notice notice-success is-dismissible">
+            <p><?php echo esc_html__( 'Bulk Print ready, please press Download Bulk Labels button for download the file. ' ) . '<a href="' . $url_to_dir . '/' . esc_html( $file_name ) . '" class="button" download>' . esc_html__( ' Download Bulk Labels ', 'seur' ) . '</a>'; ?></p>
+        </div>
 		<?php
 	}
 	delete_transient( get_current_user_id() . '_seur_label_bulk_download' );
@@ -504,15 +452,14 @@ add_action( 'admin_notices', 'seur_bulk_actions_success' );
 /**
  * Seur Bulk actions success tracking.
  */
-function seur_bulk_actions_success_tracking() {
-
+function seur_bulk_actions_success_tracking()
+{
 	$screen    = get_current_screen();
 	$file_name = get_transient( get_current_user_id() . '_seur_label_bulk_tracking' );
-	if ( $file_name && 'seur_labels' === $screen->post_type ) {
-		?>
-	<div class="notice notice-success is-dismissible">
-		<p><?php esc_html_e( 'All tracking updated', 'seur' ); ?></p>
-	</div>
+	if ( $file_name && 'seur_labels' === $screen->post_type ) { ?>
+        <div class="notice notice-success is-dismissible">
+            <p><?php esc_html_e( 'All tracking updated', 'seur' ); ?></p>
+        </div>
 		<?php
 	}
 	delete_transient( get_current_user_id() . '_seur_label_bulk_tracking' );

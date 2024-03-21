@@ -9,6 +9,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
 
+use Automattic\WooCommerce\Internal\DataStores\Orders\CustomOrdersTableController;
+use Automattic\WooCommerce\Utilities\OrderUtil;
+
 /**
  * SEUR Debug notice
  */
@@ -39,25 +42,6 @@ function seur_admin_notices() {
 }
 
 // Function for check SOAP URL's.
-
-/**
- * SEUR Check URL Existe
- *
- * @param string $url URL to check.
- */
-function seur_check_url_exists( $url ) {
-
-	try {
-		$soap_client = new SoapClient( $url );
-	} catch ( Exception $e ) {
-		$exception_message = $e->getMessage();
-	}
-	if ( ! $exception_message ) {
-		return true;
-	} else {
-		return false;
-	}
-}
 
 // Function for check API URL's.
 
@@ -277,9 +261,9 @@ add_action( 'admin_enqueue_scripts', 'seur_datepicker_css' );
  * SEUR CSS PDF Viewr
  */
 function seur_css_pdf_viewer() {
-	global $post_type;
+    global $post_type;
 
-	if ( 'shop_order' === $post_type ) {
+    if (seur_is_order_page($post_type)) {
 		wp_register_style( 'seurfontswo', SEUR_PLUGIN_URL . 'assets/css/seur-woo.css', array(), SEUR_OFFICIAL_VERSION );
 		wp_enqueue_style( 'seurfontswo' );
 	}
@@ -449,20 +433,6 @@ if ( ! function_exists( 'curl_version' ) ) {
 }
 
 /**
- * SEUR Check SOAP Admin Notice Error
- */
-function seur_check_soap_admin_notice__error() {
-	?>
-	<div class="notice notice-error">
-		<p><?php esc_html_e( 'SOAP is needed by SEUR Plugin, please ask for SOAP to your hosting provider', 'seur' ); ?></p>
-	</div>
-	<?php
-}
-if ( ! class_exists( 'SoapClient' ) ) {
-	add_action( 'admin_notices', 'seur_check_soap_admin_notice__error' );
-}
-
-/**
  * SEUR Check XML Admin Notice Error
  */
 function seur_check_xml_admin_notice__error() {
@@ -489,19 +459,6 @@ function seur_sanitize_postcode( $postcode, $country = null ) {
 	$safe_zipcode_trim = trim( $unsafe_zipcode );
 	$safe_zipcode      = sanitize_text_field( $safe_zipcode_trim );
 	return $safe_zipcode;
-}
-
-/**
- * SEUR gets all orders.
- */
-function seur_gets_all_orders() {
-	global $wpdb;
-
-	$tabla       = $wpdb->prefix . 'seur_labels';
-	$sql         = "SELECT * FROM $tabla";
-	$shop_orders = $wpdb->get_results( $wpdb->prepare( 'SELECT * FROM %d', $tabla ) );
-
-	return $shop_orders;
 }
 
 /**
@@ -1059,7 +1016,7 @@ function seur_get_user_settings() {
 		$seur_pais_field = '';
 	}
 	if ( get_option( 'seur_telefono_field' ) ) {
-		$seur_telefono_field = get_option( 'seur_telefono_field' );
+		$seur_telefono_field = cleanPhone(get_option( 'seur_telefono_field' ));
 	} else {
 		$seur_telefono_field = '';
 	}
@@ -1239,34 +1196,34 @@ function seur_get_advanced_settings() {
  */
 function seur_get_order_data( $post_id ) {
 
-	$post            = get_post( $post_id );
+    $order = wc_get_order( $post_id );
 	$seur_order_data = array();
 
 	if ( defined( 'SEUR_WOOCOMMERCE_PART' ) ) {
 
-		$title            = $post->post_title;
-		$weight           = get_post_meta( $post_id, '_seur_cart_weight', true );
-		$country          = get_post_meta( $post_id, '_shipping_country', true );
-		$first_name       = get_post_meta( $post_id, '_shipping_first_name', true );
-		$last_name        = get_post_meta( $post_id, '_shipping_last_name', true );
-		$company          = get_post_meta( $post_id, '_shipping_company', true );
-		$address_1        = get_post_meta( $post_id, '_shipping_address_1', true );
-		$address_2        = get_post_meta( $post_id, '_shipping_address_2', true );
-		$city             = get_post_meta( $post_id, '_shipping_city', true );
-		$postcode         = get_post_meta( $post_id, '_shipping_postcode', true );
-		$email            = get_post_meta( $post_id, '_billing_email', true );
-		$phone            = get_post_meta( $post_id, '_billing_phone', true );
-		$order_total      = get_post_meta( $post_id, '_order_total', true );
-		$order_pay_method = get_post_meta( $post_id, '_payment_method', true );
+		$title            = 'Order '.$order->get_id(); //$post->post_title;
+		$weight           = $order->get_meta( '_seur_cart_weight', true );
+		$country          = $order->get_shipping_country();
+		$first_name       = $order->get_shipping_first_name();
+		$last_name        = $order->get_shipping_last_name();
+		$company          = $order->get_shipping_company();
+		$address_1        = $order->get_shipping_address_1();
+		$address_2        = $order->get_shipping_address_2();
+		$city             = $order->get_shipping_city();
+		$postcode         = $order->get_shipping_postcode();
+		$email            = $order->get_billing_email();
+		$phone            = cleanPhone($order->get_billing_phone());
+		$order_total      = $order->get_meta('_order_total', true );
+		$order_pay_method = $order->get_payment_method();
 
 		// SEUR 2SHOP shipping.
-		$address_2hop      = get_post_meta( $post_id, '_seur_2shop_address', true );
-		$postcode_2shop    = get_post_meta( $post_id, '_seur_2shop_postcode', true );
-		$city_2shop        = get_post_meta( $post_id, '_seur_2shop_city', true );
-		$code_centro_2shop = get_post_meta( $post_id, '_seur_2shop_codCentro', true );
-        $pudoId_2shop      = get_post_meta( $post_id, '_seur_2shop_pudo_id', true );
+		$address_2hop      = $order->get_meta('_seur_2shop_address', true );
+		$postcode_2shop    = $order->get_meta('_seur_2shop_postcode', true );
+		$city_2shop        = $order->get_meta('_seur_2shop_city', true );
+		$code_centro_2shop = $order->get_meta('_seur_2shop_codCentro', true );
+        $pudoId_2shop      = $order->get_meta('_seur_2shop_pudo_id', true );
 
-		$order_notes = esc_html( $post->post_excerpt );
+        $order_notes = $order->get_customer_note();
 
 		$option = array(
 			'title',
@@ -1384,8 +1341,7 @@ function seur_get_service_product_shipping_product( $method, $customer_country =
  */
 function seur_get_shipping_method( $order_id ) {
 
-	$order = new WC_Order( $order_id );
-
+	$order = seur_get_order($order_id);
 	$array = $order->get_items('shipping');
 	$shipping_method      = @array_shift($array);
 	$shipping_method_name = $shipping_method['name'];
@@ -1532,9 +1488,10 @@ function seur_api_get_label( $order_id, $numpackages = '1', $weight = '1', $post
 	try {
 		$labelData = seur_api_preprare_label_data($order_id, $numpackages, $weight, $post_weight);
         $labelData['changeService'] = $changeService;
-		$expeditionCode = get_post_meta( $order_id, '_seur_label_expeditionCode', true);
-		$ecbs = get_post_meta( $order_id, '_seur_label_ecbs', true);
-		$parcelNumbers= get_post_meta( $order_id, '_seur_label_parcelNumbers', true);
+        $order = seur_get_order($order_id);
+        $expeditionCode = $order->get_meta('_seur_label_expeditionCode', true);
+		$ecbs           = $order->get_meta('_seur_label_ecbs', true);
+		$parcelNumbers  = $order->get_meta('_seur_label_parcelNumbers', true);
 
         $shipmentData = seur()->prepareDataShipment($order_id, $labelData, $preparedData);
 
@@ -1566,12 +1523,13 @@ function seur_api_get_label( $order_id, $numpackages = '1', $weight = '1', $post
             $result['parcelNumbers'][0] :
             $result['ecbs'][0]);
 
-		update_post_meta( $order_id, '_seur_label_expeditionCode', $result['expeditionCode'] );
-		update_post_meta( $order_id, '_seur_label_ecbs', $result['ecbs'] );
-		update_post_meta( $order_id, '_seur_label_parcelNumbers', $result['parcelNumbers']);
-		update_post_meta( $order_id, '_seur_label_files', $result['label_files']);
-		update_post_meta( $order_id, '_seur_label_trackingNumber', $trackingNumber );
-        update_post_meta( $order_id, '_seur_label_id_number', $result['label_ids']);
+        $order->update_meta_data('_seur_label_expeditionCode', $result['expeditionCode'] );
+        $order->update_meta_data('_seur_label_ecbs', $result['ecbs'] );
+        $order->update_meta_data('_seur_label_parcelNumbers', $result['parcelNumbers']);
+        $order->update_meta_data('_seur_label_files', $result['label_files']);
+        $order->update_meta_data('_seur_label_trackingNumber', $trackingNumber );
+        $order->update_meta_data('_seur_label_id_number', $result['label_ids']);
+        $order->save_meta_data();
 
 		seur()->createPickupIfAuto($shipmentData, $order_id);  //#TODO PENDIENTE DE LA MIGRACIÓN DE PICKUPS
 
@@ -1588,7 +1546,8 @@ function seur_api_get_label( $order_id, $numpackages = '1', $weight = '1', $post
 
 function seur_api_preprare_label_data($order_id, $numpackages = '1', $weight = '1', $post_weight = false) {
 	$log = new WC_Logger();
-	$preparedData = [];
+    $order = seur_get_order($order_id);
+    $preparedData = [];
 	$pre_id_seur = seur_create_random_shippping_id();
 	$preparedData['order_id_seur']            = $pre_id_seur . $order_id;
 	$preparedData['seur_pdf_label']           = '';
@@ -1606,8 +1565,8 @@ function seur_api_preprare_label_data($order_id, $numpackages = '1', $weight = '
 	$preparedData['seur_shipping_method']     = $seur_shipping_method;
 	//$preparedData['seur_shipping_method_id']  = $seur_shipping_method_id;
 	$preparedData['date']                     = date( 'd-m-Y' ); // phpcs:ignore WordPress.DateTime.RestrictedFunctions.date_date
-	$preparedData['mobile_shipping']          = get_post_meta( $order_id, '_shipping_mobile_phone', true );
-	$preparedData['mobile_billing']           = get_post_meta( $order_id, '_billing_mobile_phone', true );
+	$preparedData['mobile_shipping']          = cleanPhone($order->get_meta('_shipping_mobile_phone', true ));
+	$preparedData['mobile_billing']           = cleanPhone($order->get_meta('_billing_mobile_phone', true ));
 	$preparedData['log']                      = new WC_Logger();
 
 	// All needed Data return Array.
@@ -1858,11 +1817,12 @@ function seur_api_preprare_label_data($order_id, $numpackages = '1', $weight = '
 function seur_api_set_label_result($order_id, $label, $new_status) {
     $labels = seur_api_get_label_ids($label);
 	if (  $label['status'] && (!empty($labels)) ) {
-		$order = wc_get_order($order_id);
+		$order = seur_get_order($order_id);
 		$order->update_status($new_status, __('Label have been created:', 'seur'));
-		update_post_meta($order_id, '_seur_shipping_order_label_downloaded', 'yes');
-		update_post_meta($order_id, '_seur_label_id_number', $labels);
+        $order->update_meta_data( '_seur_shipping_order_label_downloaded', 'yes');
+        $order->update_meta_data( '_seur_label_id_number', $labels);
 		$order->add_order_note('The Label for Order #' . $order_id . ' have been downloaded', 0, true);
+        $order->save_meta_data();
 	}
 }
 
@@ -1886,9 +1846,14 @@ function seur_get_file_type($type) {
     return ($type == 'ZPL' ? 'TERMICA' : $type);
 }
 
+function seur_get_file_type_extension($type) {
+    return ($type == 'ZPL' || $type == 'TERMICA') ? '.txt' : '.pdf';
+}
+
 function seur_get_labels_ids($order_id) {
-    $label_ids = get_post_meta($order_id, '_seur_label_id_number' );
-    $label_ids = !empty($label_ids)?$label_ids[0]:[];
+    $order = wc_get_order($order_id);
+    $label_ids = $order->get_meta(  '_seur_label_id_number' );
+    $label_ids = empty($label_ids)?[]:$label_ids;
     if (!is_array($label_ids)) {
         if (strpos($label_ids, ',')!==false) {
             $label_ids = explode(',',$label_ids);
@@ -1897,6 +1862,49 @@ function seur_get_labels_ids($order_id) {
         }
     }
     return $label_ids;
+}
+
+/**
+ * SEUR Get WC_Order
+ *
+ * @param WC_Order|WP_Post|int $post_order_int
+ * @return WC_Order
+ */
+function seur_get_order($post_order_int) {
+    if ($post_order_int instanceof WC_Order) {
+        return $post_order_int;
+    }
+    return ($post_order_int instanceof WP_Post ) ? wc_get_order( $post_order_int->ID ) : wc_get_order( $post_order_int );
+}
+/**
+ * Check if HPOS enabled.
+ */
+function seur_is_wc_order_hpos_enabled() {
+    return class_exists( '\Automattic\WooCommerce\Internal\DataStores\Orders\CustomOrdersTableController' )
+        && wc_get_container()->get( CustomOrdersTableController::class )->custom_orders_table_usage_is_enabled();
+}
+
+function seur_get_order_screen() {
+    return seur_is_wc_order_hpos_enabled() ? wc_get_page_screen_id( 'shop-order' ) : 'shop_order';
+}
+
+function seur_get_admin_url() {
+    return seur_is_wc_order_hpos_enabled() ? 'admin.php?page=wc-order' :'edit.php?post_type=shop_order';
+}
+
+function seur_get_current_screen() {
+    global $current_screen;
+    return $current_screen??null;
+}
+
+function seur_is_order_page($post_type) {
+    return seur_is_wc_order_hpos_enabled() ? (seur_get_order_screen() === seur_get_current_screen()->id) : $post_type === 'shop_order';
+}
+
+function cleanPhone($phone) {
+    $phone = preg_replace('/[\s+\-\.\(\)\/]/', '', $phone);
+    $phone = preg_replace('/^0+/', '', $phone);
+    return $phone;
 }
 
 remove_action( 'shutdown', 'wp_ob_end_flush_all', 1 );

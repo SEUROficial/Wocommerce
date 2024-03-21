@@ -5,6 +5,8 @@
  * @package SEUR.
  */
 
+use Automattic\WooCommerce\Utilities\OrderUtil;
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
@@ -159,15 +161,16 @@ function seur_label_list_add_help_tab() {
  */
 function seur_woocommercel_order_list_add_help_tab() {
 	global $post_ID;
+
 	$screen = get_current_screen();
 
 	if ( isset( $_GET['post_type'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 		$post_type = sanitize_text_field( wp_unslash( $_GET['post_type'] ) ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 	} else {
-		$post_type = get_post_type( $post_ID );
+		$post_type = OrderUtil::get_order_type( $post_ID );
 	}
 
-	if ( 'shop_order' === $post_type ) {
+    if (seur_is_order_page($post_type)) {
 
 		// Add my_help_tab if current screen is My Admin Page.
 		$screen->add_help_tab(

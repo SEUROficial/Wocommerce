@@ -443,7 +443,6 @@ class Seur_Global {
     {
         $preparedData = $label_data;
 
-        get_post_meta($id_order, 'service');
         $servicio = $preparedData['seur_service'];
         $producto = $preparedData['seur_product'];
         $mercancia = false;
@@ -716,7 +715,7 @@ class Seur_Global {
     }
 
     function isPdf() {
-        return strtolower(get_option('seur_tipo_etiqueta_field')) == strtolower('PDF');
+        return strtolower(get_option('seur_tipo_etiqueta_field')) != strtolower(PrinterType::PRINTER_TYPE_ETIQUETA);
     }
 
     public function getLabel($response, $is_pdf, $label_data, $order_id)
@@ -737,10 +736,9 @@ class Seur_Global {
             $headers[] = "Content-Type: application/json";
             $headers[] = "Authorization: ".$token;
 
-            /*$type = new PrinterType();
+            $type = new PrinterType();
             $types = $type->getOptions();
-            $printerType = $types[Configuration::get('SEUR2_SETTINGS_PRINT_TYPE')];*/
-            $printerType = ($is_pdf?'PDF':'ZPL');
+            $printerType = $types[get_option('seur_tipo_etiqueta_field')];
 
 			// For ZPL labels, when more than one package, merge all labels into a single file.
 			$merge_labels = !$is_pdf;
@@ -750,9 +748,9 @@ class Seur_Global {
                 'type' => $printerType,
                 'entity' => 'EXPEDITIONS'
             ];
-            /*if ($printerType == $types[PrinterType::PRINTER_TYPE_A4_3]) {
+            if ($printerType == $types[PrinterType::PRINTER_TYPE_A4_3]) {
                 $data['templateType'] = PrinterType::TEMPLATE_TYPE_A4_3;
-            }*/
+            }
 
             $responseLabel = $this->sendCurl($urlws, $headers, $data, "GET");
 
@@ -868,8 +866,10 @@ class Seur_Global {
             }
 
             // Update post order metas
-            update_post_meta( $order_id, '_seur_shipping_id_number', $label_data['order_id_seur'] );
-            update_post_meta( $order_id, '_seur_label_id_number', $labelids);
+            $order = seur_get_order($order_id);
+            $order->update_meta_data('_seur_shipping_id_number', $label_data['order_id_seur'] );
+            $order->update_meta_data('_seur_label_id_number', $labelids);
+            $order->save_meta_data();
 
             $expeditionCode = $response->data->shipmentCode;
             $ecbs = $response->data->ecbs;
@@ -950,8 +950,7 @@ class Seur_Global {
         $query = "SELECT distinct o.order_id 
             FROM {$wpdb->prefix}woocommerce_order_items o
             inner join {$wpdb->prefix}woocommerce_order_itemmeta om on om.order_item_id = o.order_item_id
-            inner join {$wpdb->prefix}postmeta pm on pm.post_id = o.order_id
-            where om.meta_key = 'method_id' and om.meta_value like '%seur%'
+            where om.meta_key = 'method_id' and (om.meta_value like '%seur%')
             AND o.order_id = ".$order_id;
         return $wpdb->get_results( $query );
     }
@@ -991,9 +990,16 @@ class Seur_Global {
         return $result;
     }
 
-    public function has_label($post_id) {
-        $has_label = get_post_meta( $post_id, '_seur_shipping_order_label_downloaded', true );
-        $label_ids = seur_get_labels_ids( $post_id );
+    /**
+     * Check if the order has a label
+     * @param $post_order_int WC_Order|WP_Post|int
+     *
+     * @return bool
+     */
+    public function has_label($post_order_int) {
+        $order = seur_get_order($post_order_int);
+        $has_label = $order->get_meta('_seur_shipping_order_label_downloaded', true );
+        $label_ids = seur_get_labels_ids( $order->get_id() );
         return $has_label && (!empty($label_ids));
     }
 }

@@ -75,7 +75,7 @@ class Seur_Logistica_Seguimiento {
         ];
 
         $response_body = '';
-        $ref = get_post_meta( $label_id, '_seur_shipping_id_number');
+        $ref = get_post_meta( $label_id, '_seur_shipping_id_number', true);
 
         $url_call      = $this->seur_adr . '?ref=' . $ref . '&refType=REFERENCE&idNumber=' . $this->id_number .
             '&accountNumber=' . $this->accoun_number . '&businessUnit=' . $this->business_unit;
@@ -120,12 +120,12 @@ class Seur_Logistica_Seguimiento {
 /**
  * SEUR pedidos salida
  *
- * @param string $order_id Order ID.
+ * @param string $label_id Label ID.
  */
 
-function seur_tracking( $label_order_id ) {
+function seur_tracking( $label_id ) {
 	$tracking = new Seur_Logistica_Seguimiento();
-	return $tracking->tracking_remote_post( $label_order_id );
+	return $tracking->tracking_remote_post( $label_id );
 }
 
 function getStatusExpedition($eventCode) {
@@ -137,22 +137,22 @@ function getStatusExpedition($eventCode) {
 }
 
 function updateShipmentStatus(
-    int $label_order_id,
+    int $label_id,
     string $shipmentStatus
 ) {
-    update_post_meta( $label_order_id, '_seur_shipping_tracking_state', $shipmentStatus );
+    update_post_meta( $label_id, '_seur_shipping_tracking_state', $shipmentStatus );
 }
 
 function updateExpeditionStatus(
-    int $label_order_id,
+    int $label_id,
     string $expeditionStatus
 ) {
     // update status in {prefix}_wc_order_stats
     global $wpdb;
-    $order_id = get_post_meta( $label_order_id, '_seur_shipping_order_id', true);
+    $order_id = get_post_meta( $label_id, '_seur_shipping_order_id', true);
     $tabla  = $wpdb->prefix . 'wc_order_stats';
     if ($expeditionStatusKey = getExpeditionStatusKey($expeditionStatus)) {
-        $wpdb->query("UPDATE " . $wpdb->prefix . 'wc_order_stats' . " SET status='" . $expeditionStatusKey . "' WHERE order_id = '" . $order_id . "'");
+        $wpdb->query("UPDATE " . $tabla . " SET status='" . $expeditionStatusKey . "' WHERE order_id = '" . $order_id . "'");
         $order = wc_get_order($order_id);
         $order->update_status($expeditionStatusKey);
     }
