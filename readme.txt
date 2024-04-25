@@ -3,7 +3,7 @@ Contributors: seuroficial
 Tags: woocommerce, shipping, seur, logistica, enviar paquete, pedidos, entregas
 Requires at least: 4.0
 Tested up to: 6.2
-Stable tag: 2.2.6
+Stable tag: 2.2.7
 WC requires at least: 3.0
 WC tested up to: 7.4
 License: GPLv2 or later
@@ -92,6 +92,12 @@ The "SEUR > Shipments" menu includes the option to track your shipment and see t
 == Screenshots ==
 
 == Changelog ==
+
+== 2.2.7 ==
+
+* ADDED: Add ISO info in labels
+* CHANGED: Change country field
+* FIXED: Fix install required files
 
 == 2.2.6 ==
 

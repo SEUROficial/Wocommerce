@@ -544,8 +544,8 @@ class Seur_Global {
         ];
 
         $comments = [];
-        if (($preparedData['servicio'] == 15) && ($preparedData['producto'] == 114)) {
-            // Envío nacional 48h, producto 'Fresh'
+        if (($preparedData['producto'] == 18 && $preparedData['customer_country'] == 'ES' ) ||
+            ($preparedData['producto'] == 114 && $preparedData['customer_country'] == 'FR')) {
             $comments[] = 'ENTREGA: ' . $this->getDeliveryDate();
             $comments[] = 'TIPO: ' . $this->getShipmentType($id_order);
         } else {
@@ -648,7 +648,7 @@ class Seur_Global {
             $product =$item->get_product();
             if ($seurProductType = $product->get_attribute( 'pa_'.ProductType::PRODUCT_TYPE_ATTRIBUTE_CODE )) {
                 $orderProductTypes[$seurProductType] = true;
-                if ($seurProductType == $productTypes[ProductType::PRODUCT_TYPE_OTHER]) {
+                if ($seurProductType == ProductType::PRODUCT_TYPE_OTHER) {
                     $isOrderFood = false;
                 }
             } else {

@@ -1898,7 +1898,7 @@ function seur_get_current_screen() {
 }
 
 function seur_is_order_page($post_type) {
-    return seur_is_wc_order_hpos_enabled() ? (seur_get_order_screen() === seur_get_current_screen()->id) : $post_type === 'shop_order';
+    return seur_is_wc_order_hpos_enabled() ? (seur_get_order_screen() === (seur_get_current_screen()->id ?? false)) : $post_type === 'shop_order';
 }
 
 function cleanPhone($phone) {
