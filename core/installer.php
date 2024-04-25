@@ -8,6 +8,8 @@
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
+require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
+require_once(dirname(__FILE__) . '/functions/functions.php');
 
 function deleteTableSeurSpvr() {
     global $wpdb;
@@ -56,7 +58,8 @@ function createTableSeurStatus() {
 
 function updateMetaSeurShippingMethodService() {
     global $wpdb;
-    include_once SEUR_DATA_PATH . 'seur-products.php';
+    //$products = Seur_Global()->get_products();
+    include_once plugin_dir_path( __FILE__ ).'../data/seur-products.php';
     $products = get_seur_product();
 
     $sql = "SELECT option_name, option_value as custom_name
@@ -86,8 +89,10 @@ function updateMetaSeurShippingMethodService() {
         }
         //update_post_meta($orderShippingMethod->order_id, '_seur_shipping_method_service_real_name', $rateName);
         $order = seur_get_order($orderShippingMethod->order_id);
-        $order->update_meta_data('_seur_shipping_method_service_real_name', $rateName);
-        $order->save_meta_data();
+        if ($order) {
+            $order->update_meta_data('_seur_shipping_method_service_real_name', $rateName);
+            $order->save_meta_data();
+        }
     }
 }
 
