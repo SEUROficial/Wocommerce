@@ -3,7 +3,7 @@ Contributors: seuroficial
 Tags: woocommerce, shipping, seur, logistica, enviar paquete, pedidos, entregas
 Requires at least: 4.0
 Tested up to: 6.2
-Stable tag: 2.2.7
+Stable tag: 2.2.8
 WC requires at least: 3.0
 WC tested up to: 7.4
 License: GPLv2 or later
@@ -92,6 +92,12 @@ The "SEUR > Shipments" menu includes the option to track your shipment and see t
 == Screenshots ==
 
 == Changelog ==
+
+== 2.2.8 ==
+
+* ADDED: Add timetable info in Google Map points
+* ADDED: Add customer comments in label
+* CHANGED: Use shipping address to get Google Map points when is different from billing address
 
 == 2.2.7 ==
 

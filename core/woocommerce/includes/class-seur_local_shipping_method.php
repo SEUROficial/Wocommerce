@@ -58,8 +58,7 @@ class Seur_Local_Shipping_Method extends WC_Shipping_Method {
 		$rate_requests         = array();
 		$rates_type            = get_option( 'seur_rates_type_field' );
 		$localpickup_is_active = get_option( 'seur_activate_local_pickup_field' );
-		$this->log->add( 'seur', 'calculate_shipping( $package = array() ): PROBANDO' );
-		$this->log->add( 'seur', 'calculate_shipping( $package = array() ): ' . print_r( $package, true ) ); // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_print_r
+
 		// Only return rates if the package has a destination including country.
 		if ( '' === $package['destination']['country'] ) {
 			return;
@@ -232,7 +231,7 @@ function seur_get_local_pickups( $country, $city, $postcode ) {
                 'numvia' => (string)trim($data->streetNumber??''), // phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
                 'phone' => (string)'', // phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
                 'nomcorto' => (string)'', // phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
-                'timetable' => (string)'', // phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
+                'timetable' => (string)getTimeTable($data->openingTime), // phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
             );
             $i++;
         }
@@ -241,6 +240,15 @@ function seur_get_local_pickups( $country, $city, $postcode ) {
     //}
 }
 
+function getTimeTable($timetable) {
+    $tb = '';
+    if (isset($timetable->weekDays)) {
+        foreach ($timetable->weekDays as $day) {
+            $tb .= $day->day .' '. $day->openingHours .'<br>';
+        }
+    }
+    return $tb;
+}
 /**
  * SEUR After 2shop shipping rate.
  *
@@ -261,17 +269,13 @@ function seur_after_seur_2shop_shipping_rate( $method, $index ) {
 		$post_data = $_POST; // phpcs:ignore WordPress.Security.NonceVerification.Missing
 	}
     $postcode_seur = $post_data['billing_postcode']??'';
-    if ( isset( $post_data['shipping_postcode'] ) && '' !== $post_data['shipping_postcode'] ) {
-		$postcode_seur = $post_data['shipping_postcode'];
-	}
-    $country_seur = $post_data['billing_country']??'';
-	if ( isset( $post_data['shipping_country'] ) && '' !== $post_data['shipping_country'] ) {
-		$country_seur = $post_data['shipping_country'];
-	}
     $city = $post_data['billing_city']??'';
-	if ( isset( $post_data['shipping_city'] ) && '' !== $post_data['shipping_city'] ) {
-		$city = $post_data['shipping_city'];
-	}
+    $country_seur = $post_data['billing_country']??'';
+    if ( isset($post_data['ship_to_different_address']) && $post_data['ship_to_different_address'] == 1 ) {
+        $postcode_seur = $post_data['shipping_postcode'];
+    	$city = $post_data['shipping_city'];
+        $country_seur = $post_data['shipping_country'];
+    }
 	if ( empty( $custom_name_seur_2shop ) ) {
 		$custom_name_seur_2shop = 'SEUR 2SHOP';
 	}
@@ -313,15 +317,15 @@ function seur_after_seur_2shop_shipping_rate( $method, $index ) {
 				$print_js .= 'lon: ' . addslashes( $local_pickups_array[ $i ]['lng'] ) . ',';
 				$print_js .= "streettype: '" . addslashes( $local_pickups_array[ $i ]['tipovia'] ) . "',";
 				$print_js .= "numvia: '" . addslashes( $local_pickups_array[ $i ]['numvia'] ) . "',";
-				$print_js .= "address: '" . addslashes( $local_pickups_array[ $i ]['nomcorto'] ) . ' ' . addslashes( $local_pickups_array[ $i ]['numvia'] ) . "',";
+				$print_js .= "address: '" . addslashes( $local_pickups_array[ $i ]['tipovia'] ) . ' '.  addslashes( $local_pickups_array[ $i ]['address'] ) . ' ' . addslashes( $local_pickups_array[ $i ]['numvia'] ) . "',";
 				$print_js .= "city: '" . addslashes( $local_pickups_array[ $i ]['post_code'] ) . ' ' . addslashes( $local_pickups_array[ $i ]['city'] ) . "',";
 				$print_js .= "timetable: '" . addslashes( $local_pickups_array[ $i ]['timetable'] ) . "',";
 				$print_js .= "option: '" . $option_selected . "',";
 				$print_js .= 'html: [';
-				$print_js .= "'<h3>" . addslashes( $local_pickups_array[ $i ]['company'] ) . "</h3>',";
-				$print_js .= "'<p>" . addslashes( $local_pickups_array[ $i ]['nomcorto'] ) . ' ' . addslashes( $local_pickups_array[ $i ]['numvia'] ) . "<br />',";
+				$print_js .= "'<strong>" . addslashes( $local_pickups_array[ $i ]['company'] ) . "</strong>',";
+				$print_js .= "'<p>" . addslashes( $local_pickups_array[ $i ]['tipovia'] ) . ' '.  addslashes( $local_pickups_array[ $i ]['address'] ) . ' ' . addslashes( $local_pickups_array[ $i ]['numvia'] ) . "<br />',";
 				$print_js .= "'" . addslashes( $local_pickups_array[ $i ]['post_code'] ) . ' ' . addslashes( $local_pickups_array[ $i ]['city'] ) . "</p>',";
-				$print_js .= "'<p>" . __( 'Timetable: ', 'woocommerce-seur' ) . addslashes( $local_pickups_array[ $i ]['timetable'] ) . "</p>'";
+				$print_js .= "'<p>" . addslashes( $local_pickups_array[ $i ]['timetable'] ) . "</p>'";
 				$print_js .= "].join(''),";
 				$print_js .= 'zoom: 15';
 				$print_js .= '},';
@@ -343,9 +347,9 @@ function seur_after_seur_2shop_shipping_rate( $method, $index ) {
 						title,
 						a;
 						if (this.ln > 1) {
-							html += '<select name=\"seur_pickup\" class=\"seur-pickup-select2' + this.o.controls_cssclass + '\">';
+							html += '<select name=\"seur_pickup\" required=\"required\" class=\"seur-pickup-select2' + this.o.controls_cssclass + '\">';
 							if (this.ShowOnMenu(this.view_all_key)) {
-								html += '<option value=\"' + this.view_all_key + '\">' + this.o.view_all_text + '</option>';
+								html += '<option value=\"' + this.view_all_key + '\" selected=\"selected\">' + this.o.view_all_text + '</option>';
 							}
 							for (a = 0; a < this.ln; a += 1) {
 								if (this.ShowOnMenu(a)) {
@@ -382,14 +386,16 @@ function seur_after_seur_2shop_shipping_rate( $method, $index ) {
 								fontSize: this.o.controls_on_map ? '12px' : 'inherit',
 								padding: '3px 10px 5px 0'
 							} : {}).append(this.o.controls_title);
-							}
-							this.html_element = $('<div class=\"wrap_controls\"></div>').append(title).append(html);
-							return this.html_element;
-						}
-					};
-					var SeurPickupsLocs = [" .
-					wp_kses( $print_js, 'data' ) . "
-				];
+                        }
+                        this.html_element = $('<div class=\"wrap_controls\"></div>').append(title).append(html);
+                        return this.html_element;
+                    }
+                };
+          
+                var SeurPickupsLocs = [" .
+                    wp_kses( $print_js, ['br' => [],'p' => [],'strong' => []] ) . "
+                ];
+			
 				var maplace = new Maplace();
 				maplace.AddControl('seurdropdown', html_seurdropdown);
 				maplace.Load({
@@ -500,9 +506,9 @@ $localpickup_is_active = get_option( 'seur_activate_local_pickup_field' );
 if ( '1' === $localpickup_is_active ) {
 	add_action( 'woocommerce_review_order_before_cart_contents', 'seur_local_validate_order', 10 );
 	add_action( 'woocommerce_after_checkout_validation', 'seur_local_validate_order', 10 );
+    add_action( 'woocommerce_after_checkout_validation', 'seur_validation_2shop_fields' );
 	add_action( 'woocommerce_after_shipping_rate', 'seur_after_seur_2shop_shipping_rate', 1, 2 );
 	add_action( 'wp_enqueue_scripts', 'seur_map_checkout_load_js' );
 	add_action( 'wp_footer', 'seur_add_map_type_select2' );
 	add_action( 'woocommerce_checkout_update_order_meta', 'seur_add_2shop_data_to_order' );
-	add_action( 'woocommerce_after_checkout_validation', 'seur_validation_2shop_fields' );
 }

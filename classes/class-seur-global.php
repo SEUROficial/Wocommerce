@@ -539,7 +539,6 @@ class Seur_Global {
                     "cityName" => $preparedData['poblacion']
                 ]
             ],
-            //"comments" => $label_data['info_adicional']. (Configuration::get('SEUR2_PRODS_REFS_IN_COMMENTS')? SeurLabel::getProductsRefs($id_order) : ""),
             "parcels" => $parcels
         ];
 
@@ -548,9 +547,9 @@ class Seur_Global {
             ($preparedData['producto'] == 114 && $preparedData['customer_country'] == 'FR')) {
             $comments[] = 'ENTREGA: ' . $this->getDeliveryDate();
             $comments[] = 'TIPO: ' . $this->getShipmentType($id_order);
-        } else {
-            //$comments[] = $label_data['info_adicional']. (Configuration::get('SEUR2_PRODS_REFS_IN_COMMENTS')? SeurLabel::getProductsRefs($id_order) : "");
         }
+        $comments[] = $preparedData['customer_order_notes'];
+
         $data['comments'] = substr(implode('; ', $comments), 0, SHIPMENT_COMMENT_LENGTH);
 
         if (isset($preparedData['cod_centro']) && $preparedData['cod_centro']) {
