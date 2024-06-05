@@ -17,3 +17,4 @@ require 'class-seur-seguimiento.php';
 require 'PrinterType.php';
 require 'ProductType.php';
 require 'PDFMerger.php';
+require 'PDFGenerator.php';

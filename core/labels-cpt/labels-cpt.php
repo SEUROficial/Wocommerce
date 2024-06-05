@@ -6,6 +6,7 @@
  */
 
 use PDFMerger\PDFMerger;
+use PDFGenerator\PDFGeneratorCore;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
@@ -353,6 +354,7 @@ function seur_bulk_actions_labels_screen( $bulk_actions ) {
 
 	$bulk_actions['download_seur_label']  = __( 'Download  SEUR Labels', 'download_seur_label' );
 	$bulk_actions['update_seur_tracking'] = __( 'Update SEUR Tracking', 'update_seur_tracking' );
+    $bulk_actions['generate_seur_manifest'] = __( 'Generate Manifest', 'generate_seur_manifest' );
 	return $bulk_actions;
 }
 add_filter( 'bulk_actions-edit-seur_labels', 'seur_bulk_actions_labels_screen' );
@@ -365,7 +367,7 @@ add_filter( 'bulk_actions-edit-seur_labels', 'seur_bulk_actions_labels_screen' )
  * @param array  $post_ids Post IDs.
  */
 function seur_bulk_actions_handler( $redirect_to, $doaction, $labels_ids ) {
-    if ( 'download_seur_label' !== $doaction && 'update_seur_tracking' !== $doaction ) {
+    if ( 'download_seur_label' !== $doaction && 'update_seur_tracking' !== $doaction && 'generate_seur_manifest' != $doaction ) {
 		return $redirect_to;
 	}
 	if ( 'download_seur_label' === $doaction ) {
@@ -427,9 +429,279 @@ function seur_bulk_actions_handler( $redirect_to, $doaction, $labels_ids ) {
 		set_transient( get_current_user_id() . '_seur_label_bulk_tracking', true );
 		$redirect_to = add_query_arg( 'bulk_tracking_seur', count( $labels_ids ), $redirect_to );
 		return $redirect_to;
-	}
+
+	} elseif ('generate_seur_manifest' === $doaction) {
+
+        $merchants  = array();
+
+        foreach ( $labels_ids as $label_id ) {
+            $id_orders[$label_id] = get_post_meta( $label_id, '_seur_shipping_order_id', true);
+        }
+
+        foreach($id_orders as $label_id => $id_order)
+        {
+            $order = wc_get_order( $id_order );
+
+            $order_manifest = array();
+
+            $order_manifest['id'] =  $id_order;
+            $order_manifest['reference'] =  $order->get_meta('_seur_shipping_id_number');
+            $order_manifest['consig_name'] =  $order->get_billing_first_name()." ".$order->get_billing_last_name();
+            $order_manifest['consig_address'] =  $order->get_shipping_address_1();
+            $order_manifest['consig_postalcode'] =  $order->get_shipping_postcode();
+            $order_manifest['consig_phone'] =  $order->get_meta('shipping_mobile_phone');
+            $states = WC()->countries->get_states($order->get_shipping_country());
+            $order_manifest['state'] = $states[$order->get_shipping_state()]??$order->get_shipping_state();
+            $countries = WC()->countries->get_countries();
+            $order_manifest['country'] = $countries[$order->get_shipping_country()]??$order->get_shipping_country();
+
+            $ecbs = $order->get_meta('_seur_label_ecbs', true);
+            $order_manifest['ecbs'] = $ecbs;
+            $order_manifest['producto'] =  get_post_meta( $label_id, '_seur_shipping_product', true );
+            $order_manifest['servicio'] =  get_post_meta( $label_id, '_seur_shipping_service', true );
+            $order_manifest['bultos'] =  get_post_meta( $label_id, '_seur_shipping_packages', true );
+            $order_manifest['peso'] =  get_post_meta( $label_id, '_seur_shipping_weight', true );
+            $order_manifest['otros'] = get_post_meta( $label_id, '_seur_shipping_order_customer_comments', true );
+            $order_manifest['cashondelivery'] =  0;
+
+            $ccc = get_post_meta( $label_id, '_seur_shipping_ccc', true );
+            $merchants[$ccc][] = $order_manifest;
+
+            update_post_meta( $label_id, '_seur_shipping_manifested', 1 );
+        }
+
+        foreach ($merchants as $ccc => $orders)
+        {
+            $manifest['ccc'] = $ccc;
+            $manifest['company'] = get_option( 'seur_empresa_field' );
+            $manifest['cif']= get_option( 'seur_nif_field' );
+            $manifest['franchise'] = get_option( 'seur_franquicia_field' );
+            $manifest['street_type'] = get_option( 'seur_viatipo_field' );
+            $manifest['street_name'] = get_option( 'seur_vianombre_field' );
+            $manifest['street_number'] = get_option( 'seur_vianumero_field' );
+            $manifest['state'] = get_option( 'seur_provincia_field' );
+            $manifest['postalcode'] = get_option( 'seur_postal_field' );
+            $manifest['city'] = get_option( 'seur_poblacion_field' );
+            $manifest['date'] = date('d/m/Y');
+            $manifest['hour'] = date('H:i');
+
+            $manifest_header = getManifestHeader($manifest);
+            $manifest_content = getManifestContent($manifest, $orders);
+            ob_end_clean();
+
+            $pdf = new PDFGeneratorCore('P', 'mm', 'A4', true, 'UTF-8', false);
+            //$pdf = new TCPDF('P', 'mm', 'A4', true, 'UTF-8', false);
+            $pdf->SetHeaderMargin(10);
+            $pdf->SetPrintHeader(true);
+            $pdf->setFont($pdf->font, '', 5, '', false);
+            $pdf->setHeaderFont(array($pdf->font, '', 7, '', false));
+            $pdf->setFooterFont(array($pdf->font, '', 8, '', false));
+            $pdf->SetMargins(15, 30, 15);
+            $pdf->createHeader($manifest_header);
+            $pdf->AddPage('P', 'A4');
+            $pdf->writeHTML($manifest_content, false, false, false, false, 'P');
+            $pdf->Output("Manifiesto_".$ccc."_".date('YmdHis').".pdf", 'I');
+        }
+
+        set_transient( get_current_user_id() . '_seur_label_bulk_manifest', true );
+        $redirect_to = add_query_arg( 'bulk_manifest_seur', count( $labels_ids ), $redirect_to );
+        return $redirect_to;
+
+    }
 }
 add_filter( 'handle_bulk_actions-edit-seur_labels', 'seur_bulk_actions_handler', 10, 3 );
+
+function getManifestHeader(array $manifest)
+{
+    return '
+    <table>
+        <tr>
+            <td style="width:32%; text-align:left;">'.
+                $manifest["company"].'<br>'.
+                $manifest["street_type"] .' '. $manifest["street_name"] .' N '. $manifest["street_number"].'<br>'.
+                $manifest["state"] .' '.  $manifest["postalcode"].'<br>'.
+                $manifest["cif"].'
+            </td>
+            <td style="width:32%; text-align:center;">
+                <br>
+                <br>
+                INFORME DE DETALLE<br>
+                DE ENVIOS Y BULTOS<br>
+                DELEGACION '.$manifest["franchise"].'
+            </td>
+            <td style="width:32%; text-align:right;">
+                FECHA: '.$manifest["date"].'<br>
+                HORA: '.$manifest["hour"].'<br>
+                REMITENTE 1/1<br>
+            </td>
+        </tr>
+    </table>';
+}
+
+function getManifestContent($manifest, $orders)
+{
+    $total_expedidiciones = 0;
+    $total_bultos = 0;
+    $total_kgs = 0;
+    $total_reembolso = 0;
+    $total_seguro = 0;
+    $total_valor_rs = 0;
+
+    foreach ($orders as $order) {
+        $total_expedidiciones++;
+        $total_bultos = $total_bultos + $order['bultos'];
+        $total_kgs = $total_kgs + $order['peso'];
+        $total_reembolso = $total_reembolso + $order['cashondelivery'];
+    }
+
+    $content = '<table style="border:2px solid #000; padding:2px">
+        <tr>
+            <td>CCC: '.$manifest['ccc'].'</td>
+            <td>CLIENTE: '.$manifest['company'].'</td>
+            <td></td>
+            <td>DIRECCIÓN: '.$manifest['street_type'].' '.$manifest['street_name']. ' N '. $manifest['street_number'].'</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td>POBLACION: '.$manifest['city'].'</td>
+            <td>C.P.: '.$manifest['postalcode'].'</td>
+            <td>PROVINCIA: '.$manifest['state'].'</td>
+            <td>CIF/NIF: '.$manifest['cif'].'</td>
+        </tr>
+        <tr>
+            <td>TOTAL EXP: '.$total_expedidiciones.'</td>
+            <td>TOTAL BULTOS: '.$total_bultos.'</td>
+            <td>TOTAL KG. : '.$total_kgs.'</td>
+            <td>TOTAL REEMBOLSO : '.$total_reembolso.' &euro;</td>
+            <td></td>
+        </tr>
+    </table>
+    <br>
+    <br>';
+
+    foreach ($orders as $order) {
+        $content .= '<table style="padding:2px ">
+            <tr>
+                <td style="text-decoration:underline">REFERENCIA</td>
+                <td style="text-decoration:underline">CONSIGNATARIO</td>
+                <td style="text-decoration:underline">PRO</td>
+                <td style="text-decoration:underline">SER</td>
+                <td style="text-decoration:underline">BUL</td>
+                <td style="text-decoration:underline">KGS</td>
+                <td style="text-decoration:underline">POR</td>
+                <td style="text-decoration:underline">REEMBOLSO</td>
+                <td style="text-decoration:underline">SEGURO</td>
+                <td style="text-decoration:underline">CDE</td>
+            </tr>
+        </table>
+        <br>
+        <table style="padding:2px; border:2px solid #000;">
+            <tr>
+                <td>'.$order['reference'].'</td>
+                <td>'.$order['consig_name'].'</td>
+                <td>'.$order['producto'].'</td>
+                <td>'.$order['servicio'].'</td>
+                <td>'.$order['bultos'].'</td>
+                <td>'.$order['peso'].'</td>
+                <td>F</td>
+                <td>'.$order['cashondelivery'].'</td>
+                <td>0.0</td>
+                <td>-</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>'.$order['consig_address'].'</td>
+                <td></td>
+                <td>N 0000,</td>
+                <td></td>
+                <td>TLF: '.$order['consig_phone'].'</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td colspan="2">C.P.:'.$order['consig_postalcode'].'</td>
+                <td>'.strtoupper($order['state']).'</td>
+                <td colspan="2">PAIS DESTINO: '.strtoupper($order['country']).'</td>
+                <td colspan="2">ATT: -</td>
+                <td colspan="2">OBS: '.$order['otros'].'</td>
+            </tr>
+            <tr>
+                <td colspan="10">Datos de consignatario: '.$order['consig_name'].'</td>
+            </tr>
+            <tr >
+                <td style="border-top:1px solid #000;border-bottom:1px solid #000;">ECB</td>
+                <td style="border-top:1px solid #000;border-bottom:1px solid #000;">REF. BULTO</td>
+                <td colspan="2" style="border-top:1px solid #000;border-bottom:1px solid #000;">OBSERVACIONES</td>
+                <td style="border-top:1px solid #000;border-bottom:1px solid #000;">VALOR RS</td>
+                <td style="border-top:1px solid #000;border-bottom:1px solid #000;">PESO</td>
+                <td style="border-top:1px solid #000;border-bottom:1px solid #000;">ALTO</td>
+                <td style="border-top:1px solid #000;border-bottom:1px solid #000;">ANCHO</td>
+                <td style="border-top:1px solid #000;border-bottom:1px solid #000;">LARGO</td>
+                <td style="border-top:1px solid #000;border-bottom:1px solid #000;">VOLUMEN</td>
+            </tr>';
+            $ref = 1;
+            foreach ($order['ecbs'] as $ecb) {
+                $content .= '<tr>
+                    <td>'.$ecb.'</td>
+                    <td>'.str_pad($order['id'], 3, '0', STR_PAD_LEFT).str_pad($ref, 3, '0', STR_PAD_LEFT).'</td>
+                    <td colspan="2">'.$order['otros'].'</td>
+                    <td>0.0</td>
+                    <td>'.$order['peso'].'</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>0</td>
+                </tr>';
+                $ref++;
+            }
+        $content .= '</table>
+        <br>
+        <br>';
+    }
+
+    $content .= '<br><br>
+    <table style="padding:2px; border:1px solid #000;">
+        <tr>
+            <td colspan="2" style="border-bottom:1px solid #000;border-right:1px solid #000;">INFORME DE DETALLE DE ENVIOS Y BULTOS de '.date('d/m/Y').'</td>
+            <td style="border-bottom:1px solid #000;">TOTAL GENERAL </td>
+        </tr>
+        <tr>
+            <td colspan="2" style="border-bottom:1px solid #000;border-right:1px solid #000;">CONFORME</td>
+            <td style="border-bottom:1px solid #000;">TOTAL EXPEDICIONES <span style="float:right">'.$total_expedidiciones.'</span></td>
+        </tr>
+        <tr>
+            <td style="border-bottom:1px solid #000;border-right:1px solid #000;">CLIENTE</td>
+            <td style="border-bottom:1px solid #000;border-right:1px solid #000;">CONDUCTOR</td>
+            <td style="border-bottom:1px solid #000;">TOTAL BULTOS <span style="float:right">'.$total_bultos.'</span></td>
+        </tr>
+        <tr>
+            <td rowspan="5" style="border-bottom:1px solid #000;border-right:1px solid #000;"></td>
+            <td rowspan="5" style="border-bottom:1px solid #000;border-right:1px solid #000;"></td>
+            <td style="border-bottom:1px solid #000;">TOTAL KGS: <span style="float:right">'.$total_kgs.'</span></td>
+        </tr>
+        <tr>
+            <td style="border-bottom:1px solid #000;">TOTAL REEMBOLSO: <span style="float:right">'.$total_reembolso.' &euro;</span></td>
+        </tr>
+        <tr>
+            <td style="border-bottom:1px solid #000;">TOTAL SEGURO: <span style="float:right">'.$total_seguro.' &euro;</span></td>
+        </tr>
+        <tr>
+            <td>TOTAL VALOR RS: <span style="float:right">'.$total_valor_rs.' &euro;</span></td>
+        </tr>
+    </table>
+    <br>
+    <span style="font-size: 8px">SEUR no reconoce el valor y contenido de la mercancia transportada, que se entrega cerrada y embalada, la responsabilidad de SEUR es la fijada en su carta de porte.</span>
+    <br>
+    <br>
+    <span style="font-size: 8px">OBSERVACIONES</span>
+    <br>
+    <hr>';
+    return $content;
+}
 
 /**
  * Seur Bulk Actions Success.
