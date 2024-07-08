@@ -451,7 +451,7 @@ class Seur_Global {
             $mercancia = true;
         }
 
-        $total_weight = $preparedData['customer_weight_kg'];
+        $total_weight = (float)$preparedData['customer_weight_kg'];
         $total_packages = $preparedData['total_bultos'];
 
         if($total_weight == 0) $total_weight = 1;
@@ -953,6 +953,15 @@ class Seur_Global {
             AND o.order_id = ".$order_id;
         return $wpdb->get_results( $query );
     }
+
+    public function is_seur_local_method($custom_rate_id) {
+        global $wpdb;
+        $query = "SELECT ID 
+            FROM {$wpdb->prefix}seur_custom_rates
+            where rate like '%2SHOP' and ID = ".$custom_rate_id;
+        return $wpdb->get_results( $query );
+    }
+
 
     public function getCountries($countries) {
         $allCountries = seur_get_countries();

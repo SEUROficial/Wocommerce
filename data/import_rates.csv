@@ -1,0 +1,8 @@
+ID,type,country,state,postcode,minprice,maxprice,minweight,maxweight,rate,rateprice
+,price,ES,*,28001,0,5,0,2,"B2C Estándar",3.5
+,weight,*,*,*,10,*,0,5,"B2C Estándar",10.25
+,price,ES,*,75001,10,20,0,*, "B2C Estándar",6.8
+,weight,ES,*,*,*,*,2,*, "B2C Estándar",12.5
+,price,ES,*,00100,15,30,*,*,"B2C Estándar",8.2
+7,price,ES,*,28002,0,6,0,3,"B2C Estándar",4.2
+8,weight,*,*,*,20,*,0,10,"B2C Estándar",11.75

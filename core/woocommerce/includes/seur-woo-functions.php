@@ -207,12 +207,14 @@ add_action( 'woocommerce_order_action_wc_custom_order_action', 'seur_process_ord
 
 add_action( 'admin_footer-edit.php', 'seur_custom_bulk_admin_footer' );
 
+add_action( 'admin_footer-woocommerce_page_wc-orders', 'seur_custom_bulk_admin_footer' );
+
 function seur_custom_bulk_admin_footer() {
 
-	global $post_type;
+    global $post_type;
     global $page;
 
-	if ( $post_type == 'shop_order'  || get_current_screen()->id == 'wc-orders' ) {
+	if ( $post_type == 'shop_order'  || get_current_screen()->id == 'wc-orders' || get_current_screen()->id == 'woocommerce_page_wc-orders') {
 		?>
 	<script type="text/javascript">
 		jQuery(document).ready(function() {
@@ -235,11 +237,11 @@ function seur_woo_bulk_action() {
 	$wp_list_table = _get_list_table( 'WP_Posts_List_Table' );
 	$action        = $wp_list_table->current_action();
 
-	if ( ! isset( $_REQUEST['post'] ) ) {
-		return;
-	}
+    if ( ! isset( $_REQUEST['id'] ) ) {
+        return;
+    }
 
-	$post_ids      = array_map( 'absint', (array) $_REQUEST['post'] );
+	$post_ids      = array_map( 'absint', (array) $_REQUEST['id'] );
 	$report_action = 'marked_seur-createlabel';
 
 	switch ( $action ) {
@@ -247,12 +249,18 @@ function seur_woo_bulk_action() {
 		case 'seur-createlabel':
 			$new_status = seur_after_get_label();
 			$exported   = 0;
+            $exported_labels = [];
 
 			foreach ( $post_ids as $post_id ) {
 
 				$has_label = seur()->has_label($post_id);
 
 				if ( $has_label != 'yes' ) {
+                    if (!seur()->is_seur_order($post_id)) {
+                        set_transient( get_current_user_id() . '_seur_woo_bulk_action_pending_notice',
+                            'The order ID ' . $post_id . ' NOT is a SEUR shipment');
+                        continue;
+                    }
 					$label = seur_api_get_label( $post_id );
 					seur_api_set_label_result( $post_id, $label, $new_status);
 
@@ -262,13 +270,18 @@ function seur_woo_bulk_action() {
 					}
 				}
 				$exported++;
+                $exported_labels[] = $post_id;
 			}
+
+            if ($exported) {
+                set_transient( get_current_user_id() . '_seur_woo_bulk_action_pending_notice',
+                    'Generated ' . $exported . ' labels for orders: ' . implode(',', $exported_labels) );
+            }
 
 			// build the redirect url.
 			$sendback = add_query_arg(
 				array(
-					'post_type'    => 'shop_order',
-                    'page'         => 'wc-orders',
+					'page'         => 'wc-orders',
 					$report_action => true,
 					'changed'      => $changed,
 					'ids'          => join(
@@ -293,6 +306,7 @@ function seur_woo_bulk_action() {
 	exit();
 }
 add_action( 'load-edit.php', 'seur_woo_bulk_action' );
+add_action( 'load-woocommerce_page_wc-orders', 'seur_woo_bulk_action' ); // HPOS.
 
 /**
  * This snippet will add get label to orders screen.

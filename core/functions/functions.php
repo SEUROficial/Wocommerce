@@ -1688,7 +1688,7 @@ function seur_api_preprare_label_data($order_id, $numpackages = '1', $weight = '
 	if ( $post_weight ) {
 		$preparedData['customer_weight_kg'] = seur_always_kg( $weight );
 	} else {
-		$preparedData['customer_weight_kg'] = seur_always_kg( $preparedData['customer_weight'] );
+		$preparedData['customer_weight_kg'] = seur_always_kg( (float)$preparedData['customer_weight'] );
 	}
 
 	if ( $order_data[0]['address_2hop'] ) {
@@ -1744,7 +1744,7 @@ function seur_api_preprare_label_data($order_id, $numpackages = '1', $weight = '
 		$shipping_class = SHIPPING_CLASS_INTERNACIONAL;
 	}
 
-	$preparedData['seur_weight_by_label'] = ( $preparedData['customer_weight_kg'] / $numpackages );
+	$preparedData['seur_weight_by_label'] = ( (float)$preparedData['customer_weight_kg'] / $numpackages );
 	$preparedData['portes'] = 'F';
 
 	$preparedData['seur_saturday_shipping'] = '';

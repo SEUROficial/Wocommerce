@@ -22,6 +22,7 @@ $rates_type = get_option( 'seur_rates_type_field' ); ?>
 		<table class="wp-list-table widefat fixed striped pages">
 			<thead>
 				<tr>
+					<th class="manage-column"><?php esc_html_e( 'ID', 'seur' ); ?></th>
 					<th class="manage-column"><?php esc_html_e( 'Rate', 'seur' ); ?></th>
 					<th class="manage-column"><?php esc_html_e( 'Country', 'seur' ); ?></th>
 					<th class="manage-column"><?php esc_html_e( 'State', 'seur' ); ?></th>
@@ -60,6 +61,7 @@ $rates_type = get_option( 'seur_rates_type_field' ); ?>
                             $maxratevalue = __( 'No limit', 'seur' );
                         }
                         ?>
+                        <td><?php echo esc_html( $getrate->ID ); ?></td>
                         <td><?php echo esc_html( $getrate->rate ); ?></td>
                         <td><?php echo esc_html( $country ); ?></td>
                         <td><?php echo esc_html( $getrate->state ); ?></td>
@@ -76,6 +78,7 @@ $rates_type = get_option( 'seur_rates_type_field' ); ?>
 				?>
 				<thead>
 					<tr>
+						<th class="manage-column"><?php esc_html_e( 'ID', 'seur' ); ?></th>
 						<th class="manage-column"><?php esc_html_e( 'Rate', 'seur' ); ?></th>
 						<th class="manage-column"><?php esc_html_e( 'Country', 'seur' ); ?></th>
 						<th class="manage-column"><?php esc_html_e( 'State', 'seur' ); ?></th>
