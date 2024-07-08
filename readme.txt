@@ -3,7 +3,7 @@ Contributors: seuroficial
 Tags: woocommerce, shipping, seur, logistica, enviar paquete, pedidos, entregas
 Requires at least: 4.0
 Tested up to: 6.2
-Stable tag: 2.2.9
+Stable tag: 2.2.10
 WC requires at least: 3.0
 WC tested up to: 7.4
 License: GPLv2 or later
@@ -92,6 +92,14 @@ The "SEUR > Shipments" menu includes the option to track your shipment and see t
 == Screenshots ==
 
 == Changelog ==
+
+== 2.2.10 ==
+
+* ADDED: Import CSV custom rates
+* ADDED: Pickup ID validation in local shipping methods
+* FIXED: HPOS generate labels bulk action
+* FIXED: Default weight
+* FIXED: Custom rates country selector problem with select2 library
 
 == 2.2.9 ==
 

@@ -431,17 +431,18 @@ function seur_add_map_type_select2() {
  */
 function seur_validation_2shop_fields() {
 
-	$seur_pickup     = '';
-	$seur_cod_centro = '';
-	$seur_pickup     = sanitize_text_field( wp_unslash( $_POST['seur_pickup'] ) ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotValidated,WordPress.Security.NonceVerification.Missing
-	$seur_mobi_phone = sanitize_text_field( wp_unslash( $_POST['billing_mobile_phone'] ) ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotValidated,WordPress.Security.NonceVerification.Missing
+    $seur_cutom_rate_ID = $_POST['shipping_method'][0];
+    if (seur()->is_seur_local_method($seur_cutom_rate_ID)) {
+        $seur_pickup     = sanitize_text_field( wp_unslash( $_POST['seur_pickup'] ) ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotValidated,WordPress.Security.NonceVerification.Missing
+        $seur_mobi_phone = sanitize_text_field( wp_unslash( $_POST['billing_mobile_phone'] ) ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotValidated,WordPress.Security.NonceVerification.Missing
 
-	if ( ! empty( $seur_pickup ) && 'all' === $seur_pickup ) {
-		wc_add_notice( __( 'You need to select a Local Pickup.', 'seur' ), 'error' );
-	}
-	if ( ! empty( $seur_pickup ) && empty( $seur_mobi_phone ) ) {
-		wc_add_notice( __( 'Mobile phone for selected shipping method is needed.', 'seur' ), 'error' );
-	}
+        if ((!isset($seur_pickup) || empty($seur_pickup)) || (!empty($seur_pickup) && 'all' === $seur_pickup)) {
+            wc_add_notice(__('You need to select a Local Pickup.', 'seur'), 'error');
+        }
+        if (!empty($seur_pickup) && empty($seur_mobi_phone)) {
+            wc_add_notice(__('Mobile phone for selected shipping method is needed.', 'seur'), 'error');
+        }
+    }
 }
 
 /**
