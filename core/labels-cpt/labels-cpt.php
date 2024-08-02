@@ -504,8 +504,6 @@ function seur_bulk_actions_handler( $redirect_to, $doaction, $labels_ids ) {
         }
 
         set_transient( get_current_user_id() . '_seur_label_bulk_manifest', true );
-        $redirect_to = add_query_arg( 'bulk_manifest_seur', count( $labels_ids ), $redirect_to );
-        return $redirect_to;
 
     }
 }
@@ -550,7 +548,7 @@ function getManifestContent($manifest, $orders)
     foreach ($orders as $order) {
         $total_expedidiciones++;
         $total_bultos = $total_bultos + $order['bultos'];
-        $total_kgs = $total_kgs + $order['peso'];
+        $total_kgs = $total_kgs + round((float) $order['peso'], 2);
         $total_reembolso = $total_reembolso + $order['cashondelivery'];
     }
 

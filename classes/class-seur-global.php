@@ -570,7 +570,7 @@ class Seur_Global {
             $data['codValue'] = [
                 "currencyCode" => "EUR",
                 "amount" => $preparedData['valorReembolso'],
-                "codFee" => "D"
+                "codFee" => "P"
             ];
         }
 
