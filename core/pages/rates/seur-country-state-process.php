@@ -25,7 +25,7 @@ function seur_country_state_process() {
             echo '<option value="'.$code.'">' . esc_html__( $country, 'seur' ) . '</option>';
         }
         echo '</select>';
-		set_transient( get_current_user_id() . '_seur_rate', $rate );
+		//set_transient( get_current_user_id() . '_seur_rate', $rate );
 	}
 	if ( isset( $_POST['country'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Missing
 		// Capture selected country.
@@ -58,4 +58,5 @@ function seur_country_state_process() {
         }
 		unset( $country );
 	}
+    die;
 }

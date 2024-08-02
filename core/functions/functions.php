@@ -11,6 +11,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 use Automattic\WooCommerce\Internal\DataStores\Orders\CustomOrdersTableController;
 use Automattic\WooCommerce\Utilities\OrderUtil;
+require_once ABSPATH . 'wp-content/plugins/woocommerce/includes/admin/wc-admin-functions.php';
 
 /**
  * SEUR Debug notice
@@ -1213,7 +1214,7 @@ function seur_get_order_data( $post_id ) {
 		$postcode         = $order->get_shipping_postcode();
 		$email            = $order->get_billing_email();
 		$phone            = cleanPhone($order->get_billing_phone());
-		$order_total      = $order->get_meta('_order_total', true );
+		$order_total      = $order->get_total();
 		$order_pay_method = $order->get_payment_method();
 
 		// SEUR 2SHOP shipping.
@@ -1711,10 +1712,8 @@ function seur_api_preprare_label_data($order_id, $numpackages = '1', $weight = '
 		$preparedData['c_recogeran'] = 'S';
 	}
 
-	$preparedData['claveReembolso'] = '';
 	$preparedData['valorReembolso'] = '';
 	if ( 'cod' === $preparedData['order_pay_method']) {
-		$preparedData['claveReembolso'] = 'f';
 		$preparedData['valorReembolso'] = $preparedData['customer_order_total'];
 	}
 
@@ -1906,6 +1905,9 @@ function cleanPhone($phone) {
     $phone = preg_replace('/^0+/', '', $phone);
     return $phone;
 }
+
+add_action('wp_ajax_seur_country_state_process', 'seur_country_state_process');
+add_action('wp_ajax_nopriv_seur_country_state_process', 'seur_country_state_process');
 
 remove_action( 'shutdown', 'wp_ob_end_flush_all', 1 );
 add_action( 'shutdown', function() {

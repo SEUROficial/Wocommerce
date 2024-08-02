@@ -38,7 +38,6 @@ class Seur_Logistica_Seguimiento {
 		$this->seur_adr            = seur()->get_api_addres() . SEUR_API_TRACKING;
 		$this->token               = seur()->get_token_b();
 		$this->reftype             = 'REFERENCE';
-		$this->id_number           = seur()->get_option( 'seur_nif_field' );
 		$this->full_account_number = seur()->get_option( 'seur_accountnumber_field' );
 		$this->accoun_number       = substr( $this->full_account_number, 0, strpos( $this->full_account_number, '-' ) );
 		$this->business_unit       = seur()->get_option( 'seur_franquicia_field' );
@@ -50,7 +49,6 @@ class Seur_Logistica_Seguimiento {
 			array(
 				'ref'           => $ref,
 				'refType'       => $this->reftype,
-				'idNumber'      => $this->id_number,
 				'accountNumber' => $this->accoun_number,
 				'businessUnit'  => $this->business_unit,
 			)

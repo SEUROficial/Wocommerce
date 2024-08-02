@@ -21,12 +21,47 @@ function seur_after_get_label() {
 	return $return;
 }
 // Store cart weight in the database.
-add_action( 'woocommerce_checkout_update_order_meta', 'seur_add_cart_weight' );
-function seur_add_cart_weight( $order_id ) {
-	global $woocommerce;
+/*********************************************
+ * COMMENT THIS CODE WHILE WOOCOMMERCE RESOLVE THE BUG
+ * woocommerce_checkout_update_order_meta not hiring with new WC Checkout Block
+ ********************************************/
+/* add_action( 'woocommerce_checkout_update_order_meta', 'seur_add_cart_weight' );
+function seur_add_cart_weight( $order_id )
+{
+    $order = new WC_Order( $order_id );
+
+    $ship_methods = maybe_unserialize( $order->get_shipping_methods() );
+    foreach ( $ship_methods as $ship_method ) {
+        $product_name = $ship_method['name'];
+    }
+
+    $products = seur()->get_products();
+    foreach ( $products as $code => $product ) {
+        $custom_name = get_option($product['field'].'_custom_name_field')?get_option($product['field'].'_custom_name_field'):$code;
+        if ($custom_name == $product_name) {
+            $order->update_meta_data('_seur_shipping', 'seur' );
+            $order->update_meta_data('_seur_shipping_method_service_real_name', $code );
+            $order->update_meta_data('_seur_shipping_method_service', sanitize_title( $product_name ) );
+            break;
+        }
+    }
+
+    $weight = WC()->cart->cart_contents_weight;
+    $order->update_meta_data('_seur_cart_weight', $weight );
+    $order->save_meta_data();
+} */
+/*********************************************
+ * ADDED THIS ACTION WHILE WOOCOMMERCE RESOLVE THE BUG
+ * woocommerce_checkout_update_order_meta not hiring with new WC Checkout Block
+ ********************************************/
+add_action( 'woocommerce_thankyou', 'seur_add_cart_weight_bis' );
+function seur_add_cart_weight_bis( $order_id )
+{
+    if (!is_numeric($order_id)) {
+        return;
+    }
 
 	$order = new WC_Order( $order_id );
-
 	$ship_methods = maybe_unserialize( $order->get_shipping_methods() );
 	foreach ( $ship_methods as $ship_method ) {
 		$product_name = $ship_method['name'];
@@ -43,8 +78,15 @@ function seur_add_cart_weight( $order_id ) {
         }
     }
 
-	$weight = WC()->cart->cart_contents_weight;
-    $order->update_meta_data('_seur_cart_weight', $weight );
+    $items = $order->get_items();
+    $total_weight = 0;
+    foreach ($items as $item) {
+        $product_quantity = $item->get_quantity();
+        $product_weight = $item->get_product()->get_weight(); // Obtiene el peso del producto
+        $total_weight += $product_weight * $product_quantity;
+    }
+
+    $order->update_meta_data('_seur_cart_weight', $total_weight );
     $order->save_meta_data();
 }
 
