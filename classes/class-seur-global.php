@@ -12,6 +12,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 class Seur_Global {
 
+    /**
+     * @var WC_Logger
+     */
+    private $log;
+
 	public function __construct() {
 		$this->log = new WC_Logger();
 	}
@@ -946,7 +951,7 @@ class Seur_Global {
 
     public function is_seur_order($order_id) {
         global $wpdb;
-        $query = "SELECT distinct o.order_id 
+        $query = "SELECT distinct o.order_id
             FROM {$wpdb->prefix}woocommerce_order_items o
             inner join {$wpdb->prefix}woocommerce_order_itemmeta om on om.order_item_id = o.order_item_id
             where om.meta_key = 'method_id' and (om.meta_value like '%seur%')
@@ -956,7 +961,7 @@ class Seur_Global {
 
     public function is_seur_local_method($custom_rate_id) {
         global $wpdb;
-        $query = "SELECT ID 
+        $query = "SELECT ID
             FROM {$wpdb->prefix}seur_custom_rates
             where rate like '%2SHOP' and ID = ".$custom_rate_id;
         return $wpdb->get_results( $query );

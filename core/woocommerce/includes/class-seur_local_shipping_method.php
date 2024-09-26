@@ -16,7 +16,12 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 class Seur_Local_Shipping_Method extends WC_Shipping_Method {
 
-	/**
+    /**
+     * @var WC_Logger
+     */
+    private $log;
+
+    /**
 	 * Constructor. The instance ID is passed to this.
 	 *
 	 * @param int $instance_id Intance ID.
@@ -391,11 +396,11 @@ function seur_after_seur_2shop_shipping_rate( $method, $index ) {
                         return this.html_element;
                     }
                 };
-          
+
                 var SeurPickupsLocs = [" .
                     wp_kses( $print_js, ['br' => [],'p' => [],'strong' => []] ) . "
                 ];
-			
+
 				var maplace = new Maplace();
 				maplace.AddControl('seurdropdown', html_seurdropdown);
 				maplace.Load({

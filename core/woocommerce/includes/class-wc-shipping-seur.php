@@ -18,6 +18,136 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 class WC_Shipping_SEUR extends WC_Shipping_Method {
 
+    /**
+     * @var WC_Logger
+     */
+    private $log;
+
+    /**
+     * @var bool
+     */
+    public $debug;
+
+    /**
+     * @var string
+     */
+    public $title;
+
+    /**
+     * @var string
+     */
+    public $simple_advanced;
+
+    /**
+     * @var string
+     */
+    public $user_id;
+
+    /**
+     * @var string
+     */
+    public $password;
+
+    /**
+     * @var string
+     */
+    public $access_key;
+
+    /**
+     * @var string
+     */
+    public $shipper_number;
+
+    /**
+     * @var bool
+     */
+    public $origin_addressline;
+
+    /**
+     * @var string
+     */
+    public $origin_city;
+
+    /**
+     * @var string
+     */
+    public $origin_postcode;
+
+    /**
+     * @var string
+     */
+    public $origin_country_state;
+
+    /**
+     * @var string
+     */
+    public $pickup;
+
+    /**
+     * @var bool
+     */
+    public $residential;
+
+    /**
+     * @var string
+     */
+    public $offer_rates;
+
+    /**
+     * @var string
+     */
+    public $fallback;
+
+    /**
+     * @var string
+     */
+    public $packing_method;
+
+    /**
+     * @var array
+     */
+    public $seur_packaging;
+
+    /**
+     * @var array
+     */
+    public $custom_services;
+
+    /**
+     * @var array
+     */
+    public $boxes;
+
+    /**
+     * @var bool
+     */
+    public $insuredvalue;
+
+    /**
+     * @var string|bool
+     */
+    public $units;
+
+    /**
+     * @var string
+     */
+    public $weight_unit;
+
+    /**
+     * @var string
+     */
+    public $dim_unit;
+
+    /**
+     * @var string
+     */
+    public $origin_country;
+
+    /**
+     * @var string
+     */
+    public $origin_state;
+
 	/**
 	 * __construct function.
 	 *
