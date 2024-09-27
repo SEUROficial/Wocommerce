@@ -11,7 +11,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 use Automattic\WooCommerce\Internal\DataStores\Orders\CustomOrdersTableController;
 use Automattic\WooCommerce\Utilities\OrderUtil;
-require_once ABSPATH . 'wp-content/plugins/woocommerce/includes/admin/wc-admin-functions.php';
+require_once WP_PLUGIN_DIR . '/woocommerce/includes/admin/wc-admin-functions.php';
 
 /**
  * SEUR Debug notice
