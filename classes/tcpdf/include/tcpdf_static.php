@@ -140,7 +140,7 @@ class TCPDF_STATIC {
 			define('PHP_VERSION_ID', (($version[0] * 10000) + ($version[2] * 100) + $version[4]));
 		}
 		if (PHP_VERSION_ID < 50300) {
-			@set_magic_quotes_runtime($mqr);
+			//@set_magic_quotes_runtime($mqr);
 		}
 	}
 
@@ -450,8 +450,8 @@ class TCPDF_STATIC {
 			$text = openssl_encrypt($text, 'aes-256-cbc', $key, OPENSSL_RAW_DATA, $iv);
 			return $iv.substr($text, 0, -16);
 		}
-		$iv = mcrypt_create_iv(mcrypt_get_iv_size(MCRYPT_RIJNDAEL_128, MCRYPT_MODE_CBC), MCRYPT_RAND);
-		$text = mcrypt_encrypt(MCRYPT_RIJNDAEL_128, $key, $text, MCRYPT_MODE_CBC, $iv);
+		$iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length('aes-128-cbc'));
+        $text = openssl_encrypt($text, 'aes-128-cbc', $key, OPENSSL_RAW_DATA, $iv);
 		$text = $iv.$text;
 		return $text;
 	}
@@ -472,8 +472,8 @@ class TCPDF_STATIC {
 			$text = openssl_encrypt($text, 'aes-256-cbc', $key, OPENSSL_RAW_DATA, $iv);
 			return substr($text, 0, -16);
 		}
-		$iv = str_repeat("\x00", mcrypt_get_iv_size(MCRYPT_RIJNDAEL_128, MCRYPT_MODE_CBC));
-		$text = mcrypt_encrypt(MCRYPT_RIJNDAEL_128, $key, $text, MCRYPT_MODE_CBC, $iv);
+		$iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length('aes-128-cbc'));
+        $text = openssl_encrypt($text, 'aes-128-cbc', $key, OPENSSL_RAW_DATA, $iv);
 		return $text;
 	}
 
@@ -490,10 +490,12 @@ class TCPDF_STATIC {
 	 * @public static
 	 */
 	public static function _RC4($key, $text, &$last_enc_key, &$last_enc_key_c) {
-		if (function_exists('mcrypt_encrypt') AND ($out = @mcrypt_encrypt(MCRYPT_ARCFOUR, $key, $text, MCRYPT_MODE_STREAM, ''))) {
-			// try to use mcrypt function if exist
-			return $out;
-		}
+		if (function_exists('openssl_encrypt')) {
+            $out = openssl_encrypt($text, 'rc4', $key, OPENSSL_RAW_DATA);
+            if ($out !== false) {
+                return $out;
+            }
+        }
 		if ($last_enc_key != $key) {
 			$k = str_repeat($key, ((256 / strlen($key)) + 1));
 			$rc4 = range(0, 255);
@@ -1834,9 +1836,9 @@ class TCPDF_STATIC {
 		curl_setopt($crs, CURLOPT_URL, $url);
 		curl_setopt($crs, CURLOPT_NOBODY, true);
 		curl_setopt($crs, CURLOPT_FAILONERROR, true);
-		if ((ini_get('open_basedir') == '') && (!ini_get('safe_mode'))) {
-			curl_setopt($crs, CURLOPT_FOLLOWLOCATION, true);
-		}
+		if (ini_get('open_basedir') == '') {
+            curl_setopt($crs, CURLOPT_FOLLOWLOCATION, true);
+        }
 		curl_setopt($crs, CURLOPT_CONNECTTIMEOUT, 5);
 		curl_setopt($crs, CURLOPT_TIMEOUT, 30);
 		curl_setopt($crs, CURLOPT_SSL_VERIFYPEER, false);
@@ -1965,9 +1967,9 @@ class TCPDF_STATIC {
 				curl_setopt($crs, CURLOPT_BINARYTRANSFER, true);
 				curl_setopt($crs, CURLOPT_FAILONERROR, true);
 				curl_setopt($crs, CURLOPT_RETURNTRANSFER, true);
-				if ((ini_get('open_basedir') == '') && (!ini_get('safe_mode'))) {
-				    curl_setopt($crs, CURLOPT_FOLLOWLOCATION, true);
-				}
+				if (ini_get('open_basedir') == '') {
+                    curl_setopt($crs, CURLOPT_FOLLOWLOCATION, true);
+                }
 				curl_setopt($crs, CURLOPT_CONNECTTIMEOUT, 5);
 				curl_setopt($crs, CURLOPT_TIMEOUT, 30);
 				curl_setopt($crs, CURLOPT_SSL_VERIFYPEER, false);

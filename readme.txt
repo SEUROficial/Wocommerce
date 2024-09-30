@@ -3,7 +3,7 @@ Contributors: seuroficial
 Tags: woocommerce, shipping, seur, logistica, enviar paquete, pedidos, entregas
 Requires at least: 4.0
 Tested up to: 6.2
-Stable tag: 2.2.11
+Stable tag: 2.2.12
 WC requires at least: 3.0
 WC tested up to: 7.4
 License: GPLv2 or later
@@ -92,6 +92,18 @@ The "SEUR > Shipments" menu includes the option to track your shipment and see t
 == Screenshots ==
 
 == Changelog ==
+
+== 2.2.12 ==
+
+* ADDED: Add new service 13:30 Frío
+* ADDED: PHP8.2 compatibility
+* CHANGED: Change _seur_2shop_codCentro value
+* FIXED: Fix manifest consig_name
+* FIXED: Fix plugins path include
+* FIXED: Set shipping address to pick-up location address for pick-up orders
+* FIXED: Order weight is computed in excess when the order contains product packs
+* FIXED: Cannot select country when editing custom rate
+* FIXED: Erroneous rate calculation for local service SEUR 2SHOP
 
 == 2.2.11 ==
 

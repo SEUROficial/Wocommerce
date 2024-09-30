@@ -78,16 +78,34 @@ function seur_add_cart_weight_bis( $order_id )
         }
     }
 
-    $items = $order->get_items();
-    $total_weight = 0;
-    foreach ($items as $item) {
-        $product_quantity = $item->get_quantity();
-        $product_weight = $item->get_product()->get_weight(); // Obtiene el peso del producto
-        $total_weight += $product_weight * $product_quantity;
+    // Compute total order weight if not computed already (by seur_add_cart_weight())
+    if ( empty($order->get_meta('_seur_cart_weight')) ) {
+	    $items        = $order->get_items();
+	    $total_weight = 0.0;
+	    foreach ( $items as $item ) {
+		    $hidden = $item->get_meta( '_bundled_item_hidden' );
+            // Do not add the hidden items inside the pack
+		    if ( $hidden != 'yes' ) {
+			    $product_quantity = $item->get_quantity();
+			    $product_weight   = $item->get_product()->get_weight(); // Obtiene el peso del producto
+			    $total_weight    += (float) $product_weight * (float) $product_quantity;
+		    }
+	    }
+
+	    $order->update_meta_data( '_seur_cart_weight', $total_weight );
     }
 
-    $order->update_meta_data('_seur_cart_weight', $total_weight );
     $order->save_meta_data();
+}
+// When the event woocommerce_checkout_update_order_meta is triggered we can obtain the cart weight
+// from Woocommerce (which should more accurate that any calculation we can perform).
+// But the event is not triggered in all versions (see bug), so there is a second point where weight is computed (above).
+add_action('woocommerce_checkout_update_order_meta', 'seur_add_cart_weight');
+function seur_add_cart_weight( $order_id ) {
+	global $woocommerce;
+
+	$weight = $woocommerce->cart->cart_contents_weight;
+	update_post_meta( $order_id, '_seur_cart_weight', $weight );
 }
 
 // Add order new column in administration.
@@ -507,7 +525,7 @@ function seur_post_formats_filter_to_woo_order_administration() {
 		<label for="dropdown_shop_order_seur_shipping_method" class="screen-reader-text"><?php _e( 'Seur Shippments', 'seur' ); ?></label>
 		<select name="_shop_order_seur_shipping_method" id="dropdown_shop_order_seur_shipping_method">
 			<option value=""><?php esc_html_e( 'All', 'seur' ); ?></option>
-			<option value="seur" 
+			<option value="seur"
 			<?php
 			if ( ( esc_attr( isset( $_GET['_shop_order_seur_shipping_method'] ) ) ) && ( esc_attr( $_GET['_shop_order_seur_shipping_method'] ) == 'seur' ) ) {
 				echo 'selected'; }

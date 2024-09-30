@@ -446,7 +446,7 @@ function seur_bulk_actions_handler( $redirect_to, $doaction, $labels_ids ) {
 
             $order_manifest['id'] =  $id_order;
             $order_manifest['reference'] =  $order->get_meta('_seur_shipping_id_number');
-            $order_manifest['consig_name'] =  $order->get_billing_first_name()." ".$order->get_billing_last_name();
+            $order_manifest['consig_name'] =  $order->get_shipping_first_name()." ".$order->get_shipping_last_name();
             $order_manifest['consig_address'] =  $order->get_shipping_address_1();
             $order_manifest['consig_postalcode'] =  $order->get_shipping_postcode();
             $order_manifest['consig_phone'] =  $order->get_meta('shipping_mobile_phone');
