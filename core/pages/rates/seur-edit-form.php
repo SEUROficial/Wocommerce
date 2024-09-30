@@ -82,8 +82,8 @@ function seur_edit_rate() {
 							}
 						} else {
 							$countries = array();
-							$countries = include_once SEUR_PLUGIN_PATH . 'core/places/countries.php';
-							$countries = asort( $countries );
+							$countries = include(SEUR_PLUGIN_PATH . 'core/places/countries.php');
+							asort( $countries );
 							echo '<option value="*">' . esc_html__( 'All Countries', 'seur' ) . '</option>';
 							foreach ( $countries as $country => $value ) {
                                 $selected = '';
@@ -122,12 +122,9 @@ function seur_edit_rate() {
 							echo '</select>';
 						}
 					}
-					if ( ! $states ) {
+					if ( !$states ) {
 						$currentstate = $getrate->state;
 						echo '<input title="' . esc_html__( 'State', 'seur' ) . '" type="text" name="state" class="form-control" placeholder="' . esc_html__( 'State', 'seur' ) . '" value="' . esc_html( $currentstate ) . '">';
-					}
-					if ( '*' === $country ) {
-						echo '<input title="' . esc_html__( 'No needed', 'seur' ) . '" type="text" name="state" class="form-control" placeholder="' . esc_html__( 'No needed', 'seur' ) . '" value="*" readonly>';
 					}
 					?>
 				</td>

@@ -24,6 +24,7 @@ function get_seur_product() {
      * SEUR 48 Frío -->         Servicio = 15, Producto 18  --> AD/ES/PT      -> PM  -> FRIO
      * SEUR 72H Estándar ->     Servicio = 13, Producto 2   --> ES            -> all -> ESTANDAR
      * SEUR 2SHOP ->            Servicio = 1,  Producto 48  --> AD/ES/PT      -> all -> ESTANDAR
+     * SEUR 13:30 Documentos -> Servicio = 9,  Producto 54  --> AD/ES/PT      -> all -> ESTANDAR
      *
      * Internacional
      * COURIER INT AEREO PAQUETERIA -->     Servicio = 7,  Producto 108 --> INTERNATIONAL -> all -> ESTANDAR
@@ -121,6 +122,20 @@ function get_seur_product() {
 			),
             'field' => 'seur_13f'
 		),
+        'SEUR 13:30 Documentos'             => array(
+            'service'   => '9',
+            'product'   => '54',
+            'tipo'      => 'ESTANDAR',
+            'pais'      => array(
+                'AD',
+                'ES',
+                'PT'
+            ),
+            'provincia' => array(
+                'all',
+            ),
+            'field' => 'seur_13d'
+        ),
 		'SEUR 24H Estándar'               => array(
 			'service'   => '1',
 			'product'   => '2',

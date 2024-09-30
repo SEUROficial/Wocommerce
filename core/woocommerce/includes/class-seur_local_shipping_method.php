@@ -73,11 +73,11 @@ class Seur_Local_Shipping_Method extends WC_Shipping_Method {
 		}
         $package_price = $package['contents_cost'];
 		if ( $rates_type != 'price' ) {
-			$weight        = 0;
+			$weight        = 0.0;
 
 			foreach ( $package['contents'] as $item_id => $values ) {
 				$_product = $values['data'];
-				$weight   = (int) $weight + (int) $_product->get_weight() * (int) $values['quantity'];
+				$weight   = (float)$weight + ((float)$_product->get_weight() * (float)$values['quantity']);
 			}
             $package_price = wc_get_weight( $weight, 'kg' );
 		}
@@ -155,10 +155,10 @@ function seur_local_validate_order( $posted ) {
 			}
 			$seur_local_shipping_method = new Seur_Local_Shipping_Method();
 			$weightlimit                = (int) 20;
-			$weight                     = 0;
+			$weight                     = 0.0;
 			foreach ( $package['contents'] as $item_id => $values ) {
 				$_product = $values['data'];
-				$weight   = $weight + $_product->get_weight() * $values['quantity'];
+				$weight   = (float)$weight + ((float)$_product->get_weight() * (float)$values['quantity']);
 			}
 			$weight = wc_get_weight( $weight, 'kg' );
 			if ( $weight > $weightlimit ) {
@@ -396,11 +396,11 @@ function seur_after_seur_2shop_shipping_rate( $method, $index ) {
                         return this.html_element;
                     }
                 };
-
+          
                 var SeurPickupsLocs = [" .
                     wp_kses( $print_js, ['br' => [],'p' => [],'strong' => []] ) . "
                 ];
-
+			
 				var maplace = new Maplace();
 				maplace.AddControl('seurdropdown', html_seurdropdown);
 				maplace.Load({
@@ -492,7 +492,7 @@ function seur_add_2shop_data_to_order( $order_id ) {
         $order = seur_get_order($order_id);
 		$order->update_meta_data('_seur_2shop_depot', str_pad( $depot, 2, '0', STR_PAD_LEFT ) );
         $order->update_meta_data('_seur_2shop_postcode', $postcode );
-        $order->update_meta_data('_seur_2shop_codCentro', str_pad( $cod_centro, 3, '0', STR_PAD_LEFT ) );
+        $order->update_meta_data('_seur_2shop_codCentro', $pudoId );
         $order->update_meta_data('_seur_2shop_title', $title );
         $order->update_meta_data('_seur_2shop_type', $type );
         $order->update_meta_data('_seur_2shop_address', $address );
@@ -504,6 +504,15 @@ function seur_add_2shop_data_to_order( $order_id ) {
         $order->update_meta_data('_seur_2shop_numvia', $numvia );
         $order->update_meta_data('_seur_2shop_timetable', $timetable );
         $order->save_meta_data();
+
+        // Set order shipping address to pick-up location address
+        $shipping_address = $order->get_address('shipping');
+		$shipping_address['address_1'] = __( 'Pickup store', 'seur' ) . ": {$title} - {$pudoId}";
+		$shipping_address['address_2'] = "{$streettype} {$address} {$numvia}";
+		$shipping_address['city'] = $city;
+		$shipping_address['postcode'] = $postcode;
+		$order->set_address($shipping_address , 'shipping' );
+		$order->save();
 	}
 }
 

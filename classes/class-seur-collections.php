@@ -12,7 +12,44 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 class Seur_Collections {
 
-	public function __construct() {
+    private string $seur_adr;
+    /**
+     * @var false|mixed
+     */
+    private mixed $client_secret;
+    /**
+     * @var false|mixed
+     */
+    private mixed $accountnumber;
+    /**
+     * @var false|mixed
+     */
+    private mixed $nif;
+    /**
+     * @var false|mixed
+     */
+    private mixed $phone;
+    private string $name;
+    /**
+     * @var false|mixed
+     */
+    private mixed $email;
+    private string $streetname;
+    /**
+     * @var false|mixed
+     */
+    private mixed $cityname;
+    /**
+     * @var false|mixed
+     */
+    private mixed $postalcode;
+    /**
+     * @var false|mixed
+     */
+    private mixed $country;
+    private string $token;
+
+    public function __construct() {
 		$this->seur_adr      = seur()->get_api_addres() . SEUR_COLLECTIONS;
 		$this->client_secret = seur()->client_secret();
 		$this->accountnumber = seur()->get_option( 'seur_accountnumber_field' );

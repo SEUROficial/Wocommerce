@@ -704,10 +704,6 @@ msgstr "Añade el método de envio de SEUR a WooCommerce. El plugin de SEUR para
 msgid "https://www.joseconti.com/"
 msgstr "https://www.joseconti.com/"
 
-#. Author of the plugin
-msgid "SEUR"
-msgstr "SEUR"
-
 #. Plugin URI of the plugin
 msgid "http://www.seur.com/"
 msgstr "http://www.seur.com/"
@@ -2256,3 +2252,6 @@ msgstr "Servicio 'cambio' activo"
 
 msgid "Activate Change Service"
 msgstr "Activar el servicio 'cambio'"
+
+msgid "Pickup store"
+msgstr "Punto de recogida"
