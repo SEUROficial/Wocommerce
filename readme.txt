@@ -95,7 +95,7 @@ The "SEUR > Shipments" menu includes the option to track your shipment and see t
 
 == 2.2.12 ==
 
-* ADDED: Add new service 13:30 Frío
+* ADDED: Add new service 13:30 Documentos
 * ADDED: PHP8.2 compatibility
 * CHANGED: Change _seur_2shop_codCentro value
 * FIXED: Fix manifest consig_name
