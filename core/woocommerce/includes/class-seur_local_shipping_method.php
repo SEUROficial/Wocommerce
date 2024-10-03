@@ -436,7 +436,7 @@ function seur_add_map_type_select2() {
  */
 function seur_validation_2shop_fields() {
 
-    $seur_cutom_rate_ID = $_POST['shipping_method'][0];
+    $seur_cutom_rate_ID = sanitize_text_field( wp_unslash($_POST['shipping_method'][0]));
     if (seur()->is_seur_local_method($seur_cutom_rate_ID)) {
         $seur_pickup     = sanitize_text_field( wp_unslash( $_POST['seur_pickup'] ) ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotValidated,WordPress.Security.NonceVerification.Missing
         $seur_mobi_phone = sanitize_text_field( wp_unslash( $_POST['billing_mobile_phone'] ) ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotValidated,WordPress.Security.NonceVerification.Missing

@@ -32,8 +32,15 @@ function seur_get_labels_from_order( $post ) {
     if ( ! $orderid2 && ! $order_id ) {
         exit;
     }
-    $change_service = isset($_GET['change'])?$_GET['change']:'0';
-	$weight_unit = get_option( 'woocommerce_weight_unit' );
+    $change_service = '0';
+    if ( isset( $_GET['change'] ) ) {
+        $change_service = sanitize_text_field( wp_unslash( $_GET['change'] ) );
+    }
+    if (! is_numeric($change_service)) {
+        $change_service = '0';
+    }
+
+    $weight_unit = get_option( 'woocommerce_weight_unit' );
     $wc_order2 = wc_get_order( $orderid2 );
 	$weight      = $wc_order2->get_meta('_seur_cart_weight', true );
 	$shop2       = $wc_order2->get_meta('_seur_2shop_codCentro', true );

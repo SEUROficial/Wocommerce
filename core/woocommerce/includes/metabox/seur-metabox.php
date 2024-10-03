@@ -97,7 +97,7 @@ function seur_save_meta_box( $post_id ) {
     }
     $numpackages = esc_html( sanitize_text_field( wp_unslash( $_POST['seur-number-packages'] ) ) );
     $weight      = esc_html( sanitize_text_field( wp_unslash( $_POST['seur-weight'] ) ) );
-    $changeService = isset($_POST['seur-change-service']);
+    $changeService = esc_html(sanitize_text_field(wp_unslash($_POST['seur-change-service']))) !== null;
 
     $has_label   = seur()->has_label($post_id);
 
@@ -130,7 +130,7 @@ function seur_save_meta_box_hpos( $order_id ) {
     }
     $numpackages = esc_html( sanitize_text_field( wp_unslash( $_POST['seur-number-packages'] ) ) );
     $weight      = esc_html( sanitize_text_field( wp_unslash( $_POST['seur-weight'] ) ) );
-    $changeService = isset($_POST['seur-change-service']);
+    $changeService = esc_html(sanitize_text_field(wp_unslash($_POST['seur-change-service']))) !== null;
 
     $has_label   = seur()->has_label($order_id);
 
