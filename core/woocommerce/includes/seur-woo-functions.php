@@ -431,7 +431,7 @@ function seur_add_label_order_actions_button_css() {
  */
 function seur_get_label_ajax() {
 
-	$order_id  = absint( $_GET['order_id'] ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotValidated
+	$order_id  = absint(sanitize_text_field( wp_unslash( $_GET['order_id'])) ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotValidated
 	$has_label = seur()->has_label($order_id);
 
 	if ( 'yes' !== $has_label ) {
@@ -564,7 +564,7 @@ function seur_filter_orders_by_shipping_method_query( $vars ) {
         foreach ( $products as $code => $product ) {
             $custom_name = get_option($product['field'].'_custom_name_field')?get_option($product['field'].'_custom_name_field'):$code;
             $shippment_sani = sanitize_title( $custom_name );
-            if ( $shippment_sani == $_GET['_shop_order_seur_shipping_method']) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+            if ( $shippment_sani == sanitize_text_field( wp_unslash( $_GET['_shop_order_seur_shipping_method']))) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
                 $vars['meta_key'] = '_seur_shipping_method_service_real_name';
                 $vars['meta_value'] = $code;
                 break;
