@@ -1419,13 +1419,13 @@ class tcpdi_parser {
     public function Error($msg) {
         // exit program and print error.
         if ($this->errorHandler == PDF_PARSER_ERROR_HANDLER_PHP_DIE) {
-          die("<strong>TCPDI_PARSER ERROR [{$this->uniqueid}]: </strong>".$msg);
+          die("<strong>TCPDI_PARSER ERROR [".esc_attr($this->uniqueid)."]: </strong>".esc_attr($msg));
         }
         elseif ($this->errorHandler == PDF_PARSER_ERROR_HANDLER_EXCEPTION) {
-          throw new TCPdiParserException($msg);
+          throw new TCPdiParserException(esc_attr($msg));
         }
         else {
-          die("<strong>TCPDI_PARSER ERROR [{$this->uniqueid}]: </strong>".$msg);
+          die("<strong>TCPDI_PARSER ERROR [".esc_attr($this->uniqueid)."]: </strong>".esc_attr($msg));
         }
     }
 

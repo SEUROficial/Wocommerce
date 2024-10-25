@@ -16,7 +16,7 @@ function seur_about_page() { ?>
 		<h1>
 			<?php
 			// translators: SEUR Version.
-			printf( esc_html__( 'Welcome to SEUR %s' ), esc_html( SEUR_OFFICIAL_VERSION ) );
+			printf( esc_html__( 'Welcome to SEUR %s', 'seur' ), esc_html( SEUR_OFFICIAL_VERSION ) );
 			?>
 		</h1>
 		<div class="about-text">
@@ -28,7 +28,7 @@ function seur_about_page() { ?>
 		<div class="seur-badge">
 			<?php
 			// translators: Seur version.
-			printf( esc_html__( 'Version %s' ), esc_html( SEUR_OFFICIAL_VERSION ) );
+			printf( esc_html__( 'Version %s', 'seur' ), esc_html( SEUR_OFFICIAL_VERSION ) );
 			?>
 		</div>
 		<h2 class="nav-tab-wrapper">

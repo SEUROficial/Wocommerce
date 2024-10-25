@@ -135,13 +135,13 @@ function seur_escalera_field() {
 
 function seur_test_field() {
 	?>
-	<input type="checkbox" class="js-switch-test" title="<?php _e( 'Test Mode', 'seur' ); ?>" name="seur_test_field" value="1" <?php checked( 1, seur()->get_option( 'seur_test_field' ), true ); ?>/>
+    <input type="checkbox" class="js-switch-test" title="<?php esc_attr_e( 'Test Mode', 'seur' ); ?>" name="seur_test_field" value="1" <?php checked( 1, seur()->get_option( 'seur_test_field' ), true ); ?>/>
 	<?php
 }
 
 function seur_log_field() {
 	?>
-	<input type="checkbox" class="js-switch-log" title="<?php _e( 'Enable Logs', 'seur' ); ?>" name="seur_log_field" value="1" <?php checked( 1, seur()->get_option( 'seur_log_field' ), true ); ?>/>
+    <input type="checkbox" class="js-switch-log" title="<?php esc_attr_e( 'Enable Logs', 'seur' ); ?>" name="seur_log_field" value="1" <?php checked( 1, seur()->get_option( 'seur_log_field' ), true ); ?>/>
 	<?php
 }
 /**

@@ -32,12 +32,10 @@ function seur_get_labels_from_order( $post ) {
     if ( ! $orderid2 && ! $order_id ) {
         exit;
     }
-    $change_service = '0';
+    $change_service = false;
     if ( isset( $_GET['change'] ) ) {
         $change_service = sanitize_text_field( wp_unslash( $_GET['change'] ) );
-    }
-    if (! is_numeric($change_service)) {
-        $change_service = '0';
+        $change_service = ($change_service == 1);
     }
 
     $weight_unit = get_option( 'woocommerce_weight_unit' );
@@ -64,8 +62,10 @@ function seur_get_labels_from_order( $post ) {
 			<?php } ?><br />
 			<label><?php esc_html_e( 'Number of Packages', 'seur' ); ?></label><br />
 			<input title="<?php esc_html_e( 'Number of Packages', 'seur' ); ?>" type="text" name="seur-number-packages" class="form-control" placeholder="<?php esc_html_e( 'EX: 2', 'seur' ); ?>" value="<?php echo esc_html( $value ); ?>" required="" <?php if ( ! empty( $shop2 ) ) { echo esc_html( $disabled ); } ?> /><br />
-            <input type="hidden" name="seur-change-service" value="<?php echo  $change_service; ?>"/>
-			<?php wp_nonce_field( 'seur_get_label_action', 'seur_get_label_nonce_field' ); ?>
+            <?php if ($change_service) {
+                echo '<input type="hidden" name="seur-change-service" value="1"/>';
+            }
+            wp_nonce_field( 'seur_get_label_action', 'seur_get_label_nonce_field' ); ?>
 			<input type="submit" class="seur_label_submit button button-primary" value="<?php esc_html_e( 'Get labels', 'seur' ); ?>" />
 		</form>
 		<br />
@@ -75,12 +75,11 @@ function seur_get_labels_from_order( $post ) {
         $order_id    = '';
         $weight      = '';
         $numpackages = '';
-        $changeService = false;
+        $changeService = isset($_POST['seur-change-service']);
 		if ( isset( $_POST['order-id'] ) && isset( $_POST['seur-weight'] ) && isset( $_POST['seur-number-packages'] ) ) {
 			$order_id    = sanitize_text_field( wp_unslash( $_POST['order-id'] ) );
 			$weight      = sanitize_text_field( wp_unslash( $_POST['seur-weight'] ) );
 			$numpackages = sanitize_text_field( wp_unslash( $_POST['seur-number-packages'] ) );
-            $changeService = sanitize_text_field( wp_unslash( $_POST['seur-change-service'] ) );
 		}
 
 		if ( ! empty( $shop2 ) && $weight > 20 ) {

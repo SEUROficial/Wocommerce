@@ -600,7 +600,7 @@ function seur_check_service_names( $services ) {
                     <?php $products = seur()->get_products();
                     foreach ( $products as $code => $product ) {
                         echo '<tr>
-							<td data-export-label="'.$code.'">'.$code.'</td>';
+							<td data-export-label="'.esc_attr($code).'">'.esc_attr($code).'</td>';
                         if ( seur_check_service_names($code) ) {
 						    echo '<td><span class="yes">&#10004;</span></td>';
 						} else {

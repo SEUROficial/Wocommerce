@@ -71,7 +71,7 @@ $texto = __( 'RATES', 'seur' ) . '<br />' . __( 'Calculate rate that SEUR apply 
 		</label>
 		<label>
 			<span class="screen-reader-text"><?php esc_html_e( 'Country', 'seur' ); ?></span>
-			<select class="select country" id="country" title="<?php esc_html_e( 'Select Country', 'seur' ); ?>" name="pais">
+			<select class="select country" id="country" title="<?php esc_html_e( 'Select Country', 'seur' ); ?>" name="pais" required>
 			<?php
 			if ( ! empty( $pais ) && 'ES' === $pais ) {
 				$selectedes = 'selected';
@@ -93,7 +93,7 @@ $texto = __( 'RATES', 'seur' ) . '<br />' . __( 'Calculate rate that SEUR apply 
 				$selectedes = '';
 				$selectedpt = '';
 			}
-			echo '<option value="NULL">' . esc_html__( 'Select', 'seur' ) . '</option>';
+			echo '<option value="">' . esc_html__( 'Select', 'seur' ) . '</option>';
 			echo '<option value="ES" ' . esc_html( $selectedes ) . '>' . esc_html__( 'Spain', 'seur' ) . '</option>';
 			echo '<option value="PT" ' . esc_html( $selectedpt ) . '>' . esc_html__( 'Portugal', 'seur' ) . '</option>';
 			echo '<option value="AD" ' . esc_html( $selectedad ) . '>' . esc_html__( 'Andorra', 'seur' ) . '</option>';
@@ -136,7 +136,7 @@ $texto = __( 'RATES', 'seur' ) . '<br />' . __( 'Calculate rate that SEUR apply 
                     if (isset( $ps ) && ( $identifier === $ps )) {
                         echo ' selected';
                     }
-                    echo 'value="'.$identifier.'">'.$code.'</option>';
+	                echo 'value="' . esc_attr( $identifier ) . '">' . esc_html( $code ) . '</option>';
                 } ?>
 			</select>
 		</label>

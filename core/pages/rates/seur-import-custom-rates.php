@@ -8,59 +8,74 @@
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
+
 $rates_type = get_option( 'seur_rates_type_field' );
-?>
 
-<?php
-if ( isset( $_POST['import_custom_rates'] ) ) {
-    try{
-	    // Validar que el archivo fue subido sin errores
-	    if ( isset( $_FILES['csv_file'] ) && $_FILES['csv_file']['error'] === UPLOAD_ERR_OK ) {
-		    $file = $_FILES['csv_file'];
+// Verificar si el formulario fue enviado y si el nonce es válido
+if ( isset( $_POST['import_custom_rates'] ) && check_admin_referer( 'seur_import_custom_rates_nonce', 'seur_import_custom_rates_nonce_field' ) ) {
+	try {
+		// Validar que el archivo fue subido sin errores
+		if ( isset( $_FILES['csv_file'] ) && isset( $_FILES['csv_file']['error'] ) && $_FILES['csv_file']['error'] === UPLOAD_ERR_OK ) {
+			$file = $_FILES['csv_file'];
 
-		    // Validar que el archivo es un CSV
-		    $file_type = wp_check_filetype( $file['name'] );
-		    if ( $file_type['ext'] !== 'csv' ) {
-			    echo '<div class="notice notice-error"><p>El archivo subido no es un CSV.</p></div>';
-		    } else {
-			    // Mover el archivo a una ubicación temporal
-			    $upload_dir = wp_upload_dir();
-			    $upload_path = $upload_dir['basedir'] . '/seur_import_custom_rates_csv/';
-			    if ( ! file_exists( $upload_path ) ) {
-				    wp_mkdir_p( $upload_path );
-			    }
+			// Validar que el archivo es un CSV
+			$file_type = wp_check_filetype( $file['name'] );
+			if ( $file_type['ext'] !== 'csv' ) {
+				echo '<div class="notice notice-error"><p>El archivo subido no es un CSV.</p></div>';
+			} else {
+				// Inicializar WP_Filesystem
+				if ( ! function_exists( 'request_filesystem_credentials' ) ) {
+					require_once( ABSPATH . 'wp-admin/includes/file.php' );
+				}
 
-			    $uploaded_file = $upload_path . basename( $file['name'] );
-			    if ( move_uploaded_file( $file['tmp_name'], $uploaded_file ) ) {
-				    // Procesar el archivo CSV
-				    $result = seur_process_csv( $uploaded_file );
+				global $wp_filesystem;
 
-				    if ( $result['error'] ) {
-                        if(is_array($result['message'])){
-	                        echo '<div class="notice notice-error">';
-                            echo '<ul>';
-                            foreach($result['message'] as $message){
-                                echo '<li>' . esc_html( $message ) . '</li>';
-                            }
-	                        echo '</ul>';
-	                        echo '</div>';
-                        }else{
-	                        echo '<div class="notice notice-error"><p>' . esc_html( $result['message'] ) . '</p></div>';
-                        }
-				    } else {
-					    echo '<div class="notice notice-success"><p>' . esc_html( $result['message'] ) . '</p></div>';
-				    }
-			    } else {
-				    echo '<div class="notice notice-error"><p>Error al mover el archivo subido.</p></div>';
-			    }
-		    }
-	    } else {
-		    echo '<div class="notice notice-error"><p>Error al subir el archivo.</p></div>';
-	    }
-    }catch ( Exception $e ) {
-	    echo '<div class="notice notice-error"><p>' . esc_html( $e->getMessage() ) . '</p></div>';
-    }
+				if ( ! WP_Filesystem( request_filesystem_credentials( '', '', false, false, null ) ) ) {
+					echo '<div class="notice notice-error"><p>Error al inicializar WP_Filesystem.</p></div>';
+					return;
+				}
 
+				// Mover el archivo a una ubicación temporal
+				$upload_dir = wp_upload_dir();
+				$upload_path = trailingslashit( $upload_dir['basedir'] ) . 'seur_import_custom_rates_csv/';
+
+				if ( ! $wp_filesystem->is_dir( $upload_path ) ) {
+					$wp_filesystem->mkdir( $upload_path );
+				}
+
+				$uploaded_file = $upload_path . sanitize_file_name( $file['name'] );
+
+				if ( $wp_filesystem->put_contents( $uploaded_file, $wp_filesystem->get_contents( $file['tmp_name'] ), FS_CHMOD_FILE ) ) {
+					// Procesar el archivo CSV
+					$result = seur_process_csv( $uploaded_file );
+
+					if ( $result['error'] ) {
+						if ( is_array( $result['message'] ) ) {
+							echo '<div class="notice notice-error">';
+							echo '<ul>';
+							foreach ( $result['message'] as $message ) {
+								echo '<li>' . esc_html( $message ) . '</li>';
+							}
+							echo '</ul>';
+							echo '</div>';
+						} else {
+							echo '<div class="notice notice-error"><p>' . esc_html( $result['message'] ) . '</p></div>';
+						}
+					} else {
+						echo '<div class="notice notice-success"><p>' . esc_html( $result['message'] ) . '</p></div>';
+					}
+				} else {
+					echo '<div class="notice notice-error"><p>Error al mover el archivo subido.</p></div>';
+				}
+			}
+		} else {
+			echo '<div class="notice notice-error"><p>Error al subir el archivo.</p></div>';
+		}
+	} catch ( Exception $e ) {
+		echo '<div class="notice notice-error"><p>' . esc_html( $e->getMessage() ) . '</p></div>';
+	}
+} else {
+	echo '<div class="notice notice-error"><p>Error de seguridad. Por favor, recargue la página e inténtelo de nuevo.</p></div>';
 }
 
 function seur_process_csv( $file_path ) {
@@ -69,33 +84,35 @@ function seur_process_csv( $file_path ) {
 
 	try {
 		// Definir las columnas esperadas
-		$expected_columns = array('ID', 'type', 'country', 'state', 'postcode', 'minprice', 'maxprice', 'minweight', 'maxweight', 'rate', 'rateprice');
+		$expected_columns = array( 'ID', 'type', 'country', 'state', 'postcode', 'minprice', 'maxprice', 'minweight', 'maxweight', 'rate', 'rateprice' );
 
 		// Iniciar una transacción
-		$wpdb->query('START TRANSACTION');
+		$wpdb->query( 'START TRANSACTION' );
 
-		// Abrir el archivo CSV
-		if ( ( $handle = fopen( $file_path, 'r' ) ) !== FALSE ) {
-			// Leer la primera línea (encabezado)
-			$header = fgetcsv( $handle, 1000, ',' );
-			if ( $header === FALSE || $header !== $expected_columns ) {
-				fclose( $handle );
-				$wpdb->query('ROLLBACK'); // Revertir la transacción
+		// Leer el archivo CSV usando WP_Filesystem
+		global $wp_filesystem;
+		$file_contents = $wp_filesystem->get_contents( $file_path );
+
+		if ( $file_contents !== false ) {
+			$csv_lines = explode( "\n", $file_contents );
+			$header = str_getcsv( array_shift( $csv_lines ) ); // Obtener encabezado
+
+			if ( $header !== $expected_columns ) {
 				return [
-					'error' => true,
-					'message' => 'El archivo CSV no contiene las columnas correctas.'
+					'error'   => true,
+					'message' => 'El archivo CSV no contiene las columnas correctas.',
 				];
 			}
 
 			$error_messages = [];
 
 			// Definir los estados válidos de España
-			$valid_states_es = array('*', 'AV', 'C', 'AB', 'A', 'AL', 'VI', 'O', 'BA', 'PM', 'B', 'BI', 'BU', 'CC', 'CA', 'CO', 'S', 'CS', 'CE', 'CR', 'CU', 'SS', 'GI', 'GR', 'GU', 'H', 'HU', 'J', 'LO', 'GC', 'LE', 'L', 'LU', 'MA', 'M', 'ML', 'MU', 'NA', 'OR', 'P', 'PO', 'SA', 'TF', 'SG', 'SE', 'SO', 'T', 'TE', 'TO', 'V', 'VA', 'ZA', 'Z');
+			$valid_states_es = array( '*', 'AV', 'C', 'AB', 'A', 'AL', 'VI', 'O', 'BA', 'PM', 'B', 'BI', 'BU', 'CC', 'CA', 'CO', 'S', 'CS', 'CE', 'CR', 'CU', 'SS', 'GI', 'GR', 'GU', 'H', 'HU', 'J', 'LO', 'GC', 'LE', 'L', 'LU', 'MA', 'M', 'ML', 'MU', 'NA', 'OR', 'P', 'PO', 'SA', 'TF', 'SG', 'SE', 'SO', 'T', 'TE', 'TO', 'V', 'VA', 'ZA', 'Z' );
 
 			// Leer el resto del archivo línea por línea
-			while ( ( $data = fgetcsv( $handle, 1000, ',' ) ) !== FALSE ) {
-				// Mapear los datos a las columnas
-				$record = array_combine($header, $data);
+			foreach ( $csv_lines as $line ) {
+				$data   = str_getcsv( $line );
+				$record = array_combine( $header, $data );
 
 				// Validar el campo type si no está vacío
 				if ( !empty($record['type']) && $record['type'] !== 'price' && $record['type'] !== 'weight' ) {
@@ -169,7 +186,6 @@ function seur_process_csv( $file_path ) {
 			// Comprobar si hay errores antes de confirmar o revertir la transacción
 			if ( !empty($error_messages) ) {
 				$wpdb->query('ROLLBACK'); // Revertir la transacción
-				fclose( $handle );
 				return [
 					'error' => true,
 					'message' => $error_messages
@@ -178,7 +194,6 @@ function seur_process_csv( $file_path ) {
 
 			// Confirmar la transacción si no hay errores
 			$wpdb->query('COMMIT');
-			fclose( $handle );
 			return [
 				'error' => false,
 				'message' => 'Archivo CSV procesado correctamente.'
@@ -198,11 +213,10 @@ function seur_process_csv( $file_path ) {
 		];
 	}
 }
-
 ?>
 
 <div class="container">
-	<br />
+    <br />
     <h1>Importación de Tarifas</h1>
     <p>Para importar o actualizar las tarifas personalizadas de SEUR, siga estos pasos:</p>
     <ol>
@@ -214,7 +228,6 @@ function seur_process_csv( $file_path ) {
     <h2>Manual de Uso: Importación de Tarifas SEUR</h2>
 
     <h4>Campos Permitidos en el Archivo CSV</h4>
-    <p>El archivo CSV para la importación de tarifas SEUR debe contener las siguientes columnas:</p>
     <ul>
         <li><strong>ID</strong> (Obligatorio para actualización): Identificador único de la tarifa. Utilizado para actualizar tarifas existentes.</li>
         <li><strong>type</strong>: Tipo de tarifa, puede ser "price" (precio) o "weight" (peso).</li>
@@ -235,6 +248,7 @@ function seur_process_csv( $file_path ) {
     <div class="content-loader">
         <!-- Formulario para subir un archivo CSV -->
         <form method="post" action="admin.php?page=seur_rates_prices&tab=import_custom_rates" enctype="multipart/form-data">
+			<?php wp_nonce_field( 'seur_import_custom_rates_nonce', 'seur_import_custom_rates_nonce_field' ); ?>
             <input type="hidden" name="import_custom_rates" value="true" >
             <label for="csv_file"><?php echo esc_html__( 'Seleccione el archivo CSV', 'seur' ); ?>:</label>
             <input type="file" name="csv_file" id="csv_file" accept=".csv" required>

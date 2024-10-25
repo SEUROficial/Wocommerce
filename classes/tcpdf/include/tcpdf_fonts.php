@@ -70,6 +70,8 @@ class TCPDF_FONTS {
 	 * @public static
 	 */
 	public static function addTTFfont($fontfile, $fonttype='', $enc='', $flags=32, $outpath='', $platid=3, $encid=1, $addcbbox=false, $link=false) {
+		global $wp_filesystem;
+
 		if (!TCPDF_STATIC::file_exists($fontfile)) {
 			// Could not find file
 			return false;
@@ -102,7 +104,7 @@ class TCPDF_FONTS {
 		$fmetric['file'] = $font_name;
 		$fmetric['ctg'] = $font_name.'.ctg.z';
 		// get font data
-		$font = file_get_contents($fontfile);
+		$font = $wp_filesystem->get_contents( $fontfile );
 		$fmetric['originalsize'] = strlen($font);
 		// autodetect font type
 		if (empty($fonttype)) {
@@ -186,9 +188,12 @@ class TCPDF_FONTS {
 			$data .= $encrypted;
 			// store compressed font
 			$fmetric['file'] .= '.z';
-			$fp = TCPDF_STATIC::fopenLocal($outpath.$fmetric['file'], 'wb');
+			$outfile = $outpath . $fmetric['file'];
+			$compressed_data = gzcompress($data);
+			$wp_filesystem->put_contents( $outfile, $compressed_data, FS_CHMOD_FILE );
+			/*$fp = TCPDF_STATIC::fopenLocal($outpath.$fmetric['file'], 'wb');
 			fwrite($fp, gzcompress($data));
-			fclose($fp);
+			fclose($fp);*/
 			// get font info
 			$fmetric['Flags'] = $flags;
 			preg_match ('#/FullName[\s]*\(([^\)]*)#', $font, $matches);
@@ -366,9 +371,12 @@ class TCPDF_FONTS {
 				} else {
 					// store compressed font
 					$fmetric['file'] .= '.z';
-					$fp = TCPDF_STATIC::fopenLocal($outpath.$fmetric['file'], 'wb');
+					$outfile = $outpath . $fmetric['file'];
+					$compressed_font = gzcompress($font);
+					$wp_filesystem->put_contents( $outfile, $compressed_font, FS_CHMOD_FILE );
+					/*$fp = TCPDF_STATIC::fopenLocal($outpath.$fmetric['file'], 'wb');
 					fwrite($fp, gzcompress($font));
-					fclose($fp);
+					fclose($fp);*/
 				}
 			}
 			$offset += 4;
@@ -885,9 +893,13 @@ class TCPDF_FONTS {
 					$cidtogidmap = self::updateCIDtoGIDmap($cidtogidmap, $cid, $ctg[$cid]);
 				}
 				// store compressed CIDToGIDMap
-				$fp = TCPDF_STATIC::fopenLocal($outpath.$fmetric['ctg'], 'wb');
+				$outfile = $outpath . $fmetric['ctg'];
+				$compressed_data = gzcompress($cidtogidmap);
+				$wp_filesystem->put_contents( $outfile, $compressed_data, FS_CHMOD_FILE );
+
+				/*$fp = TCPDF_STATIC::fopenLocal($outpath.$fmetric['ctg'], 'wb');
 				fwrite($fp, gzcompress($cidtogidmap));
-				fclose($fp);
+				fclose($fp);*/
 			}
 		}
 		$pfile .= '$desc=array(';
@@ -911,9 +923,12 @@ class TCPDF_FONTS {
 		$pfile .= '$cw=array('.substr($fmetric['cw'], 1).');'."\n";
 		$pfile .= '// --- EOF ---'."\n";
 		// store file
-		$fp = TCPDF_STATIC::fopenLocal($outpath.$font_name.'.php', 'w');
+		$outfile = $outpath . $font_name . '.php';
+		$wp_filesystem->put_contents( $outfile, $pfile, FS_CHMOD_FILE );
+
+		/*$fp = TCPDF_STATIC::fopenLocal($outpath.$font_name.'.php', 'w');
 		fwrite($fp, $pfile);
-		fclose($fp);
+		fclose($fp);*/
 		// return TCPDF font name
 		return $font_name;
 	}

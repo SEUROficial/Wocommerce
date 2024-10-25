@@ -62,10 +62,11 @@ function updateMetaSeurShippingMethodService() {
     include_once plugin_dir_path( __FILE__ ).'../data/seur-products.php';
     $products = get_seur_product();
 
-    $sql = "SELECT option_name, option_value as custom_name
-            FROM ".$wpdb->prefix."options 
-            where option_name like '%_custom_name_field' and option_value != ''";
-    $ratesCustomNames = $wpdb->get_results( $sql ); //custom names
+    $ratesCustomNames = $wpdb->get_results($wpdb->prepare("
+        SELECT option_name, option_value as custom_name
+        FROM ".$wpdb->prefix."options 
+        where option_name like %s and option_value != ''
+    ", ['%_custom_name_field'])); //custom names
 
     foreach ($products as $code => $product) {
         $ratesNames[$code] = $code;
@@ -77,10 +78,11 @@ function updateMetaSeurShippingMethodService() {
         }
     }
 
-    $sql = "select order_id, order_item_name 
+    $ordersShippingMethods = $wpdb->get_results($wpdb->prepare("
+        select order_id, order_item_name 
             from ".$wpdb->prefix . "woocommerce_order_items
-            where order_item_type = 'shipping'";
-    $ordersShippingMethods = $wpdb->get_results( $sql ); //custom names
+            where order_item_type = %s
+    ", ['shipping']));
     foreach ($ordersShippingMethods as $orderShippingMethod) {
         $rateName = $orderShippingMethod->order_item_name;
         $customName = array_keys($ratesNames, $orderShippingMethod->order_item_name);

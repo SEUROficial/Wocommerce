@@ -125,7 +125,8 @@ class WC_Shipping_SEUR_Init {
 	 * WooCommerce not installed notice
 	 */
 	public function wc_deactivated() {
-		echo '<div class="error"><p>' . sprintf( esc_html__( 'WooCommerce SEUR Shipping requires %s to be installed and active.', 'seur' ), '<a href="http://www.woothemes.com/woocommerce/" target="_blank">WooCommerce</a>' ) . '</p></div>';
+        /* translators: %s is the name of Woocommerce plugin */
+        echo '<div class="error"><p>' . sprintf( esc_html__( 'WooCommerce SEUR Shipping requires %s to be installed and active.', 'seur' ), '<a href="http://www.woothemes.com/woocommerce/" target="_blank">WooCommerce</a>' ) . '</p></div>';
 	}
 
 	/**
@@ -193,11 +194,16 @@ class WC_Shipping_SEUR_Init {
 		);
 		$zones_admin_url = add_query_arg( $query_args, get_admin_url() . 'admin.php' );
 		?>
-		<div class="notice notice-success is-dismissible wc-seur-notice">
-			<p><?php echo sprintf( esc_html__( 'SEUR now supports shipping zones. The zone settings were added to a new SEUR method on the "Rest of the World" Zone. See the zones %1$shere%2$s ', 'seur' ), '<a href="' . esc_url( $zones_admin_url ) . '">', '</a>' ); ?></p>
-		</div>
+        <div class="notice notice-success is-dismissible wc-seur-notice">
+            <p>
+				<?php
+				// translators: %1$s is the opening anchor tag, and %2$s is the closing anchor tag.
+				echo sprintf( esc_html__( 'SEUR now supports shipping zones. The zone settings were added to a new SEUR method on the "Rest of the World" Zone. See the zones %1$shere%2$s', 'seur' ), '<a href="' . esc_url( $zones_admin_url ) . '">', '</a>' ); ?>
+            </p>
+        </div>
 
-		<script type="application/javascript">
+
+        <script type="application/javascript">
 			jQuery( '.notice.wc-seur-notice' ).on( 'click', '.notice-dismiss', function () {
 				wp.ajax.post('seur_dismiss_upgrade_notice');
 			});

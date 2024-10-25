@@ -1,13 +1,13 @@
 === SEUR Oficial ===
 Contributors: seuroficial
-Tags: woocommerce, shipping, seur, logistica, enviar paquete, pedidos, entregas
+Tags: woocommerce, shipping, seur, logistica, enviar paquete
 Requires at least: 4.0
 Tested up to: 6.6.2
-Stable tag: 2.2.13
+Stable tag: 2.2.14
 WC requires at least: 3.0
 WC tested up to: 9.1.4
-License: GPLv2 or later
-License URI: http://www.gnu.org/licenses/gpl-2.0.html
+License: GNU General Public License v3.0
+License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
 Add SEUR shipping method to WooCommerce. The SEUR plugin for WooCommerce allows you to manage your order dispatches in a fast and easy way
 
@@ -92,6 +92,16 @@ The "SEUR > Shipments" menu includes the option to track your shipment and see t
 == Screenshots ==
 
 == Changelog ==
+
+== 2.2.14 ==
+
+* ADDED: New pick-up layout design and cancel pick-up functionality
+* ADDED: Set downloaded label meta in other functions
+* FIXED: Vulnerability Report CVE-2024-9438
+* FIXED: Fix change value
+* FIXED: Fix has label function
+* FIXED: Fix required from rate state value
+* REMOVED: Log token email
 
 == 2.2.13 ==
 
