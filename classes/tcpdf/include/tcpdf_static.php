@@ -393,7 +393,7 @@ class TCPDF_STATIC {
 	 * @public static
 	 */
 	public static function getFormattedDate($time) {
-		return substr_replace(date('YmdHisO', intval($time)), '\'', (0 - 2), 0).'\'';
+		return substr_replace(gmdate('YmdHisO', intval($time)), '\'', (0 - 2), 0).'\'';
 	}
 
 	/**
@@ -405,7 +405,7 @@ class TCPDF_STATIC {
 	 * @public static
 	 */
 	public static function getRandomSeed($seed='') {
-		$rnd = uniqid(rand().microtime(true), true);
+		$rnd = uniqid(wp_rand().microtime(true), true);
 		if (function_exists('posix_getpid')) {
 			$rnd .= posix_getpid();
 		}
@@ -1524,7 +1524,14 @@ class TCPDF_STATIC {
 	public static function getHyphenPatternsFromTEX($file) {
 		// TEX patterns are available at:
 		// http://www.ctan.org/tex-archive/language/hyph-utf8/tex/generic/hyph-utf8/patterns/
-		$data = file_get_contents($file);
+		$response = wp_remote_get($file);
+        if (is_wp_error($response)) {
+            $error_message = $response->get_error_message();
+            $data = '';
+        } else {
+            $data = wp_remote_retrieve_body($response);  // Get the content of the response
+        }
+
 		$patterns = array();
 		// remove comments
 		$data = preg_replace('/\%[^\n]*/', '', $data);
@@ -1815,40 +1822,60 @@ class TCPDF_STATIC {
 	 * @public static
 	 */
 	public static function fopenLocal($filename, $mode) {
+		global $wp_filesystem;
+
+
 		if (strpos($filename, '://') === false) {
 			$filename = 'file://'.$filename;
 		} elseif (stream_is_local($filename) !== true) {
 			return false;
 		}
-		return fopen($filename, $mode);
+		// Ahora utiliza WP_Filesystem para abrir el archivo
+	    if ( ! $wp_filesystem->exists( $filename ) ) {
+		    return false; // Si el archivo no existe, devuelve false
+	    }
+
+	    // Abre el archivo usando la API WP_Filesystem
+	    $file_contents = $wp_filesystem->get_contents( $filename );
+
+	    // Si no se pudo obtener el contenido, devuelve false
+	    if ( $file_contents === false ) {
+		    return false;
+	    }
+
+	    // Si el modo es de escritura o lectura, puedes manejar los modos
+	    if ( $mode == 'r' ) {
+		    return $file_contents; // Devuelve el contenido del archivo si el modo es lectura
+	    } elseif ( $mode == 'w' ) {
+		    return $wp_filesystem->put_contents( $filename, '', FS_CHMOD_FILE ); // Crea un archivo vacío si el modo es escritura
+	    }
+
+	    return false; // Si el modo no es soportado, devuelve false
 	}
 
 	/**
 	 * Check if the URL exist.
 	 * @param url (string) URL to check.
-	 * @return Returns TRUE if the URL exists; FALSE otherwise.
+	 * @return boolean TRUE if the URL exists; FALSE otherwise.
 	 * @public static
 	 */
-	public static function url_exists($url) {
-		$crs = curl_init();
-		// encode query params in URL to get right response form the server
-		$url = self::encodeUrlQuery($url);
-		curl_setopt($crs, CURLOPT_URL, $url);
-		curl_setopt($crs, CURLOPT_NOBODY, true);
-		curl_setopt($crs, CURLOPT_FAILONERROR, true);
-		if (ini_get('open_basedir') == '') {
-            curl_setopt($crs, CURLOPT_FOLLOWLOCATION, true);
+    public static function url_exists($url) {
+        $url = self::encodeUrlQuery($url);
+        $args = array(
+            'timeout'     => 30,  // Timeout for the request
+            'redirection' => 5,   // Number of allowed redirects
+            'sslverify'   => false,  // Skip SSL verification (use with caution)
+            'user-agent'  => 'tc-lib-file'  // Custom user agent
+        );
+        $response = wp_remote_head($url, $args);
+
+        if (is_wp_error($response)) {
+            return false;
         }
-		curl_setopt($crs, CURLOPT_CONNECTTIMEOUT, 5);
-		curl_setopt($crs, CURLOPT_TIMEOUT, 30);
-		curl_setopt($crs, CURLOPT_SSL_VERIFYPEER, false);
-		curl_setopt($crs, CURLOPT_SSL_VERIFYHOST, false);
-		curl_setopt($crs, CURLOPT_USERAGENT, 'tc-lib-file');
-		curl_exec($crs);
-		$code = curl_getinfo($crs, CURLINFO_HTTP_CODE);
-		curl_close($crs);
-		return ($code == 200);
-	}
+
+        $response_code = wp_remote_retrieve_response_code($response);
+        return ($response_code == 200);
+    }
 
 	/**
 	 * Encode query params in URL
@@ -1893,99 +1920,104 @@ class TCPDF_STATIC {
 	 * The file can be also an URL.
 	 * @param $file (string) Name of the file or URL to read.
 	 * @return The function returns the read data or FALSE on failure. 
-	 * @author Nicola Asuni
 	 * @since 6.0.025
 	 * @public static
 	 */
-	public static function fileGetContents($file) {
-		$alt = array($file);
-		//
-		if ((strlen($file) > 1)
-		    && ($file[0] === '/')
-		    && ($file[1] !== '/')
-		    && !empty($_SERVER['DOCUMENT_ROOT'])
-		    && ($_SERVER['DOCUMENT_ROOT'] !== '/')
-		) {
-		    $findroot = strpos($file, $_SERVER['DOCUMENT_ROOT']);
-		    if (($findroot === false) || ($findroot > 1)) {
-			$alt[] = htmlspecialchars_decode(urldecode($_SERVER['DOCUMENT_ROOT'].$file));
-		    }
-		}
-		//
-		$protocol = 'http';
-		if (!empty($_SERVER['HTTPS']) && (strtolower($_SERVER['HTTPS']) != 'off')) {
-		    $protocol .= 's';
-		}
-		//
-		$url = $file;
-		if (preg_match('%^//%', $url) && !empty($_SERVER['HTTP_HOST'])) {
-			$url = $protocol.':'.str_replace(' ', '%20', $url);
-		}
-		$url = htmlspecialchars_decode($url);
-		$alt[] = $url;
-		//
-		if (preg_match('%^(https?)://%', $url)
-		    && empty($_SERVER['HTTP_HOST'])
-		    && empty($_SERVER['DOCUMENT_ROOT'])
-		) {
-			$urldata = parse_url($url);
-			if (empty($urldata['query'])) {
-				$host = $protocol.'://'.$_SERVER['HTTP_HOST'];
-				if (strpos($url, $host) === 0) {
-				    // convert URL to full server path
-				    $tmp = str_replace($host, $_SERVER['DOCUMENT_ROOT'], $url);
-				    $alt[] = htmlspecialchars_decode(urldecode($tmp));
-				}
-			}
-		}
-		//
-		if (isset($_SERVER['SCRIPT_URI'])
-		    && !preg_match('%^(https?|ftp)://%', $file)
-		    && !preg_match('%^//%', $file)
-		) {
-		    $urldata = @parse_url($_SERVER['SCRIPT_URI']);
-		    $alt[] = $urldata['scheme'].'://'.$urldata['host'].(($file[0] == '/') ? '' : '/').$file;
-		}
-		//
-		$alt = array_unique($alt);
-		foreach ($alt as $path) {
-			if (!self::file_exists($path)) {
-				continue;
-			}
-			$ret = @file_get_contents($path);
-			if ( $ret != false ) {
-			    return $ret;
-			}
-			// try to use CURL for URLs
-			if (!ini_get('allow_url_fopen')
-				&& function_exists('curl_init')
-				&& preg_match('%^(https?|ftp)://%', $path)
-			) {
-				// try to get remote file data using cURL
-				$crs = curl_init();
-				curl_setopt($crs, CURLOPT_URL, $path);
-				curl_setopt($crs, CURLOPT_BINARYTRANSFER, true);
-				curl_setopt($crs, CURLOPT_FAILONERROR, true);
-				curl_setopt($crs, CURLOPT_RETURNTRANSFER, true);
-				if (ini_get('open_basedir') == '') {
-                    curl_setopt($crs, CURLOPT_FOLLOWLOCATION, true);
-                }
-				curl_setopt($crs, CURLOPT_CONNECTTIMEOUT, 5);
-				curl_setopt($crs, CURLOPT_TIMEOUT, 30);
-				curl_setopt($crs, CURLOPT_SSL_VERIFYPEER, false);
-				curl_setopt($crs, CURLOPT_SSL_VERIFYHOST, false);
-				curl_setopt($crs, CURLOPT_USERAGENT, 'tc-lib-file');
-				$ret = curl_exec($crs);
-				curl_close($crs);
-				if ($ret !== false) {
-					return $ret;
-				}
-			}
-		}
-		return false;
-	}
+    public static function fileGetContents($file) {
+	    global $wp_filesystem;
 
-	/**
+	    $alt = array($file);
+
+        // Check if it's an absolute file path on the server
+        $document_root = sanitize_text_field(wp_unslash($_SERVER['DOCUMENT_ROOT']??''));
+        if ((strlen($file) > 1)
+            && ($file[0] === '/')
+            && ($file[1] !== '/')
+            && !empty($document_root)
+            && ($document_root !== '/')
+        ) {
+            $findroot = strpos($file, );
+            if (($findroot === false) || ($findroot > 1)) {
+                $alt[] = htmlspecialchars_decode(urldecode(document_root.$file));
+            }
+        }
+
+        // Determine protocol (http or https)
+        $protocol = 'http';
+        $https = sanitize_text_field(wp_unslash($_SERVER['HTTPS']??''));
+        if (!empty($https) && (strtolower(https) != 'off')) {
+            $protocol .= 's';
+        }
+
+        // Build the URL for remote access
+        $url = sanitize_text_field($file);
+        $http_host = sanitize_text_field(wp_unslash($_SERVER['HTTP_HOST']??''));
+        if (preg_match('%^//%', $url) && !empty($http_host)) {
+            $url = $protocol.':'.str_replace(' ', '%20', $url);
+        }
+        $url = htmlspecialchars_decode($url);
+        $alt[] = $url;
+
+        // Handle local URL transformations for remote files
+        if (preg_match('%^(https?)://%', $url) && empty($http_host) && empty($document_root)) {
+            $urldata = parse_url($url);
+            if (empty($urldata['query'])) {
+                $host = $protocol.'://'.$http_host;
+                if (strpos($url, $host) === 0) {
+                    $tmp = str_replace($host, $document_root, $url);
+                    $alt[] = htmlspecialchars_decode(urldecode($tmp));
+                }
+            }
+        }
+
+        // Construct full URL if necessary
+        $script_uri = sanitize_text_field(wp_unslash($_SERVER['SCRIPT_URI']??''));
+        if (isset($script_uri)
+            && !preg_match('%^(https?|ftp)://%', $file)
+            && !preg_match('%^//%', $file)
+        ) {
+            $urldata = parse_url($script_uri);
+            $alt[] = $urldata['scheme'].'://'.$urldata['host'].(($file[0] == '/') ? '' : '/').sanitize_text_field($file);
+        }
+
+        // Unique paths
+        $alt = array_unique($alt);
+
+        foreach ($alt as $path) {
+            if (!self::file_exists($path)) {
+                continue;
+            }
+
+            // Check if it's a local file
+            if (!preg_match('%^(https?|ftp)://%', $path)) {
+	            $ret = $wp_filesystem->get_contents( $path );
+                if ($ret !== false) {
+                    return $ret;
+                }
+            } else {
+                // Use wp_remote_get for remote URLs
+                $response = wp_remote_get($path, array(
+                    'timeout' => 30,
+                    'sslverify' => false,
+                    'user-agent' => 'tc-lib-file',
+                ));
+
+                if (is_wp_error($response)) {
+                    continue;
+                }
+
+                // Retrieve the body of the response
+                $ret = wp_remote_retrieve_body($response);
+                if ($ret !== false) {
+                    return $ret;
+                }
+            }
+        }
+
+        return false;
+    }
+
+    /**
 	 * Get ULONG from string (Big Endian 32-bit unsigned integer).
 	 * @param $str (string) string from where to extract value
 	 * @param $offset (int) point from where to read the data
@@ -2099,17 +2131,22 @@ class TCPDF_STATIC {
 	 * @since 4.5.027 (2009-03-16)
 	 * @public static
 	 */
-	public static function rfread($handle, $length) {
-		$data = fread($handle, $length);
-		if ($data === false) {
-			return false;
-		}
-		$rest = ($length - strlen($data));
-		if (($rest > 0) && !feof($handle)) {
-			$data .= self::rfread($handle, $rest);
-		}
-		return $data;
-	}
+    public static function rfread($handle, $length) {
+        global $wp_filesystem;
+        if (!is_object($wp_filesystem)) {
+            require_once(ABSPATH . 'wp-admin/includes/file.php');
+            WP_Filesystem();
+        }
+        $data = $wp_filesystem->fread($handle, $length);
+        if ($data === false) {
+            return false;
+        }
+        $rest = ($length - strlen($data));
+        if (($rest > 0) && ! $wp_filesystem->feof($handle)) {
+            $data .= self::rfread($handle, $rest);
+        }
+        return $data;
+    }
 
 	/**
 	 * Read a 4-byte (32 bit) integer from file.
@@ -2117,10 +2154,17 @@ class TCPDF_STATIC {
 	 * @return 4-byte integer
 	 * @public static
 	 */
-	public static function _freadint($f) {
-		$a = unpack('Ni', fread($f, 4));
-		return $a['i'];
-	}
+    public static function _freadint($f) {
+        global $wp_filesystem;
+        if (!is_object($wp_filesystem)) {
+            require_once(ABSPATH . 'wp-admin/includes/file.php');
+            WP_Filesystem();
+        }
+        // Leer 4 bytes usando WP_Filesystem
+        $data = $wp_filesystem->fread($f, 4);
+        $a = unpack('Ni', $data);
+        return $a['i'];
+    }
 
 	
 	/**

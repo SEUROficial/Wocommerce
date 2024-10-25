@@ -148,6 +148,23 @@ class Seur_Global {
 		return get_option( 'seur_save_date_cold' );
 	}
 
+	public function cancel_collection( $type ) {
+		update_option( 'seur_save_collection_' . $type, '' );
+	}
+
+	public function cancel_reference( $type ) {
+		update_option( 'seur_save_reference_' . $type, '' );
+	}
+
+	public function cancel_date_normal() {
+		update_option( 'seur_save_date_normal', '' );
+	}
+
+	public function cancel_date_cold() {
+		update_option( 'seur_save_date_cold', '' );
+	}
+
+
 	public function is_test() {
 		$is_test = $this->get_option( 'seur_test_field' );
 		if ( 1 === (int) $is_test ) {
@@ -225,18 +242,6 @@ class Seur_Global {
 
         update_option( 'seur_api_token', $token );
 
-        if ( $this->log_is_acive() ) {
-            $this->slog( '$result: ' . print_r( $result, true ) ); // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_print_r
-            $this->slog( 'Token: ' . $token );
-            $this->slog( '/*****************************/' );
-            $this->slog( 'sending Token confirmation mail' );
-            $this->slog( '/*****************************/' );
-            $to      = get_bloginfo( 'admin_email' );
-            $subject = 'API Seur Guardada correctamente';
-            $body    = 'Se ha generado de forma correcta un nuevo Token. El nuevo token es: ' . $token;
-            $headers = array( 'Content-Type: text/html; charset=UTF-8' );
-            wp_mail( $to, $subject, $body, $headers );
-        }
         return $token;
     }
 
@@ -354,55 +359,64 @@ class Seur_Global {
      * @param $header array
      * @param $data array
      * @param $action string
-     * @param $implode bool
+     * @param $queryparams bool
+     * @param $file bool
      *
      * @return mixed json
      * */
-    public function sendCurl($url, $header, $data, $action, $queryparams = false, $file = false) {
-        if ($action=='POST') {
-            $curl = curl_init($url);
-            /* headers didn't need to be set, cURL automatically sets headers when
-               you pass an ARRAY into CURLOPT_POSTFIELDS -> (content-type: multipart/form-data; content-length...) */
-            curl_setopt($curl, CURLOPT_HTTPHEADER, $header);
+    public function sendCurl($url, $header, $data, $action, $queryparams = false, $file = false)
+    {
+        // Prepare the args for the request
+        $args = array(
+            'headers' => $header,
+            'timeout' => 45,
+            'sslverify' => false,
+            'body' => null, // We'll set this later
+            'user-agent' => 'WooCommerce',
+            'httpversion' => '1.0',
+        );
 
+        if ($action == 'POST') {
             if ($queryparams) {
-                curl_setopt($curl, CURLOPT_POSTFIELDS, implode('&', $data));  // este para el token
+                // For token or query params, we use URL-encoded data
+                $args['body'] = implode('&', $data);
             } elseif ($file) {
-                curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
+                // For file upload, pass the data directly
+                $args['body'] = $data;
             } else {
-                curl_setopt($curl, CURLOPT_POST, true);  // application/x-www-form-urlencoded
-                curl_setopt($curl, CURLOPT_POSTFIELDS, json_encode($data));
+                // For regular POST, we send JSON-encoded data
+                $args['body'] = json_encode($data);
+                $args['headers']['Content-Type'] = 'application/json';
             }
+
+            // Perform the POST request
+            $response = wp_remote_post($url, $args);
+
         } else {
-            $curl = curl_init($url . '?'. http_build_query($data));
-            curl_setopt($curl, CURLOPT_HTTPHEADER, $header);
-            curl_setopt($curl, CURLOPT_CUSTOMREQUEST, $action);
+            // For other methods like GET, PUT, DELETE
+            $args['method'] = $action;
+            $url_with_params = $url . '?' . http_build_query($data);
+
+            // Perform the custom request
+            $response = wp_remote_get($url_with_params, $args);
         }
 
-        curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, false);
-        curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
-        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-
-        $result = curl_exec($curl);
-        if (json_decode($result) !==null ){
-            $result = json_decode($result);
-        }
-
-        if (curl_errno($curl)){
-            $this->log->log(WC_Log_Levels::ERROR, "CURL ERROR: ".curl_error($curl));
-            curl_close($curl);
+        // Handle the response
+        if (is_wp_error($response)) {
+            $error_message = $response->get_error_message();
+            $this->log->log(WC_Log_Levels::ERROR, "HTTP ERROR: $error_message");
             return false;
         }
-        if (isset($result->error) || isset($result->errors)) {
-            $this->log->log(WC_Log_Levels::ERROR, "CURL url: ".$url ."<br>
-                header: ". json_encode($header) ."<br>
-                params: ". json_encode($data) ."<br>
-                result: ". json_encode($result)
-            );
-        }
 
-        curl_close($curl);
-        return $result;
+        $result = wp_remote_retrieve_body($response);
+        $decoded_result = json_decode($result, true);
+
+        if (json_last_error() === JSON_ERROR_NONE) {
+            return $decoded_result;
+        } else {
+            $this->log->log(WC_Log_Levels::ERROR, "Invalid JSON response: " . $result);
+            return $result;  // Return raw result if not JSON
+        }
     }
 
     /**
@@ -422,9 +436,11 @@ class Seur_Global {
         if (!$token)
             return false;
 
-        $headers[] = "Accept: */*";
-        $headers[] = "Content-Type: application/json";
-        $headers[] = "Authorization: ".$token;
+        $headers = [
+            'Content-Type' => 'application/json;charset=UTF-8',
+            'Accept' => 'application/json',
+            'Authorization' => $token,
+        ];
 
         $data = [
             'countryCode' => $datos['countryCode'],
@@ -438,10 +454,10 @@ class Seur_Global {
             return false;
         }
 
-        if (!isset($response->data)) {
+        if (!isset($response['data'])) {
             return false;
         }
-        return $response->data;
+        return $response['data'];
     }
 
     public function prepareDataShipmentAux($id_order, $label_data)
@@ -630,7 +646,7 @@ class Seur_Global {
     public function getDeliveryDate()
     {
         $deliveryDate = new DateTime('tomorrow');
-        $deliveryDay = strtolower(date('l', $deliveryDate->getTimestamp()));
+        $deliveryDay = strtolower(gmdate('l', $deliveryDate->getTimestamp()));
         if ($deliveryDay == 'sunday') {
             $deliveryDate->add(new \DateInterval('P1D'));
         }
@@ -680,19 +696,21 @@ class Seur_Global {
             if (!$token || empty($token))
                 return false;
 
-            $headers[] = "Accept: */*";
-            $headers[] = "Content-Type: application/json";
-            $headers[] = "Authorization: ".$token;
+            $headers = [
+                'Content-Type' => 'application/json;charset=UTF-8',
+                'Accept' => 'application/json',
+                'Authorization' => $token,
+            ];
 
             $response = $this->sendCurl($url, $headers, $preparedData, "POST");
 
             $message = '';
-            if (isset($response->errors)) {
-                $message = 'addShipment Error: '.$response->errors[0]->detail;
+            if (isset($response['errors'])) {
+                $message = 'addShipment Error: '.$response['errors'][0]['detail'];
             }
 
-            if (isset($response->error)) {
-                $message = 'addShipment Error: '.$response->error;
+            if (isset($response['error'])) {
+                $message = 'addShipment Error: '.$response['error'];
             }
 
             if (is_string($response)) {
@@ -724,7 +742,8 @@ class Seur_Global {
 
     public function getLabel($response, $is_pdf, $label_data, $order_id)
     {
-        if (is_array($response) && isset($response['response'])) {
+	    global $wp_filesystem;
+	    if ( is_array($response) && isset($response['response'])) {
             $response = $response['response'];
         }
 
@@ -736,9 +755,11 @@ class Seur_Global {
             if (!$token)
                 return false;
 
-            $headers[] = "Accept: */*";
-            $headers[] = "Content-Type: application/json";
-            $headers[] = "Authorization: ".$token;
+            $headers = [
+                'Content-Type' => 'application/json;charset=UTF-8',
+                'Accept' => 'application/json',
+                'Authorization' => $token,
+            ];
 
             $type = new PrinterType();
             $types = $type->getOptions();
@@ -748,7 +769,7 @@ class Seur_Global {
 			$merge_labels = !$is_pdf;
 
             $data = [
-                'code' => $response->data->shipmentCode,
+                'code' => $response['data']['shipmentCode'],
                 'type' => $printerType,
                 'entity' => 'EXPEDITIONS'
             ];
@@ -758,8 +779,8 @@ class Seur_Global {
 
             $responseLabel = $this->sendCurl($urlws, $headers, $data, "GET");
 
-            if (isset($responseLabel->errors)) {
-                $message = 'getLabel Error: '.$responseLabel->errors[0]->detail;
+            if (isset($responseLabel['errors'])) {
+                $message = 'getLabel Error: '.$responseLabel['errors'][0]['detail'];
                 $this->log->log(WC_Log_Levels::ERROR, $message);
                 return [ 'status'=> false,
                     'message' => $message ];
@@ -768,7 +789,7 @@ class Seur_Global {
             $upload_dir = seur_upload_dir( 'labels' );
             $upload_url = seur_upload_url( 'labels' );
 
-            if (!is_writable($upload_dir)) {
+            if (! $wp_filesystem->is_writable($upload_dir)) {
                 $message = 'getLabel Error: '.$upload_dir . ' is NOT writable';
                 $this->log->log(WC_Log_Levels::ERROR, $message);
                 return [ 'status'=> false,
@@ -780,15 +801,15 @@ class Seur_Global {
             $cont = 1;
             $content = '';
             // Generate file/s with then content of the labels
-            foreach ($responseLabel->data as $data) {
+            foreach ($responseLabel['data'] as $data) {
                 if ($is_pdf) {
-                    $content = base64_decode($data->pdf);
+                    $content = base64_decode($data['pdf']);
                 } else {
-                    $content = $data->label;
+                    $content = $data['label'];
                 }
 
 				// When merging labels, all labels are written to the same file. A suffix is added in other case.
-	            $label_file = 'label_order_id_' . $order_id . '_' . date( 'd-m-Y' );
+	            $label_file = 'label_order_id_' . $order_id . '_' . gmdate( 'd-m-Y' );
 				if ( !$merge_labels ) {
 					$label_file .= ($cont == 1 ? '' : '_' . $cont);
 				}
@@ -796,12 +817,14 @@ class Seur_Global {
 
                 $upload_path = $upload_dir . '/' . $label_file;
 
-                if ( false === file_put_contents($upload_path, $content, FILE_APPEND) ) {
-                    $message = 'getLabel Error file_put_contents: '.$upload_path;
-                    $this->log->log(WC_Log_Levels::ERROR, $message);
-                    return [ 'status'=> false,
-                        'message' => $message ];
-                }
+	            if ( ! $wp_filesystem->put_contents( $upload_path, $content, FS_CHMOD_FILE | FILE_APPEND ) ) {
+		            $message = 'getLabel Error file_put_contents: ' . $upload_path;
+		            $this->log->log( WC_Log_Levels::ERROR, $message );
+		            return [
+			            'status'  => false,
+			            'message' => $message,
+		            ];
+	            }
                 if (!in_array($label_file, $label_files)) {
                     $label_files[] = $label_file;
                 }
@@ -859,7 +882,7 @@ class Seur_Global {
                 $message = 'OK';
                 if (! $labelid ) {
                     $result = false;
-                    $message = $responseLabel->out->mensaje;
+                    $message = $responseLabel['out']['mensaje'];
                 }
                 $seur_label[] = [
                     'result' => $result,
@@ -873,11 +896,12 @@ class Seur_Global {
             $order = seur_get_order($order_id);
             $order->update_meta_data('_seur_shipping_id_number', $label_data['order_id_seur'] );
             $order->update_meta_data('_seur_label_id_number', $labelids);
+            $order->update_meta_data( '_seur_shipping_order_label_downloaded', 'yes');
             $order->save_meta_data();
 
-            $expeditionCode = $response->data->shipmentCode;
-            $ecbs = $response->data->ecbs;
-            $parcelNumbers = $response->data->parcelNumbers;
+            $expeditionCode = $response['data']['shipmentCode'];
+            $ecbs = $response['data']['ecbs'];
+            $parcelNumbers = $response['data']['parcelNumbers'];
 
             $this->log->log(WC_Log_Levels::INFO, "getLabel OK");
             return [
@@ -909,7 +933,7 @@ class Seur_Global {
         if (!empty($pickup_data)) {
             $datepickup = explode(' ', $pickup_data['date']);
             $datepickup = $datepickup[0];
-            if (strtotime(date('Y-m-d')) == strtotime($datepickup))
+            if (strtotime(gmdate('Y-m-d')) == strtotime($datepickup))
                 $make_pickup = false;
         }
         if ($make_pickup && $auto) {
@@ -951,20 +975,24 @@ class Seur_Global {
 
     public function is_seur_order($order_id) {
         global $wpdb;
-        $query = "SELECT distinct o.order_id
+        return $wpdb->get_results($wpdb->prepare(
+            "SELECT distinct o.order_id
             FROM {$wpdb->prefix}woocommerce_order_items o
             inner join {$wpdb->prefix}woocommerce_order_itemmeta om on om.order_item_id = o.order_item_id
-            where om.meta_key = 'method_id' and (om.meta_value like '%seur%')
-            AND o.order_id = ".$order_id;
-        return $wpdb->get_results( $query );
+            where om.meta_key = %s and (om.meta_value like %s)
+            AND o.order_id = %d",
+            ['method_id', '%seur%', $order_id])
+        );
     }
 
     public function is_seur_local_method($custom_rate_id) {
         global $wpdb;
-        $query = "SELECT ID
+        return $wpdb->get_results($wpdb->prepare(
+            "SELECT ID
             FROM {$wpdb->prefix}seur_custom_rates
-            where rate like '%2SHOP' and ID = ".$custom_rate_id;
-        return $wpdb->get_results( $query );
+            where rate like %s and ID = %d",
+            ['%2SHOP', $custom_rate_id])
+        );
     }
 
 
@@ -1011,9 +1039,8 @@ class Seur_Global {
      */
     public function has_label($post_order_int) {
         $order = seur_get_order($post_order_int);
-        $has_label = $order->get_meta('_seur_shipping_order_label_downloaded', true );
         $label_ids = seur_get_labels_ids( $order->get_id() );
-        return $has_label && (!empty($label_ids));
+        return (!empty($label_ids));
     }
 }
 

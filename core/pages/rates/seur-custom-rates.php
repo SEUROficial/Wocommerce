@@ -27,8 +27,10 @@ $rates_type = get_option( 'seur_rates_type_field' ); ?>
 					<th class="manage-column"><?php esc_html_e( 'Country', 'seur' ); ?></th>
 					<th class="manage-column"><?php esc_html_e( 'State', 'seur' ); ?></th>
 					<th class="manage-column"><?php esc_html_e( 'Postcode', 'seur' ); ?></th>
-					<th class="manage-column"><?php esc_html_e( 'Min '. $rates_type, 'seur' ); ?></th>
-					<th class="manage-column"><?php esc_html_e( 'Max '.$rates_type, 'seur' ); ?></th>
+                    <?php // translators: %s is the type of rate (e.g., weight, price). ?>
+                    <th class="manage-column"><?php printf( esc_html__( 'Min %s', 'seur' ), esc_html( $rates_type ) ); ?></th>
+                    <?php // translators: %s is the type of rate (e.g., weight, price). ?>
+                    <th class="manage-column"><?php printf( esc_html__( 'Max %s', 'seur' ), esc_html( $rates_type ) ); ?></th>
 					<th class="manage-column"><?php esc_html_e( 'Rate Price', 'seur' ); ?></th>
 					<th class="manage-column"><?php esc_html_e( 'edit', 'seur' ); ?></th>
 					<th class="manage-column"><?php esc_html_e( 'delete', 'seur' ); ?></th>
@@ -83,9 +85,11 @@ $rates_type = get_option( 'seur_rates_type_field' ); ?>
 						<th class="manage-column"><?php esc_html_e( 'Country', 'seur' ); ?></th>
 						<th class="manage-column"><?php esc_html_e( 'State', 'seur' ); ?></th>
 						<th class="manage-column"><?php esc_html_e( 'Postcode', 'seur' ); ?></th>
-						<th class="manage-column"><?php esc_html_e( 'Min '. $rates_type, 'seur' ); ?></th>
-						<th class="manage-column"><?php esc_html_e( 'Max '. $rates_type, 'seur' ); ?></th>
-						<th class="manage-column"><?php esc_html_e( 'Rate Price', 'seur' ); ?></th>
+                        <?php /* translators: %s is the type of rate (e.g., weight, price) */ ?>
+                        <th class="manage-column"><?php printf( esc_html__( 'Min %s', 'seur' ), esc_html( $rates_type ) ); ?></th>
+						<?php /* translators: %s is the type of rate (e.g., weight, price) */ ?>
+                        <th class="manage-column"><?php printf( esc_html__( 'Max %s', 'seur' ), esc_html( $rates_type ) ); ?></th>
+                        <th class="manage-column"><?php esc_html_e( 'Rate Price', 'seur' ); ?></th>
 						<th class="manage-column"><?php esc_html_e( 'edit', 'seur' ); ?></th>
 						<th class="manage-column"><?php esc_html_e( 'delete', 'seur' ); ?></th>
 					</tr>

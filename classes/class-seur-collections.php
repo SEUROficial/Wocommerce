@@ -214,9 +214,58 @@ class Seur_Collections {
 		}
 		return json_decode( $result, true );
 	}
+
+	/**
+	 * Cancelar una recogida
+	 *
+	 * @param string $reference - La referencia de la recogida a cancelar
+	 * @return mixed|false
+	 */
+	public function cancel_collection( $reference ) {
+		// URL de la API para cancelar la recogida
+		$url_cancel = $this->seur_adr . '/cancel';
+
+		// Preparar los datos de la solicitud de cancelación
+		$data = wp_json_encode( array( 'codes' => array( $reference ) ) );
+
+		// Encabezados de la solicitud
+		$headers = array(
+			'Content-Type'  => 'application/json;charset=UTF-8',
+			'Accept'        => 'application/json',
+			'Authorization' => seur()->get_token_b(),
+		);
+
+		if ( seur()->log_is_acive() ) {
+			seur()->slog( 'Cancelando recogida con referencia: ' . $reference );
+			seur()->slog( 'Data enviada: ' . print_r( $data, true ) );
+		}
+
+		// Configuración de la solicitud
+		$args = array(
+			'method'      => 'POST',
+			'timeout'     => 45,
+			'httpversion' => '1.0',
+			'user-agent'  => 'WooCommerce',
+			'headers'     => $headers,
+			'body'        => $data,
+		);
+
+		// Enviar la solicitud a la API
+		$response      = wp_remote_post(
+			$url_cancel,
+			$args
+		);
+		$response_body = wp_remote_retrieve_body( $response );
+		$result        = json_decode( wp_json_encode( $response_body ), true );
+		return json_decode( $result, true );
+
+	}
 }
 function seur_collections( $data ) {
-	$collection = new Seur_Collections();
-	$result     = $collection->collection_remote_post( $data );
-	return $result;
+	return ( new Seur_Collections() )->collection_remote_post( $data );
 }
+
+function seur_cancel_collection( $reference ) {
+	return ( new Seur_Collections() )->cancel_collection( $reference );
+}
+

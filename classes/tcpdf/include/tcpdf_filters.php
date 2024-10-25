@@ -471,7 +471,7 @@ class TCPDF_FILTERS {
 	 * @public static
 	 */
 	public static function Error($msg) {
-		throw new Exception('TCPDF_PARSER ERROR: '.$msg);
+		throw new Exception('TCPDF_PARSER ERROR: '.esc_attr($msg));
 	}
 
 } // END OF TCPDF_FILTERS CLASS

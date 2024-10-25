@@ -16,13 +16,13 @@ function seur_country_state_process() {
 
         $countries = $products[$rate]['pais'];
         $options = seur()->getCountries($countries);
-        echo '<select class="select country" id="country" title="' . esc_html__( 'Select Country', 'seur' ) . '" name="country">';
-        echo '<option value="NULL">' . esc_html__( 'Select', 'seur' ) . '</option>';
+        echo '<select class="select country" id="country" title="' . esc_html__( 'Select Country', 'seur' ) . '" name="country" required>';
+        echo '<option value="">' . esc_html__( 'Select', 'seur' ) . '</option>';
         if (count($countries)==1 && $countries[0] !=='ES') {
             echo '<option value="*">' . esc_html__( 'All Countries', 'seur' ) . '</option>';
         }
         foreach ($options as $code => $country) {
-            echo '<option value="'.$code.'">' . esc_html__( $country, 'seur' ) . '</option>';
+	        echo '<option value="' . esc_attr( $code ) . '">' . esc_html( $country ) . '</option>';
         }
         echo '</select>';
 		//set_transient( get_current_user_id() . '_seur_rate', $rate );
@@ -46,15 +46,16 @@ function seur_country_state_process() {
         } else {
             $title = 'Type State';
             $placeholder = 'EX : State';
-            $value = 'required=""';
+            $value = '';
             if ( '*' === $country) {
                 $title = 'No needed';
                 $placeholder = 'No needed';
                 $value = 'value="*" readonly';
             }
-            echo '<input title="' . esc_html__( $title, 'seur' ) . '" type="text" name="state" 
-                 class="form-control" placeholder="' . esc_html__( $placeholder , 'seur' ) . '" '.$value.'
-                 >';
+	        echo '<input title="' . esc_html( $title ) . '" type="text" name="state" 
+                 class="form-control" placeholder="' . esc_html( $placeholder ) . '" value="' . esc_attr( $value ) . '">';
+
+
         }
 		unset( $country );
 	}

@@ -26,11 +26,20 @@ function seur_edit_rate() {
 		}
 	}
 	$rates_type = get_option( 'seur_rates_type_field' );
-    $min       = __( 'Min '.$rates_type.' (=)', 'seur' );
-    $title_min = __( 'The product '.$rates_type.' is equal or mayor of this field', 'seur' );
-    $max       = __( 'Max '.$rates_type.' (<)', 'seur' );
-    $title_max = __( 'The product '.$rates_type.' is minor of this field', 'seur' );
-    ?>
+	// translators: %s is the type of rate (e.g., weight, price).
+	$min = sprintf( __( 'Min %s (=)', 'seur' ), esc_html( $rates_type ) );
+
+    // translators: %s is the type of rate (e.g., weight, price).
+	$title_min = sprintf( __( 'The product %s is equal or greater than this field', 'seur' ), esc_html( $rates_type ) );
+
+    // translators: %s is the type of rate (e.g., weight, price).
+	$max = sprintf( __( 'Max %s (<)', 'seur' ), esc_html( $rates_type ) );
+
+    // translators: %s is the type of rate (e.g., weight, price).
+	$title_max = sprintf( __( 'The product %s is less than this field', 'seur' ), esc_html( $rates_type ) );
+
+
+	?>
 	<style type="text/css">
 	#dis{
 		display:none;
@@ -61,7 +70,7 @@ function seur_edit_rate() {
 			<tr>
 				<td><?php esc_html_e( 'Country', 'seur' ); ?></td>
 				<td id="countryid">
-					<select class="select country" value="Select" id="country" title="<?php esc_html_e( 'Select Country', 'seur' ); ?>" name="country">
+					<select class="select country" value="Select" id="country" title="<?php esc_html_e( 'Select Country', 'seur' ); ?>" name="country" required>
 						<?php
 						if ( 'ES' === $getrate->country || 'PT' === $getrate->country || 'AD' === $getrate->country ) {
 
@@ -135,11 +144,15 @@ function seur_edit_rate() {
 			</tr>
 			<tr>
 				<td><?php echo esc_html( $min ); ?></td>
-				<td><input title="<?php echo esc_html( $title_min ); ?>" type='text' name='min<?php echo $rates_type; ?>' value='<?php echo esc_html( $min_value ); ?>' class='form-control' placeholder='EX : 0.50' required=""></td>
+                <td>
+                    <input title="<?php echo esc_html( $title_min ); ?>" type='text' name='min<?php echo esc_attr( $rates_type ); ?>' value='<?php echo esc_html( $min_value ); ?>' class='form-control' placeholder='EX : 0.50' required="">
+                </td>
 			</tr>
 			<tr>
 				<td><?php echo esc_html( $max ); ?></td>
-				<td><input title="<?php echo esc_html( $title_max ); ?>" type='text' name='max<?php echo $rates_type; ?>' value='<?php echo esc_html( $max_value ); ?>' class='form-control' placeholder='EX : 100.34' required=""></td>
+                <td>
+                    <input title="<?php echo esc_html( $title_max ); ?>" type='text' name='max<?php echo esc_attr( $rates_type ); ?>' value='<?php echo esc_html( $max_value ); ?>' class='form-control' placeholder='EX : 100.34' required="">
+                </td>
 			</tr>
 			<tr>
 				<td><?php esc_html_e( 'Rate Price', 'seur' ); ?></td>

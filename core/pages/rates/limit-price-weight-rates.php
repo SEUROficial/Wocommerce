@@ -27,17 +27,17 @@ if ( ! defined( 'ABSPATH' ) ) {
                     <?php
                     $products = seur()->get_products();
                     foreach ( $products as $code => $product ) {
-                        if (isset( $_POST['seur_limit_price_weight_rates_post'] )) {
+                        if (isset( $_POST['seur_limit_price_weight_rates_post']) && isset( $_POST[$product['field'] . '_max_price_field'] ) ) {
                             $max_price_value = sanitize_text_field( wp_unslash( $_POST[$product['field'] . '_max_price_field'] ) );
                             update_option( $product['field'] . '_max_price_field', $max_price_value );
                         }
 
                         $max_price_field = get_option($product['field'] . '_max_price_field');
-                        echo '<tr>
-                            <th scope="row">'.$code.'</th>
-                            <td><input title="'. $code.'" type="text" 
-                                name="'.$product['field'].'_max_price_field" 
-                                value="'. ($max_price_field ? esc_html( $max_price_field ):'').'" size="40">
+	                    echo '<tr>
+                            <th scope="row">' . esc_html( $code ) . '</th>
+                            <td><input title="' . esc_attr( $code ) . '" type="text" 
+                                name="' . esc_attr( $product['field'] ) . '_max_price_field" 
+                                value="' . ( $max_price_field ? esc_html( $max_price_field ) : '' ) . '" size="40">
                             </td>
                         </tr>';
                     }

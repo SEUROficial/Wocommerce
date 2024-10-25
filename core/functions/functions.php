@@ -52,17 +52,15 @@ function seur_admin_notices() {
  * @param string $url URL to check.
  */
 function seur_api_check_url_exists( $url ) {
-    $exception_message = '';
-	try {
-		$curl_client = curl_init($url);
-	} catch ( Exception $e ) {
-		$exception_message = $e->getMessage();
-	}
-	if ( ! $exception_message ) {
-		return true;
-	} else {
-		return false;
-	}
+    /*
+    $response = wp_remote_head( $url );
+    if ( is_wp_error( $response ) ) {
+        return false;
+    }
+    $status_code = wp_remote_retrieve_response_code( $response );
+    return ( $status_code >= 200 && $status_code < 400 );
+    */
+    return true;
 }
 
 /**
@@ -1509,7 +1507,7 @@ function seur_api_get_label( $order_id, $numpackages = '1', $weight = '1', $post
 			$response['data']['shipmentCode'] = $expeditionCode;
 			$response['data']['ecbs'] = $ecbs;
 			$response['data']['parcelNumbers'] = $parcelNumbers;
-			$response = json_decode(json_encode($response));
+			//$response = json_decode(json_encode($response));
 		}
 
 		$is_pdf = seur()->isPdf();
@@ -1530,6 +1528,7 @@ function seur_api_get_label( $order_id, $numpackages = '1', $weight = '1', $post
         $order->update_meta_data('_seur_label_files', $result['label_files']);
         $order->update_meta_data('_seur_label_trackingNumber', $trackingNumber );
         $order->update_meta_data('_seur_label_id_number', $result['label_ids']);
+        $order->update_meta_data('_seur_shipping_order_label_downloaded', 'yes');
         $order->save_meta_data();
 
 		seur()->createPickupIfAuto($shipmentData, $order_id);  //#TODO PENDIENTE DE LA MIGRACIÓN DE PICKUPS
@@ -1565,7 +1564,7 @@ function seur_api_preprare_label_data($order_id, $numpackages = '1', $weight = '
 	//$seur_shipping_method_id  				  = seur_return_shipping_product_id( $seur_shipping_method );
 	$preparedData['seur_shipping_method']     = $seur_shipping_method;
 	//$preparedData['seur_shipping_method_id']  = $seur_shipping_method_id;
-	$preparedData['date']                     = date( 'd-m-Y' ); // phpcs:ignore WordPress.DateTime.RestrictedFunctions.date_date
+	$preparedData['date']                     = gmdate( 'd-m-Y' ); // phpcs:ignore WordPress.DateTime.RestrictedFunctions.date_date
 	$preparedData['mobile_shipping']          = cleanPhone($order->get_meta('_shipping_mobile_phone', true ));
 	$preparedData['mobile_billing']           = cleanPhone($order->get_meta('_billing_mobile_phone', true ));
 	$preparedData['log']                      = new WC_Logger();
@@ -1733,7 +1732,7 @@ function seur_api_preprare_label_data($order_id, $numpackages = '1', $weight = '
 		if ( ! $fran ) {
 			return 'Error 1: postcode not found';
 		} else { // postalCode and country exist.
-            $fran = $fran[0]->depot;
+            $fran = $fran[0]['depot'];
 			if ( '74' === $fran || '77' === $fran || '56' === $fran || '35' === $fran || '38' === $fran || '52' === $fran || '60' === $fran || '70' === $fran ) {
 				$shipping_class = SHIPPING_CLASS_NACIONAL_FRANQUICIAS;
 			}
@@ -1747,7 +1746,7 @@ function seur_api_preprare_label_data($order_id, $numpackages = '1', $weight = '
 	$preparedData['portes'] = 'F';
 
 	$preparedData['seur_saturday_shipping'] = '';
-	if ( 0 === (int) $shipping_class && 'Friday' === date( 'l' ) ) { // phpcs:ignore WordPress.DateTime.RestrictedFunctions.date_date
+	if ( 0 === (int) $shipping_class && 'Friday' === gmdate( 'l' ) ) { // phpcs:ignore WordPress.DateTime.RestrictedFunctions.date_date
 		if (( 'ES' === $customer_country || 'AD' === $customer_country || 'PT' === $customer_country ) &&
 			( '3' === $preparedData['seur_service'] || '9' === $preparedData['seur_service'] ) ) {
 			$preparedData['seur_saturday_shipping'] = 'S';

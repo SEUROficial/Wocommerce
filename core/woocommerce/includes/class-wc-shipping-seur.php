@@ -305,7 +305,7 @@ class WC_Shipping_SEUR extends WC_Shipping_Method {
 				<label for="origin_country"><?php esc_html_e( 'Origin Country', 'seur' ); ?></label>
 			</th>
 			<td class="forminp">
-				<select name="woocommerce_seur_origin_country_state" id="woocommerce_seur_origin_country_state" style="width: 250px;" data-placeholder="<?php esc_html_e( 'Choose a country&hellip;', 'woocommerce' ); ?>" title="Country" class="chosen_select">
+				<select name="woocommerce_seur_origin_country_state" id="woocommerce_seur_origin_country_state" style="width: 250px;" data-placeholder="<?php esc_html_e( 'Choose a country&hellip;', 'seur' ); ?>" title="Country" class="chosen_select">
 				<?php echo WC()->countries->country_dropdown_options( $this->origin_country, $this->origin_state ? $this->origin_state : '*' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
 				</select>
 			</td>
@@ -616,7 +616,7 @@ function seur_add_0_to_shipping_label(string $label, WC_Shipping_Rate $method): 
 {
     // if shipping rate is 0, concatenate ": $0.00" to the label
 	if ( floatval($method->cost) <= 0  ) {
-		$label .= ': ' . wc_price(0) . ' - ' . __( 'Free shipping', 'woocommerce' );
+		$label .= ': ' . wc_price(0) . ' - ' . __( 'Free shipping', 'seur' );
 	}
 
     // return original or edited shipping label

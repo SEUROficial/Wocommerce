@@ -259,30 +259,30 @@ class PDFGeneratorCore extends TCPDF
         }
 
         $seed .= uniqid('', true);
-        $seed .= mt_rand(0, mt_getrandmax());
+        $seed .= wp_rand(0, mt_getrandmax());
         $seed .= __FILE__;
         $seed .= $this->bufferlen;
 
         if (isset($_SERVER['REMOTE_ADDR'])) {
-            $seed .= $_SERVER['REMOTE_ADDR'];
+            $seed .= sanitize_text_field(wp_unslash($_SERVER['REMOTE_ADDR']));
         }
         if (isset($_SERVER['HTTP_USER_AGENT'])) {
-            $seed .= $_SERVER['HTTP_USER_AGENT'];
+            $seed .= sanitize_text_field(wp_unslash($_SERVER['HTTP_USER_AGENT']));
         }
         if (isset($_SERVER['HTTP_ACCEPT'])) {
-            $seed .= $_SERVER['HTTP_ACCEPT'];
+            $seed .= sanitize_text_field(wp_unslash($_SERVER['HTTP_ACCEPT']));
         }
         if (isset($_SERVER['HTTP_ACCEPT_ENCODING'])) {
-            $seed .= $_SERVER['HTTP_ACCEPT_ENCODING'];
+            $seed .= sanitize_text_field(wp_unslash($_SERVER['HTTP_ACCEPT_ENCODING']));
         }
         if (isset($_SERVER['HTTP_ACCEPT_LANGUAGE'])) {
-            $seed .= $_SERVER['HTTP_ACCEPT_LANGUAGE'];
+            $seed .= sanitize_text_field(wp_unslash($_SERVER['HTTP_ACCEPT_LANGUAGE']));
         }
         if (isset($_SERVER['HTTP_ACCEPT_CHARSET'])) {
-            $seed .= $_SERVER['HTTP_ACCEPT_CHARSET'];
+            $seed .= sanitize_text_field(wp_unslash($_SERVER['HTTP_ACCEPT_CHARSET']));
         }
 
-        $seed .= mt_rand(0, mt_getrandmax());
+        $seed .= wp_rand(0, mt_getrandmax());
         $seed .= uniqid('', true);
         $seed .= microtime();
 

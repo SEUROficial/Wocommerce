@@ -117,7 +117,7 @@ if (seur_is_wc_order_hpos_enabled()) {
 function seur_order_weight_column( $columns ) {
 	$offset          = 8;
 	$updated_columns = array_slice( $columns, 0, $offset, true ) +
-	array( 'total_weight' => esc_html__( 'Weight', 'woocommerce' ) ) +
+	array( 'total_weight' => esc_html__( 'Weight', 'seur' ) ) +
 	array_slice( $columns, $offset, null, true );
 	return $updated_columns;
 }
@@ -134,7 +134,7 @@ function seur_custom_order_weight_column( $column ) {
 	if ( $column == 'total_weight' ) {
         $weight = get_post_meta( $post->ID, '_seur_cart_weight', true );
 		if ( $weight > 0 ) {
-			print $weight . ' ' . esc_attr( get_option( 'woocommerce_weight_unit' ) );
+			print esc_html( $weight ) . ' ' . esc_attr( get_option( 'woocommerce_weight_unit' ) );
 		} else {
 			print 'N/A';
 		}
@@ -144,7 +144,7 @@ function seur_custom_order_weight_column_hpos( $column, $order) {
     if ( $column == 'total_weight' ) {
         $weight = $order->get_meta(  '_seur_cart_weight', true );
         if ( $weight > 0 ) {
-            print $weight . ' ' . esc_attr( get_option( 'woocommerce_weight_unit' ) );
+            print esc_html( $weight ) . ' ' . esc_attr( get_option( 'woocommerce_weight_unit' ) );
         } else {
             print 'N/A';
         }
@@ -162,7 +162,12 @@ function seur_register_awaiting_shipment_status() {
 			'label'                     => 'Awaiting SEUR shipment',
 			'public'                    => true,
 			'show_in_admin_status_list' => true, // show count All (12) , Completed (9) , Awaiting shipment (2) ...
-			'label_count'               => _n_noop( __( 'Awaiting SEUR shipment <span class="count">(%s)</span>', '' ), __( 'Awaiting SEUR shipment <span class="count">(%s)</span>', 'seur' ) ),
+            // translators: %s is the number of SEUR shipments awaiting processing.
+			'label_count' => _n_noop(
+				'Awaiting SEUR shipment <span class="count">(%s)</span>',  // Singular
+				'Awaiting SEUR shipments <span class="count">(%s)</span>', // Plural
+				'seur'
+			),
 		)
 	);
 
@@ -199,7 +204,12 @@ function seur_register_awaiting_labels_status() {
 			'label'                     => 'Awaiting SEUR Labels',
 			'public'                    => true,
 			'show_in_admin_status_list' => true, // show count All (12) , Completed (9) , Awaiting shipment (2) ...
-			'label_count'               => _n_noop( __( 'Awaiting SEUR Label <span class="count">(%s)</span>', 'seur' ), __( 'Awaiting SEUR Label <span class="count">(%s)</span>', 'seur' ) ),
+            // translators: %s is the number of SEUR labels awaiting processing.
+			'label_count' => _n_noop(
+				'Awaiting SEUR Label <span class="count">(%s)</span>',  // Singular
+				'Awaiting SEUR Labels <span class="count">(%s)</span>', // Plural
+				'seur'
+			),
 		)
 	);
 
@@ -244,7 +254,12 @@ function seur_register_awaiting_shipment_status_list() {
 			'label'                     => 'Awaiting SEUR Shipment',
 			'public'                    => true,
 			'show_in_admin_status_list' => true, // show count All (12) , Completed (9) , Awaiting shipment (2) ...
-			'label_count'               => _n_noop( __( 'Awaiting SEUR Shipment <span class="count">(%s)</span>', 'seur' ), __( 'Awaiting SEUR Shipment <span class="count">(%s)</span>', 'seur' ) ),
+            // translators: %s is the number of SEUR shipments awaiting processing.
+			'label_count' => _n_noop(
+				'Awaiting SEUR Shipment <span class="count">(%s)</span>',  // Singular
+				'Awaiting SEUR Shipments <span class="count">(%s)</span>', // Plural
+				'seur'
+			),
 		)
 	);
 
@@ -357,7 +372,7 @@ function seur_woo_bulk_action() {
 	}
 
 	if ( isset( $_GET['post_status'] ) ) {
-			$sendback = add_query_arg( 'post_status', sanitize_text_field( $_GET['post_status'] ), $sendback );
+			$sendback = add_query_arg( 'post_status', sanitize_text_field(wp_unslash($_GET['post_status'])), $sendback );
 	}
 
 	// 4. Redirect client.
@@ -471,7 +486,7 @@ function seur_billing_mobil_phone_fields( $fields ) {
 add_action( 'woocommerce_admin_order_data_after_billing_address', 'seur_billing_mobil_phone_fields_display_admin_order_meta', 10, 1 );
 
 function seur_billing_mobil_phone_fields_display_admin_order_meta( $order ) {
-	echo '<p><strong>' . __( 'Billing Mobile Phone' ) . ':</strong> ' . $order->get_meta( '_billing_mobile_phone', true ) . '</p>';
+	echo '<p><strong>' . esc_html__( 'Billing Mobile Phone', 'seur' ) . ':</strong> ' . esc_html( $order->get_meta( '_billing_mobile_phone', true ) ) . '</p>';
 }
 
 add_filter( 'woocommerce_checkout_fields', 'seur_shipping_mobil_phone_fields' );
@@ -493,7 +508,7 @@ function seur_shipping_mobil_phone_fields( $fields ) {
 add_action( 'woocommerce_admin_order_data_after_shipping_address', 'seur_shipping_mobil_phone_fields_display_admin_order_meta', 10, 1 );
 
 function seur_shipping_mobil_phone_fields_display_admin_order_meta( $order ) {
-	echo '<p><strong>' . esc_html__( 'Shipping Mobile Phone' ) . ':</strong> ' . $order->get_meta(  '_shipping_mobile_phone', true ) . '</p>';
+	echo '<p><strong>' . esc_html__( 'Shipping Mobile Phone', 'seur' ) . ':</strong> ' . esc_html( $order->get_meta( '_shipping_mobile_phone', true ) ) . '</p>';
 }
 
 function seur_filter_price_rate_weight( $package_price, $raterate, $ratepricerate, $countryrate ) {
@@ -522,14 +537,15 @@ function seur_post_formats_filter_to_woo_order_administration() {
 	global $post_type;
 
     if (seur_is_order_page($post_type)) { ?>
-		<label for="dropdown_shop_order_seur_shipping_method" class="screen-reader-text"><?php _e( 'Seur Shippments', 'seur' ); ?></label>
+        <label for="dropdown_shop_order_seur_shipping_method" class="screen-reader-text"><?php esc_attr_e( 'Seur Shippments', 'seur' ); ?></label>
 		<select name="_shop_order_seur_shipping_method" id="dropdown_shop_order_seur_shipping_method">
 			<option value=""><?php esc_html_e( 'All', 'seur' ); ?></option>
 			<option value="seur"
 			<?php
-			if ( ( esc_attr( isset( $_GET['_shop_order_seur_shipping_method'] ) ) ) && ( esc_attr( $_GET['_shop_order_seur_shipping_method'] ) == 'seur' ) ) {
-				echo 'selected'; }
-			?>
+            $_shop_order_seur_shipping_method = isset( $_GET['_shop_order_seur_shipping_method'] ) ? esc_attr( sanitize_text_field(wp_unslash($_GET['_shop_order_seur_shipping_method']))) : '';
+			if ($_shop_order_seur_shipping_method == 'seur') {
+				echo 'selected';
+            }?>
 			><?php esc_html_e( 'All Seur Shipping', 'seur' ); ?></option>
             <?php
             $products = seur()->get_products();
@@ -538,7 +554,7 @@ function seur_post_formats_filter_to_woo_order_administration() {
                 $custom_name = get_option($product['field'].'_custom_name_field')?get_option($product['field'].'_custom_name_field'):$code;
                 $shippment_sani = sanitize_title( $custom_name ); ?>
                 <option value="<?php echo esc_attr( $shippment_sani ); ?>"
-                    <?php echo esc_attr( isset( $_GET['_shop_order_seur_shipping_method'] ) ? selected( $shippment_sani, $_GET['_shop_order_seur_shipping_method'], false ) : '' ); ?>>
+                    <?php echo esc_attr( $_shop_order_seur_shipping_method !='' ? selected( $shippment_sani,$_shop_order_seur_shipping_method, false ) : '' ); ?>>
                     <?php echo esc_html( !empty($custom_name) ? $custom_name : $code ); ?>
                 </option>
             <?php } ?>
@@ -583,19 +599,25 @@ if (seur_is_wc_order_hpos_enabled()) {
  * Register new status with ID "wc-seur-shipment" and label "Awaiting shipment"
  */
 function seur_register_tracking_statuses() {
-    foreach (Seur_Logistica_Seguimiento::tracking_statuses_arr as $tracking_status => $tracking_label) {
-        $new_statuses_arr[$tracking_status] = $tracking_label;
-        register_post_status(
-            $tracking_status,
-            array(
-                'label'                     => $tracking_label,
-                'public'                    => true,
-                'show_in_admin_status_list' => true, // show count All (12) , Completed (9) , Awaiting shipment (2) ...
-                'label_count'               => _n_noop( __( $tracking_label. ' <span class="count">(%s)</span>', '' ), __( $tracking_label. ' <span class="count">(%s)</span>', 'seur' ) ),
-            )
-        );
-    }
+	foreach (Seur_Logistica_Seguimiento::tracking_statuses_arr as $tracking_status => $tracking_label) {
+		$new_statuses_arr[$tracking_status] = $tracking_label;
+		register_post_status(
+			$tracking_status,
+			array(
+				'label'                     => $tracking_label,
+				'public'                    => true,
+				'show_in_admin_status_list'  => true, // show count All (12), Completed (9), Awaiting shipment (2) ...
+				// translators: %s is the count of tracking labels.
+				'label_count' => _n_noop(
+					'Tracking Label <span class="count">(%s)</span>',  // Singular
+					'Tracking Labels <span class="count">(%s)</span>',  // Plural
+					'seur'  // Text domain
+				),
+			)
+		);
+	}
 }
+
 add_action( 'init', 'seur_register_tracking_statuses' );
 
 /*

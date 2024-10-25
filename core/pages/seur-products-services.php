@@ -18,20 +18,20 @@ function seur_products_services( $post ) {
 	global $wpdb;
 	?>
 <div class="wrap">
-	<h2><?php echo esc_html__( 'Products / Services', 'woocommerce-seur' ); ?></h2>
+	<h2><?php echo esc_html__( 'Products / Services', 'seur' ); ?></h2>
 
-	<h2 class="screen-reader-text"><?php esc_html_e( 'Products / Services List', 'woocommerce-seur' ); ?></h2>
-	<p><?php esc_html_e( 'These services and products might not be available in your commercial proposal. Please verify with your SEUR sales contact that you have all combinations enabled.', 'woocommerce-seur' ); ?></p>
-	<p><?php esc_html_e( 'List of combinations of SEUR Services and Products available in the plugin.', 'woocommerce-seur' ); ?></p>
+	<h2 class="screen-reader-text"><?php esc_html_e( 'Products / Services List', 'seur' ); ?></h2>
+	<p><?php esc_html_e( 'These services and products might not be available in your commercial proposal. Please verify with your SEUR sales contact that you have all combinations enabled.', 'seur' ); ?></p>
+	<p><?php esc_html_e( 'List of combinations of SEUR Services and Products available in the plugin.', 'seur' ); ?></p>
 	<table class="wp-list-table widefat fixed striped pages">
 		<thead>
 			<tr>
-				<th scope="col" id="response" class="manage-column column-author column-primary"><?php esc_html_e( 'Description', 'woocommerce-seur' ); ?></th>
-				<th scope="col" id="author" class="manage-column column-author"><?php esc_html_e( 'Service', 'woocommerce-seur' ); ?></th>
-				<th scope="col" id="author" class="manage-column column-author"><?php esc_html_e( 'Product', 'woocommerce-seur' ); ?></th>
-				<th scope="col" id="author" class="manage-column column-author"><?php esc_html_e( 'Type', 'woocommerce-seur' ); ?></th>
-				<th scope="col" id="author" class="manage-column column-author"><?php esc_html_e( 'County', 'woocommerce-seur' ); ?></th>
-				<th scope="col" id="author" class="manage-column column-author"><?php esc_html_e( 'State', 'woocommerce-seur' ); ?></th>
+				<th scope="col" id="response" class="manage-column column-author column-primary"><?php esc_html_e( 'Description', 'seur' ); ?></th>
+				<th scope="col" id="author" class="manage-column column-author"><?php esc_html_e( 'Service', 'seur' ); ?></th>
+				<th scope="col" id="author" class="manage-column column-author"><?php esc_html_e( 'Product', 'seur' ); ?></th>
+				<th scope="col" id="author" class="manage-column column-author"><?php esc_html_e( 'Type', 'seur' ); ?></th>
+				<th scope="col" id="author" class="manage-column column-author"><?php esc_html_e( 'County', 'seur' ); ?></th>
+				<th scope="col" id="author" class="manage-column column-author"><?php esc_html_e( 'State', 'seur' ); ?></th>
 			</tr>
 		</thead>
 		<tbody id="the-list">
@@ -60,12 +60,12 @@ function seur_products_services( $post ) {
 		</tbody>
 		<tfoot>
 			<tr>
-				<th scope="col" id="response" class="manage-column column-author column-primary"><?php esc_html_e( 'Description', 'woocommerce-seur' ); ?></th>
-				<th scope="col" id="author" class="manage-column column-author"><?php esc_html_e( 'Service', 'woocommerce-seur' ); ?></th>
-				<th scope="col" id="author" class="manage-column column-author"><?php esc_html_e( 'Product', 'woocommerce-seur' ); ?></th>
-				<th scope="col" id="author" class="manage-column column-author"><?php esc_html_e( 'Type', 'woocommerce-seur' ); ?></th>
-				<th scope="col" id="author" class="manage-column column-author"><?php esc_html_e( 'Zone', 'woocommerce-seur' ); ?></th>
-				<th scope="col" id="author" class="manage-column column-author"><?php esc_html_e( 'State', 'woocommerce-seur' ); ?></th>
+				<th scope="col" id="response" class="manage-column column-author column-primary"><?php esc_html_e( 'Description', 'seur' ); ?></th>
+				<th scope="col" id="author" class="manage-column column-author"><?php esc_html_e( 'Service', 'seur' ); ?></th>
+				<th scope="col" id="author" class="manage-column column-author"><?php esc_html_e( 'Product', 'seur' ); ?></th>
+				<th scope="col" id="author" class="manage-column column-author"><?php esc_html_e( 'Type', 'seur' ); ?></th>
+				<th scope="col" id="author" class="manage-column column-author"><?php esc_html_e( 'Zone', 'seur' ); ?></th>
+				<th scope="col" id="author" class="manage-column column-author"><?php esc_html_e( 'State', 'seur' ); ?></th>
 			</tr>
 		</tfoot>
 	</table>

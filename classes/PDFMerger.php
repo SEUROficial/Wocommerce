@@ -48,7 +48,7 @@ class PDFMerger
 	{
         $tcpdfPath = SEUR_PLUGIN_PATH . 'classes/tcpdf/tcpdf.php';
         if (!file_exists($tcpdfPath)) {
-            echo 'File not exists: '.$tcpdfPath;
+            echo 'File not exists: '.esc_attr($tcpdfPath);
             die;
         }
 
@@ -75,7 +75,7 @@ class PDFMerger
 		}
 		else
 		{
-			throw new \exception("Could not locate PDF on '$filepath'");
+			throw new \exception("Could not locate PDF on '".esc_attr($filepath)."'.");
 		}
 
 		return $this;
@@ -120,7 +120,9 @@ class PDFMerger
 			{
 				foreach($filepages as $page)
 				{
-					if(!$template = $fpdi->importPage($page)): throw new exception("Could not load page '$page' in PDF '$filename'. Check that the page exists."); endif;
+					if (!$template = $fpdi->importPage($page)) {
+                        throw new exception("Could not load page '".esc_attr($page)."' in PDF '".esc_attr($filename)."'. Check that the page exists.");
+                    }
 					$size = $fpdi->getTemplateSize($template);
 					$orientation = ($size['h'] > $size['w']) ? 'P' : 'L';
 
@@ -150,7 +152,7 @@ class PDFMerger
 			}
 			else
 			{
-				throw new exception("Error outputting PDF to '$outputmode'.");
+				throw new exception("Error outputting PDF to '".esc_attr($outputmode)."'.");
 				return false;
 			}
 		}
@@ -205,7 +207,7 @@ class PDFMerger
 				$x = $ind[0]; //start page
 				$y = $ind[1]; //end page
 
-				if($x > $y): throw new exception("Starting page, '$x' is greater than ending page '$y'."); return false; endif;
+				if($x > $y): throw new exception("Starting page, '".esc_attr($x)."' is greater than ending page '".esc_attr($y)."'."); return false; endif;
 
 				//add middle pages
 				while($x <= $y): $newpages[] = (int) $x; $x++; endwhile;

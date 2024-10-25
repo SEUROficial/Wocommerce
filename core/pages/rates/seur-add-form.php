@@ -16,10 +16,18 @@ function seur_add_form() {
 	global $wpdb;
 	$rates_type = get_option( 'seur_rates_type_field' );
 
-	$min       = __( 'Min '.$rates_type.' (=)', 'seur' );
-	$title_min = __( 'The product '.$rates_type.' is equal or mayor of this field', 'seur' );
-	$max       = __( 'Max '.$rates_type.' (<)', 'seur' );
-	$title_max = __( 'The product '.$rates_type.' is minor of this field', 'seur' );
+	// translators: %s is the type of rate (e.g., weight, price).
+	$min = sprintf( __( 'Min %s (=)', 'seur' ), esc_html( $rates_type ) );
+
+    // translators: %s is the type of rate (e.g., weight, price).
+	$title_min = sprintf( __( 'The product %s is equal or greater than this field', 'seur' ), esc_html( $rates_type ) );
+
+    // translators: %s is the type of rate (e.g., weight, price).
+	$max = sprintf( __( 'Max %s (<)', 'seur' ), esc_html( $rates_type ) );
+
+    // translators: %s is the type of rate (e.g., weight, price).
+	$title_max = sprintf( __( 'The product %s is less than this field', 'seur' ), esc_html( $rates_type ) );
+
 	?>
     <style type="text/css">
         #dis{
@@ -39,8 +47,8 @@ function seur_add_form() {
             <tr>
                 <td><?php esc_html_e( 'Rate', 'seur' ); ?></td>
                 <td>
-                    <select class="select rate" id="rate"  title="<?php esc_html_e( 'Select Rate to apply', 'seur' ); ?>" name="rate">
-                        <option value="Select"><?php esc_html_e( 'Select a Rate', 'seur' ); ?></option>
+                    <select class="select rate" id="rate"  title="<?php esc_html_e( 'Select Rate to apply', 'seur' ); ?>" name="rate" required>
+                        <option value=""><?php esc_html_e( 'Select a Rate', 'seur' ); ?></option>
 						<?php
 						$registros = seur()->get_products();
 						foreach ( $registros as $description => $valor ) {
@@ -52,9 +60,9 @@ function seur_add_form() {
             <tr>
                 <td><?php esc_html_e( 'Country', 'seur' ); ?></td>
                 <td id="countryid">
-                    <select class="select country" id="country" title="<?php esc_html_e( 'Select Country', 'seur' ); ?>" name="country">
+                    <select class="select country" id="country" title="<?php esc_html_e( 'Select Country', 'seur' ); ?>" name="country" required>
 						<?php
-						echo '<option value="Select">' . esc_html__( 'Select a Country', 'seur' ) . '</option>';
+						echo '<option value="">' . esc_html__( 'Select a Country', 'seur' ) . '</option>';
 						echo '<option value="ES">' . esc_html__( 'Spain', 'seur' ) . '</option>';
 						?>
                     </select>
@@ -72,11 +80,15 @@ function seur_add_form() {
             </tr>
             <tr>
                 <td><?php echo esc_html( $min ); ?></td>
-                <td><input title="<?php echo esc_html( $title_min ); ?>" type='text' name='min<?php echo $rates_type; ?>' class='form-control' placeholder='EX : 0.50' required=""></td>
+                <td>
+                    <input title="<?php echo esc_html( $title_min ); ?>" type='text' name='min<?php echo esc_attr( $rates_type ); ?>' class='form-control' placeholder='EX : 0.50' required="">
+                </td>
             </tr>
             <tr>
                 <td><?php echo esc_html( $max ); ?></td>
-                <td><input title="<?php echo esc_html( $title_max ); ?>" type='text' name='max<?php echo $rates_type; ?>' class='form-control' placeholder='EX : 100.50' required=""></td>
+                <td>
+                    <input title="<?php echo esc_html( $title_max ); ?>" type='text' name='max<?php echo esc_attr( $rates_type ); ?>' class='form-control' placeholder='EX : 100.50' required="">
+                </td>
             </tr>
             <tr>
                 <td><?php esc_html_e( 'Rate Price', 'seur' ); ?></td>

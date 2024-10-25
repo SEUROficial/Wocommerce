@@ -127,7 +127,7 @@ function seur_tipo_etiqueta_field() {
 	?>
 	<select id="label_type" name="seur_tipo_etiqueta_field">
         <?php foreach ($types as $value => $label) : ?>
-            <option value="<?php echo $value; ?>" <?php if ( $option === $value) {echo ' selected';} ?>><?php echo $label; ?></option>
+            <option value="<?php echo esc_attr( $value ); ?>" <?php if ( $option === $value ) { echo ' selected'; } ?>><?php echo esc_html( $label ); ?></option>
         <?php endforeach; ?>
 	</select>
 	<?php

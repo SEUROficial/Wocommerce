@@ -117,8 +117,13 @@ class TCPDI extends FPDF_TPL {
      * @return fpdi_pdf_parser
      */
     function _getPdfParser($filename) {
-        $data = file_get_contents($filename);
-    	return new tcpdi_parser($data, $filename, PDF_PARSER_ERROR_HANDLER_EXCEPTION);
+        global $wp_filesystem;
+        if (empty($wp_filesystem)) {
+            require_once(ABSPATH . '/wp-admin/includes/file.php');
+            WP_Filesystem();
+        }
+        $data = $wp_filesystem->get_contents($filename);
+        return new tcpdi_parser($data, $filename, PDF_PARSER_ERROR_HANDLER_EXCEPTION);
     }
     
     /**

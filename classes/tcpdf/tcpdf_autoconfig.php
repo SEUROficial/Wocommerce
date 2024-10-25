@@ -41,20 +41,24 @@
  */
 
 // DOCUMENT_ROOT fix for IIS Webserver
-if ((!isset($_SERVER['DOCUMENT_ROOT'])) OR (empty($_SERVER['DOCUMENT_ROOT']))) {
-	if(isset($_SERVER['SCRIPT_FILENAME'])) {
-		$_SERVER['DOCUMENT_ROOT'] = str_replace( '\\', '/', substr($_SERVER['SCRIPT_FILENAME'], 0, 0-strlen($_SERVER['PHP_SELF'])));
-	} elseif(isset($_SERVER['PATH_TRANSLATED'])) {
-		$_SERVER['DOCUMENT_ROOT'] = str_replace( '\\', '/', substr(str_replace('\\\\', '\\', $_SERVER['PATH_TRANSLATED']), 0, 0-strlen($_SERVER['PHP_SELF'])));
-	} else {
-		// define here your DOCUMENT_ROOT path if the previous fails (e.g. '/var/www')
-		$_SERVER['DOCUMENT_ROOT'] = '/';
-	}
+$php_self = sanitize_text_field(wp_unslash($_SERVER['PHP_SELF'] ?? ''));
+$script_filename = sanitize_text_field(wp_unslash($_SERVER['SCRIPT_FILENAME'] ?? ''));
+$path_translated = sanitize_text_field(wp_unslash($_SERVER['PATH_TRANSLATED'] ?? ''));
+$document_root = sanitize_text_field(wp_unslash($_SERVER['DOCUMENT_ROOT'] ?? ''));
+
+if (empty($document_root)) {
+    if (!empty($script_filename)) {
+        $document_root = str_replace('\\', '/',
+            substr($script_filename, 0, -strlen($php_self)));
+    } elseif (!empty($path_translated)) {
+        $document_root = str_replace('\\', '/',
+            substr(str_replace('\\\\', '\\', $path_translated), 0, -strlen($php_self)));
+    } else {
+        $document_root = '/';  // Default to root if all else fails
+    }
 }
-$_SERVER['DOCUMENT_ROOT'] = str_replace('//', '/', $_SERVER['DOCUMENT_ROOT']);
-if (substr($_SERVER['DOCUMENT_ROOT'], -1) != '/') {
-	$_SERVER['DOCUMENT_ROOT'] .= '/';
-}
+$document_root = rtrim(str_replace('//', '/', $document_root), '/') . '/';
+$_SERVER['DOCUMENT_ROOT'] = $document_root;
 
 // Load main configuration file only if the K_TCPDF_EXTERNAL_CONFIG constant is set to false.
 if (!defined('K_TCPDF_EXTERNAL_CONFIG') OR !K_TCPDF_EXTERNAL_CONFIG) {
@@ -76,18 +80,19 @@ if (!defined('K_PATH_FONTS')) {
 	define ('K_PATH_FONTS', K_PATH_MAIN.'fonts/');
 }
 
+
 if (!defined('K_PATH_URL')) {
-	$k_path_url = K_PATH_MAIN; // default value for console mode
-	if (isset($_SERVER['HTTP_HOST']) AND (!empty($_SERVER['HTTP_HOST']))) {
-		if(isset($_SERVER['HTTPS']) AND (!empty($_SERVER['HTTPS'])) AND (strtolower($_SERVER['HTTPS']) != 'off')) {
-			$k_path_url = 'https://';
-		} else {
-			$k_path_url = 'http://';
-		}
-		$k_path_url .= $_SERVER['HTTP_HOST'];
-		$k_path_url .= str_replace( '\\', '/', substr(K_PATH_MAIN, (strlen($_SERVER['DOCUMENT_ROOT']) - 1)));
-	}
-	define ('K_PATH_URL', $k_path_url);
+    $k_path_url = K_PATH_MAIN; // Default value for console mode
+    $http_host = sanitize_text_field(wp_unslash($_SERVER['HTTP_HOST'] ?? ''));
+    $https_flag = sanitize_text_field(wp_unslash($_SERVER['HTTPS'] ?? ''));
+    $document_root = sanitize_text_field(wp_unslash($_SERVER['DOCUMENT_ROOT'] ?? ''));
+
+    if (!empty($http_host)) {
+        $k_path_url = (strtolower($https_flag) === 'on') ? 'https://' : 'http://';
+        $k_path_url .= $http_host;
+        $k_path_url .= str_replace('\\', '/', substr(K_PATH_MAIN, strlen($document_root) - 1));
+    }
+    define('K_PATH_URL', $k_path_url);
 }
 
 if (!defined('K_PATH_IMAGES')) {

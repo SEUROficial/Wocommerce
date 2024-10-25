@@ -9,6 +9,7 @@
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
+require_once ABSPATH . 'wp-content/plugins/woocommerce/packages/action-scheduler/action-scheduler.php';
 
 class Seur_Scheduled_Actions {
 
@@ -19,9 +20,9 @@ class Seur_Scheduled_Actions {
 	}
 
 	public function seur_token_schedule() {
-		if ( false === as_next_scheduled_action( 'seur_get_token_hook' ) ) {
+		//if ( false === as_next_scheduled_action( 'seur_get_token_hook' ) ) {
 			as_schedule_recurring_action( strtotime( 'now' ), 1200, 'seur_get_token_hook' );
-		}
+		//}
 	}
 
 	public function seur_get_token()

@@ -71,7 +71,7 @@ function seur_manifests_add_help_tab() {
 	$screen->add_help_tab(
 		array(
 			'id'      => 'seur_manifest_help_tab',
-			'title'   => __( 'Manifest' ),
+			'title'   => __( 'Manifest', 'seur' ),
 			'content' => '<p>' . __( 'Download the list of packages with the content of the deliveries notified to SEUR as from the date you choose.', 'seur' ) . '</p>
 						<p>' . __( 'If you must hand over a list to the carrier, remember to print two copies: one for you and one for the carrier', 'seur' ) . '</p>',
 		)
@@ -149,7 +149,7 @@ function seur_label_list_add_help_tab() {
 		$screen->add_help_tab(
 			array(
 				'id'      => 'seur_label_help_tab',
-				'title'   => __( 'Label List' ),
+				'title'   => __( 'Label List', 'seur' ),
 				'content' => '<p>' . __( 'From this screen you can get the order labels requested from menu WooCommerce > Orders.', 'seur' ) . '</p>',
 			)
 		);

@@ -166,7 +166,7 @@ function seur_custom_label_column_data( $column, $label_id )
 		case 'print':
             $url_upload_dir  = get_site_option( 'seur_uploads_url_labels' );
             $label_file_name = get_post_meta($label_id, '_seur_shipping_order_label_file_name', true );
-			echo '<a href="' . $url_upload_dir . '/' . $label_file_name . '" class="button" download>' . esc_html__( ' Open ', 'seur' ) . '</a>';
+			echo '<a href="' . esc_url( $url_upload_dir . '/' . $label_file_name ) . '" class="button" download>' . esc_html__( ' Open ', 'seur' ) . '</a>';
 			break;
 	}
 }
@@ -352,9 +352,9 @@ function seur_metabox_label_callback( $post )
  */
 function seur_bulk_actions_labels_screen( $bulk_actions ) {
 
-	$bulk_actions['download_seur_label']  = __( 'Download  SEUR Labels', 'download_seur_label' );
-	$bulk_actions['update_seur_tracking'] = __( 'Update SEUR Tracking', 'update_seur_tracking' );
-    $bulk_actions['generate_seur_manifest'] = __( 'Generate Manifest', 'generate_seur_manifest' );
+	$bulk_actions['download_seur_label']  = __( 'Download  SEUR Labels', 'seur' );
+	$bulk_actions['update_seur_tracking'] = __( 'Update SEUR Tracking', 'seur' );
+    $bulk_actions['generate_seur_manifest'] = __( 'Generate Manifest', 'seur' );
 	return $bulk_actions;
 }
 add_filter( 'bulk_actions-edit-seur_labels', 'seur_bulk_actions_labels_screen' );
@@ -367,12 +367,14 @@ add_filter( 'bulk_actions-edit-seur_labels', 'seur_bulk_actions_labels_screen' )
  * @param array  $post_ids Post IDs.
  */
 function seur_bulk_actions_handler( $redirect_to, $doaction, $labels_ids ) {
-    if ( 'download_seur_label' !== $doaction && 'update_seur_tracking' !== $doaction && 'generate_seur_manifest' != $doaction ) {
+	global $wp_filesystem;
+
+	if ( 'download_seur_label' !== $doaction && 'update_seur_tracking' !== $doaction && 'generate_seur_manifest' != $doaction ) {
 		return $redirect_to;
 	}
 	if ( 'download_seur_label' === $doaction ) {
 
-		$date = date( 'd-m-Y-H-i-s' ); // phpcs:ignore WordPress.DateTime.RestrictedFunctions.date_date
+		$date = gmdate( 'd-m-Y-H-i-s' ); // phpcs:ignore WordPress.DateTime.RestrictedFunctions.date_date
 		$type = seur_get_file_type(seur()->get_option( 'seur_tipo_etiqueta_field' ));
         $bulk_label_name = 'label_bulk_' . $date . seur_get_file_type_extension($type);
         $upload_dir      = seur_upload_dir( 'labels' );
@@ -412,7 +414,7 @@ function seur_bulk_actions_handler( $redirect_to, $doaction, $labels_ids ) {
 		}
 
         if ($type=='TERMICA') {
-            file_put_contents( $upload_path, $fp);
+	        $wp_filesystem->put_contents( $upload_path, $fp, FS_CHMOD_FILE);
         } else {
             $pdf->merge('file', $upload_path);
         }
@@ -482,8 +484,8 @@ function seur_bulk_actions_handler( $redirect_to, $doaction, $labels_ids ) {
             $manifest['state'] = get_option( 'seur_provincia_field' );
             $manifest['postalcode'] = get_option( 'seur_postal_field' );
             $manifest['city'] = get_option( 'seur_poblacion_field' );
-            $manifest['date'] = date('d/m/Y');
-            $manifest['hour'] = date('H:i');
+            $manifest['date'] = gmdate('d/m/Y');
+            $manifest['hour'] = gmdate('H:i');
 
             $manifest_header = getManifestHeader($manifest);
             $manifest_content = getManifestContent($manifest, $orders);
@@ -500,7 +502,7 @@ function seur_bulk_actions_handler( $redirect_to, $doaction, $labels_ids ) {
             $pdf->createHeader($manifest_header);
             $pdf->AddPage('P', 'A4');
             $pdf->writeHTML($manifest_content, false, false, false, false, 'P');
-            $pdf->Output("Manifiesto_".$ccc."_".date('YmdHis').".pdf", 'I');
+            $pdf->Output("Manifiesto_".$ccc."_".gmdate('YmdHis').".pdf", 'I');
         }
 
         set_transient( get_current_user_id() . '_seur_label_bulk_manifest', true );
@@ -664,7 +666,7 @@ function getManifestContent($manifest, $orders)
     $content .= '<br><br>
     <table style="padding:2px; border:1px solid #000;">
         <tr>
-            <td colspan="2" style="border-bottom:1px solid #000;border-right:1px solid #000;">INFORME DE DETALLE DE ENVIOS Y BULTOS de '.date('d/m/Y').'</td>
+            <td colspan="2" style="border-bottom:1px solid #000;border-right:1px solid #000;">INFORME DE DETALLE DE ENVIOS Y BULTOS de '.gmdate('d/m/Y').'</td>
             <td style="border-bottom:1px solid #000;">TOTAL GENERAL </td>
         </tr>
         <tr>
@@ -711,7 +713,9 @@ function seur_bulk_actions_success()
 	if ( $file_name && 'seur_labels' === $screen->post_type ) {
         $url_to_dir       = seur_upload_url( 'labels' ); ?>
         <div class="notice notice-success is-dismissible">
-            <p><?php echo esc_html__( 'Bulk Print ready, please press Download Bulk Labels button for download the file. ' ) . '<a href="' . $url_to_dir . '/' . esc_html( $file_name ) . '" class="button" download>' . esc_html__( ' Download Bulk Labels ', 'seur' ) . '</a>'; ?></p>
+            <p>
+		        <?php echo esc_html__( 'Bulk Print ready, please press Download Bulk Labels button for download the file.', 'seur' ) . ' <a href="' . esc_url( $url_to_dir . '/' . esc_html( $file_name ) ) . '" class="button" download>' . esc_html__( ' Download Bulk Labels ', 'seur' ) . '</a>'; ?>
+            </p>
         </div>
 		<?php
 	}

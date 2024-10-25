@@ -115,8 +115,6 @@ require_once(dirname(__FILE__).'/include/tcpdf_font_data.php');
 require_once(dirname(__FILE__).'/include/tcpdf_fonts.php');
 // TCPDF static color methods and data
 require_once(dirname(__FILE__).'/include/tcpdf_colors.php');
-// TCPDF static image methods and data
-require_once(dirname(__FILE__).'/include/tcpdf_images.php');
 // TCPDF static methods and data
 require_once(dirname(__FILE__).'/include/tcpdf_static.php');
 
@@ -2946,9 +2944,9 @@ class TCPDF {
 		// unset all class variables
 		$this->_destroy(true);
 		if (defined('K_TCPDF_THROW_EXCEPTION_ERROR') AND !K_TCPDF_THROW_EXCEPTION_ERROR) {
-			die('<strong>TCPDF ERROR: </strong>'.$msg);
+			die('<strong>TCPDF ERROR: </strong>'. esc_attr($msg));
 		} else {
-			throw new Exception('TCPDF ERROR: '.$msg);
+			throw new Exception('TCPDF ERROR: '. esc_attr($msg));
 		}
 	}
 
@@ -6892,22 +6890,21 @@ class TCPDF {
 			}
 		}
 		if (!empty($imgdata)) {
-			// copy image to cache
-			$original_file = $file;
-			$file = TCPDF_STATIC::getObjFilename('img', $this->file_id);
-			$fp = TCPDF_STATIC::fopenLocal($file, 'w');
-			if (!$fp) {
-				$this->Error('Unable to write file: '.$file);
-			}
-			fwrite($fp, $imgdata);
-			fclose($fp);
-			unset($imgdata);
-			$imsize = @getimagesize($file);
-			if ($imsize === FALSE) {
-				unlink($file);
-				$file = $original_file;
-			}
-		}
+            global $wp_filesystem;
+            WP_Filesystem();
+            // Copy image to cache
+            $original_file = $file;
+            $file = TCPDF_STATIC::getObjFilename('img', $this->file_id);
+            if (!$wp_filesystem->put_contents($file, $imgdata, FS_CHMOD_FILE)) {
+                $this->Error('Unable to write file: ' . $file);
+            }
+            unset($imgdata);
+            $imsize = @getimagesize($file);
+            if ($imsize === false) {
+                $wp_filesystem->delete($file);
+                $file = $original_file;
+            }
+        }
 		if ($imsize === FALSE) {
 			if (($w > 0) AND ($h > 0)) {
 				// get measures from specified data
@@ -7583,59 +7580,57 @@ class TCPDF {
 			$name = preg_replace('/[\s]+/', '_', $name);
 			$name = preg_replace('/[^a-zA-Z0-9_\.-]/', '', $name);
 		}
-		if ($this->sign) {
-			// *** apply digital signature to the document ***
-			// get the document content
-			$pdfdoc = $this->getBuffer();
-			// remove last newline
-			$pdfdoc = substr($pdfdoc, 0, -1);
-			// remove filler space
-			$byterange_string_len = strlen(TCPDF_STATIC::$byterange_string);
-			// define the ByteRange
-			$byte_range = array();
-			$byte_range[0] = 0;
-			$byte_range[1] = strpos($pdfdoc, TCPDF_STATIC::$byterange_string) + $byterange_string_len + 10;
-			$byte_range[2] = $byte_range[1] + $this->signature_max_length + 2;
-			$byte_range[3] = strlen($pdfdoc) - $byte_range[2];
-			$pdfdoc = substr($pdfdoc, 0, $byte_range[1]).substr($pdfdoc, $byte_range[2]);
-			// replace the ByteRange
-			$byterange = sprintf('/ByteRange[0 %u %u %u]', $byte_range[1], $byte_range[2], $byte_range[3]);
-			$byterange .= str_repeat(' ', ($byterange_string_len - strlen($byterange)));
-			$pdfdoc = str_replace(TCPDF_STATIC::$byterange_string, $byterange, $pdfdoc);
-			// write the document to a temporary folder
-			$tempdoc = TCPDF_STATIC::getObjFilename('doc', $this->file_id);
-			$f = TCPDF_STATIC::fopenLocal($tempdoc, 'wb');
-			if (!$f) {
-				$this->Error('Unable to create temporary file: '.$tempdoc);
-			}
-			$pdfdoc_length = strlen($pdfdoc);
-			fwrite($f, $pdfdoc, $pdfdoc_length);
-			fclose($f);
-			// get digital signature via openssl library
-			$tempsign = TCPDF_STATIC::getObjFilename('sig', $this->file_id);
-			if (empty($this->signature_data['extracerts'])) {
-				openssl_pkcs7_sign($tempdoc, $tempsign, $this->signature_data['signcert'], array($this->signature_data['privkey'], $this->signature_data['password']), array(), PKCS7_BINARY | PKCS7_DETACHED);
-			} else {
-				openssl_pkcs7_sign($tempdoc, $tempsign, $this->signature_data['signcert'], array($this->signature_data['privkey'], $this->signature_data['password']), array(), PKCS7_BINARY | PKCS7_DETACHED, $this->signature_data['extracerts']);
-			}
-			// read signature
-			$signature = file_get_contents($tempsign);
-			// extract signature
-			$signature = substr($signature, $pdfdoc_length);
-			$signature = substr($signature, (strpos($signature, "%%EOF\n\n------") + 13));
-			$tmparr = explode("\n\n", $signature);
-			$signature = $tmparr[1];
-			// decode signature
-			$signature = base64_decode(trim($signature));
-			// add TSA timestamp to signature
-			$signature = $this->applyTSA($signature);
-			// convert signature to hex
-			$signature = current(unpack('H*', $signature));
-			$signature = str_pad($signature, $this->signature_max_length, '0');
-			// Add signature to the document
-			$this->buffer = substr($pdfdoc, 0, $byte_range[1]).'<'.$signature.'>'.substr($pdfdoc, $byte_range[1]);
-			$this->bufferlen = strlen($this->buffer);
-		}
+        if ($this->sign) {
+            global $wp_filesystem;
+            WP_Filesystem();
+            // *** apply digital signature to the document ***
+            // get the document content
+            $pdfdoc = $this->getBuffer();
+            // remove last newline
+            $pdfdoc = substr($pdfdoc, 0, -1);
+            // remove filler space
+            $byterange_string_len = strlen(TCPDF_STATIC::$byterange_string);
+            // define the ByteRange
+            $byte_range = array();
+            $byte_range[0] = 0;
+            $byte_range[1] = strpos($pdfdoc, TCPDF_STATIC::$byterange_string) + $byterange_string_len + 10;
+            $byte_range[2] = $byte_range[1] + $this->signature_max_length + 2;
+            $byte_range[3] = strlen($pdfdoc) - $byte_range[2];
+            $pdfdoc = substr($pdfdoc, 0, $byte_range[1]) . substr($pdfdoc, $byte_range[2]);
+            // replace the ByteRange
+            $byterange = sprintf('/ByteRange[0 %u %u %u]', $byte_range[1], $byte_range[2], $byte_range[3]);
+            $byterange .= str_repeat(' ', ($byterange_string_len - strlen($byterange)));
+            $pdfdoc = str_replace(TCPDF_STATIC::$byterange_string, $byterange, $pdfdoc);
+            // write the document to a temporary folder
+            $tempdoc = TCPDF_STATIC::getObjFilename('doc', $this->file_id);
+            if ( ! $wp_filesystem->put_contents($tempdoc, $pdfdoc, FS_CHMOD_FILE) ) {
+                $this->Error('Unable to create temporary file: ' . $tempdoc);
+            }
+            // get digital signature via openssl library
+            $tempsign = TCPDF_STATIC::getObjFilename('sig', $this->file_id);
+            if (empty($this->signature_data['extracerts'])) {
+                openssl_pkcs7_sign($tempdoc, $tempsign, $this->signature_data['signcert'], array($this->signature_data['privkey'], $this->signature_data['password']), array(), PKCS7_BINARY | PKCS7_DETACHED);
+            } else {
+                openssl_pkcs7_sign($tempdoc, $tempsign, $this->signature_data['signcert'], array($this->signature_data['privkey'], $this->signature_data['password']), array(), PKCS7_BINARY | PKCS7_DETACHED, $this->signature_data['extracerts']);
+            }
+            // read the signature using WP_Filesystem
+            $signature = $wp_filesystem->get_contents($tempsign);
+            // extract signature
+            $signature = substr($signature, strlen($pdfdoc));
+            $signature = substr($signature, (strpos($signature, "%%EOF\n\n------") + 13));
+            $tmparr = explode("\n\n", $signature);
+            $signature = $tmparr[1];
+            // decode signature
+            $signature = base64_decode(trim($signature));
+            // add TSA timestamp to signature
+            $signature = $this->applyTSA($signature);
+            // convert signature to hex
+            $signature = current(unpack('H*', $signature));
+            $signature = str_pad($signature, $this->signature_max_length, '0');
+            // add signature to the document
+            $this->buffer = substr($pdfdoc, 0, $byte_range[1]) . '<' . $signature . '>' . substr($pdfdoc, $byte_range[1]);
+            $this->bufferlen = strlen($this->buffer);
+        }
 		switch($dest) {
 			case 'I': {
 				// Send PDF to the standard output
@@ -7691,34 +7686,33 @@ class TCPDF {
 			}
 			case 'F':
 			case 'FI':
-			case 'FD': {
-				// save PDF to a local file
-				$f = TCPDF_STATIC::fopenLocal($name, 'wb');
-				if (!$f) {
-					$this->Error('Unable to create output file: '.$name);
-				}
-				fwrite($f, $this->getBuffer(), $this->bufferlen);
-				fclose($f);
-				if ($dest == 'FI') {
-					// send headers to browser
-					header('Content-Type: application/pdf');
-					header('Cache-Control: private, must-revalidate, post-check=0, pre-check=0, max-age=1');
-					//header('Cache-Control: public, must-revalidate, max-age=0'); // HTTP/1.1
-					header('Pragma: public');
-					header('Expires: Sat, 26 Jul 1997 05:00:00 GMT'); // Date in the past
-					header('Last-Modified: '.gmdate('D, d M Y H:i:s').' GMT');
-					header('Content-Disposition: inline; filename="'.basename($name).'"');
-					TCPDF_STATIC::sendOutputData(file_get_contents($name), filesize($name));
-				} elseif ($dest == 'FD') {
-					// send headers to browser
-					if (ob_get_contents()) {
-						$this->Error('Some data has already been output, can\'t send PDF file');
-					}
-					header('Content-Description: File Transfer');
-					if (headers_sent()) {
-						$this->Error('Some data has already been output to browser, can\'t send PDF file');
-					}
-					header('Cache-Control: private, must-revalidate, post-check=0, pre-check=0, max-age=1');
+            case 'FD': {
+                global $wp_filesystem;
+                WP_Filesystem();
+                // save PDF to a local file using WP_Filesystem
+                if ( ! $wp_filesystem->put_contents( $name, $this->getBuffer(), FS_CHMOD_FILE ) ) {
+                    $this->Error( 'Unable to create output file: ' . $name );
+                }
+                if ($dest == 'FI') {
+                    // send headers to browser
+                    header('Content-Type: application/pdf');
+                    header('Cache-Control: private, must-revalidate, post-check=0, pre-check=0, max-age=1');
+                    header('Pragma: public');
+                    header('Expires: Sat, 26 Jul 1997 05:00:00 GMT'); // Date in the past
+                    header('Last-Modified: '.gmdate('D, d M Y H:i:s').' GMT');
+                    header('Content-Disposition: inline; filename="'.basename($name).'"');
+                    $file_data = $wp_filesystem->get_contents($name);
+                    $file_size = $wp_filesystem->size($name);
+                    TCPDF_STATIC::sendOutputData($file_data, $file_size);
+                } elseif ($dest == 'FD') {
+                    if (ob_get_contents()) {
+                        $this->Error('Some data has already been output, can\'t send PDF file');
+                    }
+                    header('Content-Description: File Transfer');
+                    if (headers_sent()) {
+                        $this->Error('Some data has already been output to browser, can\'t send PDF file');
+                    }
+                    header('Cache-Control: private, must-revalidate, post-check=0, pre-check=0, max-age=1');
 					header('Pragma: public');
 					header('Expires: Sat, 26 Jul 1997 05:00:00 GMT'); // Date in the past
 					header('Last-Modified: '.gmdate('D, d M Y H:i:s').' GMT');
@@ -7726,18 +7720,19 @@ class TCPDF {
 					if (strpos(php_sapi_name(), 'cgi') === false) {
 						header('Content-Type: application/force-download');
 						header('Content-Type: application/octet-stream', false);
-						header('Content-Type: application/download', false);
-						header('Content-Type: application/pdf', false);
-					} else {
-						header('Content-Type: application/pdf');
-					}
-					// use the Content-Disposition header to supply a recommended filename
-					header('Content-Disposition: attachment; filename="'.basename($name).'"');
-					header('Content-Transfer-Encoding: binary');
-					TCPDF_STATIC::sendOutputData(file_get_contents($name), filesize($name));
-				}
-				break;
-			}
+                        header('Content-Type: application/download', false);
+                        header('Content-Type: application/pdf', false);
+                    } else {
+                        header('Content-Type: application/pdf');
+                    }
+                    header('Content-Disposition: attachment; filename="'.basename($name).'"');
+                    header('Content-Transfer-Encoding: binary');
+                    $file_data = $wp_filesystem->get_contents($name);
+                    $file_size = $wp_filesystem->size($name);
+                    TCPDF_STATIC::sendOutputData($file_data, $file_size);
+                }
+                break;
+            }
 			case 'E': {
 				// return PDF as base64 mime multi-part email attachment (RFC 2045)
 				$retval = 'Content-Type: application/pdf;'."\r\n";
@@ -8819,39 +8814,46 @@ class TCPDF {
 		foreach ($this->FontFiles as $file => $info) {
 			// search and get font file to embedd
 			$fontfile = TCPDF_FONTS::getFontFullPath($file, $info['fontdir']);
-			if (!TCPDF_STATIC::empty_string($fontfile)) {
-				$font = file_get_contents($fontfile);
-				$compressed = (substr($file, -2) == '.z');
-				if ((!$compressed) AND (isset($info['length2']))) {
-					$header = (ord($font[0]) == 128);
-					if ($header) {
-						// strip first binary header
-						$font = substr($font, 6);
-					}
-					if ($header AND (ord($font[$info['length1']]) == 128)) {
-						// strip second binary header
-						$font = substr($font, 0, $info['length1']).substr($font, ($info['length1'] + 6));
-					}
-				} elseif ($info['subset'] AND ((!$compressed) OR ($compressed AND function_exists('gzcompress')))) {
-					if ($compressed) {
-						// uncompress font
-						$font = gzuncompress($font);
-					}
-					// merge subset characters
-					$subsetchars = array(); // used chars
-					foreach ($info['fontkeys'] as $fontkey) {
-						$fontinfo = $this->getFontBuffer($fontkey);
-						$subsetchars += $fontinfo['subsetchars'];
-					}
-					// rebuild a font subset
-					$font = TCPDF_FONTS::_getTrueTypeFontSubset($font, $subsetchars);
-					// calculate new font length
-					$info['length1'] = strlen($font);
-					if ($compressed) {
-						// recompress font
-						$font = gzcompress($font);
-					}
-				}
+            if (!TCPDF_STATIC::empty_string($fontfile)) {
+                global $wp_filesystem;
+                WP_Filesystem();
+
+                // Read the font file content using WP_Filesystem
+                $font = $wp_filesystem->get_contents($fontfile);
+                if ($font === false) {
+                    $this->Error('Unable to read font file: ' . $fontfile);
+                }
+                $compressed = (substr($file, -2) == '.z');
+                if ((!$compressed) && (isset($info['length2']))) {
+                    $header = (ord($font[0]) == 128);
+                    if ($header) {
+                        // strip first binary header
+                        $font = substr($font, 6);
+                    }
+                    if ($header && (ord($font[$info['length1']]) == 128)) {
+                        // strip second binary header
+                        $font = substr($font, 0, $info['length1']).substr($font, ($info['length1'] + 6));
+                    }
+                } elseif ($info['subset'] && ((!$compressed) || ($compressed && function_exists('gzcompress')))) {
+                    if ($compressed) {
+                        // uncompress font
+                        $font = gzuncompress($font);
+                    }
+                    // merge subset characters
+                    $subsetchars = array(); // used chars
+                    foreach ($info['fontkeys'] as $fontkey) {
+                        $fontinfo = $this->getFontBuffer($fontkey);
+                        $subsetchars += $fontinfo['subsetchars'];
+                    }
+                    // rebuild a font subset
+                    $font = TCPDF_FONTS::_getTrueTypeFontSubset($font, $subsetchars);
+                    // calculate new font length
+                    $info['length1'] = strlen($font);
+                    if ($compressed) {
+                        // recompress font
+                        $font = gzcompress($font);
+                    }
+                }
 				$this->_newobj();
 				$this->FontFiles[$file]['n'] = $this->n;
 				$stream = $this->_getrawstream($font);
@@ -8960,6 +8962,8 @@ class TCPDF {
 	 * @since 1.52.0.TC005 (2005-01-05)
 	 */
 	protected function _puttruetypeunicode($font) {
+		global $wp_filesystem;
+
 		$fontname = '';
 		if ($font['subset']) {
 			// change name for font subsetting
@@ -9040,7 +9044,7 @@ class TCPDF {
 			if (TCPDF_STATIC::empty_string($fontfile)) {
 				$this->Error('Font file not found: '.$ctgfile);
 			}
-			$stream = $this->_getrawstream(file_get_contents($fontfile));
+			$stream = $this->_getrawstream( $wp_filesystem->get_contents( $fontfile ) );
 			$out = '<< /Length '.strlen($stream).'';
 			if (substr($fontfile, -2) == '.z') { // check file extension
 				// Decompresses data encoded using the public-domain
@@ -9706,12 +9710,15 @@ class TCPDF {
 	 * @protected
 	 */
 	protected function _putcatalog() {
+		global $wp_filesystem;
+
 		// put XMP
 		$xmpobj = $this->_putXMP();
 		// if required, add standard sRGB ICC colour profile
 		if ($this->pdfa_mode OR $this->force_srgb) {
 			$iccobj = $this->_newobj();
-			$icc = file_get_contents(dirname(__FILE__).'/include/sRGB.icc');
+			$icc_path = dirname(__FILE__) . '/include/sRGB.icc';
+			$icc = $wp_filesystem->get_contents( $icc_path );
 			$filter = '';
 			if ($this->compress) {
 				$filter = ' /Filter /FlateDecode';
@@ -10777,6 +10784,8 @@ class TCPDF {
 	 * @author Nicola Asuni
 	 */
 	protected function _generateencryptionkey() {
+		global $wp_filesystem;
+
 		$keybytelen = ($this->encryptdata['Length'] / 8);
 		if (!$this->encryptdata['pubkey']) { // standard mode
 			if ($this->encryptdata['mode'] == 3) { // AES-256
@@ -10849,15 +10858,15 @@ class TCPDF {
 					$this->Error('Unable to create temporary key file: '.$tempkeyfile);
 				}
 				$envelope_length = strlen($envelope);
-				fwrite($f, $envelope, $envelope_length);
-				fclose($f);
+				$wp_filesystem->put_contents( $tempkeyfile, $envelope, FS_CHMOD_FILE );
+				//fwrite($f, $envelope, $envelope_length);
+				//fclose($f);
 				$tempencfile = TCPDF_STATIC::getObjFilename('enc', $this->file_id);
 				if (!openssl_pkcs7_encrypt($tempkeyfile, $tempencfile, $pubkey['c'], array(), PKCS7_BINARY | PKCS7_DETACHED)) {
 					$this->Error('Unable to encrypt the file: '.$tempkeyfile);
 				}
 				// read encryption signature
-				$signature = file_get_contents($tempencfile, false, null, $envelope_length);
-				// extract signature
+				$signature = substr( $wp_filesystem->get_contents( $tempencfile ), $envelope_length );				// extract signature
 				$signature = substr($signature, strpos($signature, 'Content-Disposition'));
 				$tmparr = explode("\n\n", $signature);
 				$signature = trim($tmparr[1]);
@@ -12463,7 +12472,7 @@ class TCPDF {
 			$title = preg_replace($nltags, "\n", $o['t']);
 			$title = preg_replace("/[\r]+/si", '', $title);
 			$title = preg_replace("/[\n]+/si", "\n", $title);
-			$title = strip_tags($title);
+			$title = wp_strip_all_tags($title);
 			$title = $this->stringTrim($title);
 			$out = '<</Title '.$this->_textstring($title, $oid);
 			$out .= ' /Parent '.($n + $o['parent']).' 0 R';
@@ -18887,14 +18896,16 @@ Putting 1 is equivalent to putting 0 and calling Ln() just after. Default value:
 					$imgsrc = '@'.base64_decode(substr($imgsrc, 1));
 					$type = '';
 				} else {
-					if (($imgsrc[0] === '/') AND !empty($_SERVER['DOCUMENT_ROOT']) AND ($_SERVER['DOCUMENT_ROOT'] != '/')) {
+                    $document_root = sanitize_text_field(wp_unslash($_SERVER['DOCUMENT_ROOT'] ?? ''));
+
+					if (($imgsrc[0] === '/') AND !empty($document_root) AND ($document_root != '/')) {
 						// fix image path
-						$findroot = strpos($imgsrc, $_SERVER['DOCUMENT_ROOT']);
+						$findroot = strpos($imgsrc, $document_root);
 						if (($findroot === false) OR ($findroot > 1)) {
-							if (substr($_SERVER['DOCUMENT_ROOT'], -1) == '/') {
-								$imgsrc = substr($_SERVER['DOCUMENT_ROOT'], 0, -1).$imgsrc;
+							if (substr($document_root, -1) == '/') {
+								$imgsrc = substr($document_root, 0, -1).$imgsrc;
 							} else {
-								$imgsrc = $_SERVER['DOCUMENT_ROOT'].$imgsrc;
+								$imgsrc = $document_root.$imgsrc;
 							}
 						}
 						$imgsrc = urldecode($imgsrc);
@@ -24279,17 +24290,18 @@ Putting 1 is equivalent to putting 0 and calling Ln() just after. Default value:
 						$img = '@'.base64_decode(substr($img, strlen($m[0])));
 					} else {
 						// fix image path
+                        $document_root = sanitize_text_field(wp_unslash($_SERVER['DOCUMENT_ROOT']??''));
 						if (!TCPDF_STATIC::empty_string($this->svgdir) AND (($img[0] == '.') OR (basename($img) == $img))) {
 							// replace relative path with full server path
 							$img = $this->svgdir.'/'.$img;
 						}
-						if (($img[0] == '/') AND !empty($_SERVER['DOCUMENT_ROOT']) AND ($_SERVER['DOCUMENT_ROOT'] != '/')) {
-							$findroot = strpos($img, $_SERVER['DOCUMENT_ROOT']);
+						if (($img[0] == '/') AND !empty($document_root) AND ($document_root != '/')) {
+							$findroot = strpos($img, $document_root);
 							if (($findroot === false) OR ($findroot > 1)) {
-								if (substr($_SERVER['DOCUMENT_ROOT'], -1) == '/') {
-									$img = substr($_SERVER['DOCUMENT_ROOT'], 0, -1).$img;
+								if (substr($document_root, -1) == '/') {
+									$img = substr($document_root, 0, -1).$img;
 								} else {
-									$img = $_SERVER['DOCUMENT_ROOT'].$img;
+									$img = $document_root.$img;
 								}
 							}
 						}
