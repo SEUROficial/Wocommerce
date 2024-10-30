@@ -20,9 +20,11 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
     $products = seur()->get_products();
     if (  isset( $_POST['seur_custom_name_rates_post'] ) ) {
         foreach ($products as $custom_name => $product) {
-            update_option ($product['field'].'_custom_name_field',
-                sanitize_text_field(wp_unslash(isset($_POST[$product['field'].'_custom_name_field'])??''))
-            );
+            $rate_name_value = '';
+            if (isset($_POST[$product['field'].'_custom_name_field'])) {
+                $rate_name_value = sanitize_text_field(wp_unslash($_POST[$product['field'] . '_custom_name_field']));
+            }
+            update_option($product['field'] . '_custom_name_field', $rate_name_value);
         }
     }
     ?>
