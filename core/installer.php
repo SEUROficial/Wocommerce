@@ -16,6 +16,16 @@ function deleteTableSeurSpvr() {
     $wpdb->query( "DROP TABLE IF EXISTS {$wpdb->prefix}seur_svpr" );
 }
 
+function deleteSeurJobs() {
+    $seur_table_version_saved = get_option( 'seur_table_version' );
+
+    if ( $seur_table_version_saved !== '1.0.5' && SEUR_TABLE_VERSION === '1.0.5' ) {
+        global $wpdb;
+        $wpdb->query( "DELETE FROM {$wpdb->prefix}actionscheduler_actions WHERE hook='seur_get_token_hook'" );
+        update_option( 'seur_table_version', SEUR_TABLE_VERSION );
+    }
+}
+
 function createTableSeurCustomRates() {
     global $wpdb;
     $charset_collate = $wpdb->get_charset_collate();
@@ -773,8 +783,8 @@ function seur_add_data_to_tables_hook() {
     if ( $seur_table_version_saved && ($seur_table_version_saved !== '1.0.4') && ( SEUR_TABLE_VERSION === '1.0.4') ) {
         insertIntoSeurStatus();
         updateMetaSeurShippingMethodService();
+        update_option( 'seur_table_version', SEUR_TABLE_VERSION );
     }
-    update_option( 'seur_table_version', SEUR_TABLE_VERSION );
 }
 
 
