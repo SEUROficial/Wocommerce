@@ -9,7 +9,7 @@
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
-require_once ABSPATH . 'wp-content/plugins/woocommerce/packages/action-scheduler/action-scheduler.php';
+require_once WP_PLUGIN_DIR . '/woocommerce/packages/action-scheduler/action-scheduler.php';
 
 class Seur_Scheduled_Actions {
 
