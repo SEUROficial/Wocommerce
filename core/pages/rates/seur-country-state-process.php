@@ -25,7 +25,7 @@ function seur_country_state_process() {
 	        echo '<option value="' . esc_attr( $code ) . '">' . esc_html( $country ) . '</option>';
         }
         echo '</select>';
-		//set_transient( get_current_user_id() . '_seur_rate', $rate );
+		set_transient( get_current_user_id() . '_seur_rate', $rate );
 	}
 	if ( isset( $_POST['country'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Missing
 		// Capture selected country.
@@ -35,7 +35,7 @@ function seur_country_state_process() {
         $states = $products[$rate]['provincia'];
         $options = seur()->getStates($country, $states);
         if ($options) {
-            echo '<select title="' . esc_html__( 'Select State', 'seur' ) . '" name="state">';
+            echo '<select class="select state" title="' . esc_html__( 'Select State', 'seur' ) . '" name="state">';
             if (count($states)==1 && $states[0] === 'all' && $country !=='Select' && $country !== 'NULL' ) {
                 echo '<option value="*">' . esc_html__( 'All States', 'seur' ) . '</option>';
             }

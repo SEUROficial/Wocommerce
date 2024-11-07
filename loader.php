@@ -3,7 +3,7 @@
  * Plugin Name: SEUR Oficial
  * Plugin URI: http://www.seur.com/
  * Description: Add SEUR shipping method to WooCommerce. The SEUR plugin for WooCommerce allows you to manage your order dispatches in a fast and easy way
- * Version: 2.2.14
+ * Version: 2.2.16
  * Author: SEUR Oficial
  * Author URI: http://www.seur.com/
  * Tested up to: 6.6.2
@@ -17,9 +17,11 @@
  * @package Seur Official
  **/
 
-define( 'SEUR_OFFICIAL_VERSION', '2.2.14' );
+use Automattic\WooCommerce\Utilities\FeaturesUtil;
+
+define( 'SEUR_OFFICIAL_VERSION', '2.2.16' );
 define( 'SEUR_DB_VERSION', '1.0.4' );
-define( 'SEUR_TABLE_VERSION', '1.0.4' );
+define( 'SEUR_TABLE_VERSION', '1.0.5' );
 
 define( 'SEUR_PLUGIN_PATH', plugin_dir_path( __FILE__ ) );
 define( 'SEUR_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
@@ -53,8 +55,8 @@ define( 'SHIPPING_CLASS_NACIONAL_FRANQUICIAS', 2); // shipping is to ES, PT or A
 
 /* Declare HPOS compatibility */
 add_action( 'before_woocommerce_init', function() {
-    if ( class_exists( \Automattic\WooCommerce\Utilities\FeaturesUtil::class ) ) {
-        \Automattic\WooCommerce\Utilities\FeaturesUtil::declare_compatibility( 'custom_order_tables', __FILE__, true );
+    if ( class_exists( FeaturesUtil::class ) ) {
+        FeaturesUtil::declare_compatibility( 'custom_order_tables', __FILE__, true );
     }
 } );
 
@@ -72,7 +74,7 @@ register_activation_hook( __FILE__, 'seur_create_tables_hook' );
 register_activation_hook( __FILE__, 'seur_add_data_to_tables_hook' );
 register_activation_hook( __FILE__, 'seur_create_upload_folder_hook' );
 register_activation_hook( __FILE__, 'seur_add_avanced_settings_preset' );
-
+register_activation_hook( __FILE__, 'deleteSeurJobs' );
 /**
  * SEUR Load Code.
  */
@@ -90,6 +92,7 @@ function seur_load_code() {
 	if ( $seur_table_version_saved != SEUR_TABLE_VERSION ) {
 		seur_add_data_to_tables_hook();
 	}
+    deleteSeurJobs();
 }
 add_action( 'plugins_loaded', 'seur_load_code', 11 );
 

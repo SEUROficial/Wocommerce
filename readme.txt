@@ -3,7 +3,7 @@ Contributors: seuroficial
 Tags: woocommerce, shipping, seur, logistica, enviar paquete
 Requires at least: 4.0
 Tested up to: 6.6.2
-Stable tag: 2.2.14
+Stable tag: 2.2.15
 WC requires at least: 3.0
 WC tested up to: 9.1.4
 License: GNU General Public License v3.0
@@ -93,11 +93,21 @@ The "SEUR > Shipments" menu includes the option to track your shipment and see t
 
 == Changelog ==
 
+== 2.2.16 ==
+
+* FIXED: ZPL merge
+* FIXED: Set transient rate
+
+== 2.2.15 ==
+
+* FIXED: Remove token jobs
+* FIXED: Fix custom rates name sanitization
+
 == 2.2.14 ==
 
 * ADDED: New pick-up layout design and cancel pick-up functionality
 * ADDED: Set downloaded label meta in other functions
-* FIXED: Vulnerability Report CVE-2024-9438
+* FIXED: Vulnerability
 * FIXED: Fix change value
 * FIXED: Fix has label function
 * FIXED: Fix required from rate state value
@@ -105,7 +115,7 @@ The "SEUR > Shipments" menu includes the option to track your shipment and see t
 
 == 2.2.13 ==
 
-* FIXED: Vulnerability Report CVE-2024-9438
+* FIXED: Vulnerability
 
 == 2.2.12 ==
 
