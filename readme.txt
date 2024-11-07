@@ -93,6 +93,11 @@ The "SEUR > Shipments" menu includes the option to track your shipment and see t
 
 == Changelog ==
 
+== 2.2.16 ==
+
+* FIXED: ZPL merge
+* FIXED: Set transient rate
+
 == 2.2.15 ==
 
 * FIXED: Remove token jobs
