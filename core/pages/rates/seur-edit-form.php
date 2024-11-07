@@ -116,7 +116,7 @@ function seur_edit_rate() {
 						$states = seur_get_countries_states( $country );
 					}
 					if ( $states && '*' !== $states ) {
-						echo '<select value="Select" title="' . esc_html__( 'Select State', 'seur' ) . '" name="state">';
+						echo '<select class="select state" value="Select" title="' . esc_html__( 'Select State', 'seur' ) . '" name="state">';
 						echo '<option value="*">' . esc_html__( 'All States', 'seur' ) . '</option>';
 						$currentstate = $getrate->state;
 						// Display city dropdown based on country name.

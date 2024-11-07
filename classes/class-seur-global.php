@@ -817,7 +817,12 @@ class Seur_Global {
 
                 $upload_path = $upload_dir . '/' . $label_file;
 
-	            if ( ! $wp_filesystem->put_contents( $upload_path, $content, FS_CHMOD_FILE | FILE_APPEND ) ) {
+                if ($merge_labels) {
+                    $existing_content = $wp_filesystem->get_contents($upload_path);
+                    $content = $existing_content . $content;
+                }
+
+                if ( ! $wp_filesystem->put_contents( $upload_path, $content, FS_CHMOD_FILE ) ) {
 		            $message = 'getLabel Error file_put_contents: ' . $upload_path;
 		            $this->log->log( WC_Log_Levels::ERROR, $message );
 		            return [
