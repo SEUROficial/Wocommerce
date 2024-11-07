@@ -569,83 +569,17 @@ function seur_get_custom_rates( $output_type = 'OBJECT', $type = 'price' ) {
  */
 function seur_search_allowed_rates_by_country( $allowedcountry ) {
 
-	$filtered_rates_by_country = array();
+
 	$rates_type                = get_option( 'seur_rates_type_field' );
-	$output_type               = 'OBJECT';
+	$output_type               = 'ARRAY_A';
 	$getrates                  = seur_get_custom_rates( $output_type, $rates_type );
 
-	foreach ( $getrates as $rate ) {
-		$country = $rate->country;
-		$rateid  = $rate->ID;
-
-		if ( $allowedcountry === $country ) {
-			$columns                     = array(
-				'ID',
-				'country',
-				'state',
-				'postcode',
-				'minprice',
-				'maxprice',
-				'minweight',
-				'maxweight',
-				'rate',
-				'rateprice',
-				'type',
-			);
-			$valors                      = array(
-				$rate->ID,
-				$rate->country,
-				$rate->state,
-				$rate->postcode,
-				$rate->minprice,
-				$rate->maxprice,
-				$rate->minweight,
-				$rate->maxweight,
-				$rate->rate,
-				$rate->rateprice,
-				$rate->type,
-			);
-			$filtered_rates_by_country[] = array_combine( $columns, $valors );
-		}
-	}
+    $filtered_rates_by_country = array_filter($getrates, fn($rate) => $allowedcountry === $rate['country']);
 
 	if ( $filtered_rates_by_country ) {
 		return $filtered_rates_by_country;
 	} else {
-		foreach ( $getrates as $rate ) {
-			$country = $rate->country;
-			$rateid  = $rate->ID;
-			if ( '*' === $country ) {
-				$columns = array(
-					'ID',
-					'country',
-					'state',
-					'postcode',
-					'minprice',
-					'maxprice',
-					'minweight',
-					'maxweight',
-					'rate',
-					'rateprice',
-					'type',
-				);
-
-				$valors                      = array(
-					$rate->ID,
-					$rate->country,
-					$rate->state,
-					$rate->postcode,
-					$rate->minprice,
-					$rate->maxprice,
-					$rate->minweight,
-					$rate->maxweight,
-					$rate->rate,
-					$rate->rateprice,
-					$rate->type,
-				);
-				$filtered_rates_by_country[] = array_combine( $columns, $valors );
-			}
-		}
+        $filtered_rates_by_country = array_filter($getrates, fn($rate) => '*' === $rate['country']);
 	}
 	return $filtered_rates_by_country;
 }
@@ -663,85 +597,18 @@ function seur_seach_allowed_states_filtered_by_countries( $allowedstate, $filter
 	$log->add( 'seur', '$allowedstate:' . $allowedstate );
 	$log->add( 'seur', '$filtered_rates_by_country:' . print_r( $filtered_rates_by_country, true ) ); // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_print_r
 
-	$filtered_rates_by_state = array();
-
-	foreach ( $filtered_rates_by_country as $allowedrate ) {
-		$state  = $allowedrate['state'];
-		$rateid = $allowedrate['ID'];
-
-		$log->add( 'seur', '$state:' . $state );
-		$log->add( 'seur', '$rateid:' . $rateid );
-
-		if ( $allowedstate === $state ) {
-			$columns = array(
-				'ID',
-				'country',
-				'state',
-				'postcode',
-				'minprice',
-				'maxprice',
-				'minweight',
-				'maxweight',
-				'rate',
-				'rateprice',
-				'type',
-			);
-
-			$valors                    = array(
-				$allowedrate['ID'],
-				$allowedrate['country'],
-				$allowedrate['state'],
-				$allowedrate['postcode'],
-				$allowedrate['minprice'],
-				$allowedrate['maxprice'],
-				$allowedrate['minweight'],
-				$allowedrate['maxweight'],
-				$allowedrate['rate'],
-				$allowedrate['rateprice'],
-				$allowedrate['type'],
-			);
-			$filtered_rates_by_state[] = array_combine( $columns, $valors );
-		}
-	}
+	$filtered_rates_by_state = array_filter(
+        $filtered_rates_by_country,
+        fn( $allowedrate ) => $allowedstate === $allowedrate['state']
+    );
 
 	if ( $filtered_rates_by_state ) {
 		return $filtered_rates_by_state;
 	} else {
-		foreach ( $filtered_rates_by_country as $allowedrate ) {
-			$state  = $allowedrate['state'];
-			$rateid = $allowedrate['ID'];
-
-			if ( '*' === $state ) {
-				$columns = array(
-					'ID',
-					'country',
-					'state',
-					'postcode',
-					'minprice',
-					'maxprice',
-					'minweight',
-					'maxweight',
-					'rate',
-					'rateprice',
-					'type',
-				);
-
-				$valors                    = array(
-					$allowedrate['ID'],
-					$allowedrate['country'],
-					$allowedrate['state'],
-					$allowedrate['postcode'],
-					$allowedrate['minprice'],
-					$allowedrate['maxprice'],
-					$allowedrate['minweight'],
-					$allowedrate['maxweight'],
-					$allowedrate['rate'],
-					$allowedrate['rateprice'],
-					$allowedrate['type'],
-				);
-				$filtered_rates_by_state[] = array_combine( $columns, $valors );
-			}
-		}
+		$filtered_rates_by_state = array_filter(
+            $filtered_rates_by_country,
+            fn( $allowedrate ) => '*' === $allowedrate['state']
+        );
 	}
 	return $filtered_rates_by_state;
 }
@@ -759,79 +626,18 @@ function seur_seach_allowed_postcodes_filtered_by_states( $allowedpostcode, $fil
 	$log->add( 'seur', '$allowedpostcode:' . $allowedpostcode );
 	$log->add( 'seur', '$filtered_rates_by_state:' . print_r( $filtered_rates_by_state, true ) ); // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_print_r
 
-	$filtered_rates_by_postcode = array();
-	foreach ( $filtered_rates_by_state as $allowedrate ) {
-		$postcode = $allowedrate['postcode'];
-		$rateid   = $allowedrate['ID'];
+	$filtered_rates_by_postcode = array_filter(
+        $filtered_rates_by_state,
+        fn( $allowedrate ) => $allowedpostcode === $allowedrate['postcode']
+    );
 
-		$log->add( 'seur', '$postcode: ' . $postcode );
-		$log->add( 'seur', '$rateid:' . $rateid );
-		if ( $allowedpostcode === $postcode ) {
-			$columns                      = array(
-				'ID',
-				'country',
-				'state',
-				'postcode',
-				'minprice',
-				'maxprice',
-				'minweight',
-				'maxweight',
-				'rate',
-				'rateprice',
-				'type',
-			);
-			$valors                       = array(
-				$allowedrate['ID'],
-				$allowedrate['country'],
-				$allowedrate['state'],
-				$allowedrate['postcode'],
-				$allowedrate['minprice'],
-				$allowedrate['maxprice'],
-				$allowedrate['minweight'],
-				$allowedrate['maxweight'],
-				$allowedrate['rate'],
-				$allowedrate['rateprice'],
-				$allowedrate['type'],
-			);
-			$filtered_rates_by_postcode[] = array_combine( $columns, $valors );
-		}
-	}
 	if ( $filtered_rates_by_postcode ) {
 		return $filtered_rates_by_postcode;
 	} else {
-		foreach ( $filtered_rates_by_state as $allowedrate ) {
-			$postcode = $allowedrate['postcode'];
-			$rateid   = $allowedrate['ID'];
-			if ( '*' === $postcode ) {
-				$columns                      = array(
-					'ID',
-					'country',
-					'state',
-					'postcode',
-					'minprice',
-					'maxprice',
-					'minweight',
-					'maxweight',
-					'rate',
-					'rateprice',
-					'type',
-				);
-				$valors                       = array(
-					$allowedrate['ID'],
-					$allowedrate['country'],
-					$allowedrate['state'],
-					$allowedrate['postcode'],
-					$allowedrate['minprice'],
-					$allowedrate['maxprice'],
-					$allowedrate['minweight'],
-					$allowedrate['maxweight'],
-					$allowedrate['rate'],
-					$allowedrate['rateprice'],
-					$allowedrate['type'],
-				);
-				$filtered_rates_by_postcode[] = array_combine( $columns, $valors );
-			}
-		}
+		$filtered_rates_by_postcode = array_filter(
+            $filtered_rates_by_state,
+            fn( $allowedrate ) => '*' === $allowedrate['postcode']
+        );
 	}
 	return $filtered_rates_by_postcode;
 }
@@ -844,61 +650,50 @@ function seur_seach_allowed_postcodes_filtered_by_states( $allowedpostcode, $fil
  */
 function seur_seach_allowed_rates_filtered_by_postcode( $allowedPriceWeight, $filtered_rates_by_postcode ) {
 
-	$log = new WC_Logger();
-	$log->add( 'seur', 'seur_seach_allowed_prices_filtered_by_postcode()' );
-	$log->add( 'seur', '$allowedPriceWeight:' . $allowedPriceWeight );
-	$log->add( 'seur', '$filtered_rates_by_postcode:' . print_r( $filtered_rates_by_postcode, true ) ); // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_print_r
+    $log = new WC_Logger();
+    $log->add( 'seur', 'seur_seach_allowed_prices_filtered_by_postcode()' );
+    $log->add( 'seur', '$allowedPriceWeight:' . $allowedPriceWeight );
+    $log->add( 'seur', '$filtered_rates_by_postcode:' . print_r( $filtered_rates_by_postcode, true ) ); // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_print_r
 
-	$filtered_rates_by_price = array();
+    $filtered_rates_by_price = array();
+    $filterField = get_option('seur_rates_type_field');
+    $filterByWeight = ($filterField === 'weight');
 
     foreach ( $filtered_rates_by_postcode as $allowedRate ) {
-        $filterField = get_option('seur_rates_type_field');
-        $minvalue = $allowedRate['minprice'];
-        $maxvalue = $allowedRate['maxprice'];
-        if ($filterField === 'weight') {
-            $minvalue = $allowedRate['minweight'];
-            $maxvalue = $allowedRate['maxweight'];
-        }
-		$rateid   = $allowedRate['ID'];
+        $minvalue = $filterByWeight ? $allowedRate['minweight'] : $allowedRate['minprice'];
+        $maxvalue = $filterByWeight ? $allowedRate['maxweight'] : $allowedRate['maxprice'];
 
         $log->add( 'seur', 'filter by: ' . $filterField );
         $log->add( 'seur', '$minvalue: ' . $minvalue );
-		$log->add( 'seur', '$maxvalue: ' . $maxvalue );
-        $log->add( 'seur', '$rateid: ' . $rateid );
+        $log->add( 'seur', '$maxvalue: ' . $maxvalue );
+        $log->add( 'seur', '$rateid: ' . $allowedRate['ID'] );
 
-		if ( ( $minvalue <= $allowedPriceWeight && $maxvalue > $allowedPriceWeight ) ) {
-			$columns = array(
-				'ID',
-				'country',
-				'state',
-				'postcode',
-				'rate',
-				'rateprice',
-				'type',
-			);
-            $values = array(
-                $allowedRate['ID'],
-                $allowedRate['country'],
-                $allowedRate['state'],
-                $allowedRate['postcode'],
-                $allowedRate['rate'],
-                $allowedRate['rateprice'],
-                $allowedRate['type'],
+        if ( $minvalue <= $allowedPriceWeight && $maxvalue > $allowedPriceWeight ) {
+            $filtered_rate = array(
+                'ID'        => $allowedRate['ID'],
+                'country'   => $allowedRate['country'],
+                'state'     => $allowedRate['state'],
+                'postcode'  => $allowedRate['postcode'],
+                'rate'      => $allowedRate['rate'],
+                'rateprice' => $allowedRate['rateprice'],
+                'type'      => $allowedRate['type'],
             );
-            $filterColumns = ['minprice','maxprice'];
-            $filterValues = [$allowedRate['minprice'],$allowedRate['maxprice']];
-            if ($filterField === 'weight') {
-                $filterColumns = ['minweight','maxweight'];
-                $filterValues = [$allowedRate['minweight'],$allowedRate['maxweight']];
-            }
-            $columns = array_merge($columns, $filterColumns);
-            $values = array_merge($values, $filterValues);
 
-			$filtered_rates_by_price[] = array_combine( $columns, $values );
-		}
-	}
-	return $filtered_rates_by_price;
+            if ( $filterByWeight ) {
+                $filtered_rate['minweight'] = $allowedRate['minweight'];
+                $filtered_rate['maxweight'] = $allowedRate['maxweight'];
+            } else {
+                $filtered_rate['minprice'] = $allowedRate['minprice'];
+                $filtered_rate['maxprice'] = $allowedRate['maxprice'];
+            }
+
+            $filtered_rates_by_price[] = $filtered_rate;
+        }
+    }
+
+    return $filtered_rates_by_price;
 }
+
 
 /**
  * SEUR Show Available Rates
