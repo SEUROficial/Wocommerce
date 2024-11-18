@@ -105,10 +105,9 @@ function seur_get_labels_from_order( $post ) {
 
 		if ( 'yes' !== $has_label ) {
             $label = seur_api_get_label( $order_id, $numpackages, $weight, true, $changeService );
-			$new_status = seur_after_get_label();
-			seur_api_set_label_result( $order_id, $label, $new_status);
-
 			if ( $label['status'] ) {
+                $new_status = seur_after_get_label();
+                seur_api_set_label_result( $order_id, $label, $new_status);
 				echo esc_html__( 'Label dowloaded, the Label ID is ', 'seur' ) . esc_html( seur_api_get_label_ids($label, true) );
 				?>
 				<br />

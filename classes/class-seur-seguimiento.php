@@ -174,10 +174,9 @@ function seur_tracking( $label_id ) {
 
 function getStatusExpedition($eventCode) {
     global $wpdb;
-    $tabla  = $wpdb->prefix . 'seur_status';
     $result = $wpdb->get_results($wpdb->prepare(
-        "SELECT * FROM %s WHERE cod_situ = %s",
-        [$tabla, $eventCode]));
+        "SELECT * FROM {$wpdb->prefix}seur_status WHERE cod_situ = %s",
+        [$eventCode]));
     return $result ? (array)$result[0] : [];
 }
 
@@ -195,14 +194,14 @@ function updateExpeditionStatus(
     // update status in {prefix}_wc_order_stats
     global $wpdb;
     $order_id = get_post_meta( $label_id, '_seur_shipping_order_id', true);
-    $tabla  = $wpdb->prefix . 'wc_order_stats';
     if ($expeditionStatusKey = getExpeditionStatusKey($expeditionStatus)) {
         $wpdb->query($wpdb->prepare(
-            "UPDATE %s SET status=%s WHERE order_id = %d",
-            [$tabla, $expeditionStatusKey, $order_id])
+            "UPDATE {$wpdb->prefix}wc_order_stats SET status=%s WHERE order_id = %d",
+            [$expeditionStatusKey, $order_id])
         );
         $order = wc_get_order($order_id);
         $order->update_status($expeditionStatusKey);
+        update_post_meta( $label_id, '_seur_shipping_tracking_state_name', $expeditionStatus );
     }
     return false;
 }

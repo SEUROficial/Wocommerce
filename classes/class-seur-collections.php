@@ -187,7 +187,7 @@ class Seur_Collections {
 				'method'      => 'POST',
 				'timeout'     => 45,
 				'httpversion' => '1.0',
-				'user-agent'  => 'WooCommerce',
+				'user-agent'  => 'WooCommerce - Seur '.SEUR_OFFICIAL_VERSION,
 				'headers'     => array(
 					'Content-Type'  => 'application/json;charset=UTF-8',
 					'Accept'        => 'application/json',
@@ -245,7 +245,7 @@ class Seur_Collections {
 			'method'      => 'POST',
 			'timeout'     => 45,
 			'httpversion' => '1.0',
-			'user-agent'  => 'WooCommerce',
+            'user-agent'  => 'WooCommerce - Seur '.SEUR_OFFICIAL_VERSION,
 			'headers'     => $headers,
 			'body'        => $data,
 		);
