@@ -216,7 +216,7 @@ class Seur_Global {
                 'method'      => 'POST',
                 'timeout'     => 45,
                 'httpversion' => '1.0',
-                'user-agent'  => 'WooCommerce',
+                'user-agent'  => 'WooCommerce - Seur '.SEUR_OFFICIAL_VERSION,
                 'headers'     => array(
                     'Content-Type' => 'application/x-www-form-urlencoded;charset=utf-8',
                 ),

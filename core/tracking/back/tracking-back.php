@@ -136,8 +136,9 @@ function seur_get_tracking_shipment( $label_id ) {
 	$state = seur_tracking( $label_id );
 
     $shipmentStatus = $state['description'];
-    updateShipmentStatus($label_id, $shipmentStatus);
-
+    if (isset($shipmentStatus) && !empty($shipmentStatus)) {
+        updateShipmentStatus($label_id, $shipmentStatus);
+    }
     $eventCode = $state['eventCode'];
     $expeditionStatus = getStatusExpedition($eventCode);
     if (!isset($expeditionStatus['cod_situ'])) {

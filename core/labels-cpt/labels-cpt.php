@@ -104,22 +104,25 @@ add_filter( 'manage_seur_labels_posts_columns', 'seur_set_custom_label_columns' 
  *
  * @param int $order_id get order tracking by Order ID.
  */
-function seur_get_order_tracking( $order_id ) {
+function seur_get_label_tracking( $label_id ) {
 
 	if ( seur()->log_is_acive() ) {
-		seur()->slog( 'seur_get_order_tracking( $order_id )' );
-		seur()->slog( '$order_id: ', $order_id ); // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_print_r
+		seur()->slog( 'seur_get_label_tracking( $label_id )' );
+		seur()->slog( '$label_id: ', $label_id ); // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_print_r
 	}
 
-    $order = seur_get_order($order_id);
-    $order_tracking = $order->get_meta( '_seur_shipping_tracking_state', true );
+    $label_tracking = get_post_meta( $label_id, '_seur_shipping_tracking_state', true );
+    $label_tracking_name = get_post_meta( $label_id, '_seur_shipping_tracking_state_name', true );
 
 	if ( seur()->log_is_acive() ) {
-		seur()->slog( '$order_tracking: ' . $order_tracking );
+		seur()->slog( '$label_tracking: ' . $label_tracking );
 	}
 
-	if ( ! empty( $order_tracking ) ) {
-        return '<br />' . $order_tracking;
+    if (! empty( $label_tracking_name ) ) {
+        return $label_tracking_name;
+    }
+	if ( ! empty( $label_tracking ) ) {
+        return $label_tracking;
     }
 	return __( 'Waiting Collection', 'seur' );
 }
@@ -158,7 +161,7 @@ function seur_custom_label_column_data( $column, $label_id )
 			echo esc_html( get_post_meta($label_id, '_seur_shipping_order_customer_comments', true ) );
 			break;
 		case 'seur-tracking':
-			echo esc_html( seur_get_order_tracking( $order_id ) );
+			echo esc_html( seur_get_label_tracking( $label_id ) );
 			break;
 		case 'weight':
 			echo esc_html( get_post_meta($label_id, '_seur_shipping_weight', true) );
