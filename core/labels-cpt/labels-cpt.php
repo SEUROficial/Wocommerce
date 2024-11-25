@@ -236,10 +236,13 @@ add_action( 'add_meta_boxes', 'seur_label_register_meta_box' );
  */
 function seur_metabox_label_callback( $post )
 {
-	$weight               = get_post_meta($post->ID,'_seur_shipping_weight', true );
-	$order_id             = get_post_meta($post->ID,'_seur_shipping_order_id', true );
-	$customer_name        = get_post_meta($post->ID,'_seur_label_customer_name', true );
+	$order_id = get_post_meta($post->ID,'_seur_shipping_order_id', true );
+    if (!$order_id) {
+        return;
+    }
     $order = seur_get_order($order_id);
+    $weight               = get_post_meta($post->ID,'_seur_shipping_weight', true );
+    $customer_name        = get_post_meta($post->ID,'_seur_label_customer_name', true );
     $order_data           = seur_get_order_data( $order_id );
     $mobile_shipping      = $order->get_meta('_shipping_mobile_phone', true );
 	$seur_shipping_method = seur_get_shipping_method( $order_id );
@@ -370,14 +373,19 @@ add_filter( 'bulk_actions-edit-seur_labels', 'seur_bulk_actions_labels_screen' )
  * @param array  $post_ids Post IDs.
  */
 function seur_bulk_actions_handler( $redirect_to, $doaction, $labels_ids ) {
-	global $wp_filesystem;
 
 	if ( 'download_seur_label' !== $doaction && 'update_seur_tracking' !== $doaction && 'generate_seur_manifest' != $doaction ) {
 		return $redirect_to;
 	}
 	if ( 'download_seur_label' === $doaction ) {
 
-		$date = gmdate( 'd-m-Y-H-i-s' ); // phpcs:ignore WordPress.DateTime.RestrictedFunctions.date_date
+        if ( ! function_exists( 'WP_Filesystem' ) ) {
+            require_once ABSPATH . 'wp-admin/includes/file.php';
+        }
+        global $wp_filesystem;
+        WP_Filesystem();
+
+        $date = gmdate( 'd-m-Y-H-i-s' ); // phpcs:ignore WordPress.DateTime.RestrictedFunctions.date_date
 		$type = seur_get_file_type(seur()->get_option( 'seur_tipo_etiqueta_field' ));
         $bulk_label_name = 'label_bulk_' . $date . seur_get_file_type_extension($type);
         $upload_dir      = seur_upload_dir( 'labels' );
@@ -393,8 +401,11 @@ function seur_bulk_actions_handler( $redirect_to, $doaction, $labels_ids ) {
             $label_path      = get_post_meta( $label_id, '_seur_shipping_order_label_path_name', true );
 
             if ( $label_type != $type || !file_exists($label_path) || empty($label_file_name)) {
-                // #TODO: revisar creación de etiqueta si no existe el fichero o ha cambiado el tipo de impresora
-                /*$order_id    = get_post_meta( $label_id, '_seur_shipping_order_id', true );
+                // creación de etiqueta si no existe el fichero o ha cambiado el tipo de impresora
+                $order_id    = get_post_meta( $label_id, '_seur_shipping_order_id', true );
+                if ($order_id == "") { // al procesar una etiqueta, si estaba asociada a un pedido del que ya se ha regenerado una etiqueta, y por tanto borrado las anteriores, se continua
+                    continue;
+                }
                 $numpackages = get_post_meta( $label_id, '_seur_shipping_packages', true );
                 $weigth      = get_post_meta( $label_id, '_seur_shipping_weight', true );
                 $result = seur_api_get_label($order_id, $numpackages, $weigth, false);
@@ -402,9 +413,9 @@ function seur_bulk_actions_handler( $redirect_to, $doaction, $labels_ids ) {
                     continue;
                 }
                 $label_id = $result['result'][0]['labelID'];
+                $label_type      = seur_get_file_type(get_post_meta( $label_id, '_seur_label_type', true ));
                 $label_file_name = get_post_meta( $label_id, '_seur_shipping_order_label_file_name', true );
                 $label_path      = get_post_meta( $label_id, '_seur_shipping_order_label_path_name', true );
-                */
             }
 
             if ($label_type == $type) {

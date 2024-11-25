@@ -787,7 +787,6 @@ class Seur_Global {
             }
 
             $upload_dir = seur_upload_dir( 'labels' );
-            $upload_url = seur_upload_url( 'labels' );
 
             if (! $wp_filesystem->is_writable($upload_dir)) {
                 $message = 'getLabel Error: '.$upload_dir . ' is NOT writable';
@@ -799,7 +798,7 @@ class Seur_Global {
             $label_files = [];
             $seur_label = [];
             $cont = 1;
-            $content = '';
+
             // Generate file/s with then content of the labels
             foreach ($responseLabel['data'] as $data) {
                 if ($is_pdf) {
@@ -819,6 +818,9 @@ class Seur_Global {
 
                 if ($merge_labels) {
                     $existing_content = $wp_filesystem->get_contents($upload_path);
+                    if ($cont == 1) {
+                        $existing_content = '';
+                    }
                     $content = $existing_content . $content;
                 }
 
@@ -837,17 +839,15 @@ class Seur_Global {
 	            $cont++;
             }
 
+            $labelids_old = seur_get_labels_ids($order_id);
+            // Delete old labels if they are not the same type that the configured one
+            foreach ($labelids_old as $labelid_old) {
+                if (get_post_meta($labelid_old, '_seur_label_type', true) != get_option('seur_tipo_etiqueta_field')) {
+                    wp_delete_post($labelid_old, true);
+                }
+            }
             // Generate a 'seur_labels' post for each physical file generated
             foreach ($label_files as $label_file) {
-                /*
-                $labelids_old = seur_get_labels_ids($order_id);
-                // Delete old labels if they are not the same type
-                foreach ($labelids_old as $labelid_old) {
-                    if (get_post_meta($labelid_old, '_seur_label_type', true) != get_option('seur_tipo_etiqueta_field')) {
-                        wp_delete_post( $labelid_old, true );
-                    }
-                }*/
-
                 //Create post
                 $labelid = wp_insert_post(
                     array(
