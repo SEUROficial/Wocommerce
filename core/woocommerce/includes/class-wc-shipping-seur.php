@@ -406,28 +406,27 @@ class WC_Shipping_SEUR extends WC_Shipping_Method {
 	 *
 	 * @param array $value Array.
 	 */
-	public function seur_option_woocommerce_cod_settings( $value ) {
-		if ( is_checkout() ) {
-			if (
-				! empty( $value )
-				&& is_array( $value )
-				&& 'yes' === $value['enabled']
-				&& ! empty( $value['enable_for_methods'] )
-				&& is_array( $value['enable_for_methods'] )
-				) {
-				foreach ( $value['enable_for_methods'] as $method ) {
-					if ( 'seur' === $method ) {
-						$seur_rates = seur_get_custom_rates();
-						foreach ( $seur_rates as $seur_rate ) {
-							$value['enable_for_methods'][] = $seur_rate->ID;
-						}
-						break;
-					}
-				}
-			}
-		}
-		return $value;
-	}
+    public function seur_option_woocommerce_cod_settings( $value ) {
+        if ( is_checkout() &&
+            ! empty( $value ) &&
+            is_array( $value ) &&
+            'yes' === $value['enabled'] &&
+            ! empty( $value['enable_for_methods'] ) &&
+            is_array( $value['enable_for_methods'] ) &&
+            in_array( 'seur', $value['enable_for_methods'], true )
+        ) {
+            $seur_rates = seur_get_custom_rates();
+
+            // Extraer solo los IDs de las tarifas.
+            $seur_rate_ids = array_map( fn( $rate ) => $rate->ID, $seur_rates );
+
+            // Añadir los IDs de tarifas SEUR.
+            $value['enable_for_methods'] = array_unique(
+                array_merge( $value['enable_for_methods'], $seur_rate_ids )
+            );
+        }
+        return $value;
+    }
 
 	/**
 	 * Calculate_shipping function.
