@@ -72,7 +72,7 @@ class Seur_Global {
 						return $option_value;
 					} else {
 						restore_current_blog();
-						return false;
+						return '';
 					}
 				}
 			}
@@ -90,7 +90,7 @@ class Seur_Global {
 					return $option_value;
 				} else {
 					restore_current_blog();
-					return false;
+					return '';
 				}
 			} else {
 				$option_value = get_option( $option );
@@ -98,7 +98,7 @@ class Seur_Global {
 				if ( ! empty( $option_value ) ) {
 					return $option_value;
 				} else {
-					return false;
+					return '';
 				}
 			}
 		}
@@ -108,7 +108,7 @@ class Seur_Global {
 		if ( ! empty( $option_value ) ) {
 			return $option_value;
 		} else {
-			return false;
+			return '';
 		}
 	}
 
@@ -208,7 +208,6 @@ class Seur_Global {
             $this->slog( '$client_id: ' . $client_id );
             $this->slog( '$client_secret: ' . $client_secret );
             $this->slog( '$username: ' . $username );
-            $this->slog( '$password: ' . $password );
         }
         $response      = wp_remote_post(
             $seur_adr,

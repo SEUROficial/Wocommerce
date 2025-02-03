@@ -22,52 +22,23 @@ class Seur_Logistica_Seguimiento {
         'wc-seur-delivered' => 'ENTREGADO',
         'wc-seur-corrected-doc' => 'DOCUMENTACIÓN RECTIFICADA',
     ];
-    /**
-     * @var false|mixed
-     */
-    private mixed $client_secret;
-    /**
-     * @var false|mixed
-     */
-    private mixed $accountnumber;
-    /**
-     * @var false|mixed
-     */
-    private mixed $nif;
-    /**
-     * @var false|mixed
-     */
-    private mixed $phone;
+
+    private string $client_secret;
+    private string $accountnumber;
+    private string $nif;
+    private string $phone;
     private string $name;
-    /**
-     * @var false|mixed
-     */
-    private mixed $email;
+    private string $email;
     private string $streetname;
-    /**
-     * @var false|mixed
-     */
-    private mixed $cityname;
-    /**
-     * @var false|mixed
-     */
-    private mixed $postalcode;
-    /**
-     * @var false|mixed
-     */
-    private mixed $country;
+    private string $cityname;
+    private string $postalcode;
+    private string $country;
     private string $seur_adr;
     private string $token;
     private string $reftype;
-    /**
-     * @var false|mixed
-     */
-    private mixed $full_account_number;
+    private string $full_account_number;
     private string $accoun_number;
-    /**
-     * @var false|mixed
-     */
-    private mixed $business_unit;
+    private string $business_unit;
 
     public function __construct() {
 
