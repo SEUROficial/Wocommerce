@@ -148,11 +148,11 @@ function seur_local_validate_order( $posted ) {
 	$packages       = WC()->shipping->get_packages();
 	$chosen_methods = WC()->session->get( 'chosen_shipping_methods' );
 
-	if ( is_array( $chosen_methods ) && in_array( 'seurlocal', $chosen_methods, true ) ) {
+    $seur_cutom_rate_ID = sanitize_text_field( wp_unslash($chosen_methods[0]??''));
+	if ( is_array( $chosen_methods ) && seur()->is_seur_local_method($seur_cutom_rate_ID)) {
+
 		foreach ( $packages as $i => $package ) {
-			if ( 'seurlocal' !== $chosen_methods[ $i ] ) {
-				continue;
-			}
+
 			$seur_local_shipping_method = new Seur_Local_Shipping_Method();
 			$weightlimit                = (int) 20;
 			$weight                     = 0.0;
@@ -436,7 +436,7 @@ function seur_add_map_type_select2() {
  */
 function seur_validation_2shop_fields() {
 
-    $seur_cutom_rate_ID = sanitize_text_field( wp_unslash(isset($_POST['shipping_method'][0])??''));
+    $seur_cutom_rate_ID = sanitize_text_field( wp_unslash($_POST['shipping_method'][0]??''));
     if (seur()->is_seur_local_method($seur_cutom_rate_ID)) {
         $seur_pickup     = sanitize_text_field( wp_unslash( $_POST['seur_pickup'] ) ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotValidated,WordPress.Security.NonceVerification.Missing
         $seur_mobi_phone = sanitize_text_field( wp_unslash( $_POST['billing_mobile_phone'] ) ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotValidated,WordPress.Security.NonceVerification.Missing

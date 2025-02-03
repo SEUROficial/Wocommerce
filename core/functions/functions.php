@@ -594,18 +594,57 @@ function seur_search_availables_rates( $country = '*', $state = '*', $postcode =
     $type = get_option( 'seur_rates_type_field' ); // 'price' o 'weight', definido en la configuración de SEUR
     $table = $wpdb->prefix . SEUR_TBL_SCR;
 
+    $query = "
+    SELECT *
+    FROM $table
+    WHERE type = %s
+      AND country = COALESCE(
+          (SELECT %s
+           FROM $table
+           WHERE type = %s
+             AND (country = %s)
+             AND (state = %s OR state = '*')
+             AND (postcode = %s OR postcode = '*')
+             AND (min".$type." <= %f AND max".$type." > %f)
+           LIMIT 1),
+          '*'
+      )
+      AND state = COALESCE(
+          (SELECT %s
+           FROM $table
+           WHERE type = %s
+             AND (country = %s OR country = '*')
+             AND (state = %s)
+             AND (postcode = %s OR postcode = '*')
+             AND (min".$type." <= %f AND max".$type." > %f)
+           LIMIT 1),
+          '*'
+      )
+      AND postcode = COALESCE(
+          (SELECT %s
+           FROM $table
+           WHERE type = %s
+             AND (country = %s OR country = '*')
+             AND (state = %s OR state = '*')
+             AND (postcode = %s)
+             AND (min".$type." <= %f AND max".$type." > %f)
+           LIMIT 1),
+          '*'
+      )
+      AND min".$type." <= %f
+      AND max".$type." > %f
+    ORDER BY ID ASC;";
+
     $query = $wpdb->prepare(
-        "SELECT * FROM $table
-        WHERE type = %s
-        AND (country = %s OR country = '*')
-        AND (state = %s OR state = '*')
-        AND (postcode = %s OR postcode = '*')
-        AND (min".$type." <= %f AND max".$type." > %f)
-        ORDER BY ID ASC",
-        $type, $country, $state, $postcode, $price_weight, $price_weight
+        $query,
+        $type,
+        $country,  $type, $country, $state, $postcode, $price_weight, $price_weight,
+        $state,    $type, $country, $state, $postcode, $price_weight, $price_weight,
+        $postcode, $type, $country, $state, $postcode, $price_weight, $price_weight,
+        $price_weight, $price_weight
     );
 
-    $results = $wpdb->get_results( $query, 'ARRAY_A' );
+    $results = $wpdb->get_results($query, 'ARRAY_A');
 
     if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
         $log = new WC_Logger();
@@ -1033,7 +1072,7 @@ function seur_upload_dir( $dir_name = null ) {
 		$new_dir_name = '';
 	}
 	$seur_upload_dir = get_option( 'seur_uploads_dir' . $new_dir_name );
-	if (! $seur_upload_dir ) {
+	if (! $seur_upload_dir || ! file_exists( $seur_upload_dir ) ) {
 		seur_create_upload_folder_hook();
 		$seur_upload_dir = get_option( 'seur_uploads_dir' . $new_dir_name );
 	}

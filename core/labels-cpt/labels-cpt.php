@@ -108,7 +108,7 @@ function seur_get_label_tracking( $label_id ) {
 
 	if ( seur()->log_is_acive() ) {
 		seur()->slog( 'seur_get_label_tracking( $label_id )' );
-		seur()->slog( '$label_id: ', $label_id ); // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_print_r
+		seur()->slog( '$label_id: ' . $label_id ); // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_print_r
 	}
 
     $label_tracking = get_post_meta( $label_id, '_seur_shipping_tracking_state', true );
