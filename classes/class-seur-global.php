@@ -391,8 +391,16 @@ class Seur_Global {
             // Perform the POST request
             $response = wp_remote_post($url, $args);
 
+        } elseif ($action == 'PUT') {
+            // For PUT, we send JSON-encoded data
+            $args['body'] = json_encode($data);
+	        $args['method'] = 'PUT';
+
+            // Perform the PUT request
+            $response = wp_remote_request($url, $args);
+
         } else {
-            // For other methods like GET, PUT, DELETE
+            // For other methods like GET, DELETE
             $args['method'] = $action;
             $url_with_params = $url . '?' . http_build_query($data);
 
@@ -735,6 +743,86 @@ class Seur_Global {
         }
     }
 
+    public function updateShipment($preparedData)
+    {
+        try {
+            $url = $this->get_api_addres() . SEUR_API_SHIPMENT_UPDATE;
+            $token = $this->get_token_b();
+            if (!$token || empty($token)) {
+                set_transient('updateShipment_notice', 'Error Update Shipment: Token not found');
+                return false;
+            }
+
+            $headers = [
+                'Content-Type' => 'application/json;charset=UTF-8',
+                'Accept' => 'application/json',
+                'Authorization' => $token,
+            ];
+
+            $status = true;
+            $message = 'Shipment Updated OK';
+
+            $response = $this->sendCurl($url, $headers, $preparedData, "PUT");
+            if (isset($response['errors'])) {
+                $status = false;
+                $message = 'Update Shipment Error: '.$response['errors'][0]['detail'];
+            }
+
+            if (isset($response['error'])) {
+                $status = false;
+                $message = 'Update Shipment Error: '.$response['error'];
+            }
+
+            if (is_string($response)) {
+                $status = false;
+                $message = 'Update Shipment Error: '.$response;
+            }
+        } catch (Exception $e) {
+            $status = false;
+            $message = 'Error Update Shipment Exception - ' . $e->getMessage();
+        }
+
+        $this->log->log($status?WC_Log_Levels::INFO:WC_Log_Levels::ERROR, $message);
+        set_transient('updateShipment_notice', $message);
+        return $status;
+    }
+
+	public function addParcelsToShipment($shipmentCode, $totalWeight, $numNewParcels) {
+		try {
+			$url = $this->get_api_addres() . SEUR_API_ADD_PARCELS;
+			$token = $this->get_token_b();
+
+			if (!$token || empty($token)) {
+				set_transient('addParcels_notice', 'Add Parcels Error: Token not found');
+				return false;
+			}
+
+			$headers = [
+				'Content-Type' => 'application/json;charset=UTF-8',
+				'Accept' => 'application/json',
+				'Authorization' => $token,
+			];
+
+			// Calcular peso promedio por paquete
+			$parcelWeight = round($totalWeight / $numNewParcels, 2);
+			$newParcels = [];
+			for ($i = 0; $i < $numNewParcels; $i++) {
+				$newParcels[] = ["weight" => $parcelWeight];
+			}
+
+			$data = [
+				"shipmentCode" => $shipmentCode,
+				"parcels" => $newParcels
+			];
+
+			return $this->sendCurl($url, $headers, $data, "PUT");
+
+		} catch (Exception $e) {
+			set_transient('addParcels_notice', 'Add Parcels Exception Error - ' . $e->getMessage());
+			return false;
+		}
+	}
+
     function isPdf() {
         return strtolower(get_option('seur_tipo_etiqueta_field')) != strtolower(PrinterType::PRINTER_TYPE_ETIQUETA);
     }
@@ -979,14 +1067,17 @@ class Seur_Global {
 
     public function is_seur_order($order_id) {
         global $wpdb;
-        return $wpdb->get_results($wpdb->prepare(
+        $sql = $wpdb->prepare(
             "SELECT distinct o.order_id
             FROM {$wpdb->prefix}woocommerce_order_items o
             inner join {$wpdb->prefix}woocommerce_order_itemmeta om on om.order_item_id = o.order_item_id
             where om.meta_key = %s and (om.meta_value like %s)
             AND o.order_id = %d",
-            ['method_id', '%seur%', $order_id])
+            ['method_id', 'seur', $order_id]
         );
+        $sql = str_replace('seur', '%seur%', $sql);
+        $result = $wpdb->get_results($sql);
+        return !empty($result);
     }
 
     public function is_seur_local_method($custom_rate_id) {

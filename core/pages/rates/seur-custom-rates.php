@@ -8,7 +8,49 @@
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
-$rates_type = get_option( 'seur_rates_type_field' ); ?>
+$rates_type = get_option( 'seur_rates_type_field' );
+
+if ( isset( $_GET['action'] ) && $_GET['action'] === 'download_seur_rates_csv' ) {
+	global $wpdb;
+	$table_name = $wpdb->prefix . 'seur_custom_rates';
+
+	$rates = $wpdb->get_results( "SELECT * FROM {$table_name}", ARRAY_A );
+
+	if ( empty( $rates ) ) {
+		wp_die( 'No hay tarifas para exportar.' );
+	}
+
+	// Limpiar el buffer de salida para evitar HTML no deseado
+	ob_clean();
+	header( 'Content-Type: text/csv; charset=utf-8' );
+	header( 'Content-Disposition: attachment; filename=seur_tarifas_actuales.csv' );
+	header( 'Pragma: no-cache' );
+	header( 'Expires: 0' );
+
+	// Abrir salida para CSV
+	$output = fopen( 'php://output', 'w' );
+
+	// Eliminar las columnas "created_at" y "updated_at"
+	foreach ( $rates as &$row ) {
+		unset( $row['created_at'], $row['updated_at'] );
+	}
+	unset($row); // Para evitar referencias inesperadas
+
+	// Escribir encabezados sin las columnas eliminadas
+	fputcsv( $output, array_keys( $rates[0] ) );
+
+	// Escribir filas sin las columnas eliminadas
+	foreach ( $rates as $row ) {
+		fputcsv( $output, $row );
+	}
+
+	// Cerrar salida
+	fclose( $output );
+
+	// Detener la ejecución de WordPress
+	exit;
+}
+?>
 <div class="container">
 	<br />
 	<p><?php esc_html_e( 'Include the rates of the transport options that your customers can choose', 'seur' ); ?></p>
@@ -17,7 +59,10 @@ $rates_type = get_option( 'seur_rates_type_field' ); ?>
 	<br />
 	<button class="button" type="button" id="btn-add"><?php esc_html_e( 'Add Custom Rate', 'seur' ); ?></button>
 	<button class="button" type="button" id="btn-view"><?php esc_html_e( 'View Custom Rates', 'seur' ); ?></button>
-	<hr>
+    <a href="<?php echo esc_url( admin_url( 'admin.php?page=seur_rates_prices&tab=custom_rates&action=download_seur_rates_csv' ) ); ?>" class="button button-secondary">
+        <?php esc_html_e( 'Download Current Rates in CSV', 'seur' ); ?>
+    </a>
+    <hr>
 	<div class="content-loader">
 		<table class="wp-list-table widefat fixed striped pages">
 			<thead>

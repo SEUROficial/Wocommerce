@@ -14,7 +14,10 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 function seur_register_meta_boxes_tracking() {
     $screen = seur_get_order_screen();
-	add_meta_box( 'seurmetaboxtracking', __( 'SEUR Tracking', 'seur' ), 'seur_metabox_tracking_callback', $screen, 'side', 'low' );
+    $order_id = isset($_GET['id']) ? $_GET['id'] : '';
+    if (seur()->is_seur_order($order_id)) {
+        add_meta_box('seurmetaboxtracking', __('SEUR Tracking', 'seur'), 'seur_metabox_tracking_callback', $screen, 'side', 'low');
+    }
 }
 add_action( 'add_meta_boxes', 'seur_register_meta_boxes_tracking', 999 );
 
@@ -24,10 +27,7 @@ add_action( 'add_meta_boxes', 'seur_register_meta_boxes_tracking', 999 );
 function seur_metabox_tracking_callback( $post_or_order_object )
 {
     $order = seur_get_order( $post_or_order_object );
-    if (!seur()->is_seur_order($order->get_id())) {
-        remove_meta_box( 'seurmetaboxtracking', seur_get_order_screen(), 'side' );
-        return '';
-    }
+
 	$has_tracking   = $order->get_meta( '_seur_shipping_id_number', true );
 	$labels_id = seur_get_labels_ids($order->get_id());
 

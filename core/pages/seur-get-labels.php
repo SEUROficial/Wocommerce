@@ -21,6 +21,16 @@ function seur_get_labels_from_order( $post ) {
 		die( esc_html__( 'Cheatin&#8217; uh?', 'seur' ) );
 	}
 
+	$modify_packages = false;
+	if ( isset( $_GET['modify_packages'] ) ) {
+		$modify_packages = sanitize_text_field( wp_unslash( $_GET['modify_packages'] ) );
+	}
+
+    if($modify_packages){
+        seur_modify_packages();
+        return;
+    }
+
 	$orderid2 = '';
 	if ( isset( $_GET['order_id'] ) ) {
 		$orderid2 = absint( sanitize_text_field( wp_unslash( $_GET['order_id'] ) ) );
@@ -103,7 +113,7 @@ function seur_get_labels_from_order( $post ) {
 
         $has_label  = seur()->has_label($order_id);
 
-		if ( 'yes' !== $has_label ) {
+        if (!$has_label) {
             $label = seur_api_get_label( $order_id, $numpackages, $weight, true, $changeService );
 			if ( $label['status'] ) {
                 $new_status = seur_after_get_label();
@@ -129,4 +139,89 @@ function seur_get_labels_from_order( $post ) {
 	?>
 	</div>
 	<?php
+}
+
+function seur_modify_packages() {
+	if ( ! isset( $_GET['order_id'] ) ) {
+		return;
+	}
+
+	$order_id = absint( sanitize_text_field( wp_unslash( $_GET['order_id'] ) ) );
+	$label_ids = seur_get_labels_ids( $order_id );
+	$label_shipping_packages = (int) get_post_meta( $label_ids[0], '_seur_shipping_packages', true );
+	$label_shipping_weight = (float) get_post_meta( $label_ids[0], '_seur_shipping_weight', true );
+
+	?>
+    <div class="wrap">
+        <h1 class="wp-heading-inline"><?php esc_html_e( 'Modify Packages', 'seur' ); ?></h1>
+        <p><?php esc_html_e( 'Here you can modify the number of packages and the total weight for the order.', 'seur' ); ?></p>
+        <form method="post" action="">
+            <input type="hidden" name="order-id" value="<?php echo esc_attr( $order_id ); ?>">
+
+            <label for="seur-number-packages">
+				<?php esc_html_e( 'Current Number of Packages:', 'seur' ); ?>
+            </label><br>
+            <input title="<?php esc_attr_e( 'Number of Packages', 'seur' ); ?>"
+                   type="number"
+                   name="seur-number-packages"
+                   class="form-control"
+                   value="<?php echo esc_attr( $label_shipping_packages ); ?>"
+                   required>
+            <br><br>
+
+            <label for="seur-shipping-weight">
+				<?php esc_html_e( 'Current Weight (kg):', 'seur' ); ?>
+            </label><br>
+            <input title="<?php esc_attr_e( 'Total Weight', 'seur' ); ?>"
+                   type="number"
+                   step="0.01"
+                   name="seur-shipping-weight"
+                   class="form-control"
+                   value="<?php echo esc_attr( $label_shipping_weight ); ?>"
+                   required>
+            <br><br>
+
+			<?php wp_nonce_field( 'seur_modify_packages_action', 'seur_modify_packages_nonce_field' ); ?>
+
+            <input type="submit" class="button button-primary" value="<?php esc_attr_e( 'Save', 'seur' ); ?>">
+            <a class="button" href="#" onclick="self.parent.tb_remove(); self.parent.location.reload()">
+				<?php esc_html_e( 'Close', 'seur' ); ?>
+            </a>
+        </form>
+    </div>
+	<?php
+
+	if ( $_SERVER['REQUEST_METHOD'] === 'POST' && isset( $_POST['seur-number-packages'] ) && isset( $_POST['seur-shipping-weight'] ) ) {
+		if ( ! isset( $_POST['seur_modify_packages_nonce_field'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['seur_modify_packages_nonce_field'] ) ), 'seur_modify_packages_action' ) ) {
+			exit;
+		}
+
+		$new_packages = absint( sanitize_text_field( wp_unslash( $_POST['seur-number-packages'] ) ) );
+		$new_weight = floatval( sanitize_text_field( wp_unslash( $_POST['seur-shipping-weight'] ) ) );
+
+		if ( $new_packages > $label_shipping_packages || $new_weight != $label_shipping_weight ) {
+			$order = seur_get_order($order_id);
+			$expeditionCode = $order->get_meta('_seur_label_expeditionCode', true);
+
+            $new_packages -= $label_shipping_packages;
+			$response     = seur()->addParcelsToShipment( $expeditionCode, $new_weight, $new_packages );
+			if (isset($response['ecbs']) && isset($response['parcelNumbers'])) {
+				$ecbs_serialized = maybe_serialize($response['ecbs']);
+				$parcelNumbers_serialized = maybe_serialize($response['parcelNumbers']);
+
+				update_post_meta( $label_ids[0], '_seur_shipping_packages', $new_packages );
+				update_post_meta( $label_ids[0], '_seur_shipping_weight', $new_weight );
+				$order->update_meta_data('_seur_label_ecbs', $ecbs_serialized);
+				$order->update_meta_data('_seur_label_parcelNumbers', $parcelNumbers_serialized);
+				$order->save_meta_data();
+
+				echo '<p>' . esc_html__( 'The number of packages and/or weight has been updated successfully.', 'seur' ) . '</p>';
+			} else {
+				echo '<p>' . esc_html__( 'Error updating packages: ' . $response['errors'][0]['detail'], 'seur' ) . '</p>';
+			}
+		} else {
+			echo '<p>' . esc_html__( 'The new number of packages must be greater than the current number or the weight must be changed.', 'seur' ) . '</p>';
+		}
+
+	}
 }
