@@ -910,7 +910,7 @@ function seur_get_order_data( $post_id ) {
 	if ( defined( 'SEUR_WOOCOMMERCE_PART' ) ) {
 
 		$title            = 'Order '.$order->get_id(); //$post->post_title;
-		$weight           = $order->get_meta( '_seur_cart_weight', true );
+        $weight           = seur_get_order_weight($order);
 		$country          = $order->get_shipping_country();
 		$first_name       = $order->get_shipping_first_name();
 		$last_name        = $order->get_shipping_last_name();
@@ -1238,6 +1238,9 @@ function seur_api_get_label( $order_id, $numpackages = '1', $weight = '1', $post
         $order->update_meta_data('_seur_label_trackingNumber', $trackingNumber );
         $order->update_meta_data('_seur_label_id_number', $result['label_ids']);
         $order->update_meta_data('_seur_shipping_order_label_downloaded', 'yes');
+        $order->update_meta_data('_seur_shipping_packages', $numpackages);
+        $order->update_meta_data('_seur_shipping_weight', $weight);
+        $order->update_meta_data('_seur_shipping_change_service', $changeService);
         $order->save_meta_data();
 
 		seur()->createPickupIfAuto($shipmentData, $order_id);  //#TODO PENDIENTE DE LA MIGRACIÓN DE PICKUPS
@@ -1741,3 +1744,18 @@ add_action('admin_notices', function () {
         delete_transient('updateShipment_notice'); // Eliminar el mensaje después de mostrarlo
     }
 });
+
+// Para manener el peso actualizado en la orden
+function seur_get_order_weight($order) {
+    $label_ids = seur_get_labels_ids($order->get_id());
+    $weight = $order->get_meta('_seur_shipping_weight') ?:
+        isset($label_ids[0]) && get_post_meta($label_ids[0], '_seur_shipping_weight', true) ?:
+        $order->get_meta('_seur_cart_weight', true);
+    $order->update_meta_data('_seur_shipping_weight', $weight);
+    $order->update_meta_data('_seur_cart_weight', $weight);
+    $order->save_meta_data();
+    if ($label_ids) {
+        update_post_meta($label_ids[0], '_seur_shipping_weight', $weight);
+    }
+    return $weight;
+}

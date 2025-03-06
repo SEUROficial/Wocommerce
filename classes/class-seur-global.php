@@ -787,7 +787,7 @@ class Seur_Global {
         return $status;
     }
 
-	public function addParcelsToShipment($shipmentCode, $totalWeight, $numNewParcels) {
+	public function addParcelsToShipment($shipmentCode, $totalWeight, $numNewParcels, $totalParcels) {
 		try {
 			$url = $this->get_api_addres() . SEUR_API_ADD_PARCELS;
 			$token = $this->get_token_b();
@@ -804,10 +804,13 @@ class Seur_Global {
 			];
 
 			// Calcular peso promedio por paquete
-			$parcelWeight = round($totalWeight / $numNewParcels, 2);
+			$parcelWeight = round($totalWeight / $totalParcels, 2);
 			$newParcels = [];
-			for ($i = 0; $i < $numNewParcels; $i++) {
-				$newParcels[] = ["weight" => $parcelWeight];
+			for ($i = $totalParcels-$numNewParcels+1; $i <= $totalParcels; $i++) {
+				$newParcels[] = [
+                    "weight" => $parcelWeight,
+                    "parcelReference" => "BULTO_".$i
+                ];
 			}
 
 			$data = [
