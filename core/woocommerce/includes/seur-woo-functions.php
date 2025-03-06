@@ -330,7 +330,7 @@ function seur_woo_bulk_action() {
 
 				$has_label = seur()->has_label($post_id);
 
-				if ( $has_label != 'yes' ) {
+                if (!$has_label) {
                     if (!seur()->is_seur_order($post_id)) {
                         set_transient( get_current_user_id() . '_seur_woo_bulk_action_pending_notice',
                             'The order ID ' . $post_id . ' NOT is a SEUR shipment');
@@ -390,7 +390,7 @@ add_filter( 'woocommerce_admin_order_actions', 'seur_add_label_order_actions_but
 function seur_add_label_order_actions_button( $actions, $the_order ) {
 
 	$has_label = seur()->has_label($the_order->get_id());
-	if ( 'yes' !== $has_label ) { // if order has not label.
+	if (!$has_label) { // if order has not label.
 		$actions['cancel'] = array(
 			'url'    => wp_nonce_url( admin_url( 'admin-ajax.php?action=seur_get_label&order_id=' . $the_order->get_id() ), 'woocommerce-mark-order-status' ),
 			'name'   => __( 'Get SEUR Label (Only 1 label per order)', 'seur' ),
@@ -449,7 +449,7 @@ function seur_get_label_ajax() {
 	$order_id  = absint(sanitize_text_field( wp_unslash( $_GET['order_id'])) ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotValidated
 	$has_label = seur()->has_label($order_id);
 
-	if ( 'yes' !== $has_label ) {
+	if (!$has_label) {
 		if ( current_user_can( 'edit_shop_orders' ) && check_admin_referer( 'woocommerce-mark-order-status' ) ) {
 			$label = seur_api_get_label( $order_id );
 			$new_status = seur_after_get_label();
@@ -507,8 +507,11 @@ function seur_shipping_mobil_phone_fields( $fields ) {
 
 add_action( 'woocommerce_admin_order_data_after_shipping_address', 'seur_shipping_mobil_phone_fields_display_admin_order_meta', 10, 1 );
 
-function seur_shipping_mobil_phone_fields_display_admin_order_meta( $order ) {
-	echo '<p><strong>' . esc_html__( 'Shipping Mobile Phone', 'seur' ) . ':</strong> ' . esc_html( $order->get_meta( '_shipping_mobile_phone', true ) ) . '</p>';
+function seur_shipping_mobil_phone_fields_display_admin_order_meta($order)
+{
+    echo '<p class="form-field _shipping_mobile_phone_field"><strong>' .
+        esc_html__('Shipping Mobile Phone', 'seur') . ':</strong> ' .
+        esc_html($order->get_meta('_shipping_mobile_phone', true)) . '</p>';
 }
 
 function seur_filter_price_rate_weight( $package_price, $raterate, $ratepricerate, $countryrate ) {

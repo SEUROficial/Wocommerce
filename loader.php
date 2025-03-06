@@ -3,7 +3,7 @@
  * Plugin Name: SEUR Oficial
  * Plugin URI: http://www.seur.com/
  * Description: Add SEUR shipping method to WooCommerce. The SEUR plugin for WooCommerce allows you to manage your order dispatches in a fast and easy way
- * Version: 2.2.20
+ * Version: 2.2.21
  * Author: SEUR Oficial
  * Author URI: http://www.seur.com/
  * Tested up to: 6.6.2
@@ -19,7 +19,7 @@
 
 use Automattic\WooCommerce\Utilities\FeaturesUtil;
 
-define( 'SEUR_OFFICIAL_VERSION', '2.2.20' );
+define( 'SEUR_OFFICIAL_VERSION', '2.2.21' );
 define( 'SEUR_DB_VERSION', '1.0.4' );
 define( 'SEUR_TABLE_VERSION', '1.0.5' );
 
@@ -39,9 +39,11 @@ define( 'SEUR_API_CITIES', 'pic/v1/cities' );
 define( 'SEUR_API_BREXIT_INV', 'pic/v1/brexit/invoices' );
 define( 'SEUR_API_BREXIT_TARIF', 'pic/v1/brexit/tariff-item' );
 define( 'SEUR_API_SHIPMENT', 'pic/v1/shipments' );
+define( 'SEUR_API_SHIPMENT_UPDATE', 'pic/v1/shipments/update' );
 define( 'SEUR_API_LABELS', 'pic/v1/labels' );
 define( 'SEUR_API_PICKUPS', 'pic/v1/pickups' );
 define( 'SEUR_API_MANIFEST', 'pic/v1/shipments/delivery-manifest' );
+define( 'SEUR_API_ADD_PARCELS', 'pic/v1/shipments/addpack' );
 
 define( 'SHIPMENT_STREETNAME_LENGTH', 70 );
 define( 'SHIPMENT_COMMENT_LENGTH', 50 );

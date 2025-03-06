@@ -910,7 +910,7 @@ function seur_get_order_data( $post_id ) {
 	if ( defined( 'SEUR_WOOCOMMERCE_PART' ) ) {
 
 		$title            = 'Order '.$order->get_id(); //$post->post_title;
-		$weight           = $order->get_meta( '_seur_cart_weight', true );
+        $weight           = seur_get_order_weight($order);
 		$country          = $order->get_shipping_country();
 		$first_name       = $order->get_shipping_first_name();
 		$last_name        = $order->get_shipping_last_name();
@@ -1238,6 +1238,9 @@ function seur_api_get_label( $order_id, $numpackages = '1', $weight = '1', $post
         $order->update_meta_data('_seur_label_trackingNumber', $trackingNumber );
         $order->update_meta_data('_seur_label_id_number', $result['label_ids']);
         $order->update_meta_data('_seur_shipping_order_label_downloaded', 'yes');
+        $order->update_meta_data('_seur_shipping_packages', $numpackages);
+        $order->update_meta_data('_seur_shipping_weight', $weight);
+        $order->update_meta_data('_seur_shipping_change_service', $changeService);
         $order->save_meta_data();
 
 		seur()->createPickupIfAuto($shipmentData, $order_id);  //#TODO PENDIENTE DE LA MIGRACIÓN DE PICKUPS
@@ -1621,3 +1624,138 @@ remove_action( 'shutdown', 'wp_ob_end_flush_all', 1 );
 add_action( 'shutdown', function() {
     while ( @ob_end_flush() );
 } );
+
+
+function seur_api_update_shipment($order_id, $new_shipping_address)
+{
+    $order = seur_get_order($order_id);
+    $expeditionCode = $order->get_meta('_seur_label_expeditionCode', true);
+
+    if (!$expeditionCode) {
+        // only save changes, shipment not created yet
+        return true;
+    }
+    try {
+        $receiver = [
+            "name" => $new_shipping_address['first_name'] . ' ' . $new_shipping_address['last_name'],
+            "street" => $new_shipping_address['address_1'] . ' ' . $new_shipping_address['address_2'],
+            "phone" => cleanPhone(!empty($new_shipping_address['phone']) ?
+                $new_shipping_address['phone'] :
+                $order->get_meta('_shipping_mobile_phone', true)),
+            "mail" => $order->get_billing_email(),
+            "contact" => $new_shipping_address['first_name'] . ' ' . $new_shipping_address['last_name']
+        ];
+
+        $shipmentData = [
+            "shipmentCode" => $expeditionCode,
+            "receiver" => $receiver,
+            "observations" => $new_shipping_address['customer_note']
+        ];
+
+        if (!seur()->updateShipment($shipmentData)) {
+            wp_redirect(wp_get_raw_referer());
+            exit;
+        }
+        return true;
+    } catch (Exception $e) {
+        $message = "Error: Se ha producido una excepción de Prestashop seur_api_update_shipment: " . $e->getMessage();
+        set_transient('updateShipment_notice', $message);
+        wp_redirect(wp_get_raw_referer());
+        exit;
+    }
+}
+
+function seur_update_order_address($order_id, $new_shipping_address)
+{
+    $order = seur_get_order($order_id);
+    $order->set_address($new_shipping_address, 'shipping');
+    $order->save();
+}
+
+add_action('woocommerce_process_shop_order_meta', function ($order_id) {
+
+    if (!seur()->is_seur_order($order_id)) {
+        return;
+    }
+
+    $order = seur_get_order($order_id);
+    $old_shipping_address = $order->get_address('shipping');
+
+    // Obtener los nuevos valores de los campos desde $_POST
+    $new_shipping_address = [
+        'first_name' => isset($_POST['_shipping_first_name']) ? sanitize_text_field($_POST['_shipping_first_name']) : '',
+        'last_name'  => isset($_POST['_shipping_last_name']) ? sanitize_text_field($_POST['_shipping_last_name']) : '',
+        'company'    => isset($_POST['_shipping_company']) ? sanitize_text_field($_POST['_shipping_company']) : '',
+        'address_1'  => isset($_POST['_shipping_address_1']) ? sanitize_text_field($_POST['_shipping_address_1']) : '',
+        'address_2'  => isset($_POST['_shipping_address_2']) ? sanitize_text_field($_POST['_shipping_address_2']) : '',
+        'city'       => isset($_POST['_shipping_city']) ? sanitize_text_field($_POST['_shipping_city']) : '',
+        'state'      => isset($_POST['_shipping_state']) ? sanitize_text_field($_POST['_shipping_state']) : '',
+        'postcode'   => isset($_POST['_shipping_postcode']) ? sanitize_text_field($_POST['_shipping_postcode']) : '',
+        'country'    => isset($_POST['_shipping_country']) ? sanitize_text_field($_POST['_shipping_country']) : '',
+        'phone'      => isset($_POST['_shipping_phone']) ? sanitize_text_field($_POST['_shipping_phone']) : '',
+        'customer_note' => isset($_POST['_customer_note']) ? sanitize_text_field($_POST['_customer_note']) : '',
+    ];
+
+    // Validaciones
+    $errores = [];
+
+    // si cambia alguno de estos campos 'city', 'state', 'postcode', 'country'
+    // y la etiqueta ha sido generada, mostrar mensaje de error
+    if (seur()->has_label($order_id)) {
+        $campos_a_verificar = [
+            'city'     => 'ciudad',
+            'state'    => 'provincia',
+            'postcode' => 'código postal',
+            'country'  => 'país'
+        ];
+
+        foreach ($campos_a_verificar as $campo => $nombre) {
+            if ($old_shipping_address[$campo] !== $new_shipping_address[$campo]) {
+                $errores[] = $nombre;
+            }
+        }
+    }
+
+    // Si hay errores, detenemos el guardado y mostramos un aviso
+    if (!empty($errores)) {
+        $message= "Error: La etiqueta ya ha sido generada y no se puede cambiar el valor de estos campos de la dirección de envío: ". implode(', ', $errores);
+        set_transient('updateShipment_notice', $message);
+        wp_redirect(wp_get_raw_referer());
+        exit;
+    }
+
+    // si hay cambios
+    if ($old_shipping_address !== $new_shipping_address) {
+        // Comprobamos si se puede actualizar el envío en SEUR
+        if (seur_api_update_shipment($order_id, $new_shipping_address)) {
+            // Crear dirección de envío con estos datos y asignarla al pedido
+            seur_update_order_address($order_id, $new_shipping_address);
+        }
+    }
+}, 10, 1);
+
+add_action('admin_notices', function () {
+    $mensaje = get_transient('updateShipment_notice'); // Obtener el mensaje guardado
+
+    if ($mensaje) {
+        $error = strpos(strtolower($mensaje), 'error') !== false;
+        echo '<div class="notice '.($error?'notice-error':'notice-success').' is-dismissible">
+            <p><strong>Seur:</strong> ' . esc_html($mensaje) . '</p></div>';
+        delete_transient('updateShipment_notice'); // Eliminar el mensaje después de mostrarlo
+    }
+});
+
+// Para manener el peso actualizado en la orden
+function seur_get_order_weight($order) {
+    $label_ids = seur_get_labels_ids($order->get_id());
+    $weight = $order->get_meta('_seur_shipping_weight') ?:
+        isset($label_ids[0]) && get_post_meta($label_ids[0], '_seur_shipping_weight', true) ?:
+        $order->get_meta('_seur_cart_weight', true);
+    $order->update_meta_data('_seur_shipping_weight', $weight);
+    $order->update_meta_data('_seur_cart_weight', $weight);
+    $order->save_meta_data();
+    if ($label_ids) {
+        update_post_meta($label_ids[0], '_seur_shipping_weight', $weight);
+    }
+    return $weight;
+}

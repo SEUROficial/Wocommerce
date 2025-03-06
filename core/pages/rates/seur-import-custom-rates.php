@@ -78,6 +78,48 @@ if ( isset( $_POST['import_custom_rates'] ) && check_admin_referer( 'seur_import
 	echo '<div class="notice notice-error"><p>Error de seguridad. Por favor, recargue la página e inténtelo de nuevo.</p></div>';
 }
 
+if ( isset( $_GET['action'] ) && $_GET['action'] === 'download_seur_rates_csv' ) {
+	global $wpdb;
+	$table_name = $wpdb->prefix . 'seur_custom_rates';
+
+	$rates = $wpdb->get_results( "SELECT * FROM {$table_name}", ARRAY_A );
+
+	if ( empty( $rates ) ) {
+		wp_die( 'No hay tarifas para exportar.' );
+	}
+
+	// Limpiar el buffer de salida para evitar HTML no deseado
+	ob_clean();
+	header( 'Content-Type: text/csv; charset=utf-8' );
+	header( 'Content-Disposition: attachment; filename=seur_tarifas_actuales.csv' );
+	header( 'Pragma: no-cache' );
+	header( 'Expires: 0' );
+
+	// Abrir salida para CSV
+	$output = fopen( 'php://output', 'w' );
+
+	// Eliminar las columnas "created_at" y "updated_at"
+	foreach ( $rates as &$row ) {
+		unset( $row['created_at'], $row['updated_at'] );
+	}
+	unset($row); // Para evitar referencias inesperadas
+
+	// Escribir encabezados sin las columnas eliminadas
+	fputcsv( $output, array_keys( $rates[0] ) );
+
+	// Escribir filas sin las columnas eliminadas
+	foreach ( $rates as $row ) {
+		fputcsv( $output, $row );
+	}
+
+	// Cerrar salida
+	fclose( $output );
+
+	// Detener la ejecución de WordPress
+	exit;
+}
+
+
 function seur_process_csv( $file_path ) {
 	global $wpdb;
 	$registros = seur()->get_products();
@@ -220,7 +262,15 @@ function seur_process_csv( $file_path ) {
     <h1>Importación de Tarifas</h1>
     <p>Para importar o actualizar las tarifas personalizadas de SEUR, siga estos pasos:</p>
     <ol>
-        <li>Descargue el <a href="<?php echo esc_url( plugins_url( '../../../data/import_rates.csv', __FILE__ ) ); ?>" download>archivo CSV de ejemplo</a>. Los ejemplos deben ser eliminados antes de la importación final.</li>
+        <li>
+            Descargue el <a href="<?php echo esc_url( plugins_url( '../../../data/import_rates.csv', __FILE__ ) ); ?>" download>archivo CSV de ejemplo</a>.
+            Los ejemplos deben ser eliminados antes de la importación final.
+            <br>
+            O bien descargue las tarifas actuales aquíí
+            <a href="<?php echo esc_url( admin_url( 'admin.php?page=seur_rates_prices&tab=import_custom_rates&action=download_seur_rates_csv' ) ); ?>">
+                Descargar Tarifas Actuales en CSV
+            </a>
+        </li>
         <li>Edite el archivo CSV utilizando cualquier editor de texto o hoja de cálculo compatible. Elimine los ejemplos proporcionados y complete los detalles según sus necesidades.</li>
         <li>Suba el archivo CSV editado utilizando la función de importación a continuación:</li>
     </ol>

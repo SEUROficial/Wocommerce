@@ -14,7 +14,10 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 function seur_register_meta_boxes() {
     $screen = seur_get_order_screen();
-	add_meta_box( 'seurmetabox', __( 'SEUR Labels', 'seur' ), 'seur_metabox_callback', $screen, 'side', 'low' );
+    $order_id = isset($_GET['id']) ? $_GET['id'] : '';
+    if (seur()->is_seur_order($order_id)) {
+        add_meta_box('seurmetabox', __('SEUR Labels', 'seur'), 'seur_metabox_callback', $screen, 'side', 'low');
+    }
 }
 add_action( 'add_meta_boxes', 'seur_register_meta_boxes', 999 );
 
@@ -25,10 +28,7 @@ add_action( 'add_meta_boxes', 'seur_register_meta_boxes', 999 );
  */
 function seur_metabox_callback( $post_or_order_object ) {
     $order = seur_get_order($post_or_order_object);
-    if (!seur()->is_seur_order($order->get_id())) {
-        remove_meta_box( 'seurmetabox', seur_get_order_screen(), 'side' );
-        return '';
-    }
+
 	$has_label      = seur()->has_label($order);
     ?>
 
@@ -66,7 +66,7 @@ function seur_metabox_callback( $post_or_order_object ) {
         $cont           = 1;
         foreach($label_ids as $labelid) {
             $label_file_name  = get_post_meta( $labelid, '_seur_shipping_order_label_file_name', true );
-            //$file_type        = get_post_meta( $labelid2, '_seur_label_type', true );
+	        //$file_type        = get_post_meta( $labelid2, '_seur_label_type', true );
             $suffix = count($label_ids) > 1 ? (esc_html__('for package', 'seur') . "  {$cont} ") : '';
             $cont++;
             ?>
@@ -75,7 +75,29 @@ function seur_metabox_callback( $post_or_order_object ) {
             </a>
             <?php
         }
-    } ?>
+
+		$url             = esc_url( admin_url( add_query_arg( array( 'page' => 'seur_get_labels_from_order' ), 'admin.php' ) ) );
+		$arrayiframe     = array(
+			'TB_iframe' => 'true',
+			'width'      => '400',
+			'height'     => '300',
+		);
+		add_thickbox();
+        $arrayurl = array(
+            'order_id' => $order->get_id(),
+            'modify_packages' => true
+        );
+        $arrayurl = array_merge( $arrayurl, $arrayiframe );
+        $final_get_label_url = esc_url( add_query_arg( $arrayurl, $url ) );
+        $text = 'Modify order packages';
+        ?>
+        <a class='thickbox button btn-seur-label' title='<?php echo esc_html( $text ); ?>'
+           alt='<?php echo esc_html( $text ); ?>'
+           href='<?php echo esc_html( $final_get_label_url ); ?>'>
+            <?php echo esc_html( $text ); ?>
+        </a>
+        <?php
+	} ?>
     </div>
 	<?php
 }
@@ -103,7 +125,7 @@ function seur_save_meta_box( $post_id ) {
 
     $has_label   = seur()->has_label($post_id);
 
-    if ( 'yes' !== $has_label ) {
+    if (!$has_label) {
         $label = seur_api_get_label( $post_id, $numpackages, $weight, false, $changeService );
         $new_status  = 'seur-shipment';
         seur_api_set_label_result( $post_id, $label, $new_status);
@@ -136,7 +158,7 @@ function seur_save_meta_box_hpos( $order_id ) {
 
     $has_label   = seur()->has_label($order_id);
 
-    if ( 'yes' !== $has_label ) {
+    if (!$has_label) {
         $label = seur_api_get_label( $order_id, $numpackages, $weight, false, $changeService );
         $new_status  = 'seur-shipment';
         seur_api_set_label_result( $order_id, $label, $new_status);
