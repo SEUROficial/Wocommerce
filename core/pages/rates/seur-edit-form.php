@@ -37,16 +37,11 @@ function seur_edit_rate() {
 
     // translators: %s is the type of rate (e.g., weight, price).
 	$title_max = sprintf( __( 'The product %s is less than this field', 'seur' ), esc_html( $rates_type ) );
-
-
 	?>
-	<style type="text/css">
-	#dis{
-		display:none;
-	}
-	</style>
+
     <div id="dis">
     </div>
+
     <form method='post' id='emp-UpdateForm' action='#'>
 		<table class='table table-bordered'>
 			<input type='hidden' name='id' value='<?php echo esc_html( $getrate->ID ); ?>' />
@@ -140,7 +135,9 @@ function seur_edit_rate() {
 			</tr>
 			<tr>
 				<td><?php esc_html_e( 'Postcode', 'seur' ); ?></td>
-				<td><input title="<?php esc_html_e( 'SEUR field description', 'seur' ); ?>" type='text' name='postcode' value='<?php echo esc_html( $getrate->postcode ); ?>' class='form-control' placeholder='EX : 08023' required=""></td>
+				<td><textarea title="<?php esc_html_e( 'Type a Postcode', 'seur' ); ?>" name="postcode" id="postcode" class="form-control" cols="29" rows="5" required=""><?php echo esc_html( $getrate->postcode ); ?></textarea>
+                    <br><span class="description"><?php echo SEUR_RATES_POSTALCODE_DESCRIPTION . esc_html__('Add 1 per line'); ?></span>
+                </td>
 			</tr>
 			<tr>
 				<td><?php echo esc_html( $min ); ?></td>
@@ -167,3 +164,4 @@ function seur_edit_rate() {
 	</form>
 	<?php
 }
+//seur_search_availables_rates('ES','*', '*', 0.5);

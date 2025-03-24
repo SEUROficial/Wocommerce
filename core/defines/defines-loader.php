@@ -27,7 +27,7 @@ define( 'SEUR_PLUGIN_ECB', 'seur_ecb' );
 define( 'SEUR_PLUGIN_SVPR', 'seur_svpr' );
 define( 'SEUR_TBL_SCR', 'seur_custom_rates' );
 define( 'SEUR_CLASSES', SEUR_PLUGIN_PATH . 'core/classes/' );
-
+define('SEUR_RATES_POSTALCODE_DESCRIPTION', esc_html__('Postcodes containing wildcards (e.g. CB23*) or fully numeric ranges (e.g. 90210..99000) are also supported. ', 'seur'));
 
 if ( ! defined( 'SEUR_DEBUG' ) ) {
 	define( 'SEUR_DEBUG', false );

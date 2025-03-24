@@ -32,14 +32,19 @@ function seur_update_custom_rate() {
             $seur_maxweight = sanitize_text_field( wp_unslash( $_POST['maxweight'] ) ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotValidated
 			$seur_rateprice = sanitize_text_field( wp_unslash( $_POST['rateprice'] ) ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotValidated
 			$seur_rate_type = sanitize_text_field( wp_unslash( $_POST['rate_type'] ) ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotValidated
-			$seur_postcode  = sanitize_text_field( wp_unslash( $_POST['postcode'] ), $seur_country ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotValidated
+			$seur_postcode  = sanitize_textarea_field( wp_unslash( $_POST['postcode'] ) ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotValidated
 
 			if ( empty( $seur_minprice ) ) {
 				$seur_minprice = '0';
 			}
 			if ( empty( $seur_postcode ) || '00000' === $seur_postcode || '0000' === $seur_postcode || '*' === $seur_postcode ) {
 				$seur_postcode = '*';
-			}
+			} else {
+                if (!validatePostcodes($seur_postcode)) {
+                    echo '<div class="notice notice notice-error"><p>' . esc_html__( 'The postcode is not valid', 'seur' ) . '</p></div>';
+                    exit;
+                }
+            }
 			if ( empty( $seur_rateprice ) ) {
 				$seur_rateprice = '0';
 			}

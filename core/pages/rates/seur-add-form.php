@@ -75,8 +75,10 @@ function seur_add_form() {
                 </td>
             </tr>
             <tr>
-                <td id="postcode"><?php esc_html_e( 'Postcode', 'seur' ); ?></td>
-                <td><input title="<?php esc_html_e( 'Type a Postcode', 'seur' ); ?>" type='text' name='postcode' class='form-control' placeholder='EX : 08023' required=""></td>
+                <td><?php esc_html_e( 'Postcode', 'seur' ); ?></td>
+                <td><textarea title="<?php esc_html_e( 'Type a Postcode', 'seur' ); ?>" name="postcode" id="postcode" placeholder="<?php echo esc_html("List 1 postcode per line");?>" class="form-control" cols="29" rows="5" required=""></textarea>
+                    <br><span class="description"><?php echo SEUR_RATES_POSTALCODE_DESCRIPTION . esc_html__('Add 1 per line'); ?></span>
+                </td>
             </tr>
             <tr>
                 <td><?php echo esc_html( $min ); ?></td>

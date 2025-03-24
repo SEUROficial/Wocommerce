@@ -20,86 +20,35 @@ function seur_after_get_label() {
 
 	return $return;
 }
+
 // Store cart weight in the database.
-/*********************************************
- * COMMENT THIS CODE WHILE WOOCOMMERCE RESOLVE THE BUG
- * woocommerce_checkout_update_order_meta not hiring with new WC Checkout Block
- ********************************************/
-/* add_action( 'woocommerce_checkout_update_order_meta', 'seur_add_cart_weight' );
-function seur_add_cart_weight( $order_id )
+add_action( 'woocommerce_update_order', 'seur_add_cart_weight_hpos' );
+function seur_add_cart_weight_hpos( $order_id )
 {
-    $order = new WC_Order( $order_id );
+    if (WC()->cart) {
+        $order = new WC_Order($order_id);
 
-    $ship_methods = maybe_unserialize( $order->get_shipping_methods() );
-    foreach ( $ship_methods as $ship_method ) {
-        $product_name = $ship_method['name'];
-    }
-
-    $products = seur()->get_products();
-    foreach ( $products as $code => $product ) {
-        $custom_name = get_option($product['field'].'_custom_name_field')?get_option($product['field'].'_custom_name_field'):$code;
-        if ($custom_name == $product_name) {
-            $order->update_meta_data('_seur_shipping', 'seur' );
-            $order->update_meta_data('_seur_shipping_method_service_real_name', $code );
-            $order->update_meta_data('_seur_shipping_method_service', sanitize_title( $product_name ) );
-            break;
+        $ship_methods = maybe_unserialize($order->get_shipping_methods());
+        foreach ($ship_methods as $ship_method) {
+            $product_name = $ship_method['name'];
         }
-    }
 
-    $weight = WC()->cart->cart_contents_weight;
-    $order->update_meta_data('_seur_cart_weight', $weight );
-    $order->save_meta_data();
-} */
-/*********************************************
- * ADDED THIS ACTION WHILE WOOCOMMERCE RESOLVE THE BUG
- * woocommerce_checkout_update_order_meta not hiring with new WC Checkout Block
- ********************************************/
-add_action( 'woocommerce_thankyou', 'seur_add_cart_weight_bis' );
-function seur_add_cart_weight_bis( $order_id )
-{
-    if (!is_numeric($order_id)) {
-        return;
-    }
-
-	$order = new WC_Order( $order_id );
-	$ship_methods = maybe_unserialize( $order->get_shipping_methods() );
-	foreach ( $ship_methods as $ship_method ) {
-		$product_name = $ship_method['name'];
-	}
-
-    $products = seur()->get_products();
-    foreach ( $products as $code => $product ) {
-        $custom_name = get_option($product['field'].'_custom_name_field')?get_option($product['field'].'_custom_name_field'):$code;
-        if ($custom_name == $product_name) {
-            $order->update_meta_data('_seur_shipping', 'seur' );
-            $order->update_meta_data('_seur_shipping_method_service_real_name', $code );
-            $order->update_meta_data('_seur_shipping_method_service', sanitize_title( $product_name ) );
-            break;
+        $products = seur()->get_products();
+        foreach ($products as $code => $product) {
+            $custom_name = get_option($product['field'] . '_custom_name_field') ? get_option($product['field'] . '_custom_name_field') : $code;
+            if ($custom_name == $product_name) {
+                $order->update_meta_data('_seur_shipping', 'seur');
+                $order->update_meta_data('_seur_shipping_method_service_real_name', $code);
+                $order->update_meta_data('_seur_shipping_method_service', sanitize_title($product_name));
+                break;
+            }
         }
+
+        $weight = WC()->cart->cart_contents_weight;
+        $order->update_meta_data('_seur_cart_weight', $weight);
+        $order->save_meta_data();
     }
-
-    // Compute total order weight if not computed already (by seur_add_cart_weight())
-    if ( empty($order->get_meta('_seur_cart_weight')) ) {
-	    $items        = $order->get_items();
-	    $total_weight = 0.0;
-	    foreach ( $items as $item ) {
-		    $hidden = $item->get_meta( '_bundled_item_hidden' );
-            // Do not add the hidden items inside the pack
-		    if ( $hidden != 'yes' ) {
-			    $product_quantity = $item->get_quantity();
-			    $product_weight   = $item->get_product()->get_weight(); // Obtiene el peso del producto
-			    $total_weight    += (float) $product_weight * (float) $product_quantity;
-		    }
-	    }
-
-	    $order->update_meta_data( '_seur_cart_weight', $total_weight );
-    }
-
-    $order->save_meta_data();
 }
-// When the event woocommerce_checkout_update_order_meta is triggered we can obtain the cart weight
-// from Woocommerce (which should more accurate that any calculation we can perform).
-// But the event is not triggered in all versions (see bug), so there is a second point where weight is computed (above).
 add_action('woocommerce_checkout_update_order_meta', 'seur_add_cart_weight');
 function seur_add_cart_weight( $order_id ) {
 	global $woocommerce;
@@ -132,7 +81,8 @@ else {
 function seur_custom_order_weight_column( $column ) {
     global $post;
 	if ( $column == 'total_weight' ) {
-        $weight = get_post_meta( $post->ID, '_seur_cart_weight', true );
+        $weight = get_post_meta( $post->ID, '_seur_cart_weight', true ) ?:
+            get_post_meta($post->ID, '_seur_shipping_weight', true);
 		if ( $weight > 0 ) {
 			print esc_html( $weight ) . ' ' . esc_attr( get_option( 'woocommerce_weight_unit' ) );
 		} else {
@@ -142,7 +92,8 @@ function seur_custom_order_weight_column( $column ) {
 }
 function seur_custom_order_weight_column_hpos( $column, $order) {
     if ( $column == 'total_weight' ) {
-        $weight = $order->get_meta(  '_seur_cart_weight', true );
+        $weight = $order->get_meta(  '_seur_cart_weight', true ) ?:
+            $order->get_meta('_seur_shipping_weight', true);
         if ( $weight > 0 ) {
             print esc_html( $weight ) . ' ' . esc_attr( get_option( 'woocommerce_weight_unit' ) );
         } else {
@@ -312,11 +263,16 @@ function seur_woo_bulk_action() {
 	$wp_list_table = _get_list_table( 'WP_Posts_List_Table' );
 	$action        = $wp_list_table->current_action();
 
-    if ( ! isset( $_REQUEST['id'] ) ) {
+    if (isset($_REQUEST['id'])) {
+        $post_ids      = array_map( 'absint', (array) $_REQUEST['id'] );
+    }
+    if (isset($_REQUEST['post'])) {
+        $post_ids      = array_map( 'absint', (array) $_REQUEST['post'] );
+    }
+    if (!isset($post_ids)) {
         return;
     }
 
-	$post_ids      = array_map( 'absint', (array) $_REQUEST['id'] );
 	$report_action = 'marked_seur-createlabel';
 
 	switch ( $action ) {

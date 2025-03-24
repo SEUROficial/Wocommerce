@@ -148,6 +148,7 @@ function seur_select2_load_js() {
 function seur_settings_load_js() {
 	wp_enqueue_script( 'seur-tooltip', SEUR_PLUGIN_URL . 'assets/js/tooltip.js', array( 'jquery-ui-tooltip' ), SEUR_OFFICIAL_VERSION );
 	wp_enqueue_script( 'seur-switchery', SEUR_PLUGIN_URL . 'assets/js/switchery.min.js', array(), SEUR_OFFICIAL_VERSION );
+    wp_enqueue_script( 'seur-admin', SEUR_PLUGIN_URL . 'assets/js/seur-advanced-settings.js', array(), SEUR_OFFICIAL_VERSION );
 }
 
 /**
@@ -602,9 +603,8 @@ function seur_search_availables_rates( $country = '*', $state = '*', $postcode =
           (SELECT %s
            FROM $table
            WHERE type = %s
-             AND (country = %s)
+             AND country = %s
              AND (state = %s OR state = '*')
-             AND (postcode = %s OR postcode = '*')
              AND (min".$type." <= %f AND max".$type." > %f)
            LIMIT 1),
           '*'
@@ -614,19 +614,7 @@ function seur_search_availables_rates( $country = '*', $state = '*', $postcode =
            FROM $table
            WHERE type = %s
              AND (country = %s OR country = '*')
-             AND (state = %s)
-             AND (postcode = %s OR postcode = '*')
-             AND (min".$type." <= %f AND max".$type." > %f)
-           LIMIT 1),
-          '*'
-      )
-      AND postcode = COALESCE(
-          (SELECT %s
-           FROM $table
-           WHERE type = %s
-             AND (country = %s OR country = '*')
-             AND (state = %s OR state = '*')
-             AND (postcode = %s)
+             AND state = %s
              AND (min".$type." <= %f AND max".$type." > %f)
            LIMIT 1),
           '*'
@@ -638,22 +626,55 @@ function seur_search_availables_rates( $country = '*', $state = '*', $postcode =
     $query = $wpdb->prepare(
         $query,
         $type,
-        $country,  $type, $country, $state, $postcode, $price_weight, $price_weight,
-        $state,    $type, $country, $state, $postcode, $price_weight, $price_weight,
-        $postcode, $type, $country, $state, $postcode, $price_weight, $price_weight,
+        $country,  $type, $country, $state, $price_weight, $price_weight,
+        $state,    $type, $country, $state, $price_weight, $price_weight,
         $price_weight, $price_weight
     );
 
     $results = $wpdb->get_results($query, 'ARRAY_A');
 
+    // Filtrar resultados
+    $filteredResults = array_filter($results, function ($row) use ($postcode) {
+        return matchPostcode($postcode, $row['postcode']);
+    });
+
     if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
         $log = new WC_Logger();
-        $log->add( 'seur', 'Tarifas disponibles encontradas: ' . print_r( $results, true ) );
+        $log->add( 'seur', 'Tarifas disponibles encontradas: ' . print_r( $filteredResults, true ) );
     }
-
-    return $results;
+    return $filteredResults;
 }
 
+function matchPostcode($postcode, $rules) {
+    $rules = explode("\n", $rules); // Separar líneas en un array
+
+    foreach ($rules as $rule) {
+        $rule = trim($rule);
+
+        // Comprobación por prefijo (ejemplo: 00*)
+        if (str_ends_with($rule, '*')) {
+            $prefix = rtrim($rule, '*');
+            if (strpos($postcode, $prefix) === 0) {
+                return true; // Coincidencia con prefijo
+            }
+        }
+
+        // Comprobación por rango (ejemplo: 11001..11012)
+        if (strpos($rule, '..') !== false) {
+            [$start, $end] = explode('..', $rule);
+            if ($postcode >= $start && $postcode <= $end) {
+                return true; // Coincidencia con el rango
+            }
+        }
+
+        // Coincidencia exacta
+        if ($postcode === $rule) {
+            return true;
+        }
+    }
+
+    return false; // No hay coincidencia
+}
 /**
  * SEUR Get User Settings
  */
@@ -1239,7 +1260,7 @@ function seur_api_get_label( $order_id, $numpackages = '1', $weight = '1', $post
         $order->update_meta_data('_seur_label_id_number', $result['label_ids']);
         $order->update_meta_data('_seur_shipping_order_label_downloaded', 'yes');
         $order->update_meta_data('_seur_shipping_packages', $numpackages);
-        $order->update_meta_data('_seur_shipping_weight', $weight);
+        $order->update_meta_data('_seur_shipping_weight', $labelData['customer_weight']);
         $order->update_meta_data('_seur_shipping_change_service', $changeService);
         $order->save_meta_data();
 
@@ -1379,7 +1400,7 @@ function seur_api_preprare_label_data($order_id, $numpackages = '1', $weight = '
 	$preparedData['customer_country'] 	  = $order_data[0]['country'];
 	$preparedData['customer_city']     	  = seur_clean_data( $order_data[0]['city'] );
 	$preparedData['customer_postcode'] 	  = $order_data[0]['postcode'];
-	$preparedData['customer_weight'] 	  = $order_data[0]['weight'];
+	$preparedData['customer_weight'] 	  = $order_data[0]['weight'] ?: $weight;
 	$preparedData['customer_first_name']  = seur_clean_data( $order_data[0]['first_name'] );
 	$preparedData['customer_last_name']   = seur_clean_data( $order_data[0]['last_name'] );
 	$preparedData['customer_company']     = $order_data[0]['company'];
@@ -1748,14 +1769,63 @@ add_action('admin_notices', function () {
 // Para manener el peso actualizado en la orden
 function seur_get_order_weight($order) {
     $label_ids = seur_get_labels_ids($order->get_id());
+
     $weight = $order->get_meta('_seur_shipping_weight') ?:
         isset($label_ids[0]) && get_post_meta($label_ids[0], '_seur_shipping_weight', true) ?:
         $order->get_meta('_seur_cart_weight', true);
-    $order->update_meta_data('_seur_shipping_weight', $weight);
-    $order->update_meta_data('_seur_cart_weight', $weight);
-    $order->save_meta_data();
-    if ($label_ids) {
-        update_post_meta($label_ids[0], '_seur_shipping_weight', $weight);
+    if ($weight) {
+        $order->update_meta_data('_seur_shipping_weight', $weight);
+        $order->update_meta_data('_seur_cart_weight', $weight);
+        $order->save_meta_data();
+        if ($label_ids) {
+            update_post_meta($label_ids[0], '_seur_shipping_weight', $weight);
+        }
     }
     return $weight;
+}
+
+function seur_regenerate_upload_dir_callback() {
+    // Asegurar que WordPress está cargado
+    if (!defined('ABSPATH')) {
+        exit;
+    }
+
+    // Incluir el archivo PHP que realiza la acción
+    $file_path = SEUR_PLUGIN_PATH . 'core/pages/regenerate-upload-dir.php';
+
+    if (file_exists($file_path)) {
+        ob_start();
+        include $file_path;
+        $output = ob_get_clean();
+        echo $output;
+    } else {
+        echo "Error: No se encontró el archivo de procesamiento.";
+    }
+
+    wp_die(); // Importante para que WordPress finalice correctamente el AJAX
+}
+add_action('wp_ajax_seur_regenerate_upload_dir', 'seur_regenerate_upload_dir_callback');
+
+
+function validatePostcodeFormat($postcode) {
+    /*
+    Un asterisco solo
+    Prefijo alfanumérico seguido de *
+    Dos valores alfanuméricos separados por ..
+    Un valor alfanumérico sin * ni ..
+    */
+    $pattern = '/^(\*|[A-Z0-9]+\*|[A-Z0-9]+\.\.[A-Z0-9]+|[A-Z0-9]+)$/i';
+    return preg_match($pattern, $postcode);
+}
+
+function validatePostcodes($postcodes) {
+    $lines = explode("\n", $postcodes);
+
+    foreach ($lines as $line) {
+        $line = trim($line);
+        if (!validatePostcodeFormat($line)) {
+            return false;
+        }
+    }
+    return true;
 }
