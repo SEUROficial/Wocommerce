@@ -1470,17 +1470,17 @@ msgstr "Baleares"
 #: core/pages/rates/seur-country-state-process.php:69
 #: core/pages/rates/seur-country-state-process.php:103
 msgid "EX : State"
-msgstr "Ej: Estado"
+msgstr "Ej: Provincia"
 
 #: core/pages/rates/seur-country-state-process.php:69
 msgid "Type State"
-msgstr "Escribir estado"
+msgstr "Escribir Provincia"
 
 #: core/pages/rates/seur-country-state-process.php:62
 #: core/pages/rates/seur-country-state-process.php:91
 #: core/pages/rates/seur-edit-form.php:128
 msgid "All States"
-msgstr "Todos los estados"
+msgstr "Todas las provincias"
 
 #: core/pages/rates/seur-country-state-process.php:61
 #: core/pages/rates/seur-country-state-process.php:73
@@ -1488,7 +1488,7 @@ msgstr "Todos los estados"
 #: core/pages/rates/seur-country-state-process.php:90
 #: core/pages/rates/seur-edit-form.php:127
 msgid "Select State"
-msgstr "Selecciona un Estado"
+msgstr "Selecciona una Provincia"
 
 #: core/pages/rates/seur-country-state-process.php:39
 #: core/pages/rates/seur-edit-form.php:102
@@ -1557,7 +1557,7 @@ msgstr "Código postal"
 #: core/pages/rates/seur-edit-form.php:117
 #: core/pages/rates/seur-edit-form.php:145
 msgid "State"
-msgstr "Estado"
+msgstr "Provincia"
 
 #: core/pages/rates/seur-add-form.php:67
 #: core/pages/rates/seur-country-state-process.php:20
@@ -1743,7 +1743,7 @@ msgstr "Crear etiqueta"
 
 #: core/menu/menu.php:69
 msgid "Process Country State"
-msgstr "Procesar pays estado"
+msgstr "Procesar País Provincia"
 
 #: core/menu/menu.php:68
 msgid "Edit Rate"

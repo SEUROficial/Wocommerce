@@ -1070,15 +1070,25 @@ class Seur_Global {
 
     public function is_seur_order($order_id) {
         global $wpdb;
+        global $post;
         $sql = $wpdb->prepare(
-            "SELECT distinct o.order_id
-            FROM {$wpdb->prefix}woocommerce_order_items o
-            inner join {$wpdb->prefix}woocommerce_order_itemmeta om on om.order_item_id = o.order_item_id
-            where om.meta_key = %s and (om.meta_value like %s)
-            AND o.order_id = %d",
-            ['method_id', 'seur', $order_id]
+            "SELECT distinct o.order_id 
+            FROM {$wpdb->prefix}woocommerce_order_items o 
+            inner join {$wpdb->prefix}woocommerce_order_itemmeta om on om.order_item_id = o.order_item_id 
+            where om.meta_key = %s and (om.meta_value like %s) 
+            AND o.order_id = %d
+            UNION
+            SELECT distinct p.ID
+            FROM {$wpdb->prefix}posts p
+            inner join {$wpdb->prefix}postmeta m on m.post_id = p.ID
+            where post_type = %s
+            and meta_key like %s
+            and ID = %d",
+            ['method_id', 'seur', $order_id, 'shop_order', 'shipping', $post->ID]
         );
         $sql = str_replace('seur', '%seur%', $sql);
+        $sql = str_replace('shipping', '_seur_shipping%', $sql);
+
         $result = $wpdb->get_results($sql);
         return !empty($result);
     }

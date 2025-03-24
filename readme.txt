@@ -3,7 +3,7 @@ Contributors: seuroficial
 Tags: woocommerce, shipping, seur, logistica, enviar paquete
 Requires at least: 4.0
 Tested up to: 6.6.2
-Stable tag: 2.2.21
+Stable tag: 2.2.22
 WC requires at least: 3.0
 WC tested up to: 9.1.4
 License: GNU General Public License v3.0
@@ -92,6 +92,14 @@ The "SEUR > Shipments" menu includes the option to track your shipment and see t
 == Screenshots ==
 
 == Changelog ==
+
+== 2.2.22 ==
+
+* ADDED: Regenerate seur uploads dir option in settings
+* ADDED: Add zip ranges feature
+* FIXED: Fix no hpos orders to is_seur_order
+* FIXED: Fix hpos labels weight
+* FIXED: Fix bulk create label post legacy
 
 == 2.2.21 ==
 
