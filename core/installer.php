@@ -35,7 +35,7 @@ function createTableSeurCustomRates() {
 			type varchar(50) NOT NULL default 'price',
 			country varchar(50) NOT NULL default '',
 			state varchar(200) NOT NULL default '',
-			postcode varchar(7) NOT NULL default '00000',
+			postcode varchar(200) NOT NULL default '*',
 			minprice decimal(20,2) unsigned NOT NULL default '0.00',
 			maxprice decimal(20,2) unsigned NOT NULL default '0.00',
 			minweight decimal(20,2) unsigned NOT NULL default '0.00',
@@ -865,11 +865,39 @@ function seur_add_avanced_settings_preset() {
 		update_option( 'seur_tipo_etiqueta_field', 'PDF' );
 		update_option( 'seur_aduana_origen_field', 'D' );
 		update_option( 'seur_aduana_destino_field', 'D' );
-		update_option( 'seur_tipo_mercancia_field', 'C' );
-		update_option( 'seur_id_mercancia_field', '400' );
-		update_option( 'seur_descripcion_field', 'MANUFACTURAS DIVERSAS' );
+        update_option( 'seur_tipo_mercancia_field', 'C' );
+        update_option( 'seur_id_mercancia_field', '400' );
+        update_option( 'seur_descripcion_field', 'MANUFACTURAS DIVERSAS' );
 		update_option( 'seur_add_advanced_settings_field_pre', '1' );
 	}
 
 }
 
+function seur_upgrade_2222() {
+    seur_upgrade_db_105();
+}
+
+function seur_upgrade_db_105() {
+    global $wpdb;
+    $table_name = $wpdb->prefix . 'seur_custom_rates';
+    $column_name = 'postcode';
+
+    // Verificar si la columna 'postcode' existe antes de modificarla
+    $column_exists = $wpdb->get_results("SHOW COLUMNS FROM `$table_name` LIKE '$column_name'");
+    if (!empty($column_exists)) {
+        // Modificar la columna 'postcode' a VARCHAR(200) con valor por defecto '*'
+        $wpdb->query("ALTER TABLE `$table_name` MODIFY `$column_name` VARCHAR(200) NOT NULL DEFAULT '*'");
+        update_option('seur_db_version', SEUR_DB_VERSION);
+    }
+}
+
+function seur_run_upgrade() {
+    $current_version = get_option('seur-official-version', '2.1.1');
+
+    if (version_compare($current_version, '2.2.22', '<')) {
+        seur_upgrade_2222();
+        update_option('seur-official-version', '2.2.22');
+    }
+}
+
+seur_run_upgrade();

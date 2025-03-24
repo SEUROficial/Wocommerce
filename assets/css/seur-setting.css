@@ -35,3 +35,7 @@
 	margin-top: 15px;
 	padding-top: 13px;
   }
+
+#seur_uploads_dir button {
+	vertical-align: middle;
+}

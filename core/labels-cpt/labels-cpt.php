@@ -250,12 +250,7 @@ function seur_metabox_label_callback( $post )
 	$customer_country = $order_data[0]['country'];
 	$customer_city     = seur_clean_data( $order_data[0]['city'] );
 	$customer_postcode = $order_data[0]['postcode'];
-	$customer_weight  = $order_data[0]['weight'];
-
-	if ( ! $customer_weight ) {
-		$customer_weight = $weight;
-	}
-
+	$customer_weight  = $order_data[0]['weight'] ?: $weight;
 	$customer_address_1   = seur_clean_data( $order_data[0]['address_1'] );
 	$customer_address_2   = seur_clean_data( $order_data[0]['address_2'] );
 	$customer_order_notes = seur_clean_data( $order_data[0]['order_notes'] );
@@ -333,8 +328,9 @@ function seur_metabox_label_callback( $post )
 						<strong><?php esc_html_e( 'Shipping Method: ', 'seur' ); ?></strong> <?php echo esc_html( $seur_shipping_method ); ?>
 					</p>
 
-				</div>
+                </div>
 
+                <p><strong><?php esc_html_e('Weight: ','seur');?></strong></p><?php echo esc_html( $customer_weight ); ?>
 				<p>
 					<strong><?php esc_html_e( 'Customer notes about Order: ', 'seur' ); ?></strong><br />
 					<?php echo esc_html( $customer_order_notes ); ?>

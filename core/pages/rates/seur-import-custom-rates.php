@@ -98,8 +98,10 @@ if ( isset( $_GET['action'] ) && $_GET['action'] === 'download_seur_rates_csv' )
 	// Abrir salida para CSV
 	$output = fopen( 'php://output', 'w' );
 
+    // Reemplazar los saltos de línea en los códigos postales para exportar
 	// Eliminar las columnas "created_at" y "updated_at"
 	foreach ( $rates as &$row ) {
+        $row['postcode'] = str_replace("\r\n", "|", $row['postcode']);
 		unset( $row['created_at'], $row['updated_at'] );
 	}
 	unset($row); // Para evitar referencias inesperadas
@@ -153,6 +155,9 @@ function seur_process_csv( $file_path ) {
 
 			// Leer el resto del archivo línea por línea
 			foreach ( $csv_lines as $line ) {
+                if (empty($line)) {
+                    break;
+                }
 				$data   = str_getcsv( $line );
 				$record = array_combine( $header, $data );
 
@@ -189,6 +194,17 @@ function seur_process_csv( $file_path ) {
 						$error_messages[] = "El valor de {$field} '{$record[$field]}' no es un número válido.";
 					}
 				}
+
+                // Validar el campo postcode si no está vacío
+                if (!empty($record['postcode'])) {
+                    $record_postcode = $record['postcode'];
+                    if (strpos($record['postcode'], "|") !== false) {
+                        $record['postcode'] = str_replace("|", "\r\n", $record['postcode']);
+                    }
+                    if (!validatePostcodes($record['postcode'])) {
+                        $error_messages[] = "El valor de postcode '{$record_postcode}' no tiene formato válido.";
+                    }
+                }
 
 				// Verificar si el ID existe
 				if ( !empty( $record['ID'] ) ) {
@@ -283,7 +299,7 @@ function seur_process_csv( $file_path ) {
         <li><strong>type</strong>: Tipo de tarifa, puede ser "price" (precio) o "weight" (peso).</li>
         <li><strong>country</strong>: País al que se aplica la tarifa. Use "*" para aplicar a todos los países.</li>
         <li><strong>state</strong>: Estado o provincia al que se aplica la tarifa. Use "*" para aplicar a todos los estados.</li>
-        <li><strong>postcode</strong>: Código postal al que se aplica la tarifa.</li>
+        <li><strong>postcode</strong>: Código postal al que se aplica la tarifa. <?php echo SEUR_RATES_POSTALCODE_DESCRIPTION .' Separar los valores con "|", por ejemplo: 01*|02*|03001..03010'; ?></li>
         <li><strong>minprice</strong>: Precio mínimo para aplicar la tarifa.</li>
         <li><strong>maxprice</strong>: Precio máximo para aplicar la tarifa.</li>
         <li><strong>minweight</strong>: Peso mínimo para aplicar la tarifa.</li>

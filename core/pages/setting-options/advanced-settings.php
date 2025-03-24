@@ -206,6 +206,21 @@ function seur_descripcion_field() {
 	<?php
 }
 
+
+function seur_uploads_dir_field() {
+    $uploads_dir = seur()->get_option('seur_uploads_dir');
+    if (!file_exists($uploads_dir)) {
+        echo '<div id="seur_uploads_dir">'.esc_html('Directory not found').'&nbsp; 
+                <button type="button" class="button" onclick="seur_create_upload_folder_ajax()">'.esc_html('Regenerate folder').'</button>
+              </div>';
+    } else {
+        echo '<div id="seur_uploads_dir">'.esc_html($uploads_dir).'</div>';
+        if (!is_writable($uploads_dir)) {
+            echo '<br><strong>'.esc_html('Directory is not writable').'!!!</strong>';
+        }
+    }
+}
+
 /**
  * SEUR display advanced settings panel
  */
@@ -226,6 +241,7 @@ function display_seur_advanced_settings_panel_fields() {
 	add_settings_field( 'seur_tipo_mercancia_field', esc_html__( 'Type of goods', 'seur' ), 'seur_tipo_mercancia_field', 'seur-advanced-settings-options', 'seur-advanced-settings-section' );
 	add_settings_field( 'seur_id_mercancia_field', esc_html__( 'ID of goods', 'seur' ), 'seur_id_mercancia_field', 'seur-advanced-settings-options', 'seur-advanced-settings-section' );
 	add_settings_field( 'seur_descripcion_field', esc_html__( 'International description', 'seur' ), 'seur_descripcion_field', 'seur-advanced-settings-options', 'seur-advanced-settings-section' );
+    add_settings_field( 'seur_uploads_dir', esc_html__( 'Upload directory', 'seur' ), 'seur_uploads_dir_field', 'seur-advanced-settings-options', 'seur-advanced-settings-section' );
 
 	// register all setings.
 	register_setting( 'seur-advanced-settings-section', 'seur_activate_geolabel_field' );
@@ -243,6 +259,7 @@ function display_seur_advanced_settings_panel_fields() {
 	register_setting( 'seur-advanced-settings-section', 'seur_tipo_mercancia_field' );
 	register_setting( 'seur-advanced-settings-section', 'seur_id_mercancia_field' );
 	register_setting( 'seur-advanced-settings-section', 'seur_descripcion_field' );
+    register_setting( 'seur-advanced-settings-section', 'seur_uploads_dir' );
 
 }
 add_action( 'admin_init', 'display_seur_advanced_settings_panel_fields' );
