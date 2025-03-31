@@ -645,16 +645,25 @@ function seur_search_availables_rates( $country = '*', $state = '*', $postcode =
     return $filteredResults;
 }
 
+function str_ends_with_php7($haystack, $needle) {
+    $length = strlen($needle);
+    return $length > 0 ? substr($haystack, -$length) === $needle : false;
+}
+
 function matchPostcode($postcode, $rules) {
     $rules = explode("\n", $rules); // Separar líneas en un array
 
     foreach ($rules as $rule) {
         $rule = trim($rule);
 
+        if ($rule == '*') {
+            return true;
+        }
+
         // Comprobación por prefijo (ejemplo: 00*)
-        if (str_ends_with($rule, '*')) {
+        if (str_ends_with_php7($rule, '*')) {
             $prefix = rtrim($rule, '*');
-            if (strpos($postcode, $prefix) === 0) {
+            if ($prefix && strpos($postcode, $prefix) === 0) {
                 return true; // Coincidencia con prefijo
             }
         }
@@ -1127,32 +1136,29 @@ function seur_upload_url( $dir_name = null ) {
  */
 function seur_clean_data( $out ) {
 
-	$out = str_replace( 'Á', 'A', $out );
-	$out = str_replace( 'À', 'A', $out );
-	$out = str_replace( 'Ä', 'A', $out );
-	$out = str_replace( 'É', 'E', $out );
-	$out = str_replace( 'È', 'E', $out );
-	$out = str_replace( 'Ë', 'E', $out );
-	$out = str_replace( 'Í', 'I', $out );
-	$out = str_replace( 'Ì', 'I', $out );
-	$out = str_replace( 'Ï', 'I', $out );
-	$out = str_replace( 'Ó', 'O', $out );
-	$out = str_replace( 'Ò', 'O', $out );
-	$out = str_replace( 'Ö', 'O', $out );
-	$out = str_replace( 'Ú', 'U', $out );
-	$out = str_replace( 'Ù', 'U', $out );
-	$out = str_replace( 'Ü', 'U', $out );
-	$out = str_replace( '&', '-', $out );
-	$out = str_replace( '<', ' ', $out );
-	$out = str_replace( '>', ' ', $out );
-	$out = str_replace( '/', ' ', $out );
-	$out = str_replace( '"', ' ', $out );
-	$out = str_replace( "'", ' ', $out );
-	$out = str_replace( '"', ' ', $out );
-	$out = str_replace( '?', ' ', $out );
-	$out = str_replace( '¿', ' ', $out );
+    // Detecta y convierte a UTF-8 si es necesario
+    $encoding = mb_detect_encoding($out, ["UTF-8", "ISO-8859-1", "Windows-1252"], true);
+    if ($encoding !== "UTF-8") {
+        $out = mb_convert_encoding($out, "UTF-8", $encoding);
+    }
 
-	return $out;
+    // Normaliza los caracteres especiales para evitar errores de codificación
+    $out = iconv('UTF-8', 'ASCII//TRANSLIT', $out);
+
+    // Sustituciones de caracteres específicos
+    $out = str_replace(['Á', 'À', 'Ä'], 'A', $out);
+    $out = str_replace(['É', 'È', 'Ë'], 'E', $out);
+    $out = str_replace(['Í', 'Ì', 'Ï'], 'I', $out);
+    $out = str_replace(['Ó', 'Ò', 'Ö'], 'O', $out);
+    $out = str_replace(['Ú', 'Ù', 'Ü'], 'U', $out);
+    $out = str_replace(['á', 'à', 'ä'], 'a', $out);
+    $out = str_replace(['é', 'è', 'ë'], 'e', $out);
+    $out = str_replace(['í', 'ì', 'ï'], 'i', $out);
+    $out = str_replace(['ó', 'ò', 'ö'], 'o', $out);
+    $out = str_replace(['ú', 'ù', 'ü'], 'u', $out);
+    $out = str_replace(['&', '<', '>', '/', '"', "'", '?', '¿'], ' ', $out);
+
+    return trim($out);
 }
 
 /**
