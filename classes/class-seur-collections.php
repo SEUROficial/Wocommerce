@@ -13,40 +13,16 @@ if ( ! defined( 'ABSPATH' ) ) {
 class Seur_Collections {
 
     private string $seur_adr;
-    /**
-     * @var false|mixed
-     */
-    private mixed $client_secret;
-    /**
-     * @var false|mixed
-     */
-    private mixed $accountnumber;
-    /**
-     * @var false|mixed
-     */
-    private mixed $nif;
-    /**
-     * @var false|mixed
-     */
-    private mixed $phone;
+    private $client_secret;
+    private $accountnumber;
+    private $nif;
+    private $phone;
     private string $name;
-    /**
-     * @var false|mixed
-     */
-    private mixed $email;
+    private $email;
     private string $streetname;
-    /**
-     * @var false|mixed
-     */
-    private mixed $cityname;
-    /**
-     * @var false|mixed
-     */
-    private mixed $postalcode;
-    /**
-     * @var false|mixed
-     */
-    private mixed $country;
+    private $cityname;
+    private $postalcode;
+    private $country;
     private string $token;
 
     public function __construct() {
@@ -210,7 +186,7 @@ class Seur_Collections {
 			$result        = false;
 		}
 		if ( seur()->log_is_acive() ) {
-			seur()->slog( '$response_body: ' . print_r( $result, true ) ); // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_print_r
+			seur()->slog( '$response_body: ' . print_r( $result, true) ); // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_print_r
 		}
 		return json_decode( $result, true );
 	}
@@ -237,7 +213,7 @@ class Seur_Collections {
 
 		if ( seur()->log_is_acive() ) {
 			seur()->slog( 'Cancelando recogida con referencia: ' . $reference );
-			seur()->slog( 'Data enviada: ' . print_r( $data, true ) );
+			seur()->slog( 'Data enviada: ' .  $data);
 		}
 
 		// Configuración de la solicitud

@@ -14,10 +14,12 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 function seur_edit_rate() {
 
-	if ( isset( $_GET['edit_id'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+   if ( isset( $_GET['edit_id'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 		global $wpdb;
 
-		$id        = sanitize_text_field( wp_unslash( $_GET['edit_id'] ) ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+       // phpcs:ignore WordPress.Security.NonceVerification.Missing, WordPress.Security.NonceVerification.Recommended -- Nonce verification is not applicable here
+        $id = absint( wp_unslash( $_GET['edit_id'] ) );
+        // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Custom table lookup by ID
 		$getrate   = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM {$wpdb->prefix}seur_custom_rates WHERE ID = %d", $id ) );
 		$min_value = ($getrate->type=='price'? $getrate->minprice: $getrate->minweight);
         $max_value = ($getrate->type=='price'? $getrate->maxprice: $getrate->maxweight);
@@ -45,6 +47,8 @@ function seur_edit_rate() {
     <form method='post' id='emp-UpdateForm' action='#'>
 		<table class='table table-bordered'>
 			<input type='hidden' name='id' value='<?php echo esc_html( $getrate->ID ); ?>' />
+            <input type='hidden' name='edit_rate_nonce_field' value='<?php echo esc_attr( wp_create_nonce( 'edit_rate_nonce_field' ) ); ?>' />
+
 			<tr>
 				<td><?php esc_html_e( 'Rate', 'seur' ); ?></td>
 				<td>
@@ -136,7 +140,7 @@ function seur_edit_rate() {
 			<tr>
 				<td><?php esc_html_e( 'Postcode', 'seur' ); ?></td>
 				<td><textarea title="<?php esc_html_e( 'Type a Postcode', 'seur' ); ?>" name="postcode" id="postcode" class="form-control" cols="29" rows="5" required=""><?php echo esc_html( $getrate->postcode ); ?></textarea>
-                    <br><span class="description"><?php echo SEUR_RATES_POSTALCODE_DESCRIPTION . esc_html__('Add 1 per line'); ?></span>
+                    <br><span class="description"><?php echo esc_html(SEUR_RATES_POSTALCODE_DESCRIPTION) . esc_html__('Add 1 per line', 'seur'); ?></span>
                 </td>
 			</tr>
 			<tr>

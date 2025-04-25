@@ -124,11 +124,11 @@ function seur_get_custom_rate_name( $rate_name ) {
  */
 function seur_custom_rates_load_js() {
 
-	wp_enqueue_script( 'custom-rates-seur', SEUR_PLUGIN_URL . 'assets/js/custom-rates.js', array(), SEUR_OFFICIAL_VERSION );
-	wp_enqueue_script( 'jquery-datattables-seur-rates', SEUR_PLUGIN_URL . 'assets/js/jquery.dataTables.min.js', array( 'jquery', 'jquery-ui-core' ), SEUR_OFFICIAL_VERSION );
-	wp_enqueue_script( 'jqueryui-datattables-seur-rates', SEUR_PLUGIN_URL . 'assets/js/dataTables.jqueryui.min.js', array( 'jquery', 'jquery-ui-core' ), SEUR_OFFICIAL_VERSION );
-	wp_enqueue_script( 'datattables-seur-rates', SEUR_PLUGIN_URL . 'assets/js/datatables.min.js', array( 'jquery-datattables-seur-rates' ), SEUR_OFFICIAL_VERSION );
-	wp_enqueue_script( 'custom-table-seur-rates', SEUR_PLUGIN_URL . 'assets/js/seur-custom-rates.js', array( 'datattables-seur-rates', 'jquery-ui-autocomplete' ), SEUR_OFFICIAL_VERSION );
+	wp_enqueue_script( 'custom-rates-seur', SEUR_PLUGIN_URL . 'assets/js/custom-rates.js', array(), SEUR_OFFICIAL_VERSION, true);
+	wp_enqueue_script( 'jquery-datattables-seur-rates', SEUR_PLUGIN_URL . 'assets/js/jquery.dataTables.min.js', array( 'jquery', 'jquery-ui-core' ), SEUR_OFFICIAL_VERSION, true );
+	wp_enqueue_script( 'jqueryui-datattables-seur-rates', SEUR_PLUGIN_URL . 'assets/js/dataTables.jqueryui.min.js', array( 'jquery', 'jquery-ui-core' ), SEUR_OFFICIAL_VERSION, true );
+	wp_enqueue_script( 'datattables-seur-rates', SEUR_PLUGIN_URL . 'assets/js/datatables.min.js', array( 'jquery-datattables-seur-rates' ), SEUR_OFFICIAL_VERSION, true );
+	wp_enqueue_script( 'custom-table-seur-rates', SEUR_PLUGIN_URL . 'assets/js/seur-custom-rates.js', array( 'datattables-seur-rates', 'jquery-ui-autocomplete' ), SEUR_OFFICIAL_VERSION, true );
 	$seurratesphpfiles = array(
 		'pathtorates' => SEUR_PLUGIN_URL . 'core/pages/rates/',
 	);
@@ -139,44 +139,44 @@ function seur_custom_rates_load_js() {
  * SEUR select2 load js
  */
 function seur_select2_load_js() {
-	wp_enqueue_script( 'seur-select2', SEUR_PLUGIN_URL . 'assets/js/select2.js', array( 'jquery', 'jquery-ui-core' ), SEUR_OFFICIAL_VERSION );
+	wp_enqueue_script( 'seur-select2', SEUR_PLUGIN_URL . 'assets/js/select2.js', array( 'jquery', 'jquery-ui-core' ), SEUR_OFFICIAL_VERSION, true );
 }
 
 /**
  * SEUR Settings Load JS.
  */
 function seur_settings_load_js() {
-	wp_enqueue_script( 'seur-tooltip', SEUR_PLUGIN_URL . 'assets/js/tooltip.js', array( 'jquery-ui-tooltip' ), SEUR_OFFICIAL_VERSION );
-	wp_enqueue_script( 'seur-switchery', SEUR_PLUGIN_URL . 'assets/js/switchery.min.js', array(), SEUR_OFFICIAL_VERSION );
-    wp_enqueue_script( 'seur-admin', SEUR_PLUGIN_URL . 'assets/js/seur-advanced-settings.js', array(), SEUR_OFFICIAL_VERSION );
+	wp_enqueue_script( 'seur-tooltip', SEUR_PLUGIN_URL . 'assets/js/tooltip.js', array( 'jquery-ui-tooltip' ), SEUR_OFFICIAL_VERSION, true );
+	wp_enqueue_script( 'seur-switchery', SEUR_PLUGIN_URL . 'assets/js/switchery.min.js', array(), SEUR_OFFICIAL_VERSION, false );
+    wp_enqueue_script( 'seur-admin', SEUR_PLUGIN_URL . 'assets/js/seur-advanced-settings.js', array(), SEUR_OFFICIAL_VERSION, true );
 }
 
 /**
  * SEUR select2 custom load JS.
  */
 function seur_select2_custom_load_js() {
-	wp_enqueue_script( 'seur-select2custom', SEUR_PLUGIN_URL . 'assets/js/select2custom.js', array( 'seur-select2' ), SEUR_OFFICIAL_VERSION );
+	wp_enqueue_script( 'seur-select2custom', SEUR_PLUGIN_URL . 'assets/js/select2custom.js', array( 'seur-select2' ), SEUR_OFFICIAL_VERSION, true );
 }
 
 /**
  * SEUR sutom country state JS.
  */
 function seur_auto_country_state_js() {
-	wp_enqueue_script( 'seur-country-state', SEUR_PLUGIN_URL . 'assets/js/seur-country-state.js', array( 'jquery' ), SEUR_OFFICIAL_VERSION );
+	wp_enqueue_script( 'seur-country-state', SEUR_PLUGIN_URL . 'assets/js/seur-country-state.js', array( 'jquery' ), SEUR_OFFICIAL_VERSION, true );
 }
 
 /**
  * SEUR data picker JS.
  */
 function seur_datepicker_js() {
-	wp_enqueue_script( 'seur-datepicker', SEUR_PLUGIN_URL . 'assets/js/seur-datepicker.js', array( 'jquery', 'jquery-ui-datepicker' ), SEUR_OFFICIAL_VERSION );
+	wp_enqueue_script( 'seur-datepicker', SEUR_PLUGIN_URL . 'assets/js/seur-datepicker.js', array( 'jquery', 'jquery-ui-datepicker' ), SEUR_OFFICIAL_VERSION, true );
 }
 
 /**
  * SEUR Status JS.
  */
 function seur_status_js() {
-	wp_enqueue_script( 'seur-status', SEUR_PLUGIN_URL . 'assets/js/seur-report.js', array( 'jquery' ), SEUR_OFFICIAL_VERSION );
+	wp_enqueue_script( 'seur-status', SEUR_PLUGIN_URL . 'assets/js/seur-report.js', array( 'jquery' ), SEUR_OFFICIAL_VERSION, true );
 }
 
 /**
@@ -186,10 +186,10 @@ function seur_labels_view_pdf_js() {
 	global $post_type;
 
 	if ( 'seur' == $post_type ) {
-		wp_enqueue_script( 'seur-lavels-script_compatibility', SEUR_PLUGIN_URL . 'assets/js/pdf/compatibility.js', array(), SEUR_OFFICIAL_VERSION );
-		wp_enqueue_script( 'seur-lavels-script_l10n', SEUR_PLUGIN_URL . 'assets/js/pdf/l10n.js', array(), SEUR_OFFICIAL_VERSION );
-		wp_enqueue_script( 'seur-lavels-script_pdf', SEUR_PLUGIN_URL . 'assets/js/pdf/pdf.js', array(), SEUR_OFFICIAL_VERSION );
-		wp_enqueue_script( 'seur-lavels-script_viewer', SEUR_PLUGIN_URL . 'assets/js/pdf/viewer.js', array(), SEUR_OFFICIAL_VERSION );
+		wp_enqueue_script( 'seur-lavels-script_compatibility', SEUR_PLUGIN_URL . 'assets/js/pdf/compatibility.js', array(), SEUR_OFFICIAL_VERSION, true);
+		wp_enqueue_script( 'seur-lavels-script_l10n', SEUR_PLUGIN_URL . 'assets/js/pdf/l10n.js', array(), SEUR_OFFICIAL_VERSION, true );
+		wp_enqueue_script( 'seur-lavels-script_pdf', SEUR_PLUGIN_URL . 'assets/js/pdf/pdf.js', array(), SEUR_OFFICIAL_VERSION, true );
+		wp_enqueue_script( 'seur-lavels-script_viewer', SEUR_PLUGIN_URL . 'assets/js/pdf/viewer.js', array(), SEUR_OFFICIAL_VERSION , true);
 		$translation_array = array(
 			'path_js_pdf' => SEUR_PLUGIN_URL . 'assets/js/pdf',
 		);
@@ -537,6 +537,10 @@ function seur_get_countries_OUT_EU() {
  */
 function seur_get_countries_states( $country ) {
 
+    if (!preg_match('/^[A-Z]{2}$/', $country)) {
+        return false;
+    }
+
 	$states      = array();
 	$states_file = SEUR_PLUGIN_PATH . 'core/places/states/' . $country . '.php';
 
@@ -558,8 +562,12 @@ function seur_get_countries_states( $country ) {
 function seur_get_custom_rates( $output_type = 'OBJECT', $type = 'price' ) {
     global $wpdb;
     $table = $wpdb->prefix . SEUR_TBL_SCR;
-    $query = $wpdb->prepare( "SELECT * FROM $table WHERE type = %s ORDER BY ID ASC", $type );
-    return $wpdb->get_results( $query, $output_type );
+
+    // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Custom table lookup, no caching applicable
+    return $wpdb->get_results(
+        $wpdb->prepare("SELECT * FROM $table WHERE type = %s ORDER BY ID ASC", $type) // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Table name is safe and hardcoded
+        , $output_type
+    );
 }
 
 /**
@@ -592,56 +600,66 @@ function seur_show_availables_rates( $country = null, $state = null, $postcode =
 
 function seur_search_availables_rates( $country = '*', $state = '*', $postcode = '*', $price_weight = 0 ) {
     global $wpdb;
+
     $type = get_option( 'seur_rates_type_field' ); // 'price' o 'weight', definido en la configuración de SEUR
     $table = $wpdb->prefix . SEUR_TBL_SCR;
 
-    $query = "
-    SELECT *
-    FROM $table
-    WHERE type = %s
-      AND country = COALESCE(
-          (SELECT %s
-           FROM $table
-           WHERE type = %s
-             AND country = %s
-             AND (state = %s OR state = '*')
-             AND (min".$type." <= %f AND max".$type." > %f)
-           LIMIT 1),
-          '*'
-      )
-      AND state = COALESCE(
-          (SELECT %s
-           FROM $table
-           WHERE type = %s
-             AND (country = %s OR country = '*')
-             AND state = %s
-             AND (min".$type." <= %f AND max".$type." > %f)
-           LIMIT 1),
-          '*'
-      )
-      AND min".$type." <= %f
-      AND max".$type." > %f
-    ORDER BY ID ASC;";
+    $valid_types = [ 'price', 'weight' ];
+    if ( ! in_array( $type, $valid_types, true ) ) {
+        return []; // Tipo no válido
+    }
 
-    $query = $wpdb->prepare(
-        $query,
-        $type,
-        $country,  $type, $country, $state, $price_weight, $price_weight,
-        $state,    $type, $country, $state, $price_weight, $price_weight,
-        $price_weight, $price_weight
-    );
+    $min_col = 'min' . $type;
+    $max_col = 'max' . $type;
 
-    $results = $wpdb->get_results($query, 'ARRAY_A');
+    $sql = "SELECT *
+            FROM $table
+            WHERE type = %s
+              AND country = COALESCE(
+                  (SELECT country
+                   FROM $table
+                   WHERE type = %s
+                     AND country = %s
+                     AND (state = %s OR state = '*')
+                     AND ($min_col <= %f AND $max_col > %f)
+                   LIMIT 1),
+                  '*'
+              )
+              AND state = COALESCE(
+                  (SELECT state
+                   FROM $table
+                   WHERE type = %s
+                     AND (country = %s OR country = '*')
+                     AND state = %s
+                     AND ($min_col <= %f AND $max_col > %f)
+                   LIMIT 1),
+                  '*'
+              )
+              AND $min_col <= %f
+              AND $max_col > %f
+            ORDER BY ID ASC;";
+    // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.PreparedSQL.NotPrepared -- Custom table lookup, no caching applicable, Table name safe and hardcoded and Query prepared in the line above
+    $results = $wpdb->get_results(
 
-    // Filtrar resultados
-    $filteredResults = array_filter($results, function ($row) use ($postcode) {
-        return matchPostcode($postcode, $row['postcode']);
+        $wpdb->prepare(
+            $sql // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared -- Query prepared in the line above
+            ,$type,
+            $type, $country, $state, $price_weight, $price_weight,
+            $type, $country, $state, $price_weight, $price_weight,
+            $price_weight, $price_weight
+        ), ARRAY_A );
+
+    // Filtrar por código postal
+    $filteredResults = array_filter( $results, function ( $row ) use ( $postcode ) {
+        return matchPostcode( $postcode, $row['postcode'] );
     });
 
+    // Registrar en el log si está activado
     if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
         $log = new WC_Logger();
-        $log->add( 'seur', 'Tarifas disponibles encontradas: ' . print_r( $filteredResults, true ) );
+        $log->add( 'seur', 'Tarifas disponibles encontradas: ' . print_r( $filteredResults, true ) ); // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_print_r
     }
+
     return $filteredResults;
 }
 
@@ -1709,19 +1727,28 @@ add_action('woocommerce_process_shop_order_meta', function ($order_id) {
     $old_shipping_address = $order->get_address('shipping');
 
     // Obtener los nuevos valores de los campos desde $_POST
-    $new_shipping_address = [
-        'first_name' => isset($_POST['_shipping_first_name']) ? sanitize_text_field($_POST['_shipping_first_name']) : '',
-        'last_name'  => isset($_POST['_shipping_last_name']) ? sanitize_text_field($_POST['_shipping_last_name']) : '',
-        'company'    => isset($_POST['_shipping_company']) ? sanitize_text_field($_POST['_shipping_company']) : '',
-        'address_1'  => isset($_POST['_shipping_address_1']) ? sanitize_text_field($_POST['_shipping_address_1']) : '',
-        'address_2'  => isset($_POST['_shipping_address_2']) ? sanitize_text_field($_POST['_shipping_address_2']) : '',
-        'city'       => isset($_POST['_shipping_city']) ? sanitize_text_field($_POST['_shipping_city']) : '',
-        'state'      => isset($_POST['_shipping_state']) ? sanitize_text_field($_POST['_shipping_state']) : '',
-        'postcode'   => isset($_POST['_shipping_postcode']) ? sanitize_text_field($_POST['_shipping_postcode']) : '',
-        'country'    => isset($_POST['_shipping_country']) ? sanitize_text_field($_POST['_shipping_country']) : '',
-        'phone'      => isset($_POST['_shipping_phone']) ? sanitize_text_field($_POST['_shipping_phone']) : '',
-        'customer_note' => isset($_POST['_customer_note']) ? sanitize_text_field($_POST['_customer_note']) : '',
-    ];
+    // phpcs:ignore WordPress.Security.NonceVerification.Missing, WordPress.Security.NonceVerification.Recommended
+    $new_shipping_address['first_name'] = isset($_POST['_shipping_first_name']) ? sanitize_text_field(wp_unslash($_POST['_shipping_first_name'])) : '';
+    // phpcs:ignore WordPress.Security.NonceVerification.Missing, WordPress.Security.NonceVerification.Recommended
+    $new_shipping_address['last_name']  = isset($_POST['_shipping_last_name']) ? sanitize_text_field(wp_unslash($_POST['_shipping_last_name'])) : '';
+    // phpcs:ignore WordPress.Security.NonceVerification.Missing, WordPress.Security.NonceVerification.Recommended
+    $new_shipping_address['company']    = isset($_POST['_shipping_company']) ? sanitize_text_field(wp_unslash($_POST['_shipping_company'])) : '';
+    // phpcs:ignore WordPress.Security.NonceVerification.Missing, WordPress.Security.NonceVerification.Recommended
+    $new_shipping_address['address_1']  = isset($_POST['_shipping_address_1']) ? sanitize_text_field(wp_unslash($_POST['_shipping_address_1'])) : '';
+    // phpcs:ignore WordPress.Security.NonceVerification.Missing, WordPress.Security.NonceVerification.Recommended
+    $new_shipping_address['address_2']  = isset($_POST['_shipping_address_2']) ? sanitize_text_field(wp_unslash($_POST['_shipping_address_2'])) : '';
+    // phpcs:ignore WordPress.Security.NonceVerification.Missing, WordPress.Security.NonceVerification.Recommended
+    $new_shipping_address['city']       = isset($_POST['_shipping_city']) ? sanitize_text_field(wp_unslash($_POST['_shipping_city'])) : '';
+    // phpcs:ignore WordPress.Security.NonceVerification.Missing, WordPress.Security.NonceVerification.Recommended
+    $new_shipping_address['state']      = isset($_POST['_shipping_state']) ? sanitize_text_field(wp_unslash($_POST['_shipping_state'])) : '';
+    // phpcs:ignore WordPress.Security.NonceVerification.Missing, WordPress.Security.NonceVerification.Recommended
+    $new_shipping_address['postcode']   = isset($_POST['_shipping_postcode']) ? sanitize_text_field(wp_unslash($_POST['_shipping_postcode'])) : '';
+    // phpcs:ignore WordPress.Security.NonceVerification.Missing, WordPress.Security.NonceVerification.Recommended
+    $new_shipping_address['country']    = isset($_POST['_shipping_country']) ? sanitize_text_field(wp_unslash($_POST['_shipping_country'])) : '';
+    // phpcs:ignore WordPress.Security.NonceVerification.Missing, WordPress.Security.NonceVerification.Recommended
+    $new_shipping_address['phone']      = isset($_POST['_shipping_phone']) ? sanitize_text_field(wp_unslash($_POST['_shipping_phone'])) : '';
+    // phpcs:ignore WordPress.Security.NonceVerification.Missing, WordPress.Security.NonceVerification.Recommended
+    $new_shipping_address['customer_note'] = isset($_POST['_customer_note']) ? sanitize_text_field(wp_unslash($_POST['_customer_note'])) : '';
 
     // Validaciones
     $errores = [];
@@ -1802,8 +1829,8 @@ function seur_regenerate_upload_dir_callback() {
     if (file_exists($file_path)) {
         ob_start();
         include $file_path;
-        $output = ob_get_clean();
-        echo $output;
+        $data = include $file_path;
+        echo esc_html($data);
     } else {
         echo "Error: No se encontró el archivo de procesamiento.";
     }

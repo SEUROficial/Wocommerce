@@ -170,7 +170,7 @@ function seur_modify_packages() {
         update_post_meta($order_id, '_seur_shipping_weight', $label_shipping_weight);
     }
 
-    if ( $_SERVER['REQUEST_METHOD'] != 'POST') { ?>
+    if (isset( $_SERVER['REQUEST_METHOD'] ) && $_SERVER['REQUEST_METHOD'] != 'POST') { ?>
     <div class="wrap">
         <h1 class="wp-heading-inline"><?php esc_html_e( 'Modify Packages', 'seur' ); ?></h1>
         <p><?php esc_html_e( 'Here you can modify the number of packages and the total weight for the order.', 'seur' ); ?></p>
@@ -211,7 +211,7 @@ function seur_modify_packages() {
 	<?php
     }
 
-	if ( $_SERVER['REQUEST_METHOD'] === 'POST' && isset( $_POST['seur-number-packages'] ) && isset( $_POST['seur-shipping-weight'] ) ) {
+	if (isset( $_SERVER['REQUEST_METHOD'] ) && $_SERVER['REQUEST_METHOD'] === 'POST' && isset( $_POST['seur-number-packages'] ) && isset( $_POST['seur-shipping-weight'] ) ) {
 		if ( ! isset( $_POST['seur_modify_packages_nonce_field'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['seur_modify_packages_nonce_field'] ) ), 'seur_modify_packages_action' ) ) {
 			exit;
 		}
@@ -248,7 +248,7 @@ function seur_modify_packages() {
 
                 <?php
             } else {
-				echo '<p>' . esc_html__( 'Error updating packages: ' . $response['errors'][0]['detail'], 'seur' ) . '</p>';
+				echo '<p>' . esc_html__( 'Error updating packages: ', 'seur'). esc_html($response['errors'][0]['detail']) . '</p>';
 			}
 		} else {
 			echo '<p>' . esc_html__( 'The new number of packages must be greater than the current number.', 'seur' ) . '</p>';

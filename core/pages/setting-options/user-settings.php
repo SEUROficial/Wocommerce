@@ -346,33 +346,34 @@ function display_seur_user_sittings_panel_fields() {
 	add_settings_field( 'seur_franquicia_field', __( 'Franchise<sup>*</sup>', 'seur' ), 'seur_franquicia_field', 'seur-user-settings-options', 'seur-user-settings-section' );
 
 	// register all setings.
-	register_setting( 'seur-user-settings-section', 'seur_test_field' );
-	register_setting( 'seur-user-settings-section', 'seur_log_field' );
-	register_setting( 'seur-user-settings-section', 'seur_nif_field' );
-	register_setting( 'seur-user-settings-section', 'seur_rates_tax_field' );
-	register_setting( 'seur-user-settings-section', 'seur_rates_type_field' );
-	register_setting( 'seur-user-settings-section', 'seur_empresa_field' );
-	register_setting( 'seur-user-settings-section', 'seur_viatipo_field' );
-	register_setting( 'seur-user-settings-section', 'seur_vianombre_field' );
-	register_setting( 'seur-user-settings-section', 'seur_vianumero_field' );
-	register_setting( 'seur-user-settings-section', 'seur_escalera_field' );
-	register_setting( 'seur-user-settings-section', 'seur_piso_field' );
-	register_setting( 'seur-user-settings-section', 'seur_puerta_field' );
-	register_setting( 'seur-user-settings-section', 'seur_postal_field' );
-	register_setting( 'seur-user-settings-section', 'seur_poblacion_field' );
-	register_setting( 'seur-user-settings-section', 'seur_provincia_field' );
-	register_setting( 'seur-user-settings-section', 'seur_pais_field' );
-	register_setting( 'seur-user-settings-section', 'seur_telefono_field' );
-	register_setting( 'seur-user-settings-section', 'seur_email_field' );
-	register_setting( 'seur-user-settings-section', 'seur_contacto_nombre_field' );
-	register_setting( 'seur-user-settings-section', 'seur_contacto_apellidos_field' );
-	register_setting( 'seur-user-settings-section', 'seur_client_secret_field' );
-	register_setting( 'seur-user-settings-section', 'seur_user_field' );
-	register_setting( 'seur-user-settings-section', 'seur_password_field' );
-	register_setting( 'seur-user-settings-section', 'seur_client_id_field' );
-	register_setting( 'seur-user-settings-section', 'seur_accountnumber_field' );
-	register_setting( 'seur-user-settings-section', 'seur_ccc_field' );
-	register_setting( 'seur-user-settings-section', 'seur_int_ccc_field' );
-	register_setting( 'seur-user-settings-section', 'seur_franquicia_field' );
+	register_setting( 'seur-user-settings-section', 'seur_test_field', [ 'sanitize_callback' => 'rest_sanitize_boolean' ] ); // phpcs:ignore PluginCheck.CodeAnalysis.SettingSanitization.register_settingDynamic -- Sanitization callback is safe and known
+	register_setting( 'seur-user-settings-section', 'seur_log_field' , [ 'sanitize_callback' => 'rest_sanitize_boolean' ]); // phpcs:ignore PluginCheck.CodeAnalysis.SettingSanitization.register_settingDynamic -- Sanitization callback is safe and known
+
+    register_setting( 'seur-user-settings-section', 'seur_nif_field', [ 'sanitize_callback' => 'sanitize_text_field' ] ); // phpcs:ignore PluginCheck.CodeAnalysis.SettingSanitization.register_settingDynamic -- Sanitization callback is safe and known
+    register_setting( 'seur-user-settings-section', 'seur_rates_tax_field', [ 'sanitize_callback' => 'sanitize_text_field' ] ); // phpcs:ignore PluginCheck.CodeAnalysis.SettingSanitization.register_settingDynamic -- Sanitization callback is safe and known
+    register_setting( 'seur-user-settings-section', 'seur_rates_type_field', [ 'sanitize_callback' => 'sanitize_text_field' ] ); // phpcs:ignore PluginCheck.CodeAnalysis.SettingSanitization.register_settingDynamic -- Sanitization callback is safe and known
+    register_setting( 'seur-user-settings-section', 'seur_empresa_field', [ 'sanitize_callback' => 'sanitize_text_field' ] ); // phpcs:ignore PluginCheck.CodeAnalysis.SettingSanitization.register_settingDynamic -- Sanitization callback is safe and known
+    register_setting( 'seur-user-settings-section', 'seur_viatipo_field', [ 'sanitize_callback' => 'sanitize_text_field' ] ); // phpcs:ignore PluginCheck.CodeAnalysis.SettingSanitization.register_settingDynamic -- Sanitization callback is safe and known
+    register_setting( 'seur-user-settings-section', 'seur_vianombre_field', [ 'sanitize_callback' => 'sanitize_text_field' ] ); // phpcs:ignore PluginCheck.CodeAnalysis.SettingSanitization.register_settingDynamic -- Sanitization callback is safe and known
+    register_setting( 'seur-user-settings-section', 'seur_vianumero_field', [ 'sanitize_callback' => 'sanitize_text_field' ] ); // phpcs:ignore PluginCheck.CodeAnalysis.SettingSanitization.register_settingDynamic -- Sanitization callback is safe and known
+    register_setting( 'seur-user-settings-section', 'seur_escalera_field', [ 'sanitize_callback' => 'sanitize_text_field' ] ); // phpcs:ignore PluginCheck.CodeAnalysis.SettingSanitization.register_settingDynamic -- Sanitization callback is safe and known
+    register_setting( 'seur-user-settings-section', 'seur_piso_field', [ 'sanitize_callback' => 'sanitize_text_field' ] ); // phpcs:ignore PluginCheck.CodeAnalysis.SettingSanitization.register_settingDynamic -- Sanitization callback is safe and known
+    register_setting( 'seur-user-settings-section', 'seur_puerta_field', [ 'sanitize_callback' => 'sanitize_text_field' ] ); // phpcs:ignore PluginCheck.CodeAnalysis.SettingSanitization.register_settingDynamic -- Sanitization callback is safe and known
+    register_setting( 'seur-user-settings-section', 'seur_postal_field', [ 'sanitize_callback' => 'sanitize_text_field' ] ); // phpcs:ignore PluginCheck.CodeAnalysis.SettingSanitization.register_settingDynamic -- Sanitization callback is safe and known
+    register_setting( 'seur-user-settings-section', 'seur_poblacion_field', [ 'sanitize_callback' => 'sanitize_text_field' ] ); // phpcs:ignore PluginCheck.CodeAnalysis.SettingSanitization.register_settingDynamic -- Sanitization callback is safe and known
+    register_setting( 'seur-user-settings-section', 'seur_provincia_field', [ 'sanitize_callback' => 'sanitize_text_field' ] ); // phpcs:ignore PluginCheck.CodeAnalysis.SettingSanitization.register_settingDynamic -- Sanitization callback is safe and known
+    register_setting( 'seur-user-settings-section', 'seur_pais_field', [ 'sanitize_callback' => 'sanitize_text_field' ] ); // phpcs:ignore PluginCheck.CodeAnalysis.SettingSanitization.register_settingDynamic -- Sanitization callback is safe and known
+    register_setting( 'seur-user-settings-section', 'seur_telefono_field', [ 'sanitize_callback' => 'sanitize_text_field' ] ); // phpcs:ignore PluginCheck.CodeAnalysis.SettingSanitization.register_settingDynamic -- Sanitization callback is safe and known
+    register_setting( 'seur-user-settings-section', 'seur_email_field', [ 'sanitize_callback' => 'sanitize_text_field' ] ); // phpcs:ignore PluginCheck.CodeAnalysis.SettingSanitization.register_settingDynamic -- Sanitization callback is safe and known
+    register_setting( 'seur-user-settings-section', 'seur_contacto_nombre_field', [ 'sanitize_callback' => 'sanitize_text_field' ] ); // phpcs:ignore PluginCheck.CodeAnalysis.SettingSanitization.register_settingDynamic -- Sanitization callback is safe and known
+    register_setting( 'seur-user-settings-section', 'seur_contacto_apellidos_field', [ 'sanitize_callback' => 'sanitize_text_field' ] ); // phpcs:ignore PluginCheck.CodeAnalysis.SettingSanitization.register_settingDynamic -- Sanitization callback is safe and known
+    register_setting( 'seur-user-settings-section', 'seur_client_secret_field', [ 'sanitize_callback' => 'sanitize_text_field' ] ); // phpcs:ignore PluginCheck.CodeAnalysis.SettingSanitization.register_settingDynamic -- Sanitization callback is safe and known
+    register_setting( 'seur-user-settings-section', 'seur_user_field', [ 'sanitize_callback' => 'sanitize_text_field' ] ); // phpcs:ignore PluginCheck.CodeAnalysis.SettingSanitization.register_settingDynamic -- Sanitization callback is safe and known
+    register_setting( 'seur-user-settings-section', 'seur_password_field', [ 'sanitize_callback' => 'sanitize_text_field' ] ); // phpcs:ignore PluginCheck.CodeAnalysis.SettingSanitization.register_settingDynamic -- Sanitization callback is safe and known
+    register_setting( 'seur-user-settings-section', 'seur_client_id_field', [ 'sanitize_callback' => 'sanitize_text_field' ] ); // phpcs:ignore PluginCheck.CodeAnalysis.SettingSanitization.register_settingDynamic -- Sanitization callback is safe and known
+    register_setting( 'seur-user-settings-section', 'seur_accountnumber_field', [ 'sanitize_callback' => 'sanitize_text_field' ] ); // phpcs:ignore PluginCheck.CodeAnalysis.SettingSanitization.register_settingDynamic -- Sanitization callback is safe and known
+    register_setting( 'seur-user-settings-section', 'seur_ccc_field', [ 'sanitize_callback' => 'sanitize_text_field' ] ); // phpcs:ignore PluginCheck.CodeAnalysis.SettingSanitization.register_settingDynamic -- Sanitization callback is safe and known
+    register_setting( 'seur-user-settings-section', 'seur_int_ccc_field', [ 'sanitize_callback' => 'sanitize_text_field' ] ); // phpcs:ignore PluginCheck.CodeAnalysis.SettingSanitization.register_settingDynamic -- Sanitization callback is safe and known
+    register_setting( 'seur-user-settings-section', 'seur_franquicia_field', [ 'sanitize_callback' => 'sanitize_text_field' ] ); // phpcs:ignore PluginCheck.CodeAnalysis.SettingSanitization.register_settingDynamic -- Sanitization callback is safe and known
 }
 add_action( 'admin_init', 'display_seur_user_sittings_panel_fields' );

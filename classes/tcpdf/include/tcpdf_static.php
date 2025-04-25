@@ -347,6 +347,7 @@ class TCPDF_STATIC {
 			// the content length may vary if the server is using compression
 			header('Content-Length: '.$length);
 		}
+        // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Output is pdf data, escaping not appropriate.
 		echo $data;
 	}
 

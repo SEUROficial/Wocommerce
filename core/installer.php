@@ -13,6 +13,7 @@ require_once(dirname(__FILE__) . '/functions/functions.php');
 
 function deleteTableSeurSpvr() {
     global $wpdb;
+    // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.SchemaChange -- Custom table drop, no caching applicable
     $wpdb->query( "DROP TABLE IF EXISTS {$wpdb->prefix}seur_svpr" );
 }
 
@@ -21,6 +22,7 @@ function deleteSeurJobs() {
 
     if ( $seur_table_version_saved !== '1.0.5' && SEUR_TABLE_VERSION === '1.0.5' ) {
         global $wpdb;
+        // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Custom table deletion, no caching applicable
         $wpdb->query( "DELETE FROM {$wpdb->prefix}actionscheduler_actions WHERE hook='seur_get_token_hook'" );
         update_option( 'seur_table_version', SEUR_TABLE_VERSION );
     }
@@ -71,7 +73,7 @@ function updateMetaSeurShippingMethodService() {
     //$products = Seur_Global()->get_products();
     include_once plugin_dir_path( __FILE__ ).'../data/seur-products.php';
     $products = get_seur_product();
-
+    // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Custom table lookup, no caching applicable
     $ratesCustomNames = $wpdb->get_results($wpdb->prepare("
         SELECT option_name, option_value as custom_name
         FROM ".$wpdb->prefix."options 
@@ -87,7 +89,7 @@ function updateMetaSeurShippingMethodService() {
             }
         }
     }
-
+   // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Custom table lookup, no caching applicable
     $ordersShippingMethods = $wpdb->get_results($wpdb->prepare("
         select order_id, order_item_name 
             from ".$wpdb->prefix . "woocommerce_order_items
@@ -544,7 +546,7 @@ function insertIntoSeurStatus()
 function insertIntoSeurCustomRates() {
     global $wpdb;
     $table_name = $wpdb->prefix . 'seur_custom_rates';
-
+    // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Custom table insert, no caching applicable
     $wpdb->insert(
         $table_name,
         array(
@@ -560,6 +562,7 @@ function insertIntoSeurCustomRates() {
             'rateprice' => '10',
         )
     );
+    // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Custom table insert, no caching applicable
     $wpdb->insert(
         $table_name,
         array(
@@ -575,6 +578,7 @@ function insertIntoSeurCustomRates() {
             'rateprice' => '0',
         )
     );
+    // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Custom table insert, no caching applicable
     $wpdb->insert(
         $table_name,
         array(
@@ -590,6 +594,7 @@ function insertIntoSeurCustomRates() {
             'rateprice' => '10',
         )
     );
+    // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Custom table insert, no caching applicable
     $wpdb->insert(
         $table_name,
         array(
@@ -605,6 +610,7 @@ function insertIntoSeurCustomRates() {
             'rateprice' => '0',
         )
     );
+    // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Custom table insert, no caching applicable
     $wpdb->insert(
         $table_name,
         array(
@@ -620,6 +626,7 @@ function insertIntoSeurCustomRates() {
             'rateprice' => '10',
         )
     );
+    // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Custom table insert, no caching applicable
     $wpdb->insert(
         $table_name,
         array(
@@ -635,6 +642,7 @@ function insertIntoSeurCustomRates() {
             'rateprice' => '0',
         )
     );
+    // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Custom table insert, no caching applicable
     $wpdb->insert(
         $table_name,
         array(
@@ -650,6 +658,7 @@ function insertIntoSeurCustomRates() {
             'rateprice' => '15',
         )
     );
+    // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Custom table insert, no caching applicable
     $wpdb->insert(
         $table_name,
         array(
@@ -665,6 +674,7 @@ function insertIntoSeurCustomRates() {
             'rateprice' => '0',
         )
     );
+    // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Custom table insert, no caching applicable
     $wpdb->insert(
         $table_name,
         array(
@@ -680,6 +690,7 @@ function insertIntoSeurCustomRates() {
             'rateprice' => '35',
         )
     );
+    // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Custom table insert, no caching applicable
     $wpdb->insert(
         $table_name,
         array(
@@ -695,6 +706,7 @@ function insertIntoSeurCustomRates() {
             'rateprice' => '0',
         )
     );
+    // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Custom table insert, no caching applicable
     $wpdb->insert(
         $table_name,
         array(
@@ -710,6 +722,7 @@ function insertIntoSeurCustomRates() {
             'rateprice' => '40',
         )
     );
+    // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Custom table insert, no caching applicable
     $wpdb->insert(
         $table_name,
         array(
@@ -725,6 +738,7 @@ function insertIntoSeurCustomRates() {
             'rateprice' => '0',
         )
     );
+    // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Custom table insert, no caching applicable
     $wpdb->insert(
         $table_name,
         array(
@@ -740,6 +754,7 @@ function insertIntoSeurCustomRates() {
             'rateprice' => '40',
         )
     );
+    // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Custom table insert, no caching applicable
     $wpdb->insert(
         $table_name,
         array(
@@ -755,6 +770,7 @@ function insertIntoSeurCustomRates() {
             'rateprice' => '0',
         )
     );
+    // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Custom table insert, no caching applicable
     $wpdb->insert(
         $table_name,
         array(
@@ -883,9 +899,11 @@ function seur_upgrade_db_105() {
     $column_name = 'postcode';
 
     // Verificar si la columna 'postcode' existe antes de modificarla
+    // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.InterpolatedNotPrepared	 -- Custom table alter, no caching applicable
     $column_exists = $wpdb->get_results("SHOW COLUMNS FROM `$table_name` LIKE '$column_name'");
     if (!empty($column_exists)) {
         // Modificar la columna 'postcode' a VARCHAR(200) con valor por defecto '*'
+        // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.SchemaChange, WordPress.DB.PreparedSQL.InterpolatedNotPrepared	 -- Custom table alter, no caching applicable
         $wpdb->query("ALTER TABLE `$table_name` MODIFY `$column_name` VARCHAR(200) NOT NULL DEFAULT '*'");
         update_option('seur_db_version', SEUR_DB_VERSION);
     }

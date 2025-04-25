@@ -21,8 +21,10 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
     if (  isset( $_POST['seur_custom_name_rates_post'] ) ) {
         foreach ($products as $custom_name => $product) {
             $rate_name_value = '';
-            if (isset($_POST[$product['field'].'_custom_name_field'])) {
-                $rate_name_value = sanitize_text_field(wp_unslash($_POST[$product['field'] . '_custom_name_field']));
+
+            $field_key = $product['field'] . '_custom_name_field';
+            if ( isset( $_POST[ $field_key ] ) ) {
+                $rate_name_value = sanitize_text_field( wp_unslash( $_POST[ $field_key ] ) );
             }
             update_option($product['field'] . '_custom_name_field', $rate_name_value);
         }

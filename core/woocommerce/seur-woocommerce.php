@@ -167,6 +167,7 @@ class WC_Shipping_SEUR_Init {
 			// first add it to the "rest of the world" zone when no seur.
 			// instance.
 			if ( ! $this->is_zone_has_seur( 0 ) ) {
+                // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Custom table insert, no caching applicable
 				$wpdb->query( $wpdb->prepare( "INSERT INTO {$wpdb->prefix}woocommerce_shipping_zone_methods ( zone_id, method_id, method_order, is_enabled ) VALUES ( %d, %s, %d, %d )", 0, 'seur', 1, 1 ) );
 				// add settings to the newly created instance to options table.
 				$instance = $wpdb->insert_id;
@@ -231,7 +232,7 @@ class WC_Shipping_SEUR_Init {
 	 */
 	public function is_zone_has_seur( $zone_id ) {
 		global $wpdb;
-
+        // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Custom table lookup, no caching applicable
 		return (int) $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(instance_id) FROM {$wpdb->prefix}woocommerce_shipping_zone_methods WHERE method_id = 'seur' AND zone_id = %d", $zone_id ) ) > 0;
 	}
 }

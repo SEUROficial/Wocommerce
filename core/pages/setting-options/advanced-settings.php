@@ -206,17 +206,26 @@ function seur_descripcion_field() {
 	<?php
 }
 
-
 function seur_uploads_dir_field() {
     $uploads_dir = seur()->get_option('seur_uploads_dir');
-    if (!file_exists($uploads_dir)) {
-        echo '<div id="seur_uploads_dir">'.esc_html('Directory not found').'&nbsp; 
-                <button type="button" class="button" onclick="seur_create_upload_folder_ajax()">'.esc_html('Regenerate folder').'</button>
+    if ( ! file_exists( $uploads_dir ) ) {
+        echo '<div id="seur_uploads_dir">' . esc_html( 'Directory not found' ) . '&nbsp; 
+                <button type="button" class="button" onclick="seur_create_upload_folder_ajax()">' . esc_html( 'Regenerate folder' ) . '</button>
               </div>';
     } else {
-        echo '<div id="seur_uploads_dir">'.esc_html($uploads_dir).'</div>';
-        if (!is_writable($uploads_dir)) {
-            echo '<br><strong>'.esc_html('Directory is not writable').'!!!</strong>';
+        echo '<div id="seur_uploads_dir">' . esc_html( $uploads_dir ) . '</div>';
+
+        // Inicializar WP_Filesystem si no está listo
+        if ( ! function_exists( 'request_filesystem_credentials' ) ) {
+            require_once ABSPATH . 'wp-admin/includes/file.php';
+        }
+        global $wp_filesystem;
+        if ( WP_Filesystem( request_filesystem_credentials( '', '', false, false, null ) ) ) {
+            if ( ! $wp_filesystem->is_writable( $uploads_dir ) ) {
+                echo '<br><strong>' . esc_html( 'Directory is not writable' ) . '!!!</strong>';
+            }
+        } else {
+            echo '<br><strong>' . esc_html( 'Could not initialize WP_Filesystem' ) . '</strong>';
         }
     }
 }
@@ -244,22 +253,21 @@ function display_seur_advanced_settings_panel_fields() {
     add_settings_field( 'seur_uploads_dir', esc_html__( 'Upload directory', 'seur' ), 'seur_uploads_dir_field', 'seur-advanced-settings-options', 'seur-advanced-settings-section' );
 
 	// register all setings.
-	register_setting( 'seur-advanced-settings-section', 'seur_activate_geolabel_field' );
-	register_setting( 'seur-advanced-settings-section', 'seur_activate_free_shipping_field' );
-	register_setting( 'seur-advanced-settings-section', 'seur_preaviso_notificar_field' );
-	register_setting( 'seur-advanced-settings-section', 'seur_activate_local_pickup_field' );
-	register_setting( 'seur-advanced-settings-section', 'seur_google_maps_api_field' );
-	register_setting( 'seur-advanced-settings-section', 'seur_after_get_label_field' );
-	register_setting( 'seur-advanced-settings-section', 'seur_preaviso_notificar_field' );
-	register_setting( 'seur-advanced-settings-section', 'seur_reparto_notificar_field' );
-	register_setting( 'seur-advanced-settings-section', 'seur_tipo_notificacion_field' );
-	register_setting( 'seur-advanced-settings-section', 'seur_tipo_etiqueta_field' );
-	register_setting( 'seur-advanced-settings-section', 'seur_aduana_origen_field' );
-	register_setting( 'seur-advanced-settings-section', 'seur_aduana_destino_field' );
-	register_setting( 'seur-advanced-settings-section', 'seur_tipo_mercancia_field' );
-	register_setting( 'seur-advanced-settings-section', 'seur_id_mercancia_field' );
-	register_setting( 'seur-advanced-settings-section', 'seur_descripcion_field' );
-    register_setting( 'seur-advanced-settings-section', 'seur_uploads_dir' );
+    register_setting( 'seur-advanced-settings-section', 'seur_activate_geolabel_field', [ 'sanitize_callback' => 'rest_sanitize_boolean' ] );  // phpcs:ignore PluginCheck.CodeAnalysis.SettingSanitization.register_settingDynamic -- Sanitization callback is safe and known
+    register_setting( 'seur-advanced-settings-section', 'seur_activate_free_shipping_field', [ 'sanitize_callback' => 'rest_sanitize_boolean' ] ); // phpcs:ignore PluginCheck.CodeAnalysis.SettingSanitization.register_settingDynamic -- Sanitization callback is safe and known
+    register_setting( 'seur-advanced-settings-section', 'seur_preaviso_notificar_field', [ 'sanitize_callback' => 'rest_sanitize_boolean' ] ); // phpcs:ignore PluginCheck.CodeAnalysis.SettingSanitization.register_settingDynamic -- Sanitization callback is safe and known
+    register_setting( 'seur-advanced-settings-section', 'seur_activate_local_pickup_field', [ 'sanitize_callback' => 'rest_sanitize_boolean' ] ); // phpcs:ignore PluginCheck.CodeAnalysis.SettingSanitization.register_settingDynamic -- Sanitization callback is safe and known
+    register_setting( 'seur-advanced-settings-section', 'seur_after_get_label_field', [ 'sanitize_callback' => 'rest_sanitize_boolean' ] ); // phpcs:ignore PluginCheck.CodeAnalysis.SettingSanitization.register_settingDynamic -- Sanitization callback is safe and known
+    register_setting( 'seur-advanced-settings-section', 'seur_reparto_notificar_field', [ 'sanitize_callback' => 'rest_sanitize_boolean' ] ); // phpcs:ignore PluginCheck.CodeAnalysis.SettingSanitization.register_settingDynamic -- Sanitization callback is safe and known
 
+    register_setting( 'seur-advanced-settings-section', 'seur_google_maps_api_field', [ 'sanitize_callback' => 'sanitize_text_field' ] ); // phpcs:ignore PluginCheck.CodeAnalysis.SettingSanitization.register_settingDynamic -- Sanitization callback is safe and known
+    register_setting( 'seur-advanced-settings-section', 'seur_tipo_notificacion_field', [ 'sanitize_callback' => 'sanitize_text_field' ] ); // phpcs:ignore PluginCheck.CodeAnalysis.SettingSanitization.register_settingDynamic -- Sanitization callback is safe and known
+    register_setting( 'seur-advanced-settings-section', 'seur_tipo_etiqueta_field', [ 'sanitize_callback' => 'sanitize_text_field' ] ); // phpcs:ignore PluginCheck.CodeAnalysis.SettingSanitization.register_settingDynamic -- Sanitization callback is safe and known
+    register_setting( 'seur-advanced-settings-section', 'seur_tipo_mercancia_field', [ 'sanitize_callback' => 'sanitize_text_field' ] ); // phpcs:ignore PluginCheck.CodeAnalysis.SettingSanitization.register_settingDynamic -- Sanitization callback is safe and known
+    register_setting( 'seur-advanced-settings-section', 'seur_id_mercancia_field', [ 'sanitize_callback' => 'sanitize_text_field' ] ); // phpcs:ignore PluginCheck.CodeAnalysis.SettingSanitization.register_settingDynamic -- Sanitization callback is safe and known
+    register_setting( 'seur-advanced-settings-section', 'seur_aduana_origen_field', [ 'sanitize_callback' => 'sanitize_text_field' ] ); // phpcs:ignore PluginCheck.CodeAnalysis.SettingSanitization.register_settingDynamic -- Sanitization callback is safe and known
+    register_setting( 'seur-advanced-settings-section', 'seur_aduana_destino_field', [ 'sanitize_callback' => 'sanitize_text_field' ] ); // phpcs:ignore PluginCheck.CodeAnalysis.SettingSanitization.register_settingDynamic -- Sanitization callback is safe and known
+    register_setting( 'seur-advanced-settings-section', 'seur_descripcion_field', [ 'sanitize_callback' => 'sanitize_text_field' ] ); // phpcs:ignore PluginCheck.CodeAnalysis.SettingSanitization.register_settingDynamic -- Sanitization callback is safe and known
+    //'seur_uploads_dir' already registered
 }
 add_action( 'admin_init', 'display_seur_advanced_settings_panel_fields' );

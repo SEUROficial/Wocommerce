@@ -353,7 +353,8 @@ function seur_check_service_names( $services ) {
 					<?php $table_name = $wpdb->prefix . 'seur_custom_rates'; ?>
 					<td data-export-label="Check for <?php echo esc_html( $table_name ); ?>"><?php echo esc_html__( 'Check for', 'seur' ) . ' ' . esc_html( $table_name ); ?></td>
 					<?php
-					if ( $wpdb->get_var( $wpdb->prepare( 'SHOW TABLES LIKE %d', $table_name ) ) === $table_name ) {
+                    // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Table existence check is required
+                    if ( $wpdb->get_var( $wpdb->prepare( 'SHOW TABLES LIKE %s', $table_name ) ) === $table_name ) {
 						echo '<td><span class="yes">&#10004;</span></td>';
 					} else {
 						echo '<td><span class="error">No.</span></td>';
