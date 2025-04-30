@@ -1,36 +1,32 @@
 <?php
 if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
-?>
-<div class="container">
-    <br>
 
-    <p><?php esc_html_e( 'Custom Names for Seur Rates', 'seur' ); ?></p>
-
-    <hr>
-
-    <?php
-    if ( isset( $_POST['seur_custom_name_rates_post'] ) &&
-        ( ! isset( $_POST['seur_custom_name_rates_nonce_field'] )  ||
-            ! wp_verify_nonce( sanitize_text_field(wp_unslash($_POST['seur_custom_name_rates_nonce_field'])), 'seur_custom_name_rates' ) )
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    if (!isset( $_POST['seur_custom_name_rates_nonce_field'] )  ||
+        !wp_verify_nonce(sanitize_text_field(wp_unslash($_POST['seur_custom_name_rates_nonce_field'])), 'seur_custom_name_rates')
     ) {
         print 'Sorry, your nonce did not verify.';
         exit;
     }
+}
 
-    $products = seur()->get_products();
-    if (  isset( $_POST['seur_custom_name_rates_post'] ) ) {
-        foreach ($products as $custom_name => $product) {
-            $rate_name_value = '';
+$products = seur()->get_products();
+if (  isset( $_POST['seur_custom_name_rates_post'] ) ) {
+    foreach ($products as $custom_name => $product) {
+        $rate_name_value = '';
 
-            $field_key = $product['field'] . '_custom_name_field';
-            if ( isset( $_POST[ $field_key ] ) ) {
-                $rate_name_value = sanitize_text_field( wp_unslash( $_POST[ $field_key ] ) );
-            }
-            update_option($product['field'] . '_custom_name_field', $rate_name_value);
+        $field_key = $product['field'] . '_custom_name_field';
+        if ( isset( $_POST[ $field_key ] ) ) {
+            $rate_name_value = sanitize_text_field( wp_unslash( $_POST[ $field_key ] ) );
         }
+        update_option($product['field'] . '_custom_name_field', $rate_name_value);
     }
-    ?>
-
+}
+?>
+<div class="container">
+    <br>
+    <p><?php esc_html_e( 'Custom Names for Seur Rates', 'seur' ); ?></p>
+    <hr>
     <div class="content-loader">
         <form method="post" action="admin.php?page=seur_rates_prices&tab=custom_rates_name">
 

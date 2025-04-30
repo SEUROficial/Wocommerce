@@ -18,6 +18,15 @@ function seur_pickup($post)
 {
 	$error_message = ''; // Variable para almacenar el mensaje de error.
 
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        if (!isset($_POST['seur_pickup_nonce_field']) ||
+            !wp_verify_nonce(sanitize_text_field(wp_unslash($_POST['seur_pickup_nonce_field'])), 'seur_pickup_action')
+        ) {
+            print 'Sorry, your nonce did not verify.';
+            exit;
+        }
+    }
+
 	// Procesar solicitudes de recogida o cancelación
 	if (isset($_POST['request_normal'])) {
 		// Lógica para solicitar recogida normal
@@ -132,11 +141,6 @@ function seur_pickup($post)
         <form method="post" name="formulario" style="width: 100%;">
 			<?php
 			wp_nonce_field('seur_pickup_action', 'seur_pickup_nonce_field');
-
-			if (isset($_POST['seur_pickup_nonce_field']) && !wp_verify_nonce(sanitize_text_field(wp_unslash($_POST['seur_pickup_nonce_field'])), 'seur_pickup_action')) {
-				print 'Sorry, your nonce did not verify.';
-				exit;
-			}
 
 			// Obtener los datos de las recogidas actuales
 			$date = gmdate( 'Y-m-d' );
