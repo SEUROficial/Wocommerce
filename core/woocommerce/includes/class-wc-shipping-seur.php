@@ -364,7 +364,7 @@ class WC_Shipping_SEUR extends WC_Shipping_Method {
 	 */
 	public function clear_transients() {
 		global $wpdb;
-
+        // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Custom table deletion not caching applicable
 		$wpdb->query( "DELETE FROM `$wpdb->options` WHERE `option_name` LIKE ('_transient_seur_quote_%') OR `option_name` LIKE ('_transient_timeout_seur_quote_%')" );
 	}
 

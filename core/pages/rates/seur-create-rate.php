@@ -67,6 +67,7 @@ function seur_create_custom_rate() {
             if (empty($seur_maxweight) || '*' === $seur_maxweight || $seur_maxweight > '9999999') {
                 $seur_maxweight = '9999999';
             }
+            // phpcs:ignore WordPress.DB.DirectDatabaseQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Safe custom table insertion not caching applicable
 			$wpdb->insert(
 				$table,
 				array(

@@ -14,13 +14,19 @@ $rates_type = get_option( 'seur_rates_type_field' );
 // Verificar si el formulario fue enviado y si el nonce es válido
 if ( isset( $_POST['import_custom_rates'] ) && check_admin_referer( 'seur_import_custom_rates_nonce', 'seur_import_custom_rates_nonce_field' ) ) {
 	try {
-		// Validar que el archivo fue subido sin errores
-		if ( isset( $_FILES['csv_file'] ) && isset( $_FILES['csv_file']['error'] ) && $_FILES['csv_file']['error'] === UPLOAD_ERR_OK ) {
-			$file = $_FILES['csv_file'];
 
-			// Validar que el archivo es un CSV
-			$file_type = wp_check_filetype( $file['name'] );
-			if ( $file_type['ext'] !== 'csv' ) {
+        if (
+            isset( $_FILES['csv_file'] ) &&
+            isset( $_FILES['csv_file']['error'] ) &&
+            $_FILES['csv_file']['error'] === UPLOAD_ERR_OK
+        ) {
+            // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotValidated -- the input is validated in previous lines
+            $original_name = sanitize_file_name( $_FILES['csv_file']['name'] );
+            // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotValidated -- the input is validated in previous lines
+            $tmp_name      = sanitize_text_field( $_FILES['csv_file']['tmp_name'] );
+
+            $file_type = wp_check_filetype( $original_name );
+            if ( $file_type['ext'] !== 'csv' ) {
 				echo '<div class="notice notice-error"><p>El archivo subido no es un CSV.</p></div>';
 			} else {
 				// Inicializar WP_Filesystem
@@ -43,10 +49,10 @@ if ( isset( $_POST['import_custom_rates'] ) && check_admin_referer( 'seur_import
 					$wp_filesystem->mkdir( $upload_path );
 				}
 
-				$uploaded_file = $upload_path . sanitize_file_name( $file['name'] );
+                $uploaded_file = trailingslashit( $upload_path ) . $original_name;
+                if ( $wp_filesystem->put_contents( $uploaded_file, $wp_filesystem->get_contents( $tmp_name ), FS_CHMOD_FILE ) ) {
 
-				if ( $wp_filesystem->put_contents( $uploaded_file, $wp_filesystem->get_contents( $file['tmp_name'] ), FS_CHMOD_FILE ) ) {
-					// Procesar el archivo CSV
+                    // Procesar el archivo CSV
 					$result = seur_process_csv( $uploaded_file );
 
 					if ( $result['error'] ) {
@@ -75,50 +81,14 @@ if ( isset( $_POST['import_custom_rates'] ) && check_admin_referer( 'seur_import
 		echo '<div class="notice notice-error"><p>' . esc_html( $e->getMessage() ) . '</p></div>';
 	}
 } else {
-	echo '<div class="notice notice-error"><p>Error de seguridad. Por favor, recargue la página e inténtelo de nuevo.</p></div>';
+    //verificar si se ha hecho submit
+    if ( isset( $_POST['import_custom_rates'] ) ) {
+        echo '<div class="notice notice-error"><p>Error de seguridad. Por favor, recargue la página e inténtelo de nuevo.</p></div>';
+    }
 }
 
 if ( isset( $_GET['action'] ) && $_GET['action'] === 'download_seur_rates_csv' ) {
-	global $wpdb;
-	$table_name = $wpdb->prefix . 'seur_custom_rates';
-
-	$rates = $wpdb->get_results( "SELECT * FROM {$table_name}", ARRAY_A );
-
-	if ( empty( $rates ) ) {
-		wp_die( 'No hay tarifas para exportar.' );
-	}
-
-	// Limpiar el buffer de salida para evitar HTML no deseado
-	ob_clean();
-	header( 'Content-Type: text/csv; charset=utf-8' );
-	header( 'Content-Disposition: attachment; filename=seur_tarifas_actuales.csv' );
-	header( 'Pragma: no-cache' );
-	header( 'Expires: 0' );
-
-	// Abrir salida para CSV
-	$output = fopen( 'php://output', 'w' );
-
-    // Reemplazar los saltos de línea en los códigos postales para exportar
-	// Eliminar las columnas "created_at" y "updated_at"
-	foreach ( $rates as &$row ) {
-        $row['postcode'] = str_replace("\r\n", "|", $row['postcode']);
-		unset( $row['created_at'], $row['updated_at'] );
-	}
-	unset($row); // Para evitar referencias inesperadas
-
-	// Escribir encabezados sin las columnas eliminadas
-	fputcsv( $output, array_keys( $rates[0] ) );
-
-	// Escribir filas sin las columnas eliminadas
-	foreach ( $rates as $row ) {
-		fputcsv( $output, $row );
-	}
-
-	// Cerrar salida
-	fclose( $output );
-
-	// Detener la ejecución de WordPress
-	exit;
+    seur()->seur_download_rates_csv();
 }
 
 
@@ -131,6 +101,7 @@ function seur_process_csv( $file_path ) {
 		$expected_columns = array( 'ID', 'type', 'country', 'state', 'postcode', 'minprice', 'maxprice', 'minweight', 'maxweight', 'rate', 'rateprice' );
 
 		// Iniciar una transacción
+        // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching  -- Using SQL transactions intentionally
 		$wpdb->query( 'START TRANSACTION' );
 
 		// Leer el archivo CSV usando WP_Filesystem
@@ -208,6 +179,7 @@ function seur_process_csv( $file_path ) {
 
 				// Verificar si el ID existe
 				if ( !empty( $record['ID'] ) ) {
+                    // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.DirectQuery -- Table name is hardcoded and safe
 					$existing_record = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM {$wpdb->prefix}seur_custom_rates WHERE ID = %d", $record['ID'] ) );
 
 					if ( $existing_record ) {
@@ -219,6 +191,7 @@ function seur_process_csv( $file_path ) {
 							}
 						}
 						if ( !empty( $update_data ) ) {
+                            // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.DirectQuery -- Table name is hardcoded and safe
 							$wpdb->update(
 								"{$wpdb->prefix}seur_custom_rates",
 								$update_data,
@@ -237,12 +210,14 @@ function seur_process_csv( $file_path ) {
 					}
 
 					// Insertar un nuevo registro
+                    // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.DirectQuery -- Table name is hardcoded and safe
 					$wpdb->insert( "{$wpdb->prefix}seur_custom_rates", array_filter( $record ) );
 				}
 			}
 
 			// Comprobar si hay errores antes de confirmar o revertir la transacción
 			if ( !empty($error_messages) ) {
+                // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Using SQL transactions intentionally
 				$wpdb->query('ROLLBACK'); // Revertir la transacción
 				return [
 					'error' => true,
@@ -251,12 +226,14 @@ function seur_process_csv( $file_path ) {
 			}
 
 			// Confirmar la transacción si no hay errores
+            // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Using SQL transactions intentionally
 			$wpdb->query('COMMIT');
 			return [
 				'error' => false,
 				'message' => 'Archivo CSV procesado correctamente.'
 			];
 		} else {
+            // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Using SQL transactions intentionally
 			$wpdb->query('ROLLBACK'); // Revertir la transacción
 			return [
 				'error' => true,
@@ -264,6 +241,7 @@ function seur_process_csv( $file_path ) {
 			];
 		}
 	} catch ( Exception $e ) {
+        // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Using SQL transactions intentionally
 		$wpdb->query('ROLLBACK'); // Revertir la transacción en caso de excepción
 		return [
 			'error' => true,
@@ -282,7 +260,7 @@ function seur_process_csv( $file_path ) {
             Descargue el <a href="<?php echo esc_url( plugins_url( '../../../data/import_rates.csv', __FILE__ ) ); ?>" download>archivo CSV de ejemplo</a>.
             Los ejemplos deben ser eliminados antes de la importación final.
             <br>
-            O bien descargue las tarifas actuales aquíí
+            O bien descargue las tarifas actuales aquí
             <a href="<?php echo esc_url( admin_url( 'admin.php?page=seur_rates_prices&tab=import_custom_rates&action=download_seur_rates_csv' ) ); ?>">
                 Descargar Tarifas Actuales en CSV
             </a>
@@ -299,7 +277,7 @@ function seur_process_csv( $file_path ) {
         <li><strong>type</strong>: Tipo de tarifa, puede ser "price" (precio) o "weight" (peso).</li>
         <li><strong>country</strong>: País al que se aplica la tarifa. Use "*" para aplicar a todos los países.</li>
         <li><strong>state</strong>: Estado o provincia al que se aplica la tarifa. Use "*" para aplicar a todos los estados.</li>
-        <li><strong>postcode</strong>: Código postal al que se aplica la tarifa. <?php echo SEUR_RATES_POSTALCODE_DESCRIPTION .' Separar los valores con "|", por ejemplo: 01*|02*|03001..03010'; ?></li>
+        <li><strong>postcode</strong>: Código postal al que se aplica la tarifa. <?php echo esc_html(SEUR_RATES_POSTALCODE_DESCRIPTION) . esc_html(' Separar los valores con "|", por ejemplo: 01*|02*|03001..03010'); ?></li>
         <li><strong>minprice</strong>: Precio mínimo para aplicar la tarifa.</li>
         <li><strong>maxprice</strong>: Precio máximo para aplicar la tarifa.</li>
         <li><strong>minweight</strong>: Peso mínimo para aplicar la tarifa.</li>

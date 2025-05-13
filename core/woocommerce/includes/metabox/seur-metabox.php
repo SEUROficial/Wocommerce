@@ -14,7 +14,8 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 function seur_register_meta_boxes() {
     $screen = seur_get_order_screen();
-    $order_id = isset($_GET['id']) ? $_GET['id'] : '';
+    // phpcs:ignore WordPress.Security.NonceVerification.Missing, WordPress.Security.NonceVerification.Recommended -- Nonce verification is not applicable here
+    $order_id = isset( $_GET['id'] ) ? absint( wp_unslash( $_GET['id'] ) ) : 0;
     if (seur()->is_seur_order($order_id)) {
         add_meta_box('seurmetabox', __('SEUR Labels', 'seur'), 'seur_metabox_callback', $screen, 'side', 'low');
     }
@@ -41,6 +42,7 @@ function seur_metabox_callback( $post_or_order_object ) {
             'height'     => '300',
         );
         add_thickbox();
+        // phpcs:ignore PluginCheck.CodeAnalysis.ImageFunctions.NonEnqueuedImage -- Image is static and not stored in the media library
         echo '<img src="'. esc_url( SEUR_PLUGIN_URL ) .'assets/img/icon-96x37.png" alt="SEUR Image" width="96" height="37" />';
         for ($k=0;$k<=1;$k++) {
             $arrayurl = array(
@@ -58,9 +60,9 @@ function seur_metabox_callback( $post_or_order_object ) {
             </a>
             <?php
         }
-    } else { ?>
-		<img src="<?php echo esc_url( SEUR_PLUGIN_URL ); ?>assets/img/icon-96x37.png" alt="SEUR Image" width="96" height="37" />
-        <?php
+    } else {
+        // phpcs:ignore PluginCheck.CodeAnalysis.ImageFunctions.NonEnqueuedImage -- Image is static and not stored in the media library
+        echo '<img src="'. esc_url( SEUR_PLUGIN_URL ) .'assets/img/icon-96x37.png" alt="SEUR Image" width="96" height="37" />';
         $url_upload_dir = get_site_option( 'seur_uploads_url_labels' );
         $label_ids = seur_get_labels_ids($order->get_id());
         $cont           = 1;

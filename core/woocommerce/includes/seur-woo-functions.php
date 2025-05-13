@@ -25,9 +25,10 @@ function seur_after_get_label() {
 add_action( 'woocommerce_update_order', 'seur_add_cart_weight_hpos' );
 function seur_add_cart_weight_hpos( $order_id )
 {
-    if (WC()->cart) {
+    if (WC()->cart && WC()->cart->cart_contents_count > 0) {
         $order = new WC_Order($order_id);
 
+		$product_name = '';
         $ship_methods = maybe_unserialize($order->get_shipping_methods());
         foreach ($ship_methods as $ship_method) {
             $product_name = $ship_method['name'];
@@ -52,9 +53,10 @@ function seur_add_cart_weight_hpos( $order_id )
 add_action('woocommerce_checkout_update_order_meta', 'seur_add_cart_weight');
 function seur_add_cart_weight( $order_id ) {
 	global $woocommerce;
-
-	$weight = $woocommerce->cart->cart_contents_weight;
-	update_post_meta( $order_id, '_seur_cart_weight', $weight );
+    if ( $woocommerce->cart->cart_contents_count > 0 ) {
+        $weight = $woocommerce->cart->cart_contents_weight;
+        update_post_meta($order_id, '_seur_cart_weight', $weight);
+    }
 }
 
 // Add order new column in administration.
@@ -263,10 +265,15 @@ function seur_woo_bulk_action() {
 	$wp_list_table = _get_list_table( 'WP_Posts_List_Table' );
 	$action        = $wp_list_table->current_action();
 
+    // 2. check the ID
+    // phpcs:ignore WordPress.Security.NonceVerification.Recommended
     if (isset($_REQUEST['id'])) {
+        // phpcs:ignore WordPress.Security.NonceVerification.Recommended
         $post_ids      = array_map( 'absint', (array) $_REQUEST['id'] );
     }
+    // phpcs:ignore WordPress.Security.NonceVerification.Recommended
     if (isset($_REQUEST['post'])) {
+        // phpcs:ignore WordPress.Security.NonceVerification.Recommended
         $post_ids      = array_map( 'absint', (array) $_REQUEST['post'] );
     }
     if (!isset($post_ids)) {
@@ -327,8 +334,10 @@ function seur_woo_bulk_action() {
 			return;
 	}
 
+    // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 	if ( isset( $_GET['post_status'] ) ) {
-			$sendback = add_query_arg( 'post_status', sanitize_text_field(wp_unslash($_GET['post_status'])), $sendback );
+        // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+        $sendback = add_query_arg( 'post_status', sanitize_text_field(wp_unslash($_GET['post_status'])), $sendback );
 	}
 
 	// 4. Redirect client.
@@ -501,6 +510,7 @@ function seur_post_formats_filter_to_woo_order_administration() {
 			<option value=""><?php esc_html_e( 'All', 'seur' ); ?></option>
 			<option value="seur"
 			<?php
+            // phpcs:ignore WordPress.Security.NonceVerification.Recommended
             $_shop_order_seur_shipping_method = isset( $_GET['_shop_order_seur_shipping_method'] ) ? esc_attr( sanitize_text_field(wp_unslash($_GET['_shop_order_seur_shipping_method']))) : '';
 			if ($_shop_order_seur_shipping_method == 'seur') {
 				echo 'selected';
@@ -528,25 +538,37 @@ if (seur_is_wc_order_hpos_enabled()) {
 }
 
 function seur_filter_orders_by_shipping_method_query( $vars ) {
-	global $typenow;
+    global $typenow;
 
-    if ( seur_is_order_page($typenow) &&
-         isset( $_GET['_shop_order_seur_shipping_method'] ) &&
-         !empty($_GET['_shop_order_seur_shipping_method']) ) {
+    // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+    if (seur_is_order_page( $typenow ) && isset( $_GET['_shop_order_seur_shipping_method'] ) && ! empty( $_GET['_shop_order_seur_shipping_method'] )
+    ) {
         $products = seur()->get_products();
-        $vars['meta_key']   = '_seur_shipping';
-        $vars['meta_value'] = 'seur';
+        // Filtro por defecto
+        $meta_query = [
+            [
+                'key'   => '_seur_shipping',
+                'value' => 'seur',
+            ]
+        ];
+        $user_input = sanitize_text_field( wp_unslash( $_GET['_shop_order_seur_shipping_method'] ) ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
         foreach ( $products as $code => $product ) {
-            $custom_name = get_option($product['field'].'_custom_name_field')?get_option($product['field'].'_custom_name_field'):$code;
+            $custom_name = get_option( $product['field'] . '_custom_name_field' ) ?: $code;
             $shippment_sani = sanitize_title( $custom_name );
-            if ( $shippment_sani == sanitize_text_field( wp_unslash( $_GET['_shop_order_seur_shipping_method']))) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
-                $vars['meta_key'] = '_seur_shipping_method_service_real_name';
-                $vars['meta_value'] = $code;
+
+            if ( $shippment_sani === $user_input ) {
+                $meta_query = [
+                    [
+                        'key'   => '_seur_shipping_method_service_real_name',
+                        'value' => $code,
+                    ]
+                ];
                 break;
             }
         }
+        $vars['meta_query'] = $meta_query; // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query
     }
-	return $vars;
+    return $vars;
 }
 if (seur_is_wc_order_hpos_enabled()) {
     add_filter( 'woocommerce_order_query_args', 'seur_filter_orders_by_shipping_method_query' );

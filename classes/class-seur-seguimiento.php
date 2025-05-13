@@ -92,7 +92,7 @@ class Seur_Logistica_Seguimiento {
         $response_body = '';
         $ref = get_post_meta( $label_id, '_seur_shipping_id_number', true);
 
-        $url_call      = $this->seur_adr . '?ref=' . $ref . '&refType=REFERENCE&idNumber=' . $this->id_number .
+        $url_call      = $this->seur_adr . '?ref=' . $ref . '&refType=REFERENCE' .
             '&accountNumber=' . $this->accoun_number . '&businessUnit=' . $this->business_unit;
 
 		if ( $ref ) {
@@ -145,6 +145,7 @@ function seur_tracking( $label_id ) {
 
 function getStatusExpedition($eventCode) {
     global $wpdb;
+    // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Table name is hardcoded and safe, no caching applicable
     $result = $wpdb->get_results($wpdb->prepare(
         "SELECT * FROM {$wpdb->prefix}seur_status WHERE cod_situ = %s",
         [$eventCode]));
@@ -166,6 +167,7 @@ function updateExpeditionStatus(
     global $wpdb;
     $order_id = get_post_meta( $label_id, '_seur_shipping_order_id', true);
     if ($expeditionStatusKey = getExpeditionStatusKey($expeditionStatus)) {
+        // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Table name is hardcoded and safe, no caching applicable
         $wpdb->query($wpdb->prepare(
             "UPDATE {$wpdb->prefix}wc_order_stats SET status=%s WHERE order_id = %d",
             [$expeditionStatusKey, $order_id])

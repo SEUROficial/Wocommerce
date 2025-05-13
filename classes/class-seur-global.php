@@ -1070,31 +1070,37 @@ class Seur_Global {
 
     public function is_seur_order($order_id) {
         global $wpdb;
-        global $post;
-        $sql = $wpdb->prepare(
-            "SELECT distinct o.order_id 
-            FROM {$wpdb->prefix}woocommerce_order_items o 
-            inner join {$wpdb->prefix}woocommerce_order_itemmeta om on om.order_item_id = o.order_item_id 
-            where om.meta_key = %s and (om.meta_value like %s) 
-            AND o.order_id = %d
-            UNION
-            SELECT distinct p.ID
-            FROM {$wpdb->prefix}posts p
-            inner join {$wpdb->prefix}postmeta m on m.post_id = p.ID
-            where post_type = %s
-            and meta_key like %s
-            and ID = %d",
-            ['method_id', 'seur', $order_id, 'shop_order', 'shipping', $post->ID]
-        );
-        $sql = str_replace('seur', '%seur%', $sql);
-        $sql = str_replace('shipping', '_seur_shipping%', $sql);
-
-        $result = $wpdb->get_results($sql);
+        // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Custom query required, no core function available
+        $result = $wpdb->get_results(
+            $wpdb->prepare(
+            "SELECT DISTINCT o.order_id 
+        FROM {$wpdb->prefix}woocommerce_order_items o 
+        INNER JOIN {$wpdb->prefix}woocommerce_order_itemmeta om ON om.order_item_id = o.order_item_id 
+        WHERE om.meta_key = %s AND om.meta_value LIKE %s 
+        AND o.order_id = %d
+        UNION
+        SELECT DISTINCT p.ID
+        FROM {$wpdb->prefix}posts p
+        INNER JOIN {$wpdb->prefix}postmeta m ON m.post_id = p.ID
+        WHERE post_type = %s
+        AND meta_key LIKE %s
+        AND ID = %d",
+            [
+                'method_id',
+                '%seur%',
+                $order_id,
+                'shop_order',
+                '_seur_shipping%',
+                $order_id
+            ]
+        ));
+        //var_dump($wpdb->last_query); die;
         return !empty($result);
     }
 
     public function is_seur_local_method($custom_rate_id) {
         global $wpdb;
+        // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Custom query required, no core function available
         return $wpdb->get_results($wpdb->prepare(
             "SELECT ID
             FROM {$wpdb->prefix}seur_custom_rates
@@ -1149,6 +1155,49 @@ class Seur_Global {
         $order = seur_get_order($post_order_int);
         $label_ids = seur_get_labels_ids( $order->get_id() );
         return (!empty($label_ids));
+    }
+
+    public function seur_download_rates_csv() {
+        global $wpdb;
+        $table_name = $wpdb->prefix . 'seur_custom_rates';
+        // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.DirectQuery -- Table name is hardcoded and safe
+        $rates = $wpdb->get_results( "SELECT * FROM {$table_name}", ARRAY_A );
+
+        if ( empty( $rates ) ) {
+            wp_die( 'No hay tarifas para exportar.' );
+        }
+
+        // Limpiar el buffer de salida para evitar HTML no deseado
+        ob_clean();
+        header( 'Content-Type: text/csv; charset=utf-8' );
+        header( 'Content-Disposition: attachment; filename=seur_tarifas_actuales.csv' );
+        header( 'Pragma: no-cache' );
+        header( 'Expires: 0' );
+
+        // Abrir salida para CSV
+        $output = fopen( 'php://output', 'w' );
+
+        // Reemplazar los saltos de línea en los códigos postales para exportar
+        // Eliminar las columnas "created_at" y "updated_at"
+        foreach ( $rates as &$row ) {
+            $row['postcode'] = str_replace("\r\n", "|", $row['postcode']);
+            unset( $row['created_at'], $row['updated_at'] );
+        }
+        unset($row); // Para evitar referencias inesperadas
+
+        // Escribir encabezados sin las columnas eliminadas
+        fputcsv( $output, array_keys( $rates[0] ) );
+
+        // Escribir filas sin las columnas eliminadas
+        foreach ( $rates as $row ) {
+            fputcsv( $output, $row );
+        }
+
+        // Cerrar salida
+        fclose( $output ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_fclose -- php://output is not a real file and WP_Filesystem is not applicable
+
+        // Detener la ejecución de WordPress
+        exit;
     }
 }
 

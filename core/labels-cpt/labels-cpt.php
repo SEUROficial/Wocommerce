@@ -450,8 +450,12 @@ function seur_bulk_actions_handler( $redirect_to, $doaction, $labels_ids ) {
             $id_orders[$label_id] = get_post_meta( $label_id, '_seur_shipping_order_id', true);
         }
 
+        $current_order_id = 0;
         foreach($id_orders as $label_id => $id_order)
         {
+            if ($current_order_id == $id_order) {
+                continue;
+            }
             $order = wc_get_order( $id_order );
 
             $order_manifest = array();
@@ -468,11 +472,14 @@ function seur_bulk_actions_handler( $redirect_to, $doaction, $labels_ids ) {
             $order_manifest['country'] = $countries[$order->get_shipping_country()]??$order->get_shipping_country();
 
             $ecbs = $order->get_meta('_seur_label_ecbs', true);
+            if (is_serialized($ecbs)) {
+                $ecbs = unserialize($ecbs);
+            }
             $order_manifest['ecbs'] = $ecbs;
             $order_manifest['producto'] =  get_post_meta( $label_id, '_seur_shipping_product', true );
             $order_manifest['servicio'] =  get_post_meta( $label_id, '_seur_shipping_service', true );
-            $order_manifest['bultos'] =  get_post_meta( $label_id, '_seur_shipping_packages', true );
-            $order_manifest['peso'] =  get_post_meta( $label_id, '_seur_shipping_weight', true );
+            $order_manifest['bultos'] =  $order->get_meta('_seur_shipping_packages', true);
+            $order_manifest['peso'] =  $order->get_meta('_seur_shipping_weight', true);
             $order_manifest['otros'] = get_post_meta( $label_id, '_seur_shipping_order_customer_comments', true );
             $order_manifest['cashondelivery'] =  0;
 
@@ -480,6 +487,10 @@ function seur_bulk_actions_handler( $redirect_to, $doaction, $labels_ids ) {
             $merchants[$ccc][] = $order_manifest;
 
             update_post_meta( $label_id, '_seur_shipping_manifested', 1 );
+
+            if ($current_order_id !== $id_order) {
+                $current_order_id = $id_order;
+            }
         }
 
         foreach ($merchants as $ccc => $orders)
@@ -660,7 +671,7 @@ function getManifestContent($manifest, $orders)
                     <td>'.str_pad($order['id'], 3, '0', STR_PAD_LEFT).str_pad($ref, 3, '0', STR_PAD_LEFT).'</td>
                     <td colspan="2">'.$order['otros'].'</td>
                     <td>0.0</td>
-                    <td>'.$order['peso'].'</td>
+                    <td>'. round($order['peso']/$order['bultos'], 2).'</td>
                     <td>0</td>
                     <td>0</td>
                     <td>0</td>

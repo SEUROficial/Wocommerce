@@ -7651,6 +7651,7 @@ class TCPDF {
 					header('Content-Disposition: inline; filename="'.basename($name).'"');
 					TCPDF_STATIC::sendOutputData($this->getBuffer(), $this->bufferlen);
 				} else {
+                    // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Output is pdf data, escaping not appropriate.
 					echo $this->getBuffer();
 				}
 				break;

@@ -63,7 +63,8 @@ function seur_update_custom_rate() {
                 $seur_maxweight = '9999999';
             }
 
-			$wpdb->update(
+            // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Custom table update, no caching applicable
+			$result = $wpdb->update(
 				$table,
 				array(
 					'rate'      => $seur_rate,
@@ -92,7 +93,7 @@ function seur_update_custom_rate() {
 				),
 				array( '%d' )
 			);
-			if ( ! $wpdb->insert_id ) {
+			if ( $result ) {
 				echo '<div class="notice notice-success">' . esc_html__( 'Rate successfully updated', 'seur' ) . '</div>';
 			} else {
 				echo '<div class="notice notice notice-error">' . esc_html__( 'There was and error at rate update, please try again', 'seur' ) . '</div>';

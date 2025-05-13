@@ -43,6 +43,7 @@ function seur_add_form() {
 
     <form method='post' id='emp-SaveForm' action="#">
 		<?php esc_html_e( 'Include the rates of the transport options that your customers can choose', 'seur' ); ?>
+        <input type='hidden' name='new_seur_rate_nonce_field' value='<?php echo esc_attr( wp_create_nonce( 'new_seur_rate_nonce_field' ) ); ?>' />
         <table class='table table-bordered'>
             <tr>
                 <td><?php esc_html_e( 'Rate', 'seur' ); ?></td>
@@ -77,7 +78,7 @@ function seur_add_form() {
             <tr>
                 <td><?php esc_html_e( 'Postcode', 'seur' ); ?></td>
                 <td><textarea title="<?php esc_html_e( 'Type a Postcode', 'seur' ); ?>" name="postcode" id="postcode" placeholder="<?php echo esc_html("List 1 postcode per line");?>" class="form-control" cols="29" rows="5" required=""></textarea>
-                    <br><span class="description"><?php echo SEUR_RATES_POSTALCODE_DESCRIPTION . esc_html__('Add 1 per line'); ?></span>
+                    <br><span class="description"><?php echo esc_html(SEUR_RATES_POSTALCODE_DESCRIPTION) . esc_html__('Add 1 per line', 'seur'); ?></span>
                 </td>
             </tr>
             <tr>
