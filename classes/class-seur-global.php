@@ -833,6 +833,8 @@ class Seur_Global {
     public function getLabel($response, $is_pdf, $label_data, $order_id)
     {
 	    global $wp_filesystem;
+	    WP_Filesystem();
+
 	    if ( is_array($response) && isset($response['response'])) {
             $response = $response['response'];
         }
