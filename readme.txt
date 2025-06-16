@@ -3,7 +3,7 @@ Contributors: seuroficial
 Tags: woocommerce, shipping, seur, logistica, enviar paquete
 Requires at least: 4.0
 Tested up to: 6.8
-Stable tag: 2.2.24
+Stable tag: 2.2.26
 WC requires at least: 3.0
 WC tested up to: 9.1.4
 License: GNU General Public License v3.0
@@ -13,9 +13,14 @@ Add SEUR shipping method to WooCommerce. The SEUR plugin for WooCommerce allows 
 
 == Description ==
 
-The SEUR plugin for WooCommerce allows you to manage your order dispatches in a fast and easy way. Generate your labels for each order and request collection from your own facilities whenever you need. You can configure your shipping rates based on urgency of delivery, weight, product price or buyer's postcode.
-Choose from a wide range of national and international shipping services. We also offer specific solutions such as SEUR controlled temperature and cash-on-delivery services.
-All just a few clicks away, with a Technical Support team to help you get started.
+Thank you for using the SEUR plugin for WooCommerce. This plugin will provides all what you need in order to manage your shipments with SEUR:
+
+- Create Shipments and Labels both for domestic and crossborder shipments, including shipments for cooled goods and shipemnts to pickup points.
+- Request collections from your own facilities
+- Request the shipments status events
+- Set up your shipping rates by loading a file or in detail.
+- Modify and update shipments already generated
+
 
 Discover the full potential of the SEUR plugin! Boost your online store!
 
@@ -28,17 +33,9 @@ Moreover, being part of DPD group means your international customers will have t
 
 You can offer your buyers as many delivery options as you wish. Next day delivery, urgent morning delivery, even international deliveries and cold shipping.
 
-= Automatic labels =
-
-Easily generate your order labels with all the recipient's details and download them as often as you want. In thermal hardcopy or PDF format.
-
-= All options just a click away =
-
-Check the status of your shipments, organise collection at your storage facilities, generate the daily package list, check SEUR rates… all part of your store's back-office.
-
 = Quick set-up =
 
-[Leave your details here](https://pub.s7.exacttarget.com/thi131hffjt). Ask SEUR for your registration details, fill in the configuration form and set the transport rate for your buyers. Trust your shipments to the leading e-commerce logistics partner in just 3 steps.
+[Leave your details here](https://info.notificaciones.e-seur.com/Formulario-Web-Seur). Ask SEUR for your registration details, fill in the configuration form and set the transport rate for your buyers. Trust your shipments to the leading e-commerce logistics partner in just 3 steps.
 
 
 == Installation ==
@@ -71,11 +68,7 @@ Use the "Get label SEUR" button inside each order. The shipping information will
 
 = Which service/product should I choose when creating a rate? =
 
-The service/product is related to how urgent the delivery is. Contact your SEUR sales advisor for the range of options and rates associated with each service.
-
-= Can I cancel or modify a label? =
-
-No, the information on the label is final, so be sure to check that all the details are correct before generating it.
+Contact your SEUR sales advisor for the range of options and rates associated with each service.
 
 = How can I ask SEUR to collect? =
 
@@ -92,6 +85,15 @@ The "SEUR > Shipments" menu includes the option to track your shipment and see t
 == Screenshots ==
 
 == Changelog ==
+
+== 2.2.26 ==
+
+* FIXED: Wrong order status after generating SEUR label
+* FIXED: SEUR metabox not visible with legacy order storage (HPOS inactive)
+
+== 2.2.25 ==
+
+* FIXED: Meet Wordpress SVN repository requirements
 
 == 2.2.24 ==
 * ADDED: WordPress 6.8 compatibility
@@ -133,7 +135,7 @@ The "SEUR > Shipments" menu includes the option to track your shipment and see t
 == 2.2.18 ==
 
 * ADDED: Regenerate labels if file not found or label type config changed
-* FIXED: ZPL init filesystem 
+* FIXED: ZPL init filesystem
 
 == 2.2.17 ==
 

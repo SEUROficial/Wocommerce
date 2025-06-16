@@ -15,8 +15,15 @@ if ( ! defined( 'ABSPATH' ) ) {
 function seur_register_meta_boxes_tracking() {
     $screen = seur_get_order_screen();
     // phpcs:ignore WordPress.Security.NonceVerification.Missing, WordPress.Security.NonceVerification.Recommended -- Nonce verification is not applicable here
-    $order_id = isset( $_GET['id'] ) ? absint( wp_unslash( $_GET['id'] ) ) : 0;
-    if (seur()->is_seur_order($order_id)) {
+	if (isset($_GET['id'])) {
+		$order_id = absint(wp_unslash($_GET['id']));
+	} elseif (isset($_GET['post'])) {
+		$order_id = absint(wp_unslash($_GET['post']));
+	} else {
+		$order_id = 0;
+	}
+
+	if (seur()->is_seur_order($order_id)) {
         add_meta_box('seurmetaboxtracking', __('SEUR Tracking', 'seur'), 'seur_metabox_tracking_callback', $screen, 'side', 'low');
     }
 }
