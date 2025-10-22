@@ -304,8 +304,9 @@ function seur_after_seur_2shop_shipping_rate( $method, $index ) {
 		if ( ( $method->label === $custom_name_seur_2shop || $method->label === $custom_name_classic_2shop )
               && ( $method->id === $chosen_shipping ) && is_checkout() ) {
 			$local_pickups_array = seur_get_local_pickups( $country_seur, $city, $postcode_seur );
+            $print_js = '';
 			for ( $i = 0; $i < count( $local_pickups_array ); $i++ ) { // phpcs:ignore Squiz.PHP.DisallowSizeFunctionsInLoops.Found,Generic.CodeAnalysis.ForLoopWithTestFunctionCall.NotAllowed
-				if ( 0 === $i ) {
+            	if ( 0 === $i ) {
 					$print_js = '{';
 				} else {
 					$print_js .= '{';
@@ -351,7 +352,7 @@ function seur_after_seur_2shop_shipping_rate( $method, $index ) {
 						var self = this,
 						html = '',
 						title,
-						a;
+						a;                   
 						if (this.ln > 1) {
 							html += '<select name=\"seur_pickup\" required=\"required\" class=\"seur-pickup-select2' + this.o.controls_cssclass + '\">';
 							if (this.ShowOnMenu(this.view_all_key)) {
@@ -410,9 +411,13 @@ function seur_after_seur_2shop_shipping_rate( $method, $index ) {
 					start: '" . esc_html( $option_selected ) . "',
 					controls_on_map: false,
 					controls_type: 'seurdropdown'
-				});
-			});
+				});";
+            if (empty($seur_gmap_api)) {
+                echo "$('#seur-gmap').hide();";
+            }
+			echo "});
 			</script>";
+
 		}
 	}
 }
