@@ -31,6 +31,7 @@ class Seur_Local_Shipping_Method extends WC_Shipping_Method {
 		$this->instance_id          = absint( $instance_id );
 		$this->method_title         = __( 'SEUR Local Pickup', 'seur' );
 		$this->method_description   = __( 'SEUR Local Pickup Shipping Method, Please configure SEUR data in <code>SEUR -> Settings</code>', 'seur' );
+        $this->method_description  .= '<br>' . __( 'Si usa el Checkout de Bloques, no se activará este método.', 'seur' );
 		$this->supports             = array(
 			'shipping-zones',
 			'instance-settings',
@@ -178,13 +179,13 @@ function seur_local_validate_order( $posted ) {
  */
 function seur_map_checkout_load_js() {
 	if ( is_checkout() ) {
-		$seur_gmap_api = get_option( 'seur_google_maps_api_field' );
-		if ( empty( $seur_gmap_api ) ) {
+        $seur_gmap_api = get_option( 'seur_google_maps_api_field' );
+		/*if ( empty( $seur_gmap_api ) ) {
 			return;
-		}
+		}*/
 		wp_enqueue_script( 'seur-gmap', 'https://maps.google.com/maps/api/js?libraries=geometry&v=3&key=' . $seur_gmap_api, array(), SEUR_OFFICIAL_VERSION, false );
-		wp_enqueue_script( 'seur-map', SEUR_PLUGIN_URL . 'assets/js/maplace.min.js', array( 'jquery' ), SEUR_OFFICIAL_VERSION, false );
-	}
+        wp_enqueue_script( 'seur-map', SEUR_PLUGIN_URL . 'assets/js/maplace.min.js', array( 'jquery' ), SEUR_OFFICIAL_VERSION, false );
+    }
 }
 
 /**

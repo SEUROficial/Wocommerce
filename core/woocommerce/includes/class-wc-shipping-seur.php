@@ -440,8 +440,8 @@ class WC_Shipping_SEUR extends WC_Shipping_Method {
 		$seur_response = array();
 		$rate_requests = array();
 		$rates_type    = get_option( 'seur_rates_type_field' );
-		$this->log->add( 'seur', 'calculate_shipping( $package = array() ): PROBANDO' );
-		$this->log->add( 'seur', 'calculate_shipping( $package = array() ): ' . print_r( $package, true ) ); // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_print_r
+		//$this->log->add( 'seur', 'calculate_shipping( $package = array() ): PROBANDO' );
+		//$this->log->add( 'seur', 'calculate_shipping( $package = array() ): ' . print_r( $package, true ) ); // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_print_r
 
 		// Only return rates if the package has a destination including country.
 		if ( '' === $package['destination']['country'] ) {

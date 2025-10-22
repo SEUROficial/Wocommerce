@@ -3,7 +3,7 @@ Contributors: seuroficial
 Tags: woocommerce, shipping, seur, logistica, enviar paquete
 Requires at least: 4.0
 Tested up to: 6.8
-Stable tag: 2.2.26
+Stable tag: 2.2.27
 WC requires at least: 3.0
 WC tested up to: 9.1.4
 License: GNU General Public License v3.0
@@ -85,6 +85,15 @@ The "SEUR > Shipments" menu includes the option to track your shipment and see t
 == Screenshots ==
 
 == Changelog ==
+
+== 2.2.27 ==
+
+* ADDED: Default free shipping rates at install
+* ADDED: Show incompatibility message when checkout page is set as blocks
+* CHANGED: Update shipment response to continue with the process
+* CHANGED: Set weight action
+* CHANGED: Config options cleanup
+* FIXED: Behaviour when no google maps api key
 
 == 2.2.26 ==
 

@@ -21,43 +21,82 @@ function seur_after_get_label() {
 	return $return;
 }
 
-// Store cart weight in the database.
-add_action( 'woocommerce_update_order', 'seur_add_cart_weight_hpos' );
-function seur_add_cart_weight_hpos( $order_id )
-{
-    if (WC()->cart && WC()->cart->cart_contents_count > 0) {
-        $order = new WC_Order($order_id);
+/*
+function seur_recalculate_order_weight( $order_id ) {
+    $order = wc_get_order( $order_id );
+    if ( ! $order ) {
+        return;
+    }
 
-		$product_name = '';
-        $ship_methods = maybe_unserialize($order->get_shipping_methods());
-        foreach ($ship_methods as $ship_method) {
-            $product_name = $ship_method['name'];
+    $total_weight = 0.0;
+    foreach ( $order->get_items() as $item ) {
+        if ( ! $item instanceof WC_Order_Item_Product ) {
+            continue;
         }
+        $product = $item->get_product();
+        if ( ! $product ) {
+            continue;
+        }
+        $qty = (float) $item->get_quantity();
+        $p_w = (float) $product->get_weight(); // Peso del producto (en la unidad configurada en WooCommerce)
+        $total_weight += $p_w * $qty;
+    }
+    $order->update_meta_data( '_seur_cart_weight', $total_weight );
 
-        $products = seur()->get_products();
-        foreach ($products as $code => $product) {
-            $custom_name = get_option($product['field'] . '_custom_name_field') ? get_option($product['field'] . '_custom_name_field') : $code;
+    if ( function_exists( 'seur' ) && is_object( seur() ) && method_exists( seur(), 'slog' ) ) {
+        seur()->slog( sprintf( 'recalculate -> _seur_cart_weight: %s - order: %s', $total_weight, $order_id ) );
+    }
+
+    $order->save_meta_data();
+}
+
+// --- Cuando se modifican líneas en el admin (añadir/quitar/cantidad) ---
+add_action( 'woocommerce_before_save_order_items', function( $order_id ) {
+    seur_recalculate_order_weight( $order_id );
+}, 20, 1 );
+
+add_action( 'woocommerce_order_item_added', function( $item_id, $item, $order_id ) {
+    seur_recalculate_order_weight( $order_id );
+}, 20, 3 );
+
+add_action( 'woocommerce_after_order_item_quantity_update', function( $item, $order_id ) {
+    seur_recalculate_order_weight( $order_id );
+}, 20, 2 );
+*/
+
+function seur_set_shipping_metas($order) {
+    // Shipping method meta
+    $product_name = '';
+    foreach ($order->get_shipping_methods() as $ship_method) {
+        $product_name = $ship_method['name'];
+        break;
+    }
+    $products = seur()->get_products();
+    foreach ($products as $code => $product) {
+        $custom_name = get_option($product['field'] . '_custom_name_field') ? get_option($product['field'] . '_custom_name_field') : $code;
             if ($custom_name == $product_name) {
                 $order->update_meta_data('_seur_shipping', 'seur');
                 $order->update_meta_data('_seur_shipping_method_service_real_name', $code);
                 $order->update_meta_data('_seur_shipping_method_service', sanitize_title($product_name));
-                break;
-            }
+            break;
         }
-
-        $weight = WC()->cart->cart_contents_weight;
+    }
+}
+function seur_set_cart_weight_meta($order) {
+    // Asegura que el carrito está disponible y con contenido
+    if ( WC()->cart && WC()->cart->get_cart_contents_count() > 0 ) {
+        $weight = (float) WC()->cart->get_cart_contents_weight();
         $order->update_meta_data('_seur_cart_weight', $weight);
-        $order->save_meta_data();
+        if ( function_exists('seur') ) {
+            seur()->slog("checkout_create_order -> _seur_cart_weight={$weight} order_id={$order->get_id()}");
+        }
     }
 }
-add_action('woocommerce_checkout_update_order_meta', 'seur_add_cart_weight');
-function seur_add_cart_weight( $order_id ) {
-	global $woocommerce;
-    if ( $woocommerce->cart->cart_contents_count > 0 ) {
-        $weight = $woocommerce->cart->cart_contents_weight;
-        update_post_meta($order_id, '_seur_cart_weight', $weight);
-    }
-}
+// Se ejecuta durante la creación del pedido en el checkout (frontend)
+add_action('woocommerce_checkout_create_order', function( $order, $data ) {
+    seur_set_cart_weight_meta($order);
+    seur_set_shipping_metas($order);
+}, 10, 2);
 
 // Add order new column in administration.
 if (seur_is_wc_order_hpos_enabled()) {

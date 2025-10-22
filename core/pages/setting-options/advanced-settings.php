@@ -10,15 +10,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * SEUR active geolabel
- */
-function seur_activate_geolabel_field() {
-	?>
-	<input type="checkbox" class="js-switch-geolabel" title="<?php esc_html_e( 'Activate GeoLabel', 'seur' ); ?>" name="seur_activate_geolabel_field" value="1" <?php checked( 1, seur()->get_option( 'seur_activate_geolabel_field' ), true ); ?>/>
-	<?php
-}
-
-/**
  * SEUR active local pickup
  */
 function seur_activate_local_pickup_field() {
@@ -64,54 +55,6 @@ function seur_after_get_label_field() {
 			echo ' selected';}
 		?>
 		><?php esc_html_e( 'Mark as Complete', 'seur' ); ?></option>
-	</select>
-	<?php
-}
-
-/**
- * SEUR preaviso notificar
- */
-function seur_preaviso_notificar_field() {
-	?>
-	<input type="checkbox" class="js-switch-preavisonotificar" title="<?php esc_html_e( 'SEUR field description', 'seur' ); ?>" name="seur_preaviso_notificar_field" value="1" <?php checked( 1, seur()->get_option( 'seur_preaviso_notificar_field' ), true ); ?>/>
-	<?php
-}
-
-/**
- * SEUR reparto notificar
- */
-function seur_reparto_notificar_field() {
-	?>
-	<input type="checkbox" class="js-switch-repartonotificar" title="<?php esc_html_e( 'SEUR field description', 'seur' ); ?>" name="seur_reparto_notificar_field" value="1" <?php checked( 1, seur()->get_option( 'seur_reparto_notificar_field' ), true ); ?>/>
-	<?php
-}
-
-/**
- * SEUR tipo notificacion
- */
-function seur_tipo_notificacion_field() {
-
-	$option = seur()->get_option( 'seur_tipo_notificacion_field' );
-	?>
-	<select id="notification_type" name="seur_tipo_notificacion_field">
-		<option value="SMS"
-		<?php
-		if ( 'SMS' === $option ) {
-			echo ' selected';}
-		?>
-		><?php esc_html_e( 'SMS (this option has an extra cost)', 'seur' ); ?></option>
-		<option value="EMAIL"
-		<?php
-		if ( 'EMAIL' === $option ) {
-			echo ' selected';}
-		?>
-		><?php esc_html_e( 'Email', 'seur' ); ?></option>
-		<option value="both"
-		<?php
-		if ( 'both' === $option ) {
-			echo ' selected';}
-		?>
-		><?php esc_html_e( 'Both (this option has an extra cost)', 'seur' ); ?></option>
 	</select>
 	<?php
 }
@@ -236,14 +179,10 @@ function seur_uploads_dir_field() {
 function display_seur_advanced_settings_panel_fields() {
 
 	add_settings_section( 'seur-advanced-settings-section', null, null, 'seur-advanced-settings-options' );
-	add_settings_field( 'seur_activate_geolabel_field', esc_html__( 'Activate GeoLabel', 'seur' ), 'seur_activate_geolabel_field', 'seur-advanced-settings-options', 'seur-advanced-settings-section' );
 	add_settings_field( 'seur_activate_free_shipping_field', esc_html__( 'Show WooCommerce Free Shipping at Checkout (by default SEUR hide the Free Shipping)', 'seur' ), 'seur_activate_free_shipping_field', 'seur-advanced-settings-options', 'seur-advanced-settings-section' );
 	add_settings_field( 'seur_after_get_label_field', esc_html__( 'What to do after get order label', 'seur' ), 'seur_after_get_label_field', 'seur-advanced-settings-options', 'seur-advanced-settings-section' );
 	add_settings_field( 'seur_activate_local_pickup_field', esc_html__( 'Activate Local Pickup', 'seur' ), 'seur_activate_local_pickup_field', 'seur-advanced-settings-options', 'seur-advanced-settings-section' );
 	add_settings_field( 'seur_google_maps_api_field', esc_html__( 'Google Maps API Key', 'seur' ), 'seur_google_maps_api_field', 'seur-advanced-settings-options', 'seur-advanced-settings-section' );
-	add_settings_field( 'seur_preaviso_notificar_field', esc_html__( 'Notify collection', 'seur' ), 'seur_preaviso_notificar_field', 'seur-advanced-settings-options', 'seur-advanced-settings-section' );
-	add_settings_field( 'seur_reparto_notificar_field', esc_html__( 'Notify distribution', 'seur' ), 'seur_reparto_notificar_field', 'seur-advanced-settings-options', 'seur-advanced-settings-section' );
-	add_settings_field( 'seur_tipo_notificacion_field', esc_html__( 'Notifications by SMS or Email', 'seur' ), 'seur_tipo_notificacion_field', 'seur-advanced-settings-options', 'seur-advanced-settings-section' );
 	add_settings_field( 'seur_tipo_etiqueta_field', esc_html__( 'Type of label', 'seur' ), 'seur_tipo_etiqueta_field', 'seur-advanced-settings-options', 'seur-advanced-settings-section' );
 	add_settings_field( 'seur_aduana_origen_field', esc_html__( 'Customs of origin', 'seur' ), 'seur_aduana_origen_field', 'seur-advanced-settings-options', 'seur-advanced-settings-section' );
 	add_settings_field( 'seur_aduana_destino_field', esc_html__( 'Customs of destination', 'seur' ), 'seur_aduana_destino_field', 'seur-advanced-settings-options', 'seur-advanced-settings-section' );
@@ -253,15 +192,11 @@ function display_seur_advanced_settings_panel_fields() {
     add_settings_field( 'seur_uploads_dir', esc_html__( 'Upload directory', 'seur' ), 'seur_uploads_dir_field', 'seur-advanced-settings-options', 'seur-advanced-settings-section' );
 
 	// register all setings.
-    register_setting( 'seur-advanced-settings-section', 'seur_activate_geolabel_field', [ 'sanitize_callback' => 'rest_sanitize_boolean' ] );  // phpcs:ignore PluginCheck.CodeAnalysis.SettingSanitization.register_settingDynamic -- Sanitization callback is safe and known
     register_setting( 'seur-advanced-settings-section', 'seur_activate_free_shipping_field', [ 'sanitize_callback' => 'rest_sanitize_boolean' ] ); // phpcs:ignore PluginCheck.CodeAnalysis.SettingSanitization.register_settingDynamic -- Sanitization callback is safe and known
-    register_setting( 'seur-advanced-settings-section', 'seur_preaviso_notificar_field', [ 'sanitize_callback' => 'rest_sanitize_boolean' ] ); // phpcs:ignore PluginCheck.CodeAnalysis.SettingSanitization.register_settingDynamic -- Sanitization callback is safe and known
     register_setting( 'seur-advanced-settings-section', 'seur_activate_local_pickup_field', [ 'sanitize_callback' => 'rest_sanitize_boolean' ] ); // phpcs:ignore PluginCheck.CodeAnalysis.SettingSanitization.register_settingDynamic -- Sanitization callback is safe and known
     register_setting( 'seur-advanced-settings-section', 'seur_after_get_label_field', [ 'sanitize_callback' => 'sanitize_text_field' ] ); // phpcs:ignore PluginCheck.CodeAnalysis.SettingSanitization.register_settingDynamic -- Sanitization callback is safe and known
-    register_setting( 'seur-advanced-settings-section', 'seur_reparto_notificar_field', [ 'sanitize_callback' => 'rest_sanitize_boolean' ] ); // phpcs:ignore PluginCheck.CodeAnalysis.SettingSanitization.register_settingDynamic -- Sanitization callback is safe and known
 
     register_setting( 'seur-advanced-settings-section', 'seur_google_maps_api_field', [ 'sanitize_callback' => 'sanitize_text_field' ] ); // phpcs:ignore PluginCheck.CodeAnalysis.SettingSanitization.register_settingDynamic -- Sanitization callback is safe and known
-    register_setting( 'seur-advanced-settings-section', 'seur_tipo_notificacion_field', [ 'sanitize_callback' => 'sanitize_text_field' ] ); // phpcs:ignore PluginCheck.CodeAnalysis.SettingSanitization.register_settingDynamic -- Sanitization callback is safe and known
     register_setting( 'seur-advanced-settings-section', 'seur_tipo_etiqueta_field', [ 'sanitize_callback' => 'sanitize_text_field' ] ); // phpcs:ignore PluginCheck.CodeAnalysis.SettingSanitization.register_settingDynamic -- Sanitization callback is safe and known
     register_setting( 'seur-advanced-settings-section', 'seur_tipo_mercancia_field', [ 'sanitize_callback' => 'sanitize_text_field' ] ); // phpcs:ignore PluginCheck.CodeAnalysis.SettingSanitization.register_settingDynamic -- Sanitization callback is safe and known
     register_setting( 'seur-advanced-settings-section', 'seur_id_mercancia_field', [ 'sanitize_callback' => 'sanitize_text_field' ] ); // phpcs:ignore PluginCheck.CodeAnalysis.SettingSanitization.register_settingDynamic -- Sanitization callback is safe and known

@@ -15,7 +15,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  * @param WP_Post $post Post data.
  */
 function seur_search_nomenclator( $post ) { ?>
-
+    <form method="post" name="formulario" width="100%">
     <div class="wrap">
         <h1 class="wp-heading-inline"><?php esc_html_e( 'Nomenclator', 'seur' ); ?></h1>
         <?php
@@ -26,8 +26,8 @@ function seur_search_nomenclator( $post ) { ?>
         }
         ?>
         <hr class="wp-header-end">
-        <?php esc_html_e( 'Check ZIP or city associated to Seur system.', 'seur' ); ?>
-		<form method="post" name="formulario" width="100%">
+        <p><?php esc_html_e( 'Check ZIP or city associated to Seur system.', 'seur' ); ?></p>
+
 		<?php
 		if ( isset( $_POST['codigo_postal'] ) ) {
 			if ( ! isset( $_POST['nomenclator_seur_nonce_field'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['nomenclator_seur_nonce_field'] ) ), 'nomenclator_seur' ) ) {
@@ -75,10 +75,10 @@ function seur_search_nomenclator( $post ) { ?>
                         </thead>
                         <?php
                         foreach ( $result as $item) {
-                            echo '<tr><td><a href="https://www.google.es/maps/search/' . esc_html( $item->cityName ) . '+' .
-                                esc_html( $item->postalCode ) . '+seur" target="_blank">' . esc_html( $item->postalCode ) . '</a>'; // phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
+                            echo '<tr><td><a href="https://www.google.es/maps/search/' . esc_html( $item['cityName'] ) . '+' .
+                                esc_html( $item['postalCode'] ) . '+seur" target="_blank">' . esc_html( $item['postalCode'] ) . '</a>'; // phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
                             echo '</td>';
-                            echo '<td>' . esc_html( $item->cityName ) . '</td>'; // phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
+                            echo '<td>' . esc_html( $item['cityName'] ) . '</td>'; // phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
                         }
                         ?>
                         <tfoot>
@@ -91,12 +91,8 @@ function seur_search_nomenclator( $post ) { ?>
 					<?php
                 }
             }
-			?>
-        </form>
+	    } ?>
     </div>
-	<?php
-	}
-    ?>
 	<div class="wp-filter">
 		<label>
 			<span class="screen-reader-text"><?php esc_html_e( 'City', 'seur' ); ?></span>
@@ -111,5 +107,6 @@ function seur_search_nomenclator( $post ) { ?>
 		</label>
 	</div>
     <?php wp_nonce_field( 'nomenclator_seur', 'nomenclator_seur_nonce_field' ); ?>
+    </form>
     <?php
 }

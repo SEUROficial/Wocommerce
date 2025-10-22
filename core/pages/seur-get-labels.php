@@ -168,6 +168,7 @@ function seur_modify_packages() {
         $label_shipping_weight = (float) get_post_meta( $label_ids[0], '_seur_shipping_weight', true );
         update_post_meta($order_id, '_seur_shipping_packages', $label_shipping_packages);
         update_post_meta($order_id, '_seur_shipping_weight', $label_shipping_weight);
+        seur()->slog("seur_modify_packages() -> _seur_shipping_weight: $label_shipping_weight - order:". $order_id);
     }
 
     if (isset( $_SERVER['REQUEST_METHOD'] ) && $_SERVER['REQUEST_METHOD'] != 'POST') { ?>
@@ -234,6 +235,7 @@ function seur_modify_packages() {
 				update_post_meta( $label_ids[0], '_seur_shipping_weight', $new_weight );
                 $order->update_meta_data('_seur_shipping_packages', $total_packages);
                 $order->update_meta_data('_seur_shipping_weight', $new_weight);
+                seur()->slog( "seur_modify_packages() -> _seur_shipping_weight: $new_weight - order:". $order_id);
 				$order->update_meta_data('_seur_label_ecbs', $ecbs_serialized);
 				$order->update_meta_data('_seur_label_parcelNumbers', $parcelNumbers_serialized);
 				$order->save_meta_data();

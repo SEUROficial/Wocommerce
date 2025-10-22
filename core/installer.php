@@ -10,6 +10,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
 require_once(dirname(__FILE__) . '/functions/functions.php');
+require_once(SEUR_PLUGIN_PATH . 'classes/class-seur-global.php');
 
 function deleteTableSeurSpvr() {
     global $wpdb;
@@ -543,6 +544,36 @@ function insertIntoSeurStatus()
     dbDelta( $sql );
 }
 
+function insertFreeSeurCustomRates()
+{
+    global $wpdb;
+    $table_name = $wpdb->prefix . 'seur_custom_rates';
+    $wpdb->query('START TRANSACTION');
+
+    $file = SEUR_PLUGIN_PATH . 'data/seur_preloaded_rates.csv';
+    if (($h = fopen($file, 'r')) !== false) {
+        while (($row = fgetcsv($h)) !== false) {
+            list($id,$type,$country,$state,$postcode,$minp,$maxp,$minw,$maxw,$rate,$rateprice) = $row;
+            $wpdb->replace($table_name, [
+                'ID'        => (int) $id,
+                'type'      => (string) $type,
+                'country'   => (string) $country,
+                'state'     => (string) $state,
+                'postcode'  => (string) $postcode,
+                'minprice'  => (float) $minp,
+                'maxprice'  => (float) $maxp,
+                'minweight' => (float) $minw,
+                'maxweight' => (float) $maxw,
+                'rate'      => (string) $rate,
+                'rateprice' => (float) $rateprice,
+            ], ['%d','%s','%s','%s','%s','%f','%f','%f','%f','%s','%f']);
+        }
+        fclose($h);
+    }
+
+    $wpdb->query('COMMIT');
+}
+
 function insertIntoSeurCustomRates() {
     global $wpdb;
     $table_name = $wpdb->prefix . 'seur_custom_rates';
@@ -794,7 +825,8 @@ function seur_add_data_to_tables_hook() {
 	$seur_table_version_saved = get_option( 'seur_table_version' );
 
 	if ( ! $seur_table_version_saved || '' === $seur_table_version_saved ) {
-		insertIntoSeurCustomRates();
+		//insertIntoSeurCustomRates();
+        insertFreeSeurCustomRates();
 	}
     if ( $seur_table_version_saved && ($seur_table_version_saved !== '1.0.4') && ( SEUR_TABLE_VERSION === '1.0.4') ) {
         insertIntoSeurStatus();
@@ -875,9 +907,6 @@ function seur_add_avanced_settings_preset() {
 	}
 	if ( ! $seur_add ) {
 		update_option( 'seur_after_get_label_field', 'shipping' );
-		update_option( 'seur_preaviso_notificar_field', null );
-		update_option( 'seur_reparto_notificar_field', null );
-		update_option( 'seur_tipo_notificacion_field', 'EMAIL' );
 		update_option( 'seur_tipo_etiqueta_field', 'PDF' );
 		update_option( 'seur_aduana_origen_field', 'D' );
 		update_option( 'seur_aduana_destino_field', 'D' );

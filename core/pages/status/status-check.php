@@ -615,9 +615,7 @@ function seur_check_service_names( $services ) {
 			<div class="seur-column seur-column-double">
 				<table class="seur-status-table widefat" cellspacing="0">
 					<?php
-						$seur_ccc_field             = get_option( 'seur_ccc_field' );
-						$seur_int_ccc_field         = get_option( 'seur_int_ccc_field' );
-						$seur_franquicia_field      = get_option( 'seur_franquicia_field' );
+                        $seur_accountNumber_field   = get_option('seur_accountNumber_field');
 					?>
 					<thead>
 						<tr>
@@ -626,29 +624,9 @@ function seur_check_service_names( $services ) {
 					</thead>
 					<tbody>
 						<tr>
-							<td data-export-label="CCC"><?php esc_html_e( 'CCC:', 'seur' ); ?></td>
-							<?php if ( $seur_ccc_field ) { ?>
-								<td><?php echo esc_html( $seur_ccc_field ); ?></td>
-								<?php
-							} else {
-								?>
-								<td><span class="error">No.</span></td>
-								<?php } ?>
-						</tr>
-						<tr>
-							<td data-export-label="International CCC"><?php esc_html_e( 'International CCC:', 'seur' ); ?></td>
-							<?php if ( $seur_int_ccc_field ) { ?>
-								<td><?php echo esc_html( $seur_int_ccc_field ); ?></td>
-								<?php
-							} else {
-								?>
-								<td><span class="error">No.</span></td>
-								<?php } ?>
-						</tr>
-						<tr>
-							<td data-export-label="Franchise"><?php esc_html_e( 'Franchise:', 'seur' ); ?></td>
-							<?php if ( $seur_franquicia_field ) { ?>
-								<td><?php echo esc_html( $seur_franquicia_field ); ?></td>
+							<td data-export-label="Account Number"><?php esc_html_e( 'Account number:', 'seur' ); ?></td>
+							<?php if ( $seur_accountNumber_field ) { ?>
+								<td><?php echo esc_html( $seur_accountNumber_field ); ?></td>
 								<?php
 							} else {
 								?>
@@ -666,9 +644,6 @@ function seur_check_service_names( $services ) {
 						$seur_activate_local_pickup_field  = get_option( 'seur_activate_local_pickup_field' );
 						$seur_google_maps_api_field        = get_option( 'seur_google_maps_api_field' );
 						$seur_after_get_label_field        = get_option( 'seur_after_get_label_field' );
-						$seur_preaviso_notificar_field     = get_option( 'seur_preaviso_notificar_field' );
-						$seur_reparto_notificar_field      = get_option( 'seur_reparto_notificar_field' );
-						$seur_tipo_notificacion_field      = get_option( 'seur_tipo_notificacion_field' );
 						$seur_tipo_etiqueta_field          = get_option( 'seur_tipo_etiqueta_field' );
 						$seur_aduana_origen_field          = get_option( 'seur_aduana_origen_field' );
 						$seur_aduana_destino_field         = get_option( 'seur_aduana_destino_field' );
@@ -716,36 +691,6 @@ function seur_check_service_names( $services ) {
 							<td data-export-label="Google Maps API Key"><?php esc_html_e( 'Google Maps API Key:', 'seur' ); ?></td>
 							<?php if ( $seur_google_maps_api_field ) { ?>
 								<td><?php echo esc_html( $seur_google_maps_api_field ); ?></td>
-								<?php
-							} else {
-								?>
-								<td><span class="error">No.</span></td>
-								<?php } ?>
-						</tr>
-						<tr>
-							<td data-export-label="Notify collection"><?php esc_html_e( 'Notify collection:', 'seur' ); ?></td>
-							<?php if ( '1' === $seur_preaviso_notificar_field ) { ?>
-								<td><span><?php esc_html_e( 'Yes', 'seur' ); ?></span></td>
-								<?php
-							} else {
-								?>
-								<td><span><?php esc_html_e( 'No', 'seur' ); ?></span></td>
-								<?php } ?>
-						</tr>
-						<tr>
-							<td data-export-label="Notify distribution"><?php esc_html_e( 'Notify distribution:', 'seur' ); ?></td>
-							<?php if ( '1' === $seur_reparto_notificar_field ) { ?>
-								<td><span><?php esc_html_e( 'Yes', 'seur' ); ?></span></td>
-								<?php
-							} else {
-								?>
-								<td><span><?php esc_html_e( 'No', 'seur' ); ?></span></td>
-								<?php } ?>
-						</tr>
-						<tr>
-							<td data-export-label="Notifications by SMS or Email"><?php esc_html_e( 'Notifications by SMS or Email:', 'seur' ); ?></td>
-							<?php if ( $seur_tipo_notificacion_field ) { ?>
-								<td><?php echo esc_html( $seur_tipo_notificacion_field ); ?></td>
 								<?php
 							} else {
 								?>
