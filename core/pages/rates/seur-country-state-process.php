@@ -47,15 +47,16 @@ function seur_country_state_process() {
             $title = 'Type State';
             $placeholder = 'EX : State';
             $value = '';
+            $readonly = '';
             if ( '*' === $country) {
                 $title = 'No needed';
                 $placeholder = 'No needed';
-                $value = 'value="*" readonly';
+                $value = '*';
+                $readonly = 'readonly';
             }
 	        echo '<input title="' . esc_html( $title ) . '" type="text" name="state" 
-                 class="form-control" placeholder="' . esc_html( $placeholder ) . '" value="' . esc_attr( $value ) . '">';
-
-
+                 class="form-control" placeholder="' . esc_html( $placeholder ) .'" 
+                 value="' . esc_attr( $value ) . '" '.$readonly.'>';
         }
 		unset( $country );
 	}

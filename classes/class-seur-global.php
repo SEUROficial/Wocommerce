@@ -9,7 +9,7 @@
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
-
+if ( ! class_exists( 'Seur_Global' ) ) {
 class Seur_Global {
 
     /**
@@ -17,9 +17,18 @@ class Seur_Global {
      */
     private $log;
 
-	public function __construct() {
-		$this->log = new WC_Logger();
-	}
+    private static $instance = null;
+
+    public static function get_instance() {
+        if ( self::$instance === null ) {
+            self::$instance = new self();
+        }
+        return self::$instance;
+    }
+
+    private function __construct() {
+        $this->log = new WC_Logger();
+    }
 
 	public function get_ownsetting() {
 
@@ -491,9 +500,6 @@ class Seur_Global {
             $total_weight = $total_packages;
         }
 
-        $preparedData['notification'] = $preparedData['reparto_notificar']; // CORRECTO ?
-        $preparedData['advice_checkbox'] = $preparedData['preaviso_notificar'];
-        $preparedData['distribution_checkbox'] = $preparedData['tipo_aviso'];
         $preparedData['servicio'] = $servicio;
         $preparedData['producto'] = $producto;
         $preparedData['mercancia'] = $mercancia;
@@ -554,7 +560,7 @@ class Seur_Global {
                 "name" =>  $preparedData['empresa'],
                 "idNumber" => $preparedData['nif'],
                 "phone" => $preparedData['telefono'],
-                "accountNumber" => $preparedData['ccc'].'-'.$preparedData['franquicia'],
+                "accountNumber" => $preparedData['accountNumber'],
                 "email" => $preparedData['email'],
                 "contactName" => $preparedData['contacto_nombre'] . ' ' . $preparedData['contacto_apellidos'],
                 "address" => [
@@ -1000,7 +1006,7 @@ class Seur_Global {
             $ecbs = $response['data']['ecbs'];
             $parcelNumbers = $response['data']['parcelNumbers'];
 
-            $this->log->log(WC_Log_Levels::INFO, "getLabel OK");
+            $this->log->log(WC_Log_Levels::INFO, "getLabel OK - order: $order_id - weight: ".$label_data['customer_weight_kg']." - packages: ".$label_data['total_bultos']." - expeditionCode: $expeditionCode");
             return [
                 'status' => true,
                 'ecbs' => $ecbs,
@@ -1112,14 +1118,20 @@ class Seur_Global {
     }
 
 
-    public function getCountries($countries) {
+    public function getCountries($countries, $minimal = false) {
         $allCountries = seur_get_countries();
         $aroundESCountries = seur_get_countries_around_ES();
         $UECountries = seur_get_countries_EU();
         if ($countries[0] == 'OUT-EU') {
+            if ($minimal) {
+                return ['*' => '*'];
+            }
             return array_diff($allCountries, $UECountries);
         }
         if ($countries[0] == 'INTERNATIONAL') {
+            if ($minimal) {
+                return ['*' => '*'];
+            }
             return $allCountries;
         }
         foreach ($countries as $code_country) {
@@ -1130,18 +1142,24 @@ class Seur_Global {
         return $result;
     }
 
-    public function getStates( $country, $states ) {
+    public function getStates( $country, $states, $minimal = false ) {
 
         $country_states = seur_get_countries_states($country);
         if (!$country_states) {
+            if ($minimal) {
+                return ['*' => '*'];
+            }
             return false;
         }
         asort( $country_states );
         foreach ($states as $state) {
             if ($state == 'all') {
+                if ($minimal) {
+                    return ['*' => '*'];
+                }
                 $result = $country_states;
             } else {
-                $result[$state] = $country_states[$state];
+                $result[$state] = ($minimal) ? $state : $country_states[$state];
             }
         }
         return $result;
@@ -1202,7 +1220,9 @@ class Seur_Global {
         exit;
     }
 }
-
-function seur() {
-	return new Seur_Global();
+}
+if ( ! function_exists( 'seur' ) ) {
+    function seur() {
+        return Seur_Global::get_instance();
+    }
 }

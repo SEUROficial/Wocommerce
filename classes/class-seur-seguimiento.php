@@ -56,8 +56,8 @@ class Seur_Logistica_Seguimiento {
 		$this->token               = seur()->get_token_b();
 		$this->reftype             = 'REFERENCE';
 		$this->full_account_number = seur()->get_option( 'seur_accountnumber_field' );
-		$this->accoun_number       = substr( $this->full_account_number, 0, strpos( $this->full_account_number, '-' ) );
-		$this->business_unit       = seur()->get_option( 'seur_franquicia_field' );
+        $this->accoun_number       = substr( $this->full_account_number, 0, strpos( $this->full_account_number, '-' ) );
+		$this->business_unit       = substr( $this->full_account_number, strpos( $this->full_account_number, '-' ) + 1 );
 	}
 
 	public function data_traking( $ref ) {

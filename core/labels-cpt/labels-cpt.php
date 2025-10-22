@@ -495,10 +495,11 @@ function seur_bulk_actions_handler( $redirect_to, $doaction, $labels_ids ) {
 
         foreach ($merchants as $ccc => $orders)
         {
-            $manifest['ccc'] = $ccc;
+            $accountNumber = get_option('seur_accountNumber_field');
+            $manifest['ccc'] = substr( $accountNumber, 0, strpos( $accountNumber, '-' ) );
             $manifest['company'] = get_option( 'seur_empresa_field' );
             $manifest['cif']= get_option( 'seur_nif_field' );
-            $manifest['franchise'] = get_option( 'seur_franquicia_field' );
+            $manifest['franchise'] = substr( $accountNumber, strpos( $accountNumber, '-' ) + 1 );
             $manifest['street_type'] = get_option( 'seur_viatipo_field' );
             $manifest['street_name'] = get_option( 'seur_vianombre_field' );
             $manifest['street_number'] = get_option( 'seur_vianumero_field' );

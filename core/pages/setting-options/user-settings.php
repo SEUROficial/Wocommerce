@@ -284,33 +284,6 @@ function seur_contacto_apellidos_field() {
 }
 
 /**
- * SEUR CCC
- */
-function seur_ccc_field() {
-	?>
-	<input title="<?php esc_html_e( 'Country Account Code with SEUR (given by SEUR)', 'seur' ); ?>" type="text" name="seur_ccc_field" value="<?php echo esc_html( seur()->get_option( 'seur_ccc_field' ) ); ?>" size="40" maxlength="5" />
-	<?php
-}
-
-/**
- * SEUR CCC Internacional
- */
-function seur_int_ccc_field() {
-	?>
-	<input title="<?php esc_html_e( 'International Account Code with SEUR (given by SEUR)', 'seur' ); ?>" type="text" name="seur_int_ccc_field" value="<?php echo esc_html( seur()->get_option( 'seur_int_ccc_field' ) ); ?>" size="40" maxlength="5" />
-	<?php
-}
-
-/**
- * SEUR franquicia
- */
-function seur_franquicia_field() {
-	?>
-	<input title="<?php esc_html_e( 'Two-digit numeric code (given by SEUR)', 'seur' ); ?>" type="text" name="seur_franquicia_field" value="<?php echo esc_html( seur()->get_option( 'seur_franquicia_field' ) ); ?>" size="40" maxlength="2" />
-	<?php
-}
-
-/**
  * SEUR display user settings
  */
 function display_seur_user_sittings_panel_fields() {
@@ -341,9 +314,6 @@ function display_seur_user_sittings_panel_fields() {
 	add_settings_field( 'seur_password_field', __( 'Password<sup>*</sup>', 'seur' ), 'seur_password_field', 'seur-user-settings-options', 'seur-user-settings-section' );
 	add_settings_field( 'seur_client_id_field', __( 'Client id<sup>*</sup>', 'seur' ), 'seur_client_id_field', 'seur-user-settings-options', 'seur-user-settings-section' );
 	add_settings_field( 'seur_accountnumber_field', __( 'accountNumber<sup>*</sup>', 'seur' ), 'seur_accountnumber_field', 'seur-user-settings-options', 'seur-user-settings-section' );
-	add_settings_field( 'seur_ccc_field', __( 'CCC<sup>*</sup>', 'seur' ), 'seur_ccc_field', 'seur-user-settings-options', 'seur-user-settings-section' );
-	add_settings_field( 'seur_int_ccc_field', __( 'International CCC<sup>*</sup>', 'seur' ), 'seur_int_ccc_field', 'seur-user-settings-options', 'seur-user-settings-section' );
-	add_settings_field( 'seur_franquicia_field', __( 'Franchise<sup>*</sup>', 'seur' ), 'seur_franquicia_field', 'seur-user-settings-options', 'seur-user-settings-section' );
 
 	// register all setings.
 	register_setting( 'seur-user-settings-section', 'seur_test_field', [ 'sanitize_callback' => 'rest_sanitize_boolean' ] ); // phpcs:ignore PluginCheck.CodeAnalysis.SettingSanitization.register_settingDynamic -- Sanitization callback is safe and known
@@ -372,8 +342,5 @@ function display_seur_user_sittings_panel_fields() {
     register_setting( 'seur-user-settings-section', 'seur_password_field', [ 'sanitize_callback' => 'sanitize_text_field' ] ); // phpcs:ignore PluginCheck.CodeAnalysis.SettingSanitization.register_settingDynamic -- Sanitization callback is safe and known
     register_setting( 'seur-user-settings-section', 'seur_client_id_field', [ 'sanitize_callback' => 'sanitize_text_field' ] ); // phpcs:ignore PluginCheck.CodeAnalysis.SettingSanitization.register_settingDynamic -- Sanitization callback is safe and known
     register_setting( 'seur-user-settings-section', 'seur_accountnumber_field', [ 'sanitize_callback' => 'sanitize_text_field' ] ); // phpcs:ignore PluginCheck.CodeAnalysis.SettingSanitization.register_settingDynamic -- Sanitization callback is safe and known
-    register_setting( 'seur-user-settings-section', 'seur_ccc_field', [ 'sanitize_callback' => 'sanitize_text_field' ] ); // phpcs:ignore PluginCheck.CodeAnalysis.SettingSanitization.register_settingDynamic -- Sanitization callback is safe and known
-    register_setting( 'seur-user-settings-section', 'seur_int_ccc_field', [ 'sanitize_callback' => 'sanitize_text_field' ] ); // phpcs:ignore PluginCheck.CodeAnalysis.SettingSanitization.register_settingDynamic -- Sanitization callback is safe and known
-    register_setting( 'seur-user-settings-section', 'seur_franquicia_field', [ 'sanitize_callback' => 'sanitize_text_field' ] ); // phpcs:ignore PluginCheck.CodeAnalysis.SettingSanitization.register_settingDynamic -- Sanitization callback is safe and known
 }
 add_action( 'admin_init', 'display_seur_user_sittings_panel_fields' );

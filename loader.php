@@ -3,7 +3,7 @@
  * Plugin Name: SEUR Oficial
  * Plugin URI: http://www.seur.com/
  * Description: Add SEUR shipping method to WooCommerce. The SEUR plugin for WooCommerce allows you to manage your order dispatches in a fast and easy way
- * Version: 2.2.26
+ * Version: 2.2.27
  * Author: SEUR Oficial
  * Author URI: http://www.seur.com/
  * Tested up to: 6.8
@@ -19,7 +19,7 @@
 
 use Automattic\WooCommerce\Utilities\FeaturesUtil;
 
-define( 'SEUR_OFFICIAL_VERSION', '2.2.26' );
+define( 'SEUR_OFFICIAL_VERSION', '2.2.27' );
 define( 'SEUR_DB_VERSION', '1.0.5' );
 define( 'SEUR_TABLE_VERSION', '1.0.5' );
 
@@ -201,3 +201,200 @@ function seur_notice_style() {
 	wp_enqueue_style( 'seur_notice_css' );
 }
 add_action( 'admin_enqueue_scripts', 'seur_notice_style' );
+
+/**
+ * Check if the shipping method is compatible with Block Checkout.
+ */
+const TARGET_SHIPPING_METHOD = 'seurlocal';
+
+/*******************************************************************************************************************
+ * CHECKOUT BLOCKS or CLASSIC ?
+ */
+function seur_uses_block_checkout(): bool {
+
+    $uses_blocks = false;
+    // WooCommerce 8.3+ — use the official utility.
+    if ( class_exists( '\Automattic\WooCommerce\Blocks\Utils\CartCheckoutUtils' ) ) {
+        $uses_blocks = \Automattic\WooCommerce\Blocks\Utils\CartCheckoutUtils::is_checkout_block_default();
+    } else {
+        // Fallback — check if the checkout page contains the block.
+        if ( function_exists( 'has_block' ) ) {
+            $checkout_id = function_exists( 'wc_get_page_id' ) ? wc_get_page_id( 'checkout' ) : 0;
+            if ( $checkout_id && has_block( 'woocommerce/checkout', $checkout_id ) ) {
+                $uses_blocks = true;
+
+                // Block themes — check the Site Editor template.
+            } elseif ( function_exists( 'wp_is_block_theme' ) && wp_is_block_theme() && function_exists( 'get_block_template' ) ) {
+                $tpl = get_block_template( get_stylesheet() . '//page-checkout', 'wp_template' );
+                if ( $tpl && ! empty( $tpl->content ) && has_block( 'woocommerce/checkout', $tpl->content ) ) {
+                    $uses_blocks = true;
+                }
+            }
+        }
+    }
+    return $uses_blocks;
+}
+
+/**
+ * Is this method compatible with Blocks Checkout?
+ *     By default, ONLY the target method is incompatible; others are compatible.
+ *     You can override from outside via the `seur_is_method_blocks_compatible` filter.
+ *
+ * @param string $method_id   ID of the shipping method.
+ * @param int    $instance_id Method instance ID.
+ * @param int    $zone_id     Shipping zone ID.
+ */
+function seur_is_method_blocks_compatible( string $method_id, int $instance_id = 0, int $zone_id = 0 ): bool {
+    $compatible = ( $method_id !== TARGET_SHIPPING_METHOD );
+    return (bool) apply_filters( 'seur_is_method_blocks_compatible', $compatible, $method_id, $instance_id, $zone_id );
+}
+
+/** ---------- Helpers / Utilidades ---------- */
+
+/**
+ * Disable a shipping method instance and clear shipping caches.
+ */
+function seur_disable_zone_method_instance( int $instance_id ): void {
+    global $wpdb;
+
+    $wpdb->update(
+        "{$wpdb->prefix}woocommerce_shipping_zone_methods",
+        [ 'is_enabled' => 0 ],
+        [ 'instance_id' => absint( $instance_id ) ]
+    );
+
+    // Bust shipping caches so the change is reflected in the admin UI.
+    if ( class_exists( 'WC_Cache_Helper' ) ) {
+        WC_Cache_Helper::get_transient_version( 'shipping', true );
+    }
+}
+
+/**
+ * Show an admin notice indicating the method is not compatible with blocks.
+ */
+function seur_admin_notice_blocks_incompatible( string $method_id, int $instance_id ): void {
+    if ( class_exists( 'WC_Admin_Notices' ) ) {
+        seur_add_error_admin_notice_once(
+            'seur_method_blocks_incompatible_' . $instance_id,
+            __( 'El método de envío <strong>SEUR Local Pickup</strong> no es compatible con el Checkout de bloques y no se pintará el selector de puntos pickup. Puedes usar el checkout clásico mientras trabajamos en la compatibilidad.', 'seur' )
+        );
+    }
+}
+
+/** ---------- Hooks ---------- */
+
+/**
+ * Status toggle (enable/disable) from Shipping Zones.
+ *     If enabling and it’s not blocks-compatible, keep it disabled and show a notice.
+ */
+function seur_woocommerce_shipping_zone_method_status_toggled( int $instance_id, string $method_id, int $zone_id, int $is_enabled ): void {
+    // Only care when enabling.
+    if ( 1 !== (int) $is_enabled ) {
+        return;
+    }
+    // If Blocks Checkout isn’t used, don’t block anything.
+    if ( ! seur_uses_block_checkout() ) {
+        return;
+    }
+    // If NOT compatible, disable and notify.
+    if ( ! seur_is_method_blocks_compatible( $method_id, $instance_id, $zone_id ) ) {
+        seur_disable_zone_method_instance( $instance_id );
+        seur_admin_notice_blocks_incompatible( $method_id, $instance_id );
+    }
+}
+add_action( 'woocommerce_shipping_zone_method_status_toggled', 'seur_woocommerce_shipping_zone_method_status_toggled', 10, 4 );
+
+/**
+ * “Add method” case.
+ *     If it’s not blocks-compatible, it’s created but immediately disabled and a notice is shown.
+ */
+function seur_woocommerce_shipping_zone_method_added( int $instance_id, string $method_id, int $zone_id ): void {
+    // If Blocks Checkout isn’t used, do nothing.
+    if ( ! seur_uses_block_checkout() ) {
+        return;
+    }
+    // If NOT compatible, disable and notify.
+    if ( ! seur_is_method_blocks_compatible( $method_id, $instance_id, $zone_id ) ) {
+        seur_disable_zone_method_instance( $instance_id );
+        seur_admin_notice_blocks_incompatible( $method_id, $instance_id );
+    }
+}
+add_action( 'woocommerce_shipping_zone_method_added', 'seur_woocommerce_shipping_zone_method_added', 10, 3 );
+
+/*
+ * Audit: disable all enabled, blocks-incompatible instances across all zones.
+ */
+function seur_audit_and_disable_incompatible_methods(): void {
+    if ( ! is_admin() || ! seur_uses_block_checkout() ) {
+        return;
+    }
+
+    global $wpdb;
+    // Find all enabled instances of your target method.
+    $instance_ids = $wpdb->get_col(
+        $wpdb->prepare(
+            "SELECT instance_id FROM {$wpdb->prefix}woocommerce_shipping_zone_methods
+			 WHERE method_id = %s AND is_enabled = 1",
+            TARGET_SHIPPING_METHOD
+        )
+    );
+
+    if ( empty( $instance_ids ) ) {
+        return;
+    }
+
+    foreach ( $instance_ids as $instance_id ) {
+        // In case you later expand per-instance/zone compatibility logic.
+        if ( ! seur_is_method_blocks_compatible( TARGET_SHIPPING_METHOD, (int) $instance_id, 0 ) ) {
+            seur_disable_zone_method_instance( (int) $instance_id );
+        }
+    }
+
+    // Single admin notice to avoid noise.
+    if ( class_exists( 'WC_Admin_Notices' ) ) {
+        seur_add_error_admin_notice_once(
+            'seur_bulk_blocks_incompatible',
+            __( 'Se han desactivado instancias incompatibles con el Checkout de bloques para el método "SEUR Local Pickup".', 'seur' )
+        );
+    }
+}
+add_action( 'admin_init', 'seur_audit_and_disable_incompatible_methods' );
+
+
+/**
+ * Show a red (error) admin notice once (persisted across page loads).
+ */
+function seur_add_error_admin_notice_once(string $key, string $html): void
+{
+    $stack = get_option('seur_admin_error_notices', array());
+    $stack[$key] = wp_kses_post($html);
+    update_option('seur_admin_error_notices', $stack);
+}
+
+/**
+ * Output stored notices and delete them (global hook).
+ */
+function seur_output_error_admin_notices(): void
+{
+    $stack = get_option('seur_admin_error_notices', array());
+    if (empty($stack)) {
+        return;
+    }
+
+    // Opcional: limítalo a pantallas de WooCommerce.
+    $screen = function_exists('get_current_screen') ? get_current_screen() : null;
+    if ($screen && !in_array($screen->id, function_exists('wc_get_screen_ids') ? wc_get_screen_ids() : array(), true)) {
+        return;
+    }
+
+    foreach ($stack as $key => $html) {
+        // notice-error => red border; is-dismissible => close button.
+        printf(
+            '<div class="notice notice-error is-dismissible"><p>%s</p></div>',
+            $html
+        );
+        unset($stack[$key]); // Mostrar solo una vez / Only once.
+    }
+    update_option('seur_admin_error_notices', $stack);
+}
+add_action('admin_notices', 'seur_output_error_admin_notices');

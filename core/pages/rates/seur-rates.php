@@ -35,8 +35,8 @@ $texto = __( 'RATES', 'seur' ) . '<br />' . __( 'Calculate rate that SEUR apply 
 			} else {
 				$kilos = '';
 			}
-			if ( isset( $_POST['pais'] ) ) {
-				$pais = trim( sanitize_text_field( wp_unslash( $_POST['pais'] ) ) );
+			if ( isset( $_POST['seur_country'] ) ) {
+				$pais = trim( sanitize_text_field( wp_unslash( $_POST['seur_country'] ) ) );
 			} else {
 				$pais = '';
 			}
@@ -71,7 +71,7 @@ $texto = __( 'RATES', 'seur' ) . '<br />' . __( 'Calculate rate that SEUR apply 
 		</label>
 		<label>
 			<span class="screen-reader-text"><?php esc_html_e( 'Country', 'seur' ); ?></span>
-			<select class="select country" id="country" title="<?php esc_html_e( 'Select Country', 'seur' ); ?>" name="pais" required>
+			<select class="select country" id="seur_country" title="<?php esc_html_e( 'Select Country', 'seur' ); ?>" name="seur_country" required>
 			<?php
 			if ( ! empty( $pais ) && 'ES' === $pais ) {
 				$selectedes = 'selected';
@@ -145,6 +145,7 @@ $texto = __( 'RATES', 'seur' ) . '<br />' . __( 'Calculate rate that SEUR apply 
 			<input type="submit" name="submit" id="submit" class="button button-primary" value="Search">
 		</label>
 	</div>
+
 	<?php
 	if ( isset( $_POST['seur_rates_seur_nonce_field'] ) ) {
 		if ( empty( $pais ) ) {
@@ -171,92 +172,22 @@ $texto = __( 'RATES', 'seur' ) . '<br />' . __( 'Calculate rate that SEUR apply 
 	}
 
 	if ( isset( $_POST['seur_rates_seur_nonce_field'] ) && wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['seur_rates_seur_nonce_field'] ) ), 'seur_rates_seur' ) ) {
-		// *****************************************
-		// ** RECUPERAR LOS DATOS DEL COMERCIANTE **
-		// *****************************************
-		$useroptions       = seur_get_user_settings();
-		$advancedoptions   = seur_get_advanced_settings();
-		$ccc               = $useroptions[0]['ccc'];
-		$int_ccc           = $useroptions[0]['int_ccc'];
-		$franquicia        = $useroptions[0]['franquicia'];
 
 		if ( ( 'ES' === $pais ) || ( 'PT' === $pais ) || ( 'AD' === $pais ) ) {
 			$datos = [
                 'countryCode' => $pais,
                 'postalCode' => $postal
             ];
-			if ( false === seur()->seur_api_check_city( $datos ) ) {
+            $result = seur()->seur_api_check_city( $datos );
+			if ( $result === false ) {
 				echo "<hr><b><font color='#e53920'>";
 				echo '<br>Código postal y país no se han encontrado en Nomenclator de SEUR.<br>Consulte Nomenclator y ajuste ambos parámetros.<br></font>';
 				echo "<font color='#0074a2'><br>Par no Encontrado:<br>" . esc_html( $postal ) . ' - ' . esc_html( $pais );
 				return;
-			}
-		} else {
-			$postal    = '08023';
-			$poblacion = 'BARCELONA';
-		}
-        $mensaje = '';
-        $products = seur()->get_products();
-        foreach ( $products as $code => $product ) {
-            if ($product['product']==$producto && $product['service']==$servicio) {
-                $mensaje .= '<br>' . $code;
-                break;
+			} else {
+                //print_r($result);
             }
-        }
-		if ( strlen( $mensaje ) < 1 ) {
-			$mensaje .= '<br>Servicio Producto sin IDENTIFICAR';
 		}
-
-        /*
-        $consulta = '';
-		$sc_options = array(
-			'connection_timeout' => 30,
-		);
-		$cliente    = new SoapClient( 'https://ws.seur.com/WSEcatalogoPublicos/servlet/XFireServlet/WSServiciosWebPublicos?wsdl', $sc_options );
-		$parametros = array(
-			'in0' => $consulta,
-		);
-		$respuesta  = $cliente->tarificacionPrivadaStr( $parametros );
-
-		if ( empty( $respuesta->out ) || ( isset( $respuesta->error ) && ! empty( $respuesta->error ) ) ) {
-        */
-			echo '<div class="error notice"><p>';
-			esc_html_e( 'There was an error getting rate.', 'seur' );
-            echo '<br>'; esc_html_e( 'Deprecated SOAP Service.', 'seur' );
-			echo '</p>';
-			echo '</div>';
-			return;
-		/* } else {
-			$xml         = simplexml_load_string( $respuesta->out );
-			$lineasantes = ( $xml->attributes()->NUM );
-			$lineas      = (int) $lineasantes - 1;
-			$total       = 0;
-
-			?>
-				<table width='25%' style='color:ed734d;font-weight:bold; font-size:14px;'>
-					<tr>
-						<td colspan='2'>
-							<hr>
-						</td>
-					</tr>
-			<?php
-			while ( -1 !== $lineas ) {
-				$nom_concept_imp = (string) $xml->REG[ $lineas ]->NOM_CONCEPTO_IMP; // phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
-				$valor           = $xml->REG[ $lineas ]->VALOR; // phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
-				$total           = $total + (float) $xml->REG[ $lineas ]->VALOR; // phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
-				echo '<tr>';
-				echo '<td>' . utf8_decode( $nom_concept_imp ) . '</td>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-				echo "<td style='text-align:right'>" . esc_html( $valor ) . '</td>';
-				--$lineas;
-				echo '</tr>';
-			}
-			echo "<tr><td colspan=2><hr></td><tr><td>Total</td><td style='text-align:right;color:red;font-weight:bold; font-size:20px;'>" . esc_html( $total ) . '</td></tr></table>';
-			echo '<br>' . esc_html( $mensaje ) . '<br><br>';
-			?>
-			</table>
-			<?php
-			return;
-		} */
 	}
 	?>
 </form>

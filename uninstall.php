@@ -24,9 +24,6 @@ wp_delete_file( $seur_download_file );
 
 $options = array(
 	'seur_after_get_label_field',
-	'seur_preaviso_notificar_field',
-	'seur_reparto_notificar_field',
-	'seur_tipo_notificacion_field',
 	'seur_tipo_etiqueta_field',
 	'seur_change_service_enabled_field',
 	'seur_aduana_origen_field',
@@ -53,8 +50,6 @@ $options = array(
 	'seur_cit_codigo_field',
 	'seur_cit_usuario_field',
 	'seur_cit_contra_field',
-	'seur_ccc_field',
-	'seur_franquicia_field',
 	'seur_seurcom_usuario_field',
 	'seur_seurcom_contra_field',
 	'seur-official-version',

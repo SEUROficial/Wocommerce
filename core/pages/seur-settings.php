@@ -65,18 +65,6 @@ function seur_settings() {
 			if ( log ) {
 				var switchery = new Switchery(log, { size: 'small' } );
 			}
-			var geolabel = document.querySelector( '.js-switch-geolabel' );
-			if ( geolabel ) {
-				var switchery = new Switchery(geolabel, { size: 'small' } );
-			}
-			var preavisonotificar = document.querySelector( '.js-switch-preavisonotificar' );
-			if ( preavisonotificar ) {
-				var switchery = new Switchery(preavisonotificar, { size: 'small' } );
-			}
-			var repartonotificar = document.querySelector( '.js-switch-repartonotificar' );
-			if ( repartonotificar ) {
-				var switchery = new Switchery(repartonotificar, { size: 'small' } );
-			}
 			var localpickup = document.querySelector( '.js-switch-pickup' );
 			if ( localpickup ) {
 				var switchery = new Switchery(localpickup, { size: 'small' } );
