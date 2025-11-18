@@ -3,7 +3,7 @@
  * Plugin Name: SEUR Oficial
  * Plugin URI: http://www.seur.com/
  * Description: Add SEUR shipping method to WooCommerce. The SEUR plugin for WooCommerce allows you to manage your order dispatches in a fast and easy way
- * Version: 2.2.27
+ * Version: 2.2.28
  * Author: SEUR Oficial
  * Author URI: http://www.seur.com/
  * Tested up to: 6.8
@@ -19,7 +19,7 @@
 
 use Automattic\WooCommerce\Utilities\FeaturesUtil;
 
-define( 'SEUR_OFFICIAL_VERSION', '2.2.27' );
+define( 'SEUR_OFFICIAL_VERSION', '2.2.28' );
 define( 'SEUR_DB_VERSION', '1.0.5' );
 define( 'SEUR_TABLE_VERSION', '1.0.5' );
 
@@ -276,7 +276,7 @@ function seur_admin_notice_blocks_incompatible( string $method_id, int $instance
     if ( class_exists( 'WC_Admin_Notices' ) ) {
         seur_add_error_admin_notice_once(
             'seur_method_blocks_incompatible_' . $instance_id,
-            __( 'El método de envío <strong>SEUR Local Pickup</strong> no es compatible con el Checkout de bloques y no se pintará el selector de puntos pickup. Puedes usar el checkout clásico mientras trabajamos en la compatibilidad.', 'seur' )
+            __( 'The <strong>SEUR Local Pickup</strong> shipping method is not compatible with Checkout Block and the pickup point selector will not be displayed. You can use classic checkout while we work on compatibility.', 'seur' )
         );
     }
 }

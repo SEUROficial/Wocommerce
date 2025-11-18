@@ -435,9 +435,8 @@ function seur_bulk_actions_handler( $redirect_to, $doaction, $labels_ids ) {
 
 	} elseif ( 'update_seur_tracking' === $doaction ) {
 
-		foreach ( $labels_ids as $label_id ) {
-			seur_get_tracking_shipment( $label_id );
-		}
+        seur_get_tracking_shipments($labels_ids);
+
 		set_transient( get_current_user_id() . '_seur_label_bulk_tracking', true );
 		$redirect_to = add_query_arg( 'bulk_tracking_seur', count( $labels_ids ), $redirect_to );
 		return $redirect_to;

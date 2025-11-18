@@ -93,9 +93,9 @@ if ( isset( $_GET['action'] ) && $_GET['action'] === 'download_seur_rates_csv' )
 						<th class="manage-column"><?php esc_html_e( 'Country', 'seur' ); ?></th>
 						<th class="manage-column"><?php esc_html_e( 'State', 'seur' ); ?></th>
 						<th class="manage-column"><?php esc_html_e( 'Postcode', 'seur' ); ?></th>
-                        <?php /* translators: %s is the type of rate (e.g., weight, price) */ ?>
+                        <?php /* translators: %s is the type of rate (e.g., weight, price). */ ?>
                         <th class="manage-column"><?php printf( esc_html__( 'Min %s', 'seur' ), esc_html( $rates_type ) ); ?></th>
-						<?php /* translators: %s is the type of rate (e.g., weight, price) */ ?>
+						<?php /* translators: %s is the type of rate (e.g., weight, price). */ ?>
                         <th class="manage-column"><?php printf( esc_html__( 'Max %s', 'seur' ), esc_html( $rates_type ) ); ?></th>
                         <th class="manage-column"><?php esc_html_e( 'Rate Price', 'seur' ); ?></th>
 						<th class="manage-column"><?php esc_html_e( 'edit', 'seur' ); ?></th>

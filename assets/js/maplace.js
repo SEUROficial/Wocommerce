@@ -342,7 +342,7 @@
 
         //set obj map
         point.map = this.oMap;
-        point.position = new google.maps.LatLng(point.lat, point.lon);
+        point.position = new google.maps.LatLng(point.lat, point.lng);
         point.zIndex = point.zIndex === undefined ? 10000 : (point.zIndex + 100);
         point.visible = visibility === undefined  ? this.o.show_markers : visibility;
 

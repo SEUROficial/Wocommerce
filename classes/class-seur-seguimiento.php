@@ -81,13 +81,15 @@ class Seur_Logistica_Seguimiento {
      * Call to SEUR API
      *
      * @param $label_id
-     * @return string|void
+     * @return array
      */
-	public function tracking_remote_post( $label_id ) {
+	public function tracking_remote_post( $label_id ): array
+    {
         $response = [
             'eventCode' => '',
             'description' => ''
         ];
+        update_post_meta( $label_id, '_seur_tracking_last_query_ts', time() );
 
         $response_body = '';
         $ref = get_post_meta( $label_id, '_seur_shipping_id_number', true);
@@ -107,9 +109,6 @@ class Seur_Logistica_Seguimiento {
                     'Authorization' => seur()->get_token_b(),
                 ),
             );
-            if (seur()->log_is_acive()) {
-                seur()->slog('$content: ' . print_r($content, true)); // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_print_r
-            }
 
             $response_wp = wp_remote_get(
                 $url_call,
@@ -117,21 +116,37 @@ class Seur_Logistica_Seguimiento {
             );
 
             $response_body = wp_remote_retrieve_body($response_wp);
-            if (!empty($response_body)) {
-                $result = json_decode($response_body, true);
-                $response = $result['data'][0];
+            if ( seur()->log_is_acive() ) {
+                seur()->slog( 'SEUR URL C: ' . $url_call );
+                seur()->slog( '$response_body: ' . print_r( $response_body, true ) ); // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_print_r
             }
 
+            if (empty($response_body)) {
+                seur_increment_fail_count( $label_id );
+                seur()->slog( '$response_wp: ' . print_r( $response_wp['response'], true ) ); // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_print_r
+                return $response;
+            }
+
+            $result = json_decode($response_body, true);
+            if (!isset($result['data'])) {
+                if ( seur()->log_is_acive() ) {
+                    seur()->slog( 'description: ' . $response['description']??'' );
+                }
+                seur_increment_fail_count( $label_id );
+                return $response;
+            }
+
+            $response = $result['data'][0];
         }
-		if ( seur()->log_is_acive() ) {
-            seur()->slog( 'SEUR URL C: ' . $url_call );
-            seur()->slog( '$response_body: ' . print_r( $response_body, true ) ); // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_print_r
-			seur()->slog( '$result: ' . print_r( $result??'', true ) ); // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_print_r
-			seur()->slog( 'description: ' . $response['description']??'' );
-		}
+
 		return $response;
 	}
 }
+function seur_increment_fail_count( $label_id ) {
+    $current = (int) get_post_meta( $label_id, '_seur_tracking_fail_count', true );
+    update_post_meta( $label_id, '_seur_tracking_fail_count', $current + 1 );
+}
+
 /**
  * SEUR pedidos salida
  *

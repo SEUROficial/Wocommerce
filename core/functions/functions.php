@@ -341,9 +341,9 @@ add_action( 'admin_enqueue_scripts', 'seur_get_labels_page_styles_css' );
  * @param string $hook page.
  */
 function seur_nomenclator_styles_css( $hook ) {
-	global $seurnomenclator, $seurmanifest;
+	global $seurnomenclator, $seurmanifest, $seur_pickup_search;
 
-	if ( $seurnomenclator !== $hook && $seurmanifest !== $hook ) {
+	if ( $seurnomenclator !== $hook && $seurmanifest !== $hook && $seur_pickup_search !== $hook ) {
 		return;
 	} else {
 		wp_register_style( 'seurNomenclatorCSS', SEUR_PLUGIN_URL . 'assets/css/seur-nomenclator.css', array(), SEUR_OFFICIAL_VERSION );
@@ -575,7 +575,7 @@ function seur_get_custom_rates( $output_type = 'OBJECT', $type = 'price' ) {
  * @param string $postcode Post Code.
  * @param string $price Price.
  */
-function seur_show_availables_rates( $country = null, $state = null, $postcode = null, $price_weight = null ) {
+function seur_show_availables_rates( $country = null, $state = null, $postcode = null, $price_weight = null, $local_pickup = false ) {
 
     $country = $country?? '*';
     $state = $state?? '*';
@@ -590,12 +590,12 @@ function seur_show_availables_rates( $country = null, $state = null, $postcode =
         $log->add('seur', '$postcode:' . $postcode);
         $log->add('seur', '$price_weight:' . $price_weight);
     }
-    $ratestoscreen = seur_search_availables_rates( $country, $state, $postcode, $price_weight );
+    $ratestoscreen = seur_search_availables_rates( $country, $state, $postcode, $price_weight, $local_pickup );
 
     return $ratestoscreen;
 }
 
-function seur_search_availables_rates( $country = '*', $state = '*', $postcode = '*', $price_weight = 0 ) {
+function seur_search_availables_rates( $country = '*', $state = '*', $postcode = '*', $price_weight = 0, $local_pickup = false ) {
     global $wpdb;
 
     $type = get_option( 'seur_rates_type_field' ); // 'price' o 'weight', definido en la configuración de SEUR
@@ -637,18 +637,24 @@ function seur_search_availables_rates( $country = '*', $state = '*', $postcode =
             ORDER BY ID ASC;";
     // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.PreparedSQL.NotPrepared -- Custom table lookup, no caching applicable, Table name safe and hardcoded and Query prepared in the line above
     $results = $wpdb->get_results(
-
         $wpdb->prepare(
             $sql // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared -- Query prepared in the line above
             ,$type,
             $type, $country, $state, $price_weight, $price_weight,
             $type, $country, $state, $price_weight, $price_weight,
             $price_weight, $price_weight
-        ), ARRAY_A );
+        ),
+        ARRAY_A
+    );
 
     // Filtrar por código postal
     $filteredResults = array_filter( $results, function ( $row ) use ( $postcode ) {
         return matchPostcode( $postcode, $row['postcode'] );
+    });
+    // Filtar por rate local pickup
+    $filteredResults = array_filter( $filteredResults, function ( $row ) use ( $local_pickup ) {
+        $is_local_pickup = str_ends_with_php7($row['rate'], '2SHOP');
+        return $local_pickup ? $is_local_pickup : !$is_local_pickup;
     });
 
     // Registrar en el log si está activado
@@ -1723,4 +1729,38 @@ function validatePostcodes($postcodes) {
         }
     }
     return true;
+}
+
+if (get_option( 'seur_activate_returns_url_field' ) === '1') {
+
+// Añade un botón fijo en la página de detalle de cada pedido (Mi cuenta > Pedido > Ver pedido)
+    add_action('woocommerce_order_details_before_order_table', function ($order) {
+        if (!is_wc_endpoint_url('view-order')) return;
+
+        echo '<div style="margin-top:20px; text-align:right;">';
+        echo seur_get_returns_button();
+        echo '</div>';
+    }, 10, 1);
+
+/*# Botón ÚNICO en la página de LISTADO (Mi cuenta > Pedidos)
+    add_action('woocommerce_before_account_orders', function ($has_orders) {
+        if (!is_wc_endpoint_url('orders')) return;
+
+        echo '<div class="seur-orders-header" style="display:flex; justify-content:flex-end; margin: 0 0 16px 0;">';
+        echo seur_get_returns_button();
+        echo '</div>';
+    }, 10, 1);*/
+
+}
+
+function seur_get_returns_button(): string
+{
+    $url = 'https://www.seur.com/devoluciones/pages/devolucionInicio.do?id=0b57e23f-21ab-4d9c-8575-69b88e6c857f';
+    $seur_img = SEUR_PLUGIN_URL . 'assets/img/seur-devoluciones.png';
+
+    $button_html = '<a href="' . esc_url($url) . '" target="_blank" rel="noopener" style="background-color: white; padding: 2px; border-radius: 4px; border: 2px solid #005baa; display: inline-block;">';
+    $button_html .= '<img src="' . $seur_img . '" alt="' . esc_attr__('SEUR Devoluciones', 'seur') . '" />';
+    $button_html .= '</a>';
+
+    return $button_html;
 }

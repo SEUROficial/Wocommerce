@@ -173,6 +173,64 @@ function seur_uploads_dir_field() {
     }
 }
 
+function seur_get_next_scheduled_update_shipments_time() {
+    if ( function_exists( 'as_next_scheduled_action' ) ) {
+        $next_run = as_next_scheduled_action( SEUR_AS_HOOK, [], SEUR_AS_GROUP );
+        return $next_run;
+    }
+    return false;
+}
+
+/**
+ * SEUR active update shipments cron
+ */
+function seur_activate_cron_update_shipments_field() {
+    ?>
+    <input type="checkbox" class="js-switch-updateshipments" title="<?php esc_html_e( 'Automatic Update Shipments', 'seur' ); ?>" name="seur_activate_cron_update_shipments_field" value="1" <?php checked( 1, seur()->get_option( 'seur_activate_cron_update_shipments_field' ), true ); ?>/>
+    <?php
+    $active = seur()->get_option( 'seur_activate_cron_update_shipments_field' );
+    $next_run = seur_get_next_scheduled_update_shipments_time();
+    $last_run_time = seur()->get_option('seur_cron_last_run');
+    $last_run_processed =  seur()->get_option('seur_cron_last_processed');
+
+    if ( $active ) {?>
+        <?php if ($next_run) { ?>
+            <div class="notice notice-info inline">
+                <p>
+                    <strong><?php esc_html_e( 'Last execution details:', 'seur' ); ?></strong>
+                    <?php echo $last_run_time ?? esc_html__( 'Never executed', 'seur' ); ?>
+                    <?php if ( $last_run_processed ) : ?>
+                        - <?php echo esc_html__( 'Shipments processed:', 'seur' ) . ' ' . intval( $last_run_processed ); ?>
+                    <?php endif; ?>
+                </p>
+                <p>
+                    <strong><?php esc_html_e( 'Next schedule execution:', 'seur' ); ?></strong>
+                    <?php echo date('d/m/Y H:i:s', $next_run); ?>
+                    (<?php echo esc_html__('Remaining time', 'seur') . ': ' . human_time_diff($next_run, current_time('timestamp')); ?>)
+                </p>
+            </div>
+        <?php
+        }
+
+    } else {
+        echo '<p>' . esc_html__( 'The shipments status will not be updated automatically. You can update them manually from the SEUR Shipments page.', 'seur' ) . '</p>';
+    }
+}
+
+function seur_cron_update_shipments_interval() {
+    $interval = seur()->get_option('seur_cron_update_shipments_interval', 'hourly');
+    ?>
+    <select name="seur_cron_update_shipments_interval" id="seur_cron_update_shipments_interval">
+        <option value="hourly" <?php selected($interval, 'hourly'); ?>>
+            Cada hora
+        </option>
+        <option value="every_4_hours" <?php selected($interval, 'every_4_hours'); ?>>
+            Cada 4 horas
+        </option>
+    </select>
+    <?php
+}
+
 /**
  * SEUR display advanced settings panel
  */
@@ -190,12 +248,16 @@ function display_seur_advanced_settings_panel_fields() {
 	add_settings_field( 'seur_id_mercancia_field', esc_html__( 'ID of goods', 'seur' ), 'seur_id_mercancia_field', 'seur-advanced-settings-options', 'seur-advanced-settings-section' );
 	add_settings_field( 'seur_descripcion_field', esc_html__( 'International description', 'seur' ), 'seur_descripcion_field', 'seur-advanced-settings-options', 'seur-advanced-settings-section' );
     add_settings_field( 'seur_uploads_dir', esc_html__( 'Upload directory', 'seur' ), 'seur_uploads_dir_field', 'seur-advanced-settings-options', 'seur-advanced-settings-section' );
+    add_settings_field('seur_activate_cron_update_shipments_field', esc_html__('Automatic Update Shipments Status', 'seur'), 'seur_activate_cron_update_shipments_field', 'seur-advanced-settings-options', 'seur-advanced-settings-section');
+    add_settings_field('seur_cron_update_shipments_interval', esc_html__('Interval', 'seur'), 'seur_cron_update_shipments_interval', 'seur-advanced-settings-options', 'seur-advanced-settings-section');
+    add_settings_field('seur_activate_returns_url_field', esc_html__('Activate SEUR Returns URL', 'seur'), 'seur_activate_returns_url_field', 'seur-advanced-settings-options', 'seur-advanced-settings-section');
+    add_settings_field('seur_returns_url_field', esc_html__('SEUR Returns URL', 'seur'), 'seur_returns_url_field', 'seur-advanced-settings-options', 'seur-advanced-settings-section');
+
 
 	// register all setings.
     register_setting( 'seur-advanced-settings-section', 'seur_activate_free_shipping_field', [ 'sanitize_callback' => 'rest_sanitize_boolean' ] ); // phpcs:ignore PluginCheck.CodeAnalysis.SettingSanitization.register_settingDynamic -- Sanitization callback is safe and known
     register_setting( 'seur-advanced-settings-section', 'seur_activate_local_pickup_field', [ 'sanitize_callback' => 'rest_sanitize_boolean' ] ); // phpcs:ignore PluginCheck.CodeAnalysis.SettingSanitization.register_settingDynamic -- Sanitization callback is safe and known
     register_setting( 'seur-advanced-settings-section', 'seur_after_get_label_field', [ 'sanitize_callback' => 'sanitize_text_field' ] ); // phpcs:ignore PluginCheck.CodeAnalysis.SettingSanitization.register_settingDynamic -- Sanitization callback is safe and known
-
     register_setting( 'seur-advanced-settings-section', 'seur_google_maps_api_field', [ 'sanitize_callback' => 'sanitize_text_field' ] ); // phpcs:ignore PluginCheck.CodeAnalysis.SettingSanitization.register_settingDynamic -- Sanitization callback is safe and known
     register_setting( 'seur-advanced-settings-section', 'seur_tipo_etiqueta_field', [ 'sanitize_callback' => 'sanitize_text_field' ] ); // phpcs:ignore PluginCheck.CodeAnalysis.SettingSanitization.register_settingDynamic -- Sanitization callback is safe and known
     register_setting( 'seur-advanced-settings-section', 'seur_tipo_mercancia_field', [ 'sanitize_callback' => 'sanitize_text_field' ] ); // phpcs:ignore PluginCheck.CodeAnalysis.SettingSanitization.register_settingDynamic -- Sanitization callback is safe and known
@@ -203,6 +265,26 @@ function display_seur_advanced_settings_panel_fields() {
     register_setting( 'seur-advanced-settings-section', 'seur_aduana_origen_field', [ 'sanitize_callback' => 'sanitize_text_field' ] ); // phpcs:ignore PluginCheck.CodeAnalysis.SettingSanitization.register_settingDynamic -- Sanitization callback is safe and known
     register_setting( 'seur-advanced-settings-section', 'seur_aduana_destino_field', [ 'sanitize_callback' => 'sanitize_text_field' ] ); // phpcs:ignore PluginCheck.CodeAnalysis.SettingSanitization.register_settingDynamic -- Sanitization callback is safe and known
     register_setting( 'seur-advanced-settings-section', 'seur_descripcion_field', [ 'sanitize_callback' => 'sanitize_text_field' ] ); // phpcs:ignore PluginCheck.CodeAnalysis.SettingSanitization.register_settingDynamic -- Sanitization callback is safe and known
+    register_setting( 'seur-advanced-settings-section', 'seur_activate_cron_update_shipments_field', [ 'sanitize_callback' => 'rest_sanitize_boolean' ] ); // phpcs:ignore PluginCheck.CodeAnalysis.SettingSanitization.register_settingDynamic -- Sanitization callback is safe and known
+    register_setting( 'seur-advanced-settings-section', 'seur_cron_update_shipments_interval', [ 'sanitize_callback' => 'sanitize_text_field' ] ); // phpcs:ignore PluginCheck.CodeAnalysis.SettingSanitization.register_settingDynamic -- Sanitization callback is safe and known
+    register_setting( 'seur-advanced-settings-section', 'seur_activate_returns_url_field', [ 'sanitize_callback' => 'rest_sanitize_boolean' ] ); // phpcs:ignore PluginCheck.CodeAnalysis.SettingSanitization.register_settingDynamic -- Sanitization callback is safe and known
+    register_setting( 'seur-advanced-settings-section', 'seur_returns_url_field', [ 'sanitize_callback' => 'esc_url_raw' ] ); // phpcs:ignore PluginCheck.CodeAnalysis.SettingSanitization.register_settingDynamic -- Sanitization callback is safe and known
     //'seur_uploads_dir' already registered
 }
 add_action( 'admin_init', 'display_seur_advanced_settings_panel_fields' );
+
+
+/**
+ * SEUR active returns url
+ */
+function seur_activate_returns_url_field() {
+    ?>
+    <input type="checkbox" class="js-switch-returns-url" title="<?php esc_html_e( 'Show SEUR Returns url', 'seur' ); ?>" name="seur_activate_returns_url_field" value="1" <?php checked( 1, seur()->get_option( 'seur_activate_returns_url_field' ), true ); ?>/>
+    <?php
+}
+
+function seur_returns_url_field() {
+    ?>
+    <input title="<?php esc_html_e( 'SEUR Returns URL', 'seur' ); ?>" type="text" name="seur_returns_url_field" value="<?php echo esc_html( seur()->get_option( 'seur_returns_url_field' ) ); ?>" style="width:90%" />
+    <?php
+}

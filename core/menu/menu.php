@@ -16,6 +16,7 @@ require_once SEUR_PLUGIN_PATH . 'core/pages/seur-rates.php';
 require_once SEUR_PLUGIN_PATH . 'core/pages/seur-products-services.php';
 require_once SEUR_PLUGIN_PATH . 'core/pages/seur-manifest.php';
 require_once SEUR_PLUGIN_PATH . 'core/pages/seur-pickup.php';
+require_once SEUR_PLUGIN_PATH . 'core/pages/seur-pickup-search.php';
 require_once SEUR_PLUGIN_PATH . 'core/pages/seur-get-labels.php';
 require_once SEUR_PLUGIN_PATH . 'core/pages/rates/seur-add-form.php';
 require_once SEUR_PLUGIN_PATH . 'core/pages/rates/seur-create-rate.php';
@@ -42,7 +43,7 @@ add_action( 'admin_enqueue_scripts', 'seur_load_custom_icon_styles' );
  * SEUR Adding custom menu for WordPress.
  */
 function seur_menu() {
-	global $seurrates, $seurmanifest, $seurnomenclator, $seurproductsservices, $seurconfig, $seurabout, $seuraddform, $seurcreaterate, $seurdeleterate, $seurupdatecustomrate, $seureditcustomrate, $seuraddlabelwoocommerce, $seur_get_labels, $seur_status;
+	global $seurrates, $seurmanifest, $seurnomenclator, $seurproductsservices, $seurconfig, $seurabout, $seuraddform, $seurcreaterate, $seurdeleterate, $seurupdatecustomrate, $seureditcustomrate, $seuraddlabelwoocommerce, $seur_get_labels, $seur_status, $seur_pickup_search;
 
 	$nif        = get_option( 'seur_nif_field' );
 	$page_title = __( 'SEUR', 'seur' );
@@ -74,6 +75,7 @@ function seur_menu() {
 		$seur_pickup     = add_submenu_page( $menu_slug, __( 'Collection', 'seur' ), __( 'Collection', 'seur' ), 'edit_shop_orders', 'seur_pickup', 'seur_pickup' );
 		$seur_get_labels = add_submenu_page( $menu_slug, __( 'Get labels from order', 'seur' ), __( 'Get labels from order', 'seur' ), 'edit_shop_orders', 'seur_get_labels_from_order', 'seur_get_labels_from_order' );
 		// $seur_status     = add_submenu_page( $menu_slug, __( 'Status', 'seur' ), __( 'Status', 'seur' ), $capability, 'seur_status_page', 'seur_status_page' );
+		$seur_pickup_search = add_submenu_page( $menu_slug, __( 'Pick-up locations', 'seur' ), __( 'Pick-up locations', 'seur' ), $capability, 'seur_search_pickup_locations', 'seur_search_pickup_locations' );
 
 		// remove submenu SEUR for shop_manger role.
 		$woouser = wp_get_current_user();
@@ -106,6 +108,7 @@ function seur_menu() {
 		add_action( 'load-' . $seurnomenclator, 'seur_nomenclator_add_help_tab' );
 		add_action( 'load-' . $seurproductsservices, 'seur_product_service_add_help_tab' );
 		add_action( 'load-' . $seur_pickup, 'seur_pickup_add_help_tab' );
+		add_action( 'load-' . $seur_pickup_search, 'seur_pickup_search_add_help_tab' );
 
 	} else {
 

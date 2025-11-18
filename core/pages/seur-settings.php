@@ -70,9 +70,17 @@ function seur_settings() {
 				var switchery = new Switchery(localpickup, { size: 'small' } );
 			}
 			var freeshipping = document.querySelector( '.js-switch-free-shipping' );
-			if ( localpickup ) {
+			if ( freeshipping ) {
 				var switchery = new Switchery(freeshipping, { size: 'small' } );
 			}
+            var updateshipments = document.querySelector( '.js-switch-updateshipments' );
+            if ( updateshipments ) {
+                var switchery = new Switchery(updateshipments, { size: 'small' } );
+            }
+            var returnsUrl = document.querySelector( '.js-switch-returns-url' );
+            if ( returnsUrl ) {
+                var switchery = new Switchery(returnsUrl, { size: 'small' } );
+            }
 		</script>
 	</div>
 	<?php
