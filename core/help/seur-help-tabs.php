@@ -95,6 +95,22 @@ function seur_nomenclator_add_help_tab() {
 }
 
 /**
+ * Seur Pick-up search add help tab.
+ */
+function seur_pickup_search_add_help_tab() {
+	$screen = get_current_screen();
+
+	// Add my_help_tab if current screen is My Admin Page.
+	$screen->add_help_tab(
+		array(
+			'id'      => 'seur_pickup_search_help_tab',
+			'title'   => __( 'Pick-up locations search', 'seur' ),
+			'content' => '<p>' . __( 'Search SEUR database for pick-up locations available for your business.', 'seur' ) . '</p>',
+		)
+	);
+}
+
+/**
  * Seur product service add help tab.
  */
 function seur_product_service_add_help_tab() {

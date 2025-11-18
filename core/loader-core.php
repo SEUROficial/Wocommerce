@@ -26,5 +26,7 @@ if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', g
 
 require_once 'labels-cpt/labels-cpt.php';
 
+require_once 'scheduled-actions/update-shipments.php';
+
 // Load menus.
 require_once 'menu/menu.php';

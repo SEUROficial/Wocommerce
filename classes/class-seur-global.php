@@ -200,8 +200,11 @@ class Seur_Global {
 	}
 
 	public function get_token_b() {
-		$token = 'Bearer ' . $this->seur_get_token();
-        return $token;
+        $token = $this->get_option( 'seur_api_token' );
+        if (!$token) {
+            $token = $this->seur_get_token();
+        }
+		return 'Bearer ' . $token;
 	}
 
     public function seur_get_token() {
@@ -211,13 +214,7 @@ class Seur_Global {
         $client_secret = $this->client_secret();
         $username      = $this->client_user_name();
         $password      = $this->client_user_password();
-        if ( $this->log_is_acive() ) {
-            $this->slog( '$seur_adr: ' . $seur_adr );
-            $this->slog( '$grant_type: ' . $grant_type );
-            $this->slog( '$client_id: ' . $client_id );
-            $this->slog( '$client_secret: ' . $client_secret );
-            $this->slog( '$username: ' . $username );
-        }
+
         $response      = wp_remote_post(
             $seur_adr,
             array(

@@ -162,3 +162,188 @@ function seur_get_tracking_shipment( $label_id ) {
 
 	return true;
 }
+
+function seur_get_tracking_shipments( $labels_ids = array() )
+{
+    foreach ($labels_ids as $label_id) {
+        seur_get_tracking_shipment($label_id);
+    }
+}
+
+
+function seur_get_candidate_ids_for_tracking( $limit = 25 )
+{
+    $retry_ids = seur_get_candidate_ids_for_tracking_retry($limit);
+    $remaining = $limit - count($retry_ids);
+
+    if ($remaining > 0) {
+        $new_ids = seur_get_candidate_ids_for_tracking_new($remaining);
+        $retry_ids = array_merge($retry_ids, $new_ids);
+        // Asegurar unicidad
+        $retry_ids = array_values(array_unique($retry_ids));
+    }
+    return $retry_ids;
+}
+
+
+/**
+ * Etiquetas generadas en el último mes
+ * de pedidos SEUR, no entregados, ni cancelados, ni completados,
+ * cuya última consulta a SEUR fue hace más de 8 horas
+ * y que aún no han superado los 3 intentos fallidos.
+ */
+function seur_get_candidate_ids_for_tracking_retry( $limit = 25 ) {
+    global $wpdb;
+
+    // Ventanas temporales (UTC)
+    $now        = current_time('timestamp', true);
+    $last_month = $now - MONTH_IN_SECONDS;
+    $cutoff_8h  = $now - 8 * HOUR_IN_SECONDS;
+
+    // ¿HPOS activado?
+    $use_hpos = class_exists('\Automattic\WooCommerce\Utilities\OrderUtil')
+        && \Automattic\WooCommerce\Utilities\OrderUtil::custom_orders_table_usage_is_enabled();
+
+    // Fragmentos dependientes de HPOS/Legacy para el pedido asociado
+    if ( $use_hpos ) {
+        $orders_table   = "{$wpdb->prefix}wc_orders";
+        $orders_alias   = "o";
+        $order_id_col   = "o.id";
+        $order_type_sql = "o.type = 'shop_order'";
+        // En HPOS el status no lleva 'wc-'
+        $status_not_in  = "o.status NOT IN ('seur-delivered', 'cancelled', 'completed')";
+        $meta_table     = "{$wpdb->prefix}wc_orders_meta";
+        $meta_fk_col    = "order_id";
+    } else {
+        $orders_table   = "{$wpdb->posts}";
+        $orders_alias   = "p";
+        $order_id_col   = "p.ID";
+        $order_type_sql = "p.post_type = 'shop_order'";
+        // En Legacy los estados llevan 'wc-'
+        $status_not_in  = "p.post_status NOT IN ('wc-seur-delivered', 'wc-cancelled')";
+        $meta_table     = "{$wpdb->postmeta}";
+        $meta_fk_col    = "post_id";
+    }
+
+    $sql = "
+        SELECT DISTINCT l.ID
+        FROM {$wpdb->posts} l
+        /* enlace etiqueta → pedido */
+        INNER JOIN {$wpdb->postmeta} lm
+            ON lm.post_id = l.ID
+           AND lm.meta_key = %s                     /* _seur_shipping_order_id */
+        INNER JOIN {$orders_table} {$orders_alias}
+            ON {$order_id_col} = CAST(lm.meta_value AS UNSIGNED)
+           AND {$order_type_sql}
+           AND {$status_not_in}
+        /* el pedido debe tener meta _seur_shipping */
+        INNER JOIN {$meta_table} m_ship
+            ON m_ship.{$meta_fk_col} = {$order_id_col}
+           AND m_ship.meta_key = %s
+        /* metadatos de la etiqueta: última consulta y fallos */
+        LEFT JOIN {$wpdb->postmeta} m_last
+            ON m_last.post_id = l.ID
+           AND m_last.meta_key = %s                 /* _seur_tracking_last_query_ts */
+        LEFT JOIN {$wpdb->postmeta} m_fail
+            ON m_fail.post_id = l.ID
+           AND m_fail.meta_key = %s                 /* _seur_tracking_fail_count */
+        WHERE l.post_type = 'seur_labels'
+          AND l.post_date_gmt >= FROM_UNIXTIME(%d)  /* etiquetas del último mes */
+          AND (
+                /* Nunca consultadas */
+                m_last.meta_value IS NULL
+                OR
+                /* Consultadas hace > 8h y con intentos < 3 */
+                (
+                  CAST(m_last.meta_value AS UNSIGNED) <= %d
+                  AND (m_fail.meta_value IS NULL OR CAST(m_fail.meta_value AS UNSIGNED) < 3)
+                )
+              )
+        /* Priorizar las más antiguas/no consultadas primero */
+        ORDER BY CAST(COALESCE(NULLIF(m_last.meta_value,''),'0') AS UNSIGNED) ASC, l.post_date_gmt ASC
+        LIMIT %d
+    ";
+
+    $prepared = $wpdb->prepare(
+        $sql,
+        '_seur_shipping_order_id',        // %s
+        '_seur_shipping',                 // %s
+        '_seur_tracking_last_query_ts',   // %s
+        '_seur_tracking_fail_count',      // %s
+        $last_month,                      // %d
+        $cutoff_8h,                       // %d
+        max(1, (int) $limit)              // %d
+    );
+
+    $label_ids = $wpdb->get_col( $prepared );
+    return array_map( 'intval', $label_ids ?: [] );
+}
+
+/**
+ * Etiquetas generada en el último mes
+ * de pedidos SEUR, no entregados, ni cancelados, ni completados
+ * que no se han consultado todavía
+ */
+function seur_get_candidate_ids_for_tracking_new( $limit = 25 ) {
+    global $wpdb;
+
+    // Ventana temporal (último mes)
+    $now        = current_time('timestamp', true);
+    $last_month = $now - MONTH_IN_SECONDS;
+
+    if ( seur_is_wc_order_hpos_enabled() ) {
+        $orders_table   = "{$wpdb->prefix}wc_orders";
+        $orders_alias   = "o";
+        $order_id_col   = "o.id";
+        $order_type_sql = "o.type = 'shop_order'";
+        $status_not_in  = "o.status NOT IN ('seur-delivered', 'cancelled', 'completed')";
+        $meta_table     = "{$wpdb->prefix}wc_orders_meta";
+        $meta_fk_col    = "order_id";
+    } else {
+        $orders_table   = "{$wpdb->posts}";
+        $orders_alias   = "p";
+        $order_id_col   = "p.ID";
+        $order_type_sql = "p.post_type = 'shop_order'";
+        $status_not_in  = "p.post_status NOT IN ('wc-seur-delivered', 'wc-cancelled')";
+        $meta_table     = "{$wpdb->postmeta}";
+        $meta_fk_col    = "post_id";
+    }
+
+    // Consulta: etiquetas recientes sin marca de consulta
+    $sql = "
+        SELECT DISTINCT l.ID
+        FROM {$wpdb->posts} l
+        INNER JOIN {$wpdb->postmeta} lm
+            ON lm.post_id = l.ID
+           AND lm.meta_key = %s
+        INNER JOIN {$orders_table} {$orders_alias}
+            ON {$order_id_col} = CAST(lm.meta_value AS UNSIGNED)
+           AND {$order_type_sql}
+           AND {$status_not_in}
+        INNER JOIN {$meta_table} m_ship
+            ON m_ship.{$meta_fk_col} = {$order_id_col}
+           AND m_ship.meta_key = %s
+        WHERE l.post_type = 'seur_labels'
+          AND l.post_date_gmt >= FROM_UNIXTIME(%d)
+          AND NOT EXISTS (
+              SELECT 1
+              FROM {$wpdb->postmeta} m_last
+              WHERE m_last.post_id = l.ID
+                AND m_last.meta_key = %s
+          )
+        ORDER BY l.post_date_gmt DESC
+        LIMIT %d
+    ";
+
+    $prepared = $wpdb->prepare(
+        $sql,
+        '_seur_shipping_order_id',   // %s → meta que enlaza etiqueta→pedido
+        '_seur_shipping',                   // %s → pedido debe tener este meta
+        $last_month,                        // %d → etiquetas creadas en el último mes
+        '_seur_tracking_last_query_ts',     // %s → no debe existir en la etiqueta
+        max(1, (int) $limit)         // %d → límite
+    );
+
+    $label_ids = $wpdb->get_col( $prepared );
+    return array_map( 'intval', $label_ids ?: [] );
+}

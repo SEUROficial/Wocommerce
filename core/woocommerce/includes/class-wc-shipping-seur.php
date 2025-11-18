@@ -495,6 +495,8 @@ class WC_Shipping_SEUR extends WC_Shipping_Method {
 						'label' => $rate_name,
 						'cost'  => $ratepricerate,
 						'sort'  => $sort,
+                        'method_id' => $this->id,
+                        'instance_id' => $this->instance_id,
 					);
 				}
 			}

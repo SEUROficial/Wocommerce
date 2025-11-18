@@ -16,6 +16,21 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 class Seur_Local_Shipping_Method extends WC_Shipping_Method {
 
+    public $orderId;
+    public $depot;
+    public $postcode;
+    public $codCentro;
+    public $title;
+    public $type;
+    public $address;
+    public $city;
+    public $pudoId;
+    public $lat;
+    public $lng;
+    public $streettype;
+    public $numvia;
+    public $timetable;
+
     /**
      * @var WC_Logger
      */
@@ -86,7 +101,7 @@ class Seur_Local_Shipping_Method extends WC_Shipping_Method {
 		$country       = $package['destination']['country'];
 		$state         = $package['destination']['state'];
 		$postcode_seur = $package['destination']['postcode'];
-		$rate_requests = seur_show_availables_rates( $country, $state, $postcode_seur, $package_price );
+		$rate_requests = seur_show_availables_rates( $country, $state, $postcode_seur, $package_price, true );
         $this->log->add( 'seur', '$country: ' . $country );
         $this->log->add( 'seur', '$state: ' . $state );
         $this->log->add( 'seur', '$postcode_seur: ' . $postcode_seur );
@@ -112,6 +127,8 @@ class Seur_Local_Shipping_Method extends WC_Shipping_Method {
 						'label' => $rate_name,
 						'cost'  => $ratepricerate,
 						'sort'  => $sort,
+                        'method_id' => $this->id,
+                        'instance_id' => $this->instance_id,
 					);
 				}
 			}
@@ -139,6 +156,62 @@ class Seur_Local_Shipping_Method extends WC_Shipping_Method {
 		}
 		return ( $a['sort'] < $b['sort'] ) ? -1 : 1;
 	}
+
+    public function save_pudo_data_to_order(): void
+    {
+        $order = seur_get_order($this->orderId);
+        $order->update_meta_data('_seur_2shop_depot', str_pad( $this->depot?? '', 2, '0', STR_PAD_LEFT ) );
+        $order->update_meta_data('_seur_2shop_postcode', $this->postcode ?? '' );
+        $order->update_meta_data('_seur_2shop_codCentro', $this->pudoId ?? '');
+        $order->update_meta_data('_seur_2shop_title', $this->title ?? '');
+        $order->update_meta_data('_seur_2shop_type', $this->type ?? '');
+        $order->update_meta_data('_seur_2shop_address', $this->address ?? '');
+        $order->update_meta_data('_seur_2shop_city', $this->city ?? '');
+        $order->update_meta_data('_seur_2shop_pudo_id', $this->pudoId ?? '');
+        $order->update_meta_data('_seur_2shop_lat', $this->lat ?? '');
+        $order->update_meta_data('_seur_2shop_lng', $this->lng ?? '');
+        $order->update_meta_data('_seur_2shop_streettype', $this->streettype ?? '');
+        $order->update_meta_data('_seur_2shop_numvia', $this->numvia ?? '');
+        $order->update_meta_data('_seur_2shop_timetable', $this->timetable ?? '');
+        $order->save();
+    }
+
+    public function save_pudo_address_to_order()
+    {
+        // Set order shipping address to pick-up location address
+        $order = seur_get_order($this->orderId);
+        $shipping_address = $order->get_address('shipping');
+        $shipping_address['address_1'] = __( 'Pickup store', 'seur' ) . ": {$this->title} - {$this->pudoId}";
+        $shipping_address['address_2'] = "{$this->streettype} {$this->address} {$this->numvia}";
+        $shipping_address['city'] = $this->city;
+        $shipping_address['postcode'] = $this->postcode;
+        $order->set_address($shipping_address, 'shipping');
+        $order->save();
+
+        // Update shipping address index meta (Hay que eliminarla primero para que no duplique)
+        $this->delete_shipping_address_index_meta($order->get_id());
+        $index = implode(' ', $order->get_address('shipping'));
+        $order->update_meta_data( '_shipping_address_index', $index );
+        $order->save();
+    }
+
+    function delete_shipping_address_index_meta($order_id) {
+        global $wpdb;
+        $wpdb->query(
+            $wpdb->prepare(
+                "DELETE FROM {$wpdb->prefix}wc_orders_meta WHERE meta_key = %s AND order_id = %d",
+                '_shipping_address_index',
+                $order_id
+            )
+        );
+        $wpdb->query(
+            $wpdb->prepare(
+                "DELETE FROM {$wpdb->postmeta} WHERE meta_key = %s AND post_id = %d",
+                '_shipping_address_index',
+                $order_id
+            )
+        );
+    }
 }
 /**
  * SEUR Local Validate Order
@@ -180,9 +253,6 @@ function seur_local_validate_order( $posted ) {
 function seur_map_checkout_load_js() {
 	if ( is_checkout() ) {
         $seur_gmap_api = get_option( 'seur_google_maps_api_field' );
-		/*if ( empty( $seur_gmap_api ) ) {
-			return;
-		}*/
 		wp_enqueue_script( 'seur-gmap', 'https://maps.google.com/maps/api/js?libraries=geometry&v=3&key=' . $seur_gmap_api, array(), SEUR_OFFICIAL_VERSION, false );
         wp_enqueue_script( 'seur-map', SEUR_PLUGIN_URL . 'assets/js/maplace.min.js', array( 'jquery' ), SEUR_OFFICIAL_VERSION, false );
     }
@@ -198,10 +268,15 @@ function seur_map_checkout_load_js() {
 function seur_get_local_pickups( $country, $city, $postcode ) {
 
     // if ( 'ES' === $country || 'PT' === $country || 'AD' === $country ) {
-        $seur_adr = seur()->get_api_addres() . SEUR_API_PICKUPS . '?countryCode=' . $country . '&postalCode=' . $postcode . '&cityName=' . $city;
+        $params = array(
+            'countryCode'     => $country,
+            'cityName'        => $city,
+            'postalCode' => $postcode,
+        );
+        $seur_adr = seur()->get_api_addres() . SEUR_API_PICKUPS . '?' . http_build_query($params);
 
         $data = array(
-            'method' => 'GET',
+                'method' => 'GET',
             'timeout' => 45,
             'httpversion' => '1.0',
             'user-agent' => 'WooCommerce',
@@ -321,7 +396,7 @@ function seur_after_seur_2shop_shipping_rate( $method, $index ) {
 				$print_js .= "city_only: '" . addslashes( $local_pickups_array[ $i ]['city'] ) . "',";
 				$print_js .= "pudoId: '" . addslashes( $local_pickups_array[ $i ]['pudoId'] ) . "',";
 				$print_js .= 'lat: ' . addslashes( $local_pickups_array[ $i ]['lat'] ) . ',';
-				$print_js .= 'lon: ' . addslashes( $local_pickups_array[ $i ]['lng'] ) . ',';
+				$print_js .= 'lng: ' . addslashes( $local_pickups_array[ $i ]['lng'] ) . ',';
 				$print_js .= "streettype: '" . addslashes( $local_pickups_array[ $i ]['tipovia'] ) . "',";
 				$print_js .= "numvia: '" . addslashes( $local_pickups_array[ $i ]['numvia'] ) . "',";
 				$print_js .= "address: '" . addslashes( $local_pickups_array[ $i ]['tipovia'] ) . ' '.  addslashes( $local_pickups_array[ $i ]['address'] ) . ' ' . addslashes( $local_pickups_array[ $i ]['numvia'] ) . "',";
@@ -376,7 +451,7 @@ function seur_after_seur_2shop_shipping_rate( $method, $index ) {
 									html += '<input type=\"hidden\" name=\"seur_city_' + (a + 1) + '\" value=\"' + (this.o.locations[a].city_only || ('#' + (a + 1))) + '\">';
 									html += '<input type=\"hidden\" name=\"seur_pudo_id_' + (a + 1) + '\" value=\"' + (this.o.locations[a].pudoId || ('#' + (a + 1))) + '\">';
 									html += '<input type=\"hidden\" name=\"seur_lat_' + (a + 1) + '\" value=\"' + (this.o.locations[a].lat || ('#' + (a + 1))) + '\">';
-									html += '<input type=\"hidden\" name=\"seur_lon_' + (a + 1) + '\" value=\"' + (this.o.locations[a].lon || ('#' + (a + 1))) + '\">';
+									html += '<input type=\"hidden\" name=\"seur_lng_' + (a + 1) + '\" value=\"' + (this.o.locations[a].lng || ('#' + (a + 1))) + '\">';
 									html += '<input type=\"hidden\" name=\"seur_streettype_' + (a + 1) + '\" value=\"' + (this.o.locations[a].streettype || ('#' + (a + 1))) + '\">';
 									html += '<input type=\"hidden\" name=\"seur_numvia_' + (a + 1) + '\" value=\"' + (this.o.locations[a].numvia || ('#' + (a + 1))) + '\">';
 									html += '<input type=\"hidden\" name=\"seur_timetable_' + (a + 1) + '\" value=\"' + (this.o.locations[a].timetable || ('#' + (a + 1))) + '\">';
@@ -412,8 +487,11 @@ function seur_after_seur_2shop_shipping_rate( $method, $index ) {
 					controls_on_map: false,
 					controls_type: 'seurdropdown'
 				});";
+            $seur_gmap_api = get_option( 'seur_google_maps_api_field' );
             if (empty($seur_gmap_api)) {
                 echo "$('#seur-gmap').hide();";
+            } else {
+                echo "$('#seur-gmap').show();";
             }
 			echo "});
 			</script>";
@@ -464,59 +542,25 @@ function seur_validation_2shop_fields() {
 function seur_add_2shop_data_to_order( $order_id ) {
 
 	if ( ! empty( $_POST['seur_pickup'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Missing
-		$id              = sanitize_text_field( wp_unslash( $_POST['seur_pickup'] ) ); // phpcs:ignore WordPress.Security.NonceVerification.Missing
-		$seur_depot      = 'seur_depot_' . $id;
-		$seur_postcode   = 'seur_postcode_' . $id;
-		$seur_cod_centro = 'seur_codCentro_' . $id;
-		$seur_title      = 'seur_title_' . $id;
-		$seur_type       = 'seur_type_' . $id;
-		$seur_address    = 'seur_address_' . $id;
-		$seur_city       = 'seur_city_' . $id;
-		$seur_pudo_id    = 'seur_pudo_id_' . $id;
-		$seur_lat        = 'seur_lat_' . $id;
-		$seur_lon        = 'seur_lon_' . $id;
-		$seur_streettype = 'seur_streettype_' . $id;
-		$seur_numvia     = 'seur_numvia_' . $id;
-		$seur_timetable  = 'seur_timetable_' . $id;
+		$seurLocalMethod = new Seur_Local_Shipping_Method();
+        $seurLocalMethod->orderId    = $order_id;
+        $id = sanitize_text_field( wp_unslash( $_POST['seur_pickup'] ) ); // phpcs:ignore WordPress.Security.NonceVerification.Missing
+        $seurLocalMethod->depot      = sanitize_text_field( wp_unslash( $_POST[ 'seur_depot_' . $id ] ) ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotValidated,WordPress.Security.NonceVerification.Missing
+        $seurLocalMethod->postcode   = sanitize_text_field( wp_unslash( $_POST[ 'seur_postcode_' . $id ] ) ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotValidated,WordPress.Security.NonceVerification.Missing
+        $seurLocalMethod->codCentro  = sanitize_text_field( wp_unslash( $_POST[ 'seur_codCentro_' . $id ] ) ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotValidated,WordPress.Security.NonceVerification.Missing
+        $seurLocalMethod->title      = sanitize_text_field( wp_unslash( $_POST[ 'seur_title_' . $id ] ) ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotValidated,WordPress.Security.NonceVerification.Missing
+        $seurLocalMethod->type       = sanitize_text_field( wp_unslash( $_POST[ 'seur_type_' . $id ] ) ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotValidated,WordPress.Security.NonceVerification.Missing
+        $seurLocalMethod->address    = sanitize_text_field( wp_unslash( $_POST[ 'seur_address_' . $id ] ) ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotValidated,WordPress.Security.NonceVerification.Missing
+        $seurLocalMethod->city       = sanitize_text_field( wp_unslash( $_POST[ 'seur_city_' . $id ] ) ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotValidated,WordPress.Security.NonceVerification.Missing
+        $seurLocalMethod->pudoId     = sanitize_text_field( wp_unslash( $_POST[ 'seur_pudo_id_' . $id ] ) ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotValidated,WordPress.Security.NonceVerification.Missing
+        $seurLocalMethod->lat        = sanitize_text_field( wp_unslash( $_POST[ 'seur_lat_' . $id ] ) ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotValidated,WordPress.Security.NonceVerification.Missing
+        $seurLocalMethod->lng        = sanitize_text_field( wp_unslash( $_POST[ 'seur_lng_' . $id ] ) ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotValidated,WordPress.Security.NonceVerification.Missing
+        $seurLocalMethod->streettype = sanitize_text_field( wp_unslash( $_POST[ 'seur_streettype_' . $id ] ) ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotValidated,WordPress.Security.NonceVerification.Missing
+        $seurLocalMethod->numvia     = sanitize_text_field( wp_unslash( $_POST[ 'seur_numvia_' . $id ] ) ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotValidated,WordPress.Security.NonceVerification.Missing
+        $seurLocalMethod->timetable  = sanitize_text_field( wp_unslash( $_POST[ 'seur_timetable_' . $id ] ) ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotValidated,WordPress.Security.NonceVerification.Missing
 
-		$depot      = sanitize_text_field( wp_unslash( $_POST[ $seur_depot ] ) ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotValidated,WordPress.Security.NonceVerification.Missing
-		$postcode   = sanitize_text_field( wp_unslash( $_POST[ $seur_postcode ] ) ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotValidated,WordPress.Security.NonceVerification.Missing
-		$cod_centro = sanitize_text_field( wp_unslash( $_POST[ $seur_cod_centro ] ) ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotValidated,WordPress.Security.NonceVerification.Missing
-		$title      = sanitize_text_field( wp_unslash( $_POST[ $seur_title ] ) ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotValidated,WordPress.Security.NonceVerification.Missing
-		$type       = sanitize_text_field( wp_unslash( $_POST[ $seur_type ] ) ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotValidated,WordPress.Security.NonceVerification.Missing
-		$address    = sanitize_text_field( wp_unslash( $_POST[ $seur_address ] ) ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotValidated,WordPress.Security.NonceVerification.Missing
-		$city       = sanitize_text_field( wp_unslash( $_POST[ $seur_city ] ) ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotValidated,WordPress.Security.NonceVerification.Missing
-        $pudoId     = sanitize_text_field( wp_unslash( $_POST[ $seur_pudo_id ] ) ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotValidated,WordPress.Security.NonceVerification.Missing
-		$lat        = sanitize_text_field( wp_unslash( $_POST[ $seur_lat ] ) ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotValidated,WordPress.Security.NonceVerification.Missing
-		$lon        = sanitize_text_field( wp_unslash( $_POST[ $seur_lon ] ) ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotValidated,WordPress.Security.NonceVerification.Missing
-		$streettype = sanitize_text_field( wp_unslash( $_POST[ $seur_streettype ] ) ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotValidated,WordPress.Security.NonceVerification.Missing
-		$numvia     = sanitize_text_field( wp_unslash( $_POST[ $seur_numvia ] ) ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotValidated,WordPress.Security.NonceVerification.Missing
-		$timetable  = sanitize_text_field( wp_unslash( $_POST[ $seur_timetable ] ) ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotValidated,WordPress.Security.NonceVerification.Missing
-
-        $order = seur_get_order($order_id);
-		$order->update_meta_data('_seur_2shop_depot', str_pad( $depot, 2, '0', STR_PAD_LEFT ) );
-        $order->update_meta_data('_seur_2shop_postcode', $postcode );
-        $order->update_meta_data('_seur_2shop_codCentro', $pudoId );
-        $order->update_meta_data('_seur_2shop_title', $title );
-        $order->update_meta_data('_seur_2shop_type', $type );
-        $order->update_meta_data('_seur_2shop_address', $address );
-        $order->update_meta_data('_seur_2shop_city', $city );
-        $order->update_meta_data('_seur_2shop_pudo_id', $pudoId );
-        $order->update_meta_data('_seur_2shop_lat', $lat );
-        $order->update_meta_data('_seur_2shop_lon', $lon );
-        $order->update_meta_data('_seur_2shop_streettype', $streettype );
-        $order->update_meta_data('_seur_2shop_numvia', $numvia );
-        $order->update_meta_data('_seur_2shop_timetable', $timetable );
-        $order->save_meta_data();
-
-        // Set order shipping address to pick-up location address
-        $shipping_address = $order->get_address('shipping');
-		$shipping_address['address_1'] = __( 'Pickup store', 'seur' ) . ": {$title} - {$pudoId}";
-		$shipping_address['address_2'] = "{$streettype} {$address} {$numvia}";
-		$shipping_address['city'] = $city;
-		$shipping_address['postcode'] = $postcode;
-		$order->set_address($shipping_address , 'shipping' );
-		$order->save();
+        $seurLocalMethod->save_pudo_data_to_order();
+        $seurLocalMethod->save_pudo_address_to_order();
 	}
 }
 
@@ -530,4 +574,23 @@ if ( '1' === $localpickup_is_active ) {
 	add_action( 'wp_enqueue_scripts', 'seur_map_checkout_load_js' );
 	add_action( 'wp_footer', 'seur_add_map_type_select2' );
 	add_action( 'woocommerce_checkout_update_order_meta', 'seur_add_2shop_data_to_order' );
+}
+
+function getSeurLocalMethod() {
+    $custom_name_seur_2shop = get_option( 'seur_2shop_custom_name_field' );
+    $custom_name_classic_2shop = get_option( 'seur_classic_int_2shop_custom_name_field' );
+    if ( empty( $custom_name_seur_2shop ) ) {
+        $custom_name_seur_2shop = 'SEUR 2SHOP';
+    }
+    if ( empty( $custom_name_classic_2shop ) ) {
+        $custom_name_classic_2shop = 'CLASSIC 2SHOP';
+    }
+    return array( $custom_name_seur_2shop, $custom_name_classic_2shop );
+}
+function isSeurLocalMethod($method) {
+    $seur_local_methods = getSeurLocalMethod();
+    if (in_array($method, $seur_local_methods)) {
+        return true;
+    }
+    return false;
 }
