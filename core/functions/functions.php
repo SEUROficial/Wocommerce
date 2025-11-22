@@ -71,18 +71,18 @@ function seur_api_check_url_exists( $url ) {
 function seur_search_number_message_result( $howmany ) {
 
 	if ( $howmany <= 0 ) {
-		$message = esc_html_e( 'No Matches Found', 'seur' );
+		$message = esc_html__( 'No Matches Found', 'seur' );
 		return $message;
 	}
 
 	if ( 1 === $howmany ) {
-		$message = esc_html_e( '1 Result Found', 'seur' );
+		$message = esc_html__( '1 Result Found', 'seur' );
 		return $message;
 	}
 
 	if ( $howmany > 1 ) {
 		// translators: Number of results.
-		$message = printf( esc_html__( 'Found %s Results.', 'seur' ), esc_html( $howmany ) );
+		$message = sprintf( esc_html__( 'Found %s Results.', 'seur' ), esc_html( $howmany ) );
 		return $message;
 	}
 }
