@@ -3,12 +3,12 @@
  * Plugin Name: SEUR Oficial
  * Plugin URI: http://www.seur.com/
  * Description: Add SEUR shipping method to WooCommerce. The SEUR plugin for WooCommerce allows you to manage your order dispatches in a fast and easy way
- * Version: 2.2.28
+ * Version: 2.2.29
  * Author: SEUR Oficial
  * Author URI: http://www.seur.com/
- * Tested up to: 6.8
+ * Tested up to: 6.9
  * WC requires at least: 3.0
- * WC tested up to: 9.1.4
+ * WC tested up to: 10.2
  * Text Domain: seur
  * Domain Path: /languages/
  * License: GNU General Public License v3.0
@@ -19,7 +19,7 @@
 
 use Automattic\WooCommerce\Utilities\FeaturesUtil;
 
-define( 'SEUR_OFFICIAL_VERSION', '2.2.28' );
+define( 'SEUR_OFFICIAL_VERSION', '2.2.29' );
 define( 'SEUR_DB_VERSION', '1.0.5' );
 define( 'SEUR_TABLE_VERSION', '1.0.5' );
 
@@ -55,10 +55,13 @@ define( 'SHIPPING_CLASS_NACIONAL_FRANQUICIAS', 2); // shipping is to ES, PT or A
  * More defins here => /core/defines/defines-loader.php
  */
 
-/* Declare HPOS compatibility */
+
 add_action( 'before_woocommerce_init', function() {
     if ( class_exists( FeaturesUtil::class ) ) {
+        /* Declare HPOS compatibility */
         FeaturesUtil::declare_compatibility( 'custom_order_tables', __FILE__, true );
+        /* Declare WooCommerce Checkout Blocks compatibility */
+        FeaturesUtil::declare_compatibility( 'cart_checkout_blocks', __FILE__, true );
     }
 } );
 
@@ -86,12 +89,12 @@ function seur_load_code() {
 	require_once SEUR_PLUGIN_PATH . 'core/loader-core.php';
 
 	$seur_db_version_saved = get_option( 'seur_db_version' );
-	if ( $seur_db_version_saved != SEUR_DB_VERSION ) {
+	if ( $seur_db_version_saved !== SEUR_DB_VERSION ) {
 		seur_create_tables_hook();
 	}
 
 	$seur_table_version_saved = get_option( 'seur_table_version' );
-	if ( $seur_table_version_saved != SEUR_TABLE_VERSION ) {
+	if ( $seur_table_version_saved !== SEUR_TABLE_VERSION ) {
 		seur_add_data_to_tables_hook();
 	}
     deleteSeurJobs();
@@ -129,35 +132,60 @@ function seur_welcome_splash() {
 add_action( 'admin_init', 'seur_welcome_splash', 1 );
 
 /**
+ * Muestra un aviso dismissible en el admin de WordPress.
+ *
+ * @param string $option_name    Nombre de la opción para guardar el estado de dismissal.
+ * @param string $nonce_action   Acción del nonce.
+ * @param string $nonce_name     Nombre del campo nonce.
+ * @param string $dismiss_key    Clave del parámetro GET para dismiss.
+ * @param string $dismiss_value  Valor del parámetro GET para dismiss.
+ * @param string $title          Título del aviso.
+ * @param string $message        Mensaje del aviso (puede contener HTML).
+ */
+function seur_display_admin_notice( $option_name, $nonce_action, $nonce_name, $dismiss_key, $dismiss_value, $title, $message ) {
+	$version = get_option( $option_name );
+
+	if ( SEUR_OFFICIAL_VERSION !== $version ) {
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended
+		if ( isset( $_REQUEST[ $nonce_name ] ) && isset( $_REQUEST[ $dismiss_key ] ) && $dismiss_value === $_REQUEST[ $dismiss_key ] ) {
+			$nonce = sanitize_text_field( wp_unslash( $_REQUEST[ $nonce_name ] ) ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+			if ( wp_verify_nonce( $nonce, $nonce_action ) ) {
+				update_option( $option_name, SEUR_OFFICIAL_VERSION );
+				return;
+			}
+		}
+		?>
+		<div id="message" class="updated woocommerce-message woocommerce-seur-messages">
+			<a class="woocommerce-message-close notice-dismiss" style="top:0;" href="<?php echo esc_url( wp_nonce_url( add_query_arg( $dismiss_key, $dismiss_value ), $nonce_action, $nonce_name ) ); ?>"><?php esc_html_e( 'Dismiss', 'seur' ); ?></a>
+			<p><?php echo esc_html( $title ); ?></p>
+			<p><?php echo wp_kses_post( $message ); ?></p>
+		</div>
+		<?php
+	}
+}
+
+/**
  * SEUR Add notice new version.
  */
 function seur_add_notice_new_version() {
+	$message = sprintf(
+		wp_kses(
+			// translators: %s: URL to SEUR website with new features.
+			__( 'Discover the improvements that have been made in this version, and how to take advantage of them <a href="%s" target="_blank" rel="noopener noreferrer">here</a>', 'seur' ),
+			array( 'a' => array( 'href' => array(), 'target' => array(), 'rel' => array() ) )
+		),
+		esc_url( SEUR_POST_UPDATE_URL )
+	);
 
-	$version = get_option( 'hide-new-version-seur-notice' );
-
-	if ( SEUR_OFFICIAL_VERSION !== $version ) {
-		if ( isset( $_REQUEST['_seur_hide_new_version_nonce'] ) && isset( $_REQUEST['seur-hide-new-version'] ) && 'hide-new-version-seur' === $_REQUEST['seur-hide-new-version'] ) {
-			$nonce = sanitize_text_field( wp_unslash( $_REQUEST['_seur_hide_new_version_nonce'] ) ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
-			if ( wp_verify_nonce( $nonce, 'seur_hide_new_version_nonce' ) ) {
-				update_option( 'hide-new-version-seur-notice', SEUR_OFFICIAL_VERSION );
-			}
-		} else {
-			?>
-			<div id="message" class="updated woocommerce-message woocommerce-seur-messages">
-				<a class="woocommerce-message-close notice-dismiss" style="top:0;" href="<?php echo esc_url( wp_nonce_url( add_query_arg( 'seur-hide-new-version', 'hide-new-version-seur' ), 'seur_hide_new_version_nonce', '_seur_hide_new_version_nonce' ) ); ?>"><?php esc_html_e( 'Dismiss', 'seur' ); ?></a>
-				<p>
-					<?php echo esc_html__( 'SEUR has been updated to version', 'seur' ) . ' ' . esc_html( SEUR_OFFICIAL_VERSION ); ?>
-				</p>
-				<p>
-					<?php
-					// translators: Link to SEUR website with new features.
-					printf( wp_kses( __( 'Discover the improvements that have been made in this version, and how to take advantage of them <a href="%s" target="_blank">here</a>', 'seur' ), array( 'a' => array( 'href' => array() ) ) ), esc_url( SEUR_POST_UPDATE_URL ) );
-					?>
-				</p>
-			</div>
-			<?php
-		}
-	}
+	seur_display_admin_notice(
+		'hide-new-version-seur-notice',
+		'seur_hide_new_version_nonce',
+		'_seur_hide_new_version_nonce',
+		'seur-hide-new-version',
+		'hide-new-version-seur',
+		__( 'SEUR has been updated to version', 'seur' ) . ' ' . SEUR_OFFICIAL_VERSION,
+		$message
+	);
 }
 add_action( 'admin_notices', 'seur_add_notice_new_version' );
 
@@ -165,31 +193,15 @@ add_action( 'admin_notices', 'seur_add_notice_new_version' );
  * SEUR Add notice v2.
  */
 function seur_add_notice_new_v2() {
-
-	$version = get_option( 'hide-new-v2-seur-notice' );
-
-	if ( SEUR_OFFICIAL_VERSION !== $version ) {
-		if ( isset( $_REQUEST['_seur_hide_new_v2_nonce'] ) && isset( $_REQUEST['seur-hide-new-v2'] ) && 'hide-new-v2-seur' === $_REQUEST['seur-hide-new-v2'] ) {
-			$nonce = sanitize_text_field( wp_unslash( $_REQUEST['_seur_hide_new_v2_nonce'] ) ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
-			if ( wp_verify_nonce( $nonce, 'seur_hide_new_v2_nonce' ) ) {
-				update_option( 'hide-new-v2-seur-notice', SEUR_OFFICIAL_VERSION );
-			}
-		} else {
-			?>
-			<div id="message" class="updated woocommerce-message woocommerce-seur-messages">
-				<a class="woocommerce-message-close notice-dismiss" style="top:0;" href="<?php echo esc_url( wp_nonce_url( add_query_arg( 'seur-hide-new-v2', 'hide-new-v2-seur' ), 'seur_hide_new_v2_nonce', '_seur_hide_new_v2_nonce' ) ); ?>"><?php esc_html_e( 'Dismiss', 'seur' ); ?></a>
-				<p>
-					<?php echo esc_html__( 'WARNING', 'seur' ); ?>
-				</p>
-				<p>
-					<?php
-					esc_html_e( 'You need to contact to SEUR for new credentials. Call to +34913228380 or email to staci@seur.net', 'seur' );
-					?>
-				</p>
-			</div>
-			<?php
-		}
-	}
+	seur_display_admin_notice(
+		'hide-new-v2-seur-notice',
+		'seur_hide_new_v2_nonce',
+		'_seur_hide_new_v2_nonce',
+		'seur-hide-new-v2',
+		'hide-new-v2-seur',
+		__( 'WARNING', 'seur' ),
+		esc_html__( 'You need to contact to SEUR for new credentials. Call to +34913228380 or email to staci@seur.net', 'seur' )
+	);
 }
 add_action( 'admin_notices', 'seur_add_notice_new_v2' );
 
@@ -203,198 +215,20 @@ function seur_notice_style() {
 add_action( 'admin_enqueue_scripts', 'seur_notice_style' );
 
 /**
- * Check if the shipping method is compatible with Block Checkout.
+ * Checkout Blocks Integration.
  */
-const TARGET_SHIPPING_METHOD = 'seurlocal';
+add_action( 'woocommerce_blocks_loaded', function() {
 
-/*******************************************************************************************************************
- * CHECKOUT BLOCKS or CLASSIC ?
- */
-function seur_uses_block_checkout(): bool {
+    if ( defined( 'SEUR_PLUGIN_PATH' ) ) {
+        require_once SEUR_PLUGIN_PATH . 'seur-block-integration.php';
+    }
 
-    $uses_blocks = false;
-    // WooCommerce 8.3+ — use the official utility.
-    if ( class_exists( '\Automattic\WooCommerce\Blocks\Utils\CartCheckoutUtils' ) ) {
-        $uses_blocks = \Automattic\WooCommerce\Blocks\Utils\CartCheckoutUtils::is_checkout_block_default();
-    } else {
-        // Fallback — check if the checkout page contains the block.
-        if ( function_exists( 'has_block' ) ) {
-            $checkout_id = function_exists( 'wc_get_page_id' ) ? wc_get_page_id( 'checkout' ) : 0;
-            if ( $checkout_id && has_block( 'woocommerce/checkout', $checkout_id ) ) {
-                $uses_blocks = true;
-
-                // Block themes — check the Site Editor template.
-            } elseif ( function_exists( 'wp_is_block_theme' ) && wp_is_block_theme() && function_exists( 'get_block_template' ) ) {
-                $tpl = get_block_template( get_stylesheet() . '//page-checkout', 'wp_template' );
-                if ( $tpl && ! empty( $tpl->content ) && has_block( 'woocommerce/checkout', $tpl->content ) ) {
-                    $uses_blocks = true;
-                }
+    add_action(
+        'woocommerce_blocks_checkout_block_registration',
+        function( $integration_registry ) {
+            if ( class_exists( '\Seur\Blocks\Seur_Blocks_Integration' ) ) {
+                $integration_registry->register( new \Seur\Blocks\Seur_Blocks_Integration() );
             }
         }
-    }
-    return $uses_blocks;
-}
-
-/**
- * Is this method compatible with Blocks Checkout?
- *     By default, ONLY the target method is incompatible; others are compatible.
- *     You can override from outside via the `seur_is_method_blocks_compatible` filter.
- *
- * @param string $method_id   ID of the shipping method.
- * @param int    $instance_id Method instance ID.
- * @param int    $zone_id     Shipping zone ID.
- */
-function seur_is_method_blocks_compatible( string $method_id, int $instance_id = 0, int $zone_id = 0 ): bool {
-    $compatible = ( $method_id !== TARGET_SHIPPING_METHOD );
-    return (bool) apply_filters( 'seur_is_method_blocks_compatible', $compatible, $method_id, $instance_id, $zone_id );
-}
-
-/** ---------- Helpers / Utilidades ---------- */
-
-/**
- * Disable a shipping method instance and clear shipping caches.
- */
-function seur_disable_zone_method_instance( int $instance_id ): void {
-    global $wpdb;
-
-    $wpdb->update(
-        "{$wpdb->prefix}woocommerce_shipping_zone_methods",
-        [ 'is_enabled' => 0 ],
-        [ 'instance_id' => absint( $instance_id ) ]
     );
-
-    // Bust shipping caches so the change is reflected in the admin UI.
-    if ( class_exists( 'WC_Cache_Helper' ) ) {
-        WC_Cache_Helper::get_transient_version( 'shipping', true );
-    }
-}
-
-/**
- * Show an admin notice indicating the method is not compatible with blocks.
- */
-function seur_admin_notice_blocks_incompatible( string $method_id, int $instance_id ): void {
-    if ( class_exists( 'WC_Admin_Notices' ) ) {
-        seur_add_error_admin_notice_once(
-            'seur_method_blocks_incompatible_' . $instance_id,
-            __( 'The <strong>SEUR Local Pickup</strong> shipping method is not compatible with Checkout Block and the pickup point selector will not be displayed. You can use classic checkout while we work on compatibility.', 'seur' )
-        );
-    }
-}
-
-/** ---------- Hooks ---------- */
-
-/**
- * Status toggle (enable/disable) from Shipping Zones.
- *     If enabling and it’s not blocks-compatible, keep it disabled and show a notice.
- */
-function seur_woocommerce_shipping_zone_method_status_toggled( int $instance_id, string $method_id, int $zone_id, int $is_enabled ): void {
-    // Only care when enabling.
-    if ( 1 !== (int) $is_enabled ) {
-        return;
-    }
-    // If Blocks Checkout isn’t used, don’t block anything.
-    if ( ! seur_uses_block_checkout() ) {
-        return;
-    }
-    // If NOT compatible, disable and notify.
-    if ( ! seur_is_method_blocks_compatible( $method_id, $instance_id, $zone_id ) ) {
-        seur_disable_zone_method_instance( $instance_id );
-        seur_admin_notice_blocks_incompatible( $method_id, $instance_id );
-    }
-}
-add_action( 'woocommerce_shipping_zone_method_status_toggled', 'seur_woocommerce_shipping_zone_method_status_toggled', 10, 4 );
-
-/**
- * “Add method” case.
- *     If it’s not blocks-compatible, it’s created but immediately disabled and a notice is shown.
- */
-function seur_woocommerce_shipping_zone_method_added( int $instance_id, string $method_id, int $zone_id ): void {
-    // If Blocks Checkout isn’t used, do nothing.
-    if ( ! seur_uses_block_checkout() ) {
-        return;
-    }
-    // If NOT compatible, disable and notify.
-    if ( ! seur_is_method_blocks_compatible( $method_id, $instance_id, $zone_id ) ) {
-        seur_disable_zone_method_instance( $instance_id );
-        seur_admin_notice_blocks_incompatible( $method_id, $instance_id );
-    }
-}
-add_action( 'woocommerce_shipping_zone_method_added', 'seur_woocommerce_shipping_zone_method_added', 10, 3 );
-
-/*
- * Audit: disable all enabled, blocks-incompatible instances across all zones.
- */
-function seur_audit_and_disable_incompatible_methods(): void {
-    if ( ! is_admin() || ! seur_uses_block_checkout() ) {
-        return;
-    }
-
-    global $wpdb;
-    // Find all enabled instances of your target method.
-    $instance_ids = $wpdb->get_col(
-        $wpdb->prepare(
-            "SELECT instance_id FROM {$wpdb->prefix}woocommerce_shipping_zone_methods
-			 WHERE method_id = %s AND is_enabled = 1",
-            TARGET_SHIPPING_METHOD
-        )
-    );
-
-    if ( empty( $instance_ids ) ) {
-        return;
-    }
-
-    foreach ( $instance_ids as $instance_id ) {
-        // In case you later expand per-instance/zone compatibility logic.
-        if ( ! seur_is_method_blocks_compatible( TARGET_SHIPPING_METHOD, (int) $instance_id, 0 ) ) {
-            seur_disable_zone_method_instance( (int) $instance_id );
-        }
-    }
-
-    // Single admin notice to avoid noise.
-    if ( class_exists( 'WC_Admin_Notices' ) ) {
-        seur_add_error_admin_notice_once(
-            'seur_bulk_blocks_incompatible',
-            __( 'Se han desactivado instancias incompatibles con el Checkout de bloques para el método "SEUR Local Pickup".', 'seur' )
-        );
-    }
-}
-add_action( 'admin_init', 'seur_audit_and_disable_incompatible_methods' );
-
-
-/**
- * Show a red (error) admin notice once (persisted across page loads).
- */
-function seur_add_error_admin_notice_once(string $key, string $html): void
-{
-    $stack = get_option('seur_admin_error_notices', array());
-    $stack[$key] = wp_kses_post($html);
-    update_option('seur_admin_error_notices', $stack);
-}
-
-/**
- * Output stored notices and delete them (global hook).
- */
-function seur_output_error_admin_notices(): void
-{
-    $stack = get_option('seur_admin_error_notices', array());
-    if (empty($stack)) {
-        return;
-    }
-
-    // Opcional: limítalo a pantallas de WooCommerce.
-    $screen = function_exists('get_current_screen') ? get_current_screen() : null;
-    if ($screen && !in_array($screen->id, function_exists('wc_get_screen_ids') ? wc_get_screen_ids() : array(), true)) {
-        return;
-    }
-
-    foreach ($stack as $key => $html) {
-        // notice-error => red border; is-dismissible => close button.
-        printf(
-            '<div class="notice notice-error is-dismissible"><p>%s</p></div>',
-            $html
-        );
-        unset($stack[$key]); // Mostrar solo una vez / Only once.
-    }
-    update_option('seur_admin_error_notices', $stack);
-}
-add_action('admin_notices', 'seur_output_error_admin_notices');
+});

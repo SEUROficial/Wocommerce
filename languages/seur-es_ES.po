@@ -2312,3 +2312,27 @@ msgstr "ZipArchive:"
 #: core/pages/seur-products-services.php:67
 msgid "Zone"
 msgstr "Zona"
+
+#: src/components/MapLoadingIndicator.js:27
+msgid "Cargando puntos de recogida..."
+msgstr "Cargando puntos de recogida..."
+
+#: src/components/SeurMapDisplay.js:50
+msgid "🌐 Punto SEUR"
+msgstr "🌐 Punto SEUR"
+
+#: src/components/SeurMapDisplay.js:52
+msgid "Selecciona una ubicación de recogida en el mapa."
+msgstr "Selecciona una ubicación de recogida en el mapa."
+
+#: src/hooks/useMapInitialization.js:64
+msgid "Google Maps o Maplace aún no están disponibles"
+msgstr "Google Maps o Maplace aún no están disponibles"
+
+#: src/hooks/useMapInitialization.js:81
+msgid "Sin puntos SEUR disponibles para esta dirección"
+msgstr "Sin puntos SEUR disponibles para esta dirección"
+
+#: src/hooks/useMapInitialization.js:163
+msgid "Error cargando puntos SEUR"
+msgstr "Error cargando puntos SEUR"

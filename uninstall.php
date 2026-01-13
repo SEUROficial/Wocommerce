@@ -11,14 +11,26 @@ if ( ! defined( 'WP_UNINSTALL_PLUGIN' ) || ! current_user_can( 'activate_plugins
 	exit();
 }
 
-global $wpdb, $wp_filesystem;
+global $wpdb;
+
+// Inicializar WP_Filesystem.
+if ( ! function_exists( 'WP_Filesystem' ) ) {
+	require_once ABSPATH . 'wp-admin/includes/file.php';
+}
+
+WP_Filesystem();
+global $wp_filesystem;
 
 // Removing SEUR folders and downloader file.
-
 $seur_uploads = get_option( 'seur_uploads_dir' );
-$wp_filesystem->rmdir( $seur_uploads, true );
+if ( ! empty( $seur_uploads ) && $wp_filesystem && $wp_filesystem->exists( $seur_uploads ) ) {
+	$wp_filesystem->rmdir( $seur_uploads, true );
+}
+
 $seur_download_file = get_site_option( 'seur_download_file_path' );
-wp_delete_file( $seur_download_file );
+if ( ! empty( $seur_download_file ) && file_exists( $seur_download_file ) ) {
+	wp_delete_file( $seur_download_file );
+}
 
 // remove options added by SEUR Plugin.
 

@@ -14,11 +14,11 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 function seur_register_meta_boxes() {
     $screen = seur_get_order_screen();
-    // phpcs:ignore WordPress.Security.NonceVerification.Missing, WordPress.Security.NonceVerification.Recommended -- Nonce verification is not applicable here
-	if (isset($_GET['id'])) {
-		$order_id = absint(wp_unslash($_GET['id']));
-	} elseif (isset($_GET['post'])) {
-		$order_id = absint(wp_unslash($_GET['post']));
+    // Reading order ID from URL for meta box display, no data modification.
+	if (isset($_GET['id'])) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+		$order_id = absint(wp_unslash($_GET['id'])); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+	} elseif (isset($_GET['post'])) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+		$order_id = absint(wp_unslash($_GET['post'])); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 	} else {
 		$order_id = 0;
 	}

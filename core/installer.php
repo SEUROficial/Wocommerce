@@ -548,13 +548,48 @@ function insertFreeSeurCustomRates()
 {
     global $wpdb;
     $table_name = $wpdb->prefix . 'seur_custom_rates';
-    $wpdb->query('START TRANSACTION');
+
+    // Inicializar WP_Filesystem.
+    if ( ! function_exists( 'WP_Filesystem' ) ) {
+        require_once ABSPATH . 'wp-admin/includes/file.php';
+    }
+
+    WP_Filesystem();
+    global $wp_filesystem;
 
     $file = SEUR_PLUGIN_PATH . 'data/seur_preloaded_rates.csv';
-    if (($h = fopen($file, 'r')) !== false) {
-        while (($row = fgetcsv($h)) !== false) {
-            list($id,$type,$country,$state,$postcode,$minp,$maxp,$minw,$maxw,$rate,$rateprice) = $row;
-            $wpdb->replace($table_name, [
+
+    if ( ! $wp_filesystem || ! $wp_filesystem->exists( $file ) ) {
+        return;
+    }
+
+    $file_contents = $wp_filesystem->get_contents( $file );
+    if ( empty( $file_contents ) ) {
+        return;
+    }
+
+    // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Bulk insert into custom table.
+    $wpdb->query( 'START TRANSACTION' );
+
+    // Parsear CSV línea por línea.
+    $lines = explode( "\n", $file_contents );
+    foreach ( $lines as $line ) {
+        $line = trim( $line );
+        if ( empty( $line ) ) {
+            continue;
+        }
+
+        $row = str_getcsv( $line );
+        if ( count( $row ) < 11 ) {
+            continue;
+        }
+
+        list( $id, $type, $country, $state, $postcode, $minp, $maxp, $minw, $maxw, $rate, $rateprice ) = $row;
+
+        // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Custom table insert.
+        $wpdb->replace(
+            $table_name,
+            [
                 'ID'        => (int) $id,
                 'type'      => (string) $type,
                 'country'   => (string) $country,
@@ -566,12 +601,13 @@ function insertFreeSeurCustomRates()
                 'maxweight' => (float) $maxw,
                 'rate'      => (string) $rate,
                 'rateprice' => (float) $rateprice,
-            ], ['%d','%s','%s','%s','%s','%f','%f','%f','%f','%s','%f']);
-        }
-        fclose($h);
+            ],
+            [ '%d', '%s', '%s', '%s', '%s', '%f', '%f', '%f', '%f', '%s', '%f' ]
+        );
     }
 
-    $wpdb->query('COMMIT');
+    // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Transaction commit.
+    $wpdb->query( 'COMMIT' );
 }
 
 function insertIntoSeurCustomRates() {

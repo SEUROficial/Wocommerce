@@ -74,13 +74,10 @@ function seur_get_labels_from_order($order) {
 		?>
 		<form method="post" name="getlabels">
 			<input type='hidden' name='order-id' class='form-control' value='<?php echo esc_html( $orderid2 ); ?>' />
-			<label><?php esc_html_e( 'Packages Weight', 'seur' ); ?></label><br />
-			<?php if ( 'kg' === $weight_unit ) { ?>
-				<input title="<?php esc_html_e( 'Weight', 'seur' ); ?>" type='text' name='seur-weight' class='form-control' placeholder='<?php esc_html_e( 'EX: 0.300', 'seur' ); ?>' value='<?php if ( $weight ) { echo esc_html( $weight );} ?>' required='' /> <?php
-			} elseif ( 'g' === $weight_unit ) { ?>
-				<input title="<?php esc_html_e( 'Weight', 'seur' ); ?>" type='text' name='seur-weight' class='form-control' placeholder='<?php esc_html_e( 'EX: 300', 'seur' ); ?>' value='<?php if ( $weight ) { echo esc_html( $weight ); } ?>' required='' />
-			<?php } ?><br />
-			<label><?php esc_html_e( 'Number of Packages', 'seur' ); ?></label><br />
+            <label><?php esc_html_e( 'Packages Weight', 'seur' );
+                echo ' (' . esc_html( $weight_unit ) . ')'; ?></label><br />
+            <input title="<?php esc_html_e( 'Weight', 'seur' ); ?>" type='text' name='seur-weight' class='form-control' value='<?php if ( $weight ) { echo esc_html( $weight );} ?>' required='' /><br />
+            <label><?php esc_html_e( 'Number of Packages', 'seur' ); ?></label><br />
 			<input title="<?php esc_html_e( 'Number of Packages', 'seur' ); ?>" type="text" name="seur-number-packages" class="form-control" placeholder="<?php esc_html_e( 'EX: 2', 'seur' ); ?>" value="<?php echo esc_html( $value ); ?>" required="" <?php if ( ! empty( $shop2 ) ) { echo esc_html( $disabled ); } ?> /><br />
             <?php if ($change_service) {
                 echo '<input type="hidden" name="seur-change-service" value="1"/>';
