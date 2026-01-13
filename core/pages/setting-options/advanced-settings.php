@@ -198,15 +198,15 @@ function seur_activate_cron_update_shipments_field() {
             <div class="notice notice-info inline">
                 <p>
                     <strong><?php esc_html_e( 'Last execution details:', 'seur' ); ?></strong>
-                    <?php echo $last_run_time ?? esc_html__( 'Never executed', 'seur' ); ?>
+                    <?php echo esc_html( $last_run_time ?? __( 'Never executed', 'seur' ) ); ?>
                     <?php if ( $last_run_processed ) : ?>
                         - <?php echo esc_html__( 'Shipments processed:', 'seur' ) . ' ' . intval( $last_run_processed ); ?>
                     <?php endif; ?>
                 </p>
                 <p>
                     <strong><?php esc_html_e( 'Next schedule execution:', 'seur' ); ?></strong>
-                    <?php echo date('d/m/Y H:i:s', $next_run); ?>
-                    (<?php echo esc_html__('Remaining time', 'seur') . ': ' . human_time_diff($next_run, current_time('timestamp')); ?>)
+                    <?php echo esc_html( gmdate( 'd/m/Y H:i:s', $next_run ) ); ?>
+                    (<?php echo esc_html__( 'Remaining time', 'seur' ) . ': ' . esc_html( human_time_diff( $next_run, current_time( 'timestamp' ) ) ); ?>)
                 </p>
             </div>
         <?php

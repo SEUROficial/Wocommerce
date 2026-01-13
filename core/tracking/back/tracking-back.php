@@ -14,11 +14,11 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 function seur_register_meta_boxes_tracking() {
     $screen = seur_get_order_screen();
-    // phpcs:ignore WordPress.Security.NonceVerification.Missing, WordPress.Security.NonceVerification.Recommended -- Nonce verification is not applicable here
-	if (isset($_GET['id'])) {
-		$order_id = absint(wp_unslash($_GET['id']));
-	} elseif (isset($_GET['post'])) {
-		$order_id = absint(wp_unslash($_GET['post']));
+    // phpcs:ignore WordPress.Security.NonceVerification.Missing, WordPress.Security.NonceVerification.Recommended -- Reading order ID from URL for meta box display, no data modification.
+	if ( isset( $_GET['id'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+		$order_id = absint( wp_unslash( $_GET['id'] ) ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+	} elseif ( isset( $_GET['post'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+		$order_id = absint( wp_unslash( $_GET['post'] ) ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 	} else {
 		$order_id = 0;
 	}
@@ -225,6 +225,7 @@ function seur_get_candidate_ids_for_tracking_retry( $limit = 25 ) {
         $meta_fk_col    = "post_id";
     }
 
+    // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Table names are internally generated, not user input.
     $sql = "
         SELECT DISTINCT l.ID
         FROM {$wpdb->posts} l
@@ -264,6 +265,7 @@ function seur_get_candidate_ids_for_tracking_retry( $limit = 25 ) {
         LIMIT %d
     ";
 
+    // phpcs:disable WordPress.DB.PreparedSQL.NotPrepared -- Query is prepared with placeholders above.
     $prepared = $wpdb->prepare(
         $sql,
         '_seur_shipping_order_id',        // %s
@@ -274,7 +276,9 @@ function seur_get_candidate_ids_for_tracking_retry( $limit = 25 ) {
         $cutoff_8h,                       // %d
         max(1, (int) $limit)              // %d
     );
+    // phpcs:enable WordPress.DB.PreparedSQL.NotPrepared
 
+    // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Query was prepared above. Direct query needed for complex JOIN across custom tables. Caching not appropriate as data changes frequently.
     $label_ids = $wpdb->get_col( $prepared );
     return array_map( 'intval', $label_ids ?: [] );
 }
@@ -310,6 +314,7 @@ function seur_get_candidate_ids_for_tracking_new( $limit = 25 ) {
     }
 
     // Consulta: etiquetas recientes sin marca de consulta
+    // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Table names are internally generated, not user input.
     $sql = "
         SELECT DISTINCT l.ID
         FROM {$wpdb->posts} l
@@ -335,6 +340,7 @@ function seur_get_candidate_ids_for_tracking_new( $limit = 25 ) {
         LIMIT %d
     ";
 
+    // phpcs:disable WordPress.DB.PreparedSQL.NotPrepared -- Query is prepared with placeholders above.
     $prepared = $wpdb->prepare(
         $sql,
         '_seur_shipping_order_id',   // %s → meta que enlaza etiqueta→pedido
@@ -343,7 +349,9 @@ function seur_get_candidate_ids_for_tracking_new( $limit = 25 ) {
         '_seur_tracking_last_query_ts',     // %s → no debe existir en la etiqueta
         max(1, (int) $limit)         // %d → límite
     );
+    // phpcs:enable WordPress.DB.PreparedSQL.NotPrepared
 
+    // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Query was prepared above. Direct query needed for complex JOIN across custom tables. Caching not appropriate as data changes frequently.
     $label_ids = $wpdb->get_col( $prepared );
     return array_map( 'intval', $label_ids ?: [] );
 }

@@ -1738,7 +1738,7 @@ if (get_option( 'seur_activate_returns_url_field' ) === '1') {
         if (!is_wc_endpoint_url('view-order')) return;
 
         echo '<div style="margin-top:20px; text-align:right;">';
-        echo seur_get_returns_button();
+        echo wp_kses_post( seur_get_returns_button() );
         echo '</div>';
     }, 10, 1);
 
@@ -1758,8 +1758,9 @@ function seur_get_returns_button(): string
     $url = 'https://www.seur.com/devoluciones/pages/devolucionInicio.do?id=0b57e23f-21ab-4d9c-8575-69b88e6c857f';
     $seur_img = SEUR_PLUGIN_URL . 'assets/img/seur-devoluciones.png';
 
-    $button_html = '<a href="' . esc_url($url) . '" target="_blank" rel="noopener" style="background-color: white; padding: 2px; border-radius: 4px; border: 2px solid #005baa; display: inline-block;">';
-    $button_html .= '<img src="' . $seur_img . '" alt="' . esc_attr__('SEUR Devoluciones', 'seur') . '" />';
+    $button_html = '<a href="' . esc_url( $url ) . '" target="_blank" rel="noopener" style="background-color: white; padding: 2px; border-radius: 4px; border: 2px solid #005baa; display: inline-block;">';
+    // phpcs:ignore PluginCheck.CodeAnalysis.ImageFunctions.NonEnqueuedImage -- Static plugin asset, not a media library attachment.
+    $button_html .= '<img src="' . esc_url( $seur_img ) . '" alt="' . esc_attr__( 'SEUR Devoluciones', 'seur' ) . '" />';
     $button_html .= '</a>';
 
     return $button_html;
