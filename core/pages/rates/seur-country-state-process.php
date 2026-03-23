@@ -54,9 +54,9 @@ function seur_country_state_process() {
                 $value = '*';
                 $readonly = 'readonly';
             }
-	        echo '<input title="' . esc_html( $title ) . '" type="text" name="state" 
-                 class="form-control" placeholder="' . esc_html( $placeholder ) .'" 
-                 value="' . esc_attr( $value ) . '" '.$readonly.'>';
+	        echo '<input title="' . esc_html( $title ) . '" type="text" name="state"
+                 class="form-control" placeholder="' . esc_html( $placeholder ) .'"
+                 value="' . esc_attr( $value ) . '" ' . esc_attr( $readonly ) . '>';
         }
 		unset( $country );
 	}

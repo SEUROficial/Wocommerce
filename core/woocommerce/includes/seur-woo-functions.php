@@ -514,9 +514,13 @@ add_action( 'woocommerce_admin_order_data_after_shipping_address', 'seur_shippin
 
 function seur_shipping_mobil_phone_fields_display_admin_order_meta($order)
 {
+    $phone = $order->get_meta('_shipping_mobile_phone', true);
+    if (empty($phone)) {
+        $phone = $order->get_meta('_shipping_phone');
+    }
     echo '<p class="form-field _shipping_mobile_phone_field"><strong>' .
         esc_html__('Shipping Mobile Phone', 'seur') . ':</strong> ' .
-        esc_html($order->get_meta('_shipping_mobile_phone', true)) . '</p>';
+        esc_html($phone) . '</p>';
 }
 
 add_action( 'woocommerce_admin_order_data_after_shipping_address', 'seur_shipping_pudoId_display_admin_order_meta', 10, 1 );
@@ -697,8 +701,8 @@ add_action('woocommerce_after_order_itemmeta', function( $item_id, $item, $produ
     ?>
     <div class="view" style="<?php echo $show_field ? '' : 'display:none;'; ?>">
         <label for="pudo_id_<?php echo esc_attr( $item_id ); ?>">
-            <?php esc_html_e( 'PudoID', 'your-textdomain' );
-            echo ': '. $pudoId; ?>
+            <?php esc_html_e( 'PudoID', 'seur' );
+            echo ': ' . esc_html( $pudoId ); ?>
         </label>
     </div>
 
@@ -793,12 +797,22 @@ add_action('wp_ajax_woocommerce_save_order_items', function () {
         wp_die(-1);
     }
 
-    $order_id = sanitize_text_field( wp_unslash($_POST['order_id']));
+    // phpcs:ignore WordPress.Security.NonceVerification.Missing -- Nonce is verified by WooCommerce before this hook runs.
+    if ( ! isset($_POST['order_id']) ) {
+        wp_die(-1);
+    }
+    // phpcs:ignore WordPress.Security.NonceVerification.Missing -- Nonce is verified by WooCommerce before this hook runs.
+    $order_id = absint(wp_unslash($_POST['order_id']));
     if ( ! $order_id ) {
         wp_die(-1);
     }
 
-    $items = $_POST['items'];
+    // phpcs:ignore WordPress.Security.NonceVerification.Missing -- Nonce is verified by WooCommerce before this hook runs.
+    if ( ! isset($_POST['items']) ) {
+        return;
+    }
+    // phpcs:ignore WordPress.Security.NonceVerification.Missing, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Data is parsed and individual fields are sanitized below.
+    $items = wp_unslash($_POST['items']);
     parse_str($items, $data);
     $pudoID = $data['seur_pudo_id'] ?? null;
     $pudoInfo = json_decode($data['seur_pudo_id_info'] ?? null, true);

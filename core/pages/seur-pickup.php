@@ -18,7 +18,7 @@ function seur_pickup($post)
 {
 	$error_message = ''; // Variable para almacenar el mensaje de error.
 
-    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] === 'POST') {
         if (!isset($_POST['seur_pickup_nonce_field']) ||
             !wp_verify_nonce(sanitize_text_field(wp_unslash($_POST['seur_pickup_nonce_field'])), 'seur_pickup_action')
         ) {

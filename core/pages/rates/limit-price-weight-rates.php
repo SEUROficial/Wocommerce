@@ -9,7 +9,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] === 'POST') {
     if ( !isset($_POST['seur_limit_price_weight_rates_nonce_field']) ||
          !wp_verify_nonce(sanitize_text_field(wp_unslash($_POST['seur_limit_price_weight_rates_nonce_field'])), 'seur_limit_price_weight_rates')
     ) {

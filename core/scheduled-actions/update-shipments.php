@@ -3,11 +3,27 @@
  * Migración de WP-Cron a Action Scheduler para actualizar envíos SEUR
  *
  * Requisitos: WooCommerce (o Action Scheduler cargado por otro plugin).
+ *
+ * @package SEUR
  */
 
-define('SEUR_AS_HOOK',  'seur_as_process_update_shipments');
+define('SEUR_AS_HOOK', 'seur_as_process_update_shipments');
 define('SEUR_AS_GROUP', 'seur');
 
+/**
+ * Registra un mensaje en el log de SEUR si está activo.
+ *
+ * @param string $message Mensaje a registrar.
+ */
+function seur_as_log($message) {
+    if (function_exists('seur') && seur()->log_is_acive()) {
+        seur()->slog($message);
+    }
+}
+
+/**
+ * Activa la programación de actualización de envíos.
+ */
 function seur_as_update_shipments_activate() {
     // Establecer valores por defecto si no existen
     if (get_option('seur_activate_cron_update_shipments_field') === false) {
@@ -22,6 +38,9 @@ function seur_as_update_shipments_activate() {
 }
 register_activation_hook(__FILE__, 'seur_as_update_shipments_activate');
 
+/**
+ * Desactiva la programación de actualización de envíos.
+ */
 function seur_as_update_shipments_deactivate() {
     // Cancelar todas las acciones programadas en AS
     if (function_exists('as_unschedule_all_actions')) {
@@ -30,7 +49,12 @@ function seur_as_update_shipments_deactivate() {
 }
 register_deactivation_hook(__FILE__, 'seur_as_update_shipments_deactivate');
 
-
+/**
+ * Convierte la clave de intervalo a segundos.
+ *
+ * @param string $key Clave del intervalo.
+ * @return int Segundos.
+ */
 function seur_as_interval_to_seconds($key) {
     switch ($key) {
         case 'hourly':
@@ -42,6 +66,9 @@ function seur_as_interval_to_seconds($key) {
     }
 }
 
+/**
+ * Reprograma la acción de actualización de envíos.
+ */
 function seur_as_reprogram_update_shipments() {
     // Cancelar acciones existentes para evitar duplicados
     if (function_exists('as_unschedule_all_actions')) {
@@ -51,7 +78,7 @@ function seur_as_reprogram_update_shipments() {
     // ¿Está habilitado desde ajustes?
     $enabled = (bool) get_option('seur_activate_cron_update_shipments_field', '0');
     if (!$enabled) {
-        error_log('SEUR AS: Deshabilitado, no se programa la acción recurrente');
+        seur_as_log('SEUR AS: Deshabilitado, no se programa la acción recurrente');
         return;
     }
 
@@ -62,26 +89,30 @@ function seur_as_reprogram_update_shipments() {
     if (function_exists('as_next_scheduled_action')) {
         $next = as_next_scheduled_action(SEUR_AS_HOOK, [], SEUR_AS_GROUP);
         if ($next) {
-            error_log('SEUR AS: Ya existe una acción programada, no se duplica');
+            seur_as_log('SEUR AS: Ya existe una acción programada, no se duplica');
             return;
         }
     }
 
-    // Programar: empieza en 1 minuto para dar margen tras activar/guardar ajustes
-    //$start = time() + 60;
+    // Programar: empieza inmediatamente
     $start = time();
 
     // Programar acción recurrente
     if (function_exists('as_schedule_recurring_action')) {
         as_schedule_recurring_action($start, $interval, SEUR_AS_HOOK, [], SEUR_AS_GROUP);
-        error_log(sprintf('SEUR AS: Acción programada cada %d segundos (clave: %s)', $interval, $interval_key));
+        // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_error_log -- Logging scheduled action for debugging purposes.
+        seur_as_log(sprintf('SEUR AS: Acción programada cada %d segundos (clave: %s)', $interval, $interval_key));
     } else {
         // Fallback si Action Scheduler no está disponible
-        error_log('SEUR AS: Action Scheduler no está disponible. Verifica que WooCommerce u otro loader esté activo.');
+        seur_as_log('SEUR AS: Action Scheduler no está disponible. Verifica que WooCommerce u otro loader esté activo.');
     }
 }
 
 add_action(SEUR_AS_HOOK, 'seur_as_update_shipments_handler');
+
+/**
+ * Manejador de la acción de actualización de envíos.
+ */
 function seur_as_update_shipments_handler() {
     // Respetar el toggle de activación
     if (get_option('seur_activate_cron_update_shipments_field', '0') != true) {
@@ -89,13 +120,10 @@ function seur_as_update_shipments_handler() {
     }
 
     try {
-       $labels_ids = seur_get_candidate_ids_for_tracking();
+        $labels_ids = seur_get_candidate_ids_for_tracking();
 
         if (empty($labels_ids)) {
-            if ( seur()->log_is_acive() ) {
-                seur()->slog('SEUR - AS - Update Shipments: No hay etiquetas para actualizar');
-            }
-            error_log('SEUR AS: No hay etiquetas para actualizar');
+            seur_as_log('SEUR AS - Update Shipments: No hay etiquetas para actualizar');
             // Guardar última ejecución aunque no haya trabajo
             update_option('seur_cron_last_run', current_time('mysql'));
             update_option('seur_cron_last_processed', 0);
@@ -109,10 +137,7 @@ function seur_as_update_shipments_handler() {
         $execution_time = round(microtime(true) - $start_time, 2);
         $processed      = count($labels_ids);
 
-        error_log("SEUR - AS - Update Shipments: Procesados {$processed} envíos en {$execution_time} segundos");
-        if ( seur()->log_is_acive() ) {
-            seur()->slog("SEUR - AS - Update Shipments: Procesados {$processed} envíos en {$execution_time} segundos");
-        }
+        seur_as_log("SEUR AS - Update Shipments: Procesados {$processed} envíos en {$execution_time} segundos");
 
         update_option('seur_cron_last_run', current_time('mysql'));
         update_option('seur_cron_last_processed', $processed);
@@ -120,10 +145,7 @@ function seur_as_update_shipments_handler() {
     } catch (Exception $e) {
         // Action Scheduler reintentará en caso de error si lanzas excepción,
         // pero aquí solo registramos y dejamos que el job cuente como fallido.
-        error_log('SEUR - AS - Update Shipments Error: ' . $e->getMessage());
-        if ( seur()->log_is_acive() ) {
-            seur()->slog("SEUR AS - Update Shipments: Procesados {$processed} envíos en {$execution_time} segundos");
-        }
+        seur_as_log('SEUR AS - Update Shipments Error: ' . $e->getMessage());
         // Si quieres que AS reintente automáticamente, puedes relanzar:
         // throw $e;
     }
@@ -131,18 +153,33 @@ function seur_as_update_shipments_handler() {
 
 // Detectar cambios en la opción de activación
 add_action('update_option_seur_activate_cron_update_shipments_field', 'seur_detectar_cambio_cron', 10, 2);
+
+/**
+ * Detecta cambios en la opción de activación del cron.
+ *
+ * @param mixed $old_value Valor anterior.
+ * @param mixed $new_value Nuevo valor.
+ */
 function seur_detectar_cambio_cron($old_value, $new_value) {
     // Solo reprogramar si el valor realmente cambió
     if ($old_value !== $new_value) {
-        error_log("SEUR Cron: Estado cambió de {$old_value} a {$new_value}");
+        seur_as_log("SEUR Cron: Estado cambió de {$old_value} a {$new_value}");
         seur_as_reprogram_update_shipments();
     }
 }
+
 add_action('update_option_seur_cron_update_shipments_interval', 'seur_detectar_cambio_intervalo_cron', 10, 2);
+
+/**
+ * Detecta cambios en el intervalo del cron.
+ *
+ * @param mixed $old_value Valor anterior.
+ * @param mixed $new_value Nuevo valor.
+ */
 function seur_detectar_cambio_intervalo_cron($old_value, $new_value) {
     // Solo reprogramar si el valor realmente cambió
     if ($old_value !== $new_value) {
-        error_log("SEUR Cron: Intervalo cambió de {$old_value} a {$new_value}");
+        seur_as_log("SEUR Cron: Intervalo cambió de {$old_value} a {$new_value}");
         seur_as_reprogram_update_shipments();
     }
 }
