@@ -25,7 +25,7 @@
     "@woocommerce/eslint-plugin": "latest",
     "@wordpress/env": "latest",
     "@wordpress/prettier-config": "latest",
-    "@wordpress/scripts": "^30.26.0",
+    "@wordpress/scripts": "^31.6.0",
     "prettier": "npm:wp-prettier@^3.0.3"
   }
 }
